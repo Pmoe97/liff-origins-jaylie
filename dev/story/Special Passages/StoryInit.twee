@@ -1,2 +1,6 @@
 :: StoryInit
 <<print Macro.has("SidebarUI")>>
+
+:: StoryInit
+<<run setup.NPCs = []>>
+<<run setup.Seed = Math.seedrandom("liff")>> <!-- Optional global seed for reproducibility -->

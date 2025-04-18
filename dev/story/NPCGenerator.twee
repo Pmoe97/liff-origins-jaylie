@@ -1,0 +1,8 @@
+:: NPCGenerator [widget]
+<<widget "GenerateNPC">>
+<<set _npc to setup.generateNPC("female", "human", "Courtesan")>>
+<<print "Generated NPC: ">>
+<<print _npc.name>> the <<_npc.archetype>> (<<_npc.race>>)
+<<print "Style: " + _npc.style>>
+<<print "Trait: " + _npc.trait + ", Inclination: " + _npc.inclination>>
+<</widget>>
