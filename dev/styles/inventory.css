@@ -1,0 +1,30 @@
+/* =============================
+=       Inventory System       =
+============================= */
+.inventory {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+}
+
+.inv-item {
+    border: 1px solid #888;
+    padding: 8px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.inv-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+.inv-desc {
+    font-size: 0.9em;
+    color: #ccc;
+}

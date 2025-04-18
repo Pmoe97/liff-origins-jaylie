@@ -1,0 +1,13 @@
+:: Scene01_2c_ToTheTavern
+<<bg "Scene01_2c_ToTheTavern">>
+Before long you step beneath the tall, ornately carved stone archway that marks the edge of King’s Market Square, and the world opens wide before you.
+The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
+But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
+And yet one man stands firm in the center of it all.
+A ragged canopy—stitched of mismatched fabrics and affixed to a crooked wooden frame—shelters him from the worst of the weather. Beneath it, on a makeshift crate, the man looms like a scarecrow imbued with the powers of a voice. His face is sunken and pale, his eyes wild and rimmed with red, and his hands flail with frantic rhythm as he speaks to no one and everyone.
+<<speech "eristan">> “They <em>dream in the roots</em>, I tell you! The dead—they <em>wait</em> in the roots! And when the <em>youngest</em> bleeds her mother’s name, the <em>rain shall never stop</em>.” <</speech>>
+His voice carries despite the rain, crisp and too-clear. He points at passersby as they scurry past him, damning them one by one with vague gestures and mad proclamations.
+You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
+His eyes lock with yours.
+<<speech "eristan">>  <em>You.</em> <em>You.</em> <</speech>>
+[[You freeze.|Scene01_2d_TheCrier]]

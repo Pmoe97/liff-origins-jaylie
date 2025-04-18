@@ -1,0 +1,40 @@
+:: StoryInterface
+<!-- =============================
+=     Required SugarCube Node    =
+============================= -->
+<div id="passages"></div>
+
+<!-- =============================
+=     Main Visual Structure      =
+============================= -->
+<div id="background-image"></div>
+
+<div id="text-container">
+  <div id="text-backdrop">
+    <!-- SugarCube will inject content here automatically -->
+  </div>
+</div>
+
+<!-- =============================
+=        Persistent UI Bar       =
+============================= -->
+<div id="ui-bar"></div>
+
+<!-- =============================
+=        Sidebar         =
+============================= -->
+<div id="sidebar-toggle">
+  <i id="sidebar-arrow" data-lucide="arrow-left"></i>
+</div>
+
+<!-- =============================
+=         Overlay Panel          =
+============================= -->
+<div id="overlay-panel" class="overlay-hidden">
+  <div id="overlay-body"></div>
+</div>
+
+<!-- =============================
+=          External Assets       =
+============================= -->
+<link rel="stylesheet" href="styles/style.css">

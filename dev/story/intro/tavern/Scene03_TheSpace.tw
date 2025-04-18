@@ -1,0 +1,37 @@
+:: Scene03_TheSpace
+<<bg "threesipsgragon">>
+<<if !$seenTavernSpace>>
+Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
+<</if>>
+
+The bar stretches along the eastern wall. Behind it stands the massive figure of the barkeep, who continues to polish the same glass as though it owes him a debt. Near him, slumped with his head buried in his arms, a man snorts gently in his sleep—clearly a long-time resident of that particular barstool.
+
+Across the floor, a barmaid weaves between tables, her tray brimming with wooden mugs.
+
+<<if !$seenTavernSpace>>
+You watch as one of the patrons—too drunk to care and too stupid to hide it—reaches up in an attempt to grope her as she passes. Without breaking stride, she jerks her elbow backward with surgical precision, catching the man's wrist and pinning it painfully against the edge of the table.
+
+<<speech "barmaid">> "Try that again and you’ll be wearin’ your bollocks like earrings." <</speech>>
+
+The barmaid's accent is heavy and her words cut deeply even through the man's inebriation.
+<</if>>
+
+The man who'd attempted to grope the barmaid and his two friends are clearly deep in their cups, their table cluttered with overturned tankards and the remains of a shared meat pie.
+
+Elsewhere, seated along a longer communal bench perpendicular to the end of the hearth, the old man who first shouted at you now dines in quiet company. Two others—neither of them speaking—share the table, focused on their meals and drinks in silence.
+
+A more boisterous table sits nearby: four men locked in a heated dice game. One slams the table with a triumphant shout as bones rattle across the surface, and another curses violently as coins are scraped across the wood. Empty claims of cheating erupt at the end of one of their rounds.
+
+In the far northwestern corner, a figure cloaked in deep gray sits alone. His hood remains up, and he holds a long, thin dagger in one hand, sharpening it with a whetstone in slow, methodical strokes. Between each pass, he lifts a delicate, stemmed glass filled with a dark, almost purple liquid, sipping it with the precision of a scholar. He doesn't seem to notice—or care—that anyone else exists.
+
+Leaning against a thick support beam near the fire, a hulking woman looms. She might be part orc, judging by her broad shoulders and the greenish cast to her skin. Heavy with furs and armor, she chews through a mutton chop with visible relish, grease trailing down her chin. A massive, chipped greatsword hangs from her belt, its tip nearly scraping the floorboards. She keeps one eye on the room, as if daring someone to make her evening interesting.
+
+<<set $seenTavernSpace = true>>
+
+From here, you may:
+[[Approach the bar and speak with the barkeeper.|Scene03_BarkeepDialogue]]
+[[Try your luck joining the dice game.|Scene03_DiceTable]]
+[[Approach the cloaked man in the corner.|Scene03_CloakedMan]]
+[[Observe the half-orc woman.|Scene03_Firewatcher]]
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]
+

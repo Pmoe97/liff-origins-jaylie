@@ -1,0 +1,154 @@
+/* Character Sheet Overlay Base */
+#character-sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Cinzel, serif;
+  }
+  
+  .overlay-hidden {
+    display: none !important;
+  }
+  
+  #character-sheet-container {
+    background-image: url("img/parchment_bg_clean.png");
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  }
+  
+  .charactersheet-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #421e14;
+    cursor: pointer;
+  }
+  
+  /* Layout Rows */
+  .charsheet-top,
+  .charsheet-center,
+  .charsheet-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  /* Top Sections */
+  .charsheet-top-left,
+  .charsheet-top-right {
+    flex: 1;
+    font-size: 1.1em;
+  }
+  
+  /* Center Sections */
+  .charsheet-center-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .char-portrait img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border: 2px solid #3b2a1e;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .charsheet-center-right {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .attributes-panel,
+  .skills-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .skills-panel .primary-skills,
+  .skills-panel .secondary-skills {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border: 1px solid #c4b998;
+  }
+  
+  /* Bottom Sections */
+  .charsheet-bottom-left {
+    flex: 2;
+  }
+  
+  .charsheet-bottom-left img {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .charsheet-bottom-right {
+    flex: 3;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .traits-panel,
+  .status-panel {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #9c8b65;
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+  
+  .scrollable-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  /* Status Colors */
+  .status-health {
+    color: #d34848;
+  }
+  .status-fatigue {
+    color: #a6743c;
+  }
+  .status-composure {
+    color: #4a8eab;
+  }
+  .status-excitement {
+    color: #ab49a3;
+    animation: pulse-status 2s infinite;
+  }
+  
+  @keyframes pulse-status {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+  
+  /* Status conditional list styles */
+  #char-status-conditional li {
+    font-style: italic;
+    color: #c98233;
+  }
+  

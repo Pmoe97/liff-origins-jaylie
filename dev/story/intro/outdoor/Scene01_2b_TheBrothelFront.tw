@@ -1,0 +1,42 @@
+:: Scene01_2b_TheBrothelFront
+<<bg "Scene01_2b_TheBrothelFront">>
+Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
+
+	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it's brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might've even considered him attractive.
+
+	A steady stream of blood flows from the fresh wound on his forehead. Its darkness is quickly washed away by thick, heavy raindrops falling freely upon his still form in rhythmic taps. The wound seems superficial enough, but he surely will feel it in the morning. 
+
+	Remembering the metal object that acted as the man's undoing, you glance around him to see what exactly it was that the woman had thrown.
+
+	After a moment you see it. You bend over at the waist and pick up an //unusually// small horseshoe. Suddenly a question dawns on you.
+
+	<<speech "jaylie">><em>Where the hell had she pulled this from?</em><</speech>>
+
+<div id="horseshoe-choice">
+Do you <<link "take it">>
+	<<replace "#horseshoe-choice">><span class="tightblock">You decide to keep it.</span><</replace>>
+	<<append "#horseshoe-result">><span class="fadein tightblock">
+	You tuck the horseshoe into your belt.
+	<<additem "player" "lucky_horseshoe" 1>>
+	<<append "#horseshoe-followup">><span class="fadein tightblock">
+	You glance back over at the man and a mix of emotions flow through you.<br>
+	[[Maybe you should help him|Scene01_2c_HelpHim]]<br>
+	He did get himself into this situation. [[The brothel looks more inviting anyway.|Scene02_TheBrothelEntry]]<br>
+	[[I really should get going to the tavern.|Scene01_2b_ToTheTavern]]
+	</span><</append>>
+	</span><</append>>
+<</link>> or <<link "leave it">>
+	<<replace "#horseshoe-choice">><span class="tightblock">You can't think of any type of need for the object and half-heartedly toss it back to the ground at your feet. </span><</replace>>
+	<<append "#horseshoe-result">><span class="fadein tightblock">
+	<<append "#horseshoe-followup">><span class="fadein tightblock">
+	You glance back over at the man and a mix of emotions flow through you.<br>
+	[[Maybe you should help him|Scene01_2c_HelpHim]]<br>
+	He did get himself into this situation. [[The brothel looks more inviting anyway.|Scene02_TheBrothelEntry]]<br>
+	[[I really should get going to the tavern.|Scene01_2b_ToTheTavern]]
+	</span><</append>>
+	</span><</append>>
+<</link>>?
+</div>
+
+<div id="horseshoe-result"></div>
+<div id="horseshoe-followup"></div>

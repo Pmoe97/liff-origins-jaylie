@@ -1,0 +1,107 @@
+<!-- Inventory Overlay - Start -->
+<div class="inventory-overlay">
+
+    <!-- Close Button -->
+    <button class="inventory-close-btn" onclick="closeOverlay()">✖</button>
+  
+    <!-- Inner Container -->
+    <div class="inventory-window">
+  
+      <!-- Flex Container: Left + Right -->
+      <div class="inventory-flex">
+  
+        <!-- LEFT PANEL -->
+        <div class="inventory-left-panel">
+  
+          <!-- Inventory List + Tabs -->
+          <div class="inventory-list-container">
+            <div class="inventory-tabs">
+              <button class="inv-tab" data-tab="all" onclick="setup.renderInventory('player', 'all')">
+                <i data-lucide="backpack" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="weapons" onclick="setup.renderInventory('player', 'weapons')">
+                <i data-lucide="swords" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="armor" onclick="setup.renderInventory('player', 'armor')">
+                <i data-lucide="shield" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="consumable" onclick="setup.renderInventory('player', 'consumable')">
+                <i data-lucide="flask-round" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="literature" onclick="setup.renderInventory('player', 'literature')">
+                <i data-lucide="book-open" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="quest" onclick="setup.renderInventory('player', 'quest')">
+                <i data-lucide="message-circle-question" class="inv-icon"></i>
+              </button>
+              <button class="inv-tab" data-tab="misc" onclick="setup.renderInventory('player', 'misc')">
+                <i data-lucide="blend" class="inv-icon"></i>
+              </button>
+            </div>
+  
+            <div class="inventory-list">
+              <table id="inventory-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Type</th>
+                    <th>Weight</th>
+                    <th>Value</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-list">
+                  <<= setup.renderInventory("player", "all") >>
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+          <!-- Selected Item Details -->
+          <div class="inventory-details">
+            <img id="inventory-item-image" src="img/parchment_bg.jpg" alt="Item Image Placeholder">
+            <div class="inventory-description">[Detailed Description]</div>
+            <div class="inventory-flavor">[Flavor Text]</div>
+            <div class="inventory-info">[More Info like Enchantments]</div>
+  
+            <div class="inventory-buttons">
+              <button>Equip Primary</button>
+              <button>Equip</button>
+              <button>Equip Secondary</button>
+              <button onclick="dropCustomAmount()">Drop...</button>
+              <button>???</button>
+              <button>???</button>
+              <button>???</button>
+              <button>???</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Divider -->
+        <div class="inventory-divider"></div>
+  
+        <!-- RIGHT PANEL -->
+        <div class="inventory-right-panel">
+          <div class="paperdoll">
+            <div class="paperdoll-slot" data-slot="head">Head</div>
+            <div class="paperdoll-slot paperdoll-slot-top" data-slot="face">Face</div>
+            <div class="paperdoll-slot" data-slot="necklace">Necklace</div>
+            <div class="paperdoll-slot" data-slot="ring1">Ring 1</div>
+            <div class="paperdoll-slot" data-slot="ring2">Ring 2</div>
+            <div class="paperdoll-slot" data-slot="ring3">Ring 3</div>
+  
+            <div class="paperdoll-slot" data-slot="chest">Chest</div>
+            <div class="paperdoll-slot" data-slot="gloveL">Gloves</div>
+            <div class="paperdoll-slot" data-slot="gloveR">Gloves</div>
+            <div class="paperdoll-slot" data-slot="main">Main Hand</div>
+            <div class="paperdoll-slot" data-slot="sec">Off Hand</div>
+            <div class="paperdoll-slot" data-slot="pants">Legs</div>
+            <div class="paperdoll-slot" data-slot="feet">Shoes</div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <!-- Inventory Overlay - End -->
+  

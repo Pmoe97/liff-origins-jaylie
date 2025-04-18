@@ -1,0 +1,48 @@
+/* =============================
+=     Sidebar Buttons Panel    =
+============================= */
+#custom-sidebar-buttons {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #555;
+}
+
+.button-single {
+    display: flex;
+}
+
+.button-pair {
+    display: flex;
+    gap: 6px;
+}
+
+.sidebar-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    color: white;
+    border: 1px solid #888;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85em;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-shadow: 0 0 2px #000;
+}
+
+.sidebar-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.sidebar-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+}

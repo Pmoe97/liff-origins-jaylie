@@ -1,0 +1,22 @@
+:: Scene01_2c_HelpHim
+<<bg "Scene01_2c_HelpHim">>
+<<set $helpedkallot = true>> /*need to double check this syntax because I wrote it at work and I suck */
+Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
+
+You let out a sigh.
+<<speech "Jaylie">>Can't leave you here.<</speech>>
+
+You lean down and grab him by his shirt, pulling him out of his prone position and slowly dragging him from the middle of the street. After a few moments of dragging him towards the alley, you manage to prop the man up against the side of the building, protecting him from the worst of the weather underneath the eaves of the roof. Here at least, you think, he will be slightly protected from the elements.
+
+Once again you examine the wound on his head. It has already begun to swell. In his new sitting position the bleeding, however, seems to have slowed at least a bit. Still you decide it may help to give it some pressure and coverage. You reach into your cloak and produce a ratty handkerchief.
+
+You twirl the cloth into a coiled rope shape and reach over the man's head, wrapping the coil tightly against his forehead and tying it off at the back of his skull. As you do this, the drunkard for the first time since getting hit begins to move. He looks up at you with sleepy, crossed eyes, and then of all things, smiles. 
+
+<<speech "drunkman">> "You have such lovely *hic* hair. <</speech>>
+
+His eyes instantly droop again and once more consciousness escapes him. 
+
+You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
+
+I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.

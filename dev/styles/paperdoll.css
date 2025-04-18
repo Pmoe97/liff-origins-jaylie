@@ -1,0 +1,45 @@
+/* =============================
+=       Paperdoll Layout       =
+============================= */
+.paperdoll {
+    position: relative;
+    width: auto;
+    height: 90%;
+    aspect-ratio: 1 / 2;
+    background-image: url('images/paperdoll_generic_silhouette.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #555;
+    border-radius: 5px;
+  }
+  
+  .paperdoll-slot {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #888;
+    color: #fff;
+    font-size: 0.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    pointer-events: none;
+  }
+  
+  .paperdoll-slot[data-slot="head"]     { top: 8%;   left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="face"]     { top: 8%;   right: -65px; }
+  .paperdoll-slot[data-slot="necklace"] { top: 18%;  right: -65px; }
+  .paperdoll-slot[data-slot="ring1"]    { top: 30%;  right: -65px; }
+  .paperdoll-slot[data-slot="ring2"]    { top: 40%;  right: -65px; }
+  .paperdoll-slot[data-slot="ring3"]    { top: 50%;  right: -65px; }
+  .paperdoll-slot[data-slot="chest"]    { top: 25%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="gloveL"]   { top: 28%;  left: 8%; }
+  .paperdoll-slot[data-slot="gloveR"]   { top: 28%;  right: 8%; }
+  .paperdoll-slot[data-slot="main"]     { top: 45%;  left: 4%; }
+  .paperdoll-slot[data-slot="sec"]      { top: 45%;  right: 4%; }
+  .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
+  

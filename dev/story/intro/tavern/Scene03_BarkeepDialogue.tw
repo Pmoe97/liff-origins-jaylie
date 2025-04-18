@@ -1,0 +1,45 @@
+:: Scene03_BarkeepDialogue
+<<bg "threesipsdragon_bar">>
+You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
+
+An orange-spotted noctail, which you hadn’t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
+
+You reach the bar and take a seat on a thick, heavy stool. Scooting closer, you settle your elbows onto the polished wood.
+
+The barman steps forward and leans heavily onto the bar in front of you, resting his bulk onto hands as wide as battleaxes.
+
+<<set $characters["harroc"].known = true>>
+<<speech "harroc">>Name's Harroc. W’t can I getch ye?<</speech>>
+His words, though jumbled, are slow and methodical. Rolling from his mouth like molasses from a mountain.
+<div id="harroc-dialogue"></div>
+
+<<replace "#harroc-dialogue">>
+<p><strong>What do you want to say to Harroc?</strong></p>
+<ul>
+    <li><<link "I'd like a drink—something strong.">><<replace "#harroc-dialogue">>
+        <p><<speech "jaylie">>I'd like a drink—something strong, if you've got it.<</speech>></p>
+        <p><<speech "harroc">>Aye, I’ve a brew’ll knock the mud off yer boots. First one’s on the house. Birthday girl, aye?<</speech>></p>
+        <p>He pours a dark, frothy ale into a mug carved from horn and slides it your way without further comment.</p>
+        <<append "#harroc-dialogue">><<include "HarrocDialogueMenu">><</append>>
+    <</link>></li>
+
+    <li><<link "Can I pick your brain about what's been happening in Bastion?">><<replace "#harroc-dialogue">>
+        <p><<speech "jaylie">>Can I pick your brain about what's been happening in Bastion lately?<</speech>></p>
+        <p><<speech "harroc">>Hah. Only if you promise not to lose sleep over it. Things’ve been... noisy. Prices up, peace down. Folk say rats walk like men in the sewers, and I seen smoke by the outer wall just this mornin’.<</speech>></p>
+        <<append "#harroc-dialogue">><<include "HarrocDialogueMenu">><</append>>
+    <</link>></li>
+
+    <li><<link "Mind if I take a look at your menu?">><<replace "#harroc-dialogue">>
+        <p><<speech "jaylie">>Mind if I take a look at your menu?<</speech>></p>
+        <p><<speech "harroc">>Hah! Always like a lass with a thirst an’ coin. Go on then—let’s see if anything suits ye.<</speech>></p>
+        <<run setup.openShop("harroc")>>
+        <<append "#harroc-dialogue">><<include "HarrocDialogueMenu">><</append>>
+    <</link>></li>
+
+    <li><<link "Nevermind. Maybe later.">><<replace "#harroc-dialogue">>
+        <p><<speech "jaylie">>Nevermind. Maybe later.<</speech>></p>
+        <p>You slip off the barstool and take another look around the room.</p>
+        [[Return to the tavern|ThreeSipsDragon_TheSpace]]
+    <</link>></li>
+</ul>
+<</replace>>

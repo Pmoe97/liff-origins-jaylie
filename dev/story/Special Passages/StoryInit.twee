@@ -1,0 +1,2 @@
+:: StoryInit
+<<print Macro.has("SidebarUI")>>

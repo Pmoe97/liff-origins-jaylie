@@ -1,0 +1,38 @@
+:: Scene01_2a_TheBrothelFront
+<<bg "Scene01_2a_TheBrothelFront">>
+<<speech "adda">>	
+"You <em>lowlife bastard</em>! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You're lucky I don't have you lashed in the square."
+<</speech>>
+	
+	The man begins to pull up his pants while he states his case.
+
+<<speech "drunkman">>	
+"Oooh come *hic* onnn. I 'ardly even touched the bitch!"
+<</speech>>
+	The apparent "bitch" in question lunged to the front of the group, aggressively shoving the rest to the side. A classically beautiful girl with blonde hair, emerald eyes and rosy cheeks, you noticed immediately the state of disrepair her dress was in, the lacy collar torn down to her midriff exposing her shapely breasts which jiggled with the excitement of her movements. What you didn't notice immediately was the metallic object which she produced seemingly from nowhere at all. 
+
+	/* Angry Brothel Girl (Marie) .marie #c57e41 */
+<<speech "marie">>
+"Bitch, is it? <em>BITCH?!</em>
+<</speech>>
+
+With astonishing accuracy she launched the projectile, the light of the brothel's interior glinting off its finish for a fraction of a moment before it collided with the drunken man squarely in the middle of his forehead. The round metal bounced and hit the ground. After what seemed like ages, so too did the man fall, stiff as a board, onto his back. 
+
+<<speech "marie">>
+"Fucking swine."
+<</speech>>
+
+	
+Apparently satisfied with her own work, the girl turns heel, only half covering herself before turning to reenter the establishment, disappearing from view.
+
+	The man in the street does not move again.
+ <<set $watchedhsthrow = true>>
+/* Referenced if the player still chooses to walk away after seeing marie throw the shoe */
+
+The scene quickly dissipates as the rest of the brothel girls make their way back inside. The brothel's madam reaches outside, taking hold of the door and with a final scoff and a look cast down her nose towards the man on the cobblestones, she closes the door. The orange glow on the street nearly disappears.
+
+[[You approach the unconscious man|Scene01_2b_TheBrothelFront]]
+
+[[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
+
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]

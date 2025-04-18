@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+*.zip
+.vscode/
+*.tmp
+.DS_Store
+Thumbs.db

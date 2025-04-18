@@ -1,0 +1,16 @@
+:: Scene01_1
+<<bg "Scene01_1">>
+You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It's times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
+
+	If the queen's reputation were to be believed, your mother was closer to being a saint than anyone whom you'd ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora's passing weighing on his very soul.
+
+/* First instance of "speech". Needs formatting with portrait, outline, and proper coloring (.jaylie #A24857, Light Maroon). */  
+
+<<speech "jaylie">> <em>If only I'd met her.</em> <</speech>>
+Off to your left a sudden commotion grabs your attention as the front door of an establishment, apparently a brothel or something of the sort, bursts open. A man goes flying to the cold hard stones of the street. Standing in the doorway, covered by the warm, dry glow of candlelight, a group of women stand, scantily clad in colorful dresses. The woman in the front of the group, older than the rest and clad in a slightly more reserved attire of darker greys and black, seems to be the one who shoved the man. 
+
+You assume she is the Mistress of the establishment.
+
+[[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
+
+[[That's none of my business. I have places to be.|Scene01_2b_ToTheTavern]]

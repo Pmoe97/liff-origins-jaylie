@@ -1,0 +1,33 @@
+:: Scene02_AddasGreeting
+<<bg "Scene02_TheBrothelEntry">>
+<<speech "adda">>You will have to forgive me for staring. If I didn't know any better I would have thought royalty had just walked into my humble parlor.<</speech>>
+	
+	She gives you a thoughtful wink.
+<<set $characters["adda"].known = true>>
+<<speech "adda">>My name is Adda. The locals call me Mistress Adda, or Madam Adda, and this is my establishment, The Nuzzling Noctail. I assure you we have anything that could suit the needs of…<</speech>>
+
+	She looks you up and down, staring rather obviously at your hair, obviously recognizing its shade.
+
+<<speech "adda">>...even the most discerning of clientele. May I ask what you'd like to be called, <em>young one?</em><</speech>>
+
+You shuffle uncomfortably for a moment. Coming in here seemed like such a great moment only seconds ago and now you stand before Mistress Adda whom you feel unpacked your whole identity in mere seconds.
+
+<<speech "jaylie">> I suppose Jaylie would be fine, right?<</speech>>
+
+	You swear you'd never felt more unsure of yourself than you suddenly were in this exact moment.
+
+<<speech "adda">> Not to worry, Jaylie. My girls are all trained to uphold the utmost discretion, not that many of them are as observant as myself… <span class="whisper">your highness</span>.<</speech>>
+
+You take a moment to catch your breath and find your tongue.
+
+<<speech "jaylie">>Well thank you Madam Adda. I appreciate the hospitality and the discretion. Now if I may ask, what would one girl have to do to get a birthday drink for herself in your fine establishment? <</speech>>
+
+<<speech "adda">>
+<em>Birthday!?</em> But of course! If you'd follow me this way into the parlor, surely our barman would be delighted to make you a beverage. How about for company? Would you prefer one of my <span class="girl-text">girls</span> or <span class="boy-text">men</span> to keep you company? You might always prefer to drink alone, but surely you'd have chosen a tavern for that sort of thing. <</speech>>
+
+<p>You think for a moment before making your choice.</p>
+
+[[You prefer a Girl.|Scene02_ParlorGirl]]  
+[[You prefer a Man.|Scene02_ParlorBoy]]  
+[[You had something else in mind…|Scene02_ParlorAdda]]
+
