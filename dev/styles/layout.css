@@ -1,59 +1,59 @@
 /* =============================
-=     Sidebar & Layout UI      =
+=     Custom Sidebar Layout    =
 ============================= */
-#ui-bar {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100%;
-    padding: 10px;
-    background: url('https://www.transparenttextures.com/patterns/dark-leather.png'), #1a1a1a;
-    background-blend-mode: overlay;
-    background-size: 200px 200px;
-    overflow-y: auto;
-    border-right: 2px solid #3a3a3a;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.4);
-    z-index: 1000;
-    transition: transform 0.3s ease;
+#custom-sidebar {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 260px;
+	height: 100%;
+	padding: 10px;
+	background: url('https://www.transparenttextures.com/patterns/dark-leather.png'), #1a1a1a;
+	background-blend-mode: overlay;
+	background-size: 200px 200px;
+	overflow-y: auto;
+	border-right: 2px solid #3a3a3a;
+	box-shadow: 2px 0 5px rgba(0,0,0,0.4);
+	z-index: 1000;
+	transition: transform 0.3s ease;
 }
 
-#ui-bar.collapsed {
-    transform: translateX(-220px);
+#custom-sidebar.collapsed {
+	transform: translateX(-220px);
 }
 
 #passages {
-    margin-left: 280px;
-    padding: 20px;
-    max-width: 900px;
+	margin-left: 280px;
+	padding: 20px;
+	max-width: 900px;
 }
 
 /* =========================
 =   Sidebar Toggle Button  =
 ========================= */
 #sidebar-toggle {
-    position: fixed;
-    top: 10px;
-    left: 260px;
-    background: #222;
-    color: white;
-    border: 1px solid #888;
-    padding: 4px 6px;
-    cursor: pointer;
-    z-index: 1100;
-    font-family: 'Cinzel', serif;
-    font-size: 1.2em;
-    border-radius: 0 4px 4px 0;
-    transition: left 0.3s ease;
+	position: fixed;
+	top: 10px;
+	left: 260px;
+	background: #222;
+	color: white;
+	border: 1px solid #888;
+	padding: 4px 6px;
+	cursor: pointer;
+	z-index: 1100;
+	font-family: 'Cinzel', serif;
+	font-size: 1.2em;
+	border-radius: 0 4px 4px 0;
+	transition: left 0.3s ease;
 }
 
-#ui-bar.collapsed + #sidebar-toggle {
-    left: 40px;
+#custom-sidebar.collapsed + #sidebar-toggle {
+	left: 40px;
 }
 
 #sidebar-toggle svg {
-    width: 20px;
-    height: 20px;
-    stroke: white;
+	width: 20px;
+	height: 20px;
+	stroke: white;
 }

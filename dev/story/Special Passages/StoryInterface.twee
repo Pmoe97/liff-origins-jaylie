@@ -16,13 +16,10 @@
 </div>
 
 <!-- =============================
-=        Persistent UI Bar       =
+=        Custom Sidebar         =
 ============================= -->
-<div id="ui-bar"></div>
+<div id="custom-sidebar"></div>
 
-<!-- =============================
-=        Sidebar         =
-============================= -->
 <div id="sidebar-toggle">
   <i id="sidebar-arrow" data-lucide="arrow-left"></i>
 </div>
@@ -33,8 +30,3 @@
 <div id="overlay-panel" class="overlay-hidden">
   <div id="overlay-body"></div>
 </div>
-
-<!-- =============================
-=          External Assets       =
-============================= -->
-<link rel="stylesheet" href="styles/style.css">

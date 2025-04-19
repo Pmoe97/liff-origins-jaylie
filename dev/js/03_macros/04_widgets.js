@@ -1,4 +1,3 @@
-/* SidebarUI */
 console.log("✅ widgets.js loaded");
 
 /* Background Macro */
@@ -17,10 +16,10 @@ Macro.add("bg", {
 /* SidebarUI Widget */
 Macro.add("SidebarUI", {
 	handler() {
-		const uiBar = document.getElementById("ui-bar");
+		const sidebar = document.getElementById("custom-sidebar");
 
-		if (!uiBar) {
-			console.warn("SidebarUI: #ui-bar not found.");
+		if (!sidebar) {
+			console.warn("SidebarUI: #custom-sidebar not found.");
 			return;
 		}
 
@@ -29,7 +28,7 @@ Macro.add("SidebarUI", {
 			return;
 		}
 
-		uiBar.insertAdjacentHTML("afterbegin", `
+		sidebar.insertAdjacentHTML("afterbegin", `
 			<div id="custom-sidebar-buttons">
 				<!-- Navigation Arrows -->
 				<div id="sidebar-nav">

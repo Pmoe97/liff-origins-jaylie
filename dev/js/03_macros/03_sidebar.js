@@ -1,8 +1,8 @@
 function toggleSidebar() {
-	const sidebar = document.getElementById("ui-bar");
+	const sidebar = document.getElementById("custom-sidebar");
 	const toggle = document.getElementById("sidebar-toggle");
 	const arrow = document.getElementById("sidebar-arrow");
-	const nav = document.getElementById("nav-buttons");
+	const nav = document.getElementById("sidebar-nav");
 
 	if (!sidebar || !toggle || !arrow) {
 		console.warn("Sidebar toggle failed: element(s) missing.");
