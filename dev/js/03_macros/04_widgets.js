@@ -1,6 +1,20 @@
 /* SidebarUI */
 console.log("✅ widgets.js loaded");
 
+/* Background Macro */
+Macro.add("bg", {
+	handler: function () {
+		const arg = this.args[0];
+		if (typeof arg === "string") {
+			State.variables.bgImage = "images/background_" + arg + ".png";
+			State.variables.bgImageSetThisPassage = true;
+		} else {
+			return this.error("Invalid argument to <<bg>>. Expected a string like 'tavern'.");
+		}
+	}
+});
+
+/* SidebarUI Widget */
 Macro.add("SidebarUI", {
 	handler() {
 		const uiBar = document.getElementById("ui-bar");
@@ -10,8 +24,10 @@ Macro.add("SidebarUI", {
 			return;
 		}
 
-		// Avoid duplicating if already built
-		if (document.getElementById("custom-sidebar-buttons")) return;
+		if (document.getElementById("custom-sidebar-buttons")) {
+			console.log("SidebarUI: Already injected.");
+			return;
+		}
 
 		uiBar.insertAdjacentHTML("afterbegin", `
 			<div id="custom-sidebar-buttons">
@@ -64,29 +80,10 @@ Macro.add("SidebarUI", {
 			</div>
 		`);
 
-		// Re-render icons
 		if (window.lucide) {
 			lucide.createIcons();
-		}
-	}
-});
-
-/* Background Macro */
-Macro.add("bg", {
-	handler: function () {
-		const arg = this.args[0];
-		if (typeof arg === "string") {
-			State.variables.bgImage = "images/background_" + arg + ".png";
-			State.variables.bgImageSetThisPassage = true;
 		} else {
-			return this.error("Invalid argument to <<bg>>. Expected a string like 'tavern'.");
+			console.warn("Lucide not available at sidebar load time.");
 		}
-	}
-});
-$(document).on(':storyready', () => {
-	if (SugarCube.Macro.has("SidebarUI")) {
-		SugarCube.Macro.get("SidebarUI").handler.call({ output: document.body });
-	} else {
-		console.warn("SidebarUI macro not found during storyready.");
 	}
 });

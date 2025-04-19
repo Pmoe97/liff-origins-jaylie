@@ -1,0 +1,71 @@
+:: StoryDisplay [startup nobr]
+<script>
+$(document).on(':storyready', function () {
+	const uiBar = document.getElementById("ui-bar");
+
+	if (!uiBar) {
+		console.warn("Sidebar injection failed: #ui-bar not found.");
+		return;
+	}
+
+	if (document.getElementById("custom-sidebar-buttons")) {
+		console.log("Sidebar already exists — skipping.");
+		return;
+	}
+
+	uiBar.insertAdjacentHTML("afterbegin", `
+		<div id="custom-sidebar-buttons">
+			<!-- Navigation Arrows -->
+			<div id="sidebar-nav">
+				<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
+				<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
+			</div>
+
+			<!-- Character Button -->
+			<div class="button-single">
+				<button class="sidebar-btn" onclick="openOverlay('CharacterSheet')">
+					<i data-lucide="scroll-text"></i> Character
+				</button>
+			</div>
+
+			<!-- Inventory Button -->
+			<div class="button-single">
+				<button class="sidebar-btn" onclick="openOverlay('InventoryPage')">
+					<i data-lucide="backpack"></i> Inventory
+				</button>
+			</div>
+
+			<!-- Journal Button -->
+			<div class="button-single">
+				<button class="sidebar-btn" onclick="openOverlay('JournalPage')">
+					<i data-lucide="book-open"></i> Journal
+				</button>
+			</div>
+
+			<!-- Stats & Achievements -->
+			<div class="button-pair">
+				<button class="sidebar-btn" onclick="openOverlay('StatsPage')">
+					<i data-lucide="brain"></i> Stats
+				</button>
+				<button class="sidebar-btn" onclick="openOverlay('AchievementsPage')">
+					<i data-lucide="star"></i> Achievements
+				</button>
+			</div>
+
+			<!-- Saves & Options -->
+			<div class="button-pair">
+				<button class="sidebar-btn" onclick="Save.show()">
+					<i data-lucide="save"></i> Saves
+				</button>
+				<button class="sidebar-btn" onclick="UI.options()">
+					<i data-lucide="settings"></i> Options
+				</button>
+			</div>
+		</div>
+	`);
+
+	if (window.lucide) {
+		lucide.createIcons();
+	}
+});
+</script>

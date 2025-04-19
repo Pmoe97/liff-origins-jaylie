@@ -1,3 +1,4 @@
+console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
 	setup = {};
@@ -18,11 +19,5 @@ $(document).on(':passagestart', function () {
 		setup.loadItemData();
 	} else {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
-	}
-});
-$(document).on(':storyready', function () {
-	if (SugarCube.Macro.has("SidebarUI")) {
-		console.log("📦 Injecting sidebar manually via JS");
-		SugarCube.Macro.get("SidebarUI").handler.call({ output: document.body });
 	}
 });
