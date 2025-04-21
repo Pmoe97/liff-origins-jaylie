@@ -26,6 +26,10 @@ setup.ConvoUI = {
     setup.ConvoUI.updateMeta();
     setup.ConvoUI.renderPrompt();
     setup.ConvoUI.renderChoices();
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoUI] Minigame started with NPC:`, npc);
+    }
   },
 
   updateMeta() {
@@ -37,17 +41,30 @@ setup.ConvoUI = {
     document.getElementById("convo-rapport").textContent = `Rapport: x${convo.rapport.toFixed(2)}`;
     document.getElementById("convo-tension").textContent = `Tension: ${convo.tension}/${maxTension}`;
     document.getElementById("convo-gains").textContent = `Gains: ❤️ +${Math.round(convo.affectionGained)} | 🤝 +${Math.round(convo.trustGained)}`;
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoUI] Updated Meta`, {
+        turn: convo.turn,
+        rapport: convo.rapport,
+        tension: convo.tension,
+        trustGained: convo.trustGained,
+        affectionGained: convo.affectionGained
+      });
+    }
   },
 
   renderPrompt() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const prompt = setup.getConvoPrompt(npc);
+    const prompt = setup.getConvoPrompt?.(npc) ?? { text: "…”", baseDifficultyMod: 0 };
 
     convo.promptMod = prompt.baseDifficultyMod;
     setup.ConvoPromptTracker?.markShown(prompt.text);
-
     document.getElementById("convo-npc-prompt").textContent = `“${prompt.text}”`;
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoUI] Prompt Rendered:`, prompt);
+    }
   },
 
   renderChoices() {
@@ -55,6 +72,10 @@ setup.ConvoUI = {
     choices.innerHTML = "";
 
     const availableKeys = setup.pickRandomTropes(6);
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoUI] Picked Tropes:`, availableKeys);
+    }
 
     for (const tropeKey of availableKeys) {
       const trope = setup.ConvoTropes[tropeKey];
@@ -84,10 +105,13 @@ setup.ConvoUI = {
     document.getElementById("convo-summary-gifts").textContent = `Gifts Given: ${convo.giftsGiven.length > 0 ? convo.giftsGiven.join(", ") : "None"}`;
 
     setup.ConvoGame.end();
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoUI] Results shown.`, convo);
+    }
   },
 
   giveGiftMenu() {
-    // Temporary placeholder
     alert("Gift system not yet implemented!");
   }
 };
