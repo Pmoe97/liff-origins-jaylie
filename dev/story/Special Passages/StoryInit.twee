@@ -6,3 +6,4 @@
 <<run setup.NPCs = []>>
 <<run setup.Seed = Math.seedrandom("liff")>> <!-- Optional global seed for reproducibility -->
 <<SidebarUI>>
+<<goto "TestRealm1">>

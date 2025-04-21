@@ -38,31 +38,31 @@ Macro.add("SidebarUI", {
 
 				<!-- Character Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('CharacterSheet')">
+					<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
 						<i data-lucide="scroll-text"></i> Character
 					</button>
 				</div>
 
 				<!-- Inventory Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('InventoryPage')">
+					<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
 						<i data-lucide="backpack"></i> Inventory
 					</button>
 				</div>
 
 				<!-- Journal Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('JournalPage')">
+					<button class="sidebar-btn" onclick="openOverlay('journal-page')">
 						<i data-lucide="book-open"></i> Journal
 					</button>
 				</div>
 
 				<!-- Stats & Achievements -->
 				<div class="button-pair">
-					<button class="sidebar-btn" onclick="openOverlay('StatsPage')">
+					<button class="sidebar-btn" onclick="openOverlay('stats-page')">
 						<i data-lucide="brain"></i> Stats
 					</button>
-					<button class="sidebar-btn" onclick="openOverlay('AchievementsPage')">
+					<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
 						<i data-lucide="star"></i> Achievements
 					</button>
 				</div>

@@ -105,158 +105,190 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Character Sheet Overlay Base */
 #character-sheet-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Cinzel, serif;
-  }
-  
-  .overlay-hidden {
-    display: none !important;
-  }
-  
-  #character-sheet-container {
-    background-image: url("img/parchment_bg_clean.png");
-    background-size: cover;
-    background-position: center;
-    padding: 20px;
-    width: 90vw;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-  }
-  
-  .charactersheet-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    color: #421e14;
-    cursor: pointer;
-  }
-  
-  /* Layout Rows */
-  .charsheet-top,
-  .charsheet-center,
-  .charsheet-bottom {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  /* Top Sections */
-  .charsheet-top-left,
-  .charsheet-top-right {
-    flex: 1;
-    font-size: 1.1em;
-  }
-  
-  /* Center Sections */
-  .charsheet-center-left {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .char-portrait img {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    border: 2px solid #3b2a1e;
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .charsheet-center-right {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .attributes-panel,
-  .skills-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .skills-panel .primary-skills,
-  .skills-panel .secondary-skills {
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 10px;
-    border: 1px solid #c4b998;
-  }
-  
-  /* Bottom Sections */
-  .charsheet-bottom-left {
-    flex: 2;
-  }
-  
-  .charsheet-bottom-left img {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .charsheet-bottom-right {
-    flex: 3;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .traits-panel,
-  .status-panel {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #9c8b65;
-    background-color: rgba(255, 255, 255, 0.04);
-  }
-  
-  .scrollable-list {
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  /* Status Colors */
-  .status-health {
-    color: #d34848;
-  }
-  .status-fatigue {
-    color: #a6743c;
-  }
-  .status-composure {
-    color: #4a8eab;
-  }
-  .status-excitement {
-    color: #ab49a3;
-    animation: pulse-status 2s infinite;
-  }
-  
-  @keyframes pulse-status {
-    0% { opacity: 1; }
-    50% { opacity: 0.6; }
-    100% { opacity: 1; }
-  }
-  
-  /* Status conditional list styles */
-  #char-status-conditional li {
-    font-style: italic;
-    color: #c98233;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Cinzel, serif;
+}
+
+.overlay-hidden {
+  display: none !important;
+}
+
+#character-sheet-container {
+  background-image: url("images/overlaybg_charactersheet.png");
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.charactersheet-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #421e14;
+  cursor: pointer;
+}
+
+/* Layout Rows */
+.charsheet-top,
+.charsheet-center,
+.charsheet-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Top Sections */
+.charsheet-top-left,
+.charsheet-top-right {
+  flex: 1;
+  font-size: 1.1em;
+}
+
+/* Center Sections */
+.charsheet-center-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.char-portrait img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border: 2px solid #3b2a1e;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.charsheet-center-right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attributes-panel,
+.skills-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attributes-panel ul,
+.skills-panel ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.skills-panel .primary-skills,
+.skills-panel .secondary-skills {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border: 1px solid #c4b998;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skills-panel .secondary-skills ul {
+  padding-left: 15px;
+}
+
+.skills-panel span {
+  font-weight: bold;
+  cursor: help;
+}
+
+/* Bottom Sections */
+.charsheet-bottom-left {
+  flex: 2;
+}
+
+.charsheet-bottom-left img {
+  width: 100%;
+  max-width: 300px;
+}
+
+.charsheet-bottom-right {
+  flex: 3;
+  display: flex;
+  gap: 10px;
+}
+
+.traits-panel,
+.status-panel {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #9c8b65;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.scrollable-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Status Colors */
+.status-health {
+  color: #d34848;
+}
+.status-fatigue {
+  color: #a6743c;
+}
+.status-composure {
+  color: #4a8eab;
+}
+.status-excitement {
+  color: #ab49a3;
+  animation: pulse-status 2s infinite;
+}
+
+@keyframes pulse-status {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Status conditional list styles */
+#char-status-conditional li {
+  font-style: italic;
+  color: #c98233;
+}
+
+/* Tooltip style */
+[title]:hover::after {
+  content: attr(title);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  position: absolute;
+  white-space: pre-line;
+  font-size: 0.9em;
+  max-width: 300px;
+  transform: translateY(-1.5em);
+  z-index: 10001;
+}
 /* twine-user-stylesheet #3: "background.css" */
 /* =============================
 =       Background Layer       =
@@ -276,38 +308,494 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     transition: background-image 0.4s ease-in-out;
   }
   
-/* twine-user-stylesheet #4: "inventory.css" */
+/* twine-user-stylesheet #4: "convo-minigame-styles.css" */
+/* ======================================================
+   Conversation Minigame Overlay Styles
+   ------------------------------------------------------
+   Layout and visual style for the NPC conversation UI
+   overlay. Adjust padding, spacing, and fonts as needed
+   for responsiveness and theme cohesion.
+========================================================= */
+
+.conversation-overlay {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 850px;
+    background: rgba(10, 10, 10, 0.92);
+    border: 2px solid #aaa;
+    border-radius: 12px;
+    padding: 1.5em;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    color: #eee;
+    font-family: var(--main-font);
+    transition: opacity 0.3s ease;
+  }
+  
+  .convo-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    margin-bottom: 1em;
+  }
+  
+  .convo-npc-info {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+  }
+  
+  .convo-npc-info img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #999;
+  }
+  
+  .convo-name {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .convo-style {
+    font-size: 0.9em;
+    color: #ccc;
+  }
+  
+  .convo-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25em;
+    text-align: right;
+    font-size: 0.95em;
+  }
+  
+  .convo-prompt {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #888;
+    padding: 1em;
+    margin-bottom: 1em;
+    font-style: italic;
+    font-size: 1.05em;
+    line-height: 1.4;
+  }
+  
+  .convo-choices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.5em;
+    margin-bottom: 1em;
+  }
+  
+  .convo-choices button {
+    padding: 0.8em;
+    background: #333;
+    border: 1px solid #777;
+    border-radius: 6px;
+    color: #eee;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .convo-choices button:hover {
+    background: #444;
+  }
+  
+  .convo-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    margin-top: 1em;
+  }
+  
+  .convo-actions button {
+    flex: 1;
+    padding: 0.8em;
+    border-radius: 6px;
+    border: 1px solid #666;
+    font-weight: bold;
+    background: #202020;
+    color: #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .convo-actions button:hover {
+    background: #2a2a2a;
+  }
+  
+  .convo-results {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.2em;
+    margin-top: 1em;
+    border-left: 4px solid #4caf50;
+    font-size: 0.95em;
+    font-style: normal;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .convo-results-summary {
+    margin-bottom: 1em;
+    font-weight: bold;
+    color: #aaffaa;
+    text-align: center;
+    font-size: 1em;
+  }
+  
+  .convo-results button {
+    display: block;
+    margin: 1em auto 0 auto;
+    padding: 0.8em 2em;
+    border-radius: 6px;
+    border: 1px solid #666;
+    background: #202020;
+    color: #eee;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .convo-results button:hover {
+    background: #2a2a2a;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  
+/* twine-user-stylesheet #5: "inventory.css" */
 /* =============================
-=       Inventory System       =
+=         Inventory UI         =
 ============================= */
-.inventory {
+
+/* Fullscreen dark overlay */
+.inventory-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.95);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Inner window panel */
+.inventory-window {
+    width: 98vw;
+    height: 92vh;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Top-level flex layout */
+.inventory-flex {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    overflow: hidden;
+}
+
+/* Left / Right panel widths */
+.inventory-left-panel {
+    flex: 3 1 0%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.inventory-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+/* Scrollbar styling (Chrome, Edge, Safari) */
+.inventory-content-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.inventory-content-wrapper::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+.inventory-content-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+/* Firefox scrollbar */
+.inventory-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.inventory-list-container {
+    flex: 1.1;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 10px;
 }
 
-.inv-item {
-    border: 1px solid #888;
-    padding: 8px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.4);
+.inventory-right-panel {
+    flex: 1 1 100px;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.inv-icon {
-    width: 48px;
-    height: 48px;
+/* Divider */
+.inventory-divider {
+    width: 2px;
+    background-color: #555;
+}
+
+/* Close button */
+.inventory-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.4em;
+    background: none;
+    border: none;
+    color: #eee;
+    cursor: pointer;
+}
+.inventory-close-btn:hover {
+    color: #f88;
+}
+
+/* Tabs */
+.inventory-tabs {
+    display: flex;
+    gap: 6px;
+}
+.inventory-tabs button {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.inventory-tabs button:hover {
+    background-color: #555;
+}
+.inventory-tabs .lucide {
+    width: 20px;
+    height: 20px;
+}
+
+/* Inventory table */
+.inventory-list {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow-y: auto;
+    flex: 1;
+}
+#inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#inventory-table th,
+#inventory-table td {
+    text-align: center;
+    padding: 6px;
+    font-size: 0.85em;
+    border-bottom: 1px solid #444;
+    color: #ddd;
+}
+
+/* Selected item info */
+.inventory-details {
+    flex: 1;
+    min-width: 250px;
+    max-height: 100%;
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#inventory-item-image {
+    width: 100%;
+    max-height: 200px;
     object-fit: contain;
-    margin-bottom: 4px;
+    background-color: #333;
+    border: 1px solid #666;
 }
-
-.inv-desc {
-    font-size: 0.9em;
+.inventory-description,
+.inventory-flavor,
+.inventory-info {
+    font-size: 0.85em;
     color: #ccc;
 }
-/* twine-user-stylesheet #5: "layout.css" */
+
+/* Button grid */
+.inventory-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+}
+.inventory-buttons button {
+    flex: 1 0 calc(33% - 10px);
+    font-size: 0.8em;
+    padding: 6px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+}
+.inventory-buttons button:hover {
+    background-color: #666;
+}
+
+/* =============================
+=       Paperdoll Layout       =
+============================= */
+
+.paperdoll-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+  
+  /* Main silhouette */
+  .paperdoll {
+    position: relative;
+    width: 200px;
+    min-width: 200px;
+    height: 400px;
+    background-image: url('images/paperdoll_generic_silhouette.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #555;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+  
+  /* Slot base */
+  .paperdoll-slot {
+    width: 48px;
+    height: 48px;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #888;
+    color: #fff;
+    font-size: 0.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    pointer-events: none;
+  }
+  
+  /* Position silhouette slots absolutely */
+  .paperdoll .paperdoll-slot {
+    position: absolute;
+  }
+  
+  /* Paperdoll slot positions */
+  .paperdoll-slot[data-slot="head"]     { top: 8%;   left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="chest"]    { top: 25%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="gloveL"]   { top: 28%;  left: 8%; }
+  .paperdoll-slot[data-slot="gloveR"]   { top: 28%;  right: 8%; }
+  .paperdoll-slot[data-slot="main"]     { top: 45%;  left: 4%; }
+  .paperdoll-slot[data-slot="sec"]      { top: 45%;  right: 4%; }
+  .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
+  
+  /* Right-hand column */
+  .paperdoll-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+  
+  .paperdoll-right-column .paperdoll-slot {
+    position: static;
+    width: 48px;
+    height: 48px;
+    font-size: 0.75em;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #888;
+    color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* =============================
+  =    Condensed Paperdoll Mode  =
+  ============================= */
+  
+  .paperdoll-condensed {
+    display: none;
+  }
+  
+  /* Switch to condensed view earlier */
+@media (max-width: 950px) {
+    .paperdoll-layout {
+      display: none;
+    }
+  
+    .paperdoll-condensed {
+        display: block;
+        max-height: none;
+        overflow-y: visible;
+        padding: 1em;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0.5em;
+        font-size: 0.9em;
+        line-height: 1.5em;
+        width: 100%;
+    }
+  
+    .paperdoll-condensed div {
+      margin-bottom: 0.5em;
+    }
+  }
+  
+/* twine-user-stylesheet #6: "layout.css" */
 /* =============================
 =     Custom Sidebar Layout    =
 ============================= */
@@ -367,7 +855,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 	height: 20px;
 	stroke: white;
 }
-/* twine-user-stylesheet #6: "maintext.css" */
+/* twine-user-stylesheet #7: "maintext.css" */
 /* =============================
 =     Main Text Presentation   =
 ============================= */
@@ -471,7 +959,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     opacity: 1 !important;
   }
   
-/* twine-user-stylesheet #7: "overlay.css" */
+/* twine-user-stylesheet #8: "overlay.css" */
 /* =============================
 =         Overlay Base         =
 ============================= */
@@ -526,7 +1014,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     display: none !important;
 }
 /* Overlay Base - End */
-/* twine-user-stylesheet #8: "paperdoll.css" */
+/* twine-user-stylesheet #9: "paperdoll.css" */
 /* =============================
 =       Paperdoll Layout       =
 ============================= */
@@ -572,7 +1060,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
   .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
   
-/* twine-user-stylesheet #9: "sidebar.css" */
+/* twine-user-stylesheet #10: "sidebar.css" */
 /* =============================
 =     Sidebar Buttons Panel    =
 ============================= */
@@ -624,7 +1112,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 #ui-bar {
 	display: none !important;
 }
-/* twine-user-stylesheet #10: "speech.css" */
+/* twine-user-stylesheet #11: "speech.css" */
 /* =============================
 =        Speech Bubbles        =
 ============================= */
@@ -667,7 +1155,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     margin: 0;
     line-height: 1.5;
 }
-/* twine-user-stylesheet #11: "statusbars.css" */
+/* twine-user-stylesheet #12: "statusbars.css" */
 /* =============================
 =     Character Status Bars    =
 ============================= */
@@ -695,7 +1183,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     height: 100%;
     transition: width 0.4s ease;
 }
-/* twine-user-stylesheet #12: "text-effects.css" */
+/* twine-user-stylesheet #13: "text-effects.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -754,7 +1242,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
 }
-/* twine-user-stylesheet #13: "themes.css" */
+/* twine-user-stylesheet #14: "themes.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -839,30 +1327,68 @@ State.variables.DEBUG = true;
 State.variables.seenTavernSpace = false;
 /* twine-user-script #3: "02_attributes.js" */
 setup.attributes = {
-	strength: 4,
-	agility: 4,
-	toughness: 4,
-	charisma: 4,
-	intelligence: 4,
-	insight: 4
-};
-
-setup.skills = {
-	athletics: { value: 1, parent: "strength" },
-	acrobatics: { value: 0, parent: "agility" },
-	sleightofhand: { value: 0, parent: "agility" },
-	stealth: { value: 0, parent: "agility" },
-	magic: { value: 0, parent: "intelligence" },
-	history: { value: 0, parent: "intelligence" },
-	investigation: { value: 0, parent: "intelligence" },
-	nature: { value: 0, parent: "intelligence" },
-	religion: { value: 0, parent: "intelligence" },
-	beasts: { value: 0, parent: "insight" },
-	insight: { value: 0, parent: "insight" },
-	deception: { value: 0, parent: "charisma" },
-	persuasion: { value: 0, parent: "charisma" },
-	intimidation: { value: 0, parent: "charisma" }
-};
+	strength: 5,
+	agility: 5,
+	toughness: 5,
+	charisma: 5,
+	intelligence: 5,
+	insight: 5
+  };
+  
+  setup.skills = {
+	// Strength-based
+	athletics:        { value: 0, parent: "strength", type: "primary" },
+	intimidation:     { value: 0, parent: "strength", type: "primary" },
+  
+	// Agility-based
+	acrobatics:       { value: 0, parent: "agility", type: "primary" },
+	sleightofhand:    { value: 0, parent: "agility", type: "primary" },
+	stealth:          { value: 0, parent: "agility", type: "primary" },
+  
+	// Toughness-based
+	fortitude:        { value: 0, parent: "toughness", type: "primary" },
+	willpower:        { value: 0, parent: "toughness", type: "primary" },
+  
+	// Charisma-based
+	persuasion:       { value: 0, parent: "charisma", type: "primary" },
+	deception:        { value: 0, parent: "charisma", type: "primary" },
+	performance:      { value: 0, parent: "charisma", type: "primary" },
+  
+	// Intelligence-based
+	medicine:         { value: 0, parent: "intelligence", type: "primary" },
+	arcana:           { value: 0, parent: "intelligence", type: "primary" },
+	tinkering:        { value: 0, parent: "intelligence", type: "primary" },
+  
+	// Insight-based
+	insight:          { value: 0, parent: "insight", type: "primary" },
+	perception:       { value: 0, parent: "insight", type: "primary" },
+	investigation:    { value: 0, parent: "insight", type: "primary" },
+  
+	// Secondary - Mundane
+	cooking:          { value: 0, parent: null, type: "mundane" },
+	cleaning:         { value: 0, parent: null, type: "mundane" },
+	riding:           { value: 0, parent: null, type: "mundane" },
+	crafting:         { value: 0, parent: null, type: "mundane" },
+	forgery:          { value: 0, parent: null, type: "mundane" },
+	trading:          { value: 0, parent: null, type: "mundane" },
+	traveling:        { value: 0, parent: null, type: "mundane" },
+	foraging:         { value: 0, parent: null, type: "mundane" },
+  
+	// Secondary - Sexual
+	hands:            { value: 0, parent: null, type: "sexual" },
+	mouth:            { value: 0, parent: null, type: "sexual" },
+	feet:             { value: 0, parent: null, type: "sexual" },
+	penis:            { value: 0, parent: null, type: "sexual" },
+	vagina:           { value: 0, parent: null, type: "sexual" },
+	anus:             { value: 0, parent: null, type: "sexual" },
+	teasing:          { value: 0, parent: null, type: "sexual" },
+	domination:       { value: 0, parent: null, type: "sexual" },
+	submission:       { value: 0, parent: null, type: "sexual" },
+	voyeurism:        { value: 0, parent: null, type: "sexual" },
+	exhibitionism:    { value: 0, parent: null, type: "sexual" },
+	bondage:          { value: 0, parent: null, type: "sexual" }
+  };
+  
 /* twine-user-script #4: "03_status.js" */
 setup.statuses = {
 	fatigue: 250,
@@ -1333,6 +1859,7 @@ console.log("✅ ItemData loaded:", Object.keys(setup.ItemData));
 = ITEM METADATA LOADER - END =
 ============================= */
 /* twine-user-script #11: "02_InventorySystem.js" */
+
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
 	debugLog(`📦 getItemMetadata() called with id: '${id}'`);
@@ -1535,6 +2062,36 @@ setup.renderInventory = function (target = "player", category = "all") {
 	}
 };
 
+/* Condensed Paperdoll Support */
+setup.updateCondensedPaperdoll = function () {
+  const equipped = State.variables.equipped || {};
+
+  const slotMap = [
+    "head", "face", "neck", "back", "chest", "main", "sec",
+    "pants", "feet", "ring1", "ring2", "ring3"
+  ];
+
+  // Standard slots
+  slotMap.forEach(slot => {
+    const el = document.getElementById(`slot-${slot}-text`);
+    if (el) {
+      const item = equipped[slot];
+      el.textContent = item ? item.name || item.id : "Empty";
+    }
+  });
+
+  // Special case: gloves (shared)
+  const glovesEl = document.getElementById(`slot-gloves-text`);
+  if (glovesEl) {
+    const gloveItem = equipped["gloves"];
+    glovesEl.textContent = gloveItem ? gloveItem.name || gloveItem.id : "Empty";
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (setup.updateCondensedPaperdoll) setup.updateCondensedPaperdoll();
+});
+
 window.setup = setup;
 /* twine-user-script #12: "03_overlayManager.js" */
 window.openOverlay = function (source) {
@@ -1543,9 +2100,12 @@ window.openOverlay = function (source) {
 
 	body.innerHTML = "";
 
-	// Detect if it's a file or passage
-	if (source.endsWith(".html")) {
-		setup.loadOverlayHTML("overlay-body", source);
+	const normalized = source.toLowerCase();
+
+	// Force file-based overlays for naming conventions like -page or -sheet
+	if (normalized.endsWith(".html") || normalized.includes("-page") || normalized.includes("-sheet")) {
+		const filename = normalized.endsWith(".html") ? normalized : `${normalized}.html`;
+		setup.loadOverlayHTML("overlay-body", filename);
 	} else {
 		new Wikifier(body, `<<include [[${source}]]>>`);
 	}
@@ -1553,6 +2113,7 @@ window.openOverlay = function (source) {
 	document.getElementById("overlay-panel").classList.remove("overlay-hidden");
 	renderLucideIconsSafely?.();
 };
+
 
 window.closeOverlay = function () {
 	const panel = document.getElementById("overlay-panel");
@@ -1613,7 +2174,221 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
-/* twine-user-script #15: "10_npcSystems.js" */
+/* twine-user-script #15: "06_conversation_minigame.js" */
+// ================================
+// Core Minigame Logic
+// ================================
+
+setup.ConvoGame = {
+    start(npcId) {
+      const npc = State.variables.characters[npcId];
+      if (!npc) return;
+  
+      State.temporary.convo = {
+        npcId,
+        turn: 1,
+        tension: npc.tension ?? 0,
+        rapport: npc.rapport ?? 1.0,
+        lastCheckpoint: 0,
+        trustGained: 0,
+        affectionGained: 0,
+        giftsGiven: [],
+        history: [],
+        ended: false,
+        result: null,
+        promptMod: 0
+      };
+    },
+  
+    getSuccessChance(tropeKey) {
+      const convo = State.temporary.convo;
+      const npc = State.variables.characters[convo.npcId];
+      const trope = setup.ConvoTropes[tropeKey];
+      if (!npc || !trope) return 0;
+  
+      let playerSkill = State.variables.skills?.[trope.skill] ?? 0;
+      let baseDifficulty = trope.baseDifficulty ?? 10;
+      let traitMod = setup.getTraitModifier(npc, tropeKey);
+      let turnMod = Math.max(0, convo.turn - 4);
+      let promptMod = convo.promptMod ?? 0;
+  
+      let rawChance = 50 + (playerSkill * 5) - baseDifficulty - traitMod - turnMod - promptMod;
+      return Math.clamp(Math.round(rawChance), 5, 95);
+    },
+  
+    resolveChoice(tropeKey) {
+      const convo = State.temporary.convo;
+      const npc = State.variables.characters[convo.npcId];
+      const chance = setup.ConvoGame.getSuccessChance(tropeKey);
+      const trope = setup.ConvoTropes[tropeKey];
+      const success = Math.random() * 100 < chance;
+  
+      convo.history.push({ tropeKey, success, turn: convo.turn });
+      convo.turn++;
+  
+      const effects = trope.effects;
+      if (success) {
+        const trust = (effects.trust ?? 0) * convo.rapport;
+        const affection = (effects.affection ?? 0) * convo.rapport;
+        npc.trust += trust;
+        npc.affection += affection;
+        convo.trustGained += trust;
+        convo.affectionGained += affection;
+        npc.rapport += 0.1;
+  
+        const xpGained = random(1, 3);
+        setup.gainSkillXP?.(trope.skill, xpGained);
+      } else {
+        convo.tension++;
+        npc.tension = convo.tension;
+        let maxTension = npc.maxTension ?? 3;
+        if (convo.tension >= maxTension) {
+          setup.ConvoGame.end("fail");
+          return;
+        }
+      }
+  
+      if (convo.turn % 5 === 0) {
+        convo.lastCheckpoint = convo.turn;
+      }
+    },
+  
+    giveGift(itemId) {
+      const convo = State.temporary.convo;
+      const npc = State.variables.characters[convo.npcId];
+      const item = setup.getItemMetadata(itemId);
+      if (!item || item.type !== "misc") return false;
+  
+      npc.rapport += (item.rapportBoost ?? 0.2);
+      convo.giftsGiven.push(itemId);
+      State.variables.inventory.misc = State.variables.inventory.misc.filter(i => i !== itemId);
+      return true;
+    },
+  
+    end(result = "manual") {
+      const convo = State.temporary.convo;
+      const npc = State.variables.characters[convo.npcId];
+  
+      convo.ended = true;
+      convo.result = result;
+  
+      if (result === "fail") {
+        npc.trust -= 1;
+        npc.affection -= 1;
+        npc.tension = 0;
+      } else {
+        npc.tension = convo.tension;
+      }
+    },
+  
+    close() {
+      setup.ConvoPromptTracker?.reset();
+      delete State.temporary.convo;
+    }
+  };
+  
+  setup.gainSkillXP = function(skillName, amount) {
+    if (!State.variables.skillXP) State.variables.skillXP = {};
+    if (!State.variables.skillXP[skillName]) State.variables.skillXP[skillName] = 0;
+    State.variables.skillXP[skillName] += amount;
+    UI.alert(`Gained ${amount} XP in ${skillName}`);
+  };
+  
+/* twine-user-script #16: "07_conversation_ui.js" */
+/* ======================================================
+   Conversation Minigame UI Handler
+   ------------------------------------------------------
+   Responsible for rendering the HTML overlay, updating
+   values in real-time, and managing the results screen.
+========================================================= */
+
+setup.ConvoUI = {
+  renderMinigame(npcId) {
+    setup.ConvoGame.start(npcId);
+    const npc = State.variables.characters[npcId];
+    const convo = State.temporary.convo;
+
+    const overlay = document.getElementById("conversation-overlay");
+    if (!overlay) return;
+
+    document.getElementById("convo-avatar").src = npc.avatar;
+    document.getElementById("convo-npc-name").textContent = npc.name;
+    document.getElementById("convo-npc-style").textContent = `Social Style: ${npc.socialStyle ?? "—"}`;
+
+    document.querySelector(".convo-choices").style.display = "block";
+    document.querySelector(".convo-actions").style.display = "flex";
+    document.querySelector(".convo-results").style.display = "none";
+
+    setup.ConvoPromptTracker?.reset();
+    setup.ConvoUI.updateMeta();
+    setup.ConvoUI.renderPrompt();
+    setup.ConvoUI.renderChoices();
+  },
+
+  updateMeta() {
+    const convo = State.temporary.convo;
+    const npc = State.variables.characters[convo.npcId];
+    const maxTension = npc.maxTension ?? 3;
+
+    document.getElementById("convo-turn").textContent = `Turn: ${convo.turn}`;
+    document.getElementById("convo-rapport").textContent = `Rapport: x${convo.rapport.toFixed(2)}`;
+    document.getElementById("convo-tension").textContent = `Tension: ${convo.tension}/${maxTension}`;
+    document.getElementById("convo-gains").textContent = `Gains: ❤️ +${Math.round(convo.affectionGained)} | 🤝 +${Math.round(convo.trustGained)}`;
+  },
+
+  renderPrompt() {
+    const convo = State.temporary.convo;
+    const npc = State.variables.characters[convo.npcId];
+    const prompt = setup.getConvoPrompt(npc);
+
+    convo.promptMod = prompt.baseDifficultyMod;
+    setup.ConvoPromptTracker?.markShown(prompt.text);
+
+    document.getElementById("convo-npc-prompt").textContent = `“${prompt.text}”`;
+  },
+
+  renderChoices() {
+    const choices = document.getElementById("convo-choices");
+    choices.innerHTML = "";
+
+    const availableKeys = setup.pickRandomTropes(6);
+
+    for (const tropeKey of availableKeys) {
+      const trope = setup.ConvoTropes[tropeKey];
+      const chance = setup.ConvoGame.getSuccessChance(tropeKey);
+      const btn = document.createElement("button");
+
+      btn.textContent = `${trope.label} ${chance}% (${Object.entries(trope.effects).map(([k, v]) => `+${v} ${k}`).join(", ")})`;
+      btn.onclick = () => {
+        setup.ConvoGame.resolveChoice(tropeKey);
+        setup.ConvoUI.updateMeta();
+        setup.ConvoUI.renderPrompt();
+        setup.ConvoUI.renderChoices();
+      };
+
+      choices.appendChild(btn);
+    }
+  },
+
+  showResultsScreen() {
+    const convo = State.temporary.convo;
+    document.querySelector(".convo-choices").style.display = "none";
+    document.querySelector(".convo-actions").style.display = "none";
+    document.querySelector(".convo-results").style.display = "block";
+
+    document.getElementById("convo-summary-gains").textContent = `You gained ❤️ +${Math.round(convo.affectionGained)} Affection and 🤝 +${Math.round(convo.trustGained)} Trust`;
+    document.getElementById("convo-summary-rapport").textContent = `Final Rapport Multiplier: x${convo.rapport.toFixed(2)}`;
+    document.getElementById("convo-summary-gifts").textContent = `Gifts Given: ${convo.giftsGiven.length > 0 ? convo.giftsGiven.join(", ") : "None"}`;
+
+    setup.ConvoGame.end();
+  },
+
+  giveGiftMenu() {
+    // Temporary placeholder
+    alert("Gift system not yet implemented!");
+  }
+};
+/* twine-user-script #17: "10_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -1656,7 +2431,7 @@ setup.filterNPCs = function (criteria = {}) {
         });
     });
 };
-/* twine-user-script #16: "01_speechMacro.js" */
+/* twine-user-script #18: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -1682,7 +2457,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #17: "02_fogtextMacro.js" */
+/* twine-user-script #19: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -1736,7 +2511,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #18: "03_sidebar.js" */
+/* twine-user-script #20: "03_sidebar.js" */
 function toggleSidebar() {
 	const sidebar = document.getElementById("custom-sidebar");
 	const toggle = document.getElementById("sidebar-toggle");
@@ -1772,7 +2547,7 @@ $(document).one(':storyready', function () {
 		toggleBtn.addEventListener("click", toggleSidebar);
 	}
 });
-/* twine-user-script #19: "04_widgets.js" */
+/* twine-user-script #21: "04_widgets.js" */
 console.log("✅ widgets.js loaded");
 
 /* Background Macro */
@@ -1813,31 +2588,31 @@ Macro.add("SidebarUI", {
 
 				<!-- Character Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('CharacterSheet')">
+					<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
 						<i data-lucide="scroll-text"></i> Character
 					</button>
 				</div>
 
 				<!-- Inventory Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('InventoryPage')">
+					<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
 						<i data-lucide="backpack"></i> Inventory
 					</button>
 				</div>
 
 				<!-- Journal Button -->
 				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('JournalPage')">
+					<button class="sidebar-btn" onclick="openOverlay('journal-page')">
 						<i data-lucide="book-open"></i> Journal
 					</button>
 				</div>
 
 				<!-- Stats & Achievements -->
 				<div class="button-pair">
-					<button class="sidebar-btn" onclick="openOverlay('StatsPage')">
+					<button class="sidebar-btn" onclick="openOverlay('stats-page')">
 						<i data-lucide="brain"></i> Stats
 					</button>
-					<button class="sidebar-btn" onclick="openOverlay('AchievementsPage')">
+					<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
 						<i data-lucide="star"></i> Achievements
 					</button>
 				</div>
@@ -1861,7 +2636,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
-/* twine-user-script #20: "999_main.js" */
+/* twine-user-script #22: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -1885,7 +2660,685 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-</script><tw-passagedata pid="1" name="NPCGenerator" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
+/* twine-user-script #23: "convo_prompts.js" */
+/* ======================================================
+   Conversation Prompt Library
+   ------------------------------------------------------
+   Random prompt selector for the minigame. Each prompt:
+   - Has a theme
+   - Adjusts base difficulty
+   - Unlocks at a trust+affection threshold
+========================================================= */
+
+setup.ConvoPrompts = [
+    // Relationship Level: 0+ (Neutral)
+    {text: "I almost didn’t get out of bed this morning.", theme: "emotional", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "Ever think about just leaving it all behind?", theme: "contemplative", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "You seem different from the others here. Why is that?", theme: "curious", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "How do you normally spend your nights?", theme: "smalltalk", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "What do you think people misunderstand about you?", theme: "personal", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "What’s your drink of choice?", theme: "light", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "What kind of weather puts you in a good mood?", theme: "light", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "If you could have any animal as a companion, what would it be?", theme: "whimsy", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Is there a food you just can’t stand?", theme: "quirky", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "What’s the strangest dream you’ve ever had?", theme: "weird", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "So… what do you think people assume about me?", theme: "reflective", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Ever have one of those days where everything feels fake?", theme: "melancholy", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Do you believe in fate, or is everything just random?", theme: "philosophy", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "What would your perfect day look like if no one was watching?", theme: "dreamy", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Do you ever feel like you’re just pretending to be okay?", theme: "emotional", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "If you could erase one regret, would you do it?", theme: "contemplative", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "What’s your idea of comfort food?", theme: "quirky", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "Tell me a sound that makes you feel calm.", theme: "soft", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "What’s something small that always makes you smile?", theme: "light", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "What do you do when no one’s watching?", theme: "curious", baseDifficultyMod: 2, unlockAt: 0 },
+    {text: "Are you more of a sunrise or sunset person?", theme: "whimsy", baseDifficultyMod: 0, unlockAt: 0 },
+    {text: "What's the most unusual habit you have?", theme: "quirky", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Do you talk to yourself? Out loud?", theme: "oddball", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "Do you find silence peaceful or uncomfortable?", theme: "introspective", baseDifficultyMod: 1, unlockAt: 0 },
+    {text: "What do you notice first when you walk into a room?", theme: "perception", baseDifficultyMod: 1, unlockAt: 0 },
+
+    // Relationship Level: 25+ (Getting Close)
+    {text: "Do you think I’m attractive?", theme: "flirty", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "What kind of touch calms you down the most?", theme: "sensual", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "Have you ever fallen for someone you shouldn’t have?", theme: "romantic", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "Do you like the sound of your own name on someone else's lips?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "What would you do if I leaned in closer right now?", theme: "intimate", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "Would you rather share a bed with someone or sleep alone?", theme: "personal", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "How do you know when you’re falling for someone?", theme: "romantic", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "What’s the most romantic thing someone’s done for you?", theme: "romantic", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "How would you react if I told you I had a crush on you?", theme: "flirty", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "What’s the most flattering thing someone’s said to you?", theme: "vanity", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "What part of your body do you secretly like the most?", theme: "personal", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "What’s something subtle that turns you on?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "Would you let someone kiss you without asking?", theme: "boundaries", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "What does your ideal first kiss look like?", theme: "romantic", baseDifficultyMod: 2, unlockAt: 25 },
+    {text: "Do you like it when someone takes the lead?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "If I whispered something naughty to you, would you blush or smirk?", theme: "tease", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "How long would it take you to fall for someone like me?", theme: "challenge", baseDifficultyMod: 3, unlockAt: 25 },
+    {text: "What’s the difference between lust and affection for you?", theme: "philosophical", baseDifficultyMod: 2, unlockAt: 25 },
+
+    // Relationship Level: 50+ (Personal)
+    {text: "What would you do if we were alone right now?", theme: "intimate", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "Is there a secret you’ve never told anyone?", theme: "confessional", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "What scares you most about getting close to someone?", theme: "vulnerable", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "What does your ideal night look like—no limits?", theme: "dreamy", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "Do you trust easily? Or does it take time?", theme: "guarded", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "Have you ever been hurt so badly it changed you?", theme: "emotional", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "If you could forget one memory forever, what would it be?", theme: "regret", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "Is there something you’ve never forgiven yourself for?", theme: "emotional", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "How do you act when you're falling in love?", theme: "romantic", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "What do you crave more—intimacy or understanding?", theme: "introspective", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "What’s something that always makes you feel safe?", theme: "comfort", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "What’s your biggest fear about being loved?", theme: "vulnerability", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "What part of yourself do you hide from most people?", theme: "shadow", baseDifficultyMod: 4, unlockAt: 50 },
+    {text: "What do you miss most about being a child?", theme: "nostalgia", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "How do you know when it’s safe to open up?", theme: "defense", baseDifficultyMod: 3, unlockAt: 50 },
+    {text: "What would hurt you more—being forgotten or being betrayed?", theme: "trust", baseDifficultyMod: 4, unlockAt: 50 },
+    
+    // Relationship Level: 75+ (Erotic / Deep Trust)
+    {text: "What’s the dirtiest thought you’ve had today?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "Would you let someone tie you up?", theme: "kink", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "If we had just one night together, how would it go?", theme: "fantasy", baseDifficultyMod: 4, unlockAt: 75 },
+    {text: "Where do you like to be touched most?", theme: "sensual", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "What’s something you’ve always wanted to try but haven’t?", theme: "bold", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "Do you like being teased? Or do you prefer control?", theme: "playful", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "What’s your favorite way to be kissed?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "What would you do if I bit your lip mid-sentence?", theme: "tease", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "Do you like it slow, or do you prefer when things get rough?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "What’s your favorite part of foreplay?", theme: "sensual", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "If I blindfolded you right now, what would you imagine me doing?", theme: "fantasy", baseDifficultyMod: 6, unlockAt: 75 },
+    {text: "Would you rather tease or be teased?", theme: "kinkplay", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "Where do your thoughts go when your hands are idle?", theme: "suggestive", baseDifficultyMod: 5, unlockAt: 75 },
+    {text: "If you were told to beg, would you?", theme: "dominance", baseDifficultyMod: 6, unlockAt: 75 },
+    {text: "Do you want to be touched like a secret or like a prayer?", theme: "poetic", baseDifficultyMod: 6, unlockAt: 75 },
+    {text: "If we were alone, right now, what would your hands do first?", theme: "anticipation", baseDifficultyMod: 6, unlockAt: 75 },
+
+    // Relationship Level: 100+ (Devotion)
+    {text: "Do you love me? Be honest.", theme: "serious", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Could you ever see us having a future together?", theme: "endgame", baseDifficultyMod: 5, unlockAt: 100 },
+    {text: "If I needed you to run away with me, would you?", theme: "commitment", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "What would it take for you to give up everything for someone?", theme: "sacrifice", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "If this world burned down tomorrow, would you still choose me?", theme: "rideordie", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Would you still care for me if I lost everything?", theme: "devotion", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "If you woke up and I was gone forever, what would you miss most?", theme: "melancholy", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "What scares you more—losing me or never having me at all?", theme: "attachment", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "If I asked you to disappear with me, would you say yes?", theme: "devotion", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Do you think soulmates are real… and are we?", theme: "endgame", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Could you be happy with just me, and no one else?", theme: "commitment", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Would you rather die in my arms, or live not knowing if I loved you?", theme: "tragedy", baseDifficultyMod: 7, unlockAt: 100 },
+    {text: "Would you wait a lifetime if it meant we'd be together in the end?", theme: "patience", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "If I forgot who you were tomorrow, how would you remind me?", theme: "devastation", baseDifficultyMod: 6, unlockAt: 100 },
+    {text: "Could you walk away from me if it meant I’d be safer?", theme: "sacrifice", baseDifficultyMod: 6, unlockAt: 100 },
+
+  ];
+  
+  // ================================
+  // Select a valid prompt based on relationship
+  // ================================
+  
+  setup.getConvoPrompt = function (npc) {
+    const intimacy = (npc.trust ?? 0) + (npc.affection ?? 0);
+    const valid = setup.ConvoPrompts.filter(p => intimacy >= p.unlockAt);
+    return valid.length > 0 ? randomFrom(valid) : {
+      text: "You sit together in silence.", theme: "neutral", baseDifficultyMod: 0, unlockAt: 0
+    };
+  };
+  
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+// ================================
+// Prompt Tracker (optional enhancement)
+// ================================
+
+setup.ConvoPromptTracker = {
+    shownThisSession: [],
+  
+    reset() {
+      this.shownThisSession = [];
+      console.log("[ConvoPrompt] Tracker reset");
+    },
+  
+    markShown(promptText) {
+      this.shownThisSession.push(promptText);
+    },
+  
+    filterUnseen(validPrompts) {
+      return validPrompts.filter(p => !this.shownThisSession.includes(p.text));
+    }
+  };
+  
+/* twine-user-script #24: "convo_tropes.js" */
+/* ======================================================
+   Relationship Conversation Minigame Core System
+   ------------------------------------------------------
+   This system powers the turn-based interaction minigame
+   between the player and NPCs, using: 
+   - Traits to affect success chances
+   - Rapport, Affection, Trust, and Tension stats
+   - Motivations to influence prompt theming
+   - Gifts to affect rapport/tension
+   - Results screen on exit
+   - Skill XP gain based on trope usage (1–3 XP)
+========================================================= */
+
+// ================================
+// Conversation Tropes Definition
+// ================================
+
+setup.ConvoTropes = {
+    flirt: {
+      label: "Flirt",
+      skill: "persuasion",
+      baseDifficulty: 10,
+      effects: { affection: 2 }
+    },
+    joke: {
+      label: "Tell a Joke",
+      skill: "performance",
+      baseDifficulty: 12,
+      effects: { trust: 1 }
+    },
+    relate: {
+      label: "Relate to Them",
+      skill: "insight",
+      baseDifficulty: 8,
+      effects: { trust: 1 }
+    },
+    compliment: {
+      label: "Give Compliment",
+      skill: "persuasion",
+      baseDifficulty: 10,
+      effects: { affection: 1, trust: 1 }
+    },
+    shareSecret: {
+      label: "Share a Secret",
+      skill: "insight",
+      baseDifficulty: 14,
+      effects: { trust: 2, affection: 1 }
+    },
+    touch: {
+      label: "Touch Their Arm",
+      skill: "hands",
+      baseDifficulty: 16,
+      effects: { affection: 3 }
+    },
+    kiss: {
+      label: "Kiss Them",
+      skill: "mouth",
+      baseDifficulty: 18,
+      effects: { affection: 4 }
+    },
+    intimidate: {
+      label: "Assert Dominance",
+      skill: "intimidation",
+      baseDifficulty: 15,
+      effects: { trust: 1 }
+    },
+    deceive: {
+      label: "Tell a White Lie",
+      skill: "deception",
+      baseDifficulty: 13,
+      effects: { trust: 1 }
+    },
+    askQuestion: {
+      label: "Ask a Deep Question",
+      skill: "insight",
+      baseDifficulty: 12,
+      effects: { trust: 2 }
+    },
+    tease: {
+      label: "Tease Playfully",
+      skill: "performance",
+      baseDifficulty: 11,
+      effects: { affection: 1 }
+    },
+    staySilent: {
+      label: "Stay Silent",
+      skill: "willpower",
+      baseDifficulty: 7,
+      effects: { trust: 1 }
+    }
+  };
+  
+  // ================================
+  // Utility to randomly pick N trope keys
+  // ================================
+  
+  setup.pickRandomTropes = function (count = 6) {
+    const all = Object.keys(setup.ConvoTropes);
+    const shuffled = all.sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+  };
+  
+/* twine-user-script #25: "inclinations.js" */
+/* ======================================================
+   Inclination Library (Sexual Preferences / Kinks)
+   ------------------------------------------------------
+   These values are used to influence NSFW interactions,
+   seduction-based fight actions, scene branching, and
+   character compatibility. Future systems will allow 
+   toggling content categories per player preference.
+========================================================= */
+
+setup.Inclinations = {
+    // Vanilla / Softcore
+    vanilla: {
+      tags: ["safe", "basic"],
+      soft: true,
+      optional: true
+    },
+    praise: {
+      tags: ["affirmation", "emotional"],
+      likes: ["being adored", "gentle domination"],
+      optional: true
+    },
+    teasing: {
+      tags: ["playful"],
+      likes: ["build-up", "denial"],
+      optional: true
+    },
+    service: {
+      tags: ["submissive"],
+      likes: ["pleasing others", "obedience"],
+      optional: true
+    },
+    exhibitionism: {
+      tags: ["public", "bold"],
+      optional: true
+    },
+    voyeurism: {
+      tags: ["watching", "curiosity"],
+      optional: true
+    },
+  
+    // BDSM Core
+    bondage: {
+      tags: ["restraint", "control"],
+      optional: true
+    },
+    domination: {
+      tags: ["dominant"],
+      optional: true
+    },
+    submission: {
+      tags: ["submissive"],
+      optional: true
+    },
+    sadism: {
+      tags: ["pain giver", "intensity"],
+      optional: true
+    },
+    masochism: {
+      tags: ["pain receiver", "endurance"],
+      optional: true
+    },
+    degradation: {
+      tags: ["verbal", "humiliation"],
+      optional: true
+    },
+    humiliation: {
+      tags: ["embarrassment", "control"],
+      optional: true
+    },
+    spanking: {
+      tags: ["impact"],
+      optional: true
+    },
+    edging: {
+      tags: ["denial", "control"],
+      optional: true
+    },
+  
+    // Fetish Play
+    footFetish: {
+      tags: ["fetish"],
+      optional: true
+    },
+    breathPlay: {
+      tags: ["intensity"],
+      optional: true
+    },
+    sensoryPlay: {
+      tags: ["sensory", "tactile"],
+      optional: true
+    },
+    roleplay: {
+      tags: ["acting", "scenario"],
+      optional: true
+    },
+    temperaturePlay: {
+      tags: ["hot", "cold"],
+      optional: true
+    },
+  
+    // Hardcore / Extreme
+    deepThroat: {
+      tags: ["oral", "intensity"],
+      optional: true
+    },
+    doublePenetration: {
+      tags: ["penetration", "group"],
+      optional: true
+    },
+    gangbang: {
+      tags: ["group"],
+      optional: true
+    },
+    fisting: {
+      tags: ["extreme", "penetration"],
+      optional: true
+    },
+    watersports: {
+      tags: ["wet", "taboo"],
+      optional: true
+    },
+    facials: {
+      tags: ["oral", "climax"],
+      optional: true
+    },
+    creampie: {
+      tags: ["internal", "climax"],
+      optional: true
+    },
+    breeding: {
+      tags: ["fertility", "climax"],
+      optional: true
+    },
+    sizePlay: {
+      tags: ["size", "extreme"],
+      optional: true
+    },
+  
+    // Taboo / Optional Filters
+    incest: {
+      tags: ["taboo"],
+      optional: true
+    },
+    nonCon: {
+      tags: ["taboo", "forced"],
+      optional: true
+    },
+    monster: {
+      tags: ["nonhuman", "taboo"],
+      optional: true
+    },
+    transformation: {
+      tags: ["fantasy", "nonstandard"],
+      optional: true
+    }
+  };
+  
+/* twine-user-script #26: "motivations.js" */
+/* ======================================================
+   Motivation Library (Internal Drives / Narrative Goals)
+   ------------------------------------------------------
+   These define what makes an NPC "tick" and shape:
+   - Personal quests
+   - Loyalty and betrayal conditions
+   - Behavioral patterns in and out of scenes
+========================================================= */
+
+setup.Motivations = {
+    // Core Motivations
+    justice: {
+      tags: ["moral", "lawful"],
+      notes: "Seeks fairness, hates corruption. May trigger vigilante behavior or formal quests."
+    },
+    revenge: {
+      tags: ["vengeful", "emotional"],
+      notes: "Drives actions based on past wrongs. Likely to spark intense personal quests."
+    },
+    power: {
+      tags: ["ambition", "dominance"],
+      notes: "Desires authority or superiority. Often manipulative or assertive."
+    },
+    knowledge: {
+      tags: ["intellectual", "curious"],
+      notes: "Seeks truth, secrets, arcane lore. May align with Scholar or Witchling archetypes."
+    },
+    survival: {
+      tags: ["primal", "realist"],
+      notes: "Wants to live above all. Can make pragmatic or cold decisions."
+    },
+    family: {
+      tags: ["emotional", "relational"],
+      notes: "Protective of kin or those they consider family. Likely to abandon duty to save them."
+    },
+    loyalty: {
+      tags: ["duty", "bonded"],
+      notes: "Values allegiances and service. Driven by oath, honor, or gratitude."
+    },
+    legacy: {
+      tags: ["ambition", "mortal"],
+      notes: "Wants to be remembered. Motivated by creation, influence, or children."
+    },
+  
+    // Romantic / Intimate Motivations
+    love: {
+      tags: ["romantic", "emotional"],
+      notes: "Seeks intimacy, connection. Will follow heart even at great cost."
+    },
+    lust: {
+      tags: ["pleasure", "impulse"],
+      notes: "Prioritizes desire, beauty, sex. May interfere with duty or logic."
+    },
+    thrill: {
+      tags: ["risk", "chaotic"],
+      notes: "Lives for danger, excitement. Motivated by unpredictability and adrenaline."
+    },
+  
+    // Status-Based / Material
+    wealth: {
+      tags: ["greed", "material"],
+      notes: "Motivated by money, luxuries, or gain. Can bribe, steal, or manipulate."
+    },
+    fame: {
+      tags: ["recognition", "external"],
+      notes: "Wants to be admired, known, or praised. May exaggerate deeds."
+    },
+    freedom: {
+      tags: ["independence", "liberty"],
+      notes: "Hates constraints. Resists authority and avoids entrapment."
+    },
+  
+    // Kink-Aligned / Subtle Drives
+    control: {
+      tags: ["dominance", "power"],
+      notes: "Wants to control others emotionally, socially, or sexually."
+    },
+    devotion: {
+      tags: ["service", "loyalty"],
+      notes: "Finds fulfillment in pleasing others. Can become obsessive."
+    },
+    shame: {
+      tags: ["taboo", "emotional"],
+      notes: "Defines self by guilt or desire for punishment. May seek degradation scenes."
+    }
+  };
+  
+/* twine-user-script #27: "npc_archetypes.js" */
+setup.Archetypes = {
+    "Warden": {
+        tags: ["Guard", "Loyal", "Stoic"],
+        statRanges: {
+            strength: [6, 10],
+            charisma: [1, 5],
+            insight: [4, 7]
+        },
+        styles: ["Military", "Ironclad", "Minimalist"],
+    },
+    "Courtesan": {
+        tags: ["Charmer", "Temptress", "Tactician"],
+        statRanges: {
+            charisma: [7, 10],
+            agility: [4, 7],
+            intelligence: [5, 8]
+        },
+        styles: ["Seductive", "Opulent", "Masked"]
+    },
+    "Witchling": {
+        tags: ["Arcane", "Unsettling", "Reclusive"],
+        statRanges: {
+            intelligence: [8, 10],
+            insight: [7, 10],
+            toughness: [2, 5]
+        },
+        styles: ["Cloaked", "Ragged", "Unnatural"]
+    }
+};
+/* twine-user-script #28: "npc_names.js" */
+setup.NamePools = {
+    human: {
+        male: ["Joren", "Thalen", "Bryce", "Damas"],
+        female: ["Lira", "Vaelyn", "Mira", "Seris"]
+    },
+    elf: {
+        male: ["Thalor", "Caelith", "Aerendel"],
+        female: ["Sylria", "Nimaris", "Vaelra"]
+    },
+    demon: {
+        male: ["Khazar", "Velmuth", "Zereth"],
+        female: ["Lilitha", "Zaria", "Nyx"]
+    }
+};
+/* twine-user-script #29: "personality_traits.js" */
+/* ======================================================
+   Personality Trait Library (Core Behavioral / Emotional Traits)
+   --------------------------------------------------------------
+   These traits shape daily behavior, conversation dynamics,
+   emotional response patterns, and flavor interactions.
+========================================================= */
+
+setup.PersonalityTraits = {
+    optimistic: { conflicts: ["pessimistic"], tags: ["emotional"] },
+    pessimistic: { conflicts: ["optimistic"], tags: ["emotional"] },
+    stoic: { conflicts: ["expressive"], tags: ["emotional"] },
+    expressive: { conflicts: ["stoic"], tags: ["emotional"] },
+    cheerful: { tags: ["emotional"] },
+    melancholic: { tags: ["emotional"] },
+    cynical: { conflicts: ["idealistic"], tags: ["emotional"] },
+    idealistic: { conflicts: ["cynical"], tags: ["emotional"] },
+    empathic: { tags: ["emotional"] },
+    detached: { conflicts: ["empathic"], tags: ["emotional"] },
+  
+    goofy: { conflicts: ["serious"], tags: ["social"] },
+    serious: { conflicts: ["goofy"], tags: ["social"] },
+    charismatic: { tags: ["social"] },
+    awkward: { tags: ["social"] },
+    introverted: { conflicts: ["extroverted"], tags: ["social"] },
+    extroverted: { conflicts: ["introverted"], tags: ["social"] },
+    polite: { conflicts: ["crude"], tags: ["social"] },
+    crude: { conflicts: ["polite"], tags: ["social"] },
+    jealous: { tags: ["emotional"] },
+    insecure: { tags: ["emotional"] },
+    confident: { tags: ["emotional"] },
+    flirty: { tags: ["social"] },
+    guarded: { conflicts: ["flirty"], tags: ["emotional"] },
+    affectionate: { tags: ["emotional"] },
+    ruthless: { conflicts: ["kind", "empathic"], tags: ["emotional"] },
+    kind: { conflicts: ["ruthless"], tags: ["emotional"] },
+    dominant: { conflicts: ["submissive"], tags: ["social"] },
+    submissive: { conflicts: ["dominant"], tags: ["social"] },
+    independent: { conflicts: ["clingy"], tags: ["emotional"] },
+    clingy: { conflicts: ["independent"], tags: ["emotional"] },
+  
+    anxious: { conflicts: ["bold"], tags: ["emotional"] },
+    bold: { conflicts: ["anxious"], tags: ["emotional"] },
+    secretive: { tags: ["emotional"] },
+    trusting: { tags: ["emotional"] },
+    judgmental: { tags: ["emotional"] },
+    curious: { tags: ["mental"] },
+    routineOriented: { tags: ["quirk"] },
+    chaotic: { tags: ["quirk"] },
+    possessive: { tags: ["emotional"] },
+    detachedRomantic: { tags: ["romantic"] },
+    loveBombing: { tags: ["romantic"] },
+  
+    entitled: { conflicts: ["humble"], tags: ["class"] },
+    humble: { conflicts: ["entitled"], tags: ["class"] },
+    pious: { tags: ["moral"] },
+    hedonistic: { tags: ["moral", "social"] },
+    militant: { tags: ["social"] },
+    scholar: { tags: ["intellectual"] },
+    merchant: { tags: ["social"] }
+  };
+  
+/* twine-user-script #30: "social_styles.js" */
+/* ======================================================
+   Social Style Library (Tone, Mannerisms, Social Presence)
+   ------------------------------------------------------
+   Affects how NPCs present themselves socially — their
+   tone, word choice, mannerisms, and general vibe.
+   Often blends with class, personality, or upbringing.
+   Does NOT directly influence conversation mechanics.
+========================================================= */
+
+setup.SocialStyles = {
+    warm: {
+      tags: ["friendly", "open"],
+      notes: "Speaks kindly, often smiles, tends to put others at ease."
+    },
+    cold: {
+      tags: ["distant", "guarded"],
+      notes: "Rarely emotive, hard to read, often blunt."
+    },
+    polite: {
+      tags: ["formal", "measured"],
+      notes: "Courteous and restrained, avoids vulgarity or informality."
+    },
+    crude: {
+      tags: ["vulgar", "casual"],
+      notes: "Swears, jokes off-color, generally relaxed in speech."
+    },
+    seductive: {
+      tags: ["flirty", "charming"],
+      notes: "Uses innuendo, body language, and tone to entice."
+    },
+    arrogant: {
+      tags: ["haughty", "entitled"],
+      notes: "Talks down to others, may use elevated or dismissive language."
+    },
+    humble: {
+      tags: ["meek", "respectful"],
+      notes: "Deferential, often puts themselves second, avoids spotlight."
+    },
+    theatrical: {
+      tags: ["dramatic", "expressive"],
+      notes: "Big hand gestures, vivid language, flair for storytelling."
+    },
+    stern: {
+      tags: ["strict", "firm"],
+      notes: "Controlled voice, serious tone, rarely jokes."
+    },
+    aloof: {
+      tags: ["disengaged", "quiet"],
+      notes: "Short answers, little emotion, easily distracted."
+    },
+    bubbly: {
+      tags: ["energetic", "playful"],
+      notes: "Talks fast, giggles, prone to tangents or excitement."
+    },
+    stoic: {
+      tags: ["reserved", "emotionless"],
+      notes: "Rarely shows emotion even under stress, speaks flatly."
+    },
+    theatrical: {
+      tags: ["dramatic", "flamboyant"],
+      notes: "Big emotions, expressive voice, sometimes over-the-top."
+    },
+    scholarly: {
+      tags: ["academic", "precise"],
+      notes: "Careful wording, references theory or history, avoids slang."
+    },
+    cunning: {
+      tags: ["subtle", "manipulative"],
+      notes: "May flatter or provoke to gain an edge, reads people quickly."
+    }
+  };
+  </script><tw-passagedata pid="1" name="NPCGenerator" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
 &lt;&lt;set _npc to setup.generateNPC(&quot;female&quot;, &quot;human&quot;, &quot;Courtesan&quot;)&gt;&gt;
 &lt;&lt;print &quot;Generated NPC: &quot;&gt;&gt;
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
@@ -1897,7 +3350,8 @@ $(document).on(':passagestart', function () {
 
 &lt;&lt;run setup.NPCs = []&gt;&gt;
 &lt;&lt;run setup.Seed = Math.seedrandom(&quot;liff&quot;)&gt;&gt; &lt;!-- Optional global seed for reproducibility --&gt;
-&lt;&lt;SidebarUI&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="StoryInterface" tags="" position="850,100" size="100,100">&lt;!-- =============================
+&lt;&lt;SidebarUI&gt;&gt;
+&lt;&lt;goto &quot;TestRealm1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="StoryInterface" tags="" position="850,100" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -1939,9 +3393,11 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 
 [[Go forth and journey on|StoryStart_Scene01]]
 
-[[Wait I am NOT an adult|Underage_Response]]</tw-passagedata><tw-passagedata pid="11" name="Underage_Response" tags="" position="100,225" size="100,100">&#39;&#39;Get out of here!&#39;&#39;
+[[Wait I am NOT an adult|Underage_Response]]
 
-&lt;div class=&quot;tenor-gif-embed&quot; data-postid=&quot;20021154&quot; data-share-method=&quot;host&quot; data-aspect-ratio=&quot;1&quot; data-width=&quot;100%&quot;&gt;&lt;a href=&quot;https://tenor.com/view/get-outta-here-seth-meyers-late-night-with-seth-meyers-leave-begone-gif-20021154&quot;&gt;Get Outta Here Seth Meyers GIF&lt;/a&gt;from &lt;a href=&quot;https://tenor.com/search/get+outta+here-gifs&quot;&gt;Get Outta Here GIFs&lt;/a&gt;&lt;/div&gt; &lt;script type=&quot;text/javascript&quot; async src=&quot;https://tenor.com/embed.js&quot;&gt;&lt;/script&gt;</tw-passagedata><tw-passagedata pid="12" name="Scene02_AddasGreeting" tags="" position="225,225" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;link &quot;Enter Test Realm (Convo)&quot;&gt;&gt;
+	&lt;&lt;goto &quot;TestRealm1.tw&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Underage_Response" tags="" position="100,225" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="12" name="Scene02_AddasGreeting" tags="" position="225,225" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -2243,7 +3699,26 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn’t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata></tw-storydata>
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="26" name="TestRealm1" tags="" position="725,350" size="100,100">&lt;&lt;set $characters.adda.trust = 40&gt;&gt;
+&lt;&lt;set $characters.adda.affection = 35&gt;&gt;
+&lt;&lt;set $characters.adda.rapport = 1.4&gt;&gt;
+
+
+&lt;&lt;button &quot;Test Convo Minigame (Adda)&quot;&gt;&gt;
+	&lt;&lt;run setup.ConvoUI.renderMinigame(&quot;adda&quot;)&gt;&gt;
+&lt;&lt;/button&gt;&gt;
+
+&lt;&lt;if $characters.adda is undefined&gt;&gt;
+	&lt;&lt;set $characters.adda = {
+		name: &quot;Mistress Adda&quot;,
+		avatar: &quot;images/mistressadda.png&quot;,
+		trust: 0,
+		affection: 0,
+		tension: 0,
+		rapport: 1.0,
+		socialStyle: &quot;Regal&quot;
+	}&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
 	if(document.documentElement.getAttribute("data-init")==="loading"){!function(window,document,jQuery,undefined){"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)}var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),_slicedToArray=function(){function e(e,t){var r=[],n=!0,a=!1,i=undefined;try{for(var o,s=e[Symbol.iterator]();!(n=(o=s.next()).done)&&(r.push(o.value),!t||r.length!==t);n=!0);}catch(e){a=!0,i=e}finally{try{!n&&s.return&&s.return()}finally{if(a)throw i}}return r}return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},errorPrologRegExp=/^(?:(?:uncaught\s+(?:exception:\s+)?)?\w*(?:error|exception|_err):\s+)+/i,Alert=function(){function e(e,t,r,n){var a="fatal"===e,i="Apologies! "+(a?"A fatal":"An")+" error has occurred.";i+=a?" Aborting.":" You may be able to continue, but some parts may not work properly.",null==t&&null==r||(i+="\n\nError",null!=t&&(i+=" ["+t+"]"),i+=null!=r?": "+r.replace(errorPrologRegExp,"")+".":": unknown error."),"object"===(void 0===n?"undefined":_typeof(n))&&n.stack&&(i+="\n\nStack Trace:\n"+n.stack),window.alert(i)}function t(t,r,n){e(null,t,r,n)}function r(t,r,n){e("fatal",t,r,n)}return function(e){window.onerror=function(n,a,i,o,s){"complete"===document.readyState?t(null,n,s):(r(null,n,s),window.onerror=e,"function"==typeof window.onerror&&window.onerror.apply(this,arguments))}}(window.onerror),Object.freeze(Object.defineProperties({},{error:{value:t},fatal:{value:r}}))}(),Patterns=function(){var e=function(){var e=new Map([[" ","\\u0020"],["\f","\\f"],["\n","\\n"],["\r","\\r"],["\t","\\t"],["\v","\\v"],[" ","\\u00a0"],[" ","\\u1680"],["᠎","\\u180e"],[" ","\\u2000"],[" ","\\u2001"],[" ","\\u2002"],[" ","\\u2003"],[" ","\\u2004"],[" ","\\u2005"],[" ","\\u2006"],[" ","\\u2007"],[" ","\\u2008"],[" ","\\u2009"],[" ","\\u200a"],["\u2028","\\u2028"],["\u2029","\\u2029"],[" ","\\u202f"],[" ","\\u205f"],["　","\\u3000"],["\ufeff","\\ufeff"]]),t=/^\s$/,r="";return e.forEach(function(e,n){t.test(n)||(r+=e)}),r?"[\\s"+r+"]":"\\s"}(),t="\\s"===e?"\\S":e.replace(/^\[/,"[^"),r="[0-9A-Z_a-z\\-\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u00ff\\u0150\\u0170\\u0151\\u0171]",n=r.replace("\\-",""),a=function(){return"("+r+"+)\\(([^\\)\\|\\n]+)\\):|("+r+"+):([^;\\|\\n]+);|((?:\\."+r+"+)+);|((?:#"+r+"+)+);"}();return Object.freeze({space:e,spaceNoTerminator:"[\\u0020\\f\\t\\v\\u00a0\\u1680\\u180e\\u2000-\\u200a\\u202f\\u205f\\u3000\\ufeff]",lineTerminator:"[\\n\\r\\u2028\\u2029]",notSpace:t,anyChar:"(?:.|[\\n\\r\\u2028\\u2029])",anyLetter:r,anyLetterStrict:n,identifierFirstChar:"[$A-Z_a-z]",identifierNextChar:"[$0-9A-Z_a-z]",identifier:"[$A-Z_a-z][$0-9A-Z_a-z]*",variableSigil:"[$_]",variable:"[$_][$A-Z_a-z][$0-9A-Z_a-z]*",macroName:"[A-Za-z][\\w-]*|[=-]",templateName:"[A-Za-z][\\w-]*",cssImage:"\\[[<>]?[Ii][Mm][Gg]\\[(?:\\s|\\S)*?\\]\\]+",inlineCss:a,url:"(?:file|https?|mailto|ftp|javascript|irc|news|data):[^\\s'\"]+"})}();!function(){!function(e){if(e&&e.prototype&&null==e.prototype.firstElementChild){var t=Node.ELEMENT_NODE;Object.defineProperty(e.prototype,"firstElementChild",{get:function(){for(var e=this.childNodes,r=0;r<e.length;++r){var n=e[r];if(n.nodeType===t)return n}return null}})}}(window.Node||window.Element)}(),function(){function e(e,t){var r=Number.parseInt(e,10)||0;if(r<1)return"";var n=void 0===t?"":String(t);for(""===n&&(n=" ");n.length<r;){var a=n.length,i=r-a;n+=a>i?n.slice(0,i):n}return n.length>r&&(n=n.slice(0,r)),n}var t=function(){function e(e,n){var a=String(e);if(!a)return a;switch(n){case"start":return t.test(a)?a.replace(t,""):a;case"end":return r.test(a)?a.replace(r,""):a;default:throw new Error('_trimString called with incorrect where parameter value: "'+n+'"')}}var t=new RegExp("^"+Patterns.space+Patterns.space+"*"),r=new RegExp(""+Patterns.space+Patterns.space+"*$");return e}();Array.prototype.flat||Object.defineProperty(Array.prototype,"flat",{configurable:!0,writable:!0,value:function(){function e(){if(null==this)throw new TypeError("Array.prototype.flat called on null or undefined");var t=0===arguments.length?1:Number(arguments[0])||0;return t<1?Array.prototype.slice.call(this):Array.prototype.reduce.call(this,function(r,n){return n instanceof Array?r.push.apply(r,_toConsumableArray(e.call(n,t-1))):r.push(n),r},[])}return e}()}),Array.prototype.flatMap||Object.defineProperty(Array.prototype,"flatMap",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.flatMap called on null or undefined");return Array.prototype.map.apply(this,arguments).flat()}}),Array.prototype.includes||Object.defineProperty(Array.prototype,"includes",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includes called on null or undefined");if(0===arguments.length)return!1;var e=this.length>>>0;if(0===e)return!1;var t=arguments[0],r=Number(arguments[1])||0;for(r<0&&(r=Math.max(0,e+r));r<e;++r){var n=this[r];if(n===t||n!==n&&t!==t)return!0}return!1}}),Object.entries||Object.defineProperty(Object,"entries",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e)throw new TypeError("Object.entries object parameter must be an object");return Object.keys(e).map(function(t){return[t,e[t]]})}}),Object.fromEntries||Object.defineProperty(Object,"fromEntries",{configurable:!0,writable:!0,value:function(e){return Array.from(e).reduce(function(e,t){if(Object(t)!==t)throw new TypeError("Object.fromEntries iterable parameter must yield objects");return t[0]in e?Object.defineProperty(e,t[0],{configurable:!0,enumerable:!0,writable:!0,value:t[1]}):e[t[0]]=t[1],e},{})}}),Object.getOwnPropertyDescriptors||Object.defineProperty(Object,"getOwnPropertyDescriptors",{configurable:!0,writable:!0,value:function(e){if(null==e)throw new TypeError("Object.getOwnPropertyDescriptors object parameter is null or undefined");var t=Object(e);return Reflect.ownKeys(t).reduce(function(e,r){var n=Object.getOwnPropertyDescriptor(t,r);return void 0!==n&&(r in e?Object.defineProperty(e,r,{configurable:!0,enumerable:!0,writable:!0,value:n}):e[r]=n),e},{})}}),Object.values||Object.defineProperty(Object,"values",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e)throw new TypeError("Object.values object parameter must be an object");return Object.keys(e).map(function(t){return e[t]})}}),String.prototype.padStart||Object.defineProperty(String.prototype,"padStart",{configurable:!0,writable:!0,value:function(t,r){if(null==this)throw new TypeError("String.prototype.padStart called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(t,10);return i<=a?n:e(i-a,r)+n}}),String.prototype.padEnd||Object.defineProperty(String.prototype,"padEnd",{configurable:!0,writable:!0,value:function(t,r){if(null==this)throw new TypeError("String.prototype.padEnd called on null or undefined");var n=String(this),a=n.length,i=Number.parseInt(t,10);return i<=a?n:n+e(i-a,r)}}),String.prototype.trimStart||Object.defineProperty(String.prototype,"trimStart",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimStart called on null or undefined");return t(this,"start")}}),String.prototype.trimLeft||Object.defineProperty(String.prototype,"trimLeft",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimLeft called on null or undefined");return t(this,"start")}}),String.prototype.trimEnd||Object.defineProperty(String.prototype,"trimEnd",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimEnd called on null or undefined");return t(this,"end")}}),String.prototype.trimRight||Object.defineProperty(String.prototype,"trimRight",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.trimRight called on null or undefined");return t(this,"end")}})}(),function(){function _random(){var e=void 0,t=void 0;switch(arguments.length){case 0:throw new Error("_random called with insufficient parameters");case 1:e=0,t=arguments[0];break;default:e=arguments[0],t=arguments[1]}if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.floor(_nativeMathRandom()*(t-e+1))+e}function _randomIndex(e,t){var r=void 0,n=void 0;switch(t.length){case 1:r=0,n=e-1;break;case 2:r=0,n=Math.trunc(t[1]);break;default:r=Math.trunc(t[1]),n=Math.trunc(t[2])}return Number.isNaN(r)?r=0:!Number.isFinite(r)||r>=e?r=e-1:r<0&&(r=e+r)<0&&(r=0),Number.isNaN(n)?n=0:!Number.isFinite(n)||n>=e?n=e-1:n<0&&(n=e+n)<0&&(n=e-1),_random(r,n)}function _getCodePointStartAndEnd(e,t){var r=e.charCodeAt(t);if(Number.isNaN(r))return{char:"",start:-1,end:-1};if(r<55296||r>57343)return{char:e.charAt(t),start:t,end:t};if(r>=55296&&r<=56319){var n=t+1;if(n>=e.length)throw new Error("high surrogate without trailing low surrogate");var a=e.charCodeAt(n);if(a<56320||a>57343)throw new Error("high surrogate without trailing low surrogate");return{char:e.charAt(t)+e.charAt(n),start:t,end:n}}if(0===t)throw new Error("low surrogate without leading high surrogate");var i=t-1,o=e.charCodeAt(i);if(o<55296||o>56319)throw new Error("low surrogate without leading high surrogate");return{char:e.charAt(i)+e.charAt(t),start:i,end:t}}var _nativeMathRandom=Math.random;Object.defineProperty(Array,"random",{configurable:!0,writable:!0,value:function(e){if("object"!==(void 0===e?"undefined":_typeof(e))||null===e||!Object.prototype.hasOwnProperty.call(e,"length"))throw new TypeError("Array.random array parameter must be an array or array-lke object");var t=e.length>>>0;if(0!==t){return e[0===arguments.length?_random(0,t-1):_randomIndex(t,Array.prototype.slice.call(arguments,1))]}}}),Object.defineProperty(Array.prototype,"concatUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.concatUnique called on null or undefined");var e=Array.from(this);if(0===arguments.length)return e;var t=Array.prototype.reduce.call(arguments,function(e,t){return e.concat(t)},[]),r=t.length;if(0===r)return e;for(var n=Array.prototype.indexOf,a=Array.prototype.push,i=0;i<r;++i){var o=t[i];-1===n.call(e,o)&&a.call(e,o)}return e}}),Object.defineProperty(Array.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.count called on null or undefined");for(var e=Array.prototype.indexOf,t=arguments[0],r=Number(arguments[1])||0,n=0;-1!==(r=e.call(this,t,r));)++n,++r;return n}}),Object.defineProperty(Array.prototype,"delete",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.delete called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.concat.apply([],arguments),r=t.length,n=[],a=0;a<e;++a)for(var i=this[a],o=0;o<r;++o){var s=t[o];if(i===s||i!==i&&s!==s){n.push(a);break}}for(var u=[],l=0,c=n.length;l<c;++l)u[l]=this[n[l]];for(var d=Array.prototype.splice,f=n.length-1;f>=0;--f)d.call(this,n[f],1);return u}}),Object.defineProperty(Array.prototype,"deleteAt",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.deleteAt called on null or undefined");if(0===arguments.length)return[];var e=this.length>>>0;if(0===e)return[];for(var t=Array.prototype.splice,r=[].concat(_toConsumableArray(new Set(Array.prototype.concat.apply([],arguments).map(function(t){return t<0?Math.max(0,e+t):t})).values())),n=[].concat(_toConsumableArray(r)).sort(function(e,t){return t-e}),a=[],i=0,o=r.length;i<o;++i)a[i]=this[r[i]];for(var s=0,u=n.length;s<u;++s)t.call(this,n[s],1);return a}}),Object.defineProperty(Array.prototype,"deleteWith",{configurable:!0,writable:!0,value:function(e,t){if(null==this)throw new TypeError("Array.prototype.deleteWith called on null or undefined");if("function"!=typeof e)throw new Error("Array.prototype.deleteWith predicate parameter must be a function");var r=this.length>>>0;if(0===r)return[];for(var n=Array.prototype.splice,a=[],i=[],o=0;o<r;++o)e.call(t,this[o],o,this)&&(i.push(this[o]),a.push(o));for(var s=a.length-1;s>=0;--s)n.call(this,a[s],1);return i}}),Object.defineProperty(Array.prototype,"first",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.first called on null or undefined");if(0!=this.length>>>0)return this[0]}}),Object.defineProperty(Array.prototype,"includesAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAll called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAll.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(!Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!1;return!0}}),Object.defineProperty(Array.prototype,"includesAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.includesAny called on null or undefined");if(1===arguments.length)return Array.isArray(arguments[0])?Array.prototype.includesAny.apply(this,arguments[0]):Array.prototype.includes.apply(this,arguments);for(var e=0,t=arguments.length;e<t;++e)if(Array.prototype.some.call(this,function(e){return e===this.val||e!==e&&this.val!==this.val},{val:arguments[e]}))return!0;return!1}}),Object.defineProperty(Array.prototype,"last",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.last called on null or undefined");var e=this.length>>>0;if(0!==e)return this[e-1]}}),Object.defineProperty(Array.prototype,"pluck",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.pluck called on null or undefined");var e=this.length>>>0;if(0!==e){var t=0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)));return Array.prototype.splice.call(this,t,1)[0]}}}),Object.defineProperty(Array.prototype,"pluckMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.pluckMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.pluckMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=Array.prototype.splice,a=[],i=t-1;do{a.push(n.call(this,_random(0,i--),1)[0])}while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"pushUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.pushUnique called on null or undefined");var e=arguments.length;if(0===e)return this.length>>>0;for(var t=Array.prototype.indexOf,r=Array.prototype.push,n=0;n<e;++n){var a=arguments[n];-1===t.call(this,a)&&r.call(this,a)}return this.length>>>0}}),Object.defineProperty(Array.prototype,"random",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.random called on null or undefined");var e=this.length>>>0;if(0!==e){return this[0===arguments.length?_random(0,e-1):_randomIndex(e,[].concat(Array.prototype.slice.call(arguments)))]}}}),Object.defineProperty(Array.prototype,"randomMany",{configurable:!0,writable:!0,value:function(e){if(null==this)throw new TypeError("Array.prototype.randomMany called on null or undefined");var t=this.length>>>0;if(0===t)return[];var r=Math.trunc(e);if(!Number.isInteger(r))throw new Error("Array.prototype.randomMany want parameter must be an integer");if(r<1)return[];r>t&&(r=t);var n=new Map,a=[],i=t-1;do{var o=void 0;do{o=_random(0,i)}while(n.has(o));n.set(o,!0),a.push(this[o])}while(a.length<r);return a}}),Object.defineProperty(Array.prototype,"shuffle",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.shuffle called on null or undefined");var e=this.length>>>0;if(0===e)return this;for(var t=e-1;t>0;--t){var r=Math.floor(_nativeMathRandom()*(t+1));if(t!==r){var n=this[t];this[t]=this[r],this[r]=n}}return this}}),Object.defineProperty(Array.prototype,"unshiftUnique",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.unshiftUnique called on null or undefined");var e=arguments.length;if(0===e)return this.length>>>0;for(var t=Array.prototype.indexOf,r=Array.prototype.unshift,n=0;n<e;++n){var a=arguments[n];-1===t.call(this,a)&&r.call(this,a)}return this.length>>>0}}),Object.defineProperty(Function.prototype,"partial",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Function.prototype.partial called on null or undefined");var e=Array.prototype.slice,t=this,r=e.call(arguments,0);return function(){for(var n=[],a=0,i=0;i<r.length;++i)n.push(r[i]===undefined?arguments[a++]:r[i]);return t.apply(this,n.concat(e.call(arguments,a)))}}}),Object.defineProperty(Math,"clamp",{configurable:!0,writable:!0,value:function(e,t,r){var n=Number(e);return Number.isNaN(n)?NaN:n.clamp(t,r)}}),Object.defineProperty(Math,"easeInOut",{configurable:!0,writable:!0,value:function(e){return 1-(Math.cos(Number(e)*Math.PI)+1)/2}}),Object.defineProperty(Number.prototype,"clamp",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Number.prototype.clamp called on null or undefined");if(2!==arguments.length)throw new Error("Number.prototype.clamp called with an incorrect number of parameters");var e=Number(arguments[0]),t=Number(arguments[1]);if(e>t){var r=[t,e];e=r[0],t=r[1]}return Math.min(Math.max(this,e),t)}}),RegExp.escape||function(){var e=/[\\^$*+?.()|[\]{}]/g,t=new RegExp(e.source);Object.defineProperty(RegExp,"escape",{configurable:!0,writable:!0,value:function(r){var n=String(r);return n&&t.test(n)?n.replace(e,"\\$&"):n}})}(),function(){var e=/{(\d+)(?:,([+-]?\d+))?}/g,t=new RegExp(e.source);Object.defineProperty(String,"format",{configurable:!0,writable:!0,value:function(r){function n(e,t,r){if(!t)return e;var n=Math.abs(t)-e.length;if(n<1)return e;var a=String(r).repeat(n);return t<0?e+a:a+e}if(arguments.length<2)return 0===arguments.length?"":r;var a=2===arguments.length&&Array.isArray(arguments[1])?[].concat(_toConsumableArray(arguments[1])):Array.prototype.slice.call(arguments,1);return 0===a.length?r:t.test(r)?(e.lastIndex=0,r.replace(e,function(e,t,r){var i=a[t];if(null==i)return"";for(;"function"==typeof i;)i=i();switch(void 0===i?"undefined":_typeof(i)){case"string":break;case"object":i=JSON.stringify(i);break;default:i=String(i)}return n(i,r?Number.parseInt(r,10):0," ")})):r}})}(),Object.defineProperty(String.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.contains called on null or undefined");return-1!==String.prototype.indexOf.apply(this,arguments)}}),Object.defineProperty(String.prototype,"count",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.count called on null or undefined");var e=String(arguments[0]||"");if(""===e)return 0;for(var t=String.prototype.indexOf,r=e.length,n=Number(arguments[1])||0,a=0;-1!==(n=t.call(this,e,n));)++a,n+=r;return a}}),Object.defineProperty(String.prototype,"first",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.first called on null or undefined");return _getCodePointStartAndEnd(String(this),0).char}}),Object.defineProperty(String.prototype,"last",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.last called on null or undefined");var e=String(this);return _getCodePointStartAndEnd(e,e.length-1).char}}),Object.defineProperty(String.prototype,"splice",{configurable:!0,writable:!0,value:function(e,t,r){if(null==this)throw new TypeError("String.prototype.splice called on null or undefined");var n=this.length>>>0;if(0===n)return"";var a=Number(e);Number.isSafeInteger(a)?a<0&&(a+=n)<0&&(a=0):a=0,a>n&&(a=n);var i=Number(t);(!Number.isSafeInteger(i)||i<0)&&(i=0);var o=this.slice(0,a);return void 0!==r&&(o+=r),a+i<n&&(o+=this.slice(a+i)),o}}),Object.defineProperty(String.prototype,"splitOrEmpty",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.splitOrEmpty called on null or undefined");return""===String(this)?[]:String.prototype.split.apply(this,arguments)}}),Object.defineProperty(String.prototype,"toLocaleUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toLocaleUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return-1===n?"":r.toLocaleUpperCase()+e.slice(n+1)}}),Object.defineProperty(String.prototype,"toUpperFirst",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.toUpperFirst called on null or undefined");var e=String(this),t=_getCodePointStartAndEnd(e,0),r=t.char,n=t.end;return-1===n?"":r.toUpperCase()+e.slice(n+1)}}),Object.defineProperty(Date.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:date)",this.toISOString()]}}),Object.defineProperty(Function.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)","("+this.toString()+")"]}}),Object.defineProperty(Map.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:map)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(RegExp.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:eval)",this.toString()]}}),Object.defineProperty(Set.prototype,"toJSON",{configurable:!0,writable:!0,value:function(){return["(revive:set)",[].concat(_toConsumableArray(this))]}}),Object.defineProperty(JSON,"reviveWrapper",{configurable:!0,writable:!0,value:function(e,t){if("string"!=typeof e)throw new TypeError("JSON.reviveWrapper code parameter must be a string");return["(revive:eval)",[e,t]]}}),Object.defineProperty(JSON,"_real_parse",{value:JSON.parse}),Object.defineProperty(JSON,"parse",{configurable:!0,writable:!0,value:function value(text,reviver){return JSON._real_parse(text,function(key,val){var value=val;if(Array.isArray(value)&&2===value.length)switch(value[0]){case"(revive:set)":value=new Set(value[1]);break;case"(revive:map)":value=new Map(value[1]);break;case"(revive:date)":value=new Date(value[1]);break;case"(revive:eval)":try{if(Array.isArray(value[1])){var $ReviveData$=value[1][1];value=eval(value[1][0])}else value=eval(value[1])}catch(e){}}else if("string"==typeof value&&"@@revive@@"===value.slice(0,10))try{value=eval(value.slice(10))}catch(e){}if("function"==typeof reviver)try{value=reviver(key,value)}catch(e){}return value})}}),Object.defineProperty(Array.prototype,"contains",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.contains called on null or undefined");return Array.prototype.includes.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAll",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAll called on null or undefined");return Array.prototype.includesAll.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"containsAny",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.containsAny called on null or undefined");return Array.prototype.includesAny.apply(this,arguments)}}),Object.defineProperty(Array.prototype,"flatten",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("Array.prototype.flatten called on null or undefined");return Array.prototype.flat.call(this,1/0)}}),Object.defineProperty(String.prototype,"readBracketedList",{configurable:!0,writable:!0,value:function(){if(null==this)throw new TypeError("String.prototype.readBracketedList called on null or undefined");for(var e=new RegExp("(?:\\[\\[((?:\\s|\\S)*?)\\]\\])|([^\"'\\s]\\S*)","gm"),t=[],r=void 0;null!==(r=e.exec(this));)r[1]?t.push(r[1]):r[2]&&t.push(r[2]);return t}})}();var Browser=function(){var e=navigator.userAgent.toLowerCase(),t=e.includes("windows phone"),r=Object.freeze({Android:!t&&e.includes("android"),BlackBerry:/blackberry|bb10/.test(e),iOS:!t&&/ip(?:hone|ad|od)/.test(e),Opera:!t&&("object"===_typeof(window.operamini)||e.includes("opera mini")),Windows:t||/iemobile|wpdesktop/.test(e),any:function(){return r.Android||r.BlackBerry||r.iOS||r.Opera||r.Windows}}),n=!r.Windows&&!/khtml|trident|edge/.test(e)&&e.includes("gecko"),a=!e.includes("opera")&&/msie|trident/.test(e),i=a?function(){var t=/(?:msie\s+|rv:)(\d+\.\d)/.exec(e);return t?Number(t[1]):0}():null,o=e.includes("opera")||e.includes(" opr/"),s=o?function(){var t=new RegExp((/khtml|chrome/.test(e)?"opr":"version")+"\\/(\\d+\\.\\d+)"),r=t.exec(e);return r?Number(r[1]):0}():null,u=e.includes("vivaldi");return Object.freeze({userAgent:e,isMobile:r,isGecko:n,isIE:a,ieVersion:i,isOpera:o,operaVersion:s,isVivaldi:u})}(),Has=function(){var e=function(){try{return"function"==typeof document.createElement("audio").canPlayType}catch(e){}return!1}(),t=e&&function(){try{var e=document.createElement("audio").play();return e.catch(function(){}),e instanceof Promise}catch(e){}return!1}(),r=function(){try{return"Blob"in window&&"File"in window&&"FileList"in window&&"FileReader"in window&&!Browser.isMobile.any()&&(!Browser.isOpera||Browser.operaVersion>=15)}catch(e){}return!1}(),n=function(){try{return"geolocation"in navigator&&"function"==typeof navigator.geolocation.getCurrentPosition&&"function"==typeof navigator.geolocation.watchPosition}catch(e){}return!1}(),a=function(){try{return"MutationObserver"in window&&"function"==typeof window.MutationObserver}catch(e){}return!1}(),i=function(){try{return"performance"in window&&"function"==typeof window.performance.now}catch(e){}return!1}(),o=function(){try{return"ontouchstart"in window||!!window.DocumentTouch&&document instanceof window.DocumentTouch||!!navigator.maxTouchPoints||!!navigator.msMaxTouchPoints}catch(e){}return!1}(),s=function(){try{for(var e=new Map([["transition","transitionend"],["MSTransition","msTransitionEnd"],["WebkitTransition","webkitTransitionEnd"],["MozTransition","transitionend"]]),t=[].concat(_toConsumableArray(e.keys())),r=document.createElement("div"),n=0;n<t.length;++n)if(r.style[t[n]]!==undefined)return e.get(t[n])}catch(e){}return!1}();return Object.freeze({audio:e,audioPromise:t,fileAPI:r,geolocation:n,mutationObserver:a,performance:i,touch:o,transitionEndEvent:s})}(),Visibility=function(){function e(){return Boolean(r&&document[r.hiddenProperty])}function t(){return r&&document[r.stateProperty]||"visible"}var r=function(){try{return Object.freeze([{hiddenProperty:"hidden",stateProperty:"visibilityState",changeEvent:"visibilitychange"},{hiddenProperty:"webkitHidden",stateProperty:"webkitVisibilityState",changeEvent:"webkitvisibilitychange"},{hiddenProperty:"mozHidden",stateProperty:"mozVisibilityState",changeEvent:"mozvisibilitychange"},{hiddenProperty:"msHidden",stateProperty:"msVisibilityState",changeEvent:"msvisibilitychange"}].find(function(e){return e.hiddenProperty in document}))}catch(e){}return null}();return Object.freeze(Object.defineProperties({},{isHidden:{value:e},state:{value:t},hiddenProperty:{value:r.hiddenProperty},stateProperty:{value:r.stateProperty},changeEvent:{value:r.changeEvent}}))}(),_ref3=function(){function e(t){if("object"!==(void 0===t?"undefined":_typeof(t))||null===t)return t;if(t instanceof String)return String(t);if(t instanceof Number)return Number(t);if(t instanceof Boolean)return Boolean(t);if("function"==typeof t.clone)return t.clone(!0);if(t.nodeType&&"function"==typeof t.cloneNode)return t.cloneNode(!0);var r=void 0;return t instanceof Array?r=new Array(t.length):t instanceof Date?r=new Date(t.getTime()):t instanceof Map?(r=new Map,t.forEach(function(t,n){return r.set(n,e(t))})):t instanceof RegExp?r=new RegExp(t):t instanceof Set?(r=new Set,t.forEach(function(t){return r.add(e(t))})):r=Object.create(Object.getPrototypeOf(t)),Object.keys(t).forEach(function(n){return r[n]=e(t[n])}),r}function t(e){for(var t=document.createDocumentFragment(),r=document.createElement("p"),n=void 0;null!==(n=e.firstChild);){if(n.nodeType===Node.ELEMENT_NODE){switch(n.nodeName.toUpperCase()){case"BR":if(null!==n.nextSibling&&n.nextSibling.nodeType===Node.ELEMENT_NODE&&"BR"===n.nextSibling.nodeName.toUpperCase()){e.removeChild(n.nextSibling),e.removeChild(n),t.appendChild(r),r=document.createElement("p");continue}if(!r.hasChildNodes()){e.removeChild(n);continue}break;case"ADDRESS":case"ARTICLE":case"ASIDE":case"BLOCKQUOTE":case"CENTER":case"DIV":case"DL":case"FIGURE":case"FOOTER":case"FORM":case"H1":case"H2":case"H3":case"H4":case"H5":case"H6":case"HEADER":case"HR":case"MAIN":case"NAV":case"OL":case"P":case"PRE":case"SECTION":case"TABLE":case"UL":r.hasChildNodes()&&(t.appendChild(r),r=document.createElement("p")),t.appendChild(n);continue}}r.appendChild(n)}r.hasChildNodes()&&t.appendChild(r),e.appendChild(t)}function r(){try{return document.activeElement||null}catch(e){return null}}function n(e,t,r){var n="object"===(void 0===e?"undefined":_typeof(e))?e:document.getElementById(e);if(null==n)return null;var a=Array.isArray(t)?t:[t];jQuery(n).empty();for(var i=0,o=a.length;i<o;++i)if(Story.has(a[i]))return new Wikifier(n,Story.get(a[i]).processText().trim()),n;if(null!=r){var s=String(r).trim();""!==s&&new Wikifier(n,s)}return n}function a(e,t,r){var n=jQuery(document.createElement("div")),a=jQuery(document.createElement("button")),i=jQuery(document.createElement("pre")),o=L10n.get("errorTitle")+": "+(t||"unknown error");return a.addClass("error-toggle").ariaClick({label:L10n.get("errorToggle")},function(){a.hasClass("enabled")?(a.removeClass("enabled"),i.attr({"aria-hidden":!0,hidden:"hidden"})):(a.addClass("enabled"),i.removeAttr("aria-hidden hidden"))}).appendTo(n),jQuery(document.createElement("span")).addClass("error").text(o).appendTo(n),jQuery(document.createElement("code")).text(r).appendTo(i),i.addClass("error-source").attr({"aria-hidden":!0,hidden:"hidden"}).appendTo(n),n.addClass("error-view").appendTo(e),console.warn(o+"\n\t"+r.replace(/\n/g,"\n\t")),!1}function i(e,t){var r=i;switch(void 0===e?"undefined":_typeof(e)){case"number":if(Number.isNaN(e))return t;break;case"object":if(null===e)return t;if(Array.isArray(e))return e.map(function(e){return r(e,t)}).join(", ");if(e instanceof Set)return[].concat(_toConsumableArray(e)).map(function(e){return r(e,t)}).join(", ");if(e instanceof Map){return"{ "+[].concat(_toConsumableArray(e)).map(function(e){var n=_slicedToArray(e,2),a=n[0],i=n[1];return r(a,t)+" → "+r(i,t)}).join(", ")+" }"}return e instanceof Date?e.toLocaleString():"function"==typeof e.toString?e.toString():Object.prototype.toString.call(e);case"function":case"undefined":return t}return String(e)}return Object.freeze(Object.defineProperties({},{clone:{value:e},convertBreaks:{value:t},safeActiveElement:{value:r},setPageElement:{value:n},throwError:{value:a},toStringOrDefault:{value:i}}))

@@ -1,3 +1,4 @@
+
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
 	debugLog(`📦 getItemMetadata() called with id: '${id}'`);
@@ -199,5 +200,35 @@ setup.renderInventory = function (target = "player", category = "all") {
 		tableBody.innerHTML = `<tr><td colspan="${headers.length}"><em>No items in this category.</em></td></tr>`;
 	}
 };
+
+/* Condensed Paperdoll Support */
+setup.updateCondensedPaperdoll = function () {
+  const equipped = State.variables.equipped || {};
+
+  const slotMap = [
+    "head", "face", "neck", "back", "chest", "main", "sec",
+    "pants", "feet", "ring1", "ring2", "ring3"
+  ];
+
+  // Standard slots
+  slotMap.forEach(slot => {
+    const el = document.getElementById(`slot-${slot}-text`);
+    if (el) {
+      const item = equipped[slot];
+      el.textContent = item ? item.name || item.id : "Empty";
+    }
+  });
+
+  // Special case: gloves (shared)
+  const glovesEl = document.getElementById(`slot-gloves-text`);
+  if (glovesEl) {
+    const gloveItem = equipped["gloves"];
+    glovesEl.textContent = gloveItem ? gloveItem.name || gloveItem.id : "Empty";
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (setup.updateCondensedPaperdoll) setup.updateCondensedPaperdoll();
+});
 
 window.setup = setup;

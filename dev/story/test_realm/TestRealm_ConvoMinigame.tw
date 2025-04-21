@@ -1,0 +1,21 @@
+:: TestRealm1
+<<set $characters.adda.trust = 40>>
+<<set $characters.adda.affection = 35>>
+<<set $characters.adda.rapport = 1.4>>
+
+
+<<button "Test Convo Minigame (Adda)">>
+	<<run setup.ConvoUI.renderMinigame("adda")>>
+<</button>>
+
+<<if $characters.adda is undefined>>
+	<<set $characters.adda = {
+		name: "Mistress Adda",
+		avatar: "images/mistressadda.png",
+		trust: 0,
+		affection: 0,
+		tension: 0,
+		rapport: 1.0,
+		socialStyle: "Regal"
+	}>>
+<</if>>

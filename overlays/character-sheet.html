@@ -2,7 +2,7 @@
 
 <!-- Close Button -->
 <button class="charactersheet-close-btn" onclick="closeOverlay()">✖</button>
-  
+
 <div id="character-sheet-overlay" class="overlay-hidden">
   <div id="character-sheet-container">
 
@@ -30,17 +30,28 @@
 
       <div class="charsheet-center-right">
         <div class="attributes-panel">
-          <!-- Attribute boxes -->
-          <!-- Insert Strength, Agility, etc. with stat fields -->
+          <h4>Attributes:</h4>
+          <ul id="char-attributes">
+            <!-- Populated dynamically: strength, agility, etc. -->
+          </ul>
         </div>
         <div class="skills-panel">
           <div class="primary-skills">
             <h4>Primary Skills:</h4>
-            <!-- Attribute-grouped primary skills -->
+            <ul id="char-skills-primary">
+              <!-- Populated dynamically -->
+            </ul>
           </div>
           <div class="secondary-skills">
             <h4>Secondary Skills:</h4>
-            <!-- Independent skills like Riding, Disguise, Sex skills -->
+            <ul id="char-skills-secondary-mundane">
+              <li><em>Mundane:</em></li>
+              <!-- cooking, crafting, etc. -->
+            </ul>
+            <ul id="char-skills-secondary-sexual">
+              <li><em>Sexual:</em></li>
+              <!-- hands, teasing, bondage, etc. -->
+            </ul>
           </div>
         </div>
       </div>

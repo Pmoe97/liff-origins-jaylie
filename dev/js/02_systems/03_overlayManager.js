@@ -4,9 +4,12 @@ window.openOverlay = function (source) {
 
 	body.innerHTML = "";
 
-	// Detect if it's a file or passage
-	if (source.endsWith(".html")) {
-		setup.loadOverlayHTML("overlay-body", source);
+	const normalized = source.toLowerCase();
+
+	// Force file-based overlays for naming conventions like -page or -sheet
+	if (normalized.endsWith(".html") || normalized.includes("-page") || normalized.includes("-sheet")) {
+		const filename = normalized.endsWith(".html") ? normalized : `${normalized}.html`;
+		setup.loadOverlayHTML("overlay-body", filename);
 	} else {
 		new Wikifier(body, `<<include [[${source}]]>>`);
 	}
@@ -14,6 +17,7 @@ window.openOverlay = function (source) {
 	document.getElementById("overlay-panel").classList.remove("overlay-hidden");
 	renderLucideIconsSafely?.();
 };
+
 
 window.closeOverlay = function () {
 	const panel = document.getElementById("overlay-panel");

@@ -1,30 +1,323 @@
 /* =============================
-=       Inventory System       =
+=         Inventory UI         =
 ============================= */
-.inventory {
+
+/* Fullscreen dark overlay */
+.inventory-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.95);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Inner window panel */
+.inventory-window {
+    width: 98vw;
+    height: 92vh;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Top-level flex layout */
+.inventory-flex {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    overflow: hidden;
+}
+
+/* Left / Right panel widths */
+.inventory-left-panel {
+    flex: 3 1 0%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.inventory-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+/* Scrollbar styling (Chrome, Edge, Safari) */
+.inventory-content-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.inventory-content-wrapper::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+.inventory-content-wrapper::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+/* Firefox scrollbar */
+.inventory-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #555 transparent;
+}
+
+.inventory-list-container {
+    flex: 1.1;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 10px;
 }
 
-.inv-item {
-    border: 1px solid #888;
-    padding: 8px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.4);
+.inventory-right-panel {
+    flex: 1 1 100px;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.inv-icon {
-    width: 48px;
-    height: 48px;
+/* Divider */
+.inventory-divider {
+    width: 2px;
+    background-color: #555;
+}
+
+/* Close button */
+.inventory-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.4em;
+    background: none;
+    border: none;
+    color: #eee;
+    cursor: pointer;
+}
+.inventory-close-btn:hover {
+    color: #f88;
+}
+
+/* Tabs */
+.inventory-tabs {
+    display: flex;
+    gap: 6px;
+}
+.inventory-tabs button {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.inventory-tabs button:hover {
+    background-color: #555;
+}
+.inventory-tabs .lucide {
+    width: 20px;
+    height: 20px;
+}
+
+/* Inventory table */
+.inventory-list {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow-y: auto;
+    flex: 1;
+}
+#inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#inventory-table th,
+#inventory-table td {
+    text-align: center;
+    padding: 6px;
+    font-size: 0.85em;
+    border-bottom: 1px solid #444;
+    color: #ddd;
+}
+
+/* Selected item info */
+.inventory-details {
+    flex: 1;
+    min-width: 250px;
+    max-height: 100%;
+    background-color: #1f1f1f;
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#inventory-item-image {
+    width: 100%;
+    max-height: 200px;
     object-fit: contain;
-    margin-bottom: 4px;
+    background-color: #333;
+    border: 1px solid #666;
 }
-
-.inv-desc {
-    font-size: 0.9em;
+.inventory-description,
+.inventory-flavor,
+.inventory-info {
+    font-size: 0.85em;
     color: #ccc;
 }
+
+/* Button grid */
+.inventory-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+}
+.inventory-buttons button {
+    flex: 1 0 calc(33% - 10px);
+    font-size: 0.8em;
+    padding: 6px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+}
+.inventory-buttons button:hover {
+    background-color: #666;
+}
+
+/* =============================
+=       Paperdoll Layout       =
+============================= */
+
+.paperdoll-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+  
+  /* Main silhouette */
+  .paperdoll {
+    position: relative;
+    width: 200px;
+    min-width: 200px;
+    height: 400px;
+    background-image: url('images/paperdoll_generic_silhouette.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #555;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+  
+  /* Slot base */
+  .paperdoll-slot {
+    width: 48px;
+    height: 48px;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #888;
+    color: #fff;
+    font-size: 0.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    pointer-events: none;
+  }
+  
+  /* Position silhouette slots absolutely */
+  .paperdoll .paperdoll-slot {
+    position: absolute;
+  }
+  
+  /* Paperdoll slot positions */
+  .paperdoll-slot[data-slot="head"]     { top: 8%;   left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="chest"]    { top: 25%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="gloveL"]   { top: 28%;  left: 8%; }
+  .paperdoll-slot[data-slot="gloveR"]   { top: 28%;  right: 8%; }
+  .paperdoll-slot[data-slot="main"]     { top: 45%;  left: 4%; }
+  .paperdoll-slot[data-slot="sec"]      { top: 45%;  right: 4%; }
+  .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
+  .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
+  
+  /* Right-hand column */
+  .paperdoll-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+  
+  .paperdoll-right-column .paperdoll-slot {
+    position: static;
+    width: 48px;
+    height: 48px;
+    font-size: 0.75em;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #888;
+    color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* =============================
+  =    Condensed Paperdoll Mode  =
+  ============================= */
+  
+  .paperdoll-condensed {
+    display: none;
+  }
+  
+  /* Switch to condensed view earlier */
+@media (max-width: 950px) {
+    .paperdoll-layout {
+      display: none;
+    }
+  
+    .paperdoll-condensed {
+        display: block;
+        max-height: none;
+        overflow-y: visible;
+        padding: 1em;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0.5em;
+        font-size: 0.9em;
+        line-height: 1.5em;
+        width: 100%;
+    }
+  
+    .paperdoll-condensed div {
+      margin-bottom: 0.5em;
+    }
+  }
+  

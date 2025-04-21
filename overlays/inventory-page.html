@@ -1,18 +1,21 @@
 <!-- Inventory Overlay - Start -->
 <div class="inventory-overlay">
 
-    <!-- Close Button -->
-    <button class="inventory-close-btn" onclick="closeOverlay()">✖</button>
-  
-    <!-- Inner Container -->
-    <div class="inventory-window">
-  
-      <!-- Flex Container: Left + Right -->
-      <div class="inventory-flex">
-  
-        <!-- LEFT PANEL -->
-        <div class="inventory-left-panel">
-  
+  <!-- Close Button -->
+  <button class="inventory-close-btn" onclick="closeOverlay()">✖</button>
+
+  <!-- Inner Container -->
+  <div class="inventory-window">
+
+    <!-- Flex Container: Left + Right -->
+    <div class="inventory-flex">
+
+      <!-- LEFT PANEL -->
+      <div class="inventory-left-panel">
+
+        <!-- Flex container for list + details -->
+        <div class="inventory-content-wrapper">
+
           <!-- Inventory List + Tabs -->
           <div class="inventory-list-container">
             <div class="inventory-tabs">
@@ -38,7 +41,7 @@
                 <i data-lucide="blend" class="inv-icon"></i>
               </button>
             </div>
-  
+
             <div class="inventory-list">
               <table id="inventory-table">
                 <thead>
@@ -51,19 +54,19 @@
                   </tr>
                 </thead>
                 <tbody id="inventory-list">
-                  <<= setup.renderInventory("player", "all") >>
+                  <!-- Inventory rows will be injected here -->
                 </tbody>
               </table>
             </div>
           </div>
-  
+
           <!-- Selected Item Details -->
           <div class="inventory-details">
             <img id="inventory-item-image" src="img/parchment_bg.jpg" alt="Item Image Placeholder">
             <div class="inventory-description">[Detailed Description]</div>
             <div class="inventory-flavor">[Flavor Text]</div>
             <div class="inventory-info">[More Info like Enchantments]</div>
-  
+
             <div class="inventory-buttons">
               <button>Equip Primary</button>
               <button>Equip</button>
@@ -75,33 +78,78 @@
               <button>???</button>
             </div>
           </div>
-        </div>
-  
-        <!-- Divider -->
-        <div class="inventory-divider"></div>
-  
-        <!-- RIGHT PANEL -->
-        <div class="inventory-right-panel">
-          <div class="paperdoll">
-            <div class="paperdoll-slot" data-slot="head">Head</div>
-            <div class="paperdoll-slot paperdoll-slot-top" data-slot="face">Face</div>
-            <div class="paperdoll-slot" data-slot="necklace">Necklace</div>
-            <div class="paperdoll-slot" data-slot="ring1">Ring 1</div>
-            <div class="paperdoll-slot" data-slot="ring2">Ring 2</div>
-            <div class="paperdoll-slot" data-slot="ring3">Ring 3</div>
-  
-            <div class="paperdoll-slot" data-slot="chest">Chest</div>
-            <div class="paperdoll-slot" data-slot="gloveL">Gloves</div>
-            <div class="paperdoll-slot" data-slot="gloveR">Gloves</div>
-            <div class="paperdoll-slot" data-slot="main">Main Hand</div>
-            <div class="paperdoll-slot" data-slot="sec">Off Hand</div>
-            <div class="paperdoll-slot" data-slot="pants">Legs</div>
-            <div class="paperdoll-slot" data-slot="feet">Shoes</div>
-          </div>
-        </div>
-  
-      </div>
+
+        </div> <!-- End .inventory-content-wrapper -->
+
+      </div> <!-- End .inventory-left-panel -->
+
+      <!-- Divider -->
+      <div class="inventory-divider"></div>
+
+<!-- RIGHT PANEL -->
+<div class="inventory-right-panel">
+
+  <!-- Combined layout for silhouette and right-hand slots -->
+  <div class="paperdoll-layout">
+
+    <!-- Main Paperdoll Silhouette -->
+    <div class="paperdoll">
+      <div class="paperdoll-slot" data-slot="head">Head</div>
+      <div class="paperdoll-slot" data-slot="chest">Chest</div>
+      <div class="paperdoll-slot" data-slot="gloveL">Gloves</div>
+      <div class="paperdoll-slot" data-slot="gloveR">Gloves</div>
+      <div class="paperdoll-slot" data-slot="main">Main Hand</div>
+      <div class="paperdoll-slot" data-slot="sec">Off Hand</div>
+      <div class="paperdoll-slot" data-slot="pants">Legs</div>
+      <div class="paperdoll-slot" data-slot="feet">Shoes</div>
     </div>
+
+    <!-- Right-hand vertical equipment slots -->
+    <div class="paperdoll-right-column">
+      <div class="paperdoll-slot" data-slot="face">Face</div>
+      <div class="paperdoll-slot" data-slot="neck">Neck</div>
+      <div class="paperdoll-slot" data-slot="back">Back</div>
+      <div class="paperdoll-slot" data-slot="ring1">Ring 1</div>
+      <div class="paperdoll-slot" data-slot="ring2">Ring 2</div>
+      <div class="paperdoll-slot" data-slot="ring3">Ring 3</div>
+    </div>
+
   </div>
-  <!-- Inventory Overlay - End -->
-  
+
+  <!-- Condensed (Responsive) Paperdoll -->
+  <div class="paperdoll-condensed">
+    <div>Head: <span id="slot-head-text">Empty</span></div>
+    <div>Face: <span id="slot-face-text">Empty</span></div>
+    <div>Neck: <span id="slot-neck-text">Empty</span></div>
+    <div>Back: <span id="slot-back-text">Empty</span></div>
+    <div>Chest: <span id="slot-chest-text">Empty</span></div>
+    <div>Gloves: <span id="slot-gloves-text">Empty</span></div>
+    <div>Main Hand: <span id="slot-main-text">Empty</span></div>
+    <div>Off Hand: <span id="slot-sec-text">Empty</span></div>
+    <div>Legs: <span id="slot-pants-text">Empty</span></div>
+    <div>Feet: <span id="slot-feet-text">Empty</span></div>
+    <div>Ring 1: <span id="slot-ring1-text">Empty</span></div>
+    <div>Ring 2: <span id="slot-ring2-text">Empty</span></div>
+    <div>Ring 3: <span id="slot-ring3-text">Empty</span></div>
+  </div>
+
+</div>
+
+<!-- Inventory Overlay - End -->
+
+<script>
+  // Automatically inject inventory content and update condensed view
+  document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("inventory-list");
+    if (container && typeof setup.renderInventory === "function") {
+      container.innerHTML = setup.renderInventory("player", "all");
+    } else {
+      console.warn("⚠️ Failed to render inventory: container or setup.renderInventory missing.");
+    }
+
+    // Update condensed paperdoll view
+    if (typeof setup.updateCondensedPaperdoll === "function") {
+      setup.updateCondensedPaperdoll();
+    }
+  });
+</script>
