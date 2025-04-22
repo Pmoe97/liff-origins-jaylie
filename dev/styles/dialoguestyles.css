@@ -1,0 +1,31 @@
+#convoBox {
+    padding: 1em;
+    margin-bottom: 1em;
+    background: rgba(255, 255, 255, 0.05); /* soft translucent overlay */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5em;
+    color: #eee;
+    min-height: 4em;
+    font-size: 1rem;
+  }
+  
+  #convoChoices {
+    padding-left: 1em;
+    margin-top: 1em;
+  }
+  
+  #convoChoices p {
+    margin: 0.5em 0;
+  }
+  
+  #convoChoices a.link-internal {
+    color: #a0e0ff;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  #convoChoices a.link-internal:hover {
+    text-decoration: underline;
+  }
+  

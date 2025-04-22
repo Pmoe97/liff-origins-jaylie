@@ -1,5 +1,5 @@
-:: :PHASE_0 [widget]
-<<widget ":PHASE_0">>
+:: PHASE_0 [widget]
+<<widget "PHASE_0">>
 <<append "#convoBox">>
   <<speech "npc">>This is the Phase 0 intro line — what they say the first time you talk.<</speech>>
 <</append>>
@@ -7,8 +7,8 @@
 <<run setup.NPC_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: :PHASE_1 [widget]
-<<widget ":PHASE_1">>
+:: PHASE_1 [widget]
+<<widget "PHASE_1">>
 <<append "#convoBox">>
   <<speech "npc">>This is Phase 1 — maybe after you’ve gained some trust or done something important.<</speech>>
 <</append>>
@@ -16,8 +16,8 @@
 <<run setup.NPC_Conversation_Options_Phase1()>>
 <</widget>>
 
-:: :GENERIC [widget]
-<<widget ":GENERIC">>
+:: GENERIC [widget]
+<<widget "GENERIC">>
 <<append "#convoBox">>
   <<speech "npc">>This is fallback generic dialogue if no other phase applies.<</speech>>
 <</append>>

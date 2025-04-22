@@ -1,0 +1,97 @@
+:: Darian_HowLongHere [widget]
+<<widget "Darian_HowLongHere">>
+<<append "#convoBox">>
+  <<speech "jaylie">>So how long have you worked here?<</speech>>
+  <<speech "darian">>Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Darian_DoYouLikeJob [widget]
+<<widget "Darian_DoYouLikeJob">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you actually like working here?<</speech>>
+  <<speech "darian">>Would I still be here if I didn’t? Do *you* like your job?<</speech>>
+  <<speech "jaylie">>Ah, sorry... I didn’t mean it like that.<</speech>>
+  <<speech "darian">>It’s alright. I don’t mind honest questions. I’d just rather answer them in ways that make people think.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Darian_Bracelet [widget]
+<<widget "Darian_Bracelet">>
+<<append "#convoBox">>
+  <<speech "jaylie">>That bracelet... it looks important. Where did you get it?<</speech>>
+  <<if $characters["darian"].trust >= 5>>
+    <<speech "darian">>My sister gave it to me. She’s not around anymore. I wear it to remember the way *she* saw me—before the world taught me I had to be anything else.<</speech>>
+    <<run setup.Darian_Conversation_Options_SisterBranch()>>
+  <<else>>
+    <<speech "darian">>Just an old gift. We don’t have to talk about it.<</speech>>
+    <<run setup.Darian_Conversation_Options_Phase0()>>
+  <</if>>
+<</append>>
+<<run setup.Darian_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Darian_GetDrink [widget]
+<<widget "Darian_GetDrink">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you think you could help me get a drink? I'm not really sure what I’d like.<</speech>>
+  <<speech "darian">>Hmm... Bert?<</speech>>
+  <<speech "bert">>Yes, sir?<</speech>>
+  <<speech "darian">>Something warm. Gentle. A little sweet, but not too much. Like a breeze through velvet, if you can swing it.<</speech>>
+  <<speech "bert">>Coming right up.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Darian_StartMinigame [widget]
+<<widget "Darian_StartMinigame">>
+<<append "#convoBox">>
+  <<speech "jaylie">>I just want to get to know you better.<</speech>>
+  <<speech "darian">>Then you’d better be good at asking questions. And better still at listening.<</speech>>
+<</append>>
+<<run setup.ConvoGame.start("darian")>>
+<</widget>>
+
+:: Darian_Sister_WhatWasSheLike [widget]
+<<widget "Darian_Sister_WhatWasSheLike">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What was your sister like?<</speech>>
+  <<speech "darian">>Beautiful. Kind to a fault. She’s the reason I ever set foot on a stage—used to beg me to sing for her when we were little. I think she believed I could charm the stars out of the sky if I tried hard enough.<</speech>>
+  <<speech "darian">>But... I haven’t sung for anyone since she passed.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</widget>>
+
+:: Darian_Sister_HowDidSheDie [widget]
+<<widget "Darian_Sister_HowDidSheDie">>
+<<append "#convoBox">>
+  <<speech "jaylie">>If you don’t mind me asking... how did she die?<</speech>>
+  <<if $characters["darian"].trust >= 7>>
+    <<speech "darian">>It was sickness. Nothing dramatic, just... relentless. I don't blame anyone, but I still wish I’d known how to help her. Maybe then I wouldn’t carry it so heavily.<</speech>>
+  <<else>>
+    <<speech "darian">>I... don’t think I want to talk about that. Not yet.<</speech>>
+  <</if>>
+<</append>>
+<<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</widget>>
+
+:: Darian_Sister_BraceletMemory [widget]
+<<widget "Darian_Sister_BraceletMemory">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Can you tell me more about when she gave you that bracelet?<</speech>>
+  <<speech "darian">>It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.<</speech>>
+  <<speech "darian">>It wasn’t just a gift. It was a promise—that I wasn’t alone.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</widget>>
+
+:: Darian_Sister_ReturnToMain [widget]
+<<widget "Darian_Sister_ReturnToMain">>
+<<append "#convoBox">>
+  <<speech "jaylie">>We can talk about something else now.<</speech>>
+  <<speech "darian">>Of course. Whatever you need.<</speech>>
+<</append>>
+<<run setup.Darian_Conversation_Options_Phase0()>>
+<</widget>>

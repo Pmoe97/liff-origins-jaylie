@@ -7,14 +7,14 @@
 
 /* Required: Use this function once to add all choices into #convoChoices */
 setup.addChoices = function (list) {
-  const $choices = $("#convoChoices");
-  $choices.empty();
+  const $dialoguechoices = $("#convoChoices");
+  $dialouugechoices.empty();
 
   list.forEach(([label, target]) => {
     if (State.variables.DEBUG) {
       console.log(`[DEBUG] Adding choice: "${label}" → ${target}`);
     }
-    Wikifier.wikifyEval(`<<choice \"${label}\" \"${target}\">>`);
+    Wikifier.wikifyEval(`<<dialoguechoice \"${label}\" \"${target}\">>`);
   });
 };
 
@@ -30,7 +30,7 @@ setup.NPC_Conversation_Options_Phase0 = function () {
   setup.addChoices([
     ["Greet them politely.", "NPC_Greet"],
     ["Who are you?", "NPC_AskIdentity"],
-    ["Leave.", ":GENERIC"]
+    ["Leave.", "GENERIC"]
   ]);
 };
 
@@ -46,7 +46,7 @@ setup.NPC_Conversation_Options_Phase1 = function () {
       ["Why are they dangerous?", "NPC_WhyBad"],
       ["Do we know how to stop them?", "NPC_HowToStop"]
     ]),
-    ["Let’s talk about something else.", ":GENERIC"]
+    ["Let’s talk about something else.", "GENERIC"]
   ]);
 };
 

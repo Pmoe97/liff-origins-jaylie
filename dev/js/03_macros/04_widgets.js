@@ -88,25 +88,26 @@ Macro.add("SidebarUI", {
 });
 
 /* Dialogue Choice Setup Macro */
-Macro.add("choice", {
+Macro.add("dialogueChoice", {
 	handler() {
 		if (!this.args[0] || !this.args[1]) return;
 
 		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding choice: "${this.args[0]}" → ${this.args[1]}`);
+			console.log(`[DEBUG] Adding dialogueChoice: "${this.args[0]}" → ${this.args[1]}`);
 		}
 
 		const choiceHTML = `<p><a class="link-internal" role="button">${this.args[0]}</a></p>`;
-		const $choice = jQuery(choiceHTML);
+		const $dialoguechoice = jQuery(choiceHTML);
 
-		$choice.on("click", () => {
+		$dialoguechoice.on("click", () => {
 			$("#convoChoices").empty();
-			Engine.play(this.args[1]);
+			new Wikifier(document.querySelector("#convoBox"), `<<display "${this.args[1]}">>`);
 		});
 
-		$("#convoChoices").append($choice);
+		$("#convoChoices").append($dialoguechoice);
 	}
 });
+
 
 /* Dialogue Tree Setup Macro */
 /* This macro is used to set up the dialogue tree for a specific NPC and phase. It dynamically loads the appropriate setup function based on the NPC ID and phase number. */
@@ -146,16 +147,15 @@ Macro.add("DialogueTree", {
 		}
 	}
 });
-/* choice setup beautifier function */
+/* Choice setup beautifier function */
 setup.addChoices = function (list) {
-	const $choices = $("#convoChoices");
-	$choices.empty();
-  
+	const $dialoguechoices = $("#convoChoices");
+	$dialoguechoices.empty();
+
 	list.forEach(([label, target]) => {
-	  if (State.variables.DEBUG) {
-		console.log(`[DEBUG] Adding choice: "${label}" → ${target}`);
-	  }
-	  Wikifier.wikifyEval(`<<choice "${label}" "${target}">>`);
+		if (State.variables.DEBUG) {
+			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
+		}
+		Wikifier.wikifyEval(`<<dialogueChoice "${label}" "${target}">>`);
 	});
-  };
-  
+};
