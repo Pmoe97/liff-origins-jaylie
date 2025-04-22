@@ -1,0 +1,35 @@
+:: Scene02_TalkToExotic {"position":"25,900"}
+
+<<bg "Scene02_TheBrothelParlor">>
+
+You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn't need to.
+
+<<speech "allura">>Ohh... I did not know ze night would bring me such a <strong>beautiful</strong> gift.<</speech>>
+
+Her voice drips like honey from a hive, her words are soft, slurred in all the right places. She speaks with a foreign lilt, unfamiliar but intoxicating.
+
+<<speech "allura">>Come now, <em>petite</em>. Don’t make me beg.<</speech>>
+
+You feel your cheeks flush before you even realize you’ve moved. You lower yourself beside her on the chaise, close enough to feel the heat of her skin. Allura smiles, her lips a luminous shade of blue that practically glows in the low light.
+
+She watches you for a moment—just long enough for the silence to press.
+
+<<speech "allura">><em>Mmm…</em> shy, are we? How <em>sweet</em>.<</speech>>
+
+Her tail flicks lazily behind her, then brushes lightly across your knee, just a whisper of contact. The touch sends a quiet shiver up your spine.
+
+<<speech "allura">>Were you going to tell me what I could do for you, *young one*? And… what shall I call you?<</speech>>
+
+<<speech "jaylie">>Jaylie. Just… Jaylie.<</speech>>
+
+<<speech "allura">><em>Just</em> Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game.<</speech>>
+
+She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it's amusement or anticipation, you can't tell.
+
+---
+
+**From here, you may:**
+[[Flirt back — boldly.|Scene02_Exotic_FlirtBack]]
+[[Try to remain composed.|Scene02_Exotic_PlayCool]]
+[[Ask what she meant about your smell.|Scene02_Exotic_Secrets]]
+[[Make a polite exit.|Scene02_Exotic_ExcuseYourself]]

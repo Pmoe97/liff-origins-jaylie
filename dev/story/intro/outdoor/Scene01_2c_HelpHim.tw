@@ -1,4 +1,4 @@
-:: Scene01_2c_HelpHim
+:: Scene01_2c_HelpHim {"position":"175,450"}
 <<bg "Scene01_2c_HelpHim">>
 <<set $helpedkallot = true>> /*need to double check this syntax because I wrote it at work and I suck */
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
@@ -12,7 +12,7 @@ Once again you examine the wound on his head. It has already begun to swell. In 
 
 You twirl the cloth into a coiled rope shape and reach over the man's head, wrapping the coil tightly against his forehead and tying it off at the back of his skull. As you do this, the drunkard for the first time since getting hit begins to move. He looks up at you with sleepy, crossed eyes, and then of all things, smiles. 
 
-<<speech "drunkman">> "You have such lovely *hic* hair. <</speech>>
+<<speech "kallot">> "You have such lovely *hic* hair. <</speech>>
 
 His eyes instantly droop again and once more consciousness escapes him. 
 

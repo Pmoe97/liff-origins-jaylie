@@ -1,1 +1,28 @@
-:: TheBrothelParlorOverview
+:: TheBrothelParlorOverview {"position":"75,775"}
+<<bg "Scene02_TheBrothelParlor">>
+
+<<speech "adda">>Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.<</speech>>
+The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
+
+A hush seems to hang over the parlor, but it’s not silent. Muted voices murmur from shadowed corners, glassware clinks against trays, and faintly—almost imperceptibly—soft, rhythmic sounds drift from the rooms above. Moans, maybe. Laughter. The creak of old floorboards under shifting weight.
+
+
+Low golden light spills from crystal sconces along the walls, casting velvet shadows over the space. The parlor is wide and low-ceilinged, wrapped in plush couches, tufted chairs, and elaborate floor cushions arranged around small marble tables. Deep reds, rich purples, and blacks dominate the palette—each surface layered and inviting, like the room itself is daring you to touch.
+
+The bar runs along the far western wall, its surface an elegant arc of dark mahogany carved with lewd but tasteful reliefs. The bartender, a thin man in a crimson waistcoat and far too many rings, gestures with flair as he pours a glowing amber spirit into a cut-crystal glass. His dark hair is perfectly slicked back. His brown eyes meet yours for only a moment. He sports a stylish, thick, well-groomed mustache which covers most of his mouth in a neat hemispherical shape.
+
+Mistress Adda lingers near a column in the corner of the room, eyes calm but sharp. She speaks to no one now, content to observe, like a spider sitting comfortably at the center of her web. You see her eyes dart from one side of the room to another, perhaps making sure everyone is behaving. You get an occasional momentary glance mixed with a warm smile, before she returns to the rest of the Parlor with her scanning eyes.
+
+To your right, a woman leans lazily across a velvet chaise—half-demon by the look of her. Midnight skin, speckled with tiny bright blue bioluminescent marks as if she was wearing the night sky itself on her skin. She has curling horns, and golden eyes that catch the light even when she’s still. Her tail flicks lazily behind her as she watches you, smiling with the kind of hunger that doesn’t belong to mortals. When your eyes meet her you can't help but feel your heart speed in your chest.
+
+A soft scoff draws your attention as another figure steps back into the room—Marie. Her blouse has been hastily repaired, though the fabric still strains where the tear once split open. Her hair is neat save for a few strands gone astray, but her scowl is sharp. Adda’s eyes meet hers as she enters. A silent exchange passes between them, and Marie’s expression softens—if only slightly. She crosses the floor quickly, heels clicking like punctuation marks, seemingly avoiding anyone's gaze including your own.
+
+From behind one of the larger couches, a male host appears—dark skinned, broad-shouldered, clean-shaven, with a silk shirt left scandalously half-unbuttoned. He flashes you a smile, the kind that’s too practiced to be genuine, with teeth whiter than a pearls, before he returns to a quiet conversation with a pair of guests lounging nearby.
+
+
+From here, you may:
+[[Approach the bar and request a drink.|Scene02_BrothelBar]]
+[[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
+[[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
+[[Follow Marie and try to speak with her.|Scene02_TalkToMarie]]
+[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]

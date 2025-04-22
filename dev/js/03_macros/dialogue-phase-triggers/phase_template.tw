@@ -1,0 +1,88 @@
+/**
+ * Conversation Setup Template
+ * Use this file as a base for NPC-specific conversation option functions.
+ * Each function controls which choices are available during a specific phase.
+ * The actual response widgets live in a separate .tw file.
+ */
+
+/* Required: Use this function once to add all choices into #convoChoices */
+setup.addChoices = function (list) {
+  const $choices = $("#convoChoices");
+  $choices.empty();
+
+  list.forEach(([label, target]) => {
+    if (State.variables.DEBUG) {
+      console.log(`[DEBUG] Adding choice: "${label}" → ${target}`);
+    }
+    Wikifier.wikifyEval(`<<choice \"${label}\" \"${target}\">>`);
+  });
+};
+
+/* Optional: Short helper to conditionally add choices */
+setup.if = (condition, list) => condition ? list : [];
+
+
+/**
+ * PHASE 0: Initial Meeting
+ * Usually first time the player speaks with this character.
+ */
+setup.NPC_Conversation_Options_Phase0 = function () {
+  setup.addChoices([
+    ["Greet them politely.", "NPC_Greet"],
+    ["Who are you?", "NPC_AskIdentity"],
+    ["Leave.", ":GENERIC"]
+  ]);
+};
+
+
+/**
+ * PHASE 1: Unlocked after building some rapport.
+ * Could happen after a minigame, trust increase, or story event.
+ */
+setup.NPC_Conversation_Options_Phase1 = function () {
+  setup.addChoices([
+    ["Ask about the Black Cowls.", "NPC_AskBlackCowls"],
+    ...setup.if(State.variables.seenBlackCowlIntro, [
+      ["Why are they dangerous?", "NPC_WhyBad"],
+      ["Do we know how to stop them?", "NPC_HowToStop"]
+    ]),
+    ["Let’s talk about something else.", ":GENERIC"]
+  ]);
+};
+
+
+/**
+ * PHASE 2: Could be post-event, or relationship milestone
+ */
+setup.NPC_Conversation_Options_Phase2 = function () {
+  setup.addChoices([
+    ["You seem different tonight.", "NPC_DifferentTonight"],
+    ["Open up about yourself.", "NPC_PlayerShares"],
+    ["Let’s go somewhere private.", "NPC_NSFWTier1"]
+  ]);
+};
+
+
+/**
+ * GENERIC: Fallback default dialogue if no phase is explicitly called.
+ */
+setup.NPC_Conversation_Options_Generic = function () {
+  setup.addChoices([
+    ["How’s the night going?", "NPC_GenericSmallTalk"],
+    ["Goodbye for now.", "ReturnToParlor"]
+  ]);
+};
+
+
+/**
+ * CUSTOM BRANCH: Optional tree that is unlocked based on story/flags
+ * Can be called from another widget to show a mini-topic hub
+ */
+setup.NPC_AskBlackCowls_SubTree = function () {
+  setup.addChoices([
+    ["Why are they bad?", "NPC_WhyBad"],
+    ["Where do they come from?", "NPC_Origin"],
+    ["Do we know how to stop them?", "NPC_HowToStop"],
+    ["Nevermind.", "NPC_ReturnToMain"]
+  ]);
+};

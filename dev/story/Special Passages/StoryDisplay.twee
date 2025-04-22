@@ -1,2 +1,2 @@
-:: StoryDisplay [startup nobr]
+:: StoryDisplay [startup nobr] {"position":"500,0"}
 <!-- No longer used for sidebar logic -->

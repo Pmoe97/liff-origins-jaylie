@@ -19,7 +19,7 @@ State.variables.characters = {
 	  color: "white",
 	  bgColor: "rgba(32, 32, 32, 0.8)"
 	},
-	drunkman: {
+	kallot: {
 	  name: "Kallot",
 	  defaultName: "Drunk Man",
 	  known: false,

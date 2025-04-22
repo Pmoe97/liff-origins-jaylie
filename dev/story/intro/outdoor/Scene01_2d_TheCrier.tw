@@ -1,4 +1,4 @@
-:: Scene01_2d_TheCrier
+:: Scene01_2d_TheCrier {"position":"475,250"}
 <<bg "Scene01_2d_TheCrier">>
 The man's gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 <<speech "eristan">> The <em>Kind one’s echo</em>. The <em>shackled flame</em>... The <em>storm that walks</em>. <</speech>>

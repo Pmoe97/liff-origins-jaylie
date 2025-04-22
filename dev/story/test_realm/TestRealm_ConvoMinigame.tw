@@ -1,10 +1,18 @@
-:: TestRealm_ConvoMinigame
-<<button "Test Convo Minigame (Adda)">>
-	<<run openOverlay("convo-minigame-overlay.html")>>
-	<<run setup.ConvoUI.renderMinigame("adda")>>
-<</button>>
+:: TestRealm_ConvoMinigame {"position":"775,350"}
 
-<<timed 0.1s>>
-	<<run setup.ConvoUI.renderMinigame("adda")>>
-	<<run document.getElementById("conversation-overlay")?.classList.remove("overlay-hidden")>>
-<</timed>>
+<<set $characters.adda = {
+	name: "Mistress Adda",
+	avatar: "images/mistressadda.png",
+	trust: 30,
+	affection: 25,
+	tension: 0,
+	rapport: 1.2,
+	socialStyle: "Regal"
+}>>
+
+<<include "convo-minigame-overlay.html">>
+
+<<script>>
+setup.ConvoUI.renderMinigame("adda");
+document.getElementById("conversation-overlay")?.classList.remove("overlay-hidden");
+<</script>>

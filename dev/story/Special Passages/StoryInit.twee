@@ -1,4 +1,4 @@
-:: StoryInit
+:: StoryInit {"position":"600,0"}
 <<if $DEBUG is true>>
 	<<print Macro.has("SidebarUI")>>
 <</if>>

@@ -1,4 +1,4 @@
-:: Scene01_2b_ToTheTavern
+:: Scene01_2b_ToTheTavern {"position":"225,300"}
 <<bg "Scene01_2b_ToTheTavern">>
 <<if $watchedhsthrow>>
 <p>Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].</p>

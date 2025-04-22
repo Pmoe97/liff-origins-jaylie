@@ -1,4 +1,4 @@
-:: NPCGenerator [widget]
+:: NPCGenerator [widget] {"position":"1675,350"}{"position":"725,125"}
 <<widget "GenerateNPC">>
 <<set _npc to setup.generateNPC("female", "human", "Courtesan")>>
 <<print "Generated NPC: ">>

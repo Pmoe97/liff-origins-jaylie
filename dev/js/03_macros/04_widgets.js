@@ -86,3 +86,76 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
+/* Dialogue Choice Setup Macro */
+Macro.add("choice", {
+	handler() {
+		if (!this.args[0] || !this.args[1]) return;
+
+		if (State.variables.DEBUG) {
+			console.log(`[DEBUG] Adding choice: "${this.args[0]}" → ${this.args[1]}`);
+		}
+
+		const choiceHTML = `<p><a class="link-internal" role="button">${this.args[0]}</a></p>`;
+		const $choice = jQuery(choiceHTML);
+
+		$choice.on("click", () => {
+			$("#convoChoices").empty();
+			Engine.play(this.args[1]);
+		});
+
+		$("#convoChoices").append($choice);
+	}
+});
+
+/* Dialogue Tree Setup Macro */
+/* This macro is used to set up the dialogue tree for a specific NPC and phase. It dynamically loads the appropriate setup function based on the NPC ID and phase number. */
+Macro.add("DialogueTree", {
+	handler() {
+		const npc = this.args[0];
+		const phase = this.args[1];
+
+		if (!npc || typeof npc !== "string") {
+			return this.error("DialogueTree requires a character ID as the first argument.");
+		}
+
+		if (State.variables.DEBUG) {
+			console.log(`[DEBUG] DialogueTree loading for "${npc}", phase: ${phase}`);
+		}
+
+		// Inject containers if they don't exist
+		if (!document.getElementById("convoBox")) {
+			jQuery("#passages").append(`<div id="convoBox"></div>`);
+		}
+		if (!document.getElementById("convoChoices")) {
+			jQuery("#passages").append(`<div id="convoChoices"></div>`);
+		} else {
+			jQuery("#convoChoices").empty();
+		}
+
+		// Dynamically find the correct setup function
+		let functionName = `${npc}_Conversation_Options_Phase${phase}`;
+		let fallbackName = `${npc}_Conversation_Options_Generic`;
+		let setupFunc = setup[functionName] || setup[fallbackName];
+
+		if (typeof setupFunc === "function") {
+			setupFunc();
+		} else {
+			console.warn(`[DialogueTree] No setup function found: ${functionName}`);
+			jQuery("#convoChoices").append(`<p>Dialogue options missing.</p>`);
+		}
+	}
+});
+/* choice setup beautifier function */
+setup.addChoices = function (list) {
+	const $choices = $("#convoChoices");
+	$choices.empty();
+  
+	list.forEach(([label, target]) => {
+	  if (State.variables.DEBUG) {
+		console.log(`[DEBUG] Adding choice: "${label}" → ${target}`);
+	  }
+	  Wikifier.wikifyEval(`<<choice "${label}" "${target}">>`);
+	});
+  };
+  
