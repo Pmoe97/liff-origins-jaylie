@@ -4,7 +4,7 @@ Macro.add('speech', {
 		const id = this.args[0];
 		const text = this.payload[0].contents.trim();
 		const char = State.variables.characters?.[id] || {};
-		const displayName = (char.known && char.displayName) ? char.displayName : char.defaultName || "???";
+		const displayName = (char.known && char.name) ? char.name : char.defaultName || "???";
 		const avatar = char.avatar || "images/default.png";
 		const color = char.color || "white";
 		const bgColor = char.bgColor || "rgba(0, 0, 0, 0.8)";

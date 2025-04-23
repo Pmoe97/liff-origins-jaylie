@@ -1,0 +1,54 @@
+/* Marie Phase 1 Dialogue Options */
+
+:: Marie_Phase1Intro [widget]
+<<widget "Marie_Phase1Intro">>
+<<append "#convoBox">>
+  <<speech "marie">>I'm sorry. This isn't how I normally am. It's just been... a night. But I’d like to start over, if you don’t mind.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_WhyThisWork [widget]
+<<widget "Marie_WhyThisWork">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Why did you choose this kind of work?<</speech>>
+  <<speech "marie">>Chose? That’s generous. I chose not to starve. Turns out I’m good at more than surviving, though. I learned how to turn the game in my favor.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_HostsOrFriends [widget]
+<<widget "Marie_HostsOrFriends">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Are the other hosts your friends... or just coworkers?<</speech>>
+  <<speech "marie">>Depends who you ask. We fight, we drink, we pull each other out of bad nights. It’s not always hugs and handholding, but we’ve got each other’s backs. That’s something.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_DoYouLikeItHere [widget]
+<<widget "Marie_DoYouLikeItHere">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you like it here? The Noctail, I mean.<</speech>>
+  <<speech "marie">>Some days more than others. But it’s safe. It’s clean. Adda doesn’t let creeps stay long. And we get to be... us. That’s rare in this world.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_LookingFor [widget]
+<<widget "Marie_LookingFor">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What are you looking for in someone, if anything?<</speech>>
+  <<speech "marie">>Someone who doesn’t expect me to pretend. Who doesn’t make everything about them. Someone who asks... like you’re doing now.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_Phase1_Exit [widget]
+<<widget "Marie_Phase1_Exit">>
+<<append "#convoBox">>
+  <<speech "jaylie">>We can talk more later.<</speech>>
+  <<speech "marie">>Sure. I’ll be here. Try not to get swallowed by the velvet in the meantime.<</speech>>
+<</append>>
+<<run setup.marie_Conversation_Options_Phase0()>>
+<</widget>>

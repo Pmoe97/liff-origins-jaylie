@@ -1,6 +1,6 @@
 :: Scene02_TalkToExotic {"position":"25,900"}
 
-<<bg "Scene02_TheBrothelParlor">>
+<<bg "parlorallura">>
 
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn't need to.
 
@@ -22,7 +22,8 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 <<speech "jaylie">>Jaylie. Just… Jaylie.<</speech>>
 
-<<speech "allura">><em>Just</em> Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game.<</speech>>
+<<set $characters["adda"].known = true>>
+<<speech "allura">><em>Just</em> Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game. You may call me Allura<</speech>>
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it's amusement or anticipation, you can't tell.
 

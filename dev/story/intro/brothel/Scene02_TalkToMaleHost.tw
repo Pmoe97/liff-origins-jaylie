@@ -1,9 +1,9 @@
 :: Scene02_TalkToMaleHost
-<<bg "Scene02_TheBrothelParlor">>
+<<bg "parlordarian">>
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
-<<speech "darian">>Good evening, my lady. Looking for someone to share it with?<>
+<<speech "darian">>Good evening, my lady. Looking for someone to share it with?<</speech>>
 
 There’s a charm in his voice, but not the kind that smothers. He doesn’t try too hard, just offers the warmth of someone who’s good at reading what people need, and giving only as much as they’re comfortable taking.
 

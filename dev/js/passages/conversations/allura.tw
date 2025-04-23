@@ -1,0 +1,91 @@
+/*Allura Phase 0 conversations */
+:: Allura_SureOfSelf [widget]
+<<widget "Allura_SureOfSelf">>
+<<append "#convoBox">>
+  <<speech "jaylie">>You seem very sure of yourself.<</speech>>
+  <<speech "allura">>Ah, but confidence is only dangerous if it’s misplaced, no? Would you prefer I tremble in your presence instead, mon trésor?<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Allura_WhyHere [widget]
+<<widget "Allura_WhyHere">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What brings someone like you to a place like this?<</speech>>
+  <<speech "allura">>Oh, darling. You say that like this place does not deserve me. I am here because I choose to be... and because there are always mouths to tempt and hearts to twist.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Allura_TeaseIntent [widget]
+<<widget "Allura_TeaseIntent">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What would you do with someone like me?<</speech>>
+  <<speech "allura">>Mm... I would unwrap you slowly, like a forbidden letter... and read *every line* until your ink runs dry.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Allura_OrderDrink [widget]
+<<widget "Allura_OrderDrink">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
+  <<speech "allura">>Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*<</speech>>
+<</append>>
+<<run setup.bert_FulfillDrink("allura")>>
+<</widget>>
+
+:: Allura_StartMinigame [widget]
+<<widget "Allura_StartMinigame">>
+<<append "#convoBox">>
+  <<speech "jaylie">>I just want to get to know you better.<</speech>>
+  <<speech "allura">>Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.<</speech>>
+<</append>>
+<<run setup.ConvoGame.start("allura")>>
+<</widget>>
+
+/*Allura Phase 1 Conversations */
+:: Allura_WhatSheWants [widget]
+<<widget "Allura_WhatSheWants">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What do you really want from people?<</speech>>
+  <<speech "allura">>Want? That’s such a simple word for such... complex flavors. Sometimes I want their breath, sometimes their secrets. And sometimes, I only want to know if they would follow me if I never looked back.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_FeelsAlone [widget]
+<<widget "Allura_FeelsAlone">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you ever feel alone, even here?<</speech>>
+  <<speech "allura">>Alone? Chérie... even in the loudest room, we all die with our thoughts. What matters is whether you find someone whose silence you enjoy before the end.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_SomeoneMissed [widget]
+<<widget "Allura_SomeoneMissed">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Is there someone you miss?<</speech>>
+  <<speech "allura">>There are names I no longer speak, faces that visit in dreams, and songs I cannot hum without bleeding a little. But that’s the price of remembering, non?<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_BelievesInLove [widget]
+<<widget "Allura_BelievesInLove">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you believe in love?<</speech>>
+  <<speech "allura">>I believe in appetite. Love is just the name we give the hunger we choose to starve.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_ReturnToLight [widget]
+<<widget "Allura_ReturnToLight">>
+<<append "#convoBox">>
+  <<speech "jaylie">>We don’t have to talk about this.<</speech>>
+  <<speech "allura">>Of course not. The heart speaks loudest in silence anyway.<</speech>>
+<</append>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>

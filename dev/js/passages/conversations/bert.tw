@@ -1,0 +1,35 @@
+:: Bert_DenyMinigame [widget]
+<<widget "Bert_DenyMinigame">>
+<<append "#convoBox">>
+  <<speech "jaylie">>I want to get to know you better.<</speech>>
+  <<speech "bert">>That’s not on the menu.<</speech>>
+<</append>>
+<<run setup.bert_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Bert_OpenShop [widget]
+<<widget "Bert_OpenShop">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What is on the menu?<</speech>>
+  <<speech "bert">>Drinks. Prices vary. Try not to spill.<</speech>>
+<</append>>
+<<run setup.openShop("bert")>> <!-- Custom shop function -->
+<</widget>>
+
+:: Bert_CustomDrink [widget]
+<<widget "Bert_CustomDrink">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What kind of drink would you make for me?<</speech>>
+  <<speech "bert">>Let’s find out...<</speech>>
+<</append>>
+<<run setup.servePersonalizedDrink("jaylie")>> <!-- Custom flavor-based output -->
+<</widget>>
+
+:: Bert_SeriousResponse [widget]
+<<widget "Bert_SeriousResponse">>
+<<append "#convoBox">>
+  <<speech "jaylie">>You seem really serious.<</speech>>
+  <<speech "bert">>Professional. Not serious.<</speech>>
+<</append>>
+<<run setup.bert_Conversation_Options_Phase0()>>
+<</widget>>

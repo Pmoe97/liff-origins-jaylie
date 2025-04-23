@@ -100,7 +100,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="23" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
+	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="50" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Character Sheet Overlay Base */
@@ -1440,40 +1440,92 @@ State.variables.characters = {
 	  known: true,
 	  avatar: "images/portrait_jaylie.png",
 	  color: "white",
-	  bgColor: "rgba(162, 72, 87, 0.8)"
+	  bgColor: "rgba(162, 72, 87, 0.8)",
+  
+	  // Player character, not tracked with affection/trust
+	  isPlayer: true
 	},
+  
 	adda: {
 	  name: "Mistress Adda",
 	  defaultName: "Brothel Mistress",
 	  known: false,
 	  avatar: "images/portrait_mistressadda.png",
 	  color: "white",
-	  bgColor: "rgba(32, 32, 32, 0.8)"
+	  bgColor: "rgba(32, 32, 32, 0.8)",
+  
+	  trust: 35,
+	  affection: 28,
+	  rapport: 1.2,
+	  tension: 0,
+	  cooldown: 0,
+  
+	  traits: ["Dominant", "Cynical", "Flirty"],
+	  inclinations: ["Bondage", "Praise-Kink"],
+	  motivations: ["Control", "Pleasure"],
+	  socialStyle: "Regal"
 	},
+  
 	kallot: {
 	  name: "Kallot",
 	  defaultName: "Drunk Man",
 	  known: false,
 	  avatar: "images/portrait_kallot.png",
 	  color: "white",
-	  bgColor: "rgba(159, 172, 138, 0.8)"
+	  bgColor: "rgba(159, 172, 138, 0.8)",
+  
+	  trust: 12,
+	  affection: 5,
+	  rapport: 1.0,
+	  tension: 0,
+	  cooldown: 0,
+  
+	  traits: ["Cynical", "Melancholic", "Awkward"],
+	  inclinations: ["Voyeurism"],
+	  motivations: ["Redemption", "Connection"],
+	  socialStyle: "Humble"
 	},
+  
 	marie: {
 	  name: "Marie",
 	  defaultName: "Brothel Girl",
 	  known: false,
 	  avatar: "images/portrait_marie.png",
 	  color: "white",
-	  bgColor: "rgba(197, 126, 65, 0.8)"
+	  bgColor: "rgba(197, 126, 65, 0.8)",
+  
+	  trust: 22,
+	  affection: 14,
+	  rapport: 1.1,
+	  tension: 0,
+	  cooldown: 0,
+  
+	  traits: ["Introverted", "Guarded", "Submissive"],
+	  inclinations: ["Praise-Kink", "Service-Oriented"],
+	  motivations: ["Safety", "Freedom"],
+	  socialStyle: "Reserved"
 	},
+  
 	eristan: {
 	  name: "Eristan Velthar",
 	  defaultName: "Madman",
 	  known: false,
 	  avatar: "images/portrait_eristan.png",
 	  color: "white",
-	  bgColor: "rgba(53, 18, 4, 0.8)"
+	  bgColor: "rgba(53, 18, 4, 0.8)",
+  
+	  trust: 8,
+	  affection: 4,
+	  rapport: 0.9,
+	  tension: 0,
+	  cooldown: 0,
+  
+	  traits: ["Detached", "Curious", "Traumatized"],
+	  inclinations: ["Chastity-Kink"],
+	  motivations: ["Prophecy", "Protection"],
+	  socialStyle: "Unhinged"
 	},
+
 	harroc: {
 		name: "Harroc",
 		defaultName: "Barkeep",
@@ -1493,6 +1545,7 @@ State.variables.characters = {
 		motivations: ["Duty", "Redemption"],
 		socialStyle: "Grizzled"
 	  },
+
 	tesska: {
 		name: "Tesska",
 		defaultName: "Barmaid",
@@ -1511,8 +1564,46 @@ State.variables.characters = {
 		inclinations: ["Exhibitionist", "Teasing"],
 		motivations: ["Freedom", "Excitement"],
 		socialStyle: "Feisty"
-	  }
-	
+	  },
+	allura: {
+		name: "Allura",
+		defaultName: "Exotic Hostess",
+		known: false,
+		avatar: "images/portrait_allura.png",
+		color: "white",
+		bgColor: "rgba(20, 152, 232, 0.6)",
+		
+		trust: 0,
+		affection: 0,
+		rapport: 1.0,
+		tension: 0,
+		cooldown: 0,
+
+		traits: ["Flirty", "Cynical", "Confident"],
+		inclinations: ["Bondage", "Dominant"],
+		motivations: ["Pleasure", "Family"],
+		socialStyle: "Flirty"
+	  },
+	darian: {
+		name: "Darian",
+		defaultName: "Male Host",
+		known: false,
+		avatar: "images/portrait_darian.png",
+		color: "white",
+		bgColor: "rgba(126, 66, 0, 0.6)",
+
+		trust: 3,
+		affection: 0,
+		rapport: 1.0,
+		tension: 0,
+		cooldown: 0,
+
+		traits: ["Flirty", "Confident", "Charming"],
+		inclinations: ["Voyeurism", "Exhibitionist"],
+		motivations: ["Pleasure", "Connection"],
+		socialStyle: "Charming"
+	  },
+
   };
   
   /* Character Dialogue & Avatars - End */
@@ -2600,7 +2691,7 @@ Macro.add('speech', {
 		const id = this.args[0];
 		const text = this.payload[0].contents.trim();
 		const char = State.variables.characters?.[id] || {};
-		const displayName = (char.known && char.displayName) ? char.displayName : char.defaultName || "???";
+		const displayName = (char.known && char.name) ? char.name : char.defaultName || "???";
 		const avatar = char.avatar || "images/default.png";
 		const color = char.color || "white";
 		const bgColor = char.bgColor || "rgba(0, 0, 0, 0.8)";
@@ -2873,7 +2964,42 @@ setup.addChoices = function (list) {
 };
 /* twine-user-script #23: "adda.js" */
 /* twine-user-script #24: "allura.js" */
-/* twine-user-script #25: "darian.js" */
+/* Allura Conversation Options Phase 0 */
+setup.allura_Conversation_Options_Phase0 = function () {
+    setup.addChoices([
+      ["You seem very sure of yourself.", "Allura_SureOfSelf"],
+      ["What brings someone like you to a place like this?", "Allura_WhyHere"],
+      ["What would you do with someone like me?", "Allura_TeaseIntent"],
+      ["Do you think you could help me get a drink?", "Allura_OrderDrink"],
+      ["I just want to get to know you better.", "Allura_StartMinigame"],
+      ["Nevermind.", "ReturnToParlor"]
+    ]);
+  };
+
+  /* Allura Conversation Options Phase 1 */
+  setup.allura_Conversation_Options_Phase1 = function () {
+    setup.addChoices([
+      ["What do you really want from people?", "Allura_WhatSheWants"],
+      ["Do you ever feel alone, even here?", "Allura_FeelsAlone"],
+      ["Is there someone you miss?", "Allura_SomeoneMissed"],
+      ["Do you believe in love?", "Allura_BelievesInLove"],
+      ["We don’t have to talk about this.", "Allura_ReturnToLight"]
+    ]);
+  };
+  
+  
+/* twine-user-script #25: "bert.js" */
+setup.bert_Conversation_Options_Phase0 = function () {
+    setup.addChoices([
+      ["I want to get to know you better.", "Bert_DenyMinigame"],
+      ["What is on the menu?", "Bert_OpenShop"],
+      ["What kind of drink would you make for me?", "Bert_CustomDrink"],
+      ["You seem really serious.", "Bert_SeriousResponse"],
+      ["Nevermind.", "ReturnToParlor"]
+    ]);
+  };
+  
+/* twine-user-script #26: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -2912,12 +3038,15 @@ setup.darian_Conversation_Options_Phase1 = function () {
       ["Let’s go back to lighter conversation.", "PHASE_0"]
     ]);
   };
-/* twine-user-script #26: "eristan.js" */
-/* twine-user-script #27: "harroc.js" */
-/* twine-user-script #28: "kallot.js" */
-/* twine-user-script #29: "marie.js" */
-/* twine-user-script #30: "tesska.js" */
-/* twine-user-script #31: "999_main.js" */
+/* twine-user-script #27: "eristan.js" */
+/* twine-user-script #28: "harroc.js" */
+/* twine-user-script #29: "kallot.js" */
+/* twine-user-script #30: "marie.js" */
+/* Marie Phase 0 Conversation Options */
+
+/* Marie Phase 1 Conversation Options */
+/* twine-user-script #31: "tesska.js" */
+/* twine-user-script #32: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -2941,7 +3070,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #32: "convo_prompts.js" */
+/* twine-user-script #33: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -3091,7 +3220,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #33: "convo_tropes.js" */
+/* twine-user-script #34: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -3194,7 +3323,7 @@ setup.ConvoTropes = {
     return shuffled.slice(0, count);
   };
   
-/* twine-user-script #34: "inclinations.js" */
+/* twine-user-script #35: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -3352,7 +3481,7 @@ setup.Inclinations = {
     }
   };
   
-/* twine-user-script #35: "motivations.js" */
+/* twine-user-script #36: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -3440,7 +3569,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #36: "npc_archetypes.js" */
+/* twine-user-script #37: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -3470,7 +3599,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #37: "npc_names.js" */
+/* twine-user-script #38: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -3485,7 +3614,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #38: "personality_traits.js" */
+/* twine-user-script #39: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -3547,7 +3676,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #39: "social_styles.js" */
+/* twine-user-script #40: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -3619,13 +3748,146 @@ setup.SocialStyles = {
       notes: "May flatter or provoke to gain an edge, reads people quickly."
     }
   };
-  </script><tw-passagedata pid="1" name="Darian_HowLongHere" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
+  </script><tw-passagedata pid="1" name="Adda_ThisPlaceIsYours" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;Adda_ThisPlaceIsYours&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;This place... it’s yours?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I’ve had a hand in it all. Took me years, but I built it the way I wanted — and the city knows it.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Adda_HostsCare" tags="widget" position="225,100" size="100,100">&lt;&lt;widget &quot;Adda_HostsCare&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Your hosts really seem to care about you.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;As they should. I care about them. Not because I have to — but because they deserve it. This house runs on more than coin and charm, girl. It runs on trust.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Adda_Different" tags="widget" position="350,100" size="100,100">&lt;&lt;widget &quot;Adda_Different&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem... different from the others.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;Different? I suppose I am. Most folks in this business start with fire and burn fast. I learned to smolder — lasts longer that way.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Adda_StartMinigame" tags="widget" position="475,100" size="100,100">&lt;&lt;widget &quot;Adda_StartMinigame&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can I get to know you better?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;You can try. Just know, I’ve lived long enough to recognize a question meant to pry... and one meant to learn.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.ConvoGame.start(&quot;adda&quot;)&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Adda_OriginStory" tags="widget" position="600,100" size="100,100">&lt;&lt;widget &quot;Adda_OriginStory&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;How’d you end up starting this place?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;Well in all fairness, I didn’t start it. It was inherited from the previous owner. But if you&#39;d seen it back then, you wouldn&#39;t recognize it today. It’s always been my ideal that workers like these shouldn’t be chewed up and spit out by society. Here? We bite back.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Adda_CommandPresence" tags="widget" position="725,100" size="100,100">&lt;&lt;widget &quot;Adda_CommandPresence&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You don’t seem like someone people say no to.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;That’s because I don’t ask for much. But when I do? I make it hard to refuse.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Adda_OrderDrink" tags="widget" position="850,100" size="100,100">&lt;&lt;widget &quot;Adda_OrderDrink&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Could you help me get a drink?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;adda&quot;&gt;&gt;Of course. Bert? Something smooth, a little bold, and just sweet enough to leave an impression. For our guest.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;bert&quot;&gt;&gt;Coming right up.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;set _drink = clone($items.brothelDrink)&gt;&gt;
+&lt;&lt;set _drink.name = &quot;Adda&#39;s Signature Pour&quot;&gt;&gt;
+&lt;&lt;set _drink.description = &quot;A custom drink chosen by Adda herself — rich, bold, and deceptively smooth.&quot;&gt;&gt;
+&lt;&lt;run setup.inventory.add(_drink)&gt;&gt;
+&lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Allura_SureOfSelf" tags="widget" position="975,100" size="100,100">&lt;&lt;widget &quot;Allura_SureOfSelf&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem very sure of yourself.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ah, but confidence is only dangerous if it’s misplaced, no? Would you prefer I tremble in your presence instead, mon trésor?&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Allura_WhyHere" tags="widget" position="1100,100" size="100,100">&lt;&lt;widget &quot;Allura_WhyHere&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What brings someone like you to a place like this?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Oh, darling. You say that like this place does not deserve me. I am here because I choose to be... and because there are always mouths to tempt and hearts to twist.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Allura_TeaseIntent" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Allura_TeaseIntent&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What would you do with someone like me?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Mm... I would unwrap you slowly, like a forbidden letter... and read *every line* until your ink runs dry.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Allura_OrderDrink" tags="widget" position="100,225" size="100,100">&lt;&lt;widget &quot;Allura_OrderDrink&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.bert_FulfillDrink(&quot;allura&quot;)&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="Allura_StartMinigame" tags="widget" position="225,225" size="100,100">&lt;&lt;widget &quot;Allura_StartMinigame&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.ConvoGame.start(&quot;allura&quot;)&gt;&gt;
+&lt;&lt;/widget&gt;&gt;
+
+/*Allura Phase 1 Conversations */</tw-passagedata><tw-passagedata pid="13" name="Allura_WhatSheWants" tags="widget" position="350,225" size="100,100">&lt;&lt;widget &quot;Allura_WhatSheWants&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What do you really want from people?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Want? That’s such a simple word for such... complex flavors. Sometimes I want their breath, sometimes their secrets. And sometimes, I only want to know if they would follow me if I never looked back.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Allura_FeelsAlone" tags="widget" position="475,225" size="100,100">&lt;&lt;widget &quot;Allura_FeelsAlone&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you ever feel alone, even here?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Alone? Chérie... even in the loudest room, we all die with our thoughts. What matters is whether you find someone whose silence you enjoy before the end.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="Allura_SomeoneMissed" tags="widget" position="600,225" size="100,100">&lt;&lt;widget &quot;Allura_SomeoneMissed&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Is there someone you miss?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;There are names I no longer speak, faces that visit in dreams, and songs I cannot hum without bleeding a little. But that’s the price of remembering, non?&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Allura_BelievesInLove" tags="widget" position="725,225" size="100,100">&lt;&lt;widget &quot;Allura_BelievesInLove&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you believe in love?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;I believe in appetite. Love is just the name we give the hunger we choose to starve.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Allura_ReturnToLight" tags="widget" position="850,225" size="100,100">&lt;&lt;widget &quot;Allura_ReturnToLight&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We don’t have to talk about this.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Of course not. The heart speaks loudest in silence anyway.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="Bert_DenyMinigame" tags="widget" position="975,225" size="100,100">&lt;&lt;widget &quot;Bert_DenyMinigame&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I want to get to know you better.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;bert&quot;&gt;&gt;That’s not on the menu.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Bert_OpenShop" tags="widget" position="1100,225" size="100,100">&lt;&lt;widget &quot;Bert_OpenShop&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What is on the menu?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;bert&quot;&gt;&gt;Drinks. Prices vary. Try not to spill.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.openShop(&quot;bert&quot;)&gt;&gt; &lt;!-- Custom shop function --&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bert_CustomDrink" tags="widget" position="1225,225" size="100,100">&lt;&lt;widget &quot;Bert_CustomDrink&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What kind of drink would you make for me?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;bert&quot;&gt;&gt;Let’s find out...&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.servePersonalizedDrink(&quot;jaylie&quot;)&gt;&gt; &lt;!-- Custom flavor-based output --&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Bert_SeriousResponse" tags="widget" position="100,350" size="100,100">&lt;&lt;widget &quot;Bert_SeriousResponse&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem really serious.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;bert&quot;&gt;&gt;Professional. Not serious.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Darian_HowLongHere" tags="widget" position="225,350" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So how long have you worked here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Darian_DoYouLikeJob" tags="widget" position="225,100" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Darian_DoYouLikeJob" tags="widget" position="350,350" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you actually like working here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Would I still be here if I didn’t? Do *you* like your job?&lt;&lt;/speech&gt;&gt;
@@ -3633,7 +3895,7 @@ setup.SocialStyles = {
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It’s alright. I don’t mind honest questions. I’d just rather answer them in ways that make people think.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Darian_Bracelet" tags="widget" position="350,100" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Darian_Bracelet" tags="widget" position="475,350" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;That bracelet... it looks important. Where did you get it?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;if $characters[&quot;darian&quot;].trust &gt;= 5&gt;&gt;
@@ -3645,7 +3907,7 @@ setup.SocialStyles = {
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Darian_GetDrink" tags="widget" position="475,100" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Darian_GetDrink" tags="widget" position="600,350" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink? I&#39;m not really sure what I’d like.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Hmm... Bert?&lt;&lt;/speech&gt;&gt;
@@ -3654,20 +3916,20 @@ setup.SocialStyles = {
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;Coming right up.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Darian_StartMinigame" tags="widget" position="600,100" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Darian_StartMinigame" tags="widget" position="725,350" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Then you’d better be good at asking questions. And better still at listening.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.ConvoGame.start(&quot;darian&quot;)&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Darian_Sister_WhatWasSheLike" tags="widget" position="725,100" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Darian_Sister_WhatWasSheLike" tags="widget" position="850,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What was your sister like?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Beautiful. Kind to a fault. She’s the reason I ever set foot on a stage—used to beg me to sing for her when we were little. I think she believed I could charm the stars out of the sky if I tried hard enough.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;But... I haven’t sung for anyone since she passed.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Darian_Sister_HowDidSheDie" tags="widget" position="850,100" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Darian_Sister_HowDidSheDie" tags="widget" position="975,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If you don’t mind me asking... how did she die?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;if $characters[&quot;darian&quot;].trust &gt;= 7&gt;&gt;
@@ -3677,57 +3939,91 @@ setup.SocialStyles = {
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Darian_Sister_BraceletMemory" tags="widget" position="975,100" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Darian_Sister_BraceletMemory" tags="widget" position="1100,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can you tell me more about when she gave you that bracelet?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It wasn’t just a gift. It was a promise—that I wasn’t alone.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Darian_Sister_ReturnToMain" tags="widget" position="1100,100" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Darian_Sister_ReturnToMain" tags="widget" position="1225,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk about something else now.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Of course. Whatever you need.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="PHASE_0" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;PHASE_0&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="PHASE_0" tags="widget" position="100,475" size="100,100">&lt;&lt;widget &quot;PHASE_0&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;npc&quot;&gt;&gt;This is the Phase 0 intro line — what they say the first time you talk.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 
 &lt;&lt;run setup.NPC_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="PHASE_1" tags="widget" position="100,225" size="100,100">&lt;&lt;widget &quot;PHASE_1&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="PHASE_1" tags="widget" position="225,475" size="100,100">&lt;&lt;widget &quot;PHASE_1&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;npc&quot;&gt;&gt;This is Phase 1 — maybe after you’ve gained some trust or done something important.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 
 &lt;&lt;run setup.NPC_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="GENERIC" tags="widget" position="225,225" size="100,100">&lt;&lt;widget &quot;GENERIC&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="GENERIC" tags="widget" position="350,475" size="100,100">&lt;&lt;widget &quot;GENERIC&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;npc&quot;&gt;&gt;This is fallback generic dialogue if no other phase applies.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 
 &lt;&lt;run setup.NPC_Conversation_Options_Generic()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="NPC_FlirtLine" tags="widget" position="350,225" size="100,100">&lt;&lt;widget &quot;NPC_FlirtLine&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="NPC_FlirtLine" tags="widget" position="475,475" size="100,100">&lt;&lt;widget &quot;NPC_FlirtLine&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You look good tonight... distracting, really.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;npc&quot;&gt;&gt;Flattery works better when you mean it — but I’ll let it slide this time.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.NPC_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Marie_Phase1Intro" tags="widget" position="600,475" size="100,100">&lt;&lt;widget &quot;Marie_Phase1Intro&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;I&#39;m sorry. This isn&#39;t how I normally am. It&#39;s just been... a night. But I’d like to start over, if you don’t mind.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Marie_WhyThisWork" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Marie_WhyThisWork&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Why did you choose this kind of work?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;Chose? That’s generous. I chose not to starve. Turns out I’m good at more than surviving, though. I learned how to turn the game in my favor.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Marie_HostsOrFriends" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Marie_HostsOrFriends&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Are the other hosts your friends... or just coworkers?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;Depends who you ask. We fight, we drink, we pull each other out of bad nights. It’s not always hugs and handholding, but we’ve got each other’s backs. That’s something.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Marie_DoYouLikeItHere" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Marie_DoYouLikeItHere&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you like it here? The Noctail, I mean.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;Some days more than others. But it’s safe. It’s clean. Adda doesn’t let creeps stay long. And we get to be... us. That’s rare in this world.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Marie_LookingFor" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Marie_LookingFor&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What are you looking for in someone, if anything?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;Someone who doesn’t expect me to pretend. Who doesn’t make everything about them. Someone who asks... like you’re doing now.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Marie_Phase1_Exit" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Marie_Phase1_Exit&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk more later.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;marie&quot;&gt;&gt;Sure. I’ll be here. Try not to get swallowed by the velvet in the meantime.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.marie_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
 &lt;&lt;set _npc to setup.generateNPC(&quot;female&quot;, &quot;human&quot;, &quot;Courtesan&quot;)&gt;&gt;
 &lt;&lt;print &quot;Generated NPC: &quot;&gt;&gt;
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
 &lt;&lt;print &quot;Style: &quot; + _npc.style&gt;&gt;
 &lt;&lt;print &quot;Trait: &quot; + _npc.trait + &quot;, Inclination: &quot; + _npc.inclination&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="16" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="17" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="18" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="19" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="43" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="44" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="45" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="46" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
 	&lt;&lt;print Macro.has(&quot;SidebarUI&quot;)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;run setup.NPCs = []&gt;&gt;
 &lt;&lt;run setup.Seed = Math.seedrandom(&quot;liff&quot;)&gt;&gt; &lt;!-- Optional global seed for reproducibility --&gt;
-&lt;&lt;SidebarUI&gt;&gt;
-&lt;&lt;goto &quot;TestRealm_ConvoMinigame&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&lt;&lt;SidebarUI&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -3757,8 +4053,8 @@ setup.SocialStyles = {
 ============================= --&gt;
 &lt;div id=&quot;overlay-panel&quot; class=&quot;overlay-hidden&quot;&gt;
   &lt;div id=&quot;overlay-body&quot;&gt;&lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="21" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="22" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="23" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="48" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
+* [[Help]]</tw-passagedata><tw-passagedata pid="49" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="50" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -3773,7 +4069,7 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 
 &lt;&lt;link &quot;Enter Test Realm (Convo)&quot;&gt;&gt;
 	&lt;&lt;goto &quot;TestRealm1.tw&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="25" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="52" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -3790,20 +4086,16 @@ You shuffle uncomfortably for a moment. Coming in here seemed like such a great 
 
 	You swear you&#39;d never felt more unsure of yourself than you suddenly were in this exact moment.
 
-&lt;&lt;speech &quot;adda&quot;&gt;&gt; Not to worry, Jaylie. My girls are all trained to uphold the utmost discretion, not that many of them are as observant as myself… &lt;span class=&quot;whisper&quot;&gt;your highness&lt;/span&gt;.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;speech &quot;adda&quot;&gt;&gt; Not to worry, Jaylie. My hosts are all trained to uphold the utmost discretion, not that many of them are as observant as myself… &lt;span class=&quot;whisper&quot;&gt;your highness&lt;/span&gt;.&lt;&lt;/speech&gt;&gt;
 
 You take a moment to catch your breath and find your tongue.
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Well thank you Madam Adda. I appreciate the hospitality and the discretion. Now if I may ask, what would one girl have to do to get a birthday drink for herself in your fine establishment? &lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
-&lt;em&gt;Birthday!?&lt;/em&gt; But of course! If you&#39;d follow me this way into the parlor, surely our barman would be delighted to make you a beverage. How about for company? Would you prefer one of my &lt;span class=&quot;girl-text&quot;&gt;girls&lt;/span&gt; or &lt;span class=&quot;boy-text&quot;&gt;men&lt;/span&gt; to keep you company? You might always prefer to drink alone, but surely you&#39;d have chosen a tavern for that sort of thing. &lt;&lt;/speech&gt;&gt;
+&lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You think for a moment before making your choice.&lt;/p&gt;
-
-[[You prefer a Girl.|Scene02_ParlorGirl]]  
-[[You prefer a Man.|Scene02_ParlorBoy]]  
-[[You had something else in mind…|Scene02_ParlorAdda]]</tw-passagedata><tw-passagedata pid="26" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="53" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;
 
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn&#39;t need to.
 
@@ -3825,7 +4117,8 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Jaylie. Just… Jaylie.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;speech &quot;allura&quot;&gt;&gt;&lt;em&gt;Just&lt;/em&gt; Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;set $characters[&quot;adda&quot;].known = true&gt;&gt;
+&lt;&lt;speech &quot;allura&quot;&gt;&gt;&lt;em&gt;Just&lt;/em&gt; Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game. You may call me Allura&lt;&lt;/speech&gt;&gt;
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it&#39;s amusement or anticipation, you can&#39;t tell.
 
@@ -3835,11 +4128,11 @@ She tilts her head and studies you with hunger disguised as affection. Her smile
 [[Flirt back — boldly.|Scene02_Exotic_FlirtBack]]
 [[Try to remain composed.|Scene02_Exotic_PlayCool]]
 [[Ask what she meant about your smell.|Scene02_Exotic_Secrets]]
-[[Make a polite exit.|Scene02_Exotic_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="27" name="Scene02_TalkToMaleHost" tags="" position="850,350" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+[[Make a polite exit.|Scene02_Exotic_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="54" name="Scene02_TalkToMaleHost" tags="" position="475,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
-&lt;&lt;speech &quot;darian&quot;&gt;&gt;Good evening, my lady. Looking for someone to share it with?&lt;&gt;
+&lt;&lt;speech &quot;darian&quot;&gt;&gt;Good evening, my lady. Looking for someone to share it with?&lt;&lt;/speech&gt;&gt;
 
 There’s a charm in his voice, but not the kind that smothers. He doesn’t try too hard, just offers the warmth of someone who’s good at reading what people need, and giving only as much as they’re comfortable taking.
 
@@ -3871,7 +4164,7 @@ From here, you may:
 [[Ask about the bracelet.|Scene02_MaleHost_Bracelet]]
 [[Tell him he seems different than the others.|Scene02_MaleHost_Different]]
 [[Ask if he still sings.|Scene02_MaleHost_Singing]]
-[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="28" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="55" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within. 
 You walk up the few steps, pull on the handle, open the door and step inside. 
 
@@ -3892,7 +4185,7 @@ She approaches you, heels clicking on the ground, arms outstretched toward your 
 	&lt;&lt;/append&gt;&gt;
 &lt;&lt;/link&gt;&gt;.
 
-&lt;div id=&quot;brothel-reveal&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="29" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+&lt;div id=&quot;brothel-reveal&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
@@ -3918,7 +4211,7 @@ From here, you may:
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
 [[Follow Marie and try to speak with her.|Scene02_TalkToMarie]]
-[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="30" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="57" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -3954,7 +4247,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="31" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="58" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -3994,7 +4287,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="32" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="59" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -4002,12 +4295,12 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt; /*need to double check this syntax because I wrote it at work and I suck */
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
 You let out a sigh.
-&lt;&lt;speech &quot;Jaylie&quot;&gt;&gt;Can&#39;t leave you here.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can&#39;t leave you here.&lt;&lt;/speech&gt;&gt;
 
 You lean down and grab him by his shirt, pulling him out of his prone position and slowly dragging him from the middle of the street. After a few moments of dragging him towards the alley, you manage to prop the man up against the side of the building, protecting him from the worst of the weather underneath the eaves of the roof. Here at least, you think, he will be slightly protected from the elements.
 
@@ -4022,7 +4315,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="34" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="61" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King’s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -4033,7 +4326,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="35" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="62" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one’s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -4046,7 +4339,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you’ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="36" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="63" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -4060,12 +4353,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="37" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="64" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="38" name="HarrocDialogueMenu" tags="" position="375,700" size="100,100">&lt;ul&gt;
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="65" name="HarrocDialogueMenu" tags="" position="375,700" size="100,100">&lt;ul&gt;
     &lt;li&gt;&lt;&lt;link &quot;Ask for a drink&quot;&gt;&gt;&lt;&lt;replace &quot;#harroc-dialogue&quot;&gt;&gt;
         &lt;p&gt;&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Got anything else strong and local?&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
         &lt;p&gt;&lt;&lt;speech &quot;harroc&quot;&gt;&gt;Plenty. Got something aged in pine barrels, bitter enough to scare a ghost. Or something sweet, if you’re soft that way.&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
@@ -4082,7 +4375,7 @@ You are one of few people left on the street. Most others find themselves coveri
         &lt;p&gt;You nod and finish your drink in silence, leaving Harroc to his work.&lt;/p&gt;
         [[Return to the tavern|ThreeSipsDragon_TheSpace]]
     &lt;&lt;/link&gt;&gt;&lt;/li&gt;
-&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="39" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;
+&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="66" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn’t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -4125,7 +4418,7 @@ His words, though jumbled, are slow and methodical. Rolling from his mouth like 
         [[Return to the tavern|ThreeSipsDragon_TheSpace]]
     &lt;&lt;/link&gt;&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;&lt;/replace&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;
+&lt;&lt;/replace&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 &lt;&lt;/if&gt;&gt;
@@ -4159,7 +4452,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceTable]]
 [[Approach the cloaked man in the corner.|Scene03_CloakedMan]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="41" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="68" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern’s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -4169,7 +4462,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn’t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="42" name="TestRealm_ConvoMinigame" tags="" position="225,600" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="69" name="TestRealm_ConvoMinigame" tags="" position="1100,850" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata></tw-storydata>
