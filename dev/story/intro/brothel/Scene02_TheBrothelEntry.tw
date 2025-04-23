@@ -1,24 +1,25 @@
 :: Scene02_TheBrothelEntry {"position":"75,550"}
 <<bg "Scene02_TheBrothelEntry">>
-You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within. 
-You walk up the few steps, pull on the handle, open the door and step inside. 
 
-Once inside you see, just ahead of you a narrow staircase adorned with opulent candle-holders ascends to the next floor. To your left the room opens up into a very inviting space filled with plush furniture upholstered in crimson velvet, lined in gold filigree.
+You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
+You walk up the few steps, pull on the handle, open the door and step inside.  
 
-As your boots echo across the floor boards at your entry you hear a familiar voice,
+Once inside you see, just ahead of you a narrow staircase adorned with opulent candle-holders ascends to the next floor. To your left the room opens up into a very inviting space filled with plush furniture upholstered in crimson velvet, lined in gold filigree.  
+
+As your boots echo across the floor boards at your entry you hear a familiar voice,  
 <<speech "adda">> I swear if that is you again, Kallot, I will not need the wardens to kill you–<</speech>>
 
-The madam from before walks around the corner of the wall from an area of the main room which you couldn't see before. Her scowl melts the moment she sees it’s you — not Kallot. You assume that must be the name of the man outside.
+The madam from before walks around the corner of the wall from an area of the main room which you couldn't see before. Her scowl melts the moment she sees it’s you — not Kallot. You assume that must be the name of the man outside.  
 <<set $characters["kallot"].known = true>>
 
 <<speech "adda">> Oh, I'm sorry my dear. You must forgive me, I thought you were that lecherous roach out on the pavement again. Please! Come inside, allow me to remove that soaked cloak for you. <</speech>>
 
-She approaches you, heels clicking on the ground, arms outstretched toward your <<link "cloak">>
-	<<append "#brothel-reveal">>
+<span id="brothel-reveal">She approaches you, heels clicking on the ground, arms outstretched toward your <<link "cloak">>
+  <<replace "#brothel-reveal">>
+    <p>She approaches you, heels clicking on the ground, arms outstretched toward your cloak.
 	<p>She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.</p>
-	<<speech "adda">> <em>Ahhh.</em> What have we [[here?|Scene02_AddasGreeting]] <</speech>>
-	<</append>>
-<</link>>.
+    <<speech "adda">> <em>Ahhh.</em> What have we [[here?|Scene02_AddasGreeting]] <</speech>>
+  <</replace>>
+<</link>></span>
 
-<div id="brothel-reveal"></div>
 

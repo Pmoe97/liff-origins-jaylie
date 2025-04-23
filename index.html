@@ -4165,27 +4165,27 @@ From here, you may:
 [[Tell him he seems different than the others.|Scene02_MaleHost_Different]]
 [[Ask if he still sings.|Scene02_MaleHost_Singing]]
 [[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="55" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
-You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within. 
-You walk up the few steps, pull on the handle, open the door and step inside. 
 
-Once inside you see, just ahead of you a narrow staircase adorned with opulent candle-holders ascends to the next floor. To your left the room opens up into a very inviting space filled with plush furniture upholstered in crimson velvet, lined in gold filigree.
+You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
+You walk up the few steps, pull on the handle, open the door and step inside.  
 
-As your boots echo across the floor boards at your entry you hear a familiar voice,
+Once inside you see, just ahead of you a narrow staircase adorned with opulent candle-holders ascends to the next floor. To your left the room opens up into a very inviting space filled with plush furniture upholstered in crimson velvet, lined in gold filigree.  
+
+As your boots echo across the floor boards at your entry you hear a familiar voice,  
 &lt;&lt;speech &quot;adda&quot;&gt;&gt; I swear if that is you again, Kallot, I will not need the wardens to kill you–&lt;&lt;/speech&gt;&gt;
 
-The madam from before walks around the corner of the wall from an area of the main room which you couldn&#39;t see before. Her scowl melts the moment she sees it’s you — not Kallot. You assume that must be the name of the man outside.
+The madam from before walks around the corner of the wall from an area of the main room which you couldn&#39;t see before. Her scowl melts the moment she sees it’s you — not Kallot. You assume that must be the name of the man outside.  
 &lt;&lt;set $characters[&quot;kallot&quot;].known = true&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt; Oh, I&#39;m sorry my dear. You must forgive me, I thought you were that lecherous roach out on the pavement again. Please! Come inside, allow me to remove that soaked cloak for you. &lt;&lt;/speech&gt;&gt;
 
-She approaches you, heels clicking on the ground, arms outstretched toward your &lt;&lt;link &quot;cloak&quot;&gt;&gt;
-	&lt;&lt;append &quot;#brothel-reveal&quot;&gt;&gt;
+&lt;span id=&quot;brothel-reveal&quot;&gt;She approaches you, heels clicking on the ground, arms outstretched toward your &lt;&lt;link &quot;cloak&quot;&gt;&gt;
+  &lt;&lt;replace &quot;#brothel-reveal&quot;&gt;&gt;
+    &lt;p&gt;She approaches you, heels clicking on the ground, arms outstretched toward your cloak.
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
-	&lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
-	&lt;&lt;/append&gt;&gt;
-&lt;&lt;/link&gt;&gt;.
-
-&lt;div id=&quot;brothel-reveal&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+    &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
+  &lt;&lt;/replace&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.

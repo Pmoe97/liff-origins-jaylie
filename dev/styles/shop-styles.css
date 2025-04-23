@@ -1,0 +1,159 @@
+/* =============================
+   SHOP OVERLAY LAYOUT
+============================= */
+.shop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.95);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .shop-window {
+    width: 98vw;
+    height: 92vh;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .inventory-dual-panel {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .inventory-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .inventory-header {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ddd;
+    text-align: center;
+  }
+  
+  .inventory-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .inventory-tabs button {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .inventory-tabs button:hover {
+    background-color: #555;
+  }
+  
+  .inventory-list {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .inventory-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .inventory-list th,
+  .inventory-list td {
+    text-align: center;
+    padding: 6px;
+    font-size: 0.85em;
+    border-bottom: 1px solid #444;
+    color: #ddd;
+  }
+  
+  .inventory-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+    color: #eee;
+  }
+  
+  .sell-button,
+  .buy-button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    background-color: #444;
+    color: white;
+    border: 1px solid #888;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sell-button:hover,
+  .buy-button:hover {
+    background-color: #666;
+  }
+  
+  .gold-change {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  
+  .gold-change.positive {
+    color: #0f0;
+  }
+  
+  .gold-change.negative {
+    color: #f55;
+  }
+  
+  /* =============================
+     CONFIRM BUTTON STYLING
+  ============================= */
+  .shop-confirm-row {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+  
+  .confirm-button {
+    padding: 10px 18px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #4a773c;
+    color: white;
+    border: 1px solid #6fa45b;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .confirm-button:hover {
+    background-color: #5d8f4b;
+  }
+  
