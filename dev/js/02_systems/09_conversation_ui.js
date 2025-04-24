@@ -1,10 +1,3 @@
-/* ======================================================
-   Conversation Minigame UI Handler
-   ------------------------------------------------------
-   Responsible for rendering the HTML overlay, updating
-   values in real-time, and managing the results screen.
-========================================================= */
-
 setup.ConvoUI = {
   renderMinigame(npcId) {
     setup.ConvoGame.start(npcId);
@@ -13,6 +6,8 @@ setup.ConvoUI = {
 
     const overlay = document.getElementById("conversation-overlay");
     if (!overlay) return;
+
+    overlay.style.display = "block"; // <-- Ensures the overlay becomes visible
 
     document.getElementById("convo-avatar").src = npc.avatar;
     document.getElementById("convo-npc-name").textContent = npc.name;
@@ -56,7 +51,7 @@ setup.ConvoUI = {
   renderPrompt() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const prompt = setup.getConvoPrompt?.(npc) ?? { text: "…”", baseDifficultyMod: 0 };
+    const prompt = setup.getConvoPrompt?.(npc) ?? { text: "…", baseDifficultyMod: 0 };
 
     convo.promptMod = prompt.baseDifficultyMod;
     setup.ConvoPromptTracker?.markShown(prompt.text);
