@@ -12,6 +12,5 @@ This story will contain elements of an ''ADULT/MATURE'' nature. Content like thi
 
 [[Wait I am NOT an adult|Underage_Response]]
 
-<<link "Enter Test Realm (Convo)">>
-	<<goto "TestRealm1.tw">>
-<</link>>
+/*PlaceHolder! Remove option.*/
+[[Go to brothel|TheBrothelParlorOverview]]

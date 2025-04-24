@@ -31,8 +31,15 @@
 <<append "#convoBox">>
   <<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
   <<speech "allura">>Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*<</speech>>
+  <p> Bert approaches faster than you can blink, a silver tray in hand, he bends at the waist and presents to you both a cocktail glass filled with a dark swirling liquid. As the fluid moves you feel as though you are watching a galaxy swirl inside the glass.</p>
+  <p> <<speech "bert">>Here you are, ladies. A <em>Black Hole</em>. Enjoy.<</speech>>
+  <p> It's Allura who reaches for the glass. No sooner than it is safely in her clutches down Bert retreat smoothly back to the bar. Allura raises the glass to her nose, inhales, and taste a delicate sip.</p>
+  <p> <<speech "allura">>Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.<</speech>>
+  <p> She holds the glass out to you. You take it from her and mimic her actions. The scent is rich and sweet; the scent of cherries fills your nostrils as though you'd taken a walk through an orchard on harvest day. You take a sip. The flavor is rich and dark, a hint of chocolate lies at the end of it, dark and nutty. It's certainly unlike anything else you've tried before.</p>
+  <p> <<speech "jaylie">> Gods! Wow. That is delectible.<</speech>>
+  <p> Allura smiles at you, very self assured.</p>
+  /*PlaceHolder! Add affection +1, Trust +1 Here */
 <</append>>
-<<run setup.bert_FulfillDrink("allura")>>
 <</widget>>
 
 :: Allura_StartMinigame [widget]
@@ -41,7 +48,7 @@
   <<speech "jaylie">>I just want to get to know you better.<</speech>>
   <<speech "allura">>Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.<</speech>>
 <</append>>
-<<run setup.ConvoGame.start("allura")>>
+<<OpenConvoGame "allura">>
 <</widget>>
 
 /*Allura Phase 1 Conversations */

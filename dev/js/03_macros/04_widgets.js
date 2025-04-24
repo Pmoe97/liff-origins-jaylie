@@ -90,18 +90,53 @@ Macro.add("SidebarUI", {
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
 	handler() {
-		if (!this.args[0] || !this.args[1]) return;
+		const label = this.args[0];
+		const target = this.args[1];
+		if (!label || !target) return;
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${this.args[0]}" → ${this.args[1]}`);
+		if (!State.variables.usedDialogueOptions) {
+			State.variables.usedDialogueOptions = {};
 		}
 
-		const choiceHTML = `<p><a class="link-internal" role="button">${this.args[0]}</a></p>`;
+		if (State.variables.DEBUG) {
+			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
+		}
+
+		const choiceHTML = `<p><a class="link-internal" role="button">${label}</a></p>`;
 		const $dialoguechoice = jQuery(choiceHTML);
 
 		$dialoguechoice.on("click", () => {
-			$("#convoChoices").empty();
-			new Wikifier(document.querySelector("#convoBox"), `<<display "${this.args[1]}">>`);
+			// Track usage
+			if (!target.includes("StartMinigame") && !target.includes("Nevermind")) {
+				State.variables.usedDialogueOptions[target] = true;
+			}
+
+			// Clear menu
+			$("#convoChoices").remove();
+
+			// Display selected response
+			Wikifier.wikifyEval(`<<${target}>>`);
+
+			// Reinject choices just after DOM has updated
+			setTimeout(() => {
+				// Recreate convoChoices inside convoBox
+				const box = document.getElementById("convoBox");
+				if (!document.getElementById("convoChoices") && box) {
+					const choices = document.createElement("div");
+					choices.id = "convoChoices";
+					box.appendChild(choices);
+				}
+			
+				// Then reinject options
+				const npc = State.variables.currentNPC || "allura";
+				const phase = State.variables.currentPhase ?? 0;
+			
+				const func = setup[`${npc}_Conversation_Options_Phase${phase}`];
+				if (typeof func === "function") {
+					console.log(`[DEBUG] Re-injecting dialogue options for ${npc}, phase ${phase}`);
+					func();
+				}
+			}, 25);			
 		});
 
 		$("#convoChoices").append($dialoguechoice);
@@ -109,8 +144,9 @@ Macro.add("dialogueChoice", {
 });
 
 
-/* Dialogue Tree Setup Macro */
-/* This macro is used to set up the dialogue tree for a specific NPC and phase. It dynamically loads the appropriate setup function based on the NPC ID and phase number. */
+
+
+
 Macro.add("DialogueTree", {
 	handler() {
 		const npc = this.args[0];
@@ -124,38 +160,105 @@ Macro.add("DialogueTree", {
 			console.log(`[DEBUG] DialogueTree loading for "${npc}", phase: ${phase}`);
 		}
 
-		// Inject containers if they don't exist
-		if (!document.getElementById("convoBox")) {
-			jQuery("#passages").append(`<div id="convoBox"></div>`);
-		}
-		if (!document.getElementById("convoChoices")) {
-			jQuery("#passages").append(`<div id="convoChoices"></div>`);
-		} else {
-			jQuery("#convoChoices").empty();
-		}
+		const injectConvoElements = () => {
+			const target = document.getElementById("text-backdrop");
+			if (!target) {
+				console.warn("[DialogueTree] ❌ No #text-backdrop found. Abort injection.");
+				return;
+			}
 
-		// Dynamically find the correct setup function
-		let functionName = `${npc}_Conversation_Options_Phase${phase}`;
-		let fallbackName = `${npc}_Conversation_Options_Generic`;
-		let setupFunc = setup[functionName] || setup[fallbackName];
+			if (!document.getElementById("convoBox")) {
+				console.log("[DialogueTree] ➕ Injecting #convoBox and nested #convoChoices");
+				const box = document.createElement("div");
+				box.id = "convoBox";
+			
+				const choices = document.createElement("div");
+				choices.id = "convoChoices";
+			
+				box.appendChild(choices);
+				target.appendChild(box);
+			} else {
+				const existingChoices = document.getElementById("convoChoices");
+				if (existingChoices) {
+					existingChoices.innerHTML = "";
+				}
+			}
+	
+			const functionName = `${npc}_Conversation_Options_Phase${phase}`;
+			const fallbackName = `${npc}_Conversation_Options_Generic`;
+			const setupFunc = setup[functionName] || setup[fallbackName];
 
-		if (typeof setupFunc === "function") {
-			setupFunc();
-		} else {
-			console.warn(`[DialogueTree] No setup function found: ${functionName}`);
-			jQuery("#convoChoices").append(`<p>Dialogue options missing.</p>`);
-		}
+			if (typeof setupFunc === "function") {
+				console.log(`[DialogueTree] ✅ Running setup: ${functionName}`);
+				setupFunc();
+			} else {
+				console.warn(`[DialogueTree] ⚠️ No setup function found: ${functionName}`);
+				document.getElementById("convoChoices").innerHTML = `<p>Dialogue options missing.</p>`;
+			}
+		};
+
+		// Run injection after DOM settles
+		setTimeout(() => {
+			injectConvoElements();
+
+			// Also observe DOM changes to catch edge cases where content is moved again
+			const observer = new MutationObserver(() => {
+				if (!document.getElementById("convoBox") || !document.getElementById("convoChoices")) {
+					console.log("[DialogueTree] ⏱️ Re-attempting convo injection via observer...");
+					injectConvoElements();
+				}
+			});
+
+			const observeTarget = document.getElementById("text-backdrop");
+			if (observeTarget) {
+				observer.observe(observeTarget, { childList: true, subtree: true });
+			}
+		}, 20);
 	}
 });
+
+
 /* Choice setup beautifier function */
 setup.addChoices = function (list) {
 	const $dialoguechoices = $("#convoChoices");
 	$dialoguechoices.empty();
 
 	list.forEach(([label, target]) => {
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
-		}
+		// Always include "Nevermind" or persistent options
+		const persistent = target.includes("StartMinigame") || target.includes("Nevermind");
+
+		if (!persistent && State.variables.usedDialogueOptions?.[target]) return;
+
 		Wikifier.wikifyEval(`<<dialogueChoice "${label}" "${target}">>`);
 	});
 };
+
+/* In-line Convo Minigame Button/Launcher Insert Macro */
+/* <<OpenConvoGame "npcId">> to start */
+Macro.add("OpenConvoGame", {
+	handler() {
+		const npcId = this.args[0];
+		const char = State.variables.characters?.[npcId];
+
+		if (!npcId || !char) {
+			return this.error("OpenConvoGame requires a valid NPC ID.");
+		}
+
+		const btnHTML = `
+			<div class="start-minigame-button-wrapper">
+				<button class="start-minigame-button" onclick="setup.ConvoUI.renderMinigame('${npcId}')">
+					Get to know ${char.name}
+				</button>
+			</div>
+		`;
+
+		const target = document.getElementById("convoBox");
+		if (target) {
+			target.insertAdjacentHTML("beforeend", btnHTML);
+		} else {
+			console.warn("[OpenConvoGame] #convoBox not found — cannot inject button.");
+		}
+	}
+});
+
+

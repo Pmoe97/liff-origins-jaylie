@@ -160,3 +160,44 @@
     to   { opacity: 1; transform: translateY(0); }
   }
   
+  /* Minigame Launcher Button Styles */
+  .start-minigame-button-wrapper {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .start-minigame-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    color: white;
+    padding: 0.5em 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .start-minigame-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  /* Hidden conversation overlay for startup */
+  #conversation-overlay {
+    position: fixed;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 2em;
+    display: none;
+    color: white;
+  }
+  
+  .convo-window {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #222;
+    padding: 1em;
+    border-radius: 12px;
+  }
+  

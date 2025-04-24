@@ -471,11 +471,52 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     to   { opacity: 1; transform: translateY(0); }
   }
   
+  /* Minigame Launcher Button Styles */
+  .start-minigame-button-wrapper {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .start-minigame-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    color: white;
+    padding: 0.5em 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .start-minigame-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  /* Hidden conversation overlay for startup */
+  #conversation-overlay {
+    position: fixed;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 2em;
+    display: none;
+    color: white;
+  }
+  
+  .convo-window {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #222;
+    padding: 1em;
+    border-radius: 12px;
+  }
+  
 /* twine-user-stylesheet #5: "dialoguestyles.css" */
 #convoBox {
     padding: 1em;
     margin-bottom: 1em;
-    background: rgba(255, 255, 255, 0.05); /* soft translucent overlay */
+    background: rgba(255, 255, 255, 0.01); /* soft translucent overlay */
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0.5em;
     color: #eee;
@@ -1092,7 +1133,167 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
   .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
   
-/* twine-user-stylesheet #11: "sidebar.css" */
+/* twine-user-stylesheet #11: "shop-styles.css" */
+/* =============================
+   SHOP OVERLAY LAYOUT
+============================= */
+.shop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(26, 26, 26, 0.95);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .shop-window {
+    width: 98vw;
+    height: 92vh;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .inventory-dual-panel {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .inventory-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1a1a;
+    border: 1px solid #a18348;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .inventory-header {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ddd;
+    text-align: center;
+  }
+  
+  .inventory-tabs {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .inventory-tabs button {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .inventory-tabs button:hover {
+    background-color: #555;
+  }
+  
+  .inventory-list {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .inventory-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .inventory-list th,
+  .inventory-list td {
+    text-align: center;
+    padding: 6px;
+    font-size: 0.85em;
+    border-bottom: 1px solid #444;
+    color: #ddd;
+  }
+  
+  .inventory-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+    color: #eee;
+  }
+  
+  .sell-button,
+  .buy-button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    background-color: #444;
+    color: white;
+    border: 1px solid #888;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sell-button:hover,
+  .buy-button:hover {
+    background-color: #666;
+  }
+  
+  .gold-change {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  
+  .gold-change.positive {
+    color: #0f0;
+  }
+  
+  .gold-change.negative {
+    color: #f55;
+  }
+  
+  /* =============================
+     CONFIRM BUTTON STYLING
+  ============================= */
+  .shop-confirm-row {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+  
+  .confirm-button {
+    padding: 10px 18px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #4a773c;
+    color: white;
+    border: 1px solid #6fa45b;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .confirm-button:hover {
+    background-color: #5d8f4b;
+  }
+  
+/* twine-user-stylesheet #12: "sidebar.css" */
 /* =============================
 =     Sidebar Buttons Panel    =
 ============================= */
@@ -1144,7 +1345,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 #ui-bar {
 	display: none !important;
 }
-/* twine-user-stylesheet #12: "speech.css" */
+/* twine-user-stylesheet #13: "speech.css" */
 /* =============================
 =        Speech Bubbles        =
 ============================= */
@@ -1187,7 +1388,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     margin: 0;
     line-height: 1.5;
 }
-/* twine-user-stylesheet #13: "statusbars.css" */
+/* twine-user-stylesheet #14: "statusbars.css" */
 /* =============================
 =     Character Status Bars    =
 ============================= */
@@ -1215,7 +1416,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     height: 100%;
     transition: width 0.4s ease;
 }
-/* twine-user-stylesheet #14: "text-effects.css" */
+/* twine-user-stylesheet #15: "text-effects.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -1274,7 +1475,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
 }
-/* twine-user-stylesheet #15: "themes.css" */
+/* twine-user-stylesheet #16: "themes.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -1603,8 +1804,26 @@ State.variables.characters = {
 		motivations: ["Pleasure", "Connection"],
 		socialStyle: "Charming"
 	  },
+	bert: {
+		name: "Bert",
+		defaultName: "Brothel Bartender",
+		known: false,
+		avatar: "images/portrait_bert.png",
+		color: "white",
+		bgColor: "rgba(74, 76, 69, 0.6)",
 
-  };
+		trust:0,
+		affection: 0,
+		rapport: 1.0,
+		tension: 0,
+		cooldown: 0,
+
+		traits: ["Stoic", "Cynical", "Guarded"],
+		inclinations: ["Voyeurism"],
+		motivations: ["Loyalty", "Devotion"],
+		socialStyle: "Stoic"
+	}
+};
   
   /* Character Dialogue & Avatars - End */
 /* twine-user-script #6: "05_statusbars.js" */
@@ -2309,8 +2528,8 @@ $(document).on(':passagerender', function () {
 		const backdrop = document.getElementById('text-backdrop');
 
 		if (passage && backdrop) {
-			backdrop.innerHTML = ""; // Clear previous content
-			backdrop.appendChild(passage); // Move the actual DOM node
+			// FIX: preserves injected DOM nodes like convoBox instead of wiping them out
+			backdrop.replaceChildren(passage);
 		} else {
 			console.warn("⚠️ Could not move passage content:", {
 				passageFound: !!passage,
@@ -2336,7 +2555,7 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
-/* twine-user-script #15: "06_conversation_minigame.js" */
+/* twine-user-script #15: "08_conversation_minigame.js" */
 setup.ConvoGame = {
   start(npcId) {
     const npc = State.variables.characters[npcId];
@@ -2522,7 +2741,7 @@ setup.gainSkillXP = function(skillName, amount) {
     console.log(`[XP] +${amount} XP gained in ${skillName} (Total: ${State.variables.skillXP[skillName]})`);
   }
 };
-/* twine-user-script #16: "07_conversation_ui.js" */
+/* twine-user-script #16: "09_conversation_ui.js" */
 /* ======================================================
    Conversation Minigame UI Handler
    ------------------------------------------------------
@@ -2640,8 +2859,8 @@ setup.ConvoUI = {
     alert("Gift system not yet implemented!");
   }
 };
-/* twine-user-script #17: "08_dialogueSetup.js" */
-/* twine-user-script #18: "10_npcSystems.js" */
+/* twine-user-script #17: "10_dialogueSetup.js" */
+/* twine-user-script #18: "15_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -2893,18 +3112,53 @@ Macro.add("SidebarUI", {
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
 	handler() {
-		if (!this.args[0] || !this.args[1]) return;
+		const label = this.args[0];
+		const target = this.args[1];
+		if (!label || !target) return;
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${this.args[0]}" → ${this.args[1]}`);
+		if (!State.variables.usedDialogueOptions) {
+			State.variables.usedDialogueOptions = {};
 		}
 
-		const choiceHTML = `<p><a class="link-internal" role="button">${this.args[0]}</a></p>`;
+		if (State.variables.DEBUG) {
+			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
+		}
+
+		const choiceHTML = `<p><a class="link-internal" role="button">${label}</a></p>`;
 		const $dialoguechoice = jQuery(choiceHTML);
 
 		$dialoguechoice.on("click", () => {
-			$("#convoChoices").empty();
-			new Wikifier(document.querySelector("#convoBox"), `<<display "${this.args[1]}">>`);
+			// Track usage
+			if (!target.includes("StartMinigame") && !target.includes("Nevermind")) {
+				State.variables.usedDialogueOptions[target] = true;
+			}
+
+			// Clear menu
+			$("#convoChoices").remove();
+
+			// Display selected response
+			Wikifier.wikifyEval(`<<${target}>>`);
+
+			// Reinject choices just after DOM has updated
+			setTimeout(() => {
+				// Recreate convoChoices inside convoBox
+				const box = document.getElementById("convoBox");
+				if (!document.getElementById("convoChoices") && box) {
+					const choices = document.createElement("div");
+					choices.id = "convoChoices";
+					box.appendChild(choices);
+				}
+			
+				// Then reinject options
+				const npc = State.variables.currentNPC || "allura";
+				const phase = State.variables.currentPhase ?? 0;
+			
+				const func = setup[`${npc}_Conversation_Options_Phase${phase}`];
+				if (typeof func === "function") {
+					console.log(`[DEBUG] Re-injecting dialogue options for ${npc}, phase ${phase}`);
+					func();
+				}
+			}, 25);			
 		});
 
 		$("#convoChoices").append($dialoguechoice);
@@ -2912,8 +3166,9 @@ Macro.add("dialogueChoice", {
 });
 
 
-/* Dialogue Tree Setup Macro */
-/* This macro is used to set up the dialogue tree for a specific NPC and phase. It dynamically loads the appropriate setup function based on the NPC ID and phase number. */
+
+
+
 Macro.add("DialogueTree", {
 	handler() {
 		const npc = this.args[0];
@@ -2927,41 +3182,108 @@ Macro.add("DialogueTree", {
 			console.log(`[DEBUG] DialogueTree loading for "${npc}", phase: ${phase}`);
 		}
 
-		// Inject containers if they don't exist
-		if (!document.getElementById("convoBox")) {
-			jQuery("#passages").append(`<div id="convoBox"></div>`);
-		}
-		if (!document.getElementById("convoChoices")) {
-			jQuery("#passages").append(`<div id="convoChoices"></div>`);
-		} else {
-			jQuery("#convoChoices").empty();
-		}
+		const injectConvoElements = () => {
+			const target = document.getElementById("text-backdrop");
+			if (!target) {
+				console.warn("[DialogueTree] ❌ No #text-backdrop found. Abort injection.");
+				return;
+			}
 
-		// Dynamically find the correct setup function
-		let functionName = `${npc}_Conversation_Options_Phase${phase}`;
-		let fallbackName = `${npc}_Conversation_Options_Generic`;
-		let setupFunc = setup[functionName] || setup[fallbackName];
+			if (!document.getElementById("convoBox")) {
+				console.log("[DialogueTree] ➕ Injecting #convoBox and nested #convoChoices");
+				const box = document.createElement("div");
+				box.id = "convoBox";
+			
+				const choices = document.createElement("div");
+				choices.id = "convoChoices";
+			
+				box.appendChild(choices);
+				target.appendChild(box);
+			} else {
+				const existingChoices = document.getElementById("convoChoices");
+				if (existingChoices) {
+					existingChoices.innerHTML = "";
+				}
+			}
+	
+			const functionName = `${npc}_Conversation_Options_Phase${phase}`;
+			const fallbackName = `${npc}_Conversation_Options_Generic`;
+			const setupFunc = setup[functionName] || setup[fallbackName];
 
-		if (typeof setupFunc === "function") {
-			setupFunc();
-		} else {
-			console.warn(`[DialogueTree] No setup function found: ${functionName}`);
-			jQuery("#convoChoices").append(`<p>Dialogue options missing.</p>`);
-		}
+			if (typeof setupFunc === "function") {
+				console.log(`[DialogueTree] ✅ Running setup: ${functionName}`);
+				setupFunc();
+			} else {
+				console.warn(`[DialogueTree] ⚠️ No setup function found: ${functionName}`);
+				document.getElementById("convoChoices").innerHTML = `<p>Dialogue options missing.</p>`;
+			}
+		};
+
+		// Run injection after DOM settles
+		setTimeout(() => {
+			injectConvoElements();
+
+			// Also observe DOM changes to catch edge cases where content is moved again
+			const observer = new MutationObserver(() => {
+				if (!document.getElementById("convoBox") || !document.getElementById("convoChoices")) {
+					console.log("[DialogueTree] ⏱️ Re-attempting convo injection via observer...");
+					injectConvoElements();
+				}
+			});
+
+			const observeTarget = document.getElementById("text-backdrop");
+			if (observeTarget) {
+				observer.observe(observeTarget, { childList: true, subtree: true });
+			}
+		}, 20);
 	}
 });
+
+
 /* Choice setup beautifier function */
 setup.addChoices = function (list) {
 	const $dialoguechoices = $("#convoChoices");
 	$dialoguechoices.empty();
 
 	list.forEach(([label, target]) => {
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
-		}
+		// Always include "Nevermind" or persistent options
+		const persistent = target.includes("StartMinigame") || target.includes("Nevermind");
+
+		if (!persistent && State.variables.usedDialogueOptions?.[target]) return;
+
 		Wikifier.wikifyEval(`<<dialogueChoice "${label}" "${target}">>`);
 	});
 };
+
+/* In-line Convo Minigame Button/Launcher Insert Macro */
+/* <<OpenConvoGame "npcId">> to start */
+Macro.add("OpenConvoGame", {
+	handler() {
+		const npcId = this.args[0];
+		const char = State.variables.characters?.[npcId];
+
+		if (!npcId || !char) {
+			return this.error("OpenConvoGame requires a valid NPC ID.");
+		}
+
+		const btnHTML = `
+			<div class="start-minigame-button-wrapper">
+				<button class="start-minigame-button" onclick="setup.ConvoUI.renderMinigame('${npcId}')">
+					Get to know ${char.name}
+				</button>
+			</div>
+		`;
+
+		const target = document.getElementById("convoBox");
+		if (target) {
+			target.insertAdjacentHTML("beforeend", btnHTML);
+		} else {
+			console.warn("[OpenConvoGame] #convoBox not found — cannot inject button.");
+		}
+	}
+});
+
+
 /* twine-user-script #23: "adda.js" */
 /* twine-user-script #24: "allura.js" */
 /* Allura Conversation Options Phase 0 */
@@ -3817,14 +4139,21 @@ setup.SocialStyles = {
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*&lt;&lt;/speech&gt;&gt;
+  &lt;p&gt; Bert approaches faster than you can blink, a silver tray in hand, he bends at the waist and presents to you both a cocktail glass filled with a dark swirling liquid. As the fluid moves you feel as though you are watching a galaxy swirl inside the glass.&lt;/p&gt;
+  &lt;p&gt; &lt;&lt;speech &quot;bert&quot;&gt;&gt;Here you are, ladies. A &lt;em&gt;Black Hole&lt;/em&gt;. Enjoy.&lt;&lt;/speech&gt;&gt;
+  &lt;p&gt; It&#39;s Allura who reaches for the glass. No sooner than it is safely in her clutches down Bert retreat smoothly back to the bar. Allura raises the glass to her nose, inhales, and taste a delicate sip.&lt;/p&gt;
+  &lt;p&gt; &lt;&lt;speech &quot;allura&quot;&gt;&gt;Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.&lt;&lt;/speech&gt;&gt;
+  &lt;p&gt; She holds the glass out to you. You take it from her and mimic her actions. The scent is rich and sweet; the scent of cherries fills your nostrils as though you&#39;d taken a walk through an orchard on harvest day. You take a sip. The flavor is rich and dark, a hint of chocolate lies at the end of it, dark and nutty. It&#39;s certainly unlike anything else you&#39;ve tried before.&lt;/p&gt;
+  &lt;p&gt; &lt;&lt;speech &quot;jaylie&quot;&gt;&gt; Gods! Wow. That is delectible.&lt;&lt;/speech&gt;&gt;
+  &lt;p&gt; Allura smiles at you, very self assured.&lt;/p&gt;
+  /*PlaceHolder! Add affection +1, Trust +1 Here */
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.bert_FulfillDrink(&quot;allura&quot;)&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="Allura_StartMinigame" tags="widget" position="225,225" size="100,100">&lt;&lt;widget &quot;Allura_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.ConvoGame.start(&quot;allura&quot;)&gt;&gt;
+&lt;&lt;OpenConvoGame &quot;allura&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
 /*Allura Phase 1 Conversations */</tw-passagedata><tw-passagedata pid="13" name="Allura_WhatSheWants" tags="widget" position="350,225" size="100,100">&lt;&lt;widget &quot;Allura_WhatSheWants&quot;&gt;&gt;
@@ -4053,6 +4382,29 @@ setup.SocialStyles = {
 ============================= --&gt;
 &lt;div id=&quot;overlay-panel&quot; class=&quot;overlay-hidden&quot;&gt;
   &lt;div id=&quot;overlay-body&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!--===============================
+=  Conversation Overlay Startup   =
+================================--&gt;
+&lt;div id=&quot;conversation-overlay&quot; style=&quot;display: none;&quot;&gt;
+  &lt;div class=&quot;convo-window&quot;&gt;
+    &lt;img id=&quot;convo-avatar&quot; src=&quot;&quot; alt=&quot;Avatar&quot; /&gt;
+    &lt;h2 id=&quot;convo-npc-name&quot;&gt;&lt;/h2&gt;
+    &lt;div id=&quot;convo-npc-style&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;convo-npc-prompt&quot; class=&quot;convo-prompt&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;convo-choices&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;convo-actions&quot;&gt;
+      &lt;!-- Action buttons here --&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;convo-results&quot;&gt;
+      &lt;p id=&quot;convo-summary-gains&quot;&gt;&lt;/p&gt;
+      &lt;p id=&quot;convo-summary-rapport&quot;&gt;&lt;/p&gt;
+      &lt;p id=&quot;convo-summary-gifts&quot;&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="48" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
 * [[Help]]</tw-passagedata><tw-passagedata pid="49" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="50" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
 # Introduction
@@ -4067,9 +4419,8 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 
 [[Wait I am NOT an adult|Underage_Response]]
 
-&lt;&lt;link &quot;Enter Test Realm (Convo)&quot;&gt;&gt;
-	&lt;&lt;goto &quot;TestRealm1.tw&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="52" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+/*PlaceHolder! Remove option.*/
+[[Go to brothel|TheBrothelParlorOverview]]</tw-passagedata><tw-passagedata pid="51" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="52" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -4122,13 +4473,7 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it&#39;s amusement or anticipation, you can&#39;t tell.
 
----
-
-**From here, you may:**
-[[Flirt back — boldly.|Scene02_Exotic_FlirtBack]]
-[[Try to remain composed.|Scene02_Exotic_PlayCool]]
-[[Ask what she meant about your smell.|Scene02_Exotic_Secrets]]
-[[Make a polite exit.|Scene02_Exotic_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="54" name="Scene02_TalkToMaleHost" tags="" position="475,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="Scene02_TalkToMaleHost" tags="" position="475,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
@@ -4185,7 +4530,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.

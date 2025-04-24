@@ -27,10 +27,4 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it's amusement or anticipation, you can't tell.
 
----
-
-**From here, you may:**
-[[Flirt back — boldly.|Scene02_Exotic_FlirtBack]]
-[[Try to remain composed.|Scene02_Exotic_PlayCool]]
-[[Ask what she meant about your smell.|Scene02_Exotic_Secrets]]
-[[Make a polite exit.|Scene02_Exotic_ExcuseYourself]]
+<<DialogueTree "allura" 0>>

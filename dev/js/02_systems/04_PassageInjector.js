@@ -4,8 +4,8 @@ $(document).on(':passagerender', function () {
 		const backdrop = document.getElementById('text-backdrop');
 
 		if (passage && backdrop) {
-			backdrop.innerHTML = ""; // Clear previous content
-			backdrop.appendChild(passage); // Move the actual DOM node
+			// FIX: preserves injected DOM nodes like convoBox instead of wiping them out
+			backdrop.replaceChildren(passage);
 		} else {
 			console.warn("⚠️ Could not move passage content:", {
 				passageFound: !!passage,

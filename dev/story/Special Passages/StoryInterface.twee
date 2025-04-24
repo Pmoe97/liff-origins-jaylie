@@ -30,3 +30,26 @@
 <div id="overlay-panel" class="overlay-hidden">
   <div id="overlay-body"></div>
 </div>
+
+<!--===============================
+=  Conversation Overlay Startup   =
+================================-->
+<div id="conversation-overlay" style="display: none;">
+  <div class="convo-window">
+    <img id="convo-avatar" src="" alt="Avatar" />
+    <h2 id="convo-npc-name"></h2>
+    <div id="convo-npc-style"></div>
+    <div id="convo-npc-prompt" class="convo-prompt"></div>
+
+    <div class="convo-choices"></div>
+    <div class="convo-actions">
+      <!-- Action buttons here -->
+    </div>
+
+    <div class="convo-results">
+      <p id="convo-summary-gains"></p>
+      <p id="convo-summary-rapport"></p>
+      <p id="convo-summary-gifts"></p>
+    </div>
+  </div>
+</div>

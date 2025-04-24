@@ -172,7 +172,25 @@ State.variables.characters = {
 		motivations: ["Pleasure", "Connection"],
 		socialStyle: "Charming"
 	  },
+	bert: {
+		name: "Bert",
+		defaultName: "Brothel Bartender",
+		known: false,
+		avatar: "images/portrait_bert.png",
+		color: "white",
+		bgColor: "rgba(74, 76, 69, 0.6)",
 
-  };
+		trust:0,
+		affection: 0,
+		rapport: 1.0,
+		tension: 0,
+		cooldown: 0,
+
+		traits: ["Stoic", "Cynical", "Guarded"],
+		inclinations: ["Voyeurism"],
+		motivations: ["Loyalty", "Devotion"],
+		socialStyle: "Stoic"
+	}
+};
   
   /* Character Dialogue & Avatars - End */
