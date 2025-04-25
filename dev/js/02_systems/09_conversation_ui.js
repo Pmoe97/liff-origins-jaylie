@@ -10,8 +10,11 @@ setup.ConvoUI = {
     overlay.style.display = "block"; // <-- Ensures the overlay becomes visible
 
     document.getElementById("convo-avatar").src = npc.avatar;
-    document.getElementById("convo-npc-name").textContent = npc.name;
-    document.getElementById("convo-npc-style").textContent = `Social Style: ${npc.socialStyle ?? "—"}`;
+    const npcName = document.getElementById("convo-npc-name");
+    const npcStyle = document.getElementById("convo-npc-style");
+    if (npcName) npcName.textContent = npc.name;
+    if (npcStyle) npcStyle.textContent = `Social Style: ${npc.socialStyle ?? "—"}`;
+
 
     document.querySelector(".convo-choices").style.display = "block";
     document.querySelector(".convo-actions").style.display = "flex";

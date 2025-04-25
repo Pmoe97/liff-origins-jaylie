@@ -6,198 +6,187 @@
    for responsiveness and theme cohesion.
 ========================================================= */
 
-.conversation-overlay {
-    position: fixed;
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 850px;
-    background: rgba(10, 10, 10, 0.92);
-    border: 2px solid #aaa;
-    border-radius: 12px;
-    padding: 1.5em;
-    z-index: 1000;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    color: #eee;
-    font-family: var(--main-font);
-    transition: opacity 0.3s ease;
-  }
-  
-  .convo-header {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5em;
-    margin-bottom: 1em;
-  }
-  
-  .convo-npc-info {
-    display: flex;
-    gap: 1em;
-    align-items: center;
-  }
-  
-  .convo-npc-info img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #999;
-  }
-  
-  .convo-name {
-    font-size: 1.2em;
-    font-weight: bold;
-  }
-  
-  .convo-style {
-    font-size: 0.9em;
-    color: #ccc;
-  }
-  
-  .convo-meta {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.25em;
-    text-align: right;
-    font-size: 0.95em;
-  }
-  
-  .convo-prompt {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid #888;
-    padding: 1em;
-    margin-bottom: 1em;
-    font-style: italic;
-    font-size: 1.05em;
-    line-height: 1.4;
-  }
-  
-  .convo-choices {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.5em;
-    margin-bottom: 1em;
-  }
-  
-  .convo-choices button {
-    padding: 0.8em;
-    background: #333;
-    border: 1px solid #777;
-    border-radius: 6px;
-    color: #eee;
-    font-size: 0.95em;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .convo-choices button:hover {
-    background: #444;
-  }
-  
-  .convo-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-    margin-top: 1em;
-  }
-  
-  .convo-actions button {
-    flex: 1;
-    padding: 0.8em;
-    border-radius: 6px;
-    border: 1px solid #666;
-    font-weight: bold;
-    background: #202020;
-    color: #eee;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .convo-actions button:hover {
-    background: #2a2a2a;
-  }
-  
-  .convo-results {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.2em;
-    margin-top: 1em;
-    border-left: 4px solid #4caf50;
-    font-size: 0.95em;
-    font-style: normal;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  
-  .convo-results-summary {
-    margin-bottom: 1em;
-    font-weight: bold;
-    color: #aaffaa;
-    text-align: center;
-    font-size: 1em;
-  }
-  
-  .convo-results button {
-    display: block;
-    margin: 1em auto 0 auto;
-    padding: 0.8em 2em;
-    border-radius: 6px;
-    border: 1px solid #666;
-    background: #202020;
-    color: #eee;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .convo-results button:hover {
-    background: #2a2a2a;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* Minigame Launcher Button Styles */
-  .start-minigame-button-wrapper {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .start-minigame-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #aaa;
-    border-radius: 8px;
-    color: white;
-    padding: 0.5em 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .start-minigame-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-  
-  /* Hidden conversation overlay for startup */
-  #conversation-overlay {
-    position: fixed;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.85);
-    top: 0; left: 0; right: 0; bottom: 0;
-    padding: 2em;
-    display: none;
-    color: white;
-  }
-  
-  .convo-window {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #222;
-    padding: 1em;
-    border-radius: 12px;
-  }
-  
+#conversation-overlay {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 2em;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.convo-window {
+  max-width: 800px;
+  width: 100%;
+  background: #222;
+  padding: 1.5em;
+  border-radius: 12px;
+  border: 2px solid #aaa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.convo-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  margin-bottom: 1em;
+}
+
+.convo-npc-info {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.convo-npc-info img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #999;
+}
+
+.convo-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.convo-style {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.convo-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25em;
+  text-align: right;
+  font-size: 0.95em;
+}
+
+.convo-prompt {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #888;
+  padding: 1em;
+  margin-bottom: 1em;
+  font-style: italic;
+  font-size: 1.05em;
+  line-height: 1.4;
+}
+
+.convo-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.convo-choices button {
+  padding: 0.8em;
+  background: #333;
+  border: 1px solid #777;
+  border-radius: 6px;
+  color: #eee;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.convo-choices button:hover {
+  background: #444;
+}
+
+.convo-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+.convo-actions button {
+  flex: 1;
+  padding: 0.8em;
+  border-radius: 6px;
+  border: 1px solid #666;
+  font-weight: bold;
+  background: #202020;
+  color: #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.convo-actions button:hover {
+  background: #2a2a2a;
+}
+
+.convo-results {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.2em;
+  margin-top: 1em;
+  border-left: 4px solid #4caf50;
+  font-size: 0.95em;
+  font-style: normal;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.convo-results-summary {
+  margin-bottom: 1em;
+  font-weight: bold;
+  color: #aaffaa;
+  text-align: center;
+  font-size: 1em;
+}
+
+.convo-results button {
+  display: block;
+  margin: 1em auto 0 auto;
+  padding: 0.8em 2em;
+  border-radius: 6px;
+  border: 1px solid #666;
+  background: #202020;
+  color: #eee;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.convo-results button:hover {
+  background: #2a2a2a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Minigame Launcher Button Styles */
+.start-minigame-button-wrapper {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.start-minigame-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  color: white;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.start-minigame-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
