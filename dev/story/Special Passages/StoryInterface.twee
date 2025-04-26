@@ -34,8 +34,8 @@
 <!--===============================
 =  Conversation Overlay Startup   =
 ================================-->
-<div id="conversation-overlay" style="display: none;">
-  <div class="convo-window">
+<div id="conversation-overlay" class="convo-overlay overlay-hidden">
+    <div class="convo-window">
     <img id="convo-avatar" src="" alt="Avatar" />
     <h2 id="convo-npc-name"></h2>
     <div id="convo-npc-style"></div>

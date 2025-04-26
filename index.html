@@ -310,196 +310,195 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   
 /* twine-user-stylesheet #4: "convo-minigame-styles.css" */
 /* ======================================================
-   Conversation Minigame Overlay Styles
-   ------------------------------------------------------
-   Layout and visual style for the NPC conversation UI
-   overlay. Adjust padding, spacing, and fonts as needed
-   for responsiveness and theme cohesion.
+   Conversation Minigame Overlay Styles (Updated Layout)
 ========================================================= */
 
 #conversation-overlay {
   position: fixed;
-  z-index: 1000;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.85);
-  padding: 2em;
-  color: white;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
+  z-index: 1000;
+  font-family: var(--main-font);
+  color: #eee;
+}
+
+/* Hide overlay class toggle */
+.overlay-hidden {
+  display: none !important;
 }
 
 .convo-window {
-  max-width: 800px;
-  width: 100%;
-  background: #222;
-  padding: 1.5em;
+  display: flex;
+  width: 90vw;
+  max-width: 1000px;
+  height: 90vh;
+  background: #1c1c1c;
+  border: 2px solid #888;
   border-radius: 12px;
-  border: 2px solid #aaa;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  padding: 1em;
 }
 
-.convo-header {
+#convo-body {
   display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* LEFT PANEL */
+.convo-left-bar {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.5em;
-  margin-bottom: 1em;
-}
-
-.convo-npc-info {
-  display: flex;
-  gap: 1em;
   align-items: center;
+  padding: 1em;
+  border-right: 2px solid #444;
 }
 
-.convo-npc-info img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
+.npc-portrait img,
+.player-portrait img {
+  width: 100%;
+  border-radius: 8px;
   border: 2px solid #999;
 }
 
-.convo-name {
-  font-size: 1.2em;
-  font-weight: bold;
+.convo-stats {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 0.95em;
+  border: 1px solid #666;
+  border-radius: 6px;
+  padding: 0.5em;
+  width: 100%;
+  background: #222;
 }
 
-.convo-style {
-  font-size: 0.9em;
-  color: #ccc;
+.convo-stats div {
+  margin: 0.25em 0;
 }
 
-.convo-meta {
+/* RIGHT PANEL */
+.convo-right {
+  width: 75%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.25em;
-  text-align: right;
-  font-size: 0.95em;
+  justify-content: space-between;
+  padding: 1em;
 }
 
-.convo-prompt {
-  background: rgba(255, 255, 255, 0.05);
-  border-left: 4px solid #888;
-  padding: 1em;
-  margin-bottom: 1em;
+/* Header Area */
+.convo-header-box {
+  border-bottom: 1px solid #666;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.npc-name {
+  font-size: 1.5em;
   font-style: italic;
-  font-size: 1.05em;
-  line-height: 1.4;
+}
+
+.npc-prompt {
+  font-size: 1.3em;
+  font-style: italic;
+  color: #e44;
+  margin-top: 0.5em;
+}
+
+/* Choices Area */
+.convo-main-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .convo-choices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 0.5em;
-  margin-bottom: 1em;
+  padding: 1em;
 }
 
 .convo-choices button {
-  padding: 0.8em;
-  background: #333;
-  border: 1px solid #777;
-  border-radius: 6px;
-  color: #eee;
-  font-size: 0.95em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.convo-choices button:hover {
-  background: #444;
-}
-
-.convo-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 1em;
-  margin-top: 1em;
-}
-
-.convo-actions button {
-  flex: 1;
-  padding: 0.8em;
-  border-radius: 6px;
-  border: 1px solid #666;
-  font-weight: bold;
-  background: #202020;
-  color: #eee;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.convo-actions button:hover {
-  background: #2a2a2a;
-}
-
-.convo-results {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1.2em;
-  margin-top: 1em;
-  border-left: 4px solid #4caf50;
-  font-size: 0.95em;
-  font-style: normal;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.convo-results-summary {
-  margin-bottom: 1em;
-  font-weight: bold;
-  color: #aaffaa;
-  text-align: center;
+  background: #222;
+  border: 1px solid #999;
+  border-radius: 4px;
+  color: #aef;
   font-size: 1em;
-}
-
-.convo-results button {
-  display: block;
-  margin: 1em auto 0 auto;
-  padding: 0.8em 2em;
-  border-radius: 6px;
-  border: 1px solid #666;
-  background: #202020;
-  color: #eee;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.convo-results button:hover {
-  background: #2a2a2a;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Minigame Launcher Button Styles */
-.start-minigame-button-wrapper {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.start-minigame-button {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid #aaa;
-  border-radius: 8px;
-  color: white;
-  padding: 0.5em 1em;
-  font-weight: bold;
+  padding: 0.6em;
+  text-align: left;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
-.start-minigame-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
+.convo-choices button:hover {
+  background: #333;
+}
+
+/* Action Buttons */
+.convo-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border-top: 1px solid #666;
+}
+
+.convo-buttons button {
+  padding: 0.8em 1.5em;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background: #202020;
+  color: #eee;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.convo-buttons button:hover {
+  background: #2a2a2a;
+}
+
+/* RESPONSIVE SCALING */
+@media (max-width: 768px) {
+  .convo-window {
+    flex-direction: column;
+    height: auto;
+  }
+  .convo-left-bar,
+  .convo-right {
+    width: 100%;
+    border-right: none;
+  }
+}
+
+.convo-results {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222;
+  border: 2px solid #555;
+  border-radius: 12px;
+  padding: 2em;
+  text-align: center;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+.convo-results.hidden {
+  display: none;
 }
 /* twine-user-stylesheet #5: "dialoguestyles.css" */
 #convoBox {
@@ -2545,309 +2544,392 @@ $(document).on(':passagedisplay', function () {
 	delete State.variables.bgImageSetThisPassage;
 });
 /* twine-user-script #15: "08_conversation_minigame.js" */
+// 08_conversation_minigame.js
+
 setup.ConvoGame = {
   start(npcId) {
     const npc = State.variables.characters[npcId];
     if (!npc) {
-      if (State.variables.DEBUG || setup.DEBUG) {
-        console.warn(`[ConvoGame] Could not start; NPC '${npcId}' not found.`);
-      }
+      console.error(`[ConvoGame] Invalid NPC ID: ${npcId}`);
       return;
     }
-
+  
     State.temporary.convo = {
       npcId,
       turn: 1,
-      tension: npc.tension ?? 0,
+      maxTurn: 999, // allow indefinite play unless manually ended or tension maxes
+      tension: 0,
+      maxTension: npc.maxTension ?? 3,
       rapport: npc.rapport ?? 1.0,
-      lastCheckpoint: 0,
       trustGained: 0,
       affectionGained: 0,
-      giftsGiven: [],
-      history: [],
       ended: false,
-      result: null,
-      promptMod: 0
+      usedTropes: [],
+      giftsGiven: [],
+      promptMod: 0,
+      heatTier: 1, // 🔥 NOW INCLUDED!
+      lastCheckpoint: {
+        trust: 0,
+        affection: 0,
+        turn: 0
+      }
     };
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoGame] Conversation started with:`, npcId);
-    }
+  
+    this.render();
   },
-
-  getSuccessChance(tropeKey) {
+  
+  render() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const trope = setup.ConvoTropes[tropeKey];
-    if (!npc || !trope) return 0;
+    if (!npc) return;
 
-    let playerSkill = State.variables.skills?.[trope.skill] ?? 0;
-    let baseDifficulty = trope.baseDifficulty ?? 10;
-    let traitMod = setup.getTraitModifier(npc, tropeKey);
-    let turnMod = Math.max(0, convo.turn - 4);
-    let promptMod = convo.promptMod ?? 0;
+    // Increase difficulty with each checkpoint (every 5 turns)
+    convo.promptMod = Math.floor((convo.turn - 1) / 5);
 
-    let rawChance = 50 + (playerSkill * 5) - baseDifficulty - traitMod - turnMod - promptMod;
-    const finalChance = Math.clamp(Math.round(rawChance), 5, 95);
+    const prompt = setup.getConvoPrompt(npc);
+    convo.currentPrompt = prompt;
 
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoGame] SuccessChance for '${tropeKey}':`, {
-        playerSkill,
-        baseDifficulty,
-        traitMod,
-        turnMod,
-        promptMod,
-        finalChance
-      });
-    }
+    document.getElementById("convo-npc-name").textContent = npc.name ?? "???";
+    document.getElementById("convo-npc-prompt").textContent = prompt.text ?? "…";
 
-    return finalChance;
+    document.getElementById("gain-trust").textContent = convo.trustGained;
+    document.getElementById("gain-affection").textContent = convo.affectionGained;
+    document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
+    document.getElementById("convo-turn").textContent = convo.turn;
+    const nextCheckpoint = Math.ceil(convo.turn / 5) * 5;
+    document.getElementById("convo-max-turn").textContent = nextCheckpoint; // Always display next checkpoint interval
+    document.getElementById("convo-tension").textContent = convo.tension;
+    document.getElementById("convo-max-tension").textContent = convo.maxTension;
+
+    document.getElementById("convo-avatar").src = npc.avatar || "images/default-avatar.png";
+
+    this.injectChoices();
   },
 
-  resolveChoice(tropeKey) {
+  injectChoices() {
+    const convo = State.temporary.convo;
+    const choiceBox = document.getElementById("convo-choices");
+    if (!choiceBox) return;
+  
+    choiceBox.innerHTML = "";
+  
+    const tierList = setup.ConvoTropesByTier?.[convo.heatTier] ?? [];
+  
+    if (tierList.length === 0) {
+      choiceBox.innerHTML = "<em>No conversation options available.</em>";
+      console.warn(`[ConvoUI] No tropes found for HAWT™ tier ${convo.heatTier}`);
+      return;
+    }
+  
+    // Optionally remove used tropes to prevent repeats
+    const unused = tierList.filter(trope => !convo.usedTropes.includes(trope.label));
+  
+    // Shuffle and select 4
+    const shuffled = unused.sort(() => Math.random() - 0.5);
+    const finalTropes = shuffled.slice(0, 4);
+  
+    if (finalTropes.length === 0) {
+      choiceBox.innerHTML = "<em>No conversation options available.</em>";
+      return;
+    }
+  
+    for (const trope of finalTropes) {
+      const btn = document.createElement("button");
+      btn.textContent = `${trope.label} (${setup.ConvoGame.getSuccessChance(trope)}%)`;
+      btn.onclick = () => setup.ConvoGame.handleChoice(trope);
+      choiceBox.appendChild(btn);
+    }
+  },
+  
+
+  handleChoice(trope) {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const chance = setup.ConvoGame.getSuccessChance(tropeKey);
-    const trope = setup.ConvoTropes[tropeKey];
-    const success = Math.random() * 100 < chance;
 
-    convo.history.push({ tropeKey, success, turn: convo.turn });
-    convo.turn++;
+    // Track trope as used
+    convo.usedTropes.push(trope.label.toLowerCase().replace(/\s+/g, ""));
+
+    const roll = Math.random() * 100;
+    const chance = this.getSuccessChance(trope);
+    const success = roll <= chance;
 
     if (success) {
-      const effects = trope.effects;
-      const trust = (effects.trust ?? 0) * convo.rapport;
-      const affection = (effects.affection ?? 0) * convo.rapport;
-
-      npc.trust += trust;
-      npc.affection += affection;
-      convo.trustGained += trust;
-      convo.affectionGained += affection;
-      npc.rapport += 0.1;
-
-      const xpGained = random(1, 3);
-      setup.gainSkillXP?.(trope.skill, xpGained);
-
-      if (State.variables.DEBUG || setup.DEBUG) {
-        console.log(`[ConvoGame] SUCCESS - '${tropeKey}'`, {
-          chance,
-          skill: trope.skill,
-          xpGained,
-          trust,
-          affection,
-          updatedTrust: npc.trust,
-          updatedAffection: npc.affection
-        });
+      if (trope.effects.trust) {
+        convo.trustGained += trope.effects.trust;
       }
-
+      if (trope.effects.affection) {
+        convo.affectionGained += trope.effects.affection;
+      }
+      convo.rapport += Object.values(trope.effects).reduce((a, b) => a + b, 0) * 0.1;
     } else {
       convo.tension++;
-      npc.tension = convo.tension;
-      const maxTension = npc.maxTension ?? 3;
-
-      if (State.variables.DEBUG || setup.DEBUG) {
-        console.log(`[ConvoGame] FAILURE - '${tropeKey}'`, {
-          chance,
-          currentTension: convo.tension,
-          maxTension
-        });
-      }
-
-      if (convo.tension >= maxTension) {
-        setup.ConvoGame.end("fail");
-        return;
-      }
     }
 
+    // Checkpoint every 5 turns
     if (convo.turn % 5 === 0) {
-      convo.lastCheckpoint = convo.turn;
+      convo.lastCheckpoint = {
+        trust: convo.trustGained,
+        affection: convo.affectionGained,
+        turn: convo.turn
+      };
+      console.log(`[ConvoGame] ✅ Checkpoint saved at turn ${convo.turn}`, convo.lastCheckpoint);
     }
+
+    convo.turn++;
+
+    // Every checkpoint (5 turns), increase heatTier by 1 up to a max of 5
+    if ((convo.turn - 1) % 5 === 0 && convo.turn > 1) {
+    convo.heatTier = Math.min(convo.heatTier + 1, 5);
+    console.log(`[ConvoGame] 🔥 Heat tier escalated to ${convo.heatTier}`);
+  }
+
+
+    // Failure: tension reached max
+    if (convo.tension >= convo.maxTension) {
+      convo.trustGained = 0;
+      convo.affectionGained = 0;
+      convo.ended = true;
+      console.log(`[ConvoGame] ❌ Max tension reached. Progress wiped.`);
+      this.end();
+      return;
+    }
+
+    // Continue game
+    this.render();
   },
 
-  giveGift(itemId) {
+  getSuccessChance(trope) {
     const convo = State.temporary.convo;
-    const npc = State.variables.characters[convo.npcId];
-    const item = setup.getItemMetadata(itemId);
-    if (!item || item.type !== "misc") {
-      if (State.variables.DEBUG || setup.DEBUG) {
-        console.warn(`[ConvoGame] Invalid gift item:`, itemId);
-      }
-      return false;
-    }
-
-    npc.rapport += (item.rapportBoost ?? 0.2);
-    convo.giftsGiven.push(itemId);
-    State.variables.inventory.misc = State.variables.inventory.misc.filter(i => i !== itemId);
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoGame] Gift given:`, itemId, `(Rapport now: x${npc.rapport.toFixed(2)})`);
-    }
-
-    return true;
+    const base = 100 - trope.baseDifficulty;
+    const adjusted = base - (convo.promptMod * 5);
+    return Math.max(5, Math.min(95, adjusted));
   },
 
-  end(result = "manual") {
+  exitEarly() {
     const convo = State.temporary.convo;
-    const npc = State.variables.characters[convo.npcId];
-
+    convo.trustGained = convo.lastCheckpoint.trust;
+    convo.affectionGained = convo.lastCheckpoint.affection;
     convo.ended = true;
-    convo.result = result;
+    console.log(`[ConvoGame] 🛑 Player exited manually. Reverting to last checkpoint.`);
+    this.end();
+  },
 
-    if (result === "fail") {
-      npc.trust -= 1;
-      npc.affection -= 1;
-      npc.tension = 0;
-    } else {
-      npc.tension = convo.tension;
+  end() {
+    const convo = State.temporary.convo;
+  
+    const convoBody = document.getElementById("convo-body");
+    const resultBox = document.getElementById("convo-results");
+  
+    if (convoBody) convoBody.classList.add("hidden");
+    if (resultBox) resultBox.classList.remove("hidden");
+  
+    document.getElementById("convo-result-status").textContent = convo.tension >= convo.maxTension ? "Failure" : "Success!";
+    document.getElementById("convo-result-trust").textContent = `Trust: +${convo.trustGained}`;
+    document.getElementById("convo-result-affection").textContent = `Affection: +${convo.affectionGained}`;
+  
+    const closeBtn = document.getElementById("convo-result-close");
+    if (closeBtn) {
+      closeBtn.onclick = () => {
+        window.closeOverlay();
+      };
     }
+  
+    console.log("[ConvoGame] Conversation finished.", convo);
+  }
+  
+  
+};
+/* twine-user-script #16: "09_conversation_ui.js" */
+// 09_conversation_ui.js
 
+setup.ConvoUI = {
+  renderMinigame(npcId) {
+    window.openOverlay("convo-minigame-page");
+  
+    setTimeout(() => {
+      setup.ConvoGame.start(npcId);
+  
+      // Attach End Conversation button logic
+      const endButton = document.getElementById("end-button");
+      if (endButton) {
+        endButton.onclick = () => {
+          setup.ConvoGame.exitEarly();
+        };
+      }
+  
+      const giftButton = document.getElementById("gift-button");
+      if (giftButton) {
+        giftButton.onclick = () => {
+          setup.ConvoUI.giveGiftMenu();
+        };
+      }
+  
+    }, 100); // slight delay to ensure overlay body contents have been injected
+  
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoGame] Conversation ended with result: '${result}'`, {
-        trust: npc.trust,
-        affection: npc.affection,
-        tension: npc.tension
+      console.log(`[ConvoUI] Minigame started with NPC: ${npcId}`);
+    }
+  },
+  
+  
+  render() {
+    const convo = State.temporary.convo;
+    const npc = State.variables.characters[convo.npcId];
+  
+    // Set NPC name
+    document.getElementById("convo-npc-name").textContent = npc.known ? npc.name : "???";
+  
+    // Set NPC prompt
+    const promptObj = setup.getConvoPrompt(npc);
+    convo.currentPrompt = promptObj;
+    document.getElementById("convo-npc-prompt").textContent = promptObj.text;
+  
+    // Set Avatars
+    document.getElementById("convo-avatar").src = npc.avatar || "images/placeholder_npc.png";
+    document.getElementById("player-avatar").src = "images/portrait_jaylie.png"; // or player avatar logic later
+  
+    // Inject choices
+    setup.ConvoGame.injectChoices(promptObj);
+  
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log("[ConvoUI] Minigame UI rendered:", {
+        npc: convo.npcId,
+        prompt: promptObj,
       });
     }
   },
-
-  close() {
-    setup.ConvoPromptTracker?.reset();
-    delete State.temporary.convo;
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoGame] Conversation overlay closed and reset.`);
-    }
-  }
-};
-
-// ⬇️ Skill XP Gain
-setup.gainSkillXP = function(skillName, amount) {
-  if (!State.variables.skillXP) State.variables.skillXP = {};
-  if (!State.variables.skillXP[skillName]) State.variables.skillXP[skillName] = 0;
-  State.variables.skillXP[skillName] += amount;
-
-  if (State.variables.DEBUG || setup.DEBUG) {
-    console.log(`[XP] +${amount} XP gained in ${skillName} (Total: ${State.variables.skillXP[skillName]})`);
-  }
-};
-/* twine-user-script #16: "09_conversation_ui.js" */
-setup.ConvoUI = {
-  renderMinigame(npcId) {
-    setup.ConvoGame.start(npcId);
-    const npc = State.variables.characters[npcId];
-    const convo = State.temporary.convo;
-
-    const overlay = document.getElementById("conversation-overlay");
-    if (!overlay) return;
-
-    overlay.style.display = "block"; // <-- Ensures the overlay becomes visible
-
-    document.getElementById("convo-avatar").src = npc.avatar;
-    const npcName = document.getElementById("convo-npc-name");
-    const npcStyle = document.getElementById("convo-npc-style");
-    if (npcName) npcName.textContent = npc.name;
-    if (npcStyle) npcStyle.textContent = `Social Style: ${npc.socialStyle ?? "—"}`;
-
-
-    document.querySelector(".convo-choices").style.display = "block";
-    document.querySelector(".convo-actions").style.display = "flex";
-    document.querySelector(".convo-results").style.display = "none";
-
-    setup.ConvoPromptTracker?.reset();
-    setup.ConvoUI.updateMeta();
-    setup.ConvoUI.renderPrompt();
-    setup.ConvoUI.renderChoices();
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Minigame started with NPC:`, npc);
-    }
-  },
-
+  
   updateMeta() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const maxTension = npc.maxTension ?? 3;
 
-    document.getElementById("convo-turn").textContent = `Turn: ${convo.turn}`;
-    document.getElementById("convo-rapport").textContent = `Rapport: x${convo.rapport.toFixed(2)}`;
-    document.getElementById("convo-tension").textContent = `Tension: ${convo.tension}/${maxTension}`;
-    document.getElementById("convo-gains").textContent = `Gains: ❤️ +${Math.round(convo.affectionGained)} | 🤝 +${Math.round(convo.trustGained)}`;
+    document.getElementById("convo-turn").textContent = convo.turn;
+    document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
+    document.getElementById("convo-tension").textContent = `${convo.tension} / ${convo.maxTension}`;
+    document.getElementById("gain-trust").textContent = convo.trustGained;
+    document.getElementById("gain-affection").textContent = convo.affectionGained;
 
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Updated Meta`, {
+      console.log(`[ConvoUI] Meta updated:`, {
         turn: convo.turn,
         rapport: convo.rapport,
         tension: convo.tension,
-        trustGained: convo.trustGained,
-        affectionGained: convo.affectionGained
+        trust: convo.trustGained,
+        affection: convo.affectionGained,
       });
     }
   },
 
-  renderPrompt() {
-    const convo = State.temporary.convo;
-    const npc = State.variables.characters[convo.npcId];
-    const prompt = setup.getConvoPrompt?.(npc) ?? { text: "…", baseDifficultyMod: 0 };
-
-    convo.promptMod = prompt.baseDifficultyMod;
-    setup.ConvoPromptTracker?.markShown(prompt.text);
-    document.getElementById("convo-npc-prompt").textContent = `“${prompt.text}”`;
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Prompt Rendered:`, prompt);
-    }
-  },
-
-  renderChoices() {
-    const choices = document.getElementById("convo-choices");
-    choices.innerHTML = "";
-
-    const availableKeys = setup.pickRandomTropes(6);
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Picked Tropes:`, availableKeys);
+  closeMinigame() {
+    const overlay = document.getElementById("conversation-overlay");
+    if (overlay) {
+      overlay.classList.add("overlay-hidden");
     }
 
-    for (const tropeKey of availableKeys) {
-      const trope = setup.ConvoTropes[tropeKey];
-      const chance = setup.ConvoGame.getSuccessChance(tropeKey);
-      const btn = document.createElement("button");
-
-      btn.textContent = `${trope.label} ${chance}% (${Object.entries(trope.effects).map(([k, v]) => `+${v} ${k}`).join(", ")})`;
-      btn.onclick = () => {
-        setup.ConvoGame.resolveChoice(tropeKey);
-        setup.ConvoUI.updateMeta();
-        setup.ConvoUI.renderPrompt();
-        setup.ConvoUI.renderChoices();
-      };
-
-      choices.appendChild(btn);
-    }
-  },
-
-  showResultsScreen() {
-    const convo = State.temporary.convo;
-    document.querySelector(".convo-choices").style.display = "none";
-    document.querySelector(".convo-actions").style.display = "none";
-    document.querySelector(".convo-results").style.display = "block";
-
-    document.getElementById("convo-summary-gains").textContent = `You gained ❤️ +${Math.round(convo.affectionGained)} Affection and 🤝 +${Math.round(convo.trustGained)} Trust`;
-    document.getElementById("convo-summary-rapport").textContent = `Final Rapport Multiplier: x${convo.rapport.toFixed(2)}`;
-    document.getElementById("convo-summary-gifts").textContent = `Gifts Given: ${convo.giftsGiven.length > 0 ? convo.giftsGiven.join(", ") : "None"}`;
-
-    setup.ConvoGame.end();
-
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Results shown.`, convo);
+      console.log("[ConvoUI] Minigame overlay hidden.");
     }
   },
 
   giveGiftMenu() {
     alert("Gift system not yet implemented!");
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log("[ConvoUI] Gift system placeholder triggered.");
+    }
   }
 };
 /* twine-user-script #17: "10_dialogueSetup.js" */
-/* twine-user-script #18: "15_npcSystems.js" */
+/* twine-user-script #18: "12_SexScene_Logic.js" */
+// SexScene-Logic.js
+// Initial draft of NSFW system handler for Liff Origins: Jaylie and Adventures of Liff
+
+setup.SexScene = {
+    start(partnerId) {
+      const npc = State.variables.characters[partnerId];
+      if (!npc) return;
+  
+      State.temporary.sexScene = {
+        partnerId,
+        turnCount: 1,
+        playerArousal: 0,
+        partnerArousal: 0,
+        mood: npc.baseMood || "neutral",
+        position: "default",
+        playerClothing: "clothed",
+        partnerClothing: "clothed",
+        trust: npc.trust || 0,
+        dominance: npc.dominance || 0,
+        actionsTaken: [],
+        ended: false
+      };
+  
+      setup.SexScene.renderChoices();
+    },
+  
+    renderChoices() {
+      const choices = setup.SexScene.getAvailableActions();
+      const $container = $("#sexSceneChoices");
+      $container.empty();
+  
+      for (const action of choices) {
+        $container.append(
+          `<<button "${action.label}" onclick="setup.SexScene.doAction('${action.key}')">>`
+        );
+      }
+    },
+  
+    getAvailableActions() {
+      const state = State.temporary.sexScene;
+      // Example static action list for prototype
+      const allActions = [
+        { key: "kiss", label: "Kiss" },
+        { key: "undress", label: "Undress Them" },
+        { key: "submit", label: "Let Them Take Control" },
+        { key: "command", label: "Give a Command" }
+      ];
+  
+      // Placeholder logic, filter based on arousal, clothing, position, etc.
+      return allActions;
+    },
+  
+    doAction(actionKey) {
+      const scene = State.temporary.sexScene;
+      const npc = State.variables.characters[scene.partnerId];
+  
+      // Apply stat changes based on action
+      setup.SexScene.applyEffect(actionKey, npc);
+      scene.actionsTaken.push(actionKey);
+      scene.turnCount++;
+  
+      // Generate response
+      const response = setup.Response.generate(npc, actionKey);
+      $("#sexSceneResponse").wiki(response);
+  
+      // Re-render choices for next turn
+      setup.SexScene.renderChoices();
+    },
+  
+    applyEffect(actionKey, npc) {
+      const scene = State.temporary.sexScene;
+      switch (actionKey) {
+        case "kiss":
+          scene.playerArousal += 5;
+          scene.partnerArousal += 5;
+          break;
+        case "undress":
+          scene.partnerClothing = "partial";
+          break;
+        case "submit":
+          npc.dominance += 1;
+          break;
+        case "command":
+          npc.dominance -= 1;
+          break;
+      }
+    }
+  };
+  
+/* twine-user-script #19: "15_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -2890,7 +2972,7 @@ setup.filterNPCs = function (criteria = {}) {
         });
     });
 };
-/* twine-user-script #19: "01_speechMacro.js" */
+/* twine-user-script #20: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -2916,7 +2998,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #20: "02_fogtextMacro.js" */
+/* twine-user-script #21: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -2970,7 +3052,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #21: "03_sidebar.js" */
+/* twine-user-script #22: "03_sidebar.js" */
 function toggleSidebar() {
 	const sidebar = document.getElementById("custom-sidebar");
 	const toggle = document.getElementById("sidebar-toggle");
@@ -3006,7 +3088,7 @@ $(document).one(':storyready', function () {
 		toggleBtn.addEventListener("click", toggleSidebar);
 	}
 });
-/* twine-user-script #22: "04_widgets.js" */
+/* twine-user-script #23: "04_widgets.js" */
 console.log("✅ widgets.js loaded");
 
 /* Background Macro */
@@ -3271,8 +3353,8 @@ Macro.add("OpenConvoGame", {
 });
 
 
-/* twine-user-script #23: "adda.js" */
-/* twine-user-script #24: "allura.js" */
+/* twine-user-script #24: "adda.js" */
+/* twine-user-script #25: "allura.js" */
 /* Allura Conversation Options Phase 0 */
 setup.allura_Conversation_Options_Phase0 = function () {
     setup.addChoices([
@@ -3297,7 +3379,7 @@ setup.allura_Conversation_Options_Phase0 = function () {
   };
   
   
-/* twine-user-script #25: "bert.js" */
+/* twine-user-script #26: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
     setup.addChoices([
       ["I want to get to know you better.", "Bert_DenyMinigame"],
@@ -3308,7 +3390,7 @@ setup.bert_Conversation_Options_Phase0 = function () {
     ]);
   };
   
-/* twine-user-script #26: "darian.js" */
+/* twine-user-script #27: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -3347,15 +3429,15 @@ setup.darian_Conversation_Options_Phase1 = function () {
       ["Let’s go back to lighter conversation.", "PHASE_0"]
     ]);
   };
-/* twine-user-script #27: "eristan.js" */
-/* twine-user-script #28: "harroc.js" */
-/* twine-user-script #29: "kallot.js" */
-/* twine-user-script #30: "marie.js" */
+/* twine-user-script #28: "eristan.js" */
+/* twine-user-script #29: "harroc.js" */
+/* twine-user-script #30: "kallot.js" */
+/* twine-user-script #31: "marie.js" */
 /* Marie Phase 0 Conversation Options */
 
 /* Marie Phase 1 Conversation Options */
-/* twine-user-script #31: "tesska.js" */
-/* twine-user-script #32: "999_main.js" */
+/* twine-user-script #32: "tesska.js" */
+/* twine-user-script #33: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -3379,7 +3461,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #33: "convo_prompts.js" */
+/* twine-user-script #34: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -3390,124 +3472,156 @@ $(document).on(':passagestart', function () {
 ========================================================= */
 
 setup.ConvoPrompts = [
-    // Relationship Level: 0+ (Neutral)
-    {text: "I almost didn’t get out of bed this morning.", theme: "emotional", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "Ever think about just leaving it all behind?", theme: "contemplative", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "You seem different from the others here. Why is that?", theme: "curious", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "How do you normally spend your nights?", theme: "smalltalk", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "What do you think people misunderstand about you?", theme: "personal", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "What’s your drink of choice?", theme: "light", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "What kind of weather puts you in a good mood?", theme: "light", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "If you could have any animal as a companion, what would it be?", theme: "whimsy", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Is there a food you just can’t stand?", theme: "quirky", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "What’s the strangest dream you’ve ever had?", theme: "weird", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "So… what do you think people assume about me?", theme: "reflective", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Ever have one of those days where everything feels fake?", theme: "melancholy", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Do you believe in fate, or is everything just random?", theme: "philosophy", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "What would your perfect day look like if no one was watching?", theme: "dreamy", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Do you ever feel like you’re just pretending to be okay?", theme: "emotional", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "If you could erase one regret, would you do it?", theme: "contemplative", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "What’s your idea of comfort food?", theme: "quirky", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "Tell me a sound that makes you feel calm.", theme: "soft", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "What’s something small that always makes you smile?", theme: "light", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "What do you do when no one’s watching?", theme: "curious", baseDifficultyMod: 2, unlockAt: 0 },
-    {text: "Are you more of a sunrise or sunset person?", theme: "whimsy", baseDifficultyMod: 0, unlockAt: 0 },
-    {text: "What's the most unusual habit you have?", theme: "quirky", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Do you talk to yourself? Out loud?", theme: "oddball", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "Do you find silence peaceful or uncomfortable?", theme: "introspective", baseDifficultyMod: 1, unlockAt: 0 },
-    {text: "What do you notice first when you walk into a room?", theme: "perception", baseDifficultyMod: 1, unlockAt: 0 },
 
-    // Relationship Level: 25+ (Getting Close)
-    {text: "Do you think I’m attractive?", theme: "flirty", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "What kind of touch calms you down the most?", theme: "sensual", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "Have you ever fallen for someone you shouldn’t have?", theme: "romantic", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "Do you like the sound of your own name on someone else's lips?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "What would you do if I leaned in closer right now?", theme: "intimate", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "Would you rather share a bed with someone or sleep alone?", theme: "personal", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "How do you know when you’re falling for someone?", theme: "romantic", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "What’s the most romantic thing someone’s done for you?", theme: "romantic", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "How would you react if I told you I had a crush on you?", theme: "flirty", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "What’s the most flattering thing someone’s said to you?", theme: "vanity", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "What part of your body do you secretly like the most?", theme: "personal", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "What’s something subtle that turns you on?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "Would you let someone kiss you without asking?", theme: "boundaries", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "What does your ideal first kiss look like?", theme: "romantic", baseDifficultyMod: 2, unlockAt: 25 },
-    {text: "Do you like it when someone takes the lead?", theme: "flirty", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "If I whispered something naughty to you, would you blush or smirk?", theme: "tease", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "How long would it take you to fall for someone like me?", theme: "challenge", baseDifficultyMod: 3, unlockAt: 25 },
-    {text: "What’s the difference between lust and affection for you?", theme: "philosophical", baseDifficultyMod: 2, unlockAt: 25 },
+  // Tier 1 - Small Talk, Light Curiosity
+  { text: "What’s your drink of choice?", theme: "light", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "What kind of weather puts you in a good mood?", theme: "light", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "If you could have any animal as a companion, what would it be?", theme: "whimsy", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "Is there a food you just can’t stand?", theme: "quirky", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "What’s the strangest dream you’ve ever had?", theme: "weird", baseDifficultyMod: 2, heatTier: 1 },
+  { text: "What do you think people misunderstand about you?", theme: "personal", baseDifficultyMod: 2, heatTier: 1 },
+  { text: "What’s your idea of comfort food?", theme: "quirky", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "Tell me a sound that makes you feel calm.", theme: "soft", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "What’s something small that always makes you smile?", theme: "light", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "Are you more of a sunrise or sunset person?", theme: "whimsy", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "What's the most unusual habit you have?", theme: "quirky", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "Do you talk to yourself? Out loud?", theme: "oddball", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "Do you find silence peaceful or uncomfortable?", theme: "introspective", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "What do you notice first when you walk into a room?", theme: "perception", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "What’s your favorite way to waste time?", theme: "quirky", baseDifficultyMod: 0, heatTier: 1 },
+  { text: "If money wasn’t an issue, what would you do every day?", theme: "dreamy", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "What kind of music makes you feel alive?", theme: "personal", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "How do you normally spend your nights?", theme: "smalltalk", baseDifficultyMod: 1, heatTier: 1 },
+  { text: "Do you believe in fate, or is everything just random?", theme: "philosophy", baseDifficultyMod: 2, heatTier: 1 },
+  { text: "What’s the last thing that made you laugh really hard?", theme: "joy", baseDifficultyMod: 1, heatTier: 1 },
 
-    // Relationship Level: 50+ (Personal)
-    {text: "What would you do if we were alone right now?", theme: "intimate", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "Is there a secret you’ve never told anyone?", theme: "confessional", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "What scares you most about getting close to someone?", theme: "vulnerable", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "What does your ideal night look like—no limits?", theme: "dreamy", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "Do you trust easily? Or does it take time?", theme: "guarded", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "Have you ever been hurt so badly it changed you?", theme: "emotional", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "If you could forget one memory forever, what would it be?", theme: "regret", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "Is there something you’ve never forgiven yourself for?", theme: "emotional", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "How do you act when you're falling in love?", theme: "romantic", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "What do you crave more—intimacy or understanding?", theme: "introspective", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "What’s something that always makes you feel safe?", theme: "comfort", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "What’s your biggest fear about being loved?", theme: "vulnerability", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "What part of yourself do you hide from most people?", theme: "shadow", baseDifficultyMod: 4, unlockAt: 50 },
-    {text: "What do you miss most about being a child?", theme: "nostalgia", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "How do you know when it’s safe to open up?", theme: "defense", baseDifficultyMod: 3, unlockAt: 50 },
-    {text: "What would hurt you more—being forgotten or being betrayed?", theme: "trust", baseDifficultyMod: 4, unlockAt: 50 },
-    
-    // Relationship Level: 75+ (Erotic / Deep Trust)
-    {text: "What’s the dirtiest thought you’ve had today?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "Would you let someone tie you up?", theme: "kink", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "If we had just one night together, how would it go?", theme: "fantasy", baseDifficultyMod: 4, unlockAt: 75 },
-    {text: "Where do you like to be touched most?", theme: "sensual", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "What’s something you’ve always wanted to try but haven’t?", theme: "bold", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "Do you like being teased? Or do you prefer control?", theme: "playful", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "What’s your favorite way to be kissed?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "What would you do if I bit your lip mid-sentence?", theme: "tease", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "Do you like it slow, or do you prefer when things get rough?", theme: "nsfw", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "What’s your favorite part of foreplay?", theme: "sensual", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "If I blindfolded you right now, what would you imagine me doing?", theme: "fantasy", baseDifficultyMod: 6, unlockAt: 75 },
-    {text: "Would you rather tease or be teased?", theme: "kinkplay", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "Where do your thoughts go when your hands are idle?", theme: "suggestive", baseDifficultyMod: 5, unlockAt: 75 },
-    {text: "If you were told to beg, would you?", theme: "dominance", baseDifficultyMod: 6, unlockAt: 75 },
-    {text: "Do you want to be touched like a secret or like a prayer?", theme: "poetic", baseDifficultyMod: 6, unlockAt: 75 },
-    {text: "If we were alone, right now, what would your hands do first?", theme: "anticipation", baseDifficultyMod: 6, unlockAt: 75 },
+  // Tier 2 – Flirty, Teasing, Growing Interest
+  { text: "Do you think I’m attractive?", theme: "flirty", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "What part of your body do you secretly like the most?", theme: "personal", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "How would you react if I told you I had a crush on you?", theme: "flirty", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "What’s the most flattering thing someone’s said to you?", theme: "vanity", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "What’s something subtle that turns you on?", theme: "flirty", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "Would you let someone kiss you without asking?", theme: "boundaries", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What does your ideal first kiss look like?", theme: "romantic", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "Do you like it when someone takes the lead?", theme: "flirty", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What’s your idea of a perfect flirtation?", theme: "flirty", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "Have you ever been caught checking someone out?", theme: "tease", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "Where would you want someone to touch you during a slow dance?", theme: "suggestive", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What compliment would melt you every time?", theme: "vanity", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "Do you like when someone teases you?", theme: "playful", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What’s your favorite place to be kissed?", theme: "flirty", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "Would you let someone feed you something sweet?", theme: "intimate", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "Would you be the one to make the first move?", theme: "challenge", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What kind of looks make your heart skip?", theme: "romantic", baseDifficultyMod: 2, heatTier: 2 },
+  { text: "If I leaned in just a little… what would you do?", theme: "intimate", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "Would you let someone touch your face?", theme: "boundaries", baseDifficultyMod: 3, heatTier: 2 },
+  { text: "What’s something someone could say that would fluster you?", theme: "tease", baseDifficultyMod: 3, heatTier: 2 },
 
-    // Relationship Level: 100+ (Devotion)
-    {text: "Do you love me? Be honest.", theme: "serious", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Could you ever see us having a future together?", theme: "endgame", baseDifficultyMod: 5, unlockAt: 100 },
-    {text: "If I needed you to run away with me, would you?", theme: "commitment", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "What would it take for you to give up everything for someone?", theme: "sacrifice", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "If this world burned down tomorrow, would you still choose me?", theme: "rideordie", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Would you still care for me if I lost everything?", theme: "devotion", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "If you woke up and I was gone forever, what would you miss most?", theme: "melancholy", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "What scares you more—losing me or never having me at all?", theme: "attachment", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "If I asked you to disappear with me, would you say yes?", theme: "devotion", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Do you think soulmates are real… and are we?", theme: "endgame", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Could you be happy with just me, and no one else?", theme: "commitment", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Would you rather die in my arms, or live not knowing if I loved you?", theme: "tragedy", baseDifficultyMod: 7, unlockAt: 100 },
-    {text: "Would you wait a lifetime if it meant we'd be together in the end?", theme: "patience", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "If I forgot who you were tomorrow, how would you remind me?", theme: "devastation", baseDifficultyMod: 6, unlockAt: 100 },
-    {text: "Could you walk away from me if it meant I’d be safer?", theme: "sacrifice", baseDifficultyMod: 6, unlockAt: 100 },
+  // Tier 3 – Confessional, Vulnerability, Connection
+  { text: "What scares you most about getting close to someone?", theme: "vulnerable", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "Have you ever fallen for someone you shouldn’t have?", theme: "romantic", baseDifficultyMod: 2, heatTier: 3 },
+  { text: "Is there a secret you’ve never told anyone?", theme: "confessional", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "What part of yourself do you hide from most people?", theme: "shadow", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "What would you do if we were alone right now?", theme: "intimate", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "Have you ever been hurt so badly it changed you?", theme: "emotional", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "What do you crave more—intimacy or understanding?", theme: "introspective", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "What’s something that always makes you feel safe?", theme: "comfort", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "How do you act when you're falling in love?", theme: "romantic", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "What does your ideal night look like—no limits?", theme: "dreamy", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "Is there something you’ve never forgiven yourself for?", theme: "emotional", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "Do you trust easily? Or does it take time?", theme: "guarded", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "What would hurt you more—being forgotten or being betrayed?", theme: "trust", baseDifficultyMod: 4, heatTier: 3 },
+  { text: "What do you miss most about being a child?", theme: "nostalgia", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "What kind of touch calms you down the most?", theme: "sensual", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "If you could erase one regret, would you do it?", theme: "contemplative", baseDifficultyMod: 2, heatTier: 3 },
+  { text: "What would you do if you weren’t afraid of failing?", theme: "aspiration", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "Do you believe people can really change?", theme: "philosophy", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "How do you know when someone truly cares?", theme: "introspective", baseDifficultyMod: 3, heatTier: 3 },
+  { text: "What’s something beautiful that makes you sad?", theme: "melancholy", baseDifficultyMod: 3, heatTier: 3 },
 
-  ];
+  // Tier 4 – Romantic, Physical, Sensual
+  { text: "Would you let someone undress you with their eyes?", theme: "bold", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "Do you like the sound of your own name on someone else's lips?", theme: "flirty", baseDifficultyMod: 3, heatTier: 4 },
+  { text: "What would you do if I leaned in closer right now?", theme: "intimate", baseDifficultyMod: 3, heatTier: 4 },
+  { text: "Where do you like being kissed the most?", theme: "sensual", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "If I kissed you without warning, would you stop me?", theme: "challenge", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "What would you whisper in someone’s ear to make them shiver?", theme: "tease", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "Do you like it rough, or slow and teasing?", theme: "sensual", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "What’s the most intimate moment you've ever shared with someone?", theme: "romantic", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "Where would your hands wander first?", theme: "suggestive", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "Would you like to be touched like a secret?", theme: "poetic", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "Have you ever fantasized about someone in this room?", theme: "fantasy", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "If I traced your skin, would you shiver or smirk?", theme: "intimate", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "What part of your body do you wish someone adored more?", theme: "vulnerable", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "What’s the most seductive thing someone’s said to you?", theme: "memory", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "Do you want someone who obeys… or someone who leads?", theme: "dominance", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "If I said 'touch me,' where would your hands go first?", theme: "command", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "If you were told to beg, would you?", theme: "powerplay", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "Would you prefer devotion or desire?", theme: "endearment", baseDifficultyMod: 4, heatTier: 4 },
+  { text: "Do you like being worshipped?", theme: "worship", baseDifficultyMod: 5, heatTier: 4 },
+  { text: "If I pulled you into my lap, what would you do?", theme: "assertive", baseDifficultyMod: 5, heatTier: 4 },
+
+  // Tier 5 – Erotic, Emotional Endgame
+  { text: "Do you love me? Be honest.", theme: "serious", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Could you ever see us having a future together?", theme: "endgame", baseDifficultyMod: 5, heatTier: 5 },
+  { text: "If I needed you to run away with me, would you?", theme: "commitment", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "What would it take for you to give up everything for someone?", theme: "sacrifice", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Would you still care for me if I lost everything?", theme: "devotion", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If you woke up and I was gone forever, what would you miss most?", theme: "melancholy", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I asked you to disappear with me, would you say yes?", theme: "devotion", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Do you think soulmates are real… and are we?", theme: "endgame", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Could you be happy with just me, and no one else?", theme: "commitment", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Would you wait a lifetime if it meant we'd be together in the end?", theme: "patience", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I forgot who you were tomorrow, how would you remind me?", theme: "devastation", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Could you walk away from me if it meant I’d be safer?", theme: "sacrifice", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Would you rather die in my arms, or live not knowing if I loved you?", theme: "tragedy", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "If this world burned down tomorrow, would you still choose me?", theme: "rideordie", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "What scares you more—losing me or never having me at all?", theme: "attachment", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Would you still love me if I lost my mind?", theme: "devotion", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "What’s more important—freedom or loyalty?", theme: "conflict", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I gave you everything, would it be enough?", theme: "yearning", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I whispered 'stay', would you?", theme: "poetic", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Are you mine?", theme: "claiming", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Would you kneel for someone like me?", theme: "submission", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I pushed you against the wall, would you resist?", theme: "dominance", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Do you want to be ruined slowly… or all at once?", theme: "control", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "What would you do if I told you not to make a sound?", theme: "tease", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Where would you want me to bite first?", theme: "nsfw", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Would you let me use you, if I promised to worship you after?", theme: "powerplay", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "If I said 'hands behind your back,' what would you do?", theme: "command", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Do you ache for the kind of touch that leaves bruises or poetry?", theme: "poetic", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Would you obey if I told you not to move?", theme: "control", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "Would you rather moan my name or beg for forgiveness?", theme: "blasphemy", baseDifficultyMod: 8, heatTier: 5 },
+  { text: "What would you whisper in my ear if I were on my knees?", theme: "reversal", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "What part of your body begs for attention but never asks?", theme: "vulnerable", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "If I told you I dreamed of tying you up, would you sleep better or worse tonight?", theme: "fantasy", baseDifficultyMod: 7, heatTier: 5 },
+  { text: "Would you still want me if I said you'd have to earn every touch?", theme: "challenge", baseDifficultyMod: 6, heatTier: 5 },
+  { text: "What would you let me do… if I said please?", theme: "restraint", baseDifficultyMod: 6, heatTier: 5 }
+
+];
+
   
   // ================================
   // Select a valid prompt based on relationship
   // ================================
   
   setup.getConvoPrompt = function (npc) {
-    const intimacy = (npc.trust ?? 0) + (npc.affection ?? 0);
-    const valid = setup.ConvoPrompts.filter(p => intimacy >= p.unlockAt);
-    return valid.length > 0 ? randomFrom(valid) : {
-      text: "You sit together in silence.", theme: "neutral", baseDifficultyMod: 0, unlockAt: 0
-    };
+    const turn = State.temporary.convo?.turn ?? 1;
+    const currentHeatTier = Math.min(5, Math.ceil(turn / 5)); // One tier per 5 turns
+  
+    const valid = setup.ConvoPrompts.filter(p => p.heatTier === currentHeatTier);
+    const unseen = setup.ConvoPromptTracker.filterUnseen(valid);
+  
+    const chosen = unseen.length > 0 ? randomFrom(unseen) : randomFrom(valid);
+  
+    setup.ConvoPromptTracker.markShown(chosen.text);
+    return chosen;
   };
   
   function randomFrom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
-
+  
 // ================================
 // Prompt Tracker (optional enhancement)
 // ================================
@@ -3529,7 +3643,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #34: "convo_tropes.js" */
+/* twine-user-script #35: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -3547,92 +3661,427 @@ setup.ConvoPromptTracker = {
 // Conversation Tropes Definition
 // ================================
 
-setup.ConvoTropes = {
-    flirt: {
-      label: "Flirt",
-      skill: "persuasion",
-      baseDifficulty: 10,
-      effects: { affection: 2 }
-    },
-    joke: {
+setup.ConvoTropesByTier = {
+  1: [ // Icebreakers, low risk
+    {
+      key: "joke",
       label: "Tell a Joke",
       skill: "performance",
-      baseDifficulty: 12,
-      effects: { trust: 1 }
+      baseDifficulty: 8,
+      effects: { trust: 1 },
+      heatTier: 1
     },
-    relate: {
-      label: "Relate to Them",
+    {
+      key: "ask_hobby",
+      label: "Ask about their hobbies",
+      skill: "insight",
+      baseDifficulty: 7,
+      effects: { trust: 1 },
+      heatTier: 1
+    },
+    {
+      key: "relate",
+      label: "Relate to them",
       skill: "insight",
       baseDifficulty: 8,
-      effects: { trust: 1 }
+      effects: { trust: 1 },
+      heatTier: 1
     },
-    compliment: {
-      label: "Give Compliment",
+    {
+      key: "compliment_clothes",
+      label: "Compliment their outfit",
+      skill: "persuasion",
+      baseDifficulty: 9,
+      effects: { affection: 1 },
+      heatTier: 1
+    },
+    {
+      key: "tease_light",
+      label: "Tease playfully",
+      skill: "performance",
+      baseDifficulty: 10,
+      effects: { affection: 1 },
+      heatTier: 1
+    },
+    {
+      key: "stay_silent",
+      label: "Stay silent and observe",
+      skill: "willpower",
+      baseDifficulty: 6,
+      effects: { trust: 1 },
+      heatTier: 1
+    },
+    {
+      key: "make_fun_of_self",
+      label: "Poke fun at yourself",
+      skill: "wit",
+      baseDifficulty: 9,
+      effects: { trust: 1 },
+      heatTier: 1
+    },
+    {
+      key: "ask_question",
+      label: "Ask a personal question",
+      skill: "insight",
+      baseDifficulty: 10,
+      effects: { trust: 2 },
+      heatTier: 1
+    },
+    {
+      key: "flirt_subtle",
+      label: "Flirt (subtle)",
       skill: "persuasion",
       baseDifficulty: 10,
-      effects: { affection: 1, trust: 1 }
+      effects: { affection: 1 },
+      heatTier: 1
     },
-    shareSecret: {
-      label: "Share a Secret",
+    {
+      key: "observe_room",
+      label: "Comment on the room",
+      skill: "wit",
+      baseDifficulty: 7,
+      effects: { trust: 1 },
+      heatTier: 1
+    },
+    {
+      key: "compliment_eyes",
+      label: "Compliment their eyes",
+      skill: "persuasion",
+      baseDifficulty: 11,
+      effects: { affection: 1 },
+      heatTier: 1
+    },
+    {
+      key: "open_up_small",
+      label: "Share a small truth",
+      skill: "insight",
+      baseDifficulty: 9,
+      effects: { trust: 1 },
+      heatTier: 1
+    }
+  ],
+  2: [ // Flirty, bolder
+    {
+      key: "compliment_scent",
+      label: "Compliment their scent",
+      skill: "persuasion",
+      baseDifficulty: 12,
+      effects: { affection: 2 },
+      heatTier: 2
+    },
+    {
+      key: "eye_contact",
+      label: "Hold eye contact",
+      skill: "willpower",
+      baseDifficulty: 11,
+      effects: { trust: 1, affection: 1 },
+      heatTier: 2
+    },
+    {
+      key: "comment_smile",
+      label: "Compliment their smile",
+      skill: "persuasion",
+      baseDifficulty: 10,
+      effects: { affection: 2 },
+      heatTier: 2
+    },
+    {
+      key: "ask_romantic_prefs",
+      label: "Ask what they're into",
+      skill: "insight",
+      baseDifficulty: 13,
+      effects: { trust: 1 },
+      heatTier: 2
+    },
+    {
+      key: "tease_back",
+      label: "Tease them right back",
+      skill: "performance",
+      baseDifficulty: 13,
+      effects: { affection: 2 },
+      heatTier: 2
+    },
+    {
+      key: "flirt_open",
+      label: "Openly flirt",
+      skill: "persuasion",
+      baseDifficulty: 14,
+      effects: { affection: 2 },
+      heatTier: 2
+    },
+    {
+      key: "drop_innuendo",
+      label: "Drop a suggestive line",
+      skill: "wit",
+      baseDifficulty: 15,
+      effects: { affection: 2 },
+      heatTier: 2
+    },
+    {
+      key: "mention_touch",
+      label: "Mention how close they are",
+      skill: "observation",
+      baseDifficulty: 13,
+      effects: { affection: 1 },
+      heatTier: 2
+    },
+    {
+      key: "mirror_posture",
+      label: "Match their posture",
+      skill: "hands",
+      baseDifficulty: 10,
+      effects: { trust: 1 },
+      heatTier: 2
+    },
+    {
+      key: "ask_dating",
+      label: "Ask about past relationships",
       skill: "insight",
       baseDifficulty: 14,
-      effects: { trust: 2, affection: 1 }
+      effects: { trust: 2 },
+      heatTier: 2
     },
-    touch: {
-      label: "Touch Their Arm",
+    {
+      key: "touch_hand",
+      label: "Gently touch their hand",
       skill: "hands",
       baseDifficulty: 16,
-      effects: { affection: 3 }
+      effects: { affection: 3 },
+      heatTier: 2
     },
-    kiss: {
-      label: "Kiss Them",
-      skill: "mouth",
-      baseDifficulty: 18,
-      effects: { affection: 4 }
-    },
-    intimidate: {
-      label: "Assert Dominance",
-      skill: "intimidation",
-      baseDifficulty: 15,
-      effects: { trust: 1 }
-    },
-    deceive: {
-      label: "Tell a White Lie",
-      skill: "deception",
-      baseDifficulty: 13,
-      effects: { trust: 1 }
-    },
-    askQuestion: {
-      label: "Ask a Deep Question",
-      skill: "insight",
-      baseDifficulty: 12,
-      effects: { trust: 2 }
-    },
-    tease: {
-      label: "Tease Playfully",
+    {
+      key: "smile_genuine",
+      label: "Smile genuinely",
       skill: "performance",
-      baseDifficulty: 11,
-      effects: { affection: 1 }
-    },
-    staySilent: {
-      label: "Stay Silent",
-      skill: "willpower",
-      baseDifficulty: 7,
-      effects: { trust: 1 }
+      baseDifficulty: 10,
+      effects: { affection: 1 },
+      heatTier: 2
     }
-  };
-  
-  // ================================
-  // Utility to randomly pick N trope keys
-  // ================================
-  
-  setup.pickRandomTropes = function (count = 6) {
-    const all = Object.keys(setup.ConvoTropes);
-    const shuffled = all.sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
-  };
-  
-/* twine-user-script #35: "inclinations.js" */
+  ],
+  3: [ // Emotional, bold, physical
+    {
+      key: "touch_face",
+      label: "Brush a strand of hair aside",
+      skill: "hands",
+      baseDifficulty: 17,
+      effects: { affection: 3 },
+      heatTier: 3
+    },
+    {
+      key: "share_secret",
+      label: "Share a vulnerable secret",
+      skill: "insight",
+      baseDifficulty: 16,
+      effects: { trust: 3 },
+      heatTier: 3
+    },
+    {
+      key: "compliment_body",
+      label: "Compliment their body",
+      skill: "persuasion",
+      baseDifficulty: 17,
+      effects: { affection: 2 },
+      heatTier: 3
+    },
+    {
+      key: "ask_fantasy",
+      label: "Ask about a fantasy",
+      skill: "insight",
+      baseDifficulty: 18,
+      effects: { trust: 2 },
+      heatTier: 3
+    },
+    {
+      key: "trace_finger",
+      label: "Trace a finger on their arm",
+      skill: "hands",
+      baseDifficulty: 19,
+      effects: { affection: 3 },
+      heatTier: 3
+    },
+    {
+      key: "confess_feelings",
+      label: "Confess attraction",
+      skill: "persuasion",
+      baseDifficulty: 17,
+      effects: { affection: 3, trust: 1 },
+      heatTier: 3
+    },
+    {
+      key: "talk_about_touch",
+      label: "Ask how they feel about being touched",
+      skill: "insight",
+      baseDifficulty: 16,
+      effects: { trust: 2 },
+      heatTier: 3
+    },
+    {
+      key: "suggest_alone",
+      label: "Suggest going somewhere private",
+      skill: "persuasion",
+      baseDifficulty: 18,
+      effects: { affection: 2 },
+      heatTier: 3
+    },
+    {
+      key: "touch_back",
+      label: "Place a hand on their lower back",
+      skill: "hands",
+      baseDifficulty: 18,
+      effects: { affection: 3 },
+      heatTier: 3
+    },
+    {
+      key: "make_promise",
+      label: "Promise not to hurt them",
+      skill: "willpower",
+      baseDifficulty: 17,
+      effects: { trust: 2 },
+      heatTier: 3
+    }
+  ],
+  4: [ // Intimate, romantic, dominant
+    {
+      key: "kiss",
+      label: "Kiss them",
+      skill: "mouth",
+      baseDifficulty: 20,
+      effects: { affection: 5 },
+      heatTier: 4
+    },
+    {
+      key: "bite_lip",
+      label: "Bite your lip",
+      skill: "performance",
+      baseDifficulty: 19,
+      effects: { affection: 3 },
+      heatTier: 4
+    },
+    {
+      key: "pull_closer",
+      label: "Pull them closer",
+      skill: "hands",
+      baseDifficulty: 20,
+      effects: { affection: 4 },
+      heatTier: 4
+    },
+    {
+      key: "whisper",
+      label: "Whisper into their ear",
+      skill: "mouth",
+      baseDifficulty: 19,
+      effects: { affection: 4 },
+      heatTier: 4
+    },
+    {
+      key: "ask_to_trust",
+      label: "Ask them to trust you",
+      skill: "persuasion",
+      baseDifficulty: 21,
+      effects: { trust: 3 },
+      heatTier: 4
+    },
+    {
+      key: "confess_lust",
+      label: "Confess your desire",
+      skill: "persuasion",
+      baseDifficulty: 22,
+      effects: { affection: 4 },
+      heatTier: 4
+    },
+    {
+      key: "hand_on_hip",
+      label: "Place a hand on their hip",
+      skill: "hands",
+      baseDifficulty: 21,
+      effects: { affection: 4 },
+      heatTier: 4
+    },
+    {
+      key: "slide_fingers",
+      label: "Slide your fingers over theirs",
+      skill: "hands",
+      baseDifficulty: 20,
+      effects: { affection: 3 },
+      heatTier: 4
+    },
+    {
+      key: "let_guard_down",
+      label: "Let your guard down",
+      skill: "willpower",
+      baseDifficulty: 19,
+      effects: { trust: 3 },
+      heatTier: 4
+    }
+  ],
+  5: [ // 🔞 Explicit, devotional, dominant/submissive
+    {
+      key: "submit",
+      label: "Submit to their touch",
+      skill: "willpower",
+      baseDifficulty: 23,
+      effects: { affection: 4 },
+      heatTier: 5
+    },
+    {
+      key: "bite_neck",
+      label: "Bite their neck",
+      skill: "mouth",
+      baseDifficulty: 24,
+      effects: { affection: 5 },
+      heatTier: 5
+    },
+    {
+      key: "worship",
+      label: "Worship them softly",
+      skill: "persuasion",
+      baseDifficulty: 25,
+      effects: { affection: 5, trust: 2 },
+      heatTier: 5
+    },
+    {
+      key: "dominant_command",
+      label: "Command them to obey",
+      skill: "intimidation",
+      baseDifficulty: 26,
+      effects: { trust: 2, affection: 3 },
+      heatTier: 5
+    },
+    {
+      key: "confess_fantasy",
+      label: "Confess a fantasy",
+      skill: "insight",
+      baseDifficulty: 25,
+      effects: { affection: 5 },
+      heatTier: 5
+    },
+    {
+      key: "pull_into_lap",
+      label: "Pull them into your lap",
+      skill: "hands",
+      baseDifficulty: 26,
+      effects: { affection: 5 },
+      heatTier: 5
+    },
+    {
+      key: "touch_thigh",
+      label: "Touch their thigh",
+      skill: "hands",
+      baseDifficulty: 24,
+      effects: { affection: 4 },
+      heatTier: 5
+    },
+    {
+      key: "look_down",
+      label: "Look them over slowly",
+      skill: "observation",
+      baseDifficulty: 22,
+      effects: { affection: 4 },
+      heatTier: 5
+    }
+  ]
+};
+/* twine-user-script #36: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -3790,7 +4239,7 @@ setup.Inclinations = {
     }
   };
   
-/* twine-user-script #36: "motivations.js" */
+/* twine-user-script #37: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -3878,7 +4327,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #37: "npc_archetypes.js" */
+/* twine-user-script #38: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -3908,7 +4357,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #38: "npc_names.js" */
+/* twine-user-script #39: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -3923,7 +4372,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #39: "personality_traits.js" */
+/* twine-user-script #40: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -3985,7 +4434,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #40: "social_styles.js" */
+/* twine-user-script #41: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -4057,7 +4506,395 @@ setup.SocialStyles = {
       notes: "May flatter or provoke to gain an edge, reads people quickly."
     }
   };
-  </script><tw-passagedata pid="1" name="Adda_ThisPlaceIsYours" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;Adda_ThisPlaceIsYours&quot;&gt;&gt;
+  
+/* twine-user-script #42: "DataAuditor.js" */
+setup.DataAuditor = {
+    listUniqueValues(objectArray, property) {
+      const values = objectArray.flatMap(item => {
+        if (Array.isArray(item[property])) {
+          return item[property].map(val => val.toLowerCase());
+        } else if (item[property] !== undefined) {
+          return [item[property].toLowerCase()];
+        } else {
+          return [];
+        }
+      });
+      const uniqueValues = [...new Set(values)];
+      console.log(`✅ Unique "${property}" values (${uniqueValues.length} total):`, uniqueValues.sort());
+      return uniqueValues;
+    },
+  
+    compareValues(listA, listB) {
+      const lowerA = listA.map(val => val.toLowerCase());
+      const lowerB = listB.map(val => val.toLowerCase());
+      const missingFromB = lowerA.filter(val => !lowerB.includes(val));
+      const missingFromA = lowerB.filter(val => !lowerA.includes(val));
+      console.group("🧹 Data Comparison Results:");
+      console.log("In A but missing from B:", missingFromB.length ? missingFromB : "None");
+      console.log("In B but missing from A:", missingFromA.length ? missingFromA : "None");
+      console.groupEnd();
+    },
+  
+    auditMultipleArrays(arrays, property) {
+      const merged = arrays.flat();
+      return this.listUniqueValues(merged, property);
+    },
+
+    
+  };
+  window.audit = {
+    prompts: {
+      themes() {
+        return setup.DataAuditor.listUniqueValues(setup.ConvoPrompts, "theme");
+      },
+      difficultyMods() {
+        return setup.DataAuditor.listUniqueValues(setup.ConvoPrompts, "baseDifficultyMod");
+      }
+    },
+  
+    tropes: {
+      skills() {
+        const allTropes = [
+          ...setup.ConvoTropesByTier[1],
+          ...setup.ConvoTropesByTier[2],
+          ...setup.ConvoTropesByTier[3],
+          ...setup.ConvoTropesByTier[4],
+          ...setup.ConvoTropesByTier[5]
+        ];
+        return setup.DataAuditor.listUniqueValues(allTropes, "skill");
+      },
+      effects() {
+        const allTropes = [].concat(
+          ...Object.values(setup.ConvoTropesByTier)
+        );
+        const flatKeys = allTropes.flatMap(t => Object.keys(t.effects || {}));
+        const unique = [...new Set(flatKeys)];
+        console.log("Unique effect keys:", unique.sort());
+        return unique;
+      }
+    },
+  
+    compare: {
+      themesToTraits() {
+        const themes = setup.DataAuditor.listUniqueValues(setup.ConvoPrompts, "theme");
+        const allTraits = Object.values(State.variables.characters)
+          .flatMap(c => c.traits || []);
+        const traits = [...new Set(allTraits.map(t => t.toLowerCase()))];
+        setup.DataAuditor.compareValues(themes, traits);
+      }
+    }
+  };
+  
+/*
+===========================================================
+🧠 DataAuditor.js — Dev Cheatsheet
+Quick reference for running audits and comparisons
+===========================================================
+
+✅ Quick Natural Language Macros:
+
+audit.prompts.themes();            → List all unique prompt themes
+audit.prompts.difficultyMods();     → List all prompt difficulty modifiers
+audit.tropes.skills();              → List all skills used in tropes across all tiers
+audit.tropes.effects();             → List all unique trust/affection effect keys
+audit.compare.themesToTraits();     → Compare prompt themes vs NPC traits
+
+-----------------------------------------------------------
+
+✅ Print a live help menu anytime:
+audit.help();
+
+-----------------------------------------------------------
+
+🧠 Run these in your browser's DevTools Console
+after compiling your game with Tweego and loading index.html.
+
+Pro Tip: You can suppress duplicate console returns by prefixing commands with 'void'.
+
+Example:
+void audit.prompts.themes();
+
+===========================================================
+*/
+
+/* twine-user-script #43: "random-event.js" */
+// repository: https://github.com/TweePower/twee-sugarcube-random-events
+
+const debugLevel = 3; // max debug level
+
+(function () {
+    'use strict';
+
+    /*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+var RandomEventAppExport;
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/ConstraintsVerificator.ts":
+/*!***************************************!*\
+  !*** ./src/ConstraintsVerificator.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ConstraintsVerificator)\n/* harmony export */ });\n/* harmony import */ var _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DebugLogCollector */ \"./src/DebugLogCollector.ts\");\n/* harmony import */ var _tools_TypeChecker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tools/TypeChecker */ \"./src/tools/TypeChecker.ts\");\n\n\nclass ConstraintsVerificator {\n    constructor(sugarcubeFacade, tagsManager, randomEventStats) {\n        this.sugarcubeFacade = sugarcubeFacade;\n        this.tagsManager = tagsManager;\n        this.randomEventStats = randomEventStats;\n    }\n    verify(randomEvent, compiledTags, rewriteConfiguration) {\n        var _a, _b, _c;\n        let result = true;\n        let usedLimitationStrategyTags = [];\n        const debugLogCollector = new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n        if (rewriteConfiguration.isValidateIsEnable === false) {\n            debugLogCollector.addLog(true, 'skip IsEnable verify', 2);\n        }\n        else {\n            const checkResult = this.verifyIsEnable((_a = rewriteConfiguration.isEnabled) !== null && _a !== void 0 ? _a : randomEvent.isEnabled);\n            result = checkResult.result;\n            debugLogCollector\n                .addLog(checkResult.result, `verify IsEnable using: ${rewriteConfiguration.isEnabled ? 'rewrite configuration' : 'passage metadata'}`, 2)\n                .increaseLevel()\n                .merge(checkResult.debugLogCollector)\n                .decreaseLevel();\n        }\n        if (result) {\n            if (rewriteConfiguration.isValidateFilter === false) {\n                debugLogCollector.addLog(true, 'skip filter verify', 2);\n            }\n            else {\n                const checkResult = this.verifyFilter((_b = rewriteConfiguration.filter) !== null && _b !== void 0 ? _b : randomEvent.filter);\n                result = checkResult.result;\n                debugLogCollector\n                    .addLog(checkResult.result, `verify filter using: ${rewriteConfiguration.filter ? 'rewrite configuration' : 'passage metadata'}`, 2)\n                    .increaseLevel()\n                    .merge(checkResult.debugLogCollector)\n                    .decreaseLevel();\n            }\n        }\n        if (result) {\n            let checkResult;\n            if (randomEvent._isLimitationStrategiesTagged) {\n                checkResult = this.verifyTaggedLimitationStrategy(randomEvent.passageName, randomEvent.limitationStrategies, compiledTags);\n            }\n            else {\n                checkResult = this.verifyNotTaggedLimitationStrategy(randomEvent.passageName, randomEvent.limitationStrategies, compiledTags);\n            }\n            result = checkResult.result;\n            debugLogCollector\n                .addLog(checkResult.result, `verify limitationStrategies using: 'passage metadata'`, 2)\n                .increaseLevel()\n                .merge(checkResult.debugLogCollector)\n                .decreaseLevel();\n            usedLimitationStrategyTags = checkResult.additionalData.usedLimitationStrategyTags;\n        }\n        if (result) {\n            if (rewriteConfiguration.isValidateThreshold === false) {\n                debugLogCollector.addLog(true, 'skip threshold verify', 2);\n            }\n            else {\n                const checkResult = this.verifyThreshold((_c = rewriteConfiguration.threshold) !== null && _c !== void 0 ? _c : randomEvent.threshold);\n                result = checkResult.result;\n                debugLogCollector\n                    .addLog(checkResult.result, `verify threshold using: ${rewriteConfiguration.threshold ? 'rewrite configuration' : 'passage metadata'}`, 2).increaseLevel()\n                    .merge(checkResult.debugLogCollector)\n                    .decreaseLevel();\n            }\n        }\n        return {\n            result,\n            debugLogCollector,\n            additionalData: {\n                usedLimitationStrategyTags\n            }\n        };\n    }\n    verifyIsEnable(isEnabled) {\n        const result = isEnabled;\n        return {\n            result,\n            debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(result, result ? 'event enabled' : 'event disabled', 3)\n        };\n    }\n    verifyFilter(filter) {\n        if (filter === true || filter === false) {\n            return {\n                result: filter,\n                debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(filter, `filter expression returns ${filter ? 'true' : 'false'}`, 3)\n            };\n        }\n        let result;\n        try {\n            result = this.sugarcubeFacade.runTeweeScript(filter);\n        }\n        catch (error) {\n            error.message = \"bad evaluation: \" + error.message;\n            throw error;\n        }\n        if (result !== true && result !== false) {\n            throw new Error(`invalid filter expression return type (expected: boolean: actual: ${typeof result})`);\n        }\n        return {\n            result,\n            debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(result, `filter expression returns ${result ? 'true' : 'false'}`, 3)\n        };\n    }\n    verifyTaggedLimitationStrategy(passageName, limitationStrategies, compiledTags) {\n        const debugLogCollector = new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n        const usedLimitationStrategyTags = [];\n        let isSuccess = true;\n        if (limitationStrategies.length <= 0) {\n            return {\n                result: true,\n                debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](),\n                additionalData: {\n                    usedLimitationStrategyTags: []\n                },\n            };\n        }\n        limitationStrategies.forEach(limitationStrategy => {\n            // skip all next if already found limitation which is not passed\n            if (isSuccess === false) {\n                return;\n            }\n            if (limitationStrategy.max <= 0) {\n                debugLogCollector.addLog(true, 'limitationStrategy max value <= 0', 3);\n                return;\n            }\n            if (limitationStrategy.tags.length > 0) {\n                const limitationStrategyTags = [...this.tagsManager.prepareTags(limitationStrategy.tags)];\n                // skip checking limitationStrategy when current compiled tags have not included `limitation.tags`\n                for (let i = 0; i < limitationStrategyTags.length; i++) {\n                    if (!compiledTags.includes(limitationStrategyTags[i])) {\n                        debugLogCollector\n                            .addLog(false, `tag '${limitationStrategyTags[i]}' not found in current tags`, 3)\n                            .increaseLevel()\n                            .increaseLevel()\n                            .addLog(null, `current tags   : ${compiledTags.join(', ')}`, 3)\n                            .addLog(null, `limitation tags: ${limitationStrategyTags.join(', ')}`, 3)\n                            .decreaseLevel()\n                            .decreaseLevel();\n                        return;\n                    }\n                }\n                const fullLimitationStrategyTags = [\n                    ...limitationStrategyTags,\n                    ...(limitationStrategy.isSeparate ? [passageName] : [])\n                ];\n                const fullLimitationStrategyTagsKey = this.tagsManager.convertTagsToStringKey(fullLimitationStrategyTags);\n                const actualFiredTagCount = this.randomEventStats.getTagRunCountActual(fullLimitationStrategyTagsKey);\n                if (actualFiredTagCount >= limitationStrategy.max) {\n                    isSuccess = false;\n                    debugLogCollector.addLog(false, `limitationStrategy with tags ['${limitationStrategyTags.join(', ')}'] have max value ${limitationStrategy.max} but already fired ${actualFiredTagCount} times`, 3);\n                    return;\n                }\n                else {\n                    usedLimitationStrategyTags.push(fullLimitationStrategyTags);\n                    debugLogCollector.addLog(true, `limitationStrategy with tags ['${limitationStrategyTags.join(', ')}'] have max value ${limitationStrategy.max} and already fired ${actualFiredTagCount} times`, 3);\n                }\n            }\n            else {\n                const actualFiredEventCount = this.randomEventStats.getPassageRunCountActual(passageName);\n                if (actualFiredEventCount >= limitationStrategy.max) {\n                    isSuccess = false;\n                    debugLogCollector.addLog(false, `limitationStrategy without tags have max value ${limitationStrategy.max} but already fired ${actualFiredEventCount} times`, 3);\n                    return;\n                }\n                else {\n                    debugLogCollector.addLog(true, `limitationStrategy without tags have max value ${limitationStrategy.max} and already fired ${actualFiredEventCount} times`, 3);\n                }\n            }\n        });\n        if (isSuccess && usedLimitationStrategyTags.length <= 0) {\n            isSuccess = false;\n            debugLogCollector.addLog(false, `not found any limitationStrategy where current tags cover all limitationStrategy tags (current tags: ${compiledTags.join(', ')}`, 3);\n        }\n        return {\n            result: isSuccess,\n            debugLogCollector,\n            additionalData: { usedLimitationStrategyTags }\n        };\n    }\n    verifyNotTaggedLimitationStrategy(passageName, limitationStrategies, compiledTags) {\n        const debugLogCollector = new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n        const usedLimitationStrategyTags = [];\n        let isSuccess = true;\n        if (limitationStrategies.length <= 0) {\n            return {\n                result: true,\n                debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"](),\n                additionalData: {\n                    usedLimitationStrategyTags: []\n                },\n            };\n        }\n        limitationStrategies.forEach(limitationStrategy => {\n            if (limitationStrategy.max <= 0) {\n                debugLogCollector.addLog(true, 'limitationStrategy max value <= 0', 3);\n                return;\n            }\n            const actualFiredEventCount = this.randomEventStats.getPassageRunCountActual(passageName);\n            if (actualFiredEventCount >= limitationStrategy.max) {\n                isSuccess = false;\n                debugLogCollector.addLog(false, `random event have max value ${limitationStrategy.max} but already fired ${actualFiredEventCount} times`, 3);\n                return;\n            }\n            else {\n                debugLogCollector.addLog(true, `random event have max value ${limitationStrategy.max} and already fired ${actualFiredEventCount} times`, 3);\n            }\n        });\n        return {\n            result: isSuccess,\n            debugLogCollector,\n            additionalData: { usedLimitationStrategyTags }\n        };\n    }\n    verifyThreshold(threshold) {\n        let thresholdResult = 0;\n        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_1__.isNumber)(threshold)) {\n            try {\n                thresholdResult = this.sugarcubeFacade.runTeweeScript(threshold.toString());\n            }\n            catch (error) {\n                error.message = \"bad evaluation: \" + error.message;\n                throw error;\n            }\n        }\n        else {\n            thresholdResult = threshold;\n        }\n        if (thresholdResult >= 100) {\n            return {\n                result: true,\n                debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(true, 'threshold is equal to or greater than 100', 3)\n            };\n        }\n        const randomValue = Math.floor(Math.random() * 100);\n        if (randomValue > thresholdResult) {\n            return {\n                result: false,\n                debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(false, `random value is greater than threshold (random=${randomValue} > threshold=${thresholdResult})`, 3)\n            };\n        }\n        return {\n            result: true,\n            debugLogCollector: new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_0__[\"default\"]().addLog(true, 'threshold passed (random=' + randomValue + ' <= threshold=' + thresholdResult + ')', 3)\n        };\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/ConstraintsVerificator.ts?");
+
+/***/ }),
+
+/***/ "./src/DebugLogCollector.ts":
+/*!**********************************!*\
+  !*** ./src/DebugLogCollector.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ DebugLogCollector)\n/* harmony export */ });\nclass DebugLogCollector {\n    constructor(debugLevel = 0) {\n        this.debugLevel = debugLevel;\n        this.currentLevel = 0;\n        this.logs = [];\n        if (debugLevel !== 0 && debugLevel !== 1 && debugLevel !== 2 && debugLevel !== 3) {\n            throw new Error(\"Debug level should be 0, 1, 2 or 3\");\n        }\n    }\n    addLog(result, message, debugLevel, level) {\n        this.logs.push({\n            result: result,\n            message: message,\n            debugLevel: debugLevel,\n            level: level === undefined ? this.currentLevel : level,\n        });\n        return this;\n    }\n    merge(debugLogCollector) {\n        debugLogCollector.all().forEach(log => this.addLog(log.result, log.message, log.debugLevel, log.level + this.currentLevel));\n        return this;\n    }\n    increaseLevel() {\n        this.currentLevel++;\n        return this;\n    }\n    decreaseLevel() {\n        this.currentLevel--;\n        if (this.currentLevel < 0) {\n            this.currentLevel = 0;\n        }\n        return this;\n    }\n    get length() {\n        return this.logs.length;\n    }\n    all() {\n        return this.logs;\n    }\n    toString() {\n        return this.logs\n            .filter(log => log.debugLevel <= this.debugLevel)\n            .map(log => ('  '.repeat(log.level)) + (log.result === true ? '+ ' : (log.result === false ? '- ' : '')) + log.message)\n            .join(\"\\n\");\n    }\n    clear() {\n        this.currentLevel = 0;\n        this.logs = [];\n        return this;\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/DebugLogCollector.ts?");
+
+/***/ }),
+
+/***/ "./src/Lock.ts":
+/*!*********************!*\
+  !*** ./src/Lock.ts ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Lock)\n/* harmony export */ });\nclass Lock {\n    constructor() {\n        this.lockData = {\n            isLocked: false,\n            isForce: false,\n        };\n    }\n    acquire() {\n        if (this.lockData.isForce === false) {\n            this.lockData.isLocked = true;\n        }\n    }\n    release() {\n        if (this.lockData.isForce === false) {\n            this.lockData.isLocked = false;\n        }\n    }\n    forceAcquire() {\n        this.lockData.isLocked = true;\n        this.lockData.isForce = true;\n    }\n    forceRelease() {\n        this.lockData.isLocked = false;\n        this.lockData.isForce = false;\n    }\n    get isLocked() {\n        return this.lockData.isLocked;\n    }\n    get isForce() {\n        return this.lockData.isForce;\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/Lock.ts?");
+
+/***/ }),
+
+/***/ "./src/RandomEventApp.ts":
+/*!*******************************!*\
+  !*** ./src/RandomEventApp.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RandomEventApp)\n/* harmony export */ });\n/* harmony import */ var _Lock__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Lock */ \"./src/Lock.ts\");\n/* harmony import */ var _DebugLogCollector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DebugLogCollector */ \"./src/DebugLogCollector.ts\");\n/* harmony import */ var _ConstraintsVerificator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ConstraintsVerificator */ \"./src/ConstraintsVerificator.ts\");\n/* harmony import */ var _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./enum/GroupTypeEnum */ \"./src/enum/GroupTypeEnum.ts\");\n/* harmony import */ var _TagsManager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TagsManager */ \"./src/TagsManager.ts\");\n/* harmony import */ var _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./error/PassageMetadataValidationError */ \"./src/error/PassageMetadataValidationError.ts\");\n/* harmony import */ var _processors_RandomEventPassageMetadataProcessor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./processors/RandomEventPassageMetadataProcessor */ \"./src/processors/RandomEventPassageMetadataProcessor.ts\");\n/* harmony import */ var _tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tools/TypeChecker */ \"./src/tools/TypeChecker.ts\");\n/* harmony import */ var _macros_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./macros/index */ \"./src/macros/index.ts\");\n/* harmony import */ var _facade_SugarcubeFacade__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./facade/SugarcubeFacade */ \"./src/facade/SugarcubeFacade.ts\");\n/* harmony import */ var _RandomEventStats__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./RandomEventStats */ \"./src/RandomEventStats.ts\");\n\n\n\n\n\n\n\n\n\n\n\nclass RandomEventApp {\n    constructor(passageMetadataApp, debugLevel = 0) {\n        this.passageMetadataApp = passageMetadataApp;\n        this._passagesByTagIndex = {};\n        this._passagesByGroupIndex = {};\n        this.acquireLock = () => this.lock.acquire();\n        this.releaseLock = () => this.lock.release();\n        this.forceAcquireLock = () => this.lock.forceAcquire();\n        this.forceReleaseLock = () => this.lock.forceRelease();\n        this.has = (passageName) => this.passageMetadataApp.has(passageName);\n        this.find = (passageName) => this.passageMetadataApp.find(passageName);\n        this.sugarcubeFacade = new _facade_SugarcubeFacade__WEBPACK_IMPORTED_MODULE_9__[\"default\"]();\n        this.tagsManager = new _TagsManager__WEBPACK_IMPORTED_MODULE_4__[\"default\"](this.sugarcubeFacade);\n        this.lock = new _Lock__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n        this.debugLogCollector = new _DebugLogCollector__WEBPACK_IMPORTED_MODULE_1__[\"default\"](debugLevel);\n        this.randomEventStats = new _RandomEventStats__WEBPACK_IMPORTED_MODULE_10__[\"default\"](passageMetadataApp, this.tagsManager);\n        this.constraintsVerificator = new _ConstraintsVerificator__WEBPACK_IMPORTED_MODULE_2__[\"default\"](this.sugarcubeFacade, this.tagsManager, this.randomEventStats);\n        const randomEventPassageMetadataProcessor = new _processors_RandomEventPassageMetadataProcessor__WEBPACK_IMPORTED_MODULE_6__[\"default\"]();\n        passageMetadataApp.onBeforeAddMetadata.add((passageMetadataObject) => {\n            try {\n                randomEventPassageMetadataProcessor.process(passageMetadataObject);\n            }\n            catch (error) {\n                if (error instanceof _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_5__[\"default\"]) {\n                    let message = error.message;\n                    if (error.path.length > 0) {\n                        message += ' ';\n                        error.path.forEach((path, index) => {\n                            if (index === 0 || path[0] === '[') {\n                                message += path;\n                            }\n                            else {\n                                message += '.' + path;\n                            }\n                        });\n                    }\n                    let scopeMessage = [];\n                    if (error.expected !== null) {\n                        scopeMessage.push('expected ' + error.expected);\n                    }\n                    if (error.actual !== null) {\n                        scopeMessage.push('actual ' + error.actual);\n                    }\n                    throw new Error(`${message}${scopeMessage.join.length > 0 ? ` (${scopeMessage.join(', ')})` : ''}`);\n                }\n                throw error;\n            }\n        });\n        passageMetadataApp.onAfterAddMetadata.add((passageMetadata) => {\n            const data = passageMetadata.data;\n            if (data.tags.length > 0) {\n                data.tags.forEach((tag) => {\n                    if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isTweeScript)(tag)) {\n                        return;\n                    }\n                    if (this._passagesByTagIndex[tag] === undefined) {\n                        this._passagesByTagIndex[tag] = [];\n                    }\n                    this._passagesByTagIndex[tag].push(data.passageName);\n                });\n            }\n            if (data.groups.length > 0) {\n                data.groups.forEach((group) => {\n                    if (this._passagesByGroupIndex[group.name] === undefined) {\n                        this._passagesByGroupIndex[group.name] = [];\n                    }\n                    this._passagesByGroupIndex[group.name].push(data.passageName);\n                });\n            }\n        });\n        passageMetadataApp.onBeforeRestore.add((state) => {\n            const passageNames = Object.keys(state);\n            passageNames.forEach((passageName) => {\n                const data = state[passageName];\n                if (data.e !== undefined) {\n                    data.isEnabled = data.e;\n                    delete data.e;\n                }\n            });\n        });\n        passageMetadataApp.onBeforeStore.add((state) => {\n            const passageNames = Object.keys(state);\n            passageNames.forEach((passageName) => {\n                const data = state[passageName];\n                if (data.isEnabled !== undefined) {\n                    data.e = data.isEnabled;\n                    delete data.isEnabled;\n                }\n            });\n        });\n        (0,_macros_index__WEBPACK_IMPORTED_MODULE_8__[\"default\"])(this, passageMetadataApp, this.sugarcubeFacade);\n    }\n    get isLocked() {\n        return this.lock.isLocked;\n    }\n    ;\n    get isForceLocked() {\n        return this.lock.isForce;\n    }\n    ;\n    enable(passageName) {\n        if (!this.passageMetadataApp.has(passageName)) {\n            if (!this.sugarcubeFacade.hasPassage(passageName)) {\n                throw new Error(`passage \"${passageName}\" does not exist`);\n            }\n            if (this.passageMetadataApp.mode === 'byTag') {\n                throw new Error(`passage \"${passageName}\" exist but without tag \"${this.passageMetadataApp.modeParams.filterTag}\"`);\n            }\n            else {\n                throw new Error(`passage \"${passageName}\" does'n contain metadata`);\n            }\n        }\n        this.passageMetadataApp.get(passageName).setValue('isEnabled', true);\n        this.passageMetadataApp.storeState();\n    }\n    disable(passageName) {\n        if (!this.passageMetadataApp.has(passageName)) {\n            if (!this.sugarcubeFacade.hasPassage(passageName)) {\n                throw new Error(`passage \"${passageName}\" does not exist`);\n            }\n            if (this.passageMetadataApp.mode === 'byTag') {\n                throw new Error(`passage \"${passageName}\" exist but without tag \"${this.passageMetadataApp.modeParams.filterTag}\"`);\n            }\n            else {\n                throw new Error(`passage \"${passageName}\" does'n contain metadata`);\n            }\n        }\n        this.passageMetadataApp.get(passageName).setValue('isEnabled', false);\n        this.passageMetadataApp.storeState();\n    }\n    enableByTag(tag) {\n        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isArray)(this._passagesByTagIndex[tag])) {\n            this._passagesByTagIndex[tag].forEach((passageName) => {\n                const passageMetadata = this.passageMetadataApp.get(passageName);\n                passageMetadata.setValue('isEnabled', true);\n            });\n            this.passageMetadataApp.storeState();\n        }\n    }\n    disableByTag(tag) {\n        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isArray)(this._passagesByTagIndex[tag])) {\n            this._passagesByTagIndex[tag].forEach((passageName) => {\n                const passageMetadata = this.passageMetadataApp.get(passageName);\n                passageMetadata.setValue('isEnabled', false);\n            });\n            this.passageMetadataApp.storeState();\n        }\n    }\n    runRandomEvent(passageName, rewriteConfiguration) {\n        this.debugLogCollector.clear();\n        rewriteConfiguration = {\n            ...{\n                isValidateIsEnable: true,\n                isEnabled: null,\n                isValidateFilter: true,\n                filter: null,\n                isValidateLimitationStrategy: true,\n                limitationStrategy: null,\n                isValidateThreshold: true,\n                threshold: null,\n            },\n            ...(rewriteConfiguration !== null && rewriteConfiguration !== void 0 ? rewriteConfiguration : {})\n        };\n        if (!this.passageMetadataApp.has(passageName)) {\n            if (!this.sugarcubeFacade.hasPassage(passageName)) {\n                throw new Error(`passage \"${passageName}\" does not exist`);\n            }\n            throw new Error(`passage \"${passageName}\" exist but without tag \"${this.passageMetadataApp.modeParams.filterTag}\"`);\n        }\n        const passageMetadata = (this.passageMetadataApp.get(passageName)).data;\n        this.debugLogCollector.addLog(null, `Start random event ${passageMetadata.passageName}`, 1);\n        this.debugLogCollector.increaseLevel();\n        let result = true;\n        if (this.lock.isLocked) {\n            result = false;\n            this.debugLogCollector.addLog(null, `Skip because lock already acquired`, 1);\n            return {\n                isSuccess: result,\n                debugLogCollector: this.debugLogCollector,\n                passageMetadata,\n                usedTags: []\n            };\n        }\n        try {\n            const compiledTags = this.tagsManager.prepareTags(passageMetadata.tags);\n            const checkResult = this.constraintsVerificator.verify(passageMetadata, compiledTags, rewriteConfiguration);\n            this.debugLogCollector\n                .addLog(null, `Verify:`, 2)\n                .increaseLevel()\n                .merge(checkResult.debugLogCollector)\n                .decreaseLevel();\n            return {\n                isSuccess: checkResult.result,\n                debugLogCollector: this.debugLogCollector,\n                passageMetadata,\n                usedTags: passageMetadata._isLimitationStrategiesTagged ? checkResult.additionalData.usedLimitationStrategyTags : [compiledTags]\n            };\n        }\n        catch (error) {\n            // TODO add data to error\n            throw error;\n        }\n    }\n    runGroup(groupName, groupThreshold, rewriteConfiguration) {\n        this.debugLogCollector.clear();\n        rewriteConfiguration = {\n            ...{\n                isValidateIsEnable: true,\n                isEnable: null,\n                isValidateFilter: true,\n                filter: null,\n                isValidateLimitationStrategy: true,\n                limitationStrategy: null,\n                isValidateThreshold: true,\n                threshold: null,\n            },\n            ...(rewriteConfiguration !== null && rewriteConfiguration !== void 0 ? rewriteConfiguration : {})\n        };\n        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isArray)(this._passagesByGroupIndex[groupName])) {\n            throw new Error(`group \"${groupName}\" does not exist`);\n        }\n        this.debugLogCollector.addLog(null, `Start group ${groupName}`, 1);\n        this.debugLogCollector.increaseLevel();\n        let result = true;\n        if (this.lock.isLocked) {\n            result = false;\n            this.debugLogCollector.addLog(null, `Skip because lock already acquired`, 1);\n            return {\n                isSuccess: result,\n                debugLogCollector: this.debugLogCollector,\n            };\n        }\n        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isNumber)(groupThreshold) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_7__.isString)(groupThreshold)) {\n            try {\n                const checkResult = this.constraintsVerificator.verifyThreshold(groupThreshold);\n                result = checkResult.result;\n                this.debugLogCollector\n                    .addLog(null, 'Verify group threshold', 2)\n                    .increaseLevel()\n                    .merge(checkResult.debugLogCollector)\n                    .decreaseLevel();\n            }\n            catch (error) {\n                // TODO add data to error\n                throw error;\n            }\n            if (result === false) {\n                return {\n                    isSuccess: result,\n                    debugLogCollector: this.debugLogCollector,\n                };\n            }\n            rewriteConfiguration.isValidateThreshold = false;\n        }\n        this.debugLogCollector\n            .increaseLevel()\n            .addLog(null, 'Verify random events in group', 1)\n            .increaseLevel();\n        let totalWeight = 0;\n        const sucessRandomEventsResults = [];\n        for (let groupIndex = 0; groupIndex < this._passagesByGroupIndex[groupName].length; groupIndex++) {\n            const passageName = this._passagesByGroupIndex[groupName][groupIndex];\n            const passageMetadata = (this.passageMetadataApp.get(passageName)).data;\n            const group = passageMetadata.groups[passageMetadata._groupByNameIndex[groupName]];\n            this.debugLogCollector\n                .addLog(null, `Random event ${passageMetadata.passageName} with weight ${group.weight}`, 1)\n                .increaseLevel();\n            try {\n                const compiledTags = this.tagsManager.prepareTags(passageMetadata.tags);\n                const checkResult = this.constraintsVerificator.verify(passageMetadata, compiledTags, rewriteConfiguration);\n                const result = checkResult.result;\n                this.debugLogCollector\n                    .addLog(null, `Verify`, 2)\n                    .increaseLevel()\n                    .merge(checkResult.debugLogCollector)\n                    .decreaseLevel();\n                if (result) {\n                    totalWeight += group.weight;\n                    sucessRandomEventsResults.push({\n                        isSuccess: result,\n                        passageMetadata: passageMetadata,\n                        usedTags: passageMetadata._isLimitationStrategiesTagged ? checkResult.additionalData.usedLimitationStrategyTags : [compiledTags],\n                        group: group,\n                    });\n                }\n            }\n            catch (error) {\n                // TODO add data to error\n                throw error;\n            }\n            this.debugLogCollector.decreaseLevel();\n        }\n        if (sucessRandomEventsResults.length <= 0) {\n            result = false;\n            this.debugLogCollector.addLog(false, `not found any suitable random events in group`, 2);\n            return {\n                isSuccess: result,\n                debugLogCollector: this.debugLogCollector,\n            };\n        }\n        let winnerRandomEventResult = null;\n        if (sucessRandomEventsResults[0].group.type === _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_3__.GroupTypeEnum.Sequential) {\n            this.debugLogCollector\n                .addLog(true, `Find winner event`, 2)\n                .increaseLevel();\n            const sucessRandomEventsSequentialResults = sucessRandomEventsResults.filter((sucessRandomEventsResult) => {\n                return this.randomEventStats.getPassageRunCountHistory(sucessRandomEventsResult.passageMetadata.passageName) < sucessRandomEventsResult.group.sequentialCount;\n            });\n            this.debugLogCollector.addLog(true, `sequential search found ${sucessRandomEventsSequentialResults.length} siutable events`, 3);\n            if (sucessRandomEventsSequentialResults.length > 0) {\n                winnerRandomEventResult = sucessRandomEventsSequentialResults.sort((a, b) => {\n                    return a.group.sequentialIndex - b.group.sequentialIndex;\n                })[0];\n                this.debugLogCollector.addLog(true, `winner random event: ${winnerRandomEventResult.passageMetadata.passageName}`, 3);\n                return {\n                    isSuccess: result,\n                    debugLogCollector: this.debugLogCollector,\n                    passageMetadata: winnerRandomEventResult.passageMetadata,\n                    usedTags: winnerRandomEventResult.usedTags,\n                    group: winnerRandomEventResult.group,\n                };\n            }\n        }\n        let winnerWeight = Math.floor(Math.random() * totalWeight);\n        this.debugLogCollector.addLog(true, `total weight: ${totalWeight} | wittner weight: ${winnerWeight}`, 3);\n        for (let i = 0; i < sucessRandomEventsResults.length; i++) {\n            winnerWeight -= sucessRandomEventsResults[i].group.weight;\n            if (winnerWeight <= 0) {\n                winnerRandomEventResult = sucessRandomEventsResults[i];\n                break;\n            }\n        }\n        this.debugLogCollector.addLog(true, `winner random event: ${winnerRandomEventResult.passageMetadata.passageName}`, 3);\n        return {\n            isSuccess: result,\n            debugLogCollector: this.debugLogCollector,\n            passageMetadata: winnerRandomEventResult.passageMetadata,\n            usedTags: winnerRandomEventResult.usedTags,\n            group: winnerRandomEventResult.group,\n        };\n    }\n    incrementRunCounters(passageName, usedTags) {\n        this.randomEventStats.incrementPassageRunCount(passageName);\n        this.randomEventStats.incrementTagsRunCount(passageName, usedTags);\n        this.passageMetadataApp.storeState();\n    }\n    resetRunCounterByPassage(passageName) {\n        this.randomEventStats.resetPassageRunCount(passageName);\n        this.passageMetadataApp.storeState();\n    }\n    resetRunCounterByTag(tag) {\n        this.randomEventStats.resetTagsRunCount(tag);\n        this.passageMetadataApp.storeState();\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/RandomEventApp.ts?");
+
+/***/ }),
+
+/***/ "./src/RandomEventStats.ts":
+/*!*********************************!*\
+  !*** ./src/RandomEventStats.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RandomEventStats)\n/* harmony export */ });\n/* harmony import */ var _tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tools/TypeChecker */ \"./src/tools/TypeChecker.ts\");\n\nclass RandomEventStats {\n    constructor(passageMetadataApp, tagsManager) {\n        this.passageMetadataApp = passageMetadataApp;\n        this.tagsManager = tagsManager;\n        this.passagesRunCountHistory = {};\n        this.passagesRunCountActual = {};\n        this.tagsRunCountHistory = {};\n        this.tagsRunCountActual = {};\n        this._passagesByTagIndex = {};\n        this._tagsStringKeysByPassageAndTagIndex = {};\n        this._tagsStringKeysIndex = {};\n        passageMetadataApp.onAfterAddMetadata.add((passageMetadata) => {\n            const data = passageMetadata.data;\n            data._stringTags.forEach((tag) => {\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isString)(tag) || tag.length <= 0) {\n                    return;\n                }\n                if (this._passagesByTagIndex[tag] === undefined) {\n                    this._passagesByTagIndex[tag] = [];\n                }\n                this._passagesByTagIndex[tag].push(data.passageName);\n            });\n            data.limitationStrategies.forEach((limitationStrategy) => {\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(limitationStrategy.tags) && limitationStrategy.tags.length > 0) {\n                    const tags = limitationStrategy.tags;\n                    if (limitationStrategy.isSeparate === true) {\n                        tags.push(data.passageName);\n                    }\n                    const tagsStringKey = this.tagsManager.convertTagsToStringKey(tags);\n                    if (this._tagsStringKeysIndex[tagsStringKey] === undefined) {\n                        this._tagsStringKeysIndex[tagsStringKey] = [];\n                    }\n                    if (limitationStrategy.isSeparate === true) {\n                        tags.push(data.passageName);\n                    }\n                    limitationStrategy.tags.forEach((tag) => {\n                        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isString)(tag) || tag.length <= 0) {\n                            return;\n                        }\n                        if (this._passagesByTagIndex[tag] === undefined) {\n                            this._passagesByTagIndex[tag] = [];\n                        }\n                        if (!this._passagesByTagIndex[tag].includes(passageMetadata.passageName)) {\n                            this._passagesByTagIndex[tag].push(passageMetadata.passageName);\n                        }\n                        if (this._tagsStringKeysByPassageAndTagIndex[tag] === undefined) {\n                            this._tagsStringKeysByPassageAndTagIndex[tag] = {};\n                        }\n                        if (this._tagsStringKeysByPassageAndTagIndex[tag][data.passageName] === undefined) {\n                            this._tagsStringKeysByPassageAndTagIndex[tag][data.passageName] = [];\n                        }\n                        this._tagsStringKeysByPassageAndTagIndex[tag][data.passageName].push(tagsStringKey);\n                        if (!this._tagsStringKeysIndex[tagsStringKey].includes(tag)) {\n                            this._tagsStringKeysIndex[tagsStringKey].push(tag);\n                        }\n                    });\n                }\n            });\n        });\n        passageMetadataApp.onBeforeRestore.add((state) => {\n            console.log(state);\n            const tagsIndex = {};\n            if (state.__tags !== undefined) {\n                state.__tags.forEach((tag, index) => {\n                    tagsIndex[index] = tag;\n                });\n                delete state.__tags;\n            }\n            this.passagesRunCountHistory = {};\n            this.passagesRunCountActual = {};\n            this.tagsRunCountHistory = {};\n            this.tagsRunCountActual = {};\n            const passageNames = Object.keys(state);\n            passageNames.forEach((passageName) => {\n                var _a, _b;\n                const data = state[passageName];\n                if (data._runCountActual === undefined) {\n                    data._runCountActual = 0;\n                }\n                if (data._runCountHistory === undefined) {\n                    data._runCountHistory = 0;\n                }\n                if (data._runCountByTagsActual === undefined) {\n                    data._runCountByTagsActual = {};\n                }\n                if (data._runCountByTagsHistory === undefined) {\n                    data._runCountByTagsHistory = {};\n                }\n                if (data.s !== undefined) {\n                    data._runCountActual = (_a = data.s.a) !== null && _a !== void 0 ? _a : data._runCountActual;\n                    data._runCountHistory = (_b = data.s.h) !== null && _b !== void 0 ? _b : data._runCountHistory;\n                    if (data.s.t !== undefined) {\n                        const tagsIndexes = Object.keys(data.s.t).map((index) => parseInt(index));\n                        tagsIndexes.forEach((tagIndex) => {\n                            if (data.s.t[tagIndex].a !== undefined) {\n                                data._runCountByTagsActual[tagsIndex[tagIndex]] = data.s.t[tagIndex].a;\n                            }\n                            if (data.s.t[tagIndex].h !== undefined) {\n                                data._runCountByTagsHistory[tagsIndex[tagIndex]] = data.s.t[tagIndex].h;\n                            }\n                        });\n                    }\n                    delete data.s;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isNumber)(data._runCountActual)) {\n                    this.passagesRunCountActual[passageName] = data._runCountActual;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isNumber)(data._runCountHistory)) {\n                    this.passagesRunCountHistory[passageName] = data._runCountHistory;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isObject)(data._runCountByTagsActual)) {\n                    const tags = Object.keys(data._runCountByTagsActual);\n                    tags.forEach((tag) => {\n                        if (this.tagsRunCountActual[tag] === undefined) {\n                            this.tagsRunCountActual[tag] = 0;\n                        }\n                        this.tagsRunCountActual[tag] += data._runCountByTagsActual[tag];\n                    });\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isObject)(data._runCountByTagsHistory)) {\n                    const tags = Object.keys(data._runCountByTagsHistory);\n                    tags.forEach((tag) => {\n                        if (this.tagsRunCountHistory[tag] === undefined) {\n                            this.tagsRunCountHistory[tag] = 0;\n                        }\n                        this.tagsRunCountHistory[tag] += data._runCountByTagsHistory[tag];\n                    });\n                }\n            });\n        });\n        passageMetadataApp.onBeforeStore.add((state) => {\n            let tagsIndexLength = 0;\n            const tagsIndex = {};\n            const passageNames = Object.keys(state);\n            passageNames.forEach((passageName) => {\n                const data = state[passageName];\n                const optimizedStats = {};\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isNumber)(data._runCountActual)) {\n                    optimizedStats.a = data._runCountActual;\n                    delete data._runCountActual;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isNumber)(data._runCountHistory)) {\n                    optimizedStats.h = data._runCountHistory;\n                    delete data._runCountHistory;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isObject)(data._runCountByTagsActual)) {\n                    const tags = Object.keys(data._runCountByTagsActual);\n                    if (tags.length > 0) {\n                        optimizedStats.t = {};\n                        tags.forEach((tag) => {\n                            if (tagsIndex[tag] === undefined) {\n                                tagsIndex[tag] = tagsIndexLength;\n                                tagsIndexLength++;\n                            }\n                            if (optimizedStats.t[tagsIndex[tag]] === undefined) {\n                                optimizedStats.t[tagsIndex[tag]] = {};\n                            }\n                            optimizedStats.t[tagsIndex[tag]].a = data._runCountByTagsActual[tag];\n                        });\n                    }\n                    delete data._runCountByTagsActual;\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isObject)(data._runCountByTagsHistory)) {\n                    const tags = Object.keys(data._runCountByTagsHistory);\n                    if (tags.length > 0) {\n                        if (optimizedStats.t === undefined) {\n                            optimizedStats.t = {};\n                        }\n                        tags.forEach((tag) => {\n                            if (tagsIndex[tag] === undefined) {\n                                tagsIndex[tag] = tagsIndexLength;\n                                tagsIndexLength++;\n                            }\n                            if (optimizedStats.t[tagsIndex[tag]] === undefined) {\n                                optimizedStats.t[tagsIndex[tag]] = {};\n                            }\n                            optimizedStats.t[tagsIndex[tag]].h = data._runCountByTagsHistory[tag];\n                        });\n                    }\n                    delete data._runCountByTagsHistory;\n                }\n                if (Object.keys(optimizedStats).length > 0) {\n                    data.s = optimizedStats;\n                }\n            });\n            if (tagsIndexLength > 0) {\n                state.__tags = Object.keys(tagsIndex);\n            }\n        });\n    }\n    incrementPassageRunCount(passageName, count = 1, isStoreImmediately = false) {\n        const passageMetadata = this.passageMetadataApp.get(passageName);\n        const runCountHistory = passageMetadata.data._runCountHistory + count;\n        const runCountActual = passageMetadata.data._runCountActual + count;\n        passageMetadata.setValue('_runCountHistory', runCountHistory);\n        passageMetadata.setValue('_runCountActual', runCountActual);\n        this.passagesRunCountHistory[passageName] = runCountHistory;\n        this.passagesRunCountActual[passageName] = runCountActual;\n        if (isStoreImmediately === true) {\n            this.passageMetadataApp.storeState();\n        }\n    }\n    incrementTagsRunCount(passageName, tagsList, count = 1, isStoreImmediately = false) {\n        const passageMetadata = this.passageMetadataApp.get(passageName);\n        const currentRunCountByTagsHistory = passageMetadata.data._runCountByTagsHistory;\n        const currentRunCountByTagsActual = passageMetadata.data._runCountByTagsActual;\n        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(tagsList) && tagsList.length > 0) {\n            tagsList.forEach(tags => {\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(tags) && tags.length > 0) {\n                    const uniqueTags = [...tags].filter((tag, index, array) => array.indexOf(tag) === index);\n                    const tagsStringKey = this.tagsManager.convertTagsToStringKey(tags);\n                    uniqueTags.forEach(tag => {\n                        if (tag !== '') {\n                            currentRunCountByTagsHistory[tag] = currentRunCountByTagsHistory[tag] === undefined ? count : currentRunCountByTagsHistory[tag] + count;\n                            currentRunCountByTagsActual[tag] = currentRunCountByTagsActual[tag] === undefined ? count : currentRunCountByTagsActual[tag] + count;\n                            this.tagsRunCountHistory[tag] = this.tagsRunCountHistory[tag] === undefined ? count : this.tagsRunCountHistory[tag] + count;\n                            this.tagsRunCountActual[tag] = this.tagsRunCountActual[tag] === undefined ? count : this.tagsRunCountActual[tag] + count;\n                        }\n                    });\n                    if (tagsStringKey !== '') {\n                        currentRunCountByTagsHistory[tagsStringKey] = currentRunCountByTagsHistory[tagsStringKey] === undefined ? count : currentRunCountByTagsHistory[tagsStringKey] + count;\n                        currentRunCountByTagsActual[tagsStringKey] = currentRunCountByTagsActual[tagsStringKey] === undefined ? count : currentRunCountByTagsActual[tagsStringKey] + count;\n                        this.tagsRunCountHistory[tagsStringKey] = this.tagsRunCountHistory[tagsStringKey] === undefined ? count : this.tagsRunCountHistory[tagsStringKey] + count;\n                        this.tagsRunCountActual[tagsStringKey] = this.tagsRunCountActual[tagsStringKey] === undefined ? count : this.tagsRunCountActual[tagsStringKey] + count;\n                    }\n                }\n            });\n        }\n        passageMetadata.setValue('_runCountByTagsHistory', currentRunCountByTagsHistory);\n        passageMetadata.setValue('_runCountByTagsActual', currentRunCountByTagsActual);\n        if (isStoreImmediately === true) {\n            this.passageMetadataApp.storeState();\n        }\n    }\n    resetPassageRunCount(passageName, isStoreImmediately = false) {\n        const passageMetadata = this.passageMetadataApp.get(passageName);\n        passageMetadata.setValue('_runCountActual', 0);\n        this.passagesRunCountActual[passageName] = 0;\n        if (isStoreImmediately === true) {\n            this.passageMetadataApp.storeState();\n        }\n    }\n    resetTagsRunCount(tags, isStoreImmediately = false) {\n        if (!Array.isArray(tags)) {\n            tags = [tags];\n        }\n        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(tags)) {\n            tags.forEach((tag) => {\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isString)(tag)) {\n                    throw new Error('Tag shouldb be string');\n                }\n                if (this.tagsRunCountActual[tag] !== undefined) {\n                    delete this.tagsRunCountActual[tag];\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(this._passagesByTagIndex[tag])) {\n                    this._passagesByTagIndex[tag].forEach((passageName) => {\n                        const passageMetadata = this.passageMetadataApp.get(passageName);\n                        passageMetadata.setValue('_runCountActual', 0);\n                        delete this.passagesRunCountActual[passageName];\n                        const runCountByTagsActual = { ...passageMetadata.data._runCountByTagsActual };\n                        delete runCountByTagsActual[tag];\n                        passageMetadata.setValue('_runCountByTagsActual', runCountByTagsActual);\n                    });\n                }\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isObject)(this._tagsStringKeysByPassageAndTagIndex[tag])) {\n                    const passageNames = Object.keys(this._tagsStringKeysByPassageAndTagIndex[tag]);\n                    passageNames.forEach((passageName) => {\n                        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isArray)(this._tagsStringKeysByPassageAndTagIndex[tag][passageName])) {\n                            const passageMetadata = this.passageMetadataApp.get(passageName);\n                            this._tagsStringKeysByPassageAndTagIndex[tag][passageName].forEach((tagsStringKey) => {\n                                const runCountByTagsActual = { ...passageMetadata.data._runCountByTagsActual };\n                                if (runCountByTagsActual[tagsStringKey] !== undefined) {\n                                    if (this._tagsStringKeysIndex[tagsStringKey] !== undefined) {\n                                        this._tagsStringKeysIndex[tagsStringKey].forEach((tagFromTagsStringKey) => {\n                                            if (runCountByTagsActual[tagFromTagsStringKey] !== undefined) {\n                                                delete runCountByTagsActual[tagFromTagsStringKey];\n                                            }\n                                            if (this.tagsRunCountActual[tagFromTagsStringKey] !== undefined) {\n                                                delete this.tagsRunCountActual[tagFromTagsStringKey];\n                                            }\n                                        });\n                                    }\n                                    delete runCountByTagsActual[tagsStringKey];\n                                }\n                                passageMetadata.setValue('_runCountByTagsActual', runCountByTagsActual);\n                                if (this.tagsRunCountActual[tagsStringKey] !== undefined) {\n                                    delete this.tagsRunCountActual[tagsStringKey];\n                                }\n                            });\n                        }\n                    });\n                }\n            });\n        }\n        if (isStoreImmediately === true) {\n            this.passageMetadataApp.storeState();\n        }\n    }\n    getPassageRunCountActual(passageName) {\n        var _a;\n        return (_a = this.passagesRunCountActual[passageName]) !== null && _a !== void 0 ? _a : 0;\n    }\n    getPassageRunCountHistory(passageName) {\n        var _a;\n        return (_a = this.passagesRunCountHistory[passageName]) !== null && _a !== void 0 ? _a : 0;\n    }\n    getTagRunCountActual(tag) {\n        var _a;\n        return (_a = this.tagsRunCountActual[tag]) !== null && _a !== void 0 ? _a : 0;\n    }\n    getTagRunCountHistory(tag) {\n        var _a;\n        return (_a = this.tagsRunCountHistory[tag]) !== null && _a !== void 0 ? _a : 0;\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/RandomEventStats.ts?");
+
+/***/ }),
+
+/***/ "./src/TagsManager.ts":
+/*!****************************!*\
+  !*** ./src/TagsManager.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TagsManager)\n/* harmony export */ });\n/* harmony import */ var _tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tools/TypeChecker */ \"./src/tools/TypeChecker.ts\");\n\nclass TagsManager {\n    constructor(sugarcubeFacade) {\n        this.sugarcubeFacade = sugarcubeFacade;\n    }\n    prepareTags(tags) {\n        return tags.map((tag) => {\n            if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_0__.isTweeScript)(tag)) {\n                return tag;\n            }\n            else {\n                try {\n                    return this.sugarcubeFacade.runTeweeScript(tag).trim().replace(' ', '__');\n                }\n                catch (error) {\n                    throw new Error(\"Invalid random event scripted tag: \" + tag);\n                }\n            }\n        }).sort();\n    }\n    convertTagsToStringKey(tags) {\n        return this.prepareTags(tags).join('_');\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/TagsManager.ts?");
+
+/***/ }),
+
+/***/ "./src/enum/GroupTypeEnum.ts":
+/*!***********************************!*\
+  !*** ./src/enum/GroupTypeEnum.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   GroupTypeEnum: () => (/* binding */ GroupTypeEnum)\n/* harmony export */ });\nvar GroupTypeEnum;\n(function (GroupTypeEnum) {\n    GroupTypeEnum[\"Random\"] = \"random\";\n    GroupTypeEnum[\"Sequential\"] = \"sequential\";\n})(GroupTypeEnum || (GroupTypeEnum = {}));\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/enum/GroupTypeEnum.ts?");
+
+/***/ }),
+
+/***/ "./src/enum/Type.ts":
+/*!**************************!*\
+  !*** ./src/enum/Type.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   TypeEnum: () => (/* binding */ TypeEnum)\n/* harmony export */ });\nvar TypeEnum;\n(function (TypeEnum) {\n    TypeEnum[\"Embedded\"] = \"embedded\";\n    TypeEnum[\"Goto\"] = \"goto\";\n})(TypeEnum || (TypeEnum = {}));\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/enum/Type.ts?");
+
+/***/ }),
+
+/***/ "./src/error/InvalidPassageMetadataValue.ts":
+/*!**************************************************!*\
+  !*** ./src/error/InvalidPassageMetadataValue.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ InvalidPassageMetadataValue)\n/* harmony export */ });\n/* harmony import */ var _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PassageMetadataValidationError */ \"./src/error/PassageMetadataValidationError.ts\");\n\nclass InvalidPassageMetadataValue extends _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(passageName = null, path = [], expected = null, actual = null) {\n        super('Invalid value', passageName, path, expected, actual);\n        Object.setPrototypeOf(this, _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"].prototype);\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/error/InvalidPassageMetadataValue.ts?");
+
+/***/ }),
+
+/***/ "./src/error/InvalidPassageMetadataValueType.ts":
+/*!******************************************************!*\
+  !*** ./src/error/InvalidPassageMetadataValueType.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ InvalidPassageMetadataValueType)\n/* harmony export */ });\n/* harmony import */ var _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PassageMetadataValidationError */ \"./src/error/PassageMetadataValidationError.ts\");\n\nclass InvalidPassageMetadataValueType extends _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(passageName = null, path = [], expected = null, actual = null) {\n        super('Invalid type', passageName, path, expected, actual);\n        Object.setPrototypeOf(this, _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"].prototype);\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/error/InvalidPassageMetadataValueType.ts?");
+
+/***/ }),
+
+/***/ "./src/error/PassageMetadataValidationError.ts":
+/*!*****************************************************!*\
+  !*** ./src/error/PassageMetadataValidationError.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ PassageMetadataValidationError)\n/* harmony export */ });\nclass PassageMetadataValidationError extends Error {\n    constructor(message, passageName = null, path = [], expected = null, actual = null) {\n        super(message);\n        this._path = [];\n        this._expected = null;\n        this._actual = null;\n        this._passageName = passageName;\n        this._path = path;\n        this._expected = expected;\n        this._actual = actual;\n        Object.setPrototypeOf(this, PassageMetadataValidationError.prototype);\n    }\n    static fromPreviousError(previousError, passageName = null, path = []) {\n        path = [\n            ...path,\n            ...(previousError instanceof PassageMetadataValidationError) ? previousError.path : []\n        ];\n        passageName = passageName !== null ? passageName : (previousError instanceof PassageMetadataValidationError) ? previousError.passageName : null;\n        const error = new PassageMetadataValidationError(previousError.message, passageName, previousError instanceof PassageMetadataValidationError ? previousError.expected : null, previousError instanceof PassageMetadataValidationError ? previousError.actual : null);\n        error.stack = previousError.stack;\n        return error;\n    }\n    get passageName() {\n        return this._passageName;\n    }\n    get path() {\n        return this._path;\n    }\n    get expected() {\n        return this._expected;\n    }\n    get actual() {\n        return this._actual;\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/error/PassageMetadataValidationError.ts?");
+
+/***/ }),
+
+/***/ "./src/error/RequiredPassageMetadataValue.ts":
+/*!***************************************************!*\
+  !*** ./src/error/RequiredPassageMetadataValue.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RequiredPassageMetadataValue)\n/* harmony export */ });\n/* harmony import */ var _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PassageMetadataValidationError */ \"./src/error/PassageMetadataValidationError.ts\");\n\nclass RequiredPassageMetadataValue extends _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(condition, passageName = null, path = [], expected = null, actual = null) {\n        if (condition === null) {\n            super('Valie is required', passageName, path, expected, actual);\n        }\n        else {\n            super('Valie is required when ' + condition, passageName, path, expected, actual);\n        }\n        Object.setPrototypeOf(this, _PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_0__[\"default\"].prototype);\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/error/RequiredPassageMetadataValue.ts?");
+
+/***/ }),
+
+/***/ "./src/facade/SugarcubeFacade.ts":
+/*!***************************************!*\
+  !*** ./src/facade/SugarcubeFacade.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SugarcubeFacade)\n/* harmony export */ });\nclass SugarcubeFacade {\n    getAllPassages() {\n        return Story.lookup();\n    }\n    runTeweeScript(expression) {\n        return Scripting.evalJavaScript(Scripting.parse(expression));\n    }\n    getCurrentPassage() {\n        return passage();\n    }\n    hasPassage(passageName) {\n        return Story.has(passageName);\n    }\n    getVariable(name) {\n        return State.variables[name];\n    }\n    saveVariable(name, value) {\n        State.variables[name] = value;\n    }\n    addMacros(name, options) {\n        Macro.add(name, options);\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/facade/SugarcubeFacade.ts?");
+
+/***/ }),
+
+/***/ "./src/macros/index.ts":
+/*!*****************************!*\
+  !*** ./src/macros/index.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((randomEventApp, passageMetadataApp, sugarcubeFacade) => {\n    sugarcubeFacade.addMacros('REEnable', {\n        handler: function () {\n            if (this.args.length === 0) {\n                return this.error('No random event passage name specified');\n            }\n            var randomEventPassageName;\n            if (typeof this.args[0] === 'object') {\n                randomEventPassageName = this.args[0].link;\n            }\n            else {\n                randomEventPassageName = this.args[0];\n            }\n            try {\n                randomEventApp.enable(randomEventPassageName);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    // TODO: Currently work only with 1 tag, will add possibility to pass multiply tags later\n    sugarcubeFacade.addMacros('REEnableByTag', {\n        handler: function () {\n            if (this.args.length !== 1) {\n                return this.error('Need to pass just 1 tag');\n            }\n            if (typeof this.args[0] !== 'string') {\n                return this.error('Random event tag should be a string value');\n            }\n            try {\n                randomEventApp.enableByTag(this.args[0]);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    sugarcubeFacade.addMacros('REDisable', {\n        handler: function () {\n            if (this.args.length === 0) {\n                return this.error('No random event passage name specified');\n            }\n            var randomEventPassageName;\n            if (typeof this.args[0] === 'object') {\n                randomEventPassageName = this.args[0].link;\n            }\n            else {\n                randomEventPassageName = this.args[0];\n            }\n            try {\n                randomEventApp.disable(randomEventPassageName);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    // TODO: Currently work only with 1 tag, will add possibility to pass multiply tags later\n    sugarcubeFacade.addMacros('REDisableByTag', {\n        handler: function () {\n            if (this.args.length !== 1) {\n                return this.error('Need to pass just 1 tag');\n            }\n            if (typeof this.args[0] !== 'string') {\n                return this.error('Random event tag should be a string value');\n            }\n            try {\n                randomEventApp.disableByTag(this.args[0]);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    sugarcubeFacade.addMacros('REReset', {\n        handler: function () {\n            if (this.args.length === 0) {\n                return this.error('No random event passage name specified');\n            }\n            var randomEventPassageName;\n            if (typeof this.args[0] === 'object') {\n                randomEventPassageName = this.args[0].link;\n            }\n            else {\n                randomEventPassageName = this.args[0];\n            }\n            try {\n                randomEventApp.resetRunCounterByPassage(randomEventPassageName);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    // TODO: Currently work only with 1 tag, will add possibility to pass multiply tags later\n    sugarcubeFacade.addMacros('REResetByTag', {\n        handler: function () {\n            if (this.args.length !== 1) {\n                return this.error('Need to pass just 1 tag');\n            }\n            if (typeof this.args[0] !== 'string') {\n                return this.error('Random event tag should be a string value');\n            }\n            try {\n                randomEventApp.resetRunCounterByTag(this.args[0]);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n        },\n    });\n    sugarcubeFacade.addMacros('RE', {\n        handler: function () {\n            if (this.args.length === 0) {\n                return this.error('No random event passage name specified');\n            }\n            var randomEventPassageName;\n            if (typeof this.args[0] === 'object') {\n                randomEventPassageName = this.args[0].link;\n            }\n            else {\n                randomEventPassageName = this.args[0];\n            }\n            try {\n                // TODO: maybe need to add more rewrite widget arguments\n                var result = randomEventApp.runRandomEvent(randomEventPassageName, {\n                    threshold: this.args[1]\n                });\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n            if (Config.debug) {\n                var debugLog = '';\n                if (result.debugLogCollector.debugLevel > 0) {\n                    debugLog = result.debugLogCollector.toString();\n                }\n                this.debugView.name = 'RE \"' + result.passageMetadata.passageName + '\"';\n                this.debugView.title = debugLog;\n                this.debugView.modes({\n                    nonvoid: true,\n                    hidden: false,\n                    invalid: !result.isSuccess\n                });\n                if (result.debugLogCollector.debugLevel > 0) {\n                    console.log(debugLog);\n                }\n            }\n            // TODO remove this\n            if (result.debugLogCollector.debugLevel > 0) {\n                var debugLog = '';\n                debugLog += result.debugLogCollector.toString();\n                console.log(debugLog);\n            }\n            if (result.isSuccess) {\n                randomEventApp.incrementRunCounters(result.passageMetadata.passageName, result.usedTags);\n                if (result.passageMetadata.type === 'embedded') {\n                    var $el = jQuery(this.output);\n                    $el.wiki(Story.get(result.passageMetadata.passageName).processText());\n                }\n                else {\n                    randomEventApp.acquireLock();\n                    setTimeout(function () { Engine.play(result.passageMetadata.passageName, true), Engine.minDomActionDelay; });\n                }\n            }\n        },\n    });\n    sugarcubeFacade.addMacros('REGroup', {\n        handler: function () {\n            if (typeof this.args[0] !== 'string') {\n                return this.error('Random event group name should be a string value');\n            }\n            var groupName = this.args[0];\n            try {\n                // TODO: maybe need to add more arguments\n                var result = randomEventApp.runGroup(groupName, this.args[1]);\n            }\n            catch (err) {\n                this.error(err.message);\n            }\n            if (Config.debug) {\n                var debugLog = 'REGroup \"' + groupName + '\"';\n                if (result.debugLogCollector.debugLevel > 0) {\n                    debugLog = result.debugLogCollector.toString();\n                }\n                this.debugView.name = 'REGroup \"' + groupName + '\"';\n                this.debugView.title = debugLog;\n                this.debugView.modes({\n                    nonvoid: true,\n                    hidden: false,\n                    invalid: !result.isSuccess\n                });\n                if (result.debugLogCollector.debugLevel > 0) {\n                    console.log(debugLog);\n                }\n            }\n            // TODO remove this\n            if (result.debugLogCollector.debugLevel > 0) {\n                var debugLog = '';\n                debugLog += result.debugLogCollector.toString();\n                console.log(debugLog);\n            }\n            if (result.isSuccess) {\n                randomEventApp.incrementRunCounters(result.passageMetadata.passageName, result.usedTags);\n                if (result.passageMetadata.type === 'embedded') {\n                    var $el = jQuery(this.output);\n                    $el.wiki(Story.get(result.passageMetadata.passageName).processText());\n                }\n                else {\n                    randomEventApp.acquireLock();\n                    setTimeout(function () { Engine.play(result.passageMetadata.passageName, true), Engine.minDomActionDelay; });\n                }\n            }\n        },\n    });\n});\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/macros/index.ts?");
+
+/***/ }),
+
+/***/ "./src/processors/RandomEventPassageMetadataProcessor.ts":
+/*!***************************************************************!*\
+  !*** ./src/processors/RandomEventPassageMetadataProcessor.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RandomEventPassageMetadataProcessor)\n/* harmony export */ });\n/* harmony import */ var _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../error/InvalidPassageMetadataValueType */ \"./src/error/InvalidPassageMetadataValueType.ts\");\n/* harmony import */ var _error_InvalidPassageMetadataValue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../error/InvalidPassageMetadataValue */ \"./src/error/InvalidPassageMetadataValue.ts\");\n/* harmony import */ var _tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tools/TypeChecker */ \"./src/tools/TypeChecker.ts\");\n/* harmony import */ var _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../error/PassageMetadataValidationError */ \"./src/error/PassageMetadataValidationError.ts\");\n/* harmony import */ var _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../enum/GroupTypeEnum */ \"./src/enum/GroupTypeEnum.ts\");\n/* harmony import */ var _error_RequiredPassageMetadataValue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../error/RequiredPassageMetadataValue */ \"./src/error/RequiredPassageMetadataValue.ts\");\n/* harmony import */ var _enum_Type__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../enum/Type */ \"./src/enum/Type.ts\");\n\n\n\n\n\n\n\nclass RandomEventPassageMetadataProcessor {\n    // validate, normalize, enrich and build indexes for random event metadata\n    process(passageMetadataObject) {\n        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject)) {\n            // we shouldn't be here, passage metadata previously checked in PassageMetadataCollector, I added that check just in case\n            throw new Error(`Invalid passage metadata type (expected JSON object, actual ${typeof passageMetadataObject})`);\n        }\n        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.passageName)) {\n            // we shouldn't be here, passage name is always a string, I added that check just in case\n            throw new Error(`Invalid passage name type (expected string, actual ${typeof passageMetadataObject.passageName})`);\n        }\n        passageMetadataObject._isLimitationStrategiesTagged = false;\n        passageMetadataObject._groupByNameIndex = {};\n        passageMetadataObject._stringTags = [];\n        passageMetadataObject._runCountHistory = 0;\n        passageMetadataObject._runCountActual = 0;\n        passageMetadataObject._runCountByTagsHistory = {};\n        passageMetadataObject._runCountByTagsActual = {};\n        this.processIsEnabled(passageMetadataObject);\n        this.processGroups(passageMetadataObject);\n        this.processFilter(passageMetadataObject);\n        this.processType(passageMetadataObject);\n        this.processThreshold(passageMetadataObject);\n        this.processTags(passageMetadataObject);\n        this.processLimitationStrategies(passageMetadataObject);\n    }\n    processIsEnabled(passageMetadataObject) {\n        if (passageMetadataObject.isEnabled === undefined || passageMetadataObject.isEnabled === null) {\n            passageMetadataObject.isEnabled = true;\n        }\n        else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isBoolean)(passageMetadataObject.isEnabled)) {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'isEnabled'], 'boolean', typeof passageMetadataObject.isEnabled);\n        }\n    }\n    processGroups(passageMetadataObject) {\n        if (passageMetadataObject.groups === undefined || passageMetadataObject.groups === null) {\n            passageMetadataObject.groups = [];\n        }\n        else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.groups) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.groups) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isArray)(passageMetadataObject.groups)) {\n            if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.groups) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.groups)) {\n                passageMetadataObject.groups = [passageMetadataObject.groups];\n            }\n            for (let index = 0; index < passageMetadataObject.groups.length; index++) {\n                if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.groups[index])) {\n                    passageMetadataObject.groups[index] = {\n                        name: passageMetadataObject.groups[index],\n                        weight: 10,\n                        type: _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Random,\n                        sequentialIndex: null,\n                        sequentialCount: null,\n                    };\n                }\n                else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.groups[index])) {\n                    if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.groups[index].name)) {\n                        throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'name'], 'string', typeof passageMetadataObject.groups[index].name);\n                    }\n                    if (passageMetadataObject.groups[index].weight === undefined || passageMetadataObject.groups[index].weight === null) {\n                        passageMetadataObject.groups[index].weight = 10;\n                    }\n                    else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isInteger)(passageMetadataObject.groups[index].weight)) {\n                        throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'weight'], 'integer', typeof passageMetadataObject.groups[index].weight);\n                    }\n                    if (passageMetadataObject.groups[index].type === undefined || passageMetadataObject.groups[index].type === null) {\n                        passageMetadataObject.groups[index].type = _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Random;\n                    }\n                    else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.groups[index].type)) {\n                        throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'type'], 'string', typeof passageMetadataObject.groups[index].type);\n                    }\n                    else if (passageMetadataObject.groups[index].type !== _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Random && passageMetadataObject.groups[index].type !== _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Sequential) {\n                        throw new _error_InvalidPassageMetadataValue__WEBPACK_IMPORTED_MODULE_1__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'type'], `\"${_enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Random}\" or \"${_enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Sequential}\"`, passageMetadataObject.groups[index].type);\n                    }\n                    if (passageMetadataObject.groups[index].type === _enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Sequential) {\n                        if (passageMetadataObject.groups[index].sequentialIndex === undefined) {\n                            throw new _error_RequiredPassageMetadataValue__WEBPACK_IMPORTED_MODULE_5__[\"default\"](`groupMetadata.type = \"${_enum_GroupTypeEnum__WEBPACK_IMPORTED_MODULE_4__.GroupTypeEnum.Sequential}\"`, passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'sequentialIndex']);\n                        }\n                        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isInteger)(passageMetadataObject.groups[index].sequentialIndex)) {\n                            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'sequentialIndex'], 'integer', typeof passageMetadataObject.groups[index].sequentialIndex);\n                        }\n                        if (passageMetadataObject.groups[index].sequentialCount === undefined || passageMetadataObject.groups[index].sequentialCount === null) {\n                            passageMetadataObject.groups[index].sequentialCount = 1;\n                        }\n                        else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isInteger)(passageMetadataObject.groups[index].sequentialCount)) {\n                            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups', index, 'sequentialCount'], 'integer', typeof passageMetadataObject.groups[index].sequentialCount);\n                        }\n                    }\n                }\n                passageMetadataObject._groupByNameIndex[passageMetadataObject.groups[index].name] = index;\n            }\n        }\n        else {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'groups'], 'string, object or array of strings or objects', typeof passageMetadataObject.groups);\n        }\n    }\n    processFilter(passageMetadataObject) {\n        if (passageMetadataObject.filter === undefined || passageMetadataObject.filter === null) {\n            passageMetadataObject.filter = true;\n        }\n        else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.filter) && !(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isBoolean)(passageMetadataObject.filter)) {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'filter'], 'string or boolean', typeof passageMetadataObject.filter);\n        }\n    }\n    processType(passageMetadataObject) {\n        if (passageMetadataObject.type === undefined || passageMetadataObject.type === null) {\n            passageMetadataObject.type = _enum_Type__WEBPACK_IMPORTED_MODULE_6__.TypeEnum.Embedded;\n        }\n        else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.type)) {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'type'], 'string', typeof passageMetadataObject.type);\n        }\n        else if (passageMetadataObject.type !== _enum_Type__WEBPACK_IMPORTED_MODULE_6__.TypeEnum.Embedded && passageMetadataObject.type !== _enum_Type__WEBPACK_IMPORTED_MODULE_6__.TypeEnum.Goto) {\n            throw new _error_InvalidPassageMetadataValue__WEBPACK_IMPORTED_MODULE_1__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'type'], `\"${_enum_Type__WEBPACK_IMPORTED_MODULE_6__.TypeEnum.Embedded}\" or \"${_enum_Type__WEBPACK_IMPORTED_MODULE_6__.TypeEnum.Goto}\"`, passageMetadataObject.type);\n        }\n    }\n    processThreshold(passageMetadataObject) {\n        if (passageMetadataObject.threshold === undefined || passageMetadataObject.threshold === null) {\n            passageMetadataObject.threshold = 100;\n        }\n        else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isNumber)(passageMetadataObject.threshold) && !(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.threshold)) {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'threshold'], 'integer or string', typeof passageMetadataObject.threshold);\n        }\n        else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isNumber)(passageMetadataObject.threshold)) {\n            if (passageMetadataObject.threshold < 0) {\n                throw new _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('Should equal or greater than 0', passageMetadataObject.passageName, ['PassageMetadata', 'threshold']);\n            }\n            else if (passageMetadataObject.threshold > 100) {\n                throw new _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('Should equal or less than 100', passageMetadataObject.passageName, ['PassageMetadata', 'threshold']);\n            }\n        }\n    }\n    processTags(passageMetadataObject) {\n        if (passageMetadataObject.tags === undefined || passageMetadataObject.tags === null) {\n            passageMetadataObject.tags = [];\n        }\n        else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.tags) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isArray)(passageMetadataObject.tags)) {\n            if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.tags)) {\n                passageMetadataObject.tags = [passageMetadataObject.tags];\n            }\n            for (let index = 0; index < passageMetadataObject.tags.length; index++) {\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.tags[index])) {\n                    throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'tags', index], 'string', typeof passageMetadataObject.tags[index]);\n                }\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isTweeScript)(passageMetadataObject.tags[index])) {\n                    passageMetadataObject._stringTags.push(passageMetadataObject.tags[index]);\n                }\n            }\n        }\n    }\n    processLimitationStrategies(passageMetadataObject) {\n        if (passageMetadataObject.limitationStrategies === undefined || passageMetadataObject.limitationStrategies === null) {\n            passageMetadataObject.limitationStrategies = [];\n        }\n        else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.limitationStrategies) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isArray)(passageMetadataObject.limitationStrategies)) {\n            if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.limitationStrategies)) {\n                passageMetadataObject.limitationStrategies = [passageMetadataObject.limitationStrategies];\n            }\n            for (let index = 0; index < passageMetadataObject.limitationStrategies.length; index++) {\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isObject)(passageMetadataObject.limitationStrategies[index])) {\n                    throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index], 'object', typeof passageMetadataObject.limitationStrategies[index]);\n                }\n                if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isInteger)(passageMetadataObject.limitationStrategies[index].max)) {\n                    throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index, 'max'], 'integer', typeof passageMetadataObject.limitationStrategies[index].max);\n                }\n                if (passageMetadataObject.limitationStrategies[index].max < 0) {\n                    throw new _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('Should equal or greater than 0', passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index, 'max'], null, passageMetadataObject.limitationStrategies[index].max);\n                }\n                if (passageMetadataObject.limitationStrategies[index].isSeparate === undefined || passageMetadataObject.limitationStrategies[index].isSeparate === null) {\n                    passageMetadataObject.limitationStrategies[index].isSeparate = false;\n                }\n                else if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isBoolean)(passageMetadataObject.limitationStrategies[index].isSeparate)) {\n                    throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index, 'isSeparate'], 'boolean', typeof passageMetadataObject.limitationStrategies[index].isSeparate);\n                }\n                if (passageMetadataObject.limitationStrategies[index].tags === undefined || passageMetadataObject.limitationStrategies[index].tags === null) {\n                    passageMetadataObject.limitationStrategies[index].tags = [];\n                }\n                else if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.limitationStrategies[index].tags) || (0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isArray)(passageMetadataObject.limitationStrategies[index].tags)) {\n                    if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.limitationStrategies[index].tags)) {\n                        passageMetadataObject.limitationStrategies[index].tags = [passageMetadataObject.limitationStrategies[index].tags];\n                    }\n                    for (let tagindex = 0; tagindex < passageMetadataObject.limitationStrategies[index].tags.length; tagindex++) {\n                        if (!(0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isString)(passageMetadataObject.limitationStrategies[index].tags[tagindex])) {\n                            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index, 'tags', tagindex], 'string', typeof passageMetadataObject.limitationStrategies[index].tags[tagindex]);\n                        }\n                        if ((0,_tools_TypeChecker__WEBPACK_IMPORTED_MODULE_2__.isTweeScript)(passageMetadataObject.limitationStrategies[index].tags[tagindex])) {\n                            throw new _error_PassageMetadataValidationError__WEBPACK_IMPORTED_MODULE_3__[\"default\"]('Should not contain twee scripts', passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies', index, 'tags', tagindex], 'string', typeof passageMetadataObject.limitationStrategies[index].tags[tagindex]);\n                        }\n                    }\n                }\n                if (passageMetadataObject.limitationStrategies[index].tags.length > 0) {\n                    passageMetadataObject.limitationStrategies[index]._isTagged = true;\n                    passageMetadataObject._isLimitationStrategiesTagged = true;\n                }\n                else {\n                    passageMetadataObject.limitationStrategies[index]._isTagged = false;\n                }\n            }\n        }\n        else {\n            throw new _error_InvalidPassageMetadataValueType__WEBPACK_IMPORTED_MODULE_0__[\"default\"](passageMetadataObject.passageName, ['PassageMetadata', 'limitationStrategies'], 'object or array', typeof passageMetadataObject.limitationStrategies);\n        }\n    }\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/processors/RandomEventPassageMetadataProcessor.ts?");
+
+/***/ }),
+
+/***/ "./src/tools/TypeChecker.ts":
+/*!**********************************!*\
+  !*** ./src/tools/TypeChecker.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   isArray: () => (/* binding */ isArray),\n/* harmony export */   isBoolean: () => (/* binding */ isBoolean),\n/* harmony export */   isFloat: () => (/* binding */ isFloat),\n/* harmony export */   isInteger: () => (/* binding */ isInteger),\n/* harmony export */   isNumber: () => (/* binding */ isNumber),\n/* harmony export */   isObject: () => (/* binding */ isObject),\n/* harmony export */   isString: () => (/* binding */ isString),\n/* harmony export */   isStringFloat: () => (/* binding */ isStringFloat),\n/* harmony export */   isStringInteger: () => (/* binding */ isStringInteger),\n/* harmony export */   isStringNumber: () => (/* binding */ isStringNumber),\n/* harmony export */   isTweeScript: () => (/* binding */ isTweeScript)\n/* harmony export */ });\nfunction isString(variable) {\n    return typeof variable === 'string' || variable instanceof String;\n}\nfunction isBoolean(variable) {\n    return typeof variable == \"boolean\" || variable instanceof Boolean;\n}\nfunction isArray(variable) {\n    return Object.prototype.toString.call(variable) === '[object Array]';\n}\nfunction isInteger(variable) {\n    return isNumber(variable) && variable % 1 === 0;\n}\nfunction isFloat(variable) {\n    return isNumber(variable) && variable % 1 !== 0;\n}\nfunction isNumber(variable) {\n    return typeof variable === 'number' && !isNaN(variable);\n}\nfunction isStringInteger(variable) {\n    return isString(variable) && !isNaN(variable) && isInteger(parseFloat(variable));\n}\nfunction isStringFloat(variable) {\n    return isString(variable) && !isNaN(variable) && isFloat(parseFloat(variable));\n}\nfunction isStringNumber(variable) {\n    return isString(variable) && !isNaN(variable) && isNumber(parseFloat(variable));\n}\nfunction isObject(variable) {\n    return typeof variable === 'object' && !Array.isArray(variable) && variable !== null;\n}\nfunction isTweeScript(variable) {\n    return isString(variable) && !(/^\\w+[\\w_\\- ]+$/.test(variable));\n}\n\n\n//# sourceURL=webpack://RandomEventAppExport/./src/tools/TypeChecker.ts?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/RandomEventApp.ts");
+/******/ 	RandomEventAppExport = __webpack_exports__;
+/******/ 	
+/******/ })()
+;
+    var RandomEventApp = RandomEventAppExport.default;
+
+    function initialize() {
+        var randomEventApp = new RandomEventApp(
+            window.passageMetadataApp,
+            debugLevel,
+        );
+
+        $(document).on(':passageend', function() {
+            randomEventApp.releaseLock();
+        });
+
+        Config.navigation.override = (destinationPassage) => {
+            if (randomEventApp.isLocked && !randomEventApp.has(destinationPassage)) {
+                // if random event fired in <<button>> or <<link>>, return previous passage to normal history forward work
+                return realCurrentPassage ?? passage();
+            }
+
+            return destinationPassage;
+        };
+
+        window.randomEventApp = randomEventApp;
+    }
+
+    window.addEventListener('passage-metadata-app-initialized', () => {
+        initialize();
+    });
+    if (window.passageMetadataApp !== undefined) {
+        initialize();
+    }
+}());
+</script><tw-passagedata pid="1" name="Adda_ThisPlaceIsYours" tags="widget" position="100,100" size="100,100">&lt;&lt;widget &quot;Adda_ThisPlaceIsYours&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;This place... it’s yours?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I’ve had a hand in it all. Took me years, but I built it the way I wanted — and the city knows it.&lt;&lt;/speech&gt;&gt;
@@ -4374,8 +5211,8 @@ setup.SocialStyles = {
 &lt;!--===============================
 =  Conversation Overlay Startup   =
 ================================--&gt;
-&lt;div id=&quot;conversation-overlay&quot; style=&quot;display: none;&quot;&gt;
-  &lt;div class=&quot;convo-window&quot;&gt;
+&lt;div id=&quot;conversation-overlay&quot; class=&quot;convo-overlay overlay-hidden&quot;&gt;
+    &lt;div class=&quot;convo-window&quot;&gt;
     &lt;img id=&quot;convo-avatar&quot; src=&quot;&quot; alt=&quot;Avatar&quot; /&gt;
     &lt;h2 id=&quot;convo-npc-name&quot;&gt;&lt;/h2&gt;
     &lt;div id=&quot;convo-npc-style&quot;&gt;&lt;/div&gt;

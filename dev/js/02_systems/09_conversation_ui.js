@@ -1,115 +1,98 @@
+// 09_conversation_ui.js
+
 setup.ConvoUI = {
   renderMinigame(npcId) {
-    setup.ConvoGame.start(npcId);
-    const npc = State.variables.characters[npcId];
-    const convo = State.temporary.convo;
-
-    const overlay = document.getElementById("conversation-overlay");
-    if (!overlay) return;
-
-    overlay.style.display = "block"; // <-- Ensures the overlay becomes visible
-
-    document.getElementById("convo-avatar").src = npc.avatar;
-    const npcName = document.getElementById("convo-npc-name");
-    const npcStyle = document.getElementById("convo-npc-style");
-    if (npcName) npcName.textContent = npc.name;
-    if (npcStyle) npcStyle.textContent = `Social Style: ${npc.socialStyle ?? "—"}`;
-
-
-    document.querySelector(".convo-choices").style.display = "block";
-    document.querySelector(".convo-actions").style.display = "flex";
-    document.querySelector(".convo-results").style.display = "none";
-
-    setup.ConvoPromptTracker?.reset();
-    setup.ConvoUI.updateMeta();
-    setup.ConvoUI.renderPrompt();
-    setup.ConvoUI.renderChoices();
-
+    window.openOverlay("convo-minigame-page");
+  
+    setTimeout(() => {
+      setup.ConvoGame.start(npcId);
+  
+      // Attach End Conversation button logic
+      const endButton = document.getElementById("end-button");
+      if (endButton) {
+        endButton.onclick = () => {
+          setup.ConvoGame.exitEarly();
+        };
+      }
+  
+      const giftButton = document.getElementById("gift-button");
+      if (giftButton) {
+        giftButton.onclick = () => {
+          setup.ConvoUI.giveGiftMenu();
+        };
+      }
+  
+    }, 100); // slight delay to ensure overlay body contents have been injected
+  
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Minigame started with NPC:`, npc);
+      console.log(`[ConvoUI] Minigame started with NPC: ${npcId}`);
     }
   },
-
+  
+  
+  render() {
+    const convo = State.temporary.convo;
+    const npc = State.variables.characters[convo.npcId];
+  
+    // Set NPC name
+    document.getElementById("convo-npc-name").textContent = npc.known ? npc.name : "???";
+  
+    // Set NPC prompt
+    const promptObj = setup.getConvoPrompt(npc);
+    convo.currentPrompt = promptObj;
+    document.getElementById("convo-npc-prompt").textContent = promptObj.text;
+  
+    // Set Avatars
+    document.getElementById("convo-avatar").src = npc.avatar || "images/placeholder_npc.png";
+    document.getElementById("player-avatar").src = "images/portrait_jaylie.png"; // or player avatar logic later
+  
+    // Inject choices
+    setup.ConvoGame.injectChoices(promptObj);
+  
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log("[ConvoUI] Minigame UI rendered:", {
+        npc: convo.npcId,
+        prompt: promptObj,
+      });
+    }
+  },
+  
   updateMeta() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    const maxTension = npc.maxTension ?? 3;
 
-    document.getElementById("convo-turn").textContent = `Turn: ${convo.turn}`;
-    document.getElementById("convo-rapport").textContent = `Rapport: x${convo.rapport.toFixed(2)}`;
-    document.getElementById("convo-tension").textContent = `Tension: ${convo.tension}/${maxTension}`;
-    document.getElementById("convo-gains").textContent = `Gains: ❤️ +${Math.round(convo.affectionGained)} | 🤝 +${Math.round(convo.trustGained)}`;
+    document.getElementById("convo-turn").textContent = convo.turn;
+    document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
+    document.getElementById("convo-tension").textContent = `${convo.tension} / ${convo.maxTension}`;
+    document.getElementById("gain-trust").textContent = convo.trustGained;
+    document.getElementById("gain-affection").textContent = convo.affectionGained;
 
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Updated Meta`, {
+      console.log(`[ConvoUI] Meta updated:`, {
         turn: convo.turn,
         rapport: convo.rapport,
         tension: convo.tension,
-        trustGained: convo.trustGained,
-        affectionGained: convo.affectionGained
+        trust: convo.trustGained,
+        affection: convo.affectionGained,
       });
     }
   },
 
-  renderPrompt() {
-    const convo = State.temporary.convo;
-    const npc = State.variables.characters[convo.npcId];
-    const prompt = setup.getConvoPrompt?.(npc) ?? { text: "…", baseDifficultyMod: 0 };
-
-    convo.promptMod = prompt.baseDifficultyMod;
-    setup.ConvoPromptTracker?.markShown(prompt.text);
-    document.getElementById("convo-npc-prompt").textContent = `“${prompt.text}”`;
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Prompt Rendered:`, prompt);
-    }
-  },
-
-  renderChoices() {
-    const choices = document.getElementById("convo-choices");
-    choices.innerHTML = "";
-
-    const availableKeys = setup.pickRandomTropes(6);
-
-    if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Picked Tropes:`, availableKeys);
+  closeMinigame() {
+    const overlay = document.getElementById("conversation-overlay");
+    if (overlay) {
+      overlay.classList.add("overlay-hidden");
     }
 
-    for (const tropeKey of availableKeys) {
-      const trope = setup.ConvoTropes[tropeKey];
-      const chance = setup.ConvoGame.getSuccessChance(tropeKey);
-      const btn = document.createElement("button");
-
-      btn.textContent = `${trope.label} ${chance}% (${Object.entries(trope.effects).map(([k, v]) => `+${v} ${k}`).join(", ")})`;
-      btn.onclick = () => {
-        setup.ConvoGame.resolveChoice(tropeKey);
-        setup.ConvoUI.updateMeta();
-        setup.ConvoUI.renderPrompt();
-        setup.ConvoUI.renderChoices();
-      };
-
-      choices.appendChild(btn);
-    }
-  },
-
-  showResultsScreen() {
-    const convo = State.temporary.convo;
-    document.querySelector(".convo-choices").style.display = "none";
-    document.querySelector(".convo-actions").style.display = "none";
-    document.querySelector(".convo-results").style.display = "block";
-
-    document.getElementById("convo-summary-gains").textContent = `You gained ❤️ +${Math.round(convo.affectionGained)} Affection and 🤝 +${Math.round(convo.trustGained)} Trust`;
-    document.getElementById("convo-summary-rapport").textContent = `Final Rapport Multiplier: x${convo.rapport.toFixed(2)}`;
-    document.getElementById("convo-summary-gifts").textContent = `Gifts Given: ${convo.giftsGiven.length > 0 ? convo.giftsGiven.join(", ") : "None"}`;
-
-    setup.ConvoGame.end();
-
     if (State.variables.DEBUG || setup.DEBUG) {
-      console.log(`[ConvoUI] Results shown.`, convo);
+      console.log("[ConvoUI] Minigame overlay hidden.");
     }
   },
 
   giveGiftMenu() {
     alert("Gift system not yet implemented!");
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log("[ConvoUI] Gift system placeholder triggered.");
+    }
   }
 };
