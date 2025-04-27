@@ -41,7 +41,17 @@ setup.DataAuditor = {
         return setup.DataAuditor.listUniqueValues(setup.ConvoPrompts, "baseDifficultyMod");
       }
     },
-  
+    characters: {
+      trustAndAffection() {
+        const chars = State.variables.characters || {};
+        console.group("🧡 Character Trust and Affection Levels:");
+        Object.entries(chars).forEach(([id, char]) => {
+          console.log(`${id}: Trust=${char.trust ?? 0} | Affection=${char.affection ?? 0}`);
+        });
+        console.groupEnd();
+      }
+    },
+    
     tropes: {
       skills() {
         const allTropes = [

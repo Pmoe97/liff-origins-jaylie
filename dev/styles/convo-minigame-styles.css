@@ -17,16 +17,18 @@
   color: #eee;
 }
 
-/* Hide overlay class toggle */
-.overlay-hidden {
+.overlay-hidden, .hidden {
   display: none !important;
 }
 
 .convo-window {
   display: flex;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: nowrap;
   width: 90vw;
   max-width: 1000px;
-  height: 90vh;
+  height: 90vh; /* 🔥 Lock height to viewport, not auto */
   background: #1c1c1c;
   border: 2px solid #888;
   border-radius: 12px;
@@ -34,27 +36,72 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
   padding: 1em;
 }
+/* ======================================================
+   HAWT™ Escalation Visual System (Backgrounds)
+========================================================= */
+
+/* Tier 1: Calm */
+.heat-1 {
+  background: linear-gradient(135deg, #1c1c1c, #222);
+  box-shadow: 0 0 8px #000 inset;
+}
+
+/* Tier 2: Slight Warmth */
+.heat-2 {
+  background: linear-gradient(135deg, #1c1c1c, #3a1c1c);
+  animation: simmerPulse 12s infinite;
+  box-shadow: 0 0 12px #400000 inset;
+}
+
+/* Tier 3: Growing Heat */
+.heat-3 {
+  background: linear-gradient(135deg, #2c1c1c, #4a1c1c);
+  animation: simmerPulse 8s infinite;
+  box-shadow: 0 0 16px #600000 inset;
+}
+
+/* Tier 4: Bubbling Start */
+.heat-4 {
+  background: linear-gradient(135deg, #3c1c1c, #6a1c1c, #3c1c3c);
+  animation: simmerPulse 5s infinite, brewBubble 20s infinite;
+  box-shadow: 0 0 20px #800020 inset, 0 0 10px #800020;
+}
+
+/* Tier 5: Full Alchemical Brew */
+.heat-5 {
+  background: linear-gradient(270deg, #800020, #a00040, #800020);
+  background-size: 400% 400%;
+  animation: simmerPulse 3s infinite, brewBubble 15s infinite, backgroundRipple 30s infinite;
+  box-shadow: 0 0 40px #ff0060, 0 0 20px #ff0060, 0 0 10px #ff0060;
+}
+
 
 #convo-body {
   display: flex;
-  width: 100%;
+  flex: 1;
+  overflow: auto;
   height: 100%;
 }
 
 /* LEFT PANEL */
 .convo-left-bar {
   width: 25%;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 1em;
   border-right: 2px solid #444;
+  overflow: hidden;
 }
 
 .npc-portrait img,
 .player-portrait img {
   width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: cover;
   border-radius: 8px;
   border: 2px solid #999;
 }
@@ -78,14 +125,20 @@
 /* RIGHT PANEL */
 .convo-right {
   width: 75%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1em;
+  overflow: hidden;
+  min-height: 0; /* 🔥 allow shrink flex */
 }
 
 /* Header Area */
 .convo-header-box {
+  flex-shrink: 1; /* 🔥 allow header to shrink */
+  flex-grow: 0;
+  flex-basis: auto;
   border-bottom: 1px solid #666;
   padding-bottom: 0.5em;
   margin-bottom: 0.5em;
@@ -105,10 +158,11 @@
 
 /* Choices Area */
 .convo-main-box {
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 0; /* 🔥 allow flex children to shrink */
 }
 
 .convo-choices {
@@ -118,6 +172,11 @@
   justify-content: center;
   gap: 0.5em;
   padding: 1em;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .convo-choices button {
@@ -130,6 +189,11 @@
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.convo-choices button.animate-choice {
+  animation: slideFadeIn 0.6s ease forwards;
 }
 
 .convo-choices button:hover {
@@ -159,21 +223,9 @@
   background: #2a2a2a;
 }
 
-/* RESPONSIVE SCALING */
-@media (max-width: 768px) {
-  .convo-window {
-    flex-direction: column;
-    height: auto;
-  }
-  .convo-left-bar,
-  .convo-right {
-    width: 100%;
-    border-right: none;
-  }
-}
-
+/* convo-results popup */
 .convo-results {
-  position: absolute;
+  position: fixed; /* 🔥 fixed instead of absolute */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -182,10 +234,282 @@
   border-radius: 12px;
   padding: 2em;
   text-align: center;
-  z-index: 1001;
+  z-index: 2000; /* higher layer to stay above convo-window */
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  width: 90%;
+  max-width: 400px;
 }
+
 
 .convo-results.hidden {
   display: none;
+}
+
+/* ======================================================
+   Turn Progress Bar Styles
+========================================================= */
+
+.turn-progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 0.8em;
+  padding: 0.5em 0;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.turn-segment {
+  width: 60px;
+  height: 18px;
+  border-radius: 999px;
+  background: #555;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.turn-segment::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  font-size: 1em;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Status Colors */
+.turn-segment.success { background: #3fbf65; }
+.turn-segment.fail { background: #e44; }
+
+.turn-segment.success::after { content: "✔"; color: #fff; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.turn-segment.fail::after { content: "✖"; color: #fff; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.turn-segment.pending { background: #555; }
+
+.turn-number {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #aaa;
+  margin-left: 0.8em;
+}
+
+/* ======================================================
+   HAWT™ Animations
+========================================================= */
+
+@keyframes simmerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes brewBubble {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes backgroundRipple {
+  0%, 100% { background-size: 400% 400%; }
+  50% { background-size: 450% 450%; }
+}
+
+/* ======================================================
+   Particle Effects Styles
+========================================================= */
+
+.particle {
+  position: absolute;
+  font-size: 1.5em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2000;
+}
+
+.trust-particle {
+  color: #ffe066;
+  text-shadow: 0 0 4px #fff8dc;
+}
+
+.affection-particle {
+  color: #ff6699;
+  text-shadow: 0 0 4px #ffd1dc;
+}
+
+.fail-particle {
+  color: #aaa;
+  opacity: 0.8;
+}
+
+/* Shake Animation for Failed Choice */
+@keyframes buttonShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.shake {
+  animation: buttonShake 0.4s ease;
+}
+
+.grey-out {
+  background: #333 !important;
+  border-color: #666 !important;
+  color: #aaa !important;
+}
+
+/* ======================================================
+   Tutorial Button and Overlay (Updated)
+========================================================= */
+
+/* Floating Tutorial Button Wrapper */
+#tutorial-button-wrapper {
+  position: fixed; /* 🔥 not absolute */
+  top: 16px;
+  right: 16px;
+  z-index: 1500;
+}
+
+/* Button Itself */
+#tutorial-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  z-index: 1501;
+}
+
+#tutorial-button:hover {
+  background: #666;
+  transform: scale(1.1);
+}
+
+/* Custom Hover Tooltip */
+#tutorial-tooltip {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: #222;
+  border: 1px solid #888;
+  padding: 0.3em 0.6em;
+  border-radius: 8px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  color: #eee;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1501;
+}
+
+/* Tooltip Visible on Hover */
+#tutorial-button-wrapper:hover #tutorial-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fullscreen Tutorial Overlay */
+#tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* When overlay is active (remove .hidden) */
+#tutorial-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Tutorial Content Box */
+.tutorial-content {
+  background: #222;
+  border: 2px solid #555;
+  border-radius: 12px;
+  padding: 2em;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  color: #eee;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  animation: fadeInScale 0.4s ease;
+}
+
+/* Fade-In Animation */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.tutorial-content h2 {
+  margin-bottom: 1em;
+  font-size: 1.5em;
+}
+
+.tutorial-content ul {
+  text-align: left;
+  margin-bottom: 1.5em;
+  padding-left: 1.2em;
+}
+
+.tutorial-content ul li {
+  margin-bottom: 0.5em;
+}
+
+.tutorial-content button {
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+  padding: 0.5em 1.2em;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.tutorial-content button:hover {
+  background: #666;
+}
+
+/* KEEP THIS AT THE END */
+/* ======================================================
+   Responsive Scaling (MOBILE FRIENDLY)
+========================================================= */
+
+@media (max-width: 768px) {
+  .convo-window {
+    flex-direction: column;
+    height: auto;
+    max-height: 95vh;
+  }
+
+  .convo-left-bar, .convo-right {
+    width: 100%;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 2px solid #444;
+  }
+
+  .convo-choices {
+    padding: 0.5em;
+  }
 }

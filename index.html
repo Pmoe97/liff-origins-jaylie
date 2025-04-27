@@ -328,16 +328,18 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   color: #eee;
 }
 
-/* Hide overlay class toggle */
-.overlay-hidden {
+.overlay-hidden, .hidden {
   display: none !important;
 }
 
 .convo-window {
   display: flex;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: nowrap;
   width: 90vw;
   max-width: 1000px;
-  height: 90vh;
+  height: 90vh; /* 🔥 Lock height to viewport, not auto */
   background: #1c1c1c;
   border: 2px solid #888;
   border-radius: 12px;
@@ -345,27 +347,72 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
   padding: 1em;
 }
+/* ======================================================
+   HAWT™ Escalation Visual System (Backgrounds)
+========================================================= */
+
+/* Tier 1: Calm */
+.heat-1 {
+  background: linear-gradient(135deg, #1c1c1c, #222);
+  box-shadow: 0 0 8px #000 inset;
+}
+
+/* Tier 2: Slight Warmth */
+.heat-2 {
+  background: linear-gradient(135deg, #1c1c1c, #3a1c1c);
+  animation: simmerPulse 12s infinite;
+  box-shadow: 0 0 12px #400000 inset;
+}
+
+/* Tier 3: Growing Heat */
+.heat-3 {
+  background: linear-gradient(135deg, #2c1c1c, #4a1c1c);
+  animation: simmerPulse 8s infinite;
+  box-shadow: 0 0 16px #600000 inset;
+}
+
+/* Tier 4: Bubbling Start */
+.heat-4 {
+  background: linear-gradient(135deg, #3c1c1c, #6a1c1c, #3c1c3c);
+  animation: simmerPulse 5s infinite, brewBubble 20s infinite;
+  box-shadow: 0 0 20px #800020 inset, 0 0 10px #800020;
+}
+
+/* Tier 5: Full Alchemical Brew */
+.heat-5 {
+  background: linear-gradient(270deg, #800020, #a00040, #800020);
+  background-size: 400% 400%;
+  animation: simmerPulse 3s infinite, brewBubble 15s infinite, backgroundRipple 30s infinite;
+  box-shadow: 0 0 40px #ff0060, 0 0 20px #ff0060, 0 0 10px #ff0060;
+}
+
 
 #convo-body {
   display: flex;
-  width: 100%;
+  flex: 1;
+  overflow: auto;
   height: 100%;
 }
 
 /* LEFT PANEL */
 .convo-left-bar {
   width: 25%;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 1em;
   border-right: 2px solid #444;
+  overflow: hidden;
 }
 
 .npc-portrait img,
 .player-portrait img {
   width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: cover;
   border-radius: 8px;
   border: 2px solid #999;
 }
@@ -389,14 +436,20 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 /* RIGHT PANEL */
 .convo-right {
   width: 75%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1em;
+  overflow: hidden;
+  min-height: 0; /* 🔥 allow shrink flex */
 }
 
 /* Header Area */
 .convo-header-box {
+  flex-shrink: 1; /* 🔥 allow header to shrink */
+  flex-grow: 0;
+  flex-basis: auto;
   border-bottom: 1px solid #666;
   padding-bottom: 0.5em;
   margin-bottom: 0.5em;
@@ -416,10 +469,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 
 /* Choices Area */
 .convo-main-box {
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 0; /* 🔥 allow flex children to shrink */
 }
 
 .convo-choices {
@@ -429,6 +483,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   justify-content: center;
   gap: 0.5em;
   padding: 1em;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .convo-choices button {
@@ -441,6 +500,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.convo-choices button.animate-choice {
+  animation: slideFadeIn 0.6s ease forwards;
 }
 
 .convo-choices button:hover {
@@ -470,21 +534,9 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   background: #2a2a2a;
 }
 
-/* RESPONSIVE SCALING */
-@media (max-width: 768px) {
-  .convo-window {
-    flex-direction: column;
-    height: auto;
-  }
-  .convo-left-bar,
-  .convo-right {
-    width: 100%;
-    border-right: none;
-  }
-}
-
+/* convo-results popup */
 .convo-results {
-  position: absolute;
+  position: fixed; /* 🔥 fixed instead of absolute */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -493,12 +545,284 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   border-radius: 12px;
   padding: 2em;
   text-align: center;
-  z-index: 1001;
+  z-index: 2000; /* higher layer to stay above convo-window */
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  width: 90%;
+  max-width: 400px;
 }
+
 
 .convo-results.hidden {
   display: none;
+}
+
+/* ======================================================
+   Turn Progress Bar Styles
+========================================================= */
+
+.turn-progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 0.8em;
+  padding: 0.5em 0;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.turn-segment {
+  width: 60px;
+  height: 18px;
+  border-radius: 999px;
+  background: #555;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.turn-segment::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  font-size: 1em;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Status Colors */
+.turn-segment.success { background: #3fbf65; }
+.turn-segment.fail { background: #e44; }
+
+.turn-segment.success::after { content: "✔"; color: #fff; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.turn-segment.fail::after { content: "✖"; color: #fff; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.turn-segment.pending { background: #555; }
+
+.turn-number {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #aaa;
+  margin-left: 0.8em;
+}
+
+/* ======================================================
+   HAWT™ Animations
+========================================================= */
+
+@keyframes simmerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes brewBubble {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes backgroundRipple {
+  0%, 100% { background-size: 400% 400%; }
+  50% { background-size: 450% 450%; }
+}
+
+/* ======================================================
+   Particle Effects Styles
+========================================================= */
+
+.particle {
+  position: absolute;
+  font-size: 1.5em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2000;
+}
+
+.trust-particle {
+  color: #ffe066;
+  text-shadow: 0 0 4px #fff8dc;
+}
+
+.affection-particle {
+  color: #ff6699;
+  text-shadow: 0 0 4px #ffd1dc;
+}
+
+.fail-particle {
+  color: #aaa;
+  opacity: 0.8;
+}
+
+/* Shake Animation for Failed Choice */
+@keyframes buttonShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.shake {
+  animation: buttonShake 0.4s ease;
+}
+
+.grey-out {
+  background: #333 !important;
+  border-color: #666 !important;
+  color: #aaa !important;
+}
+
+/* ======================================================
+   Tutorial Button and Overlay (Updated)
+========================================================= */
+
+/* Floating Tutorial Button Wrapper */
+#tutorial-button-wrapper {
+  position: fixed; /* 🔥 not absolute */
+  top: 16px;
+  right: 16px;
+  z-index: 1500;
+}
+
+/* Button Itself */
+#tutorial-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  z-index: 1501;
+}
+
+#tutorial-button:hover {
+  background: #666;
+  transform: scale(1.1);
+}
+
+/* Custom Hover Tooltip */
+#tutorial-tooltip {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  background: #222;
+  border: 1px solid #888;
+  padding: 0.3em 0.6em;
+  border-radius: 8px;
+  font-size: 0.85em;
+  white-space: nowrap;
+  color: #eee;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1501;
+}
+
+/* Tooltip Visible on Hover */
+#tutorial-button-wrapper:hover #tutorial-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fullscreen Tutorial Overlay */
+#tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* When overlay is active (remove .hidden) */
+#tutorial-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Tutorial Content Box */
+.tutorial-content {
+  background: #222;
+  border: 2px solid #555;
+  border-radius: 12px;
+  padding: 2em;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  color: #eee;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  animation: fadeInScale 0.4s ease;
+}
+
+/* Fade-In Animation */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.tutorial-content h2 {
+  margin-bottom: 1em;
+  font-size: 1.5em;
+}
+
+.tutorial-content ul {
+  text-align: left;
+  margin-bottom: 1.5em;
+  padding-left: 1.2em;
+}
+
+.tutorial-content ul li {
+  margin-bottom: 0.5em;
+}
+
+.tutorial-content button {
+  background: #444;
+  color: #fff;
+  border: 1px solid #888;
+  padding: 0.5em 1.2em;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.tutorial-content button:hover {
+  background: #666;
+}
+
+/* KEEP THIS AT THE END */
+/* ======================================================
+   Responsive Scaling (MOBILE FRIENDLY)
+========================================================= */
+
+@media (max-width: 768px) {
+  .convo-window {
+    flex-direction: column;
+    height: auto;
+    max-height: 95vh;
+  }
+
+  .convo-left-bar, .convo-right {
+    width: 100%;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 2px solid #444;
+  }
+
+  .convo-choices {
+    padding: 0.5em;
+  }
 }
 /* twine-user-stylesheet #5: "dialoguestyles.css" */
 #convoBox {
@@ -1332,6 +1656,40 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 }
 #ui-bar {
 	display: none !important;
+}
+/* ==============================
+=     Collapsed Sidebar Rules    =
+============================== */
+
+/* When the sidebar is collapsed */
+#custom-sidebar.collapsed {
+	width: 100px;
+	overflow: hidden;
+	transition: width 0.4s ease;
+}
+
+/* When sidebar is collapsed, shrink or hide elements inside */
+#custom-sidebar.collapsed #custom-sidebar-buttons,
+#custom-sidebar.collapsed .sidebar-btn {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-size: 0.7em;
+	padding: 4px;
+}
+
+#custom-sidebar.collapsed .sidebar-btn span {
+	display: none; /* Optional: Hide text labels, icons only */
+}
+
+/* Move the toggle button */
+.sidebar-collapsed #sidebar-toggle {
+	left: 40px !important;
+}
+
+.sidebar-collapsed #sidebar-arrow {
+	transform: rotate(180deg);
 }
 /* twine-user-stylesheet #13: "speech.css" */
 /* =============================
@@ -2557,55 +2915,75 @@ setup.ConvoGame = {
     State.temporary.convo = {
       npcId,
       turn: 1,
-      maxTurn: 999, // allow indefinite play unless manually ended or tension maxes
+      maxTurn: 25,
       tension: 0,
       maxTension: npc.maxTension ?? 3,
-      rapport: npc.rapport ?? 1.0,
+      rapport: 0.5, // (make sure initial rapport is 0.5, right?)
       trustGained: 0,
       affectionGained: 0,
       ended: false,
       usedTropes: [],
       giftsGiven: [],
       promptMod: 0,
-      heatTier: 1, // 🔥 NOW INCLUDED!
+      heatTier: 1,
       lastCheckpoint: {
         trust: 0,
         affection: 0,
         turn: 0
-      }
+      },
+      luckLog: [], // ✅ Comma placed correctly, and luckLog is OUTSIDE lastCheckpoint
     };
+    
   
     this.render();
+  },
+  openTutorial() {
+    document.getElementById("tutorial-overlay").classList.add("active");
+  },
+  
+  closeTutorial() {
+    document.getElementById("tutorial-overlay").classList.remove("active");
   },
   
   render() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
     if (!npc) return;
-
+  
     // Increase difficulty with each checkpoint (every 5 turns)
     convo.promptMod = Math.floor((convo.turn - 1) / 5);
-
+  
     const prompt = setup.getConvoPrompt(npc);
     convo.currentPrompt = prompt;
-
+  
     document.getElementById("convo-npc-name").textContent = npc.name ?? "???";
     document.getElementById("convo-npc-prompt").textContent = prompt.text ?? "…";
-
+  
     document.getElementById("gain-trust").textContent = convo.trustGained;
     document.getElementById("gain-affection").textContent = convo.affectionGained;
     document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
-    document.getElementById("convo-turn").textContent = convo.turn;
-    const nextCheckpoint = Math.ceil(convo.turn / 5) * 5;
-    document.getElementById("convo-max-turn").textContent = nextCheckpoint; // Always display next checkpoint interval
     document.getElementById("convo-tension").textContent = convo.tension;
     document.getElementById("convo-max-tension").textContent = convo.maxTension;
-
-    document.getElementById("convo-avatar").src = npc.avatar || "images/default-avatar.png";
-
+  
+    document.getElementById("convo-avatar").src = npc.avatar || "images/portrait_default.png";
+  
     this.injectChoices();
   },
-
+  
+  applyHeatEffects() {
+    const convoOverlay = document.querySelector(".convo-window");
+    if (!convoOverlay) return;
+  
+    // Remove old heat classes
+    convoOverlay.classList.remove("heat-1", "heat-2", "heat-3", "heat-4", "heat-5");
+  
+    const convo = State.temporary.convo;
+    const heatTier = convo.heatTier ?? 1;
+  
+    // Apply new heat class based on current heat tier
+    convoOverlay.classList.add(`heat-${heatTier}`);
+  },
+  
   injectChoices() {
     const convo = State.temporary.convo;
     const choiceBox = document.getElementById("convo-choices");
@@ -2621,10 +2999,7 @@ setup.ConvoGame = {
       return;
     }
   
-    // Optionally remove used tropes to prevent repeats
     const unused = tierList.filter(trope => !convo.usedTropes.includes(trope.label));
-  
-    // Shuffle and select 4
     const shuffled = unused.sort(() => Math.random() - 0.5);
     const finalTropes = shuffled.slice(0, 4);
   
@@ -2635,56 +3010,99 @@ setup.ConvoGame = {
   
     for (const trope of finalTropes) {
       const btn = document.createElement("button");
-      btn.textContent = `${trope.label} (${setup.ConvoGame.getSuccessChance(trope)}%)`;
-      btn.onclick = () => setup.ConvoGame.handleChoice(trope);
+      btn.textContent = `${trope.label} (${this.getSuccessChance(trope)}%)`;
+      btn.onclick = () => this.handleChoice(trope);
       choiceBox.appendChild(btn);
     }
+       
+    setup.ConvoUI.animateChoices(choiceBox);
   },
-  
 
   handleChoice(trope) {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-
-    // Track trope as used
+  
     convo.usedTropes.push(trope.label.toLowerCase().replace(/\s+/g, ""));
-
+  
     const roll = Math.random() * 100;
     const chance = this.getSuccessChance(trope);
     const success = roll <= chance;
+    // Log luck tracking
+    State.temporary.convo.luckLog.push({
+      chance: chance,  // The success chance offered
+      result: success ? 1 : 0 // 1 = success, 0 = fail
+    });
 
+    const clickedButton = event?.target ?? null; // Get the clicked button for particles
+  
     if (success) {
       if (trope.effects.trust) {
         convo.trustGained += trope.effects.trust;
+        setup.ConvoGame.spawnParticles("trust", trope.effects.trust, clickedButton);
+        for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
+          setup.ConvoGame.spawnParticles("trust-bonus", 1, clickedButton);
+        }
       }
       if (trope.effects.affection) {
         convo.affectionGained += trope.effects.affection;
+        setup.ConvoGame.spawnParticles("affection", trope.effects.affection, clickedButton);
+        for (let i = 0; i < Math.floor(Math.random() * 3) + 2; i++) {
+          setup.ConvoGame.spawnParticles("affection-bonus", 1, clickedButton);
+        }
       }
-      convo.rapport += Object.values(trope.effects).reduce((a, b) => a + b, 0) * 0.1;
-    } else {
-      convo.tension++;
+      // 🚫 No rapport gain here anymore!
     }
-
-    // Checkpoint every 5 turns
+     else {
+      convo.tension++;
+  
+      // Fail particles
+      if (trope.effects.trust) {
+        setup.ConvoGame.spawnParticles("fail-trust", 1, clickedButton);
+      } else if (trope.effects.affection) {
+        setup.ConvoGame.spawnParticles("fail-affection", 1, clickedButton);
+      }
+  
+      // Shake and grey out button
+      if (clickedButton) {
+        clickedButton.classList.add("shake", "grey-out");
+        setTimeout(() => {
+          clickedButton.classList.remove("shake", "grey-out");
+        }, 300);
+      }
+    }
+  
+    this.updateTurnProgress(success);
+  
     if (convo.turn % 5 === 0) {
       convo.lastCheckpoint = {
         trust: convo.trustGained,
         affection: convo.affectionGained,
         turn: convo.turn
       };
+    
+      convo.rapport = Math.min(convo.rapport + 0.1, 2.0); // Cap rapport at 2.0 for safety
+      console.log(`[ConvoGame] 🧪 Rapport increased to ${convo.rapport.toFixed(2)} at checkpoint.`);
       console.log(`[ConvoGame] ✅ Checkpoint saved at turn ${convo.turn}`, convo.lastCheckpoint);
     }
-
+    
+  
     convo.turn++;
-
-    // Every checkpoint (5 turns), increase heatTier by 1 up to a max of 5
+  
+    // Cap the game manually at turn 26
+    if (convo.turn > 25) {
+      convo.ended = true;
+      console.log(`[ConvoGame] 🛑 Maximum turn cap reached at turn ${convo.turn}. Ending minigame.`);
+      this.end();
+      return;
+    }
+  
     if ((convo.turn - 1) % 5 === 0 && convo.turn > 1) {
-    convo.heatTier = Math.min(convo.heatTier + 1, 5);
-    console.log(`[ConvoGame] 🔥 Heat tier escalated to ${convo.heatTier}`);
-  }
-
-
-    // Failure: tension reached max
+      convo.heatTier = Math.min(convo.heatTier + 1, 5);
+      console.log(`[ConvoGame] 🔥 Heat tier escalated to ${convo.heatTier}`);
+    }
+  
+    this.applyHeatEffects();
+  
     if (convo.tension >= convo.maxTension) {
       convo.trustGained = 0;
       convo.affectionGained = 0;
@@ -2693,17 +3111,20 @@ setup.ConvoGame = {
       this.end();
       return;
     }
-
-    // Continue game
+  
     this.render();
   },
 
   getSuccessChance(trope) {
     const convo = State.temporary.convo;
-    const base = 100 - trope.baseDifficulty;
-    const adjusted = base - (convo.promptMod * 5);
-    return Math.max(5, Math.min(95, adjusted));
+    const globalDifficultyModifier = 20; // 🔥 Global difficulty tweak: lowers success by 20%
+  
+    const base = 100 - trope.baseDifficulty - globalDifficultyModifier;
+    const adjusted = base - (convo.promptMod * 5); // Still gets harder every checkpoint
+  
+    return Math.max(5, adjusted); // ✅ Only a floor at 5%, no ceiling
   },
+  
 
   exitEarly() {
     const convo = State.temporary.convo;
@@ -2723,9 +3144,29 @@ setup.ConvoGame = {
     if (convoBody) convoBody.classList.add("hidden");
     if (resultBox) resultBox.classList.remove("hidden");
   
+    // Calculate final trust/affection based on rapport multiplier
+    const finalMultiplier = convo.rapport ?? 1.0;
+    const rawTrust = convo.trustGained;
+    const rawAffection = convo.affectionGained;
+    const finalTrust = +(rawTrust * finalMultiplier).toFixed(2);
+    const finalAffection = +(rawAffection * finalMultiplier).toFixed(2);
+  
+    // Save the final scaled values
+    convo.trustGained = finalTrust;
+    convo.affectionGained = finalAffection;
+  
+   // Display results
     document.getElementById("convo-result-status").textContent = convo.tension >= convo.maxTension ? "Failure" : "Success!";
-    document.getElementById("convo-result-trust").textContent = `Trust: +${convo.trustGained}`;
-    document.getElementById("convo-result-affection").textContent = `Affection: +${convo.affectionGained}`;
+
+    document.getElementById("convo-result-trust").innerHTML = `
+      Base Trust: +${rawTrust} | Base Affection: +${rawAffection}<br>
+      Rapport Multiplier: x${finalMultiplier.toFixed(2)}
+      <hr style="border: 0; height: 1px; background: #555; margin: 8px 0;">
+      <strong>Final Trust: +${finalTrust} | Final Affection: +${finalAffection}</strong>
+    `;
+
+    document.getElementById("convo-result-affection").innerHTML = "";
+
   
     const closeBtn = document.getElementById("convo-result-close");
     if (closeBtn) {
@@ -2734,9 +3175,149 @@ setup.ConvoGame = {
       };
     }
   
-    console.log("[ConvoGame] Conversation finished.", convo);
-  }
+    // Disable all leftover choice buttons
+    const buttons = document.querySelectorAll("#convo-choices button");
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      btn.style.pointerEvents = "none";
+      btn.style.opacity = "0.5";
+    });
   
+    // Save gains back to NPC
+    const npc = State.variables.characters[convo.npcId];
+    if (npc) {
+      npc.trust = (npc.trust || 0) + finalTrust;
+      npc.affection = (npc.affection || 0) + finalAffection;
+    }
+  
+    console.log("[ConvoGame] Conversation finished.", convo);
+  
+    // Luck Tracker Report
+    const luckLog = convo.luckLog ?? [];
+    if (luckLog.length > 0) {
+      const totalExpected = luckLog.reduce((sum, entry) => sum + (entry.chance / 100), 0);
+      const totalActual = luckLog.reduce((sum, entry) => sum + entry.result, 0);
+      const luckScore = +(totalActual - totalExpected).toFixed(2);
+  
+      let luckDescriptor = "Average Luck";
+      if (luckScore >= 1) luckDescriptor = "Incredibly Lucky!";
+      else if (luckScore >= 0.5) luckDescriptor = "Very Lucky!";
+      else if (luckScore <= -1) luckDescriptor = "Cursed!";
+      else if (luckScore <= -0.5) luckDescriptor = "Unlucky!";
+  
+      console.log(`[ConvoGame] 🍀 Session Luck Report:`);
+      console.log(`Expected Successes: ${totalExpected.toFixed(2)}`);
+      console.log(`Actual Successes: ${totalActual}`);
+      console.log(`Luck Score: ${luckScore} (${luckDescriptor})`);
+    }
+  },
+  
+  
+
+  updateTurnProgress(success) {
+    const convo = State.temporary.convo;
+    const segmentsContainer = document.querySelector(".turn-progress-bar");
+    let segments = segmentsContainer.querySelectorAll(".turn-segment");
+    const currentIndex = (convo.turn - 1) % 5;
+  
+    // If we are starting a new block (Turn 6, 11, 16...), rebuild the segments
+    if (currentIndex === 0 && convo.turn > 1) {
+      // Clear old segments
+      segmentsContainer.querySelectorAll(".turn-segment").forEach(seg => seg.remove());
+  
+      // Create 5 new pending segments
+      for (let i = 0; i < 5; i++) {
+        const newSeg = document.createElement("div");
+        newSeg.classList.add("turn-segment", "pending");
+        segmentsContainer.insertBefore(newSeg, document.getElementById("convo-max-turn"));
+      }
+  
+      // Refresh segment list
+      segments = segmentsContainer.querySelectorAll(".turn-segment");
+  
+      // Also update the block number (5 ➔ 10 ➔ 15 ➔ etc.)
+      const blockNumber = Math.ceil(convo.turn / 5) * 5;
+      document.getElementById("convo-max-turn").textContent = blockNumber;
+    }
+  
+    // Now safely mark the current turn's segment
+    if (segments[currentIndex]) {
+      segments[currentIndex].classList.remove("pending");
+      segments[currentIndex].classList.add(success ? "success" : "fail");
+    }
+  },
+  
+  spawnParticles(type, count, originButton) {
+    const container = document.getElementById("conversation-overlay");
+    if (!container || !originButton) return;
+  
+    const originRect = originButton.getBoundingClientRect();
+    const overlayRect = container.getBoundingClientRect();
+    const originX = originRect.left + (originRect.width / 2) - overlayRect.left;
+    const originY = originRect.top + (originRect.height / 2) - overlayRect.top;
+  
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement("div");
+      particle.classList.add("particle");
+  
+      // Determine what kind of particle
+      if (type === "trust") {
+        particle.classList.add("trust-particle");
+        particle.textContent = "🤝";
+      } else if (type === "affection") {
+        particle.classList.add("affection-particle");
+        particle.textContent = "❤️";
+      } else if (type === "trust-bonus") {
+        particle.classList.add("trust-particle");
+        particle.textContent = "⭐";
+      } else if (type === "affection-bonus") {
+        particle.classList.add("affection-particle");
+        particle.textContent = "🌸";
+      } else if (type === "fail-trust") {
+        particle.classList.add("fail-particle");
+        particle.textContent = "😢";
+      } else if (type === "fail-affection") {
+        particle.classList.add("fail-particle");
+        particle.textContent = "💔";
+      }
+  
+      particle.style.left = `${originX}px`;
+      particle.style.top = `${originY}px`;
+  
+      container.appendChild(particle);
+  
+      // Animate with random directions if success, straight down if fail
+      let targetX = originX;
+      let targetY = originY;
+
+      if (type.startsWith("fail")) {
+        // FAIL = straight downward
+        targetY = originY + (60 + Math.random() * 40);
+      } else {
+        // SUCCESS = random pop upward (-45 to +45 from UP)
+        const angle = (Math.random() * 90) + 225; // 225° to 315°
+        const distance = 60 + Math.random() * 40;
+        const rad = angle * (Math.PI / 180);
+        targetX = originX + Math.cos(rad) * distance;
+        targetY = originY + Math.sin(rad) * distance; // +sin, not minus!
+      }
+
+
+      particle.animate([
+        { transform: `translate(0px, 0px)`, opacity: 1 },
+        { transform: `translate(${targetX - originX}px, ${targetY - originY}px)`, opacity: 0 }
+      ], {
+        duration: 800 + Math.random() * 400,
+        easing: "ease-out",
+        fill: "forwards"
+      });
+  
+      // Remove after animation
+      setTimeout(() => {
+        particle.remove();
+      }, 1200);
+    }
+  },
   
 };
 /* twine-user-script #16: "09_conversation_ui.js" */
@@ -2798,6 +3379,21 @@ setup.ConvoUI = {
       });
     }
   },
+  openTutorial() {
+    const overlay = document.getElementById("tutorial-overlay");
+    if (overlay) {
+      overlay.classList.add("active");
+      overlay.classList.remove("hidden");
+    }
+  },
+
+  closeTutorial() {
+    const overlay = document.getElementById("tutorial-overlay");
+    if (overlay) {
+      overlay.classList.remove("active");
+      overlay.classList.add("hidden");
+    }
+  },
   
   updateMeta() {
     const convo = State.temporary.convo;
@@ -2837,7 +3433,19 @@ setup.ConvoUI = {
       console.log("[ConvoUI] Gift system placeholder triggered.");
     }
   }
+  
 };
+setup.ConvoUI.animateChoices = function(container) {
+  const buttons = container.querySelectorAll("button");
+  buttons.forEach((btn, index) => {
+    setTimeout(() => {
+      btn.classList.add("animate-choice");
+    }, index * 100);
+  });
+};
+
+
+
 /* twine-user-script #17: "10_dialogueSetup.js" */
 /* twine-user-script #18: "12_SexScene_Logic.js" */
 // SexScene-Logic.js
@@ -4551,7 +5159,17 @@ setup.DataAuditor = {
         return setup.DataAuditor.listUniqueValues(setup.ConvoPrompts, "baseDifficultyMod");
       }
     },
-  
+    characters: {
+      trustAndAffection() {
+        const chars = State.variables.characters || {};
+        console.group("🧡 Character Trust and Affection Levels:");
+        Object.entries(chars).forEach(([id, char]) => {
+          console.log(`${id}: Trust=${char.trust ?? 0} | Affection=${char.affection ?? 0}`);
+        });
+        console.groupEnd();
+      }
+    },
+    
     tropes: {
       skills() {
         const allTropes = [

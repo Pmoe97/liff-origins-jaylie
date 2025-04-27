@@ -56,6 +56,21 @@ setup.ConvoUI = {
       });
     }
   },
+  openTutorial() {
+    const overlay = document.getElementById("tutorial-overlay");
+    if (overlay) {
+      overlay.classList.add("active");
+      overlay.classList.remove("hidden");
+    }
+  },
+
+  closeTutorial() {
+    const overlay = document.getElementById("tutorial-overlay");
+    if (overlay) {
+      overlay.classList.remove("active");
+      overlay.classList.add("hidden");
+    }
+  },
   
   updateMeta() {
     const convo = State.temporary.convo;
@@ -95,4 +110,16 @@ setup.ConvoUI = {
       console.log("[ConvoUI] Gift system placeholder triggered.");
     }
   }
+  
 };
+setup.ConvoUI.animateChoices = function(container) {
+  const buttons = container.querySelectorAll("button");
+  buttons.forEach((btn, index) => {
+    setTimeout(() => {
+      btn.classList.add("animate-choice");
+    }, index * 100);
+  });
+};
+
+
+

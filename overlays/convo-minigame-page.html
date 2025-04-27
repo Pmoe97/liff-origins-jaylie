@@ -1,14 +1,35 @@
 <!-- ================================================
      Conversation Minigame Overlay HTML Template
-     ------------------------------------------------
-     Renders the relationship minigame overlay with
-     NPC prompt, response options, rapport, tension,
-     trust/affection gains, and gift-giving button.
 ================================================ -->
+
 <!-- Conversation Minigame Page -->
 <div id="conversation-overlay" class="convo-overlay">
-  <div class="convo-window">
+  
+  <!-- Floating Tutorial Button Wrapper -->
+<div id="tutorial-button-wrapper">
+  <button id="tutorial-button" onclick="setup.ConvoUI.openTutorial()">?</button>
+  <div id="tutorial-tooltip" class="hidden">How to Play</div>
+</div>
 
+<!-- Tutorial Overlay (Initially Hidden) -->
+<div id="tutorial-overlay" class="hidden">
+  <div class="tutorial-content">
+    <h2>How to Play</h2>
+    <ul>
+      <li>Choose dialogue responses carefully based on the situation.</li>
+      <li>Each choice has a % chance to succeed based on difficulty and your current skill level.</li>
+      <li>Succeed to gain Trust 🤝 and Affection ❤️.</li>
+      <li>Failures build Tension ❌. Max Tension ends the conversation poorly.</li>
+      <li>Build Rapport 🔥 to maximize final rewards!</li>
+    </ul>
+    <button onclick="setup.ConvoUI.closeTutorial()">Got It!</button>
+  </div>
+</div>
+
+
+
+  <div class="convo-window">
+    
     <!-- === Main Convo Body (hidden on end) === -->
     <div id="convo-body">
 
@@ -22,7 +43,7 @@
           <div class="stat"><span class="icon">🤝</span> +<span id="gain-trust">0</span></div>
           <div class="stat"><span class="icon">❤️</span> +<span id="gain-affection">0</span></div>
           <div class="meta">Rapport: <span id="convo-rapport">1.0</span></div>
-          <div class="meta"><strong>Turn:</strong> <span id="convo-turn">1</span> / <span id="convo-max-turn">5</span></div>
+          <!-- 🔥 Removed Turn Counter -->
           <div class="meta"><strong>Tension:</strong> <span id="convo-tension">0</span> / <span id="convo-max-tension">3</span></div>
         </div>
 
@@ -33,9 +54,21 @@
 
       <!-- === Right Column === -->
       <div class="convo-right">
-
-        <!-- === Top: NPC Name & Prompt === -->
+        
+        <!-- === Top: Turn Progress + NPC Name & Prompt === -->
         <div class="convo-header-box">
+          
+          <!-- 🆕 Turn Progress Bar -->
+          <div id="turn-progress-bar" class="turn-progress-bar">
+            <div class="turn-segment pending"></div>
+            <div class="turn-segment pending"></div>
+            <div class="turn-segment pending"></div>
+            <div class="turn-segment pending"></div>
+            <div class="turn-segment pending"></div>
+            <div class="turn-number" id="convo-max-turn">5</div>
+          </div>
+
+          <!-- NPC Name and Prompt -->
           <div class="npc-name" id="convo-npc-name">Allura</div>
           <div class="npc-prompt" id="convo-npc-prompt">
             <em>"Ever have one of those days where everything feels fake?"</em>
