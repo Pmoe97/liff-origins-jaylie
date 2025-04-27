@@ -89,8 +89,14 @@ Macro.add("additem", {
 			debugLog(`🗑️ '${itemId}' count zero or below — removing from inventory`);
 			delete inventory[itemId];
 		}
+
+		/* === Sidebar update on run === */
+		if (setup.SidebarUI?.update) {
+			setup.SidebarUI.update();
+		}
 	}
 });
+
 
 /* Drop Button Logic - Start */
 function dropCustomAmount() {

@@ -23,61 +23,144 @@ Macro.add("SidebarUI", {
 			return;
 		}
 
-		if (document.getElementById("custom-sidebar-buttons")) {
+		// Check if already injected to avoid duplicates
+		if (document.getElementById("sidebar-topbar")) {
 			console.log("SidebarUI: Already injected.");
 			return;
 		}
 
-		sidebar.insertAdjacentHTML("afterbegin", `
-			<div id="custom-sidebar-buttons">
-				<!-- Navigation Arrows -->
+		sidebar.innerHTML = `
+			<!-- Top Nav and Collapse -->
+			<div id="sidebar-topbar">
 				<div id="sidebar-nav">
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
 				</div>
+				<button id="sidebar-toggle" class="sidebar-btn" onclick="setup.SidebarUI.toggleSidebar()">
+					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+				</button>
+			</div>
 
-				<!-- Character Button -->
-				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
-						<i data-lucide="scroll-text"></i> Character
-					</button>
+			<!-- Collapsed Summary -->
+			<div id="sidebar-summary" style="display: none;">
+				<div id="summary-top">
+					<i data-lucide="coins"></i><span id="summary-gold">0</span>
+					<i data-lucide="clock"></i><span id="summary-time">--:--</span>
 				</div>
-
-				<!-- Inventory Button -->
-				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
-						<i data-lucide="backpack"></i> Inventory
-					</button>
+				<div id="summary-status-icons">
+					<i id="summary-health" data-lucide="heart"></i>
+					<i id="summary-fatigue" data-lucide="zap"></i>
+					<i id="summary-composure" data-lucide="brain"></i>
+					<i id="summary-excitement" data-lucide="flame"></i>
 				</div>
-
-				<!-- Journal Button -->
-				<div class="button-single">
-					<button class="sidebar-btn" onclick="openOverlay('journal-page')">
-						<i data-lucide="book-open"></i> Journal
-					</button>
-				</div>
-
-				<!-- Stats & Achievements -->
-				<div class="button-pair">
-					<button class="sidebar-btn" onclick="openOverlay('stats-page')">
-						<i data-lucide="brain"></i> Stats
-					</button>
-					<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
-						<i data-lucide="star"></i> Achievements
-					</button>
-				</div>
-
-				<!-- Saves & Options -->
-				<div class="button-pair">
-					<button class="sidebar-btn" onclick="Save.show()">
-						<i data-lucide="save"></i> Saves
-					</button>
-					<button class="sidebar-btn" onclick="UI.options()">
-						<i data-lucide="settings"></i> Options
-					</button>
+				<div id="summary-level-exp">
+					<span id="summary-level">Lvl 1</span>
+					<div class="exp-bar-mini">
+						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
+					</div>
 				</div>
 			</div>
-		`);
+
+			<!-- Main Scrollable Content -->
+			<div id="sidebar-content">
+				<!-- Top Info -->
+				<div id="sidebar-top-info">
+					<div id="sidebar-datetime">
+						<span id="sidebar-time">--:--</span>
+						<span id="sidebar-date">Loading Date...</span>
+					</div>
+					<div id="sidebar-location-weather">
+						<span id="sidebar-location">Unknown Location</span>
+						<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
+					</div>
+					<div id="sidebar-gold">
+						<i data-lucide="coins"></i> <span id="sidebar-gold-amount">0</span>
+					</div>
+				</div>
+
+				<!-- Status Trackers -->
+				<div id="sidebar-status-tracker">
+					<div class="status-bar" id="health-bar">
+						<i data-lucide="heart"></i><span>Health</span>
+						<div class="status-bar-fill" id="health-fill"></div>
+					</div>
+					<div class="status-bar" id="fatigue-bar">
+						<i data-lucide="zap"></i><span>Fatigue</span>
+						<div class="status-bar-fill" id="fatigue-fill"></div>
+					</div>
+					<div class="status-bar" id="composure-bar">
+						<i data-lucide="brain"></i><span>Composure</span>
+						<div class="status-bar-fill" id="composure-fill"></div>
+					</div>
+					<div class="status-bar" id="excitement-bar">
+						<i data-lucide="flame"></i><span>Excitement</span>
+						<div class="status-bar-fill" id="excitement-fill"></div>
+					</div>
+					<div id="conditional-status-bars"></div>
+				</div>
+
+				<!-- Carry Weight (Hidden unless 85% full) -->
+				<div id="sidebar-carryweight" style="display:none;">
+					<i data-lucide="package"></i> <span id="carryweight-text">Carryweight: 0/100</span>
+					<div class="status-bar-carry">
+						<div class="carry-bar-fill" id="carry-fill"></div>
+					</div>
+				</div>
+
+				<!-- Level and Experience -->
+				<div id="sidebar-level-exp">
+					<span id="sidebar-level">Lvl 1</span>
+					<div class="exp-bar">
+						<div class="exp-bar-fill" id="exp-fill"></div>
+					</div>
+					<span id="exp-text">0/100 XP</span>
+				</div>
+
+				<!-- Buttons injected here -->
+				<div id="custom-sidebar-buttons">
+					<!-- Character Button -->
+					<div class="button-single">
+						<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
+							<i data-lucide="scroll-text"></i> Character
+						</button>
+					</div>
+
+					<!-- Inventory Button -->
+					<div class="button-single">
+						<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
+							<i data-lucide="backpack"></i> Inventory
+						</button>
+					</div>
+
+					<!-- Journal Button -->
+					<div class="button-single">
+						<button class="sidebar-btn" onclick="openOverlay('journal-page')">
+							<i data-lucide="book-open"></i> Journal
+						</button>
+					</div>
+
+					<!-- Stats & Achievements -->
+					<div class="button-pair">
+						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
+							<i data-lucide="brain"></i> Stats
+						</button>
+						<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
+							<i data-lucide="star"></i> Achievements
+						</button>
+					</div>
+
+					<!-- Saves & Options -->
+					<div class="button-pair">
+						<button class="sidebar-btn" onclick="Save.show()">
+							<i data-lucide="save"></i> Saves
+						</button>
+						<button class="sidebar-btn" onclick="UI.options()">
+							<i data-lucide="settings"></i> Options
+						</button>
+					</div>
+				</div> <!-- end #custom-sidebar-buttons -->
+			</div> <!-- end #sidebar-content -->
+		`;
 
 		if (window.lucide) {
 			lucide.createIcons();
@@ -86,6 +169,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
 
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
