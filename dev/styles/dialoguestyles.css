@@ -28,4 +28,31 @@
   #convoChoices a.link-internal:hover {
     text-decoration: underline;
   }
-  
+  /* =============================
+=      Conversation Layout     =
+============================= */
+#convoLayoutContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#convoChoicesPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#convoBoxPanel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 80vh;
+  gap: 10px;
+  padding-right: 10px;
+}

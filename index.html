@@ -855,7 +855,34 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   #convoChoices a.link-internal:hover {
     text-decoration: underline;
   }
-  
+  /* =============================
+=      Conversation Layout     =
+============================= */
+#convoLayoutContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#convoChoicesPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#convoBoxPanel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 80vh;
+  gap: 10px;
+  padding-right: 10px;
+}
 /* twine-user-stylesheet #6: "inventory.css" */
 /* =============================
 =         Inventory UI         =
@@ -1244,106 +1271,121 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 /* =============================
 =     Main Text Presentation   =
 ============================= */
+
+/* === Responsive Font + Padding Adjustments === */
 @media screen and (max-width: 800px) {
-    #text-backdrop {
-      padding: 1.5rem;
-      font-size: 1rem;
-    }
-  }
-  @media screen and (max-width: 600px) {
-    #text-backdrop {
-      padding: 1rem;
-      font-size: 0.95rem;
-    }
-  }
-  @media screen and (max-width: 500px) {
-    #text-backdrop {
-      padding: 0.75rem;
-      font-size: 0.9rem;
-    }
-  }
-  
-  html, body {
-    height: 100%;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
-  
-  #text-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: calc(100vw - 260px);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-    padding: 1rem;
-    box-sizing: border-box;
-    transition: margin-left 0.3s ease;
-  }
-  
-  body.sidebar-collapsed #text-container {
-    margin-left: 60px;
-    width: calc(100vw - 60px);
-  }
-  
-  body:not(.sidebar-collapsed) #text-container {
-    margin-left: 260px;
-    width: calc(100vw - 260px);
-  }
-  
   #text-backdrop {
-    background-color: rgba(240, 240, 240, 0.05);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 850px;
-    min-width: 300px;
-    max-height: 90vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-radius: 1.5rem;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    font-family: 'Georgia', serif;
-    font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
-    line-height: 1.6;
-    color: #f0f0f0;
-    pointer-events: auto;
-    box-sizing: border-box;
+    padding: 1.5rem;
+    font-size: 1rem;
   }
-  
-  #text-backdrop::-webkit-scrollbar {
-    width: 10px;
+}
+@media screen and (max-width: 600px) {
+  #text-backdrop {
+    padding: 1rem;
+    font-size: 0.95rem;
   }
-  #text-backdrop::-webkit-scrollbar-track {
-    background: #111;
+}
+@media screen and (max-width: 500px) {
+  #text-backdrop {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
-  #text-backdrop::-webkit-scrollbar-thumb {
-    background: #666;
-    border-radius: 5px;
-  }
-  #text-backdrop::-webkit-scrollbar-thumb:hover {
-    background: #999;
-  }
-  
-  #passages {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .passage-in {
-    opacity: 1 !important;
-  }
-  
+}
+
+/* === Base HTML & Body === */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Main Text Container === */
+#text-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 260px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+  padding: 1rem;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+/* === Sidebar Collapsed/Expanded Adjustments === */
+body.sidebar-collapsed #text-container {
+  margin-left: 60px;
+  width: calc(100vw - 60px);
+}
+
+body:not(.sidebar-collapsed) #text-container {
+  margin-left: 260px;
+  width: calc(100vw - 260px);
+}
+
+/* === Text Backdrop Main Style === */
+#text-backdrop {
+  background-color: rgba(240, 240, 240, 0.05);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 850px;
+  min-width: 300px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Georgia', serif;
+  font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
+  line-height: 1.6;
+  color: #f0f0f0;
+  pointer-events: auto;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* === Dialogue Mode (Expanding Slightly) === */
+#text-backdrop.in-dialogue {
+  max-width: 1100px;
+  min-height: 500px;
+}
+
+/* === Text Backdrop Scrollbar Styling === */
+#text-backdrop::-webkit-scrollbar {
+  width: 10px;
+}
+#text-backdrop::-webkit-scrollbar-track {
+  background: #111;
+}
+#text-backdrop::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 5px;
+}
+#text-backdrop::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* === Hidden SugarCube Passages === */
+#passages {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === Current Active Passage === */
+.passage-in {
+  opacity: 1 !important;
+}
 /* twine-user-stylesheet #9: "overlay.css" */
 /* =============================
 =         Overlay Base         =
@@ -1653,8 +1695,8 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 }
 
 #sidebar-toggle {
-	background: none;
-	border: none;
+	background: rgba(255,255,255,0.05);
+	border: 1px solid #555;
 	cursor: pointer;
 	color: white;
 }
@@ -2102,7 +2144,7 @@ Macro.add("SidebarUI", {
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
 				</div>
-				<button id="sidebar-toggle" class="sidebar-btn" onclick="setup.SidebarUI.toggleSidebar()">
+				<button id="sidebar-toggle" type="button" class="sidebar-btn">
 					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
 				</button>
 			</div>
@@ -2208,7 +2250,6 @@ Macro.add("SidebarUI", {
 						</button>
 					</div>
 
-
 					<!-- Stats & Achievements -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
@@ -2232,6 +2273,12 @@ Macro.add("SidebarUI", {
 			</div> <!-- end #sidebar-content -->
 		`;
 
+		// AFTER injecting sidebar HTML, safely initialize the SidebarUI
+		if (window.setup?.SidebarUI?.initialize) {
+			console.log("[SidebarUI] Now initializing after Sidebar injection...");
+			setup.SidebarUI.initialize();
+		}
+
 		if (window.lucide) {
 			lucide.createIcons();
 		} else {
@@ -2239,6 +2286,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
 
 
 /* Dialogue Choice Setup Macro */
@@ -2303,73 +2351,43 @@ Macro.add("dialogueChoice", {
 
 Macro.add("DialogueTree", {
 	handler() {
-		const npc = this.args[0];
+		const characterName = this.args[0];
 		const phase = this.args[1];
 
-		if (!npc || typeof npc !== "string") {
-			return this.error("DialogueTree requires a character ID as the first argument.");
+		if (!characterName || phase === undefined) {
+			console.error("DialogueTree: Missing character name or phase number.");
+			return;
 		}
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] DialogueTree loading for "${npc}", phase: ${phase}`);
+		// Create new convo layout container inside text-backdrop
+		const textBackdrop = document.getElementById("text-backdrop");
+		if (!textBackdrop) {
+			console.error("DialogueTree: text-backdrop not found.");
+			return;
 		}
 
-		const injectConvoElements = () => {
-			const target = document.getElementById("text-backdrop");
-			if (!target) {
-				console.warn("[DialogueTree] ❌ No #text-backdrop found. Abort injection.");
-				return;
-			}
+		// Clear old content
+		textBackdrop.innerHTML = `
+			<div id="convoLayoutContainer">
+				<div id="convoChoicesPanel">
+					<div id="convoChoices"></div>
+				</div>
+				<div id="convoBoxPanel">
+					<div id="convoBox"></div>
+				</div>
+			</div>
+		`;
 
-			if (!document.getElementById("convoBox")) {
-				console.log("[DialogueTree] ➕ Injecting #convoBox and nested #convoChoices");
-				const box = document.createElement("div");
-				box.id = "convoBox";
-			
-				const choices = document.createElement("div");
-				choices.id = "convoChoices";
-			
-				box.appendChild(choices);
-				target.appendChild(box);
-			} else {
-				const existingChoices = document.getElementById("convoChoices");
-				if (existingChoices) {
-					existingChoices.innerHTML = "";
-				}
-			}
-	
-			const functionName = `${npc}_Conversation_Options_Phase${phase}`;
-			const fallbackName = `${npc}_Conversation_Options_Generic`;
-			const setupFunc = setup[functionName] || setup[fallbackName];
-
-			if (typeof setupFunc === "function") {
-				console.log(`[DialogueTree] ✅ Running setup: ${functionName}`);
-				setupFunc();
-			} else {
-				console.warn(`[DialogueTree] ⚠️ No setup function found: ${functionName}`);
-				document.getElementById("convoChoices").innerHTML = `<p>Dialogue options missing.</p>`;
-			}
-		};
-
-		// Run injection after DOM settles
-		setTimeout(() => {
-			injectConvoElements();
-
-			// Also observe DOM changes to catch edge cases where content is moved again
-			const observer = new MutationObserver(() => {
-				if (!document.getElementById("convoBox") || !document.getElementById("convoChoices")) {
-					console.log("[DialogueTree] ⏱️ Re-attempting convo injection via observer...");
-					injectConvoElements();
-				}
-			});
-
-			const observeTarget = document.getElementById("text-backdrop");
-			if (observeTarget) {
-				observer.observe(observeTarget, { childList: true, subtree: true });
-			}
-		}, 20);
+		// Load options for this character + phase
+		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
+		if (typeof setupFunc === "function") {
+			setupFunc();
+		} else {
+			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
+		}
 	}
 });
+
 
 
 /* Choice setup beautifier function */
@@ -2415,6 +2433,43 @@ Macro.add("OpenConvoGame", {
 	}
 });
 
+/* Side-by-side Dialogue UI setup macros */
+Macro.add("StartDialogueLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (!backdrop) {
+			console.error("[Dialogue Layout] text-backdrop not found.");
+			return;
+		}
+
+		backdrop.classList.add("in-dialogue");
+
+		// Inject new container structure
+		backdrop.innerHTML = `
+			<div id="convoLayoutContainer">
+				<div id="convoChoicesPanel">
+					<div id="convoChoices"></div>
+				</div>
+				<div id="convoBoxPanel">
+					<div id="convoBox"></div>
+				</div>
+			</div>
+		`;
+	}
+});
+
+Macro.add("EndDialogueLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (!backdrop) {
+			console.error("[Dialogue Layout] text-backdrop not found.");
+			return;
+		}
+
+		backdrop.classList.remove("in-dialogue");
+		backdrop.innerHTML = ""; // Clear conversation layout
+	}
+});
 
 /* twine-user-script #3: "cssPathFix.js" */
 if (
@@ -3615,6 +3670,9 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 	}
 };
 /* twine-user-script #15: "04_PassageInjector.js" */
+// ===============================
+//  Move Rendered Passage Content
+// ===============================
 $(document).on(':passagerender', function () {
 	setTimeout(function () {
 		const passage = document.querySelector('#passages > .passage');
@@ -3629,7 +3687,23 @@ $(document).on(':passagerender', function () {
 				backdropFound: !!backdrop
 			});
 		}
+
+
 	}, 0);
+});
+
+// ===============================
+//  Clean Up Dialogue Layout on Passage Start
+// ===============================
+$(document).on(':passagestart', function (ev) {
+	const backdrop = document.getElementById("text-backdrop");
+	if (!backdrop) return;
+
+	// If the convo layout is present, clear it
+	if (backdrop.querySelector("#convoLayoutContainer")) {
+		backdrop.classList.remove("in-dialogue");
+		backdrop.innerHTML = ""; // Clear convo stuff when leaving passage
+	}
 });
 /* twine-user-script #16: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
@@ -4527,14 +4601,18 @@ Macro.add("fogtext", {
 
 setup.SidebarUI = {
 	initialize() {
+		console.log("[SidebarUI] Initializing SidebarUI...");
 		const toggleButton = document.getElementById("sidebar-toggle");
 	  
 		if (!toggleButton) {
 		  console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
 		  return;
 		}
-	  
-		toggleButton.addEventListener("click", setup.SidebarUI.toggleSidebar);
+		console.log("[SidebarUI] Found toggleButton:", toggleButton);
+		toggleButton.addEventListener("click", function() {
+			console.log("[SidebarUI] Collapse button clicked!");
+			setup.SidebarUI.toggleSidebar();
+		});
 	  
 		// Define a smart Lucide retry loop
 		function tryLucideIcons() {
@@ -4552,24 +4630,31 @@ setup.SidebarUI = {
 	  },
 	  
   
-	toggleSidebar() {
-	  const sidebar = document.getElementById("custom-sidebar");
-	  const arrow = document.getElementById("sidebar-arrow");
-  
-	  if (!sidebar) {
-		console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
-		return;
-	  }
-  
-	  sidebar.classList.toggle("collapsed");
-  
-	  if (arrow && typeof lucide !== "undefined") {
-		const isCollapsed = sidebar.classList.contains("collapsed");
-		arrow.setAttribute("data-lucide", isCollapsed ? "arrow-right" : "arrow-left");
-		lucide.createIcons();
-	  }
+	  toggleSidebar() {
+		const sidebar = document.getElementById("custom-sidebar");
+		const arrow = document.getElementById("sidebar-arrow");
+
+		if (!sidebar) {
+			console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
+			return;
+		}
+
+		sidebar.classList.toggle("collapsed");
+
+		if (arrow) {
+			const isCollapsed = sidebar.classList.contains("collapsed");
+			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
+		}
+
+		if (sidebar.classList.contains("collapsed")) {
+			document.body.classList.add("sidebar-collapsed");
+		} else {
+			document.body.classList.remove("sidebar-collapsed");
+		}
+
+		console.log(`[SidebarUI] Sidebar is now ${sidebar.classList.contains("collapsed") ? "collapsed" : "expanded"}.`);
 	}
-  };
+};
   
   // Initialize Sidebar when Story is Ready
   $(document).one(':storyready', function () {
@@ -6414,9 +6499,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 &lt;&lt;run setup.NPCs = []&gt;&gt;
 &lt;&lt;run setup.Seed = Math.seedrandom(&quot;liff&quot;)&gt;&gt;
 
-&lt;&lt;SidebarUI&gt;&gt; &lt;!-- still injects your custom sidebar layout --&gt;
-
-&lt;&lt;run setup.SidebarUI.initialize()&gt;&gt; &lt;!-- 🔥 add this line to actually BIND the functionality --&gt;</tw-passagedata><tw-passagedata pid="47" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&lt;&lt;SidebarUI&gt;&gt; &lt;!-- still injects your custom sidebar layout --&gt;</tw-passagedata><tw-passagedata pid="47" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -6510,8 +6593,7 @@ You take a moment to catch your breath and find your tongue.
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
 &lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="53" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;
-
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="53" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn&#39;t need to.
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ohh... I did not know ze night would bring me such a &lt;strong&gt;beautiful&lt;/strong&gt; gift.&lt;&lt;/speech&gt;&gt;

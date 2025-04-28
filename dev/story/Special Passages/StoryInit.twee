@@ -8,5 +8,3 @@
 <<run setup.Seed = Math.seedrandom("liff")>>
 
 <<SidebarUI>> <!-- still injects your custom sidebar layout -->
-
-<<run setup.SidebarUI.initialize()>> <!-- 🔥 add this line to actually BIND the functionality -->

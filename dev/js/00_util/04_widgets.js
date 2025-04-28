@@ -36,7 +36,7 @@ Macro.add("SidebarUI", {
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
 					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
 				</div>
-				<button id="sidebar-toggle" class="sidebar-btn" onclick="setup.SidebarUI.toggleSidebar()">
+				<button id="sidebar-toggle" type="button" class="sidebar-btn">
 					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
 				</button>
 			</div>
@@ -142,7 +142,6 @@ Macro.add("SidebarUI", {
 						</button>
 					</div>
 
-
 					<!-- Stats & Achievements -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
@@ -166,6 +165,12 @@ Macro.add("SidebarUI", {
 			</div> <!-- end #sidebar-content -->
 		`;
 
+		// AFTER injecting sidebar HTML, safely initialize the SidebarUI
+		if (window.setup?.SidebarUI?.initialize) {
+			console.log("[SidebarUI] Now initializing after Sidebar injection...");
+			setup.SidebarUI.initialize();
+		}
+
 		if (window.lucide) {
 			lucide.createIcons();
 		} else {
@@ -173,6 +178,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
 
 
 /* Dialogue Choice Setup Macro */
@@ -237,73 +243,43 @@ Macro.add("dialogueChoice", {
 
 Macro.add("DialogueTree", {
 	handler() {
-		const npc = this.args[0];
+		const characterName = this.args[0];
 		const phase = this.args[1];
 
-		if (!npc || typeof npc !== "string") {
-			return this.error("DialogueTree requires a character ID as the first argument.");
+		if (!characterName || phase === undefined) {
+			console.error("DialogueTree: Missing character name or phase number.");
+			return;
 		}
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] DialogueTree loading for "${npc}", phase: ${phase}`);
+		// Create new convo layout container inside text-backdrop
+		const textBackdrop = document.getElementById("text-backdrop");
+		if (!textBackdrop) {
+			console.error("DialogueTree: text-backdrop not found.");
+			return;
 		}
 
-		const injectConvoElements = () => {
-			const target = document.getElementById("text-backdrop");
-			if (!target) {
-				console.warn("[DialogueTree] ❌ No #text-backdrop found. Abort injection.");
-				return;
-			}
+		// Clear old content
+		textBackdrop.innerHTML = `
+			<div id="convoLayoutContainer">
+				<div id="convoChoicesPanel">
+					<div id="convoChoices"></div>
+				</div>
+				<div id="convoBoxPanel">
+					<div id="convoBox"></div>
+				</div>
+			</div>
+		`;
 
-			if (!document.getElementById("convoBox")) {
-				console.log("[DialogueTree] ➕ Injecting #convoBox and nested #convoChoices");
-				const box = document.createElement("div");
-				box.id = "convoBox";
-			
-				const choices = document.createElement("div");
-				choices.id = "convoChoices";
-			
-				box.appendChild(choices);
-				target.appendChild(box);
-			} else {
-				const existingChoices = document.getElementById("convoChoices");
-				if (existingChoices) {
-					existingChoices.innerHTML = "";
-				}
-			}
-	
-			const functionName = `${npc}_Conversation_Options_Phase${phase}`;
-			const fallbackName = `${npc}_Conversation_Options_Generic`;
-			const setupFunc = setup[functionName] || setup[fallbackName];
-
-			if (typeof setupFunc === "function") {
-				console.log(`[DialogueTree] ✅ Running setup: ${functionName}`);
-				setupFunc();
-			} else {
-				console.warn(`[DialogueTree] ⚠️ No setup function found: ${functionName}`);
-				document.getElementById("convoChoices").innerHTML = `<p>Dialogue options missing.</p>`;
-			}
-		};
-
-		// Run injection after DOM settles
-		setTimeout(() => {
-			injectConvoElements();
-
-			// Also observe DOM changes to catch edge cases where content is moved again
-			const observer = new MutationObserver(() => {
-				if (!document.getElementById("convoBox") || !document.getElementById("convoChoices")) {
-					console.log("[DialogueTree] ⏱️ Re-attempting convo injection via observer...");
-					injectConvoElements();
-				}
-			});
-
-			const observeTarget = document.getElementById("text-backdrop");
-			if (observeTarget) {
-				observer.observe(observeTarget, { childList: true, subtree: true });
-			}
-		}, 20);
+		// Load options for this character + phase
+		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
+		if (typeof setupFunc === "function") {
+			setupFunc();
+		} else {
+			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
+		}
 	}
 });
+
 
 
 /* Choice setup beautifier function */
@@ -349,4 +325,41 @@ Macro.add("OpenConvoGame", {
 	}
 });
 
+/* Side-by-side Dialogue UI setup macros */
+Macro.add("StartDialogueLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (!backdrop) {
+			console.error("[Dialogue Layout] text-backdrop not found.");
+			return;
+		}
+
+		backdrop.classList.add("in-dialogue");
+
+		// Inject new container structure
+		backdrop.innerHTML = `
+			<div id="convoLayoutContainer">
+				<div id="convoChoicesPanel">
+					<div id="convoChoices"></div>
+				</div>
+				<div id="convoBoxPanel">
+					<div id="convoBox"></div>
+				</div>
+			</div>
+		`;
+	}
+});
+
+Macro.add("EndDialogueLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (!backdrop) {
+			console.error("[Dialogue Layout] text-backdrop not found.");
+			return;
+		}
+
+		backdrop.classList.remove("in-dialogue");
+		backdrop.innerHTML = ""; // Clear conversation layout
+	}
+});
 

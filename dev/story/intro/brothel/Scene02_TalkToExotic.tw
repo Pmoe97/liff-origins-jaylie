@@ -1,7 +1,6 @@
 :: Scene02_TalkToExotic {"position":"25,900"}
 
-<<bg "parlorallura">>
-
+<<bg "parlorallura">><<StartDialogueLayout>>
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn't need to.
 
 <<speech "allura">>Ohh... I did not know ze night would bring me such a <strong>beautiful</strong> gift.<</speech>>

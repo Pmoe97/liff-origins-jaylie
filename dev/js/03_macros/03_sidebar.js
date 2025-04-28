@@ -2,14 +2,18 @@
 
 setup.SidebarUI = {
 	initialize() {
+		console.log("[SidebarUI] Initializing SidebarUI...");
 		const toggleButton = document.getElementById("sidebar-toggle");
 	  
 		if (!toggleButton) {
 		  console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
 		  return;
 		}
-	  
-		toggleButton.addEventListener("click", setup.SidebarUI.toggleSidebar);
+		console.log("[SidebarUI] Found toggleButton:", toggleButton);
+		toggleButton.addEventListener("click", function() {
+			console.log("[SidebarUI] Collapse button clicked!");
+			setup.SidebarUI.toggleSidebar();
+		});
 	  
 		// Define a smart Lucide retry loop
 		function tryLucideIcons() {
@@ -27,24 +31,31 @@ setup.SidebarUI = {
 	  },
 	  
   
-	toggleSidebar() {
-	  const sidebar = document.getElementById("custom-sidebar");
-	  const arrow = document.getElementById("sidebar-arrow");
-  
-	  if (!sidebar) {
-		console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
-		return;
-	  }
-  
-	  sidebar.classList.toggle("collapsed");
-  
-	  if (arrow && typeof lucide !== "undefined") {
-		const isCollapsed = sidebar.classList.contains("collapsed");
-		arrow.setAttribute("data-lucide", isCollapsed ? "arrow-right" : "arrow-left");
-		lucide.createIcons();
-	  }
+	  toggleSidebar() {
+		const sidebar = document.getElementById("custom-sidebar");
+		const arrow = document.getElementById("sidebar-arrow");
+
+		if (!sidebar) {
+			console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
+			return;
+		}
+
+		sidebar.classList.toggle("collapsed");
+
+		if (arrow) {
+			const isCollapsed = sidebar.classList.contains("collapsed");
+			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
+		}
+
+		if (sidebar.classList.contains("collapsed")) {
+			document.body.classList.add("sidebar-collapsed");
+		} else {
+			document.body.classList.remove("sidebar-collapsed");
+		}
+
+		console.log(`[SidebarUI] Sidebar is now ${sidebar.classList.contains("collapsed") ? "collapsed" : "expanded"}.`);
 	}
-  };
+};
   
   // Initialize Sidebar when Story is Ready
   $(document).one(':storyready', function () {

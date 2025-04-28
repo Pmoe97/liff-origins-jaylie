@@ -1,103 +1,118 @@
 /* =============================
 =     Main Text Presentation   =
 ============================= */
+
+/* === Responsive Font + Padding Adjustments === */
 @media screen and (max-width: 800px) {
-    #text-backdrop {
-      padding: 1.5rem;
-      font-size: 1rem;
-    }
-  }
-  @media screen and (max-width: 600px) {
-    #text-backdrop {
-      padding: 1rem;
-      font-size: 0.95rem;
-    }
-  }
-  @media screen and (max-width: 500px) {
-    #text-backdrop {
-      padding: 0.75rem;
-      font-size: 0.9rem;
-    }
-  }
-  
-  html, body {
-    height: 100%;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
-  
-  #text-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: calc(100vw - 260px);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-    padding: 1rem;
-    box-sizing: border-box;
-    transition: margin-left 0.3s ease;
-  }
-  
-  body.sidebar-collapsed #text-container {
-    margin-left: 60px;
-    width: calc(100vw - 60px);
-  }
-  
-  body:not(.sidebar-collapsed) #text-container {
-    margin-left: 260px;
-    width: calc(100vw - 260px);
-  }
-  
   #text-backdrop {
-    background-color: rgba(240, 240, 240, 0.05);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 850px;
-    min-width: 300px;
-    max-height: 90vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-radius: 1.5rem;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    font-family: 'Georgia', serif;
-    font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
-    line-height: 1.6;
-    color: #f0f0f0;
-    pointer-events: auto;
-    box-sizing: border-box;
+    padding: 1.5rem;
+    font-size: 1rem;
   }
-  
-  #text-backdrop::-webkit-scrollbar {
-    width: 10px;
+}
+@media screen and (max-width: 600px) {
+  #text-backdrop {
+    padding: 1rem;
+    font-size: 0.95rem;
   }
-  #text-backdrop::-webkit-scrollbar-track {
-    background: #111;
+}
+@media screen and (max-width: 500px) {
+  #text-backdrop {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
-  #text-backdrop::-webkit-scrollbar-thumb {
-    background: #666;
-    border-radius: 5px;
-  }
-  #text-backdrop::-webkit-scrollbar-thumb:hover {
-    background: #999;
-  }
-  
-  #passages {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .passage-in {
-    opacity: 1 !important;
-  }
-  
+}
+
+/* === Base HTML & Body === */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Main Text Container === */
+#text-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 260px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+  padding: 1rem;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+/* === Sidebar Collapsed/Expanded Adjustments === */
+body.sidebar-collapsed #text-container {
+  margin-left: 60px;
+  width: calc(100vw - 60px);
+}
+
+body:not(.sidebar-collapsed) #text-container {
+  margin-left: 260px;
+  width: calc(100vw - 260px);
+}
+
+/* === Text Backdrop Main Style === */
+#text-backdrop {
+  background-color: rgba(240, 240, 240, 0.05);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 850px;
+  min-width: 300px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Georgia', serif;
+  font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem);
+  line-height: 1.6;
+  color: #f0f0f0;
+  pointer-events: auto;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* === Dialogue Mode (Expanding Slightly) === */
+#text-backdrop.in-dialogue {
+  max-width: 1100px;
+  min-height: 500px;
+}
+
+/* === Text Backdrop Scrollbar Styling === */
+#text-backdrop::-webkit-scrollbar {
+  width: 10px;
+}
+#text-backdrop::-webkit-scrollbar-track {
+  background: #111;
+}
+#text-backdrop::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 5px;
+}
+#text-backdrop::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* === Hidden SugarCube Passages === */
+#passages {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === Current Active Passage === */
+.passage-in {
+  opacity: 1 !important;
+}
