@@ -42,10 +42,12 @@ Macro.add("SidebarUI", {
 			</div>
 
 			<!-- Collapsed Summary -->
-			<div id="sidebar-summary" style="display: none;">
-				<div id="summary-top">
-					<i data-lucide="coins"></i><span id="summary-gold">0</span>
-					<i data-lucide="clock"></i><span id="summary-time">--:--</span>
+			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
+				<span id="summary-time">--:--</span>
+				<span id="summary-gold">0</span>
+				<span id="summary-level">Lvl 1</span>
+				<div class="exp-bar-mini">
+					<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
 				</div>
 				<div id="summary-status-icons">
 					<i id="summary-health" data-lucide="heart"></i>
@@ -53,13 +55,11 @@ Macro.add("SidebarUI", {
 					<i id="summary-composure" data-lucide="brain"></i>
 					<i id="summary-excitement" data-lucide="flame"></i>
 				</div>
-				<div id="summary-level-exp">
-					<span id="summary-level">Lvl 1</span>
-					<div class="exp-bar-mini">
-						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
-					</div>
+				<div id="summary-conditions">
+					<!-- Dynamic icons like poisoned/charmed will inject here -->
 				</div>
 			</div>
+
 
 			<!-- Main Scrollable Content -->
 			<div id="sidebar-content">

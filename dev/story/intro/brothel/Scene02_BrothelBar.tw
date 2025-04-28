@@ -1,0 +1,26 @@
+:: Scene02_BrothelBar
+<<bg "Scene02_TheBrothelParlor">>
+
+You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
+
+At the moment, he's in the middle of mixing a drink — tossing a silver shaker through the air, flipping a small glass behind his back, and catching it without so much as glancing down. The movements are practiced, fluid, and somehow both showy and completely effortless.
+
+Without looking your way, he pours the drink with one final flourish and slides it across the bar to a waiting hand.
+
+Only then does he turn to you.
+
+<<speech "bert">>Can I get you something to drink? Maybe something to loosen your inhibitions. Or sharpen them, if that’s more your taste.<</speech>>
+
+His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfectly enunciated, with not a syllable wasted.
+
+<<speech "jaylie">>It's my birthday, actually. Thought I'd treat myself.<</speech>>
+
+<<speech "bert">>In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?<</speech>>
+
+**From here, you may:**
+[[Ask for something strong.|Scene02_Bar_StrongDrink]]
+[[Ask for something sweet.|Scene02_Bar_SweetDrink]]
+[[Tell him to surprise you.|Scene02_Bar_SurpriseMe]]
+[[Ask what he recommends.|Scene02_Bar_AskBert]]
+[[Decide not to drink after all.|Scene02_Bar_NoThanks]]
+

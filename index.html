@@ -1229,10 +1229,6 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 	transition: transform 0.3s ease;
 }
 
-#custom-sidebar.collapsed {
-	transform: translateX(-220px);
-}
-
 #passages {
 	margin-left: 280px;
 	padding: 20px;
@@ -1649,7 +1645,7 @@ body:not(.sidebar-collapsed) #text-container {
   
 /* twine-user-stylesheet #12: "sidebar.css" */
 /* =============================
-=        Sidebar Main         =
+=        Sidebar Main         
 ============================= */
 #custom-sidebar {
 	background: #111;
@@ -1664,7 +1660,7 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 /* =============================
-=       Sidebar Topbar        =
+=       Sidebar Topbar        
 ============================= */
 #sidebar-topbar {
 	display: flex;
@@ -1699,10 +1695,23 @@ body:not(.sidebar-collapsed) #text-container {
 	border: 1px solid #555;
 	cursor: pointer;
 	color: white;
+	padding: 4px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	min-width: 36px;
+	min-height: 36px;
+}
+
+#sidebar-arrow {
+	pointer-events: none;
 }
 
 /* =============================
-=      Sidebar Top Info       =
+=      Sidebar Top Info       
 ============================= */
 #sidebar-top-info {
 	display: flex;
@@ -1734,7 +1743,7 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 /* =============================
-=       Sidebar Buttons       =
+=       Sidebar Buttons       
 ============================= */
 #custom-sidebar-buttons {
 	margin-top: 10px;
@@ -1745,10 +1754,7 @@ body:not(.sidebar-collapsed) #text-container {
 	border-bottom: 1px solid #555;
 }
 
-.button-single {
-	display: flex;
-}
-
+.button-single,
 .button-pair {
 	display: flex;
 	gap: 6px;
@@ -1784,7 +1790,7 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 /* =============================
-=         Status Bars         =
+=         Status Bars         
 ============================= */
 .status-bar {
 	display: flex;
@@ -1800,13 +1806,14 @@ body:not(.sidebar-collapsed) #text-container {
 	overflow: hidden;
 }
 
-.status-bar i, 
+.status-bar i,
 .status-bar svg {
 	width: 18px;
 	height: 18px;
 	min-width: 18px;
 	min-height: 18px;
 	stroke: white;
+	pointer-events: none;
 }
 
 .status-bar span {
@@ -1821,22 +1828,15 @@ body:not(.sidebar-collapsed) #text-container {
 	border-radius: 2px;
 	transition: width 0.4s ease, background 0.3s ease;
 	position: absolute;
-	left: 60px; /* leaves space for icon + label */
+	left: 60px;
 	right: 6px;
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: 0;
 }
 
-/* Make text/icons float above fill */
-.status-bar > i,
-.status-bar > span {
-	position: relative;
-	z-index: 1;
-}
-
 /* =============================
-=      Level and Exp Bars     =
+=      Level and Exp Bars     
 ============================= */
 #sidebar-level-exp {
 	padding: 8px 10px;
@@ -1862,26 +1862,49 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 /* =============================
-=        Summary View         =
+=        Summary View         
 ============================= */
 #sidebar-summary {
-	display: none;
-	padding: 8px 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 6px;
+	padding: 6px 4px;
 	background: #181818;
 	border-bottom: 1px solid #333;
-	font-size: 0.75em;
+	font-size: 0.65em;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#summary-time,
+#summary-gold,
+#summary-level {
+	font-size: 0.7em;
+	text-align: center;
+	word-break: break-word;
 }
 
 #summary-top {
 	display: flex;
-	justify-content: space-between;
-	margin-bottom: 6px;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	width: 100%;
 }
 
 #summary-status-icons {
 	display: flex;
-	justify-content: space-around;
-	margin-bottom: 6px;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+#summary-status-icons i {
+	width: 18px;
+	height: 18px;
+	stroke-width: 2;
 }
 
 #summary-level-exp {
@@ -1889,12 +1912,14 @@ body:not(.sidebar-collapsed) #text-container {
 	flex-direction: column;
 	align-items: center;
 	gap: 4px;
+	width: 80%;
 }
 
 .exp-bar-mini {
 	background: rgba(255,255,255,0.05);
+	border: 1px solid #555;
 	height: 6px;
-	width: 80%;
+	width: 100%;
 	border-radius: 3px;
 	overflow: hidden;
 }
@@ -1906,27 +1931,65 @@ body:not(.sidebar-collapsed) #text-container {
 	transition: width 0.4s ease;
 }
 
-/* =============================
-=     Collapsed Sidebar       =
-============================= */
-#custom-sidebar.collapsed {
-	width: 100px;
-	transition: width 0.4s ease;
+#summary-conditions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	width: 100%;
 }
 
-#custom-sidebar.collapsed #sidebar-top-info,
-#custom-sidebar.collapsed #sidebar-status-tracker,
-#custom-sidebar.collapsed #sidebar-level-exp,
-#custom-sidebar.collapsed #custom-sidebar-buttons {
+/* =============================
+=     Collapsed Sidebar       
+============================= */
+#custom-sidebar.collapsed {
+	width: 50px;
+}
+
+/* Hide navigation arrows */
+#custom-sidebar.collapsed #sidebar-nav {
 	display: none;
 }
 
-#custom-sidebar.collapsed #sidebar-summary {
-	display: block;
+/* Hide menu buttons (Character, Inventory, etc.) */
+#custom-sidebar.collapsed #custom-sidebar-buttons {
+	display: none !important;
+}
+
+/* Shrink status bars text */
+#custom-sidebar.collapsed .status-bar span {
+	display: none;
+}
+
+/* Shrink status bar fill left-right space */
+#custom-sidebar.collapsed .status-bar-fill {
+	left: 30px;
+	right: 4px;
+}
+
+/* Sidebar toggle (arrow button) stays clickable */
+#sidebar-toggle {
+	background: rgba(255,255,255,0.05);
+	border: 1px solid #555;
+	cursor: pointer;
+	color: white;
+	padding: 4px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+}
+
+/* Sidebar arrow not separately clickable */
+#sidebar-arrow {
+	pointer-events: none;
 }
 
 /* =============================
-=     Glow Effects Critical    =
+=     Glow Effects Critical    
 ============================= */
 .critical-status {
 	animation: glowPulse 1.5s infinite alternate;
@@ -2150,10 +2213,12 @@ Macro.add("SidebarUI", {
 			</div>
 
 			<!-- Collapsed Summary -->
-			<div id="sidebar-summary" style="display: none;">
-				<div id="summary-top">
-					<i data-lucide="coins"></i><span id="summary-gold">0</span>
-					<i data-lucide="clock"></i><span id="summary-time">--:--</span>
+			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
+				<span id="summary-time">--:--</span>
+				<span id="summary-gold">0</span>
+				<span id="summary-level">Lvl 1</span>
+				<div class="exp-bar-mini">
+					<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
 				</div>
 				<div id="summary-status-icons">
 					<i id="summary-health" data-lucide="heart"></i>
@@ -2161,13 +2226,11 @@ Macro.add("SidebarUI", {
 					<i id="summary-composure" data-lucide="brain"></i>
 					<i id="summary-excitement" data-lucide="flame"></i>
 				</div>
-				<div id="summary-level-exp">
-					<span id="summary-level">Lvl 1</span>
-					<div class="exp-bar-mini">
-						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
-					</div>
+				<div id="summary-conditions">
+					<!-- Dynamic icons like poisoned/charmed will inject here -->
 				</div>
 			</div>
+
 
 			<!-- Main Scrollable Content -->
 			<div id="sidebar-content">
@@ -2508,15 +2571,8 @@ State.variables.player = {
   
 	// === Leveling ===
 	level: 1,
-	experience: 0,
+	experience: 69,
 	experienceToNextLevel: 100,
-  
-	// === Economy ===
-	gold: 0,
-	carryWeight: {
-	  current: 0,
-	  max: 100
-	},
   
 	// === Attributes (Perk-based) ===
 	attributes: {
@@ -2574,11 +2630,11 @@ State.variables.player = {
 	status: {
 	  health: 100,
 	  maxHealth: 100,
-	  fatigue: 0,
+	  fatigue: 25,
 	  maxFatigue: 100,
 	  composure: 100,
 	  maxComposure: 100,
-	  excitement: 0,
+	  excitement: 15,
 	  maxExcitement: 100,
   
 	  // Conditional Status Effects
@@ -2590,7 +2646,7 @@ State.variables.player = {
 	  stunned: false
 	}
   };
-  
+  console.log("PlayerData is loaded.");
 /* twine-user-script #6: "03_worldstate.js" */
 State.variables.world = {
     // === Time and Calendar ===
@@ -2609,7 +2665,7 @@ State.variables.world = {
     // === Environmental Flags (future expansion) ===
     specialEvent: null, // e.g., "Harvest Festival"
   };
-  
+  console.log("WorldData is loaded.");
 /* twine-user-script #7: "04_character.js" */
 /* ================================
 =  Character Dialogue & Avatars  =
@@ -3705,6 +3761,12 @@ $(document).on(':passagestart', function (ev) {
 		backdrop.innerHTML = ""; // Clear convo stuff when leaving passage
 	}
 });
+
+$(document).on(':passagerender', function() {
+	if (window.setup?.SidebarUI?.updateSummary) {
+		setup.SidebarUI.updateSummary();
+	}
+});
 /* twine-user-script #16: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
 	const bgDiv = document.getElementById("background-image");
@@ -4597,42 +4659,32 @@ Macro.add("fogtext", {
 	}
 });
 /* twine-user-script #25: "03_sidebar.js" */
-// 03_sidebar.js
+// dev/js/03_sidebar.js
 
 setup.SidebarUI = {
 	initialize() {
 		console.log("[SidebarUI] Initializing SidebarUI...");
 		const toggleButton = document.getElementById("sidebar-toggle");
-	  
+
 		if (!toggleButton) {
-		  console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
-		  return;
+			console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
+			return;
 		}
+
 		console.log("[SidebarUI] Found toggleButton:", toggleButton);
 		toggleButton.addEventListener("click", function() {
 			console.log("[SidebarUI] Collapse button clicked!");
 			setup.SidebarUI.toggleSidebar();
 		});
-	  
-		// Define a smart Lucide retry loop
-		function tryLucideIcons() {
-		  if (typeof lucide !== "undefined") {
-			lucide.createIcons();
-			console.log("[SidebarUI] Lucide icons rendered successfully!");
-		  } else {
-			console.warn("[SidebarUI] Lucide not ready yet — retrying in 250ms...");
-			setTimeout(tryLucideIcons, 250);
-		  }
-		}
-	  
-		// Start trying to render Lucide icons
+
+		setup.SidebarUI.startAutoRefresh();
 		tryLucideIcons();
-	  },
-	  
-  
-	  toggleSidebar() {
+	},
+
+	toggleSidebar() {
 		const sidebar = document.getElementById("custom-sidebar");
 		const arrow = document.getElementById("sidebar-arrow");
+		const toggleButton = document.getElementById("sidebar-toggle");
 
 		if (!sidebar) {
 			console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
@@ -4640,31 +4692,242 @@ setup.SidebarUI = {
 		}
 
 		sidebar.classList.toggle("collapsed");
+		const isCollapsed = sidebar.classList.contains("collapsed");
 
 		if (arrow) {
-			const isCollapsed = sidebar.classList.contains("collapsed");
 			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
 		}
 
-		if (sidebar.classList.contains("collapsed")) {
+		if (isCollapsed) {
 			document.body.classList.add("sidebar-collapsed");
 		} else {
 			document.body.classList.remove("sidebar-collapsed");
 		}
 
-		console.log(`[SidebarUI] Sidebar is now ${sidebar.classList.contains("collapsed") ? "collapsed" : "expanded"}.`);
+		if (toggleButton) {
+			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
+		}
+
+		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
+	},
+
+	updateSidebar() {
+		const player = State.variables.player;
+		const world = State.variables.world;
+		const inventory = State.variables.inventory || [];
+
+		if (!player || !world) {
+			console.warn("[SidebarUI] Player or WorldState missing — cannot update sidebar.");
+			return;
+		}
+
+		// Top Info
+		updateText("sidebar-time", formatWorldTime(world.hour, world.minute, world.is24HourFormat));
+		updateText("sidebar-date", formatWorldDate(world.dayOfYear, world.year));
+		updateText("sidebar-location", world.locationName || "Unknown Location");
+
+		// Weather Icon
+		updateWeatherIcon(world.weather);
+
+		// Gold
+		const goldAmount = findGoldAmount(inventory);
+		updateText("sidebar-gold-amount", goldAmount);
+		updateText("summary-gold", abbreviateGold(goldAmount));
+
+		// Level + XP Bars
+		updateText("summary-level", `Lvl ${player.level}`);
+		updateExpBars(player);
+
+		// Status Bars
+		updateStatusBars(player);
+
+		// Status Icon Coloring
+		updateStatusIcon("summary-health", player.status.health, player.status.maxHealth);
+		updateStatusIcon("summary-fatigue", player.status.fatigue, player.status.maxFatigue, true);
+		updateStatusIcon("summary-composure", player.status.composure, player.status.maxComposure);
+		updateStatusIcon("summary-excitement", player.status.excitement, player.status.maxExcitement);
+
+		// Conditional Effects
+		updateConditionalStatusIcons(player.status);
+	},
+
+	startAutoRefresh() {
+		if (window.setup.SidebarUI._refreshTimer) {
+			clearInterval(window.setup.SidebarUI._refreshTimer);
+		}
+		window.setup.SidebarUI._refreshTimer = setInterval(() => {
+			setup.SidebarUI.updateSidebar();
+		}, 1000);
 	}
 };
-  
-  // Initialize Sidebar when Story is Ready
-  $(document).one(':storyready', function () {
-	if (setup.SidebarUI?.initialize) {
-	  setup.SidebarUI.initialize();
-	} else {
-	  console.error("[SidebarUI] Initialization failed: setup.SidebarUI missing.");
+
+/* ====================
+    Utility Functions
+==================== */
+
+// Generic text updater
+function updateText(id, text) {
+	const el = document.getElementById(id);
+	if (el) {
+		el.textContent = text;
 	}
-  });
-  
+}
+
+// Weather icon setter
+function updateWeatherIcon(weatherType) {
+	const icon = document.getElementById("sidebar-weather-icon");
+	if (!icon) return;
+
+	const weatherIcons = {
+		"Clear": "sun",
+		"Rain": "cloud-rain",
+		"Storm": "cloud-lightning",
+		"Snow": "cloud-snow",
+		"Fog": "cloud-fog"
+	};
+
+	const iconName = weatherIcons[weatherType] || "sun";
+	icon.setAttribute("data-lucide", iconName);
+
+	if (window.lucide) {
+		lucide.createIcons();
+	}
+}
+
+// Find Gold from Inventory
+function findGoldAmount(inventory) {
+	const goldItem = inventory.find(item => item.key === "gold_coin");
+	return goldItem ? goldItem.amount : 0;
+}
+
+// Abbreviate big gold numbers
+function abbreviateGold(amount) {
+	if (amount >= 1000000) {
+		return (amount / 1000000).toFixed(1) + "M";
+	} else if (amount >= 1000) {
+		return (amount / 1000).toFixed(1) + "K";
+	} else {
+		return amount.toString();
+	}
+}
+
+// Update both large and mini exp bars
+function updateExpBars(player) {
+	const mainFill = document.getElementById("exp-fill");
+	const miniFill = document.getElementById("exp-fill-mini");
+	const percent = Math.min((player.experience / player.experienceToNextLevel) * 100, 100);
+
+	if (mainFill) mainFill.style.width = `${percent}%`;
+	if (miniFill) miniFill.style.width = `${percent}%`;
+
+	updateText("exp-text", `${player.experience}/${player.experienceToNextLevel} XP`);
+}
+
+// Update sidebar status bars
+function updateStatusBars(player) {
+	const healthPercent = (player.status.health / player.status.maxHealth) * 100;
+	const fatiguePercent = (player.status.fatigue / player.status.maxFatigue) * 100;
+	const composurePercent = (player.status.composure / player.status.maxComposure) * 100;
+	const excitementPercent = (player.status.excitement / player.status.maxExcitement) * 100;
+
+	setFillWidth("health-fill", healthPercent);
+	setFillWidth("fatigue-fill", fatiguePercent);
+	setFillWidth("composure-fill", composurePercent);
+	setFillWidth("excitement-fill", excitementPercent);
+}
+
+// Set fill % width
+function setFillWidth(id, percent) {
+	const fill = document.getElementById(id);
+	if (fill) {
+		fill.style.width = `${Math.min(Math.max(percent, 0), 100)}%`;
+	}
+}
+
+// Status Icon Coloring
+function updateStatusIcon(iconId, current, max, inverse = false) {
+	const icon = document.getElementById(iconId);
+	if (!icon) return;
+
+	const ratio = current / max;
+
+	let color = "white";
+	if (inverse) {
+		if (ratio >= 0.75) color = "red";
+		else if (ratio >= 0.5) color = "orange";
+		else color = "green";
+	} else {
+		if (ratio <= 0.25) color = "red";
+		else if (ratio <= 0.5) color = "orange";
+		else color = "green";
+	}
+
+	icon.style.stroke = color;
+}
+
+// Update Conditional Effects
+function updateConditionalStatusIcons(status) {
+	const container = document.getElementById("summary-conditions");
+	if (!container) return;
+
+	container.innerHTML = "";
+
+	const effects = [
+		{ key: "poisoned", icon: "skull" },
+		{ key: "intoxicated", icon: "glass-water" },
+		{ key: "charmed", icon: "heart-handshake" },
+		{ key: "burning", icon: "flame" },
+		{ key: "bleeding", icon: "droplet" },
+		{ key: "stunned", icon: "zap-off" }
+	];
+
+	effects.forEach(effect => {
+		if (status[effect.key]) {
+			const newIcon = document.createElement("i");
+			newIcon.setAttribute("data-lucide", effect.icon);
+			newIcon.style.width = "16px";
+			newIcon.style.height = "16px";
+			container.appendChild(newIcon);
+		}
+	});
+
+	if (window.lucide) {
+		lucide.createIcons();
+	}
+}
+
+// Format World Time
+function formatWorldTime(hour, minute, is24h) {
+	if (is24h) {
+		return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+	} else {
+		const ampm = hour >= 12 ? "PM" : "AM";
+		const h12 = hour % 12 || 12;
+		return `${h12}:${minute.toString().padStart(2, "0")} ${ampm}`;
+	}
+}
+
+// Format World Date
+function formatWorldDate(dayOfYear, year) {
+	const seasons = ["Rain", "Sun", "Harvest", "Snow"];
+	const seasonLength = 100;
+	const seasonIndex = Math.floor((dayOfYear - 1) / seasonLength);
+	const seasonDay = ((dayOfYear - 1) % seasonLength) + 1;
+	const season = seasons[seasonIndex] || "Unknown";
+
+	return `${seasonDay} of ${season}, ${year} AI`;
+}
+
+// Retry loop for Lucide icons
+function tryLucideIcons() {
+	if (typeof lucide !== "undefined") {
+		lucide.createIcons();
+		console.log("[SidebarUI] Lucide icons rendered successfully!");
+	} else {
+		console.warn("[SidebarUI] Lucide not ready yet — retrying in 250ms...");
+		setTimeout(tryLucideIcons, 250);
+	}
+}
 /* twine-user-script #26: "adda.js" */
 /* twine-user-script #27: "allura.js" */
 /* Allura Conversation Options Phase 0 */
@@ -6520,10 +6783,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 ============================= --&gt;
 &lt;div id=&quot;custom-sidebar&quot;&gt;&lt;/div&gt;
 
-&lt;div id=&quot;sidebar-toggle&quot;&gt;
-  &lt;i id=&quot;sidebar-arrow&quot; data-lucide=&quot;arrow-left&quot;&gt;&lt;/i&gt;
-&lt;/div&gt;
-
 &lt;!-- =============================
 =         Overlay Panel          =
 ============================= --&gt;
@@ -6593,7 +6852,30 @@ You take a moment to catch your breath and find your tongue.
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
 &lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="53" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="53" name="Scene02_BrothelBar" tags="" position="350,725" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;
+
+You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
+
+At the moment, he&#39;s in the middle of mixing a drink — tossing a silver shaker through the air, flipping a small glass behind his back, and catching it without so much as glancing down. The movements are practiced, fluid, and somehow both showy and completely effortless.
+
+Without looking your way, he pours the drink with one final flourish and slides it across the bar to a waiting hand.
+
+Only then does he turn to you.
+
+&lt;&lt;speech &quot;bert&quot;&gt;&gt;Can I get you something to drink? Maybe something to loosen your inhibitions. Or sharpen them, if that’s more your taste.&lt;&lt;/speech&gt;&gt;
+
+His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfectly enunciated, with not a syllable wasted.
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;It&#39;s my birthday, actually. Thought I&#39;d treat myself.&lt;&lt;/speech&gt;&gt;
+
+&lt;&lt;speech &quot;bert&quot;&gt;&gt;In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?&lt;&lt;/speech&gt;&gt;
+
+**From here, you may:**
+[[Ask for something strong.|Scene02_Bar_StrongDrink]]
+[[Ask for something sweet.|Scene02_Bar_SweetDrink]]
+[[Tell him to surprise you.|Scene02_Bar_SurpriseMe]]
+[[Ask what he recommends.|Scene02_Bar_AskBert]]
+[[Decide not to drink after all.|Scene02_Bar_NoThanks]]</tw-passagedata><tw-passagedata pid="54" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn&#39;t need to.
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ohh... I did not know ze night would bring me such a &lt;strong&gt;beautiful&lt;/strong&gt; gift.&lt;&lt;/speech&gt;&gt;
@@ -6619,7 +6901,7 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it&#39;s amusement or anticipation, you can&#39;t tell.
 
-&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="Scene02_TalkToMaleHost" tags="" position="475,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Scene02_TalkToMaleHost" tags="" position="600,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
@@ -6655,7 +6937,7 @@ From here, you may:
 [[Ask about the bracelet.|Scene02_MaleHost_Bracelet]]
 [[Tell him he seems different than the others.|Scene02_MaleHost_Different]]
 [[Ask if he still sings.|Scene02_MaleHost_Singing]]
-[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="55" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="56" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
 You walk up the few steps, pull on the handle, open the door and step inside.  
@@ -6676,7 +6958,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="56" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="57" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
@@ -6702,7 +6984,7 @@ From here, you may:
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
 [[Follow Marie and try to speak with her.|Scene02_TalkToMarie]]
-[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="57" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="58" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -6738,7 +7020,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="58" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="59" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -6778,7 +7060,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="59" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="60" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -6786,7 +7068,7 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt; /*need to double check this syntax because I wrote it at work and I suck */
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
@@ -6806,7 +7088,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="61" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="62" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King’s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -6817,7 +7099,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="62" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="63" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one’s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -6830,7 +7112,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you’ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="63" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="64" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -6844,12 +7126,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="64" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="65" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="65" name="HarrocDialogueMenu" tags="" position="375,700" size="100,100">&lt;ul&gt;
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="66" name="HarrocDialogueMenu" tags="" position="375,700" size="100,100">&lt;ul&gt;
     &lt;li&gt;&lt;&lt;link &quot;Ask for a drink&quot;&gt;&gt;&lt;&lt;replace &quot;#harroc-dialogue&quot;&gt;&gt;
         &lt;p&gt;&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Got anything else strong and local?&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
         &lt;p&gt;&lt;&lt;speech &quot;harroc&quot;&gt;&gt;Plenty. Got something aged in pine barrels, bitter enough to scare a ghost. Or something sweet, if you’re soft that way.&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
@@ -6866,7 +7148,7 @@ You are one of few people left on the street. Most others find themselves coveri
         &lt;p&gt;You nod and finish your drink in silence, leaving Harroc to his work.&lt;/p&gt;
         [[Return to the tavern|ThreeSipsDragon_TheSpace]]
     &lt;&lt;/link&gt;&gt;&lt;/li&gt;
-&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="66" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;
+&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="67" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn’t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -6909,7 +7191,7 @@ His words, though jumbled, are slow and methodical. Rolling from his mouth like 
         [[Return to the tavern|ThreeSipsDragon_TheSpace]]
     &lt;&lt;/link&gt;&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;&lt;/replace&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;
+&lt;&lt;/replace&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 &lt;&lt;/if&gt;&gt;
@@ -6943,7 +7225,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceTable]]
 [[Approach the cloaked man in the corner.|Scene03_CloakedMan]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="68" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="69" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern’s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -6953,7 +7235,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn’t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="69" name="TestRealm_ConvoMinigame" tags="" position="1100,850" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="70" name="TestRealm_ConvoMinigame" tags="" position="1225,850" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata></tw-storydata>

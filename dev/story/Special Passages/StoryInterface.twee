@@ -20,10 +20,6 @@
 ============================= -->
 <div id="custom-sidebar"></div>
 
-<div id="sidebar-toggle">
-  <i id="sidebar-arrow" data-lucide="arrow-left"></i>
-</div>
-
 <!-- =============================
 =         Overlay Panel          =
 ============================= -->

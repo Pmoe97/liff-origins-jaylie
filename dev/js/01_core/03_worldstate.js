@@ -15,4 +15,4 @@ State.variables.world = {
     // === Environmental Flags (future expansion) ===
     specialEvent: null, // e.g., "Harvest Festival"
   };
-  
+  console.log("WorldData is loaded.");

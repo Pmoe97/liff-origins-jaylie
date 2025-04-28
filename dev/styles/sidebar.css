@@ -1,5 +1,5 @@
 /* =============================
-=        Sidebar Main         =
+=        Sidebar Main         
 ============================= */
 #custom-sidebar {
 	background: #111;
@@ -14,7 +14,7 @@
 }
 
 /* =============================
-=       Sidebar Topbar        =
+=       Sidebar Topbar        
 ============================= */
 #sidebar-topbar {
 	display: flex;
@@ -49,10 +49,23 @@
 	border: 1px solid #555;
 	cursor: pointer;
 	color: white;
+	padding: 4px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	min-width: 36px;
+	min-height: 36px;
+}
+
+#sidebar-arrow {
+	pointer-events: none;
 }
 
 /* =============================
-=      Sidebar Top Info       =
+=      Sidebar Top Info       
 ============================= */
 #sidebar-top-info {
 	display: flex;
@@ -84,7 +97,7 @@
 }
 
 /* =============================
-=       Sidebar Buttons       =
+=       Sidebar Buttons       
 ============================= */
 #custom-sidebar-buttons {
 	margin-top: 10px;
@@ -95,10 +108,7 @@
 	border-bottom: 1px solid #555;
 }
 
-.button-single {
-	display: flex;
-}
-
+.button-single,
 .button-pair {
 	display: flex;
 	gap: 6px;
@@ -134,7 +144,7 @@
 }
 
 /* =============================
-=         Status Bars         =
+=         Status Bars         
 ============================= */
 .status-bar {
 	display: flex;
@@ -150,13 +160,14 @@
 	overflow: hidden;
 }
 
-.status-bar i, 
+.status-bar i,
 .status-bar svg {
 	width: 18px;
 	height: 18px;
 	min-width: 18px;
 	min-height: 18px;
 	stroke: white;
+	pointer-events: none;
 }
 
 .status-bar span {
@@ -171,22 +182,15 @@
 	border-radius: 2px;
 	transition: width 0.4s ease, background 0.3s ease;
 	position: absolute;
-	left: 60px; /* leaves space for icon + label */
+	left: 60px;
 	right: 6px;
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: 0;
 }
 
-/* Make text/icons float above fill */
-.status-bar > i,
-.status-bar > span {
-	position: relative;
-	z-index: 1;
-}
-
 /* =============================
-=      Level and Exp Bars     =
+=      Level and Exp Bars     
 ============================= */
 #sidebar-level-exp {
 	padding: 8px 10px;
@@ -212,26 +216,49 @@
 }
 
 /* =============================
-=        Summary View         =
+=        Summary View         
 ============================= */
 #sidebar-summary {
-	display: none;
-	padding: 8px 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 6px;
+	padding: 6px 4px;
 	background: #181818;
 	border-bottom: 1px solid #333;
-	font-size: 0.75em;
+	font-size: 0.65em;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#summary-time,
+#summary-gold,
+#summary-level {
+	font-size: 0.7em;
+	text-align: center;
+	word-break: break-word;
 }
 
 #summary-top {
 	display: flex;
-	justify-content: space-between;
-	margin-bottom: 6px;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	width: 100%;
 }
 
 #summary-status-icons {
 	display: flex;
-	justify-content: space-around;
-	margin-bottom: 6px;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+#summary-status-icons i {
+	width: 18px;
+	height: 18px;
+	stroke-width: 2;
 }
 
 #summary-level-exp {
@@ -239,12 +266,14 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 4px;
+	width: 80%;
 }
 
 .exp-bar-mini {
 	background: rgba(255,255,255,0.05);
+	border: 1px solid #555;
 	height: 6px;
-	width: 80%;
+	width: 100%;
 	border-radius: 3px;
 	overflow: hidden;
 }
@@ -256,27 +285,65 @@
 	transition: width 0.4s ease;
 }
 
-/* =============================
-=     Collapsed Sidebar       =
-============================= */
-#custom-sidebar.collapsed {
-	width: 100px;
-	transition: width 0.4s ease;
+#summary-conditions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	width: 100%;
 }
 
-#custom-sidebar.collapsed #sidebar-top-info,
-#custom-sidebar.collapsed #sidebar-status-tracker,
-#custom-sidebar.collapsed #sidebar-level-exp,
-#custom-sidebar.collapsed #custom-sidebar-buttons {
+/* =============================
+=     Collapsed Sidebar       
+============================= */
+#custom-sidebar.collapsed {
+	width: 50px;
+}
+
+/* Hide navigation arrows */
+#custom-sidebar.collapsed #sidebar-nav {
 	display: none;
 }
 
-#custom-sidebar.collapsed #sidebar-summary {
-	display: block;
+/* Hide menu buttons (Character, Inventory, etc.) */
+#custom-sidebar.collapsed #custom-sidebar-buttons {
+	display: none !important;
+}
+
+/* Shrink status bars text */
+#custom-sidebar.collapsed .status-bar span {
+	display: none;
+}
+
+/* Shrink status bar fill left-right space */
+#custom-sidebar.collapsed .status-bar-fill {
+	left: 30px;
+	right: 4px;
+}
+
+/* Sidebar toggle (arrow button) stays clickable */
+#sidebar-toggle {
+	background: rgba(255,255,255,0.05);
+	border: 1px solid #555;
+	cursor: pointer;
+	color: white;
+	padding: 4px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+}
+
+/* Sidebar arrow not separately clickable */
+#sidebar-arrow {
+	pointer-events: none;
 }
 
 /* =============================
-=     Glow Effects Critical    =
+=     Glow Effects Critical    
 ============================= */
 .critical-status {
 	animation: glowPulse 1.5s infinite alternate;

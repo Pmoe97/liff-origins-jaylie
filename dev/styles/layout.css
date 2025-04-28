@@ -19,10 +19,6 @@
 	transition: transform 0.3s ease;
 }
 
-#custom-sidebar.collapsed {
-	transform: translateX(-220px);
-}
-
 #passages {
 	margin-left: 280px;
 	padding: 20px;

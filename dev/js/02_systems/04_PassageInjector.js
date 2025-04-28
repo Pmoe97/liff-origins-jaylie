@@ -33,3 +33,9 @@ $(document).on(':passagestart', function (ev) {
 		backdrop.innerHTML = ""; // Clear convo stuff when leaving passage
 	}
 });
+
+$(document).on(':passagerender', function() {
+	if (window.setup?.SidebarUI?.updateSummary) {
+		setup.SidebarUI.updateSummary();
+	}
+});

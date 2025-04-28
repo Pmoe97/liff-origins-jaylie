@@ -10,15 +10,8 @@ State.variables.player = {
   
 	// === Leveling ===
 	level: 1,
-	experience: 0,
+	experience: 69,
 	experienceToNextLevel: 100,
-  
-	// === Economy ===
-	gold: 0,
-	carryWeight: {
-	  current: 0,
-	  max: 100
-	},
   
 	// === Attributes (Perk-based) ===
 	attributes: {
@@ -76,11 +69,11 @@ State.variables.player = {
 	status: {
 	  health: 100,
 	  maxHealth: 100,
-	  fatigue: 0,
+	  fatigue: 25,
 	  maxFatigue: 100,
 	  composure: 100,
 	  maxComposure: 100,
-	  excitement: 0,
+	  excitement: 15,
 	  maxExcitement: 100,
   
 	  // Conditional Status Effects
@@ -92,4 +85,4 @@ State.variables.player = {
 	  stunned: false
 	}
   };
-  
+  console.log("PlayerData is loaded.");
