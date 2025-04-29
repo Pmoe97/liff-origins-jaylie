@@ -343,6 +343,21 @@
 }
 
 /* =============================
+=    Disabled Nav Buttons     
+============================= */
+.sidebar-nav-btn:disabled {
+	background: rgba(255, 255, 255, 0.02);
+	border: 1px solid #333;
+	color: #888;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.sidebar-nav-btn:disabled i {
+	stroke: #888;
+}
+
+/* =============================
 =     Glow Effects Critical    
 ============================= */
 .critical-status {

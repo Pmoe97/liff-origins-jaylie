@@ -30,22 +30,20 @@ Macro.add("SidebarUI", {
 		}
 
 		sidebar.innerHTML = `
-		<!-- Top Nav and Collapse -->
+			<!-- Top Nav and Collapse -->
 			<div id="sidebar-topbar">
-			<div id="sidebar-nav">
-				<button class="sidebar-nav-btn" onclick="setup.navBack()">
-					<i data-lucide="undo-2"></i>
-				</button>
-				<button class="sidebar-nav-btn" onclick="setup.navForward()">
-					<i data-lucide="redo-2"></i>
+				<div id="sidebar-nav">
+					<button id="sidebar-nav-back" class="sidebar-nav-btn" onclick="setup.navBack()">
+						<i data-lucide="undo-2"></i>
+					</button>
+					<button id="sidebar-nav-forward" class="sidebar-nav-btn" onclick="setup.navForward()">
+						<i data-lucide="redo-2"></i>
+					</button>
+				</div>
+				<button id="sidebar-toggle" type="button" class="sidebar-btn">
+					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
 				</button>
 			</div>
-			<button id="sidebar-toggle" type="button" class="sidebar-btn">
-				<i id="sidebar-arrow" data-lucide="arrow-left"></i>
-			</button>
-			</div>
-
-
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
@@ -221,11 +219,11 @@ Macro.add("dialogueChoice", {
 			setTimeout(() => {
 				// Recreate convoChoices inside convoBox
 				const box = document.getElementById("convoBox");
-				if (!document.getElementById("convoChoices") && box) {
-					const choices = document.createElement("div");
-					choices.id = "convoChoices";
-					box.appendChild(choices);
+				if (!document.getElementById("convoChoices")) {
+					console.warn("[dialogueChoice] convoChoices not found — cannot inject choice.");
+					return;
 				}
+				
 			
 				// Then reinject options
 				const npc = State.variables.currentNPC || "allura";
@@ -265,16 +263,12 @@ Macro.add("DialogueTree", {
 		}
 
 		// Clear old content
-		textBackdrop.innerHTML = `
-			<div id="convoLayoutContainer">
-				<div id="convoChoicesPanel">
-					<div id="convoChoices"></div>
-				</div>
-				<div id="convoBoxPanel">
-					<div id="convoBox"></div>
-				</div>
-			</div>
-		`;
+		const choices = document.getElementById("convoChoices");
+		if (!choices) {
+			console.warn("DialogueTree: convoChoices container not found. Dialogue layout may not be initialized.");
+			return;
+		}
+
 
 		// Load options for this character + phase
 		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
@@ -332,59 +326,14 @@ Macro.add("OpenConvoGame", {
 });
 
 /* Side-by-side Dialogue UI setup macros */
-Macro.add("StartDialogueLayout", {
+
+Macro.add('ClearSnapshots', {
 	handler() {
-		const backdrop = document.getElementById("text-backdrop");
-		const dynamicContent = document.getElementById("dynamic-content");
-
-		if (!dynamicContent || !backdrop) {
-			console.error("[Dialogue Layout] Missing containers.");
-			return;
+		if (typeof setup.clearSnapshots === 'function') {
+			setup.clearSnapshots();
+		} else {
+			console.warn("[ClearSnapshots] setup.clearSnapshots function not found.");
 		}
-
-		// Add dialogue mode class immediately for styling
-		backdrop.classList.add("in-dialogue");
-
-		// Defer building the split layout until AFTER passage renders
-		$(document).one(':passagerender', function () {
-			const passage = document.querySelector('#passages > .passage');
-			if (!passage) {
-				console.error("[Dialogue Layout] No passage content found after render.");
-				return;
-			}
-
-			const oldPassageHTML = passage.innerHTML; // capture text content AFTER SugarCube is done
-
-			dynamicContent.innerHTML = `
-				<div id="convoLayoutContainer">
-					<div id="convoChoicesPanel">
-						<div id="convoChoices"></div>
-					</div>
-					<div id="convoBoxPanel">
-						<div id="convoBox"></div>
-					</div>
-				</div>
-			`;
-
-			// Now inject the captured scene text into convoBox
-			const convoBox = document.getElementById("convoBox");
-			if (convoBox) {
-				convoBox.innerHTML = `<div class="convo-scene-intro">${oldPassageHTML}</div>`;
-			}
-		});
-	}
-});
-
-Macro.add("EndDialogueLayout", {
-	handler() {
-		const backdrop = document.getElementById("text-backdrop");
-		if (!backdrop) {
-			console.error("[Dialogue Layout] text-backdrop not found.");
-			return;
-		}
-
-		backdrop.classList.remove("in-dialogue");
-		backdrop.innerHTML = ""; // Clear conversation layout
 	}
 });
 

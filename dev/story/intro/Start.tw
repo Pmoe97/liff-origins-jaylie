@@ -1,5 +1,5 @@
 :: Start {"position":"175,125"}
-<<bg "default">>
+<<bg "default">><<ClearSnapshots>>
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
