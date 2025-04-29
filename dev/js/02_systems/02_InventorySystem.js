@@ -50,6 +50,8 @@ setup.renderStatEffects = function(effects) {
 };
 
 /* Macro: Add or Subtract Items from Inventory */
+/* Structure: <<additem "target" "itemId" amount>> */
+/* Example usage: <<additem "player" "gold_coin" 100>> */
 Macro.add("additem", {
 	handler() {
 		console.log("🔥 [additem] macro invoked — args:", this.args);

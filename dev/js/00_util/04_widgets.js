@@ -30,16 +30,22 @@ Macro.add("SidebarUI", {
 		}
 
 		sidebar.innerHTML = `
-			<!-- Top Nav and Collapse -->
+		<!-- Top Nav and Collapse -->
 			<div id="sidebar-topbar">
-				<div id="sidebar-nav">
-					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
-					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
-				</div>
-				<button id="sidebar-toggle" type="button" class="sidebar-btn">
-					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+			<div id="sidebar-nav">
+				<button class="sidebar-nav-btn" onclick="setup.navBack()">
+					<i data-lucide="undo-2"></i>
+				</button>
+				<button class="sidebar-nav-btn" onclick="setup.navForward()">
+					<i data-lucide="redo-2"></i>
 				</button>
 			</div>
+			<button id="sidebar-toggle" type="button" class="sidebar-btn">
+				<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+			</button>
+			</div>
+
+
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
@@ -329,24 +335,43 @@ Macro.add("OpenConvoGame", {
 Macro.add("StartDialogueLayout", {
 	handler() {
 		const backdrop = document.getElementById("text-backdrop");
-		if (!backdrop) {
-			console.error("[Dialogue Layout] text-backdrop not found.");
+		const dynamicContent = document.getElementById("dynamic-content");
+
+		if (!dynamicContent || !backdrop) {
+			console.error("[Dialogue Layout] Missing containers.");
 			return;
 		}
 
+		// Add dialogue mode class immediately for styling
 		backdrop.classList.add("in-dialogue");
 
-		// Inject new container structure
-		backdrop.innerHTML = `
-			<div id="convoLayoutContainer">
-				<div id="convoChoicesPanel">
-					<div id="convoChoices"></div>
+		// Defer building the split layout until AFTER passage renders
+		$(document).one(':passagerender', function () {
+			const passage = document.querySelector('#passages > .passage');
+			if (!passage) {
+				console.error("[Dialogue Layout] No passage content found after render.");
+				return;
+			}
+
+			const oldPassageHTML = passage.innerHTML; // capture text content AFTER SugarCube is done
+
+			dynamicContent.innerHTML = `
+				<div id="convoLayoutContainer">
+					<div id="convoChoicesPanel">
+						<div id="convoChoices"></div>
+					</div>
+					<div id="convoBoxPanel">
+						<div id="convoBox"></div>
+					</div>
 				</div>
-				<div id="convoBoxPanel">
-					<div id="convoBox"></div>
-				</div>
-			</div>
-		`;
+			`;
+
+			// Now inject the captured scene text into convoBox
+			const convoBox = document.getElementById("convoBox");
+			if (convoBox) {
+				convoBox.innerHTML = `<div class="convo-scene-intro">${oldPassageHTML}</div>`;
+			}
+		});
 	}
 });
 

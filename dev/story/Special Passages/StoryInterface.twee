@@ -11,7 +11,9 @@
 
 <div id="text-container">
   <div id="text-backdrop">
-    <!-- SugarCube will inject content here automatically -->
+    <div id="dynamic-content">
+      <!-- Dynamic passage content OR dialogue layout will live here -->
+    </div>
   </div>
 </div>
 

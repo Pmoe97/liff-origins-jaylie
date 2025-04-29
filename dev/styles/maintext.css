@@ -81,7 +81,7 @@ body:not(.sidebar-collapsed) #text-container {
 
 /* === Dialogue Mode (Expanding Slightly) === */
 #text-backdrop.in-dialogue {
-  max-width: 1100px;
+  max-width: 1200px;
   min-height: 500px;
 }
 

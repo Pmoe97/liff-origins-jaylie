@@ -1347,7 +1347,7 @@ body:not(.sidebar-collapsed) #text-container {
 
 /* === Dialogue Mode (Expanding Slightly) === */
 #text-backdrop.in-dialogue {
-  max-width: 1100px;
+  max-width: 1200px;
   min-height: 500px;
 }
 
@@ -2160,7 +2160,126 @@ body:not(.sidebar-collapsed) #text-container {
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "03_setup_sidebarui.js" */
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "01_SnapshotNav.js" */
+/* ===============================
+   SNAPSHOT SYSTEM
+   =============================== */
+
+   setup.Snapshots = [];
+   setup.CurrentSnapshotIndex = -1;
+   setup.MaxSnapshots = 10;
+   
+   // Track UI states manually
+   setup.getUIState = function () {
+       return {
+           dialogueMode: State.getVar('_dialogueMode') || false,
+           shopOpen: State.getVar('_shopOpen') || false,
+           // Add more custom UI states here
+       };
+   };
+   
+   setup.applyUIState = function (uiState) {
+       if (uiState.dialogueMode !== undefined) State.setVar('_dialogueMode', uiState.dialogueMode);
+       if (uiState.shopOpen !== undefined) State.setVar('_shopOpen', uiState.shopOpen);
+       // Apply more custom UI states here
+   };
+   
+   setup.takeSnapshot = function () {
+	const snapshot = {
+		variables: clone(State.variables),
+		temporary: clone(State.temporary),
+		uiState: setup.getUIState(),
+		passageName: passage(), // Optional: capture passage name for safety
+	};
+
+	setup.Snapshots.push(snapshot);
+
+	if (setup.Snapshots.length > setup.MaxSnapshots) {
+		setup.Snapshots.shift();
+	}
+
+	setup.CurrentSnapshotIndex = setup.Snapshots.length - 1;
+
+	// 🧠 Save to localStorage
+	setup.saveSnapshotsToStorage();
+    };
+    setup.saveSnapshotsToStorage = function () {
+	try {
+		const serialized = JSON.stringify(setup.Snapshots);
+		window.localStorage.setItem('game_snapshots', serialized);
+	} catch (error) {
+		console.error("[Snapshot] Failed to save snapshots:", error);
+	}
+    };
+
+   
+   setup.loadSnapshot = function (index) {
+       if (index < 0 || index >= setup.Snapshots.length) {
+           console.warn("[Snapshot] Tried to load invalid index:", index);
+           return;
+       }
+   
+       const snapshot = setup.Snapshots[index];
+       if (!snapshot) {
+           console.warn("[Snapshot] No snapshot at index:", index);
+           return;
+       }
+   
+       // Overwrite states
+       Object.assign(State.variables, clone(snapshot.variables));
+       Object.assign(State.temporary, clone(snapshot.temporary));
+       setup.applyUIState(snapshot.uiState);
+   
+       setup.CurrentSnapshotIndex = index;
+   
+       // Reload the correct passage
+       Engine.play(snapshot.passageName, true);
+   };
+   
+   setup.navBack = function () {
+       if (setup.CurrentSnapshotIndex > 0) {
+           setup.loadSnapshot(setup.CurrentSnapshotIndex - 1);
+       } else {
+           UI.alert("No earlier snapshots available.");
+       }
+   };
+   
+   setup.navForward = function () {
+       if (setup.CurrentSnapshotIndex < setup.Snapshots.length - 1) {
+           setup.loadSnapshot(setup.CurrentSnapshotIndex + 1);
+       } else {
+           UI.alert("No newer snapshots available.");
+       }
+   };
+   
+   // Auto-snapshot after every passage render
+   $(document).on(':passagedisplay', function (event) {
+       setup.takeSnapshot();
+   });
+   
+   setup.loadSnapshotsFromStorage = function () {
+	try {
+		const serialized = window.localStorage.getItem('game_snapshots');
+		if (serialized) {
+			setup.Snapshots = JSON.parse(serialized);
+			setup.CurrentSnapshotIndex = setup.Snapshots.length - 1;
+			console.log("[Snapshot] Snapshots restored from storage.");
+		}
+	} catch (error) {
+		console.error("[Snapshot] Failed to load snapshots:", error);
+		setup.Snapshots = [];
+		setup.CurrentSnapshotIndex = -1;
+	}
+};
+
+// Call it immediately when game starts
+setup.loadSnapshotsFromStorage();
+
+   /* ===============================
+      END SNAPSHOT SYSTEM
+      =============================== */
+   
+/* twine-user-script #2: "03_setup_sidebarui.js" */
 if (typeof setup === "undefined") {
 	setup = {};
 }
@@ -2168,7 +2287,7 @@ if (typeof setup === "undefined") {
 if (typeof setup.SidebarUI === "undefined") {
 	setup.SidebarUI = {};
 }
-/* twine-user-script #2: "04_widgets.js" */
+/* twine-user-script #3: "04_widgets.js" */
 console.log("✅ widgets.js loaded");
 
 /* Background Macro */
@@ -2201,16 +2320,22 @@ Macro.add("SidebarUI", {
 		}
 
 		sidebar.innerHTML = `
-			<!-- Top Nav and Collapse -->
+		<!-- Top Nav and Collapse -->
 			<div id="sidebar-topbar">
-				<div id="sidebar-nav">
-					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.backward()">←</button>
-					<button class="sidebar-nav-btn" onclick="SugarCube.Engine.forward()">→</button>
-				</div>
-				<button id="sidebar-toggle" type="button" class="sidebar-btn">
-					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+			<div id="sidebar-nav">
+				<button class="sidebar-nav-btn" onclick="setup.navBack()">
+					<i data-lucide="undo-2"></i>
+				</button>
+				<button class="sidebar-nav-btn" onclick="setup.navForward()">
+					<i data-lucide="redo-2"></i>
 				</button>
 			</div>
+			<button id="sidebar-toggle" type="button" class="sidebar-btn">
+				<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+			</button>
+			</div>
+
+
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
@@ -2500,24 +2625,43 @@ Macro.add("OpenConvoGame", {
 Macro.add("StartDialogueLayout", {
 	handler() {
 		const backdrop = document.getElementById("text-backdrop");
-		if (!backdrop) {
-			console.error("[Dialogue Layout] text-backdrop not found.");
+		const dynamicContent = document.getElementById("dynamic-content");
+
+		if (!dynamicContent || !backdrop) {
+			console.error("[Dialogue Layout] Missing containers.");
 			return;
 		}
 
+		// Add dialogue mode class immediately for styling
 		backdrop.classList.add("in-dialogue");
 
-		// Inject new container structure
-		backdrop.innerHTML = `
-			<div id="convoLayoutContainer">
-				<div id="convoChoicesPanel">
-					<div id="convoChoices"></div>
+		// Defer building the split layout until AFTER passage renders
+		$(document).one(':passagerender', function () {
+			const passage = document.querySelector('#passages > .passage');
+			if (!passage) {
+				console.error("[Dialogue Layout] No passage content found after render.");
+				return;
+			}
+
+			const oldPassageHTML = passage.innerHTML; // capture text content AFTER SugarCube is done
+
+			dynamicContent.innerHTML = `
+				<div id="convoLayoutContainer">
+					<div id="convoChoicesPanel">
+						<div id="convoChoices"></div>
+					</div>
+					<div id="convoBoxPanel">
+						<div id="convoBox"></div>
+					</div>
 				</div>
-				<div id="convoBoxPanel">
-					<div id="convoBox"></div>
-				</div>
-			</div>
-		`;
+			`;
+
+			// Now inject the captured scene text into convoBox
+			const convoBox = document.getElementById("convoBox");
+			if (convoBox) {
+				convoBox.innerHTML = `<div class="convo-scene-intro">${oldPassageHTML}</div>`;
+			}
+		});
 	}
 });
 
@@ -2534,7 +2678,7 @@ Macro.add("EndDialogueLayout", {
 	}
 });
 
-/* twine-user-script #3: "cssPathFix.js" */
+/* twine-user-script #4: "cssPathFix.js" */
 if (
 	document.location.href.toLowerCase().includes("/twine/scratch/") ||
 	document.location.href.toLowerCase().includes("/temp/") ||
@@ -2552,13 +2696,13 @@ if (
 		});
 	});
 }
-/* twine-user-script #4: "01_initVars.js" */
+/* twine-user-script #5: "01_initVars.js" */
 State.variables.inventory_player = {};
 State.variables.DEBUG = true;
 
 // Tavern state tracking
 State.variables.seenTavernSpace = false;
-/* twine-user-script #5: "02_playerdata.js" */
+/* twine-user-script #6: "02_playerdata.js" */
 // dev/js/01_core/02_playerdata.js
 
 State.variables.player = {
@@ -2647,7 +2791,7 @@ State.variables.player = {
 	}
   };
   console.log("PlayerData is loaded.");
-/* twine-user-script #6: "03_worldstate.js" */
+/* twine-user-script #7: "03_worldstate.js" */
 State.variables.world = {
     // === Time and Calendar ===
     dayOfYear: 1,     // 1-400
@@ -2666,7 +2810,7 @@ State.variables.world = {
     specialEvent: null, // e.g., "Harvest Festival"
   };
   console.log("WorldData is loaded.");
-/* twine-user-script #7: "04_character.js" */
+/* twine-user-script #8: "04_character.js" */
 /* ================================
 =  Character Dialogue & Avatars  =
 ================================ */
@@ -2863,7 +3007,7 @@ State.variables.characters = {
 };
   
   /* Character Dialogue & Avatars - End */
-/* twine-user-script #8: "05_sidebarlogic.js" */
+/* twine-user-script #9: "05_sidebarlogic.js" */
 /* Sidebar Update Handlers */
 setup.SidebarUI.update = function () {
 	if (!State.variables.player || !State.variables.world) {
@@ -3058,7 +3202,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 	if (goldSummary) goldSummary.textContent = formattedGold;
   };
   
-/* twine-user-script #9: "06_loader.js" */
+/* twine-user-script #10: "06_loader.js" */
 (() => {
 	function getMessage(O) {
 		if (O == null) return 'unknown error';
@@ -3089,7 +3233,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 		}
 	});
 })();
-/* twine-user-script #10: "07_lucide.js" */
+/* twine-user-script #11: "07_lucide.js" */
 var lucideScript = document.createElement('script');
 lucideScript.src = 'https://unpkg.com/lucide@latest';
 lucideScript.onload = function () {
@@ -3108,7 +3252,7 @@ function renderLucideIconsSafely() {
 		setTimeout(renderLucideIconsSafely, 50);
 	}
 }
-/* twine-user-script #11: "08_debugTools.js" */
+/* twine-user-script #12: "08_debugTools.js" */
 postdisplay["logItemData"] = function () {
 	if (setup.ItemData) {
 		console.log("📦 Available items:", Object.keys(setup.ItemData));
@@ -3116,7 +3260,7 @@ postdisplay["logItemData"] = function () {
 		console.error("❌ setup.ItemData is not defined.");
 	}
 };
-/* twine-user-script #12: "01_InventoryLibrary.js" */
+/* twine-user-script #13: "01_InventoryLibrary.js" */
 /* =============================
 = ITEM METADATA LOADER - START =
 ============================= */
@@ -3437,7 +3581,7 @@ console.log("✅ ItemData loaded:", Object.keys(setup.ItemData));
 /* =============================
 = ITEM METADATA LOADER - END =
 ============================= */
-/* twine-user-script #13: "02_InventorySystem.js" */
+/* twine-user-script #14: "02_InventorySystem.js" */
 
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
@@ -3490,6 +3634,8 @@ setup.renderStatEffects = function(effects) {
 };
 
 /* Macro: Add or Subtract Items from Inventory */
+/* Structure: <<additem "target" "itemId" amount>> */
+/* Example usage: <<additem "player" "gold_coin" 100>> */
 Macro.add("additem", {
 	handler() {
 		console.log("🔥 [additem] macro invoked — args:", this.args);
@@ -3678,7 +3824,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.setup = setup;
-/* twine-user-script #14: "03_overlayManager.js" */
+/* twine-user-script #15: "03_overlayManager.js" */
 window.openOverlay = function (source) {
 	const body = document.getElementById("overlay-body");
 	if (!body) return;
@@ -3725,28 +3871,37 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 		console.error(`❌ Error loading overlay file '${filename}':`, err);
 	}
 };
-/* twine-user-script #15: "04_PassageInjector.js" */
+/* twine-user-script #16: "04_PassageInjector.js" */
 // ===============================
 //  Move Rendered Passage Content
 // ===============================
 $(document).on(':passagerender', function () {
 	setTimeout(function () {
 		const passage = document.querySelector('#passages > .passage');
-		const backdrop = document.getElementById('text-backdrop');
+		const dynamicContent = document.getElementById('dynamic-content');
 
-		if (passage && backdrop) {
-			// FIX: preserves injected DOM nodes like convoBox instead of wiping them out
-			backdrop.replaceChildren(passage);
-		} else {
-			console.warn("⚠️ Could not move passage content:", {
-				passageFound: !!passage,
-				backdropFound: !!backdrop
-			});
+		// Skip if dynamic-content not found
+		if (!dynamicContent) {
+			console.error("[PassageInjector] dynamic-content container missing.");
+			return;
 		}
 
+		// Skip if we are in dialogue mode (manual control active)
+		const backdrop = document.getElementById('text-backdrop');
+		if (backdrop?.classList.contains('in-dialogue')) {
+			console.log("[PassageInjector] In dialogue mode — skipping normal passage injection.");
+			return;
+		}
 
+		// Normal passage move
+		if (passage) {
+			dynamicContent.replaceChildren(passage);
+		} else {
+			console.warn("⚠️ Could not find rendered passage during passage render.");
+		}
 	}, 0);
 });
+
 
 // ===============================
 //  Clean Up Dialogue Layout on Passage Start
@@ -3767,7 +3922,20 @@ $(document).on(':passagerender', function() {
 		setup.SidebarUI.updateSummary();
 	}
 });
-/* twine-user-script #16: "05_BackgroundSystem.js" */
+
+$(document).on(':passagestart', function () {
+	const backdrop = document.getElementById("text-backdrop");
+	const dynamicContent = document.getElementById("dynamic-content");
+	if (!backdrop || !dynamicContent) return;
+
+	// If convo layout is present, reset cleanly
+	if (backdrop.classList.contains("in-dialogue")) {
+		console.log("[PassageStart] Exiting dialogue mode.");
+		backdrop.classList.remove("in-dialogue");
+		dynamicContent.innerHTML = ""; // clear convo layout
+	}
+});
+/* twine-user-script #17: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
 	const bgDiv = document.getElementById("background-image");
 
@@ -3784,7 +3952,7 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
-/* twine-user-script #17: "06_ShopSystem.js" */
+/* twine-user-script #18: "06_ShopSystem.js" */
 setup.ShopSystem = {
   activeCategory: "all",
 
@@ -3899,7 +4067,7 @@ setup.ShopSystem = {
     // Return to conversation state here if needed
   }
 };
-/* twine-user-script #18: "08_conversation_minigame.js" */
+/* twine-user-script #19: "08_conversation_minigame.js" */
 // 08_conversation_minigame.js
 
 setup.ConvoGame = {
@@ -4318,7 +4486,7 @@ setup.ConvoGame = {
   },
   
 };
-/* twine-user-script #19: "09_conversation_ui.js" */
+/* twine-user-script #20: "09_conversation_ui.js" */
 // 09_conversation_ui.js
 
 setup.ConvoUI = {
@@ -4444,8 +4612,14 @@ setup.ConvoUI.animateChoices = function(container) {
 
 
 
-/* twine-user-script #20: "10_dialogueSetup.js" */
-/* twine-user-script #21: "12_SexScene_Logic.js" */
+/* twine-user-script #21: "10_dialogueSetup.js" */
+setup.clearConvoChoices = function() {
+	const choicesPanel = document.getElementById("convoChoices");
+	if (choicesPanel) {
+		choicesPanel.innerHTML = "";
+	}
+};
+/* twine-user-script #22: "12_SexScene_Logic.js" */
 // SexScene-Logic.js
 // Initial draft of NSFW system handler for Liff Origins: Jaylie and Adventures of Liff
 
@@ -4535,7 +4709,7 @@ setup.SexScene = {
     }
   };
   
-/* twine-user-script #22: "15_npcSystems.js" */
+/* twine-user-script #23: "15_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -4578,7 +4752,7 @@ setup.filterNPCs = function (criteria = {}) {
         });
     });
 };
-/* twine-user-script #23: "01_speechMacro.js" */
+/* twine-user-script #24: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -4604,7 +4778,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #24: "02_fogtextMacro.js" */
+/* twine-user-script #25: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -4658,7 +4832,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #25: "03_sidebar.js" */
+/* twine-user-script #26: "03_sidebar.js" */
 // dev/js/03_sidebar.js
 
 setup.SidebarUI = {
@@ -4928,8 +5102,8 @@ function tryLucideIcons() {
 		setTimeout(tryLucideIcons, 250);
 	}
 }
-/* twine-user-script #26: "adda.js" */
-/* twine-user-script #27: "allura.js" */
+/* twine-user-script #27: "adda.js" */
+/* twine-user-script #28: "allura.js" */
 /* Allura Conversation Options Phase 0 */
 setup.allura_Conversation_Options_Phase0 = function () {
     setup.addChoices([
@@ -4954,7 +5128,7 @@ setup.allura_Conversation_Options_Phase0 = function () {
   };
   
   
-/* twine-user-script #28: "bert.js" */
+/* twine-user-script #29: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
     setup.addChoices([
       ["I want to get to know you better.", "Bert_DenyMinigame"],
@@ -4965,7 +5139,7 @@ setup.bert_Conversation_Options_Phase0 = function () {
     ]);
   };
   
-/* twine-user-script #29: "darian.js" */
+/* twine-user-script #30: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -5004,15 +5178,15 @@ setup.darian_Conversation_Options_Phase1 = function () {
       ["Let’s go back to lighter conversation.", "PHASE_0"]
     ]);
   };
-/* twine-user-script #30: "eristan.js" */
-/* twine-user-script #31: "harroc.js" */
-/* twine-user-script #32: "kallot.js" */
-/* twine-user-script #33: "marie.js" */
+/* twine-user-script #31: "eristan.js" */
+/* twine-user-script #32: "harroc.js" */
+/* twine-user-script #33: "kallot.js" */
+/* twine-user-script #34: "marie.js" */
 /* Marie Phase 0 Conversation Options */
 
 /* Marie Phase 1 Conversation Options */
-/* twine-user-script #34: "tesska.js" */
-/* twine-user-script #35: "999_main.js" */
+/* twine-user-script #35: "tesska.js" */
+/* twine-user-script #36: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -5036,7 +5210,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #36: "convo_prompts.js" */
+/* twine-user-script #37: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -5218,7 +5392,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #37: "convo_tropes.js" */
+/* twine-user-script #38: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -5656,7 +5830,7 @@ setup.ConvoTropesByTier = {
     }
   ]
 };
-/* twine-user-script #38: "inclinations.js" */
+/* twine-user-script #39: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -5814,7 +5988,7 @@ setup.Inclinations = {
     }
   };
   
-/* twine-user-script #39: "motivations.js" */
+/* twine-user-script #40: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -5902,7 +6076,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #40: "npc_archetypes.js" */
+/* twine-user-script #41: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -5932,7 +6106,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #41: "npc_names.js" */
+/* twine-user-script #42: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -5947,7 +6121,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #42: "personality_traits.js" */
+/* twine-user-script #43: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -6009,7 +6183,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #43: "social_styles.js" */
+/* twine-user-script #44: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -6082,7 +6256,7 @@ setup.SocialStyles = {
     }
   };
   
-/* twine-user-script #44: "DataAuditor.js" */
+/* twine-user-script #45: "DataAuditor.js" */
 setup.DataAuditor = {
     listUniqueValues(objectArray, property) {
       const values = objectArray.flatMap(item => {
@@ -6202,7 +6376,7 @@ void audit.prompts.themes();
 ===========================================================
 */
 
-/* twine-user-script #45: "random-event.js" */
+/* twine-user-script #46: "random-event.js" */
 // repository: https://github.com/TweePower/twee-sugarcube-random-events
 
 const debugLevel = 3; // max debug level
@@ -6529,8 +6703,9 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Allura_SureOfSelf" tags="widget" position="975,100" size="100,100">&lt;&lt;widget &quot;Allura_SureOfSelf&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem very sure of yourself.&lt;&lt;/speech&gt;&gt;
-  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ah, but confidence is only dangerous if it’s misplaced, no? Would you prefer I tremble in your presence instead, mon trésor?&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ah, but confidence is only dangerous if it’s misplaced, no?&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="Allura_WhyHere" tags="widget" position="1100,100" size="100,100">&lt;&lt;widget &quot;Allura_WhyHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
@@ -6774,7 +6949,9 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 &lt;div id=&quot;text-container&quot;&gt;
   &lt;div id=&quot;text-backdrop&quot;&gt;
-    &lt;!-- SugarCube will inject content here automatically --&gt;
+    &lt;div id=&quot;dynamic-content&quot;&gt;
+      &lt;!-- Dynamic passage content OR dialogue layout will live here --&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 

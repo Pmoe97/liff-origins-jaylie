@@ -3,8 +3,9 @@
 <<widget "Allura_SureOfSelf">>
 <<append "#convoBox">>
   <<speech "jaylie">>You seem very sure of yourself.<</speech>>
-  <<speech "allura">>Ah, but confidence is only dangerous if it’s misplaced, no? Would you prefer I tremble in your presence instead, mon trésor?<</speech>>
+  <<speech "allura">>Ah, but confidence is only dangerous if it’s misplaced, no?<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
