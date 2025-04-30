@@ -187,59 +187,42 @@ Macro.add("SidebarUI", {
 
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
+	skipArgs: false,
 	handler() {
-		const label = this.args[0];
-		const target = this.args[1];
-		if (!label || !target) return;
+		const [label, target, reuseFlag] = this.args;
+		const reusable = reuseFlag === "reusable";
 
-		if (!State.variables.usedDialogueOptions) {
-			State.variables.usedDialogueOptions = {};
+		if (!label || !target) {
+			console.warn("<<dialogueChoice>> missing label or target");
+			return;
 		}
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
-		}
+		const $button = $("<p>")
+			.addClass("dialogue-choice") // <-- should be styled in CSS
+			.text(label)
+			.css("cursor", "pointer") // fallback if CSS fails
+			.on("click", () => {
+				$button.remove();
 
-		const choiceHTML = `<p><a class="link-internal" role="button">${label}</a></p>`;
-		const $dialoguechoice = jQuery(choiceHTML);
-
-		$dialoguechoice.on("click", () => {
-			// Track usage
-			if (!target.includes("StartMinigame") && !target.includes("Nevermind")) {
-				State.variables.usedDialogueOptions[target] = true;
-			}
-
-			// Clear menu
-			$("#convoChoices").remove();
-
-			// Display selected response
-			Wikifier.wikifyEval(`<<${target}>>`);
-
-			// Reinject choices just after DOM has updated
-			setTimeout(() => {
-				// Recreate convoChoices inside convoBox
-				const box = document.getElementById("convoBox");
-				if (!document.getElementById("convoChoices")) {
-					console.warn("[dialogueChoice] convoChoices not found — cannot inject choice.");
-					return;
+				if (!reusable) {
+					State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
+					State.variables.usedDialogueOptions[target] = true;
 				}
-				
-			
-				// Then reinject options
-				const npc = State.variables.currentNPC || "allura";
-				const phase = State.variables.currentPhase ?? 0;
-			
-				const func = setup[`${npc}_Conversation_Options_Phase${phase}`];
-				if (typeof func === "function") {
-					console.log(`[DEBUG] Re-injecting dialogue options for ${npc}, phase ${phase}`);
-					func();
-				}
-			}, 25);			
-		});
 
-		$("#convoChoices").append($dialoguechoice);
+				const $box = $("#convoBox");
+				if ($box.length) {
+					Wikifier.wikifyEval(`<<${target}>>`);
+				} else {
+					console.warn("[dialogueChoice] convoBox not found — cannot inject choice.");
+				}
+			});
+
+		this.output.append($button[0]); // Use native DOM node
 	}
 });
+
+
+
 
 
 
@@ -255,47 +238,77 @@ Macro.add("DialogueTree", {
 			return;
 		}
 
-		// Create new convo layout container inside text-backdrop
-		const textBackdrop = document.getElementById("text-backdrop");
-		if (!textBackdrop) {
-			console.error("DialogueTree: text-backdrop not found.");
-			return;
+		// Save state for reinjection if needed
+		State.variables.currentNPC = characterName;
+		State.variables.currentPhase = phase;
+
+		// Clear any lingering choices
+		if (typeof setup.clearConvoChoices === "function") {
+			setup.clearConvoChoices();
 		}
 
-		// Clear old content
-		const choices = document.getElementById("convoChoices");
-		if (!choices) {
-			console.warn("DialogueTree: convoChoices container not found. Dialogue layout may not be initialized.");
-			return;
-		}
-
-
-		// Load options for this character + phase
+		// Validate setup function
 		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
-		if (typeof setupFunc === "function") {
-			setupFunc();
-		} else {
+		if (typeof setupFunc !== "function") {
 			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
+			return;
 		}
+
+		// Dynamically wrap and inject options
+		setTimeout(() => {
+			const choiceEl = document.getElementById("convoChoices");
+			if (!choiceEl) {
+				console.warn("DialogueTree: #convoChoices not found.");
+				return;
+			}
+
+			// Build the choice HTML and wrap it
+			const output = [];
+			setupFunc(); // this calls setup.addChoices(), which already uses <<dialogueChoice>>
+
+			// Note: we no longer try to wrap <<DialogueTree>> inside LayoutConvoChoices
+			// setup.addChoices takes care of formatting the output properly
+		}, 0);
 	}
 });
 
-
-
-/* Choice setup beautifier function */
 setup.addChoices = function (list) {
 	const $dialoguechoices = $("#convoChoices");
+	if (!$dialoguechoices.length) {
+		console.warn("[addChoices] convoChoices not found.");
+		return;
+	}
+
 	$dialoguechoices.empty();
 
-	list.forEach(([label, target]) => {
-		// Always include "Nevermind" or persistent options
-		const persistent = target.includes("StartMinigame") || target.includes("Nevermind");
+	list.forEach(([label, target, reuseFlag]) => {
+		const reusable = reuseFlag === "reusable";
+		const used = State.variables.usedDialogueOptions?.[target];
 
-		if (!persistent && State.variables.usedDialogueOptions?.[target]) return;
+		// Skip if used and not reusable
+		if (used && !reusable) return;
 
-		Wikifier.wikifyEval(`<<dialogueChoice "${label}" "${target}">>`);
+		// 🔧 Directly call the macro logic instead of wikifying it
+		const macro = Macro.get("dialogueChoice");
+		if (macro) {
+			try {
+				const dummyContext = {
+					args: [label, target, reuseFlag],
+					output: {
+						append: el => $dialoguechoices.append(el)
+					}
+				};
+				macro.handler.call(dummyContext);
+			} catch (err) {
+				console.error("Failed to render dialogueChoice:", label, err);
+			}
+		} else {
+			console.warn("dialogueChoice macro not found.");
+		}
 	});
 };
+
+
 
 /* In-line Convo Minigame Button/Launcher Insert Macro */
 /* <<OpenConvoGame "npcId">> to start */

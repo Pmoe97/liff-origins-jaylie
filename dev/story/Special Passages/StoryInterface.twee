@@ -11,9 +11,7 @@
 
 <div id="text-container">
   <div id="text-backdrop">
-    <div id="dynamic-content">
-      <!-- Dynamic passage content OR dialogue layout will live here -->
-    </div>
+    <!-- This will either get populated with dialogue layout OR reattached #dynamic-content -->
   </div>
 </div>
 

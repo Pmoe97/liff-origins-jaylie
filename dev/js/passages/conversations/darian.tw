@@ -4,7 +4,10 @@
   <<speech "jaylie">>So how long have you worked here?<</speech>>
   <<speech "darian">>Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_DoYouLikeJob [widget]
@@ -15,7 +18,10 @@
   <<speech "jaylie">>Ah, sorry... I didn’t mean it like that.<</speech>>
   <<speech "darian">>It’s alright. I don’t mind honest questions. I’d just rather answer them in ways that make people think.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_Bracelet [widget]
@@ -24,13 +30,18 @@
   <<speech "jaylie">>That bracelet... it looks important. Where did you get it?<</speech>>
   <<if $characters["darian"].trust >= 5>>
     <<speech "darian">>My sister gave it to me. She’s not around anymore. I wear it to remember the way *she* saw me—before the world taught me I had to be anything else.<</speech>>
+    <<run setup.clearConvoChoices()>>
+    <<LayoutConvoChoices>>
     <<run setup.Darian_Conversation_Options_SisterBranch()>>
+    <</LayoutConvoChoices>>
   <<else>>
     <<speech "darian">>Just an old gift. We don’t have to talk about it.<</speech>>
+    <<run setup.clearConvoChoices()>>
+    <<LayoutConvoChoices>>
     <<run setup.Darian_Conversation_Options_Phase0()>>
+    <</LayoutConvoChoices>>
   <</if>>
 <</append>>
-<<run setup.Darian_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Darian_GetDrink [widget]
@@ -42,7 +53,10 @@
   <<speech "darian">>Something warm. Gentle. A little sweet, but not too much. Like a breeze through velvet, if you can swing it.<</speech>>
   <<speech "bert">>Coming right up.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_StartMinigame [widget]
@@ -61,7 +75,10 @@
   <<speech "darian">>Beautiful. Kind to a fault. She’s the reason I ever set foot on a stage—used to beg me to sing for her when we were little. I think she believed I could charm the stars out of the sky if I tried hard enough.<</speech>>
   <<speech "darian">>But... I haven’t sung for anyone since she passed.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_Sister_HowDidSheDie [widget]
@@ -74,7 +91,10 @@
     <<speech "darian">>I... don’t think I want to talk about that. Not yet.<</speech>>
   <</if>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_Sister_BraceletMemory [widget]
@@ -84,7 +104,10 @@
   <<speech "darian">>It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.<</speech>>
   <<speech "darian">>It wasn’t just a gift. It was a promise—that I wasn’t alone.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_SisterBranch()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Darian_Sister_ReturnToMain [widget]
@@ -93,5 +116,8 @@
   <<speech "jaylie">>We can talk about something else now.<</speech>>
   <<speech "darian">>Of course. Whatever you need.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.Darian_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>

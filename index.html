@@ -883,6 +883,18 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   gap: 10px;
   padding-right: 10px;
 }
+
+#text-backdrop.in-dialogue #convoLayoutContainer {
+  display: flex;
+}
+
+#text-backdrop.in-dialogue #convoChoicesPanel {
+  width: 30%;
+}
+
+#text-backdrop.in-dialogue #convoBoxPanel {
+  width: 70%;
+}
 /* twine-user-stylesheet #6: "inventory.css" */
 /* =============================
 =         Inventory UI         =
@@ -1381,6 +1393,11 @@ body:not(.sidebar-collapsed) #text-container {
 /* === Current Active Passage === */
 .passage-in {
   opacity: 1 !important;
+}
+
+/* === Dynamic Content Container === */
+#dynamic-content {
+  width: 100%;
 }
 /* twine-user-stylesheet #9: "overlay.css" */
 /* =============================
@@ -2518,59 +2535,42 @@ Macro.add("SidebarUI", {
 
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
+	tags: null,
+	skipArgs: false,
 	handler() {
-		const label = this.args[0];
-		const target = this.args[1];
-		if (!label || !target) return;
+		const [label, target, reuseFlag] = this.args;
+		const reusable = reuseFlag === "reusable";
 
-		if (!State.variables.usedDialogueOptions) {
-			State.variables.usedDialogueOptions = {};
+		if (!label || !target) {
+			console.warn("<<dialogueChoice>> missing label or target");
+			return;
 		}
 
-		if (State.variables.DEBUG) {
-			console.log(`[DEBUG] Adding dialogueChoice: "${label}" → ${target}`);
-		}
+		const $button = $("<p>")
+			.addClass("dialogue-choice")
+			.html(label)
+			.on("click", () => {
+				$button.remove();
 
-		const choiceHTML = `<p><a class="link-internal" role="button">${label}</a></p>`;
-		const $dialoguechoice = jQuery(choiceHTML);
-
-		$dialoguechoice.on("click", () => {
-			// Track usage
-			if (!target.includes("StartMinigame") && !target.includes("Nevermind")) {
-				State.variables.usedDialogueOptions[target] = true;
-			}
-
-			// Clear menu
-			$("#convoChoices").remove();
-
-			// Display selected response
-			Wikifier.wikifyEval(`<<${target}>>`);
-
-			// Reinject choices just after DOM has updated
-			setTimeout(() => {
-				// Recreate convoChoices inside convoBox
-				const box = document.getElementById("convoBox");
-				if (!document.getElementById("convoChoices") && box) {
-					const choices = document.createElement("div");
-					choices.id = "convoChoices";
-					box.appendChild(choices);
+				if (!reusable) {
+					State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
+					State.variables.usedDialogueOptions[target] = true;
 				}
-			
-				// Then reinject options
-				const npc = State.variables.currentNPC || "allura";
-				const phase = State.variables.currentPhase ?? 0;
-			
-				const func = setup[`${npc}_Conversation_Options_Phase${phase}`];
-				if (typeof func === "function") {
-					console.log(`[DEBUG] Re-injecting dialogue options for ${npc}, phase ${phase}`);
-					func();
-				}
-			}, 25);			
-		});
 
-		$("#convoChoices").append($dialoguechoice);
+				const $box = $("#convoBox");
+				if ($box.length) {
+					Wikifier.wikifyEval(`<<${target}>>`);
+				} else {
+					console.warn("[dialogueChoice] convoBox not found — cannot inject choice.");
+				}
+			});
+
+		// ✅ Inject directly, not relying on macro wrapping
+		this.output.append($button[0]);
 	}
 });
+
+
 
 
 
@@ -2586,51 +2586,77 @@ Macro.add("DialogueTree", {
 			return;
 		}
 
-		// Create new convo layout container inside text-backdrop
-		const textBackdrop = document.getElementById("text-backdrop");
-		if (!textBackdrop) {
-			console.error("DialogueTree: text-backdrop not found.");
+		// Save state for reinjection if needed
+		State.variables.currentNPC = characterName;
+		State.variables.currentPhase = phase;
+
+		// Clear any lingering choices
+		if (typeof setup.clearConvoChoices === "function") {
+			setup.clearConvoChoices();
+		}
+
+		// Validate setup function
+		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
+		if (typeof setupFunc !== "function") {
+			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
 			return;
 		}
 
-		// Clear old content
-		textBackdrop.innerHTML = `
-			<div id="convoLayoutContainer">
-				<div id="convoChoicesPanel">
-					<div id="convoChoices"></div>
-				</div>
-				<div id="convoBoxPanel">
-					<div id="convoBox"></div>
-				</div>
-			</div>
-		`;
+		// Dynamically wrap and inject options
+		setTimeout(() => {
+			const choiceEl = document.getElementById("convoChoices");
+			if (!choiceEl) {
+				console.warn("DialogueTree: #convoChoices not found.");
+				return;
+			}
 
-		// Load options for this character + phase
-		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
-		if (typeof setupFunc === "function") {
-			setupFunc();
-		} else {
-			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
-		}
+			// Build the choice HTML and wrap it
+			const output = [];
+			setupFunc(); // this calls setup.addChoices(), which already uses <<dialogueChoice>>
+
+			// Note: we no longer try to wrap <<DialogueTree>> inside LayoutConvoChoices
+			// setup.addChoices takes care of formatting the output properly
+		}, 0);
 	}
 });
 
-
-
-/* Choice setup beautifier function */
 setup.addChoices = function (list) {
 	const $dialoguechoices = $("#convoChoices");
+	if (!$dialoguechoices.length) {
+		console.warn("[addChoices] convoChoices not found.");
+		return;
+	}
+
 	$dialoguechoices.empty();
 
-	list.forEach(([label, target]) => {
-		// Always include "Nevermind" or persistent options
-		const persistent = target.includes("StartMinigame") || target.includes("Nevermind");
+	list.forEach(([label, target, reuseFlag]) => {
+		const reusable = reuseFlag === "reusable";
+		const used = State.variables.usedDialogueOptions?.[target];
 
-		if (!persistent && State.variables.usedDialogueOptions?.[target]) return;
+		// Skip if used and not reusable
+		if (used && !reusable) return;
 
-		Wikifier.wikifyEval(`<<dialogueChoice "${label}" "${target}">>`);
+		// 🔧 Directly call the macro logic instead of wikifying it
+		const macro = Macro.get("dialogueChoice");
+		if (macro) {
+			try {
+				const dummyContext = {
+					args: [label, target, reuseFlag],
+					output: {
+						append: el => $dialoguechoices.append(el)
+					}
+				};
+				macro.handler.call(dummyContext);
+			} catch (err) {
+				console.error("Failed to render dialogueChoice:", label, err);
+			}
+		} else {
+			console.warn("dialogueChoice macro not found.");
+		}
 	});
 };
+
+
 
 /* In-line Convo Minigame Button/Launcher Insert Macro */
 /* <<OpenConvoGame "npcId">> to start */
@@ -3867,30 +3893,40 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 };
 /* twine-user-script #16: "04_PassageInjector.js" */
 // ===============================
-//  Move Rendered Passage Content
+//  Move Rendered Passage Content into #text-backdrop (Prose Mode Only)
 // ===============================
+
 $(document).on(':passagerender', function () {
 	setTimeout(function () {
 		const passage = document.querySelector('#passages > .passage');
-		const dynamicContent = document.getElementById('dynamic-content');
+		const backdrop = document.getElementById('text-backdrop');
 
-		if (!dynamicContent) {
-			console.error("[PassageInjector] dynamic-content container missing.");
+		if (!passage || !backdrop) {
+			console.warn("⚠️ Could not move passage content:", {
+				passageFound: !!passage,
+				backdropFound: !!backdrop
+			});
 			return;
 		}
 
-		if (passage) {
-			dynamicContent.replaceChildren(passage);
-		} else {
-			console.warn("⚠️ Could not find rendered passage during passage render.");
+		const isDialogue = passage.innerHTML.includes("StartDialogueLayout");
+		if (isDialogue) {
+			console.log("[PassageInjector] Skipping injection (dialogue layout will take over)");
+			return;
 		}
+
+		backdrop.innerHTML = "";       // Clear old content
+		backdrop.appendChild(passage); // Physically move the rendered content
 	}, 0);
 });
+
+
+
 
 // ===============================
 //  Update Sidebar Summary (Unrelated to Dialogue)
 // ===============================
-$(document).on(':passagerender', function () {
+$(document).on(':passagedisplay', function () {
 	if (window.setup?.SidebarUI?.updateSummary) {
 		setup.SidebarUI.updateSummary();
 	}
@@ -4573,12 +4609,84 @@ setup.ConvoUI.animateChoices = function(container) {
 
 
 /* twine-user-script #21: "10_dialogueSetup.js" */
-setup.clearConvoChoices = function() {
+// ===============================
+// 📦 Dialogue Layout Macros
+// ===============================
+
+// ✅ Injects the side-by-side convo UI and moves passage content to convoBox
+Macro.add("StartDialogueLayout", {
+	handler() {
+	  const backdrop = document.getElementById('text-backdrop');
+	  if (!backdrop) {
+		console.warn("<<StartDialogueLayout>> failed: #text-backdrop not found.");
+		return;
+	  }
+  
+	  backdrop.classList.add("in-dialogue");
+  
+	  // Inject layout HTML
+	  backdrop.innerHTML = `
+		<div id="convoLayoutContainer">
+		  <div id="convoChoicesPanel"><div id="convoChoices"></div></div>
+		  <div id="convoBoxPanel"><div id="convoBox"></div></div>
+		</div>
+	  `;
+  
+	  // Wait until the passage is rendered, then move it into the convoBox
+	  const tryInjectPassage = () => {
+		const passage = document.querySelector('#passages > .passage');
+		const convoBox = document.getElementById('convoBox');
+  
+		if (passage && convoBox) {
+		  convoBox.appendChild(passage);
+		} else {
+		  requestAnimationFrame(tryInjectPassage);
+		}
+	  };
+  
+	  tryInjectPassage();
+	}
+  });
+  
+  // ✅ Optional: removes .in-dialogue class to restore normal layout visuals
+  Macro.add("EndDialogueLayout", {
+	handler() {
+	  const backdrop = document.getElementById('text-backdrop');
+	  if (backdrop) {
+		backdrop.classList.remove("in-dialogue");
+	  }
+	}
+  });
+  
+  // ✅ Wraps content and moves it into the #convoChoices container
+  Macro.add("LayoutConvoChoices", {
+	tags: [], // <- Must be defined for block content support
+	handler() {
+	  const content = [...this.output];
+  
+	  const tryInject = () => {
+		const target = document.getElementById('convoChoices');
+		if (target) {
+		  const frag = document.createDocumentFragment();
+		  content.forEach(el => frag.appendChild(el));
+		  target.appendChild(frag);
+		} else {
+		  requestAnimationFrame(tryInject);
+		}
+	  };
+  
+	  tryInject();
+	}
+  });
+  
+  // ✅ Clears old convo choices before injecting new ones
+  setup.clearConvoChoices = function () {
 	const choicesPanel = document.getElementById("convoChoices");
 	if (choicesPanel) {
-		choicesPanel.innerHTML = "";
+	  choicesPanel.innerHTML = "";
 	}
-};
+  };
+  
 /* twine-user-script #22: "12_SexScene_Logic.js" */
 // SexScene-Logic.js
 // Initial draft of NSFW system handler for Liff Origins: Jaylie and Adventures of Liff
@@ -5066,28 +5174,26 @@ function tryLucideIcons() {
 /* twine-user-script #28: "allura.js" */
 /* Allura Conversation Options Phase 0 */
 setup.allura_Conversation_Options_Phase0 = function () {
-    setup.addChoices([
-      ["You seem very sure of yourself.", "Allura_SureOfSelf"],
-      ["What brings someone like you to a place like this?", "Allura_WhyHere"],
-      ["What would you do with someone like me?", "Allura_TeaseIntent"],
-      ["Do you think you could help me get a drink?", "Allura_OrderDrink"],
-      ["I just want to get to know you better.", "Allura_StartMinigame"],
-      ["Nevermind.", "ReturnToParlor"]
-    ]);
-  };
+	setup.addChoices([
+		["You seem very sure of yourself.", "Allura_SureOfSelf"],
+		["What brings someone like you to a place like this?", "Allura_WhyHere"],
+		["What would you do with someone like me?", "Allura_TeaseIntent"],
+		["Do you think you could help me get a drink?", "Allura_OrderDrink"],
+		["I just want to get to know you better.", "Allura_StartMinigame", "reusable"],  // ✅ marked reusable
+		["Nevermind.", "ReturnToParlor", "reusable"]  // ✅ marked reusable
+	]);
+};
 
-  /* Allura Conversation Options Phase 1 */
-  setup.allura_Conversation_Options_Phase1 = function () {
-    setup.addChoices([
-      ["What do you really want from people?", "Allura_WhatSheWants"],
-      ["Do you ever feel alone, even here?", "Allura_FeelsAlone"],
-      ["Is there someone you miss?", "Allura_SomeoneMissed"],
-      ["Do you believe in love?", "Allura_BelievesInLove"],
-      ["We don’t have to talk about this.", "Allura_ReturnToLight"]
-    ]);
-  };
-  
-  
+/* Allura Conversation Options Phase 1 */
+setup.allura_Conversation_Options_Phase1 = function () {
+	setup.addChoices([
+		["What do you really want from people?", "Allura_WhatSheWants"],
+		["Do you ever feel alone, even here?", "Allura_FeelsAlone"],
+		["Is there someone you miss?", "Allura_SomeoneMissed"],
+		["Do you believe in love?", "Allura_BelievesInLove"],
+		["We don’t have to talk about this.", "Allura_ReturnToLight", "reusable"]  // ✅ reusable (exit option)
+	]);
+};
 /* twine-user-script #29: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
     setup.addChoices([
@@ -5154,45 +5260,51 @@ setup.darian_Conversation_Options_Phase1 = function () {
 $(document).on(':passagerender', function (ev) {
 	setTimeout(function () {
 		const passageElement = document.querySelector('#passages > .passage');
-		const dynamicContent = document.getElementById('dynamic-content');
 		const backdrop = document.getElementById('text-backdrop');
 
-		if (!passageElement || !dynamicContent || !backdrop) return;
+		if (!passageElement || !backdrop) {
+			console.warn("[DeclarativeSystem] Required elements missing.");
+			return;
+		}
 
 		const passageHTML = passageElement.innerHTML;
 		const isDialogueMode = passageHTML.includes('StartDialogueLayout');
 
-		// 💣 Nuke all previous layout content completely
+		// 💣 Always wipe previous layout clean
 		backdrop.innerHTML = "";
 		backdrop.classList.remove("in-dialogue");
+
+		// ☢️ Just in case — double-tap ghosts
+		["convoChoices", "convoBox", "convoLayoutContainer", "convoBoxPanel", "convoChoicesPanel"].forEach(id => {
+			const el = document.getElementById(id);
+			if (el) {
+				console.warn(`[DeclarativeSystem] Removing lingering #${id}`);
+				el.remove();
+			}
+		});
 
 		if (isDialogueMode) {
 			console.log("[DeclarativeSystem] Rebuilding as DIALOGUE layout.");
 			setup.startDialogueLayout();
 		} else {
-			console.log("[DeclarativeSystem] Rebuilding as NORMAL layout.");
-
-			// 🧠 Reinsert normal passage content (from SugarCube render)
-			backdrop.appendChild(dynamicContent); // restore container
-			dynamicContent.replaceChildren(passageElement.cloneNode(true));
+			console.log("[DeclarativeSystem] Normal prose passage — layout handled by injector.");
+			// No action needed — prose will be injected by 04_PassageInjector.js
 		}
 	}, 20);
 });
 
-
 // ===============================
-// Setup Functions
+// Dialogue Layout Builder
 // ===============================
 
 setup.startDialogueLayout = function () {
-	const dynamicContent = document.getElementById('dynamic-content');
 	const backdrop = document.getElementById('text-backdrop');
 
-	if (!dynamicContent || !backdrop) return;
+	if (!backdrop) return;
 
 	backdrop.classList.add('in-dialogue');
 
-	dynamicContent.innerHTML = `
+	backdrop.innerHTML = `
 		<div id="convoLayoutContainer">
 			<div id="convoChoicesPanel">
 				<div id="convoChoices"></div>
@@ -5202,16 +5314,6 @@ setup.startDialogueLayout = function () {
 			</div>
 		</div>
 	`;
-};
-
-setup.endDialogueLayout = function() {
-	const dynamicContent = document.getElementById('dynamic-content');
-	const backdrop = document.getElementById('text-backdrop');
-
-	if (!dynamicContent || !backdrop) return;
-
-	backdrop.classList.remove('in-dialogue');
-	dynamicContent.innerHTML = "<!-- Empty until next passage injects -->";
 };
 /* twine-user-script #37: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
@@ -6685,37 +6787,52 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;This place... it’s yours?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I’ve had a hand in it all. Took me years, but I built it the way I wanted — and the city knows it.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="Adda_HostsCare" tags="widget" position="225,100" size="100,100">&lt;&lt;widget &quot;Adda_HostsCare&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Your hosts really seem to care about you.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;As they should. I care about them. Not because I have to — but because they deserve it. This house runs on more than coin and charm, girl. It runs on trust.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Adda_Different" tags="widget" position="350,100" size="100,100">&lt;&lt;widget &quot;Adda_Different&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem... different from the others.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;Different? I suppose I am. Most folks in this business start with fire and burn fast. I learned to smolder — lasts longer that way.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Adda_StartMinigame" tags="widget" position="475,100" size="100,100">&lt;&lt;widget &quot;Adda_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can I get to know you better?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;You can try. Just know, I’ve lived long enough to recognize a question meant to pry... and one meant to learn.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.ConvoGame.start(&quot;adda&quot;)&gt;&gt;
+&lt;&lt;OpenConvoGame &quot;adda&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Adda_OriginStory" tags="widget" position="600,100" size="100,100">&lt;&lt;widget &quot;Adda_OriginStory&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;How’d you end up starting this place?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;Well in all fairness, I didn’t start it. It was inherited from the previous owner. But if you&#39;d seen it back then, you wouldn&#39;t recognize it today. It’s always been my ideal that workers like these shouldn’t be chewed up and spit out by society. Here? We bite back.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Adda_CommandPresence" tags="widget" position="725,100" size="100,100">&lt;&lt;widget &quot;Adda_CommandPresence&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You don’t seem like someone people say no to.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;adda&quot;&gt;&gt;That’s because I don’t ask for much. But when I do? I make it hard to refuse.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="Adda_OrderDrink" tags="widget" position="850,100" size="100,100">&lt;&lt;widget &quot;Adda_OrderDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Could you help me get a drink?&lt;&lt;/speech&gt;&gt;
@@ -6726,7 +6843,10 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 &lt;&lt;set _drink.name = &quot;Adda&#39;s Signature Pour&quot;&gt;&gt;
 &lt;&lt;set _drink.description = &quot;A custom drink chosen by Adda herself — rich, bold, and deceptively smooth.&quot;&gt;&gt;
 &lt;&lt;run setup.inventory.add(_drink)&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.adda_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Allura_SureOfSelf" tags="widget" position="975,100" size="100,100">&lt;&lt;widget &quot;Allura_SureOfSelf&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem very sure of yourself.&lt;&lt;/speech&gt;&gt;
@@ -6739,94 +6859,106 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What brings someone like you to a place like this?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Oh, darling. You say that like this place does not deserve me. I am here because I choose to be... and because there are always mouths to tempt and hearts to twist.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="Allura_TeaseIntent" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Allura_TeaseIntent&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What would you do with someone like me?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Mm... I would unwrap you slowly, like a forbidden letter... and read *every line* until your ink runs dry.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Allura_OrderDrink" tags="widget" position="100,225" size="100,100">&lt;&lt;widget &quot;Allura_OrderDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*&lt;&lt;/speech&gt;&gt;
-  &lt;p&gt; Bert approaches faster than you can blink, a silver tray in hand, he bends at the waist and presents to you both a cocktail glass filled with a dark swirling liquid. As the fluid moves you feel as though you are watching a galaxy swirl inside the glass.&lt;/p&gt;
-  &lt;p&gt; &lt;&lt;speech &quot;bert&quot;&gt;&gt;Here you are, ladies. A &lt;em&gt;Black Hole&lt;/em&gt;. Enjoy.&lt;&lt;/speech&gt;&gt;
-  &lt;p&gt; It&#39;s Allura who reaches for the glass. No sooner than it is safely in her clutches down Bert retreat smoothly back to the bar. Allura raises the glass to her nose, inhales, and taste a delicate sip.&lt;/p&gt;
-  &lt;p&gt; &lt;&lt;speech &quot;allura&quot;&gt;&gt;Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.&lt;&lt;/speech&gt;&gt;
-  &lt;p&gt; She holds the glass out to you. You take it from her and mimic her actions. The scent is rich and sweet; the scent of cherries fills your nostrils as though you&#39;d taken a walk through an orchard on harvest day. You take a sip. The flavor is rich and dark, a hint of chocolate lies at the end of it, dark and nutty. It&#39;s certainly unlike anything else you&#39;ve tried before.&lt;/p&gt;
-  &lt;p&gt; &lt;&lt;speech &quot;jaylie&quot;&gt;&gt; Gods! Wow. That is delectible.&lt;&lt;/speech&gt;&gt;
-  &lt;p&gt; Allura smiles at you, very self assured.&lt;/p&gt;
-  /*PlaceHolder! Add affection +1, Trust +1 Here */
+  &lt;p&gt;&lt;&lt;speech &quot;bert&quot;&gt;&gt;Here you are, ladies. A &lt;em&gt;Black Hole&lt;/em&gt;. Enjoy.&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;&lt;speech &quot;allura&quot;&gt;&gt;Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;&lt;speech &quot;jaylie&quot;&gt;&gt; Gods! Wow. That is delectible.&lt;&lt;/speech&gt;&gt;&lt;/p&gt;
+  &lt;p&gt;Allura smiles at you, very self-assured.&lt;/p&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="Allura_StartMinigame" tags="widget" position="225,225" size="100,100">&lt;&lt;widget &quot;Allura_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;OpenConvoGame &quot;allura&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;
-
-/*Allura Phase 1 Conversations */</tw-passagedata><tw-passagedata pid="13" name="Allura_WhatSheWants" tags="widget" position="350,225" size="100,100">&lt;&lt;widget &quot;Allura_WhatSheWants&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="Allura_WhatSheWants" tags="widget" position="350,225" size="100,100">&lt;&lt;widget &quot;Allura_WhatSheWants&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What do you really want from people?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Want? That’s such a simple word for such... complex flavors. Sometimes I want their breath, sometimes their secrets. And sometimes, I only want to know if they would follow me if I never looked back.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Allura_FeelsAlone" tags="widget" position="475,225" size="100,100">&lt;&lt;widget &quot;Allura_FeelsAlone&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you ever feel alone, even here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Alone? Chérie... even in the loudest room, we all die with our thoughts. What matters is whether you find someone whose silence you enjoy before the end.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="Allura_SomeoneMissed" tags="widget" position="600,225" size="100,100">&lt;&lt;widget &quot;Allura_SomeoneMissed&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Is there someone you miss?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;There are names I no longer speak, faces that visit in dreams, and songs I cannot hum without bleeding a little. But that’s the price of remembering, non?&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="Allura_BelievesInLove" tags="widget" position="725,225" size="100,100">&lt;&lt;widget &quot;Allura_BelievesInLove&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you believe in love?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;I believe in appetite. Love is just the name we give the hunger we choose to starve.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="Allura_ReturnToLight" tags="widget" position="850,225" size="100,100">&lt;&lt;widget &quot;Allura_ReturnToLight&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We don’t have to talk about this.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;allura&quot;&gt;&gt;Of course not. The heart speaks loudest in silence anyway.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.allura_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="Bert_DenyMinigame" tags="widget" position="975,225" size="100,100">&lt;&lt;widget &quot;Bert_DenyMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;That’s not on the menu.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="Bert_OpenShop" tags="widget" position="1100,225" size="100,100">&lt;&lt;widget &quot;Bert_OpenShop&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What is on the menu?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;Drinks. Prices vary. Try not to spill.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.openShop(&quot;bert&quot;)&gt;&gt; &lt;!-- Custom shop function --&gt;
+&lt;&lt;run setup.openShop(&quot;bert&quot;)&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Bert_CustomDrink" tags="widget" position="1225,225" size="100,100">&lt;&lt;widget &quot;Bert_CustomDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What kind of drink would you make for me?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;Let’s find out...&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.servePersonalizedDrink(&quot;jaylie&quot;)&gt;&gt; &lt;!-- Custom flavor-based output --&gt;
+&lt;&lt;run setup.servePersonalizedDrink(&quot;jaylie&quot;)&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Bert_SeriousResponse" tags="widget" position="100,350" size="100,100">&lt;&lt;widget &quot;Bert_SeriousResponse&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You seem really serious.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;Professional. Not serious.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Darian_HowLongHere" tags="widget" position="225,350" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So how long have you worked here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Darian_DoYouLikeJob" tags="widget" position="350,350" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you actually like working here?&lt;&lt;/speech&gt;&gt;
@@ -6834,19 +6966,27 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Ah, sorry... I didn’t mean it like that.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It’s alright. I don’t mind honest questions. I’d just rather answer them in ways that make people think.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Darian_Bracelet" tags="widget" position="475,350" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;That bracelet... it looks important. Where did you get it?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;if $characters[&quot;darian&quot;].trust &gt;= 5&gt;&gt;
     &lt;&lt;speech &quot;darian&quot;&gt;&gt;My sister gave it to me. She’s not around anymore. I wear it to remember the way *she* saw me—before the world taught me I had to be anything else.&lt;&lt;/speech&gt;&gt;
+    &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+    &lt;&lt;LayoutConvoChoices&gt;&gt;
     &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
+    &lt;&lt;/LayoutConvoChoices&gt;&gt;
   &lt;&lt;else&gt;&gt;
     &lt;&lt;speech &quot;darian&quot;&gt;&gt;Just an old gift. We don’t have to talk about it.&lt;&lt;/speech&gt;&gt;
+    &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+    &lt;&lt;LayoutConvoChoices&gt;&gt;
     &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
+    &lt;&lt;/LayoutConvoChoices&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Darian_GetDrink" tags="widget" position="600,350" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink? I&#39;m not really sure what I’d like.&lt;&lt;/speech&gt;&gt;
@@ -6855,7 +6995,10 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Something warm. Gentle. A little sweet, but not too much. Like a breeze through velvet, if you can swing it.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;bert&quot;&gt;&gt;Coming right up.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Darian_StartMinigame" tags="widget" position="725,350" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
@@ -6868,7 +7011,10 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Beautiful. Kind to a fault. She’s the reason I ever set foot on a stage—used to beg me to sing for her when we were little. I think she believed I could charm the stars out of the sky if I tried hard enough.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;But... I haven’t sung for anyone since she passed.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="Darian_Sister_HowDidSheDie" tags="widget" position="975,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If you don’t mind me asking... how did she die?&lt;&lt;/speech&gt;&gt;
@@ -6878,20 +7024,29 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
     &lt;&lt;speech &quot;darian&quot;&gt;&gt;I... don’t think I want to talk about that. Not yet.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Darian_Sister_BraceletMemory" tags="widget" position="1100,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can you tell me more about when she gave you that bracelet?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It wasn’t just a gift. It was a promise—that I wasn’t alone.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Darian_Sister_ReturnToMain" tags="widget" position="1225,350" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk about something else now.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Of course. Whatever you need.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="PHASE_0" tags="widget" position="100,475" size="100,100">&lt;&lt;widget &quot;PHASE_0&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;npc&quot;&gt;&gt;This is the Phase 0 intro line — what they say the first time you talk.&lt;&lt;/speech&gt;&gt;
@@ -6976,9 +7131,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 &lt;div id=&quot;text-container&quot;&gt;
   &lt;div id=&quot;text-backdrop&quot;&gt;
-    &lt;div id=&quot;dynamic-content&quot;&gt;
-      &lt;!-- Dynamic passage content OR dialogue layout will live here --&gt;
-    &lt;/div&gt;
+    &lt;!-- This will either get populated with dialogue layout OR reattached #dynamic-content --&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -7162,7 +7315,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="57" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="57" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.

@@ -4,7 +4,10 @@
   <<speech "jaylie">>This place... it’s yours?<</speech>>
   <<speech "adda">>It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I’ve had a hand in it all. Took me years, but I built it the way I wanted — and the city knows it.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_HostsCare [widget]
@@ -13,7 +16,10 @@
   <<speech "jaylie">>Your hosts really seem to care about you.<</speech>>
   <<speech "adda">>As they should. I care about them. Not because I have to — but because they deserve it. This house runs on more than coin and charm, girl. It runs on trust.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_Different [widget]
@@ -22,7 +28,10 @@
   <<speech "jaylie">>You seem... different from the others.<</speech>>
   <<speech "adda">>Different? I suppose I am. Most folks in this business start with fire and burn fast. I learned to smolder — lasts longer that way.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_StartMinigame [widget]
@@ -31,7 +40,7 @@
   <<speech "jaylie">>Can I get to know you better?<</speech>>
   <<speech "adda">>You can try. Just know, I’ve lived long enough to recognize a question meant to pry... and one meant to learn.<</speech>>
 <</append>>
-<<run setup.ConvoGame.start("adda")>>
+<<OpenConvoGame "adda">>
 <</widget>>
 
 :: Adda_OriginStory [widget]
@@ -40,7 +49,10 @@
   <<speech "jaylie">>How’d you end up starting this place?<</speech>>
   <<speech "adda">>Well in all fairness, I didn’t start it. It was inherited from the previous owner. But if you'd seen it back then, you wouldn't recognize it today. It’s always been my ideal that workers like these shouldn’t be chewed up and spit out by society. Here? We bite back.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_CommandPresence [widget]
@@ -49,7 +61,10 @@
   <<speech "jaylie">>You don’t seem like someone people say no to.<</speech>>
   <<speech "adda">>That’s because I don’t ask for much. But when I do? I make it hard to refuse.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_OrderDrink [widget]
@@ -63,5 +78,8 @@
 <<set _drink.name = "Adda's Signature Pour">>
 <<set _drink.description = "A custom drink chosen by Adda herself — rich, bold, and deceptively smooth.">>
 <<run setup.inventory.add(_drink)>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>

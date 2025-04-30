@@ -4,7 +4,10 @@
   <<speech "jaylie">>I want to get to know you better.<</speech>>
   <<speech "bert">>That’s not on the menu.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.bert_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>
 
 :: Bert_OpenShop [widget]
@@ -13,7 +16,7 @@
   <<speech "jaylie">>What is on the menu?<</speech>>
   <<speech "bert">>Drinks. Prices vary. Try not to spill.<</speech>>
 <</append>>
-<<run setup.openShop("bert")>> <!-- Custom shop function -->
+<<run setup.openShop("bert")>>
 <</widget>>
 
 :: Bert_CustomDrink [widget]
@@ -22,7 +25,7 @@
   <<speech "jaylie">>What kind of drink would you make for me?<</speech>>
   <<speech "bert">>Let’s find out...<</speech>>
 <</append>>
-<<run setup.servePersonalizedDrink("jaylie")>> <!-- Custom flavor-based output -->
+<<run setup.servePersonalizedDrink("jaylie")>>
 <</widget>>
 
 :: Bert_SeriousResponse [widget]
@@ -31,5 +34,8 @@
   <<speech "jaylie">>You seem really serious.<</speech>>
   <<speech "bert">>Professional. Not serious.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
 <<run setup.bert_Conversation_Options_Phase0()>>
+<</LayoutConvoChoices>>
 <</widget>>

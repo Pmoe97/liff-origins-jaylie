@@ -56,3 +56,15 @@
   gap: 10px;
   padding-right: 10px;
 }
+
+#text-backdrop.in-dialogue #convoLayoutContainer {
+  display: flex;
+}
+
+#text-backdrop.in-dialogue #convoChoicesPanel {
+  width: 30%;
+}
+
+#text-backdrop.in-dialogue #convoBoxPanel {
+  width: 70%;
+}

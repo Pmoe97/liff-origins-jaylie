@@ -1,28 +1,38 @@
 // ===============================
-//  Move Rendered Passage Content
+//  Move Rendered Passage Content into #text-backdrop (Prose Mode Only)
 // ===============================
+
 $(document).on(':passagerender', function () {
 	setTimeout(function () {
 		const passage = document.querySelector('#passages > .passage');
-		const dynamicContent = document.getElementById('dynamic-content');
+		const backdrop = document.getElementById('text-backdrop');
 
-		if (!dynamicContent) {
-			console.error("[PassageInjector] dynamic-content container missing.");
+		if (!passage || !backdrop) {
+			console.warn("⚠️ Could not move passage content:", {
+				passageFound: !!passage,
+				backdropFound: !!backdrop
+			});
 			return;
 		}
 
-		if (passage) {
-			dynamicContent.replaceChildren(passage);
-		} else {
-			console.warn("⚠️ Could not find rendered passage during passage render.");
+		const isDialogue = passage.innerHTML.includes("StartDialogueLayout");
+		if (isDialogue) {
+			console.log("[PassageInjector] Skipping injection (dialogue layout will take over)");
+			return;
 		}
+
+		backdrop.innerHTML = "";       // Clear old content
+		backdrop.appendChild(passage); // Physically move the rendered content
 	}, 0);
 });
+
+
+
 
 // ===============================
 //  Update Sidebar Summary (Unrelated to Dialogue)
 // ===============================
-$(document).on(':passagerender', function () {
+$(document).on(':passagedisplay', function () {
 	if (window.setup?.SidebarUI?.updateSummary) {
 		setup.SidebarUI.updateSummary();
 	}

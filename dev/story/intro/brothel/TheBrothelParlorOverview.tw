@@ -1,5 +1,5 @@
 :: TheBrothelParlorOverview {"position":"75,775"}
-<<bg "parloroverview">>
+<<bg "parloroverview">><<EndDialogueLayout>>
 
 <<speech "adda">>Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.<</speech>>
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.

@@ -116,3 +116,8 @@ body:not(.sidebar-collapsed) #text-container {
 .passage-in {
   opacity: 1 !important;
 }
+
+/* === Dynamic Content Container === */
+#dynamic-content {
+  width: 100%;
+}
