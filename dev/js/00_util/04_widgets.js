@@ -189,8 +189,8 @@ Macro.add("SidebarUI", {
 Macro.add("dialogueChoice", {
 	skipArgs: false,
 	handler() {
-		const [label, target, reuseFlag] = this.args;
-		const reusable = reuseFlag === "reusable";
+		const [label, target, flag] = this.args;
+		const reusable = flag === "1" || flag === 1;
 
 		if (!label || !target) {
 			console.warn("<<dialogueChoice>> missing label or target");
@@ -198,9 +198,9 @@ Macro.add("dialogueChoice", {
 		}
 
 		const $button = $("<p>")
-			.addClass("dialogue-choice") // <-- should be styled in CSS
+			.addClass("dialogue-choice")
 			.text(label)
-			.css("cursor", "pointer") // fallback if CSS fails
+			.css("cursor", "pointer")
 			.on("click", () => {
 				$button.remove();
 
@@ -212,20 +212,28 @@ Macro.add("dialogueChoice", {
 				const $box = $("#convoBox");
 				if ($box.length) {
 					Wikifier.wikifyEval(`<<${target}>>`);
-				} else {
-					console.warn("[dialogueChoice] convoBox not found — cannot inject choice.");
+
+					// 🧠 Re-evaluate and re-render choices
+					const currentChar = State.variables.currentNPC;
+					const currentPhase = State.variables.currentPhase;
+					const phaseFunc = setup?.[`${currentChar}_Conversation_Options_Phase${currentPhase}`];
+					if (typeof phaseFunc === "function") {
+						phaseFunc();
+					}
+
+					// ✅ Scroll to bottom
+					setTimeout(() => {
+						$box[0].scrollTo({
+							top: $box[0].scrollHeight,
+							behavior: "smooth"
+						});
+					}, 10);
 				}
 			});
 
-		this.output.append($button[0]); // Use native DOM node
+		this.output.append($button[0]);
 	}
 });
-
-
-
-
-
-
 
 
 Macro.add("DialogueTree", {
@@ -273,41 +281,31 @@ Macro.add("DialogueTree", {
 });
 
 setup.addChoices = function (list) {
-	const $dialoguechoices = $("#convoChoices");
-	if (!$dialoguechoices.length) {
+	const $container = $("#convoChoices");
+	if (!$container.length) {
 		console.warn("[addChoices] convoChoices not found.");
 		return;
 	}
 
-	$dialoguechoices.empty();
+	$container.empty();
+	State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
 
-	list.forEach(([label, target, reuseFlag]) => {
-		const reusable = reuseFlag === "reusable";
-		const used = State.variables.usedDialogueOptions?.[target];
+	list.forEach(([label, target, reusableFlag = 0]) => {
+		const reusable = reusableFlag === 1 || reusableFlag === "1";
+		const used = State.variables.usedDialogueOptions[target];
 
-		// Skip if used and not reusable
-		if (used && !reusable) return;
-
-		// 🔧 Directly call the macro logic instead of wikifying it
-		const macro = Macro.get("dialogueChoice");
-		if (macro) {
-			try {
-				const dummyContext = {
-					args: [label, target, reuseFlag],
-					output: {
-						append: el => $dialoguechoices.append(el)
-					}
-				};
-				macro.handler.call(dummyContext);
-			} catch (err) {
-				console.error("Failed to render dialogueChoice:", label, err);
-			}
-		} else {
-			console.warn("dialogueChoice macro not found.");
+		// ✅ Skip only if it's used and not reusable
+		if (used && !reusable) {
+			console.log(`[addChoices] Skipping used non-reusable choice: ${target}`);
+			return;
 		}
+
+		// ✅ Reinject even if previously used, if marked reusable
+		const macroCall = `<<dialogueChoice "${label}" "${target}" "${reusable ? 1 : 0}">>`;
+		console.log(`[addChoices] Injecting: ${macroCall}`);
+		new Wikifier($container[0], macroCall);
 	});
 };
-
 
 
 /* In-line Convo Minigame Button/Launcher Insert Macro */

@@ -1,5 +1,5 @@
 :: Scene02_TalkToMaleHost
-<<bg "parlordarian">>
+<<bg "parlordarian">><<StartDialogueLayout>>>>
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
@@ -31,9 +31,4 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can’t help but smile. There’s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-From here, you may:
-[[Ask about the bracelet.|Scene02_MaleHost_Bracelet]]
-[[Tell him he seems different than the others.|Scene02_MaleHost_Different]]
-[[Ask if he still sings.|Scene02_MaleHost_Singing]]
-[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]
-
+<<DialogueTree "darian" 0>>

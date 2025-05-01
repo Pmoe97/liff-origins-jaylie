@@ -834,6 +834,8 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     color: #eee;
     min-height: 4em;
     font-size: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
   }
   
   #convoChoices {
@@ -882,6 +884,19 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   max-height: 80vh;
   gap: 10px;
   padding-right: 10px;
+}
+.dialogue-choice {
+	color: #9feaff;
+	text-shadow: 1px 1px 2px #000;
+	padding: 4px 8px;
+	margin: 6px 0;
+	transition: color 0.2s ease;
+	cursor: pointer;
+}
+
+.dialogue-choice:hover {
+	color: #ffffff;
+	text-shadow: 1px 1px 3px #00c8ff;
 }
 
 #text-backdrop.in-dialogue #convoLayoutContainer {
@@ -2535,11 +2550,10 @@ Macro.add("SidebarUI", {
 
 /* Dialogue Choice Setup Macro */
 Macro.add("dialogueChoice", {
-	tags: null,
 	skipArgs: false,
 	handler() {
-		const [label, target, reuseFlag] = this.args;
-		const reusable = reuseFlag === "reusable";
+		const [label, target, flag] = this.args;
+		const reusable = flag === "1" || flag === 1;
 
 		if (!label || !target) {
 			console.warn("<<dialogueChoice>> missing label or target");
@@ -2548,7 +2562,8 @@ Macro.add("dialogueChoice", {
 
 		const $button = $("<p>")
 			.addClass("dialogue-choice")
-			.html(label)
+			.text(label)
+			.css("cursor", "pointer")
 			.on("click", () => {
 				$button.remove();
 
@@ -2560,20 +2575,28 @@ Macro.add("dialogueChoice", {
 				const $box = $("#convoBox");
 				if ($box.length) {
 					Wikifier.wikifyEval(`<<${target}>>`);
-				} else {
-					console.warn("[dialogueChoice] convoBox not found — cannot inject choice.");
+
+					// 🧠 Re-evaluate and re-render choices
+					const currentChar = State.variables.currentNPC;
+					const currentPhase = State.variables.currentPhase;
+					const phaseFunc = setup?.[`${currentChar}_Conversation_Options_Phase${currentPhase}`];
+					if (typeof phaseFunc === "function") {
+						phaseFunc();
+					}
+
+					// ✅ Scroll to bottom
+					setTimeout(() => {
+						$box[0].scrollTo({
+							top: $box[0].scrollHeight,
+							behavior: "smooth"
+						});
+					}, 10);
 				}
 			});
 
-		// ✅ Inject directly, not relying on macro wrapping
 		this.output.append($button[0]);
 	}
 });
-
-
-
-
-
 
 
 Macro.add("DialogueTree", {
@@ -2621,41 +2644,31 @@ Macro.add("DialogueTree", {
 });
 
 setup.addChoices = function (list) {
-	const $dialoguechoices = $("#convoChoices");
-	if (!$dialoguechoices.length) {
+	const $container = $("#convoChoices");
+	if (!$container.length) {
 		console.warn("[addChoices] convoChoices not found.");
 		return;
 	}
 
-	$dialoguechoices.empty();
+	$container.empty();
+	State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
 
-	list.forEach(([label, target, reuseFlag]) => {
-		const reusable = reuseFlag === "reusable";
-		const used = State.variables.usedDialogueOptions?.[target];
+	list.forEach(([label, target, reusableFlag = 0]) => {
+		const reusable = reusableFlag === 1 || reusableFlag === "1";
+		const used = State.variables.usedDialogueOptions[target];
 
-		// Skip if used and not reusable
-		if (used && !reusable) return;
-
-		// 🔧 Directly call the macro logic instead of wikifying it
-		const macro = Macro.get("dialogueChoice");
-		if (macro) {
-			try {
-				const dummyContext = {
-					args: [label, target, reuseFlag],
-					output: {
-						append: el => $dialoguechoices.append(el)
-					}
-				};
-				macro.handler.call(dummyContext);
-			} catch (err) {
-				console.error("Failed to render dialogueChoice:", label, err);
-			}
-		} else {
-			console.warn("dialogueChoice macro not found.");
+		// ✅ Skip only if it's used and not reusable
+		if (used && !reusable) {
+			console.log(`[addChoices] Skipping used non-reusable choice: ${target}`);
+			return;
 		}
+
+		// ✅ Reinject even if previously used, if marked reusable
+		const macroCall = `<<dialogueChoice "${label}" "${target}" "${reusable ? 1 : 0}">>`;
+		console.log(`[addChoices] Injecting: ${macroCall}`);
+		new Wikifier($container[0], macroCall);
 	});
 };
-
 
 
 /* In-line Convo Minigame Button/Launcher Insert Macro */
@@ -5175,36 +5188,35 @@ function tryLucideIcons() {
 /* Allura Conversation Options Phase 0 */
 setup.allura_Conversation_Options_Phase0 = function () {
 	setup.addChoices([
-		["You seem very sure of yourself.", "Allura_SureOfSelf"],
-		["What brings someone like you to a place like this?", "Allura_WhyHere"],
-		["What would you do with someone like me?", "Allura_TeaseIntent"],
-		["Do you think you could help me get a drink?", "Allura_OrderDrink"],
-		["I just want to get to know you better.", "Allura_StartMinigame", "reusable"],  // ✅ marked reusable
-		["Nevermind.", "ReturnToParlor", "reusable"]  // ✅ marked reusable
+		["You seem very sure of yourself.", "Allura_SureOfSelf", 0],
+		["What brings someone like you to a place like this?", "Allura_WhyHere", 0],
+		["What would you do with someone like me?", "Allura_TeaseIntent", 0],
+		["Do you think you could help me get a drink?", "Allura_OrderDrink", 0 ],
+		["I just want to get to know you better.", "Allura_StartMinigame", 1],  // ✅ marked reusable
+		["Nevermind.", "ReturnToParlor", 1]  // ✅ marked reusable
 	]);
 };
 
 /* Allura Conversation Options Phase 1 */
 setup.allura_Conversation_Options_Phase1 = function () {
 	setup.addChoices([
-		["What do you really want from people?", "Allura_WhatSheWants"],
-		["Do you ever feel alone, even here?", "Allura_FeelsAlone"],
-		["Is there someone you miss?", "Allura_SomeoneMissed"],
-		["Do you believe in love?", "Allura_BelievesInLove"],
-		["We don’t have to talk about this.", "Allura_ReturnToLight", "reusable"]  // ✅ reusable (exit option)
+		["What do you really want from people?", "Allura_WhatSheWants", 0],
+		["Do you ever feel alone, even here?", "Allura_FeelsAlone", 0],
+		["Is there someone you miss?", "Allura_SomeoneMissed", 0],
+		["Do you believe in love?", "Allura_BelievesInLove", 0],
+		["We don’t have to talk about this.", "Allura_ReturnToLight", 1]  // ✅ reusable (exit option)
 	]);
 };
 /* twine-user-script #29: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
-    setup.addChoices([
-      ["I want to get to know you better.", "Bert_DenyMinigame"],
-      ["What is on the menu?", "Bert_OpenShop"],
-      ["What kind of drink would you make for me?", "Bert_CustomDrink"],
-      ["You seem really serious.", "Bert_SeriousResponse"],
-      ["Nevermind.", "ReturnToParlor"]
-    ]);
-  };
-  
+	setup.addChoices([
+		["I want to get to know you better.", "Bert_DenyMinigame", 0],
+		["What is on the menu?", "Bert_OpenShop", 1],
+		["What kind of drink would you make for me?", "Bert_CustomDrink", 0],
+		["You seem really serious.", "Bert_SeriousResponse", 0],
+		["Nevermind.", "ReturnToParlor", 1]
+	]);
+};
 /* twine-user-script #30: "darian.js" */
 /**
  * Darian Conversation Setup Functions
@@ -5213,37 +5225,41 @@ setup.bert_Conversation_Options_Phase0 = function () {
 
 /* Adds options for Phase 0: initial conversation */
 setup.darian_Conversation_Options_Phase0 = function () {
-    setup.addChoices([
-      ["So how long have you worked here?", "Darian_HowLongHere"],
-      ["Do you actually like working here?", "Darian_DoYouLikeJob"],
-      ["That bracelet... where did you get it?", "Darian_Bracelet"],
-      ["Do you think you could help me get a drink?", "Darian_GetDrink"],
-      ["I just want to get to know you better.", "Darian_StartMinigame"]
-    ]);
-  };
+	setup.addChoices([
+		["So how long have you worked here?", "Darian_HowLongHere", 0],
+		["Do you actually like working here?", "Darian_DoYouLikeJob", 0],
+		["That bracelet... where did you get it?", "Darian_Bracelet", 0],
+		["Do you think you could help me get a drink?", "Darian_GetDrink", 0],
+		["I just want to get to know you better.", "Darian_StartMinigame", 1], // ✅ Reusable (minigame)
+		["Nevermind.", "ReturnToParlor", 1] // ✅ Always reusable exit
+	]);
+};
+
 
 /* Adds options unlocked if Jaylie passes the trust threshold for bracelet backstory */
 setup.darian_Conversation_Options_SisterBranch = function () {
-    setup.addChoices([
-      ["What was your sister like?", "Darian_Sister_WhatWasSheLike"],
-      ["How did your sister die?", "Darian_Sister_HowDidSheDie"],
-      ["Tell me more about the bracelet.", "Darian_Sister_BraceletMemory"],
-      ["We can talk about something else now.", "Darian_Sister_ReturnToMain"]
-    ]);
-  };
+	setup.addChoices([
+		["What was your sister like?", "Darian_Sister_WhatWasSheLike", 0],
+		["How did your sister die?", "Darian_Sister_HowDidSheDie", 0],
+		["Tell me more about the bracelet.", "Darian_Sister_BraceletMemory", 0],
+		["We can talk about something else now.", "Darian_Sister_ReturnToMain", 1] // ✅ Return branch
+	]);
+};
+
 
 /* Placeholder for Phase 1 — can be implemented after minigame or relationship gain */
 setup.darian_Conversation_Options_Phase1 = function () {
-    setup.addChoices([
-      ["Do you ever miss singing?", "Darian_MissSinging"],
-      ["Do you actually like people... or is it just the job?", "Darian_LikesPeople"],
-      ["You’re kind of terrible at flirting when you’re nervous.", "Darian_BadFlirt"],
-      ...setup.if(State.variables.characters.darian.affection >= 6, [
-        ["Would you go upstairs with me?", "Darian_GoUpstairs"]
-      ]),
-      ["Let’s go back to lighter conversation.", "PHASE_0"]
-    ]);
-  };
+	setup.addChoices([
+		["Do you ever miss singing?", "Darian_MissSinging", 0],
+		["Do you actually like people... or is it just the job?", "Darian_LikesPeople", 0],
+		["You’re kind of terrible at flirting when you’re nervous.", "Darian_BadFlirt", 0],
+		...setup.if(State.variables.characters.darian.affection >= 6, [
+			["Would you go upstairs with me?", "Darian_GoUpstairs", 0]
+		]),
+		["Let’s go back to lighter conversation.", "PHASE_0", 1] // ✅ Phase switcher
+	]);
+};
+
 /* twine-user-script #31: "eristan.js" */
 /* twine-user-script #32: "harroc.js" */
 /* twine-user-script #33: "kallot.js" */
@@ -7258,7 +7274,7 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it&#39;s amusement or anticipation, you can&#39;t tell.
 
-&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Scene02_TalkToMaleHost" tags="" position="600,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Scene02_TalkToMaleHost" tags="" position="600,725" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;&gt;&gt;
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
@@ -7290,11 +7306,7 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can’t help but smile. There’s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-From here, you may:
-[[Ask about the bracelet.|Scene02_MaleHost_Bracelet]]
-[[Tell him he seems different than the others.|Scene02_MaleHost_Different]]
-[[Ask if he still sings.|Scene02_MaleHost_Singing]]
-[[Politely excuse yourself.|Scene02_MaleHost_ExcuseYourself]]</tw-passagedata><tw-passagedata pid="56" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
 You walk up the few steps, pull on the handle, open the door and step inside.  
