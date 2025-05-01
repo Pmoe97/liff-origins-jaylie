@@ -1414,6 +1414,18 @@ body:not(.sidebar-collapsed) #text-container {
 #dynamic-content {
   width: 100%;
 }
+.overlay-close-btn {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	background: none;
+	border: 2px solid #ccc;
+	color: white;
+	font-size: 1.2rem;
+	padding: 0.2rem 0.6rem;
+	cursor: pointer;
+	z-index: 10;
+}
 /* twine-user-stylesheet #9: "overlay.css" */
 /* =============================
 =         Overlay Base         =
@@ -2521,9 +2533,7 @@ Macro.add("SidebarUI", {
 
 					<!-- Saves & Options -->
 					<div class="button-pair">
-						<button class="sidebar-btn" onclick="Save.show()">
-							<i data-lucide="save"></i> Saves
-						</button>
+						<button onclick="SaveAPI.nativeSaveMenu()">Saves</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
@@ -5331,7 +5341,27 @@ setup.startDialogueLayout = function () {
 		</div>
 	`;
 };
-/* twine-user-script #37: "999_main.js" */
+/* twine-user-script #37: "SaveAPI.js" */
+window.SaveAPI = window.SaveAPI || {};
+
+SaveAPI.nativeSaveMenu = function () {
+	try {
+		if (typeof UI !== "undefined" && typeof UI.save === "function") {
+			UI.save();
+		} else {
+			console.warn("UI.save() not available. Trying SugarCube fallback...");
+			if (typeof Dialog !== "undefined" && typeof Dialog.open === "function") {
+				Dialog.open("saves");
+			} else {
+				alert("Save menu still not available. Something deeper is wrong.");
+			}
+		}
+	} catch (err) {
+		console.error("Save menu call failed:", err);
+		alert("Could not open save menu.");
+	}
+};
+/* twine-user-script #38: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -5355,7 +5385,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #38: "convo_prompts.js" */
+/* twine-user-script #39: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -5537,7 +5567,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #39: "convo_tropes.js" */
+/* twine-user-script #40: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -5975,7 +6005,7 @@ setup.ConvoTropesByTier = {
     }
   ]
 };
-/* twine-user-script #40: "inclinations.js" */
+/* twine-user-script #41: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -6133,7 +6163,7 @@ setup.Inclinations = {
     }
   };
   
-/* twine-user-script #41: "motivations.js" */
+/* twine-user-script #42: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -6221,7 +6251,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #42: "npc_archetypes.js" */
+/* twine-user-script #43: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -6251,7 +6281,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #43: "npc_names.js" */
+/* twine-user-script #44: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -6266,7 +6296,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #44: "personality_traits.js" */
+/* twine-user-script #45: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -6328,7 +6358,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #45: "social_styles.js" */
+/* twine-user-script #46: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -6401,7 +6431,7 @@ setup.SocialStyles = {
     }
   };
   
-/* twine-user-script #46: "DataAuditor.js" */
+/* twine-user-script #47: "DataAuditor.js" */
 setup.DataAuditor = {
     listUniqueValues(objectArray, property) {
       const values = objectArray.flatMap(item => {
@@ -6521,7 +6551,7 @@ void audit.prompts.themes();
 ===========================================================
 */
 
-/* twine-user-script #47: "random-event.js" */
+/* twine-user-script #48: "random-event.js" */
 // repository: https://github.com/TweePower/twee-sugarcube-random-events
 
 const debugLevel = 3; // max debug level

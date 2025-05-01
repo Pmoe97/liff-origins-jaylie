@@ -158,9 +158,7 @@ Macro.add("SidebarUI", {
 
 					<!-- Saves & Options -->
 					<div class="button-pair">
-						<button class="sidebar-btn" onclick="Save.show()">
-							<i data-lucide="save"></i> Saves
-						</button>
+						<button onclick="SaveAPI.nativeSaveMenu()">Saves</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
