@@ -2,18 +2,17 @@
 <<widget "Bert_DenyMinigame">>
 <<append "#convoBox">>
   <<speech "jaylie">>I want to get to know you better.<</speech>>
-  <<speech "bert">>That’s not on the menu.<</speech>>
+  Bert does not break eye contact, nor does he hesiate for a moment in his polishing of the glass in his hand.
+  <<speech "bert">>Unfortunately Miss, that’s not on the menu.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.bert_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>
 
 :: Bert_OpenShop [widget]
 <<widget "Bert_OpenShop">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What is on the menu?<</speech>>
+  <<speech "jaylie">>What's on the menu?<</speech>>
   <<speech "bert">>Drinks. Prices vary. Try not to spill.<</speech>>
 <</append>>
 <<run setup.openShop("bert")>>
@@ -22,20 +21,66 @@
 :: Bert_CustomDrink [widget]
 <<widget "Bert_CustomDrink">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What kind of drink would you make for me?<</speech>>
-  <<speech "bert">>Let’s find out...<</speech>>
+  <<speech "jaylie">>I don't usually have such a selection to drink from. I'm not even sure what to ask for.<</speech>>
+  Bert raises an eyebrow at you as if waiting for you to get the the point of your request.
+  <<Speech "jaylie">> Would you mind making something special for me? I'll trust your judgement.<</speech>>
+  <<speech "bert">> Something special you say? I would be delighted to.<</speech>>
+    With a quick flourish of his arms, a shining metal cup is produced from under the counter, catching the glow of the hanging lanterns as if it had been waiting for just this moment. Bert runs a cloth over it with meticulous care, inspecting it like a jeweler inspecting a rare gem.
+
+  <<speech "bert">>You strike me as someone with fire in her spirit, but a touch of sadness behind the eyes. Let’s see if we can match that with something... complicated.<</speech>>
+
+  He turns to the shelf behind him, fingers ghosting over rows of vividly colored bottles, some of which emit a faint shimmer or trace of smoke within their glass. He selects four: 
+    -A bottle of *Whisperleaf Gin*—a pale green spirit known for its calming aftertaste
+    - *Ashplum Cordial*—a dark, bitter-sweet reduction brewed in volcanic soil, 
+    -A vial of *Feyroot Elixir*—glowing faintly pink and said to react to emotion, 
+    -A twist-top jar of crushed *Iceblossom Petals*—frosted over like snowflakes.
+
+  Bert begins to mix. 
+
+  He measures with an instinctual confidence, pouring the gin in first—a sharp, cool base that fogs the metal cup. The cordial follows, swirling through like a bloodstain in silver. The elixir is added last, just a drop, but as it hits the mix, you swear the entire cup glows for a brief moment.
+
+  <<speech "bert">>And now for the ice...<</speech>>
+
+  He reaches into a chilled drawer and pulls out a single crystalline sphere—transparent, but with what looks like a tiny storm cloud suspended in its center. He cracks it gently against the bar’s edge, letting the shards fall like glass snow into the cup. A cover is placed over the top, of the metal cup and Bert quickly begins to shake it with a certain measure and efficiency.
+
+  After a moment, one of Bert's hands reaches from above and pulls down a conical, crystal glass. He sets the glass on its edge and gives it a spin. The glass twirls rapidly in place, balancing in such a way that almost defies reason.
+
+  Quickly bert removes the lid of the metal container and pours into the glass as it spins. The contents create a spiral of green and blue which quickly meld together in a vibrant color reminiscent of a dark sea.
+
+  Bert finishes by garnishing the rim with a single frozen petal and a twist of a dark citrus rind, its scent a faint mix of orange and something darker, more elusive.
+
+  <<speech "bert">>Here we are madam. I call it a *Storm of Grace.* Because it looks delicate, tastes bold, and lingers longer than it should. Like some people.<</speech>>
+
+  He slides the drink towards you and watches you closely for a moment, awaiting your reaction.
+
+  You bring the glass to your lips. Inhaling for a moment, you inhale an exciting aroma, sweet and light. You sip.
+
+  <<speech "jaylie">>Wow. This is... incredible!<</speech>>
 <</append>>
-<<run setup.servePersonalizedDrink("jaylie")>>
+<<speech "bert">> Please enjoy Miss.<</speech>>+
+<<run setup.clearConvoChoices()>>
+<<run setup.bert_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Bert_SeriousResponse [widget]
 <<widget "Bert_SeriousResponse">>
 <<append "#convoBox">>
-  <<speech "jaylie">>You seem really serious.<</speech>>
-  <<speech "bert">>Professional. Not serious.<</speech>>
+  <<speech "jaylie">>You seem to take your job very seriously.<</speech>>
+  <<speech "bert">>Well one could hardly expect to deliver a standard of professionalism without taking one's occupation seriously, Ma'am.<</speech>>
+  <<speech "jaylie">> So you aren't so serious in your personal life?<</speech>>
+  <<speech "bert">> I like to keep things professional.<</speech>>
+  His avoidance of his personal life as a topic is palpable. You decide to drop the subject.
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.bert_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
+<</widget>>
+
+:: ReturnToParlor [widget]
+<<widget "Bert_ReturnToParlor">>
+<<speech "Jaylie">> I think I'll explore the rest of the parlor.<</speech>>
+<<speech "bert">> Of course, Miss. Please enjoy your evening.<</speech>>
+
+[[You step away from the bar.|ReturnToParlor]]
+<<run setup.clearConvoChoices()>>
+<<run setup.bert_Conversation_Options_Phase0()>>
 <</widget>>
