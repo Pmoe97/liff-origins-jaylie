@@ -17,10 +17,5 @@ His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfe
 
 <<speech "bert">>In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?<</speech>>
 
-**From here, you may:**
-[[Ask for something strong.|Scene02_Bar_StrongDrink]]
-[[Ask for something sweet.|Scene02_Bar_SweetDrink]]
-[[Tell him to surprise you.|Scene02_Bar_SurpriseMe]]
-[[Ask what he recommends.|Scene02_Bar_AskBert]]
-[[Decide not to drink after all.|Scene02_Bar_NoThanks]]
+<<DialogueTree "bert" 0>>
 
