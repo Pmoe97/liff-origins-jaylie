@@ -1,3 +1,69 @@
+/* Marie Phase 0 Dialogue Options */
+:: Marie_Howareyoudoing [widget]
+<<widget "Marie_Howareyoudoing">>
+  <<append #convoBox>>
+    You approach the blonde girl, who had thrown the horseshoe at the man out side. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
+    <<speech "jaylie">> Hey there. I'm Jaylie.<</speech>>
+    <<speech "marie">> Marie.<</speech>>
+    <<speech "jaylie">> How are you doing?<</speech>>
+    <<speech "marie">> Oh just wonderful. This night is going so well. Can't you tell?<</speech>>
+    You frown at her sarcasm. She isn't looking at you, but you felt her eyes roll.
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.bert_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Marie_ToughNight [widget]
+<<widget "Marie_ToughNight">>
+  <<append #convoBox>>
+    You try softening your tone, hoping to break through whatever storm is brewing behind her eyes.
+
+    <<speech "jaylie">>Looks like you've had a rough night.<</speech>>
+    <<speech "marie">>Is it the scowl, the clenched jaw, or the ‘go away’ energy that gave it away?<</speech>>
+
+    She exhales through her nose. Not quite a laugh, not quite a sigh.
+
+    <<speech "marie">>Either way, ten points to you for perception.<</speech>>
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.bert_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Marie_SilentTreatment [widget]
+<<widget "Marie_SilentTreatment">>
+  <<append #convoBox>>
+    You glance at her, then at the space between you both. It stretches like a wall you can’t climb.
+
+    <<speech "jaylie">>You know, if it helps, you can talk to me about what happened. I've been told I can be a good listener.<</speech>>
+
+    Marie doesn’t answer at first. Just blinks slowly, then tilts her head ever so slightly in your direction.
+
+    <<speech "marie">>I don't need to talk about it. Especially to strangers who sit next to me like I’m a stray cat that needs saving.<</speech>>
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.bert_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Marie_ImSorryIllGo [widget]
+<<widget "Marie_ImSorryIllGo">>
+  <<append #convoBox>>
+    Obviously not getting anywhere, with her you get up to leave.
+    <<speech "jaylie">>I'm gonna go. I hope your night gets a little better.<</speech>>
+    
+    You turn to leave and make it only a step before you feel a hand on your hand, soft and warm. You turn and look back at the girl. Her eyes meet yours for the first time.
+
+    <<speech "marie">>I'm sorry, Jaylie. That's not who I am. That man just really brought the worst out of me. Think we can start again?<</speech>>
+
+    You hesitate for a brief moment, then smile and nod at her. She gently pulls your hand, guiding you back to the couch.
+
+    <<speech "marie">>Thank you for trying to check on me.<</speech>>
+
+    She smiles. It looks a little forced, but you can tell she is genuinely trying.
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.bert_Conversation_Options_Phase1()>>
+<</widget>>
+
 /* Marie Phase 1 Dialogue Options */
 
 :: Marie_Phase1Intro [widget]

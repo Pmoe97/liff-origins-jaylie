@@ -209,9 +209,12 @@ Macro.add("dialogueChoice", {
 
 				const $box = $("#convoBox");
 				if ($box.length) {
+					// Capture current last child BEFORE injection
+					const preChildren = $box[0].children.length;
+
 					Wikifier.wikifyEval(`<<${target}>>`);
 
-					// 🧠 Re-evaluate and re-render choices
+					// Re-evaluate choices
 					const currentChar = State.variables.currentNPC;
 					const currentPhase = State.variables.currentPhase;
 					const phaseFunc = setup?.[`${currentChar}_Conversation_Options_Phase${currentPhase}`];
@@ -219,10 +222,19 @@ Macro.add("dialogueChoice", {
 						phaseFunc();
 					}
 
-					// ✅ Scroll to bottom
+					// Scroll to align top of new entry with top of convoBox
 					setTimeout(() => {
-						$box[0].scrollTo({
-							top: $box[0].scrollHeight,
+						const box = $box[0];
+						const entries = box.children;
+						const newEntry = entries[preChildren]; // first new child after injection
+						if (!newEntry) return;
+					
+						const boxTop = box.getBoundingClientRect().top;
+						const entryTop = newEntry.getBoundingClientRect().top;
+						const offset = entryTop - boxTop;
+					
+						box.scrollTo({
+							top: box.scrollTop + offset,
 							behavior: "smooth"
 						});
 					}, 10);
@@ -232,6 +244,7 @@ Macro.add("dialogueChoice", {
 		this.output.append($button[0]);
 	}
 });
+
 
 
 Macro.add("DialogueTree", {

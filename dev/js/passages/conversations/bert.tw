@@ -23,7 +23,7 @@
 <<append "#convoBox">>
   <<speech "jaylie">>I don't usually have such a selection to drink from. I'm not even sure what to ask for.<</speech>>
   Bert raises an eyebrow at you as if waiting for you to get the the point of your request.
-  <<Speech "jaylie">> Would you mind making something special for me? I'll trust your judgement.<</speech>>
+  <<speech "jaylie">> Would you mind making something special for me? I'll trust your judgement.<</speech>>
   <<speech "bert">> Something special you say? I would be delighted to.<</speech>>
     With a quick flourish of his arms, a shining metal cup is produced from under the counter, catching the glow of the hanging lanterns as if it had been waiting for just this moment. Bert runs a cloth over it with meticulous care, inspecting it like a jeweler inspecting a rare gem.
 
@@ -56,8 +56,13 @@
   You bring the glass to your lips. Inhaling for a moment, you inhale an exciting aroma, sweet and light. You sip.
 
   <<speech "jaylie">>Wow. This is... incredible!<</speech>>
+  
+  The bartender smiles, just a hint of pride, gone before you were sure you actually saw it. He nods ever so slightly.
+
+  <<speech "bert">> Please enjoy Miss. This one is on the house, compliments of the Madam.<</speech>>
+  
+  You glance over to Adda, watching from now so far away. You smile, raise your glass to her. She smiles and nods before turning her attention back to the rest of the parlor.
 <</append>>
-<<speech "bert">> Please enjoy Miss.<</speech>>+
 <<run setup.clearConvoChoices()>>
 <<run setup.bert_Conversation_Options_Phase0()>>
 <</widget>>

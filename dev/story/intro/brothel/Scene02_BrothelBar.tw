@@ -1,5 +1,5 @@
 :: Scene02_BrothelBar
-<<bg "Scene02_TheBrothelParlor">>
+<<bg "Scene02_TheBrothelParlor">><<StartDialogueLayout>>
 
 You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
 
