@@ -1804,6 +1804,39 @@ body:not(.sidebar-collapsed) #text-container {
 	gap: 6px;
 }
 
+#btn-saves {
+	flex: 1;
+	background: rgba(255, 255, 255, 0.05);
+	color: white;
+	border: 1px solid #888;
+	padding: 6px 10px;
+	border-radius: 4px;
+	font-family: 'Cinzel', serif;
+	font-size: 0.85em;
+	font-weight: 700;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	text-shadow: 0 0 2px #000;
+	transition: background 0.2s, transform 0.2s;
+}
+
+#btn-saves:hover {
+	background: rgba(255, 255, 255, 0.15);
+	transform: scale(1.03);
+}
+
+#btn-saves svg {
+	width: 16px;
+	height: 16px;
+	stroke: white;
+}
+
+#ui-dialog {
+	z-index: 9999; /* High enough to appear above other panels */
+}
+
 .sidebar-btn {
 	flex: 1;
 	background: rgba(255,255,255,0.05);
@@ -2533,7 +2566,7 @@ Macro.add("SidebarUI", {
 
 					<!-- Saves & Options -->
 					<div class="button-pair">
-						<button onclick="SaveAPI.nativeSaveMenu()">Saves</button>
+						<button id="btn-saves" class="sidebar-btn"><i data-lucide="save"></i> Saves</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
@@ -3245,6 +3278,32 @@ setup.SidebarUI.updateSummaryIcons = function () {
 	if (goldSummary) goldSummary.textContent = formattedGold;
   };
   
+  $(document).on(":storyready", () => {
+	const btn = document.getElementById("btn-saves");
+	if (btn) {
+		btn.addEventListener("click", () => {
+			console.log("[DEBUG] Save button clicked.");
+			if (typeof Dialog === "undefined") {
+				console.error("[ERROR] Dialog object is not defined.");
+			} else {
+				console.log("[DEBUG] Dialog.open available:", typeof Dialog.open);
+				Dialog.open("saves");
+			}
+		});
+		if (window.lucide) lucide.createIcons();
+	}
+
+	// Ensure UI system is initialized only after DOM is ready
+	if (typeof UI !== "undefined" && typeof UI.init === "function") {
+		console.log("[DEBUG] Calling UI.init()");
+		UI.init();
+	} else {
+		console.error("[ERROR] UI.init is not available.");
+	}
+});
+
+
+
 /* twine-user-script #10: "06_loader.js" */
 (() => {
 	function getMessage(O) {

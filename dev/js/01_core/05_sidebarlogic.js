@@ -192,3 +192,29 @@ setup.SidebarUI.updateSummaryIcons = function () {
 	if (goldSummary) goldSummary.textContent = formattedGold;
   };
   
+  $(document).on(":storyready", () => {
+	const btn = document.getElementById("btn-saves");
+	if (btn) {
+		btn.addEventListener("click", () => {
+			console.log("[DEBUG] Save button clicked.");
+			if (typeof Dialog === "undefined") {
+				console.error("[ERROR] Dialog object is not defined.");
+			} else {
+				console.log("[DEBUG] Dialog.open available:", typeof Dialog.open);
+				Dialog.open("saves");
+			}
+		});
+		if (window.lucide) lucide.createIcons();
+	}
+
+	// Ensure UI system is initialized only after DOM is ready
+	if (typeof UI !== "undefined" && typeof UI.init === "function") {
+		console.log("[DEBUG] Calling UI.init()");
+		UI.init();
+	} else {
+		console.error("[ERROR] UI.init is not available.");
+	}
+});
+
+
+

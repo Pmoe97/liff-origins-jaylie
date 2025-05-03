@@ -114,6 +114,39 @@
 	gap: 6px;
 }
 
+#btn-saves {
+	flex: 1;
+	background: rgba(255, 255, 255, 0.05);
+	color: white;
+	border: 1px solid #888;
+	padding: 6px 10px;
+	border-radius: 4px;
+	font-family: 'Cinzel', serif;
+	font-size: 0.85em;
+	font-weight: 700;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	text-shadow: 0 0 2px #000;
+	transition: background 0.2s, transform 0.2s;
+}
+
+#btn-saves:hover {
+	background: rgba(255, 255, 255, 0.15);
+	transform: scale(1.03);
+}
+
+#btn-saves svg {
+	width: 16px;
+	height: 16px;
+	stroke: white;
+}
+
+#ui-dialog {
+	z-index: 9999; /* High enough to appear above other panels */
+}
+
 .sidebar-btn {
 	flex: 1;
 	background: rgba(255,255,255,0.05);
