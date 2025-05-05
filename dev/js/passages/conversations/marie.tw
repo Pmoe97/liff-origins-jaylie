@@ -2,15 +2,19 @@
 :: Marie_Howareyoudoing [widget]
 <<widget "Marie_Howareyoudoing">>
   <<append #convoBox>>
-    You approach the blonde girl, who had thrown the horseshoe at the man out side. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
-    <<speech "jaylie">> Hey there. I'm Jaylie.<</speech>>
+    <<speech "jaylie">> I'm Jaylie, by the way.<</speech>>
     <<speech "marie">> Marie.<</speech>>
     <<speech "jaylie">> How are you doing?<</speech>>
+    
+    Her face twists in annoyance. Likely more than she even intended.
+
     <<speech "marie">> Oh just wonderful. This night is going so well. Can't you tell?<</speech>>
     You frown at her sarcasm. She isn't looking at you, but you felt her eyes roll.
   <</append>>
+  <<relation "marie" "trust" 1>>
   <<run setup.clearConvoChoices()>>
-  <<run setup.bert_Conversation_Options_Phase0()>>
+  <<set $marieCanApologize = true>>
+  <<run setup.marie_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Marie_ToughNight [widget]
@@ -25,8 +29,10 @@
 
     <<speech "marie">>Either way, ten points to you for perception.<</speech>>
   <</append>>
+  <<relation "marie" "trust" 1>>
   <<run setup.clearConvoChoices()>>
-  <<run setup.bert_Conversation_Options_Phase0()>>
+  <<set $marieCanApologize = true>>
+  <<run setup.marie_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Marie_SilentTreatment [widget]
@@ -40,14 +46,17 @@
 
     <<speech "marie">>I don't need to talk about it. Especially to strangers who sit next to me like I’m a stray cat that needs saving.<</speech>>
   <</append>>
+  <<relation "marie" "trust" 1>>
   <<run setup.clearConvoChoices()>>
-  <<run setup.bert_Conversation_Options_Phase0()>>
+  <<set $marieCanApologize = true>>
+  <<run setup.marie_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Marie_ImSorryIllGo [widget]
 <<widget "Marie_ImSorryIllGo">>
   <<append #convoBox>>
     Obviously not getting anywhere, with her you get up to leave.
+
     <<speech "jaylie">>I'm gonna go. I hope your night gets a little better.<</speech>>
     
     You turn to leave and make it only a step before you feel a hand on your hand, soft and warm. You turn and look back at the girl. Her eyes meet yours for the first time.
@@ -59,27 +68,25 @@
     <<speech "marie">>Thank you for trying to check on me.<</speech>>
 
     She smiles. It looks a little forced, but you can tell she is genuinely trying.
+
+    <<speech "marie">>I'm sorry. This isn't how I normally am. It's just been... a night. But I’d like to start over, if you don’t mind.<</speech>>
+
+    <<speech "jaylie">> Don't worry about it at all. I definitely have my bad days too, but nothing like what you have to deal with.<</speech>>
   <</append>>
-  <<run setup.clearConvoChoices()>>
-  <<run setup.bert_Conversation_Options_Phase1()>>
+  <<relation "marie" "trust" 1>>
+  <<relation "marie" "affection" 2>>
+  <<DialogueTree "marie" 1>>
+  <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 
 /* Marie Phase 1 Dialogue Options */
-
-:: Marie_Phase1Intro [widget]
-<<widget "Marie_Phase1Intro">>
-<<append "#convoBox">>
-  <<speech "marie">>I'm sorry. This isn't how I normally am. It's just been... a night. But I’d like to start over, if you don’t mind.<</speech>>
-<</append>>
-<<run setup.marie_Conversation_Options_Phase1()>>
-<</widget>>
-
 :: Marie_WhyThisWork [widget]
 <<widget "Marie_WhyThisWork">>
 <<append "#convoBox">>
   <<speech "jaylie">>Why did you choose this kind of work?<</speech>>
   <<speech "marie">>Chose? That’s generous. I chose not to starve. Turns out I’m good at more than surviving, though. I learned how to turn the game in my favor.<</speech>>
 <</append>>
+<<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 
@@ -87,34 +94,149 @@
 <<widget "Marie_HostsOrFriends">>
 <<append "#convoBox">>
   <<speech "jaylie">>Are the other hosts your friends... or just coworkers?<</speech>>
-  <<speech "marie">>Depends who you ask. We fight, we drink, we pull each other out of bad nights. It’s not always hugs and handholding, but we’ve got each other’s backs. That’s something.<</speech>>
+  <<speech "marie">>Depends on who you ask, probably. Generally though, these are really good people. Some better than others. We definitely fight, step on each other's toes sometimes maybe. These people are the one's who pull you out after a long night though. It helps that Mistress Adda is a very good boss.<</speech>>
+  <<speech "jaylie">> I can imagine how that would make a big difference. I can't imagine doing this job surrounded by people you don't trust or like.<</speech>>
 <</append>>
+<<relation "marie" "trust" 1>>
+<<relation "marie" "affection" 1>>
+<<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 
 :: Marie_DoYouLikeItHere [widget]
-<<widget "Marie_DoYouLikeItHere">>
+<<widget "DoYouLikeItHere">>
 <<append "#convoBox">>
-  <<speech "jaylie">>Do you like it here? The Noctail, I mean.<</speech>>
-  <<speech "marie">>Some days more than others. But it’s safe. It’s clean. Adda doesn’t let creeps stay long. And we get to be... us. That’s rare in this world.<</speech>>
+  <<speech "jaylie">>Do you like it here? The Nuzzling Noctail, I mean.<</speech>>
+  <<speech "marie">>Days like today I don't, but I have to remember that there are far worse establishments in the city. Worse jobs altogether, really. 
+  
+  Honestly though the good people do outnumber the bad. The bad just tend to make sure they are more memorable.
+  
+  I go to bed at night with a full belly, and coin in my purse though. I also can't think of anywhere else I would rather be working.<</speech>>
 <</append>>
+<<relation "marie" "trust" 1>>
+<<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 
-:: Marie_LookingFor [widget]
-<<widget "Marie_LookingFor">>
+:: Marie_LivedAnywhereElse [widget]
+<<widget "Marie_LivedAnywhereElse">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What are you looking for in someone, if anything?<</speech>>
-  <<speech "marie">>Someone who doesn’t expect me to pretend. Who doesn’t make everything about them. Someone who asks... like you’re doing now.<</speech>>
+  <<speech "jaylie">>Have you ever lived or traveled outside the city?<</speech>>
+
+  Marie's expression lights up and she genuinely smiles for a moment. 
+
+  <<speech "marie">>I was born in Altherin actually. I don't remember it very well. My family moved here when I was very little. Sometimes I have dreams though... I think they are memories. The tall trees. The green fields. The open sky, not choked with chimney smoke.<</speech>>
+
+  Her smile fades a little, but you can still tell she is thinking about it fondly.
+
+  <<speech "marie">>I've saved my coin for years. I want to go back one day. I want to see the trees. I want to <strong>CLIMB</strong> one. I want to sleep out in the fields covered only by a blanket of stars. Go so far away from the city that the only voice I would ever have to hear is my own... or maybe a friend's<</speech>>
+
+  She glances at you, and smiles warmly.
+
+  <<speech "jaylie">>Well, all you had to do was ask. Let's go now!<</speech>>
+
+  <<speech "marie">>Oh, sure let's go, my bags are packed!<</speech>>
+
+  As if waiting for this, lightning strikes somewhere in the distance, thunder lightly rumbles the building. Crystal and glass chime and tink for a moment.
+
+  You and marie look at each other with straight faces, the burst into simultaneous laughter.
+
+  <<speech "jaylie">>Okay maybe not tonight. But I could be the friend one day.<</speech>>
+
+  Marie scrunches her shoulder to her chin and gives you a playful look.
+
+  <<speech "marie">> You promise, friend?<</speech>>
+
+  You both laugh again.
 <</append>>
+<<relation "marie" "trust" 1>>
+<<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 
-:: Marie_Phase1_Exit [widget]
-<<widget "Marie_Phase1_Exit">>
+:: Marie_TheFairTomorrow [widget]
+<<widget "Marie_TheFairTomorrow">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Are you looking forward to the fair tomorrow?<</speech>>
+ 
+  <<speech "marie">>Oh definitely! I love the fair. I don't have to work the mornings, so I will spend most of my time looking at all the foreign jewellry and animals most likely. Then if I am lucky, maybe I'll meet some hunky foreigner for the evening.<</speech>>
+
+  You both laugh at the thought.
+
+  <<speech "jaylie">>I hope they treat you like a queen for the day.<</speech>>
+
+  <<speech "marie">>How about you? Will you be in attendence tomorrow?<</speech>>
+
+  Your face falls a bit. The question was fair play, and still somehow catches you off guard. Summoning thoughts of your mom.
+
+  <<speech "jaylie">>The fair is always a little hard for me. Reminds me a lot of my mom. She died right around this time of year... When I was born actually.<</speech>>
+
+  <<speech "marie">>Oh I am sorry to hear that. So you never got to know her?<</speech>>
+
+  <<speech "jaylie">>Well not for a long time. But around the time I was about eight my dad started telling me more stories about her. She was the best type of person to exist. She was a healer. Dedicated her life to helping others.<</speech>>
+
+  You frown a little. A tear wells in the corner of your eye. Marie notices and reaches out, wiping it away with her thumb. She cups your cheek and just smiles. You reach up and grab her hand, wrapping her fingers in yours and pulling it down to your lap. 
+
+  <<speech "jaylie">>It was nice being able to learn about who she was, but sometimes it was still hard, because then I always felt like I had to live up to her standards. I'm afraid I could live a hundred lifetimes though and never be half the woman she was.<</speech>>
+
+  <<speech "marie">>Well if it's any consolation, you are making my night better. You couldn't be all bad.<</speech>>
+
+  You laugh a little, a short hearty chuckle. You trase trace her knuckle with your thumb.
+
+  <<speech "jaylie">>You're not so bad yourself.<</speech>>
+
+  She lets out a sharp chuckle and slaps your hand lightly.
+
+  <<speech "marie">>Oh I know I'm a right bitch sometimes. But I do try to be a good person.<</speech>>
+<</append>>
+<<relation "marie" "trust" 1>>
+<<relation "marie" "affection" 8>>
+<<run setup.clearConvoChoices()>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_StartMinigameOne [widget]
+<<widget "Marie_StartMinigameOne">>
+
+  <<append #convoBox>>
+    <<speech "jaylie">>If you don't mind, I would really like to get to know you better.<</speech>>
+    
+    <<speech "marie">>Oh Gods. I am sure that you'd be happier talking to someone else around here.<</speech>>
+
+    You grin at her. She looks back at you and her lips crack into a sly smile.
+    
+    <<speech "marie">>...but if you *really* want to know me, don’t say I didn’t warn you.<</speech>>
+<</append>>
+<<OpenConvoGame "marie">>
+<<run setup.clearConvoChoices()>>
+<<run setup.marie_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Marie_GoUpstairs [widget]
+<<widget "Marie_GoUpstairs">>
+  <<append #convoBox>>
+    <<speech "jaylie">>Hey do you by chance—<</speech>>
+
+    <<speech "marie">>Want to go somewhere more private? I have just the place upstairs.<</speech>>
+
+    <<speech "jaylie">>You read my mind. Lead the way.<</speech>>
+
+    You and Marie stand from your velvet couch and she takes you by the hand, leading you through the parlor, back towards the entrance. You pass through the heavy velvet curtain and make your way up the stairs. The air thickens even more with the smell of incense and perfume as you ascend.
+
+    At the top of the stairs, Marie leads you down a long, narrow hallway before stopping at a non-descript door. She opens it and gestures for you to enter first.
+
+    [[You enter Marie's room.|Marie_BedroomOne]]
+    <</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+:: Marie_Phase1Goodbye [widget]
+<<widget "Marie_Phase1Goodbye">>
 <<append "#convoBox">>
   <<speech "jaylie">>We can talk more later.<</speech>>
+
   <<speech "marie">>Sure. I’ll be here. Try not to get swallowed by the velvet in the meantime.<</speech>>
+
+[[Leave Marie and Return to the Parlor.|Scene02_ReturnToParlor]]
 <</append>>
-<<run setup.marie_Conversation_Options_Phase0()>>
 <</widget>>

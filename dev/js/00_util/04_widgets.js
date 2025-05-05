@@ -183,7 +183,7 @@ Macro.add("SidebarUI", {
 
 
 
-/* Dialogue Choice Setup Macro */
+/* Dialogue Choice Button */
 Macro.add("dialogueChoice", {
 	skipArgs: false,
 	handler() {
@@ -202,19 +202,23 @@ Macro.add("dialogueChoice", {
 			.on("click", () => {
 				$button.remove();
 
+				// Mark as used unless reusable
+				State.variables.usedDialogueOptions ??= {};
 				if (!reusable) {
-					State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
 					State.variables.usedDialogueOptions[target] = true;
 				}
 
 				const $box = $("#convoBox");
 				if ($box.length) {
-					// Capture current last child BEFORE injection
 					const preChildren = $box[0].children.length;
 
+					// Fade all old entries
+					$box.children().removeClass("active-entry").addClass("faded-entry");
+
+					// Inject response
 					Wikifier.wikifyEval(`<<${target}>>`);
 
-					// Re-evaluate choices
+					// Re-inject updated choice list
 					const currentChar = State.variables.currentNPC;
 					const currentPhase = State.variables.currentPhase;
 					const phaseFunc = setup?.[`${currentChar}_Conversation_Options_Phase${currentPhase}`];
@@ -222,17 +226,27 @@ Macro.add("dialogueChoice", {
 						phaseFunc();
 					}
 
-					// Scroll to align top of new entry with top of convoBox
+					// Stylize new entry and scroll
 					setTimeout(() => {
 						const box = $box[0];
 						const entries = box.children;
-						const newEntry = entries[preChildren]; // first new child after injection
+						const newEntry = entries[preChildren];
 						if (!newEntry) return;
-					
+
+						// Insert divider before the new entry
+						const divider = document.createElement("div");
+						divider.className = "dialogue-divider";
+						box.insertBefore(divider, newEntry);
+
+						// Highlight the new one
+						newEntry.classList.add("active-entry");
+						newEntry.classList.remove("faded-entry");
+
+						// Scroll to new entry
 						const boxTop = box.getBoundingClientRect().top;
 						const entryTop = newEntry.getBoundingClientRect().top;
 						const offset = entryTop - boxTop;
-					
+
 						box.scrollTo({
 							top: box.scrollTop + offset,
 							behavior: "smooth"
@@ -245,52 +259,41 @@ Macro.add("dialogueChoice", {
 	}
 });
 
-
-
+/* Dialogue Tree Macro: Pulls current NPC & Phase and injects options */
 Macro.add("DialogueTree", {
 	handler() {
-		const characterName = this.args[0];
-		const phase = this.args[1];
+		const [characterName, phase] = this.args;
 
 		if (!characterName || phase === undefined) {
-			console.error("DialogueTree: Missing character name or phase number.");
+			console.error("DialogueTree: Missing character or phase.");
 			return;
 		}
 
-		// Save state for reinjection if needed
 		State.variables.currentNPC = characterName;
 		State.variables.currentPhase = phase;
 
-		// Clear any lingering choices
 		if (typeof setup.clearConvoChoices === "function") {
 			setup.clearConvoChoices();
 		}
 
-		// Validate setup function
 		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
 		if (typeof setupFunc !== "function") {
-			console.error(`DialogueTree: Setup function setup.${characterName}_Conversation_Options_Phase${phase} not found.`);
+			console.error(`DialogueTree: Missing setup.${characterName}_Conversation_Options_Phase${phase}`);
 			return;
 		}
 
-		// Dynamically wrap and inject options
 		setTimeout(() => {
 			const choiceEl = document.getElementById("convoChoices");
 			if (!choiceEl) {
 				console.warn("DialogueTree: #convoChoices not found.");
 				return;
 			}
-
-			// Build the choice HTML and wrap it
-			const output = [];
-			setupFunc(); // this calls setup.addChoices(), which already uses <<dialogueChoice>>
-
-			// Note: we no longer try to wrap <<DialogueTree>> inside LayoutConvoChoices
-			// setup.addChoices takes care of formatting the output properly
+			setupFunc();
 		}, 0);
 	}
 });
 
+/* Injects List of Choices into UI */
 setup.addChoices = function (list) {
 	const $container = $("#convoChoices");
 	if (!$container.length) {
@@ -298,29 +301,23 @@ setup.addChoices = function (list) {
 		return;
 	}
 
-	$container.empty();
-	State.variables.usedDialogueOptions = State.variables.usedDialogueOptions || {};
+	State.variables.usedDialogueOptions ??= {};
 
 	list.forEach(([label, target, reusableFlag = 0]) => {
 		const reusable = reusableFlag === 1 || reusableFlag === "1";
 		const used = State.variables.usedDialogueOptions[target];
 
-		// ✅ Skip only if it's used and not reusable
 		if (used && !reusable) {
 			console.log(`[addChoices] Skipping used non-reusable choice: ${target}`);
 			return;
 		}
 
-		// ✅ Reinject even if previously used, if marked reusable
 		const macroCall = `<<dialogueChoice "${label}" "${target}" "${reusable ? 1 : 0}">>`;
-		console.log(`[addChoices] Injecting: ${macroCall}`);
 		new Wikifier($container[0], macroCall);
 	});
 };
 
-
-/* In-line Convo Minigame Button/Launcher Insert Macro */
-/* <<OpenConvoGame "npcId">> to start */
+/* 📌 Minigame Start Button */
 Macro.add("OpenConvoGame", {
 	handler() {
 		const npcId = this.args[0];
@@ -330,9 +327,19 @@ Macro.add("OpenConvoGame", {
 			return this.error("OpenConvoGame requires a valid NPC ID.");
 		}
 
+		const uniqueId = `start-minigame-${npcId}`;
 		const btnHTML = `
-			<div class="start-minigame-button-wrapper">
-				<button class="start-minigame-button" onclick="setup.ConvoUI.renderMinigame('${npcId}')">
+			<div id="${uniqueId}" class="start-minigame-button-wrapper">
+				<button class="start-minigame-button" onclick="
+					setup.ConvoUI.renderMinigame('${npcId}');
+					const wrapper = document.getElementById('${uniqueId}');
+					if (wrapper) {
+						wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+						wrapper.style.opacity = '0';
+						wrapper.style.transform = 'translateY(-10px)';
+						setTimeout(() => wrapper.remove(), 400);
+					}
+				">
 					Get to know ${char.name}
 				</button>
 			</div>
@@ -342,14 +349,14 @@ Macro.add("OpenConvoGame", {
 		if (target) {
 			target.insertAdjacentHTML("beforeend", btnHTML);
 		} else {
-			console.warn("[OpenConvoGame] #convoBox not found — cannot inject button.");
+			console.warn("[OpenConvoGame] #convoBox not found.");
 		}
 	}
 });
 
-/* Side-by-side Dialogue UI setup macros */
 
-Macro.add('ClearSnapshots', {
+/* Optional Utility: Clears conversation snapshot state */
+Macro.add("ClearSnapshots", {
 	handler() {
 		if (typeof setup.clearSnapshots === 'function') {
 			setup.clearSnapshots();
@@ -359,3 +366,38 @@ Macro.add('ClearSnapshots', {
 	}
 });
 
+
+/* Character Relation Changing Macro */
+Macro.add("relation", {
+	skipArgs: false,
+	handler() {
+		if (this.args.length < 3) {
+			return this.error("Usage: <<relation 'characterId' 'stat' value ['set' or 'add']>>");
+		}
+
+		const [charId, stat, rawValue, mode = "add"] = this.args;
+		const chars = State.variables.characters;
+		const char = chars?.[charId];
+
+		if (!char) return this.error(`Character '${charId}' not found.`);
+		if (!["trust", "affection", "rapport", "tension", "cooldown"].includes(stat)) {
+			return this.error(`Stat '${stat}' is not a valid relationship field.`);
+		}
+
+		const value = parseFloat(rawValue);
+		if (isNaN(value)) {
+			return this.error("Value must be a number.");
+		}
+
+		if (mode === "set") {
+			char[stat] = value;
+		} else if (mode === "add") {
+			char[stat] = (char[stat] ?? 0) + value;
+		} else {
+			return this.error("Mode must be 'add' or 'set'.");
+		}
+
+		// Optionally log or visually confirm
+		console.log(`[relation] ${mode} ${value} to ${charId}.${stat} → ${char[stat]}`);
+	}
+});

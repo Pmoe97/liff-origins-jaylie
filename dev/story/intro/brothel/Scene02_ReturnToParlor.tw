@@ -1,7 +1,7 @@
 :: Scene02_ReturnToParlor {"position":"75,775"}
 <<bg "parloroverview">><<EndDialogueLayout>>
 
-The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the parlor. The scent doesn’t surprise you this time—it welcomes you, like returning to a book left open mid-page.
+The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn’t surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
 
 The hush still lingers, that velvety quiet filled with murmured voices and the occasional laugh from unseen corners. Somewhere above, the faint rhythm of movement—floorboards creaking in time with breath—reminds you that pleasure here takes many forms, not all of them spoken.
 
@@ -18,8 +18,8 @@ Marie is nowhere to be seen—for now. A few guests are murmuring in her usual c
 The male host reappears before you can look too long. His shirt is still scandalously unbuttoned, his smile just as practiced. But this time he nods to you with a little more weight behind it, like you’ve been promoted from curiosity to regular.
 
 From here, you may:
-[[Return to the bar and speak to Bert.|Scene02_BrothelBar]]
+[[Approach the bar and speak to Bert.|Scene02_BrothelBar]]
 [[Approach the half-demon woman again.|Scene02_TalkToExotic]]
 [[Rejoin the male host for another chat.|Scene02_TalkToMaleHost]]
-[[Look around for signs of Marie.|Scene02_TalkToMarie]]
+[[Look around for signs of Marie.|Scene02_TalkToAngryHost]]
 [[Take a seat and let the parlor move around you.|Scene02_ObserveRoom]]

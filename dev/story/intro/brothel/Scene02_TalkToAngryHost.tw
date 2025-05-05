@@ -1,0 +1,12 @@
+:: Scene02_TalkToAngryHost
+<<bg "Scene02_TalkToAngryHost">><<StartDialogueLayout>>
+
+You approach the blonde girl, who had thrown the horseshoe at the man outside. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
+
+<<speech "jaylie">>Do you mind if I sit here with you?<</speech>>
+
+<<speech "marie">>I suppose you can. I'm not much in the mood to talk.<</speech>>
+
+You take a seat next to her, your knees pointed away from her, making sure to give her space. She seems to stare at everything in the room but you.
+
+<<DialogueTree "marie" 0>>

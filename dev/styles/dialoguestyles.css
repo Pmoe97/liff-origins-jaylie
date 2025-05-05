@@ -83,3 +83,60 @@
 #text-backdrop.in-dialogue #convoBoxPanel {
   width: 70%;
 }
+.dialogue-choice.locked {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+.start-minigame-button-wrapper {
+  text-align: center;
+  margin-top: 1.5em;
+}
+
+.start-minigame-button {
+  background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+  color: #eee;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 0.75em 2em;
+  border: 2px solid #777;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  letter-spacing: 0.5px;
+}
+
+.start-minigame-button:hover {
+  background: linear-gradient(145deg, #4a1f1f, #2e0e0e);
+  border-color: #a33;
+  color: #ffdcdc;
+  box-shadow: 0 0 15px rgba(255, 64, 64, 0.4);
+  transform: scale(1.05);
+}
+
+.start-minigame-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(255, 64, 64, 0.5);
+}
+/* Faded old entries */
+.faded-entry {
+	opacity: 0.6;
+	transition: opacity 0.3s ease;
+}
+
+/* Highlighted current entry */
+.active-entry {
+	opacity: 1;
+}
+
+/* Elegant divider between old and new */
+.dialogue-divider {
+	width: 60%;
+	height: 1px;
+	background: linear-gradient(to right, transparent, #888, transparent);
+	margin: 1em auto;
+	opacity: 0.4;
+}
+

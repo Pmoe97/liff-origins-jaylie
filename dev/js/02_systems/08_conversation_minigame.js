@@ -120,7 +120,12 @@ setup.ConvoGame = {
   
     convo.usedTropes.push(trope.label.toLowerCase().replace(/\s+/g, ""));
   
-    const roll = Math.random() * 100;
+    const roll = window.crypto.getRandomValues(new Uint32Array(1))[0] / 2**32 * 100;
+
+    if (State.variables.DEBUG || setup.DEBUG) {
+      console.log(`[ConvoGame] 🎲 Roll: ${roll.toFixed(2)} vs. Success Chance: ${this.getSuccessChance(trope)}%`);
+    }
+
     const chance = this.getSuccessChance(trope);
     const success = roll <= chance;
     // Log luck tracking

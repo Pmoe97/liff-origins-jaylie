@@ -2,8 +2,12 @@
 <<widget "Allura_SureOfSelf">>
 <<append "#convoBox">>
   <<speech "jaylie">>You seem very sure of yourself.<</speech>>
+
+  Allura leans forward, the golden light of a nearby candle casting serpentine shadows along her cheekbones. Her lips curve into a slow, knowing smile.
+
   <<speech "allura">>Ah, but confidence is only dangerous if it’s misplaced, no?<</speech>>
 <</append>>
+
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -12,8 +16,12 @@
 <<widget "Allura_WhyHere">>
 <<append "#convoBox">>
   <<speech "jaylie">>What brings someone like you to a place like this?<</speech>>
+
+  A low laugh escapes her, like silk brushing skin. She shifts in her seat, the faint rustle of lace and perfume brushing the air between you.
+
   <<speech "allura">>Oh, darling. You say that like this place does not deserve me. I am here because I choose to be... and because there are always mouths to tempt and hearts to twist.<</speech>>
 <</append>>
+
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -21,8 +29,17 @@
 :: Allura_TeaseIntent [widget]
 <<widget "Allura_TeaseIntent">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What would you do with someone like me?<</speech>>
+  <<speech "jaylie">>What would you do with someone like me? I mean like if we went somewhere more private?<</speech>>
+
+  She slowly traces the rim of her glass with one crimson-painted nail, eyes half-lidded.
+
   <<speech "allura">>Mm... I would unwrap you slowly, like a forbidden letter... and read *every line* until your ink runs dry.<</speech>>
+
+  Your breath catches in your throat, and your cheeks flush with heat. 
+
+  <<speech "jaylie">>Wow.. Uh- Well. You don't have a shy bone in your body, do you?<</speech>>
+
+  <<speech "allura">>Oh, mon trésor, you are welcome to inspect my body any time you'd like and if you find such a thing, I assure you we will excise it together.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
@@ -30,14 +47,24 @@
 
 :: Allura_OrderDrink [widget]
 <<widget "Allura_OrderDrink">>
-<<append "#convoBox">>
+<<<append "#convoBox">>
   <<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
+
+  She raises a single finger, summoning Bert without looking. Rain lightly patters against the windowpane behind her.
+
   <<speech "allura">>Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*<</speech>>
-  <p><<speech "bert">>Here you are, ladies. A <em>Black Hole</em>. Enjoy.<</speech>></p>
-  <p><<speech "allura">>Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.<</speech>></p>
-  <p><<speech "jaylie">> Gods! Wow. That is delectible.<</speech>></p>
-  <p>Allura smiles at you, very self-assured.</p>
+
+  <<speech "bert">>Here you are, ladies. A <em>Black Hole</em>. Enjoy.<</speech>>
+
+  She lifts the drink and breathes in deeply before sipping, her expression momentarily softened.
+
+  <<speech "allura">>Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.<</speech>>
+
+  <<speech "jaylie">>Gods! Wow. That is delectable.<</speech>>
+  
+  Allura smiles at you over the rim of her own glass, her eyes glinting in the firelight. Clearly, she is quite pleased with herself.
 <</append>>
+
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -46,10 +73,54 @@
 <<widget "Allura_StartMinigame">>
 <<append "#convoBox">>
   <<speech "jaylie">>I just want to get to know you better.<</speech>>
+
+  A distant thunder roll rumbles faintly through the walls. Allura tilts her head, considering you like a puzzle she already enjoys solving.
+
   <<speech "allura">>Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.<</speech>>
 <</append>>
 <<OpenConvoGame "allura">>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
+
+:: Allura_GoUpstairs [widget]
+<<widget "Allura_GoUpstairs">>
+  <<append #convoBox>>
+    <<speech "jaylie">>Do you think we could go somewhere more private? The incense smoke is making me dizzy.<</speech>>
+
+    A curling smile grows across Allura's lips.
+
+    <<speech "allura">>Oh, mon chéri, the smoke unfortunately persists even upstairs. But if the prying eyes and lack of privacy are what bother you, I can help with that. Come. Follow me.<</speech>>
+
+    With grace like a noctail, and the confidence of a dancer, Allura swings her feet to the floor and slowly rises. Every movement is deliberate. You can't help but stare at her curves as she moves in the dim light.
+  
+    She beckons your with a finger. You stand and follow her like a dog on a leash.
+
+    [[She leads you upstairs.|Allura_BedroomOne]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Allura_ReturnToParlor [widget]
+<<widget "allura_ReturnToParlor">>
+  <<append #convoBox>>
+    <<speech "jaylie">>Hey, this has been fun. We should definitely talk more later.<</speech>>
+
+    Allura clicks her tongue and playfully shakes her head.
+
+    <<speech "allura">>Oh noooo, going so soon? Come back to me when you're ready to play. You know where to find me. No need to beg.<</speech>>
+  
+    You stand from the velvet chaise. Allura's tail flicks playfully against the leg of your pants as you walk away.
+
+    [[You walk back to the middle of the parlor.|Scene02_ReturnToParlor]]  
+
+  <</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase0()>>
+<</widget>>
+
 
 :: Allura_WhatSheWants [widget]
 <<widget "Allura_WhatSheWants">>

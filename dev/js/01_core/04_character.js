@@ -2,7 +2,8 @@
 =  Character Dialogue & Avatars  =
 ================================ */
 
-State.variables.characters = {
+setup.initializeCharacters = function () {
+	return{
 	jaylie: {
 	  name: "Jaylie",
 	  defaultName: "Jaylie",
@@ -63,9 +64,9 @@ State.variables.characters = {
 	  color: "white",
 	  bgColor: "rgba(197, 126, 65, 0.8)",
   
-	  trust: 22,
-	  affection: 14,
-	  rapport: 1.1,
+	  trust: 0,
+	  affection: 0,
+	  rapport: 0.5,
 	  tension: 0,
 	  cooldown: 0,
   
@@ -191,6 +192,7 @@ State.variables.characters = {
 		motivations: ["Loyalty", "Devotion"],
 		socialStyle: "Stoic"
 	}
+	};
 };
   
   /* Character Dialogue & Avatars - End */
