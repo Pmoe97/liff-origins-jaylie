@@ -7,7 +7,7 @@ setup.allura_Conversation_Options_Phase0 = function () {
 		{ label: "Do you think you could help me get a drink?", target: "Allura_OrderDrink" },
 		{ label: "I just want to get to know you better.", target: "Allura_StartMinigame" },
 		{ label: "Do you think maybe we could go somewhere more private?", target: "Allura_GoUpstairs", affection},
-		{ label: "Nevermind.", target: "ReturnToParlor", reuse: 1 }
+		{ label: "We can talk more later.", target: "ReturnToParlor", reuse: 1 }
 	]);
 };
 

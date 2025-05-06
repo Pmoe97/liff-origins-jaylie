@@ -1,0 +1,18 @@
+:: Scene02_TalkToAdda
+<<bg "Scene02_TalkToAdda">><<StartDialogueLayout>>
+
+Mistress Adda stands with one hand resting lightly on the back of a velvet chair, her other cradling a delicate crystal glass of something deep amber. She is half-illuminated by the glow of a nearby sconce, her dark gown catching the light like polished coal. Her posture is perfect—spine straight, shoulders regal—but there is something soft in her gaze as she watches you approach.
+
+She doesn’t speak at first. Just lets her eyes travel over you with the weight of someone who misses nothing. Then, a faint smirk curls the corner of her mouth.
+
+<<speech "adda">>You walk like someone who’s trying to appear casual... but hasn’t decided whether to flee or fight.<</speech>>
+
+<<speech "jaylie">>Maybe I’m still deciding.<</speech>>
+
+She chuckles—a low, warm sound—and gestures to the seat across from her.
+
+<<speech "adda">>Then sit. Speak. Let’s see if I can help you make up your mind.<</speech>>
+
+You take a seat, and Adda sits next to you, tucking her knees close to yours. Her posture is personal, but not what you would call intimate. The chair is plush beneath you, the fabric warm from the heat of the room. Adda watches you settle with the ease of someone used to holding court.
+
+<<DialogueTree "adda" 0>>

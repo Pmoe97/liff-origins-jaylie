@@ -1,83 +1,423 @@
 :: Adda_ThisPlaceIsYours [widget]
 <<widget "Adda_ThisPlaceIsYours">>
 <<append "#convoBox">>
-  <<speech "jaylie">>This place... it’s yours?<</speech>>
-  <<speech "adda">>It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I’ve had a hand in it all. Took me years, but I built it the way I wanted — and the city knows it.<</speech>>
+
+  <<speech "jaylie">>This place... it's all yours?<</speech>>
+
+  Adda lets out a breath, not quite a sigh—more like a release of tension she hadn't noticed she was holding. Her gaze sweeps slowly across the parlor as if seeing it for the first time in a while.
+
+  <<speech "adda">>It is. Every velvet curtain, every loose floorboard, every soul that walks through that door... I've had a hand in it all.<</speech>>
+
+  She trails her fingers across the back of the chair beside her, the tips brushing the velvet like she's testing it for secrets. In the distance, laughter flutters from behind a curtain, followed by the muted clink of glass.
+
+  <<speech "adda">>When I took over this place, it was crumbling. In debt, in spirit, and in reputation. But I don't give up on things just because they're broken.<</speech>><<set $addaMentionedTakeover = true>>
+
+  She turns back to you, voice quieter now—more intimate.
+
+  <<speech "adda">>I tore out the rot. Laid new bones. And I stitched it back together with silk, sweat, and no small amount of blood.<</speech>>
+
+  She smiles. Not a selfish smile, but one filled with unmistakable pride.
+
+  <<speech "adda">>Now the city doesn't just know it... it respects it. Noctail's not just a place. It's a promise. One I intend to keep.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>
+
 
 :: Adda_HostsCare [widget]
 <<widget "Adda_HostsCare">>
 <<append "#convoBox">>
+
   <<speech "jaylie">>Your hosts really seem to care about you.<</speech>>
-  <<speech "adda">>As they should. I care about them. Not because I have to — but because they deserve it. This house runs on more than coin and charm, girl. It runs on trust.<</speech>>
+
+  Adda's expression softens—not in weakness, but in memory. She glances toward a group of them laughing quietly in a corner, her eyes flicking across each face like she's counting blessings.
+
+  <<speech "adda">>They do. And not because they're told to. It's... earned. Like anything worth having.<</speech>>
+
+  She folds her arms, the weight of her gaze returning to you.
+
+  <<speech "adda">>I care about them. Every one of them. Not because it's good business—but because they deserve to be seen, protected... valued.<</speech>>
+
+  A deep rumble of thunder presses against the building's bones. Somewhere above, a window rattles gently in its frame. Adda doesn't flinch.
+
+  <<speech "adda">>This house doesn't run on coin or charm alone, Jaylie. It runs on trust. On knowing someone's got your back, even when the storm gets close.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>
+
 
 :: Adda_Different [widget]
 <<widget "Adda_Different">>
 <<append "#convoBox">>
-  <<speech "jaylie">>You seem... different from the others.<</speech>>
-  <<speech "adda">>Different? I suppose I am. Most folks in this business start with fire and burn fast. I learned to smolder — lasts longer that way.<</speech>>
+
+  <<speech "jaylie">>The others here—they smile, they charm, but with you it's different. They *listen.* Like they're waiting for your lead.<</speech>>
+
+  Adda smiles faintly, her eyes still sweeping the room before settling on you.
+
+  <<speech "adda">>They know I won't ask anything of them I wouldn't do myself. That earns you more than loyalty—it earns you weight.<</speech>>
+
+  <<speech "jaylie">>You carry it well. There's a steadiness to you. Like… no matter what's happening out here, you've already seen worse and lived through it.<</speech>>
+
+  Adda chuckles low in her throat, the sound warm but edged in memory.
+
+  <<speech "adda">>Most who come into this line of work burn hot. Big fire, quick fade. They live fast, charm fast, fall fast. And the world wouldn't give two shits for their ashes.<</speech>>
+
+  Her gaze lingers on one of the hosts across the room—someone young, laughing a little too loudly.
+
+  <<speech "adda">>I learned early that smoldering lasts longer. Still heat. Still flame, but you just… have to be more patient.<</speech>>
+
+  A soft rumble rolls through the building—distant thunder shifting the air, rattling the stemware behind the bar. Neither of you flinch.
+
+  <<speech "jaylie">>And now you're the fire everyone gathers around.<</speech>>
+
+  Adda's lips curl into a knowing smile.
+
+  <<speech "adda">>Maybe. These men and women know how cold it gets when the fire goes out. I just do my best to make sure that doesn't happen.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>
+
 
 :: Adda_StartMinigame [widget]
 <<widget "Adda_StartMinigame">>
 <<append "#convoBox">>
-  <<speech "jaylie">>Can I get to know you better?<</speech>>
-  <<speech "adda">>You can try. Just know, I’ve lived long enough to recognize a question meant to pry... and one meant to learn.<</speech>>
+
+  <<speech "jaylie">>Mind if I ask you a few real questions? I'd like to know more about you.<</speech>>
+
+  Adda tilts her head, one brow lifting with quiet amusement.
+
+  <<speech "adda">>That depends—are you asking to understand me, or just hoping to catch me off guard?<</speech>>
+
+  <<speech "jaylie">>Guess you'll have to find out.<</speech>>
+
+  Adda's smirk softens. She nods once.
+
+  <<speech "adda">>Alright then. Ask away.<</speech>>
+
 <</append>>
 <<OpenConvoGame "adda">>
 <</widget>>
 
+
 :: Adda_OriginStory [widget]
 <<widget "Adda_OriginStory">>
 <<append "#convoBox">>
-  <<speech "jaylie">>How’d you end up starting this place?<</speech>>
-  <<speech "adda">>Well in all fairness, I didn’t start it. It was inherited from the previous owner. But if you'd seen it back then, you wouldn't recognize it today. It’s always been my ideal that workers like these shouldn’t be chewed up and spit out by society. Here? We bite back.<</speech>>
+  <<speech "jaylie">>You mentioned taking this place over… mind if I ask you more about how that happened?<</speech>>
+
+  Adda's expression shifts slightly — not softer, but heavier. She leans her weight onto one hip, arms folding under her chest.
+
+  <<speech "adda">>It's not short. And it's not sweet. But it's mine. If you're really curious, I'd be glad to share it with you.<</speech>>
+
+  <<set $addaMentionedOrigin = true>>
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
 <</widget>>
+
+
 
 :: Adda_CommandPresence [widget]
 <<widget "Adda_CommandPresence">>
 <<append "#convoBox">>
-  <<speech "jaylie">>You don’t seem like someone people say no to.<</speech>>
-  <<speech "adda">>That’s because I don’t ask for much. But when I do? I make it hard to refuse.<</speech>>
+  <<speech "jaylie">>People seem to listen when you speak.<</speech>>
+
+  Adda lifts her chin slightly, a half-smile playing at her lips. Her eyes track a pair of patrons chuckling a little too loudly in the far corner.
+
+  <<speech "adda">>They listen because I don't waste words. And because they know I see everything that happens under this roof.<</speech>>
+
+  As if on cue, Bert slides past with a tray balanced flawlessly on one hand, delivering drinks with silent precision. Adda watches him for a moment, her gaze softening with approval.
+
+  <<speech "adda">>See that? I never once had to tell Bert what this place demands. He just understood. People like him... they make my job easier.<</speech>>
+
+  Her voice lowers, inviting you into a more intimate tone.
+
+  <<speech "adda">>But others... others needed to be taught. Taught to listen. Taught to respect. And sometimes, taught what happens when they don't.<</speech>>
+
+  You're not sure if she's talking about staff, guests, or someone else entirely. But there's a weight to her words that lands heavy, even in the warmth of the parlor.
+
+  <<speech "jaylie">>You make it look effortless.<</speech>>
+
+  <<speech "adda">>Effortless is always the result of effort well hidden, dear.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>
+
+
 
 :: Adda_OrderDrink [widget]
 <<widget "Adda_OrderDrink">>
 <<append "#convoBox">>
   <<speech "jaylie">>Could you help me get a drink?<</speech>>
-  <<speech "adda">>Of course. Bert? Something smooth, a little bold, and just sweet enough to leave an impression. For our guest.<</speech>>
-  <<speech "bert">>Coming right up.<</speech>>
+
+  Adda gives you a measured look, as if weighing what sort of drink might suit you… or perhaps what message she wants it to send.
+
+  <<speech "adda">>Well of course, dear. You should have asked sooner. Bert—<</speech>>
+
+  She lifts two fingers, and without needing to raise her voice, catches his attention across the room. He nods once before turning to his station behind the bar.
+
+  <<speech "adda">>Something full-bodied, dark at the center, with a kiss of spice. Just sweet enough to surprise you… and strong enough to be remembered in the morning.<</speech>>
+
+  A few moments later, Bert returns, fluid and precise in every motion, holding a cut-crystal glass that gleams like a gem in the low light.
+
+  <<speech "bert">>One *Velvet Verdict*, as requested.<</speech>>
+
+  The scent rises to meet you even before you lift it: smoke, black cherry, citrus oil, and something faintly floral—like crushed violets beneath warm stone.
+
+  <<speech "adda">>Sip it slow. It should teach you something new about yourself with every sip.<</speech>>
+
+  You raise the glass, fingers brushing the beveled edge, and take a slow drink.
+
+  It hits in waves—first the sweetness, like burnt sugar and ripe fruit, then a curl of warmth that lingers at the back of your throat. Beneath it all, a whisper of something earthy and elusive. Something older than you expected. There's complexity in it, the kind that hides a story you're not sure you're ready to hear.
+
+  You exhale slowly, the alcohol blooming through your chest like warmth under thick blankets.
+
+  <<speech "jaylie">>That's… incredible.<</speech>>
+
+  Adda doesn't respond right away. She simply watches you, her lips curled into the faintest smile—like she already knew what you'd say.
+
+  <<speech "adda">>Bert doesn't miss. Neither do I.<</speech>>
+
+  The thunder outside rolls again, louder now, and the lights in the sconces flicker ever so slightly as if stirred by the storm's breath.
 <</append>>
-<<set _drink = clone($items.brothelDrink)>>
-<<set _drink.name = "Adda's Signature Pour">>
-<<set _drink.description = "A custom drink chosen by Adda herself — rich, bold, and deceptively smooth.">>
-<<run setup.inventory.add(_drink)>>
+<<run setup.clearConvoChoices()>>
+<<run setup.adda_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Adda_GoPrivate [widget]
+<<widget "Adda_GoPrivate">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Would you ever step away for something a little more private?<</speech>>
+
+  For the first time in your entire conversation, Adda doesn't have an immediate answer. Her eyes soften just slightly, the sharp edge behind them dulled by something unspoken.
+
+  She looks away, watching the parlor for a breath or two — the flick of a lighter at the bar, the rustle of skirts, the distant creak of the upstairs floor.
+
+  <<speech "adda">>Well now… that's not a request I get very often anymore.<</speech>>
+
+  She turns back, lips curved just barely in a knowing smile.
+
+  <<speech "adda">>But since you've gone and got me talking about the old days… sure. I wouldn't mind a little more reminiscing.<</speech>>
+
+  She moves gracefully to her feet, smoothing the front of her long black dress. A slow step toward you — deliberate, poised.
+
+  <<speech "adda">>Just don't expect the same girl who used to work the floor. She's still in here somewhere… but you'll have to be clever to find her.<</speech>>
+
+  Without another word, she gestures for you to follow, and begins walking toward the back hall.
+
+  [[Follow Adda into a more private room.|Adda_PrivateScene]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+:: ReturnToParlor [widget]
+<<widget "ReturnToParlor">>
+<<append "#convoBox">>
+  <<speech "jaylie">>We can talk more later.<</speech>>
+
+  Adda gives you a small, approving nod — not dismissive, but understanding.
+
+  <<speech "adda">>Of course. The parlor's yours to roam. Just don't go falling for anyone too quickly, now.<</speech>>
+
+  Her lips curl in a subtle smirk, and she returns her attention to the room — already half-in, half-out of your conversation, watching the ebb and flow of her domain.
+
+  You rise from the couch and glance around. The hush of the brothel settles over you again — warm light, distant laughter, the clink of glass, the faint rumble of thunder pulsing against the windows.
+
+  [[You step away from Adda and return to the parlor.|Scene02_ReturnToParlor]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+/* Adda Noctail Origin Convo Branch - Start */
+:: Adda_Origin_WhatWasItLike [widget]
+<<widget "Adda_Origin_WhatWasItLike">>
+<<append "#convoBox">>
+  <<speech "jaylie">>What was the brothel like before you took over?<</speech>>
+
+  Adda leans back against the velvet cushion, one leg crossed over the other, fingers tapping lightly on her knee.
+
+  <<speech "adda">>Dusty. Desperate. The kind of place where eyes don't meet and names aren't asked. It made coin, sure—but it bled for it. No warmth, no rules, just survival with a smile.</<speech>>
+
+  Her voice tightens, just slightly.
+
+  <<speech "adda">>There were still good people under this roof. One in particular. She kept the light on in the dark, even when no one deserved it. The kind of person who made you sit straighter just by walking into a room.<</speech>>
+
+  Adda's eyes drift upward, unfocused. A hint of warmth in the corner of her mouth, bittersweet.
+
+  <<speech "adda">>She used to say the walls had ears. So she made sure they only heard kindness. I thought it was naive at the time. Now? I think it's the bravest damn thing anyone ever tried in a place like this.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<</widget>>
+
+:: Adda_Origin_PreviousOwner [widget]
+<<widget "Adda_Origin_PreviousOwner">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Who was the previous owner?<</speech>>
+
+  Adda's posture shifts at the question—just slightly. Her shoulders drop, the air around her suddenly quieter, like a memory is stepping between you both.
+
+  <<speech "adda">>That would be Lys. Though to call her the “owner” isn't quite right. She was never on the deed. Never had the keys, not really. But she ran the floor. Managed the girls. Kept the worst of the wolves at bay.<</speech>>
+
+  She folds her arms, eyes drifting to a point just over your shoulder.
+
+  <<speech "adda">>The real owners—the ones with coin and clean ledgers—didn't care what this place became, so long as it kept making money. Lys tried to shift that. Bit by bit. She made the rooms safer. Banned the regulars who didn't respect limits. Bought better wine, better sheets. Even lit the place in amber instead of white—said it made everyone feel warmer, softer.<</speech>>
+
+  Her lips press into a thin smile.
+
+  <<speech "adda">>But she ruffled the wrong feathers. There were men in high collars who didn't like that she had a voice. And even fewer liked that she didn't hide who she was. Said she was... unsettling. That her kind didn't belong in polite society, let alone business.<</speech>>
+
+  She runs a thumb along the edge of her ring.
+
+  <<speech "adda">>I told her to keep her head down. She laughed in my face. Said, “You don't fix rot by pretending it smells sweet.”<</speech>>
+
+  There's silence for a moment. Even the parlor seems to hush.
+
+  <<speech "adda">>She was brave. And she paid for it.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<</widget>>
+
+:: Adda_Origin_HowSheTookIt [widget]
+<<widget "Adda_Origin_HowSheTookIt">>
+<<append "#convoBox">>
+<<speech "jaylie">>So… how did you end up taking control of the Noctail?<</speech>>
+
+Adda doesn't answer immediately. Her fingers idly trace the rim of her glass, her gaze drifting to a quiet corner of the parlor as if searching for a memory still lingering there.
+
+<<speech "adda">>It wasn't supposed to be me, you know. The one running things.<</speech>>
+
+The soft thunder outside rolls again, low and distant.
+
+<<speech "adda">>Lys—she was the heart of this place back then. Not in title, but in spirit. She had a way of making people feel seen. Made the girls stand taller. Made the guests a little less cruel. The plan was always for her to take over fully once the old owner finally let go.<</speech>>
+
+She lets out a dry breath, almost a laugh.
+
+<<speech "adda">>But plans don't hold up well in this city. Not when people like Lys start asking for better. She'd begun drawing lines—no more rent skimming from the Guild, no more silent bribes to the watch. Just… honest work, done with dignity. That ruffled more than a few feathers.<</speech>>
+
+Jaylie shifts slightly, the tension in Adda's voice registering now.
+
+<<speech "adda">>One night, she didn't come back. No note. No farewell. Just… gone.<</speech>>
+
+She presses her lips together. The silence that follows is heavy, not just with grief but with unfinished justice.
+
+<<speech "adda">>The old owner—he panicked. With Lys gone, the whole place started to fray. Clients got bolder. Staff grew scared. I wasn't in charge, but I was still here. Still loyal. And loud enough to matter.<</speech>>
+
+She finally meets your eyes.
+
+<<speech "adda">>I leaned on the right people. Called in favors. Found ways to make things… difficult for him. Let's just say the Guild figured it was better for their business if someone more stable took the reins. A deed signed under pressure is still a deed.<</speech>>
+
+She leans back, thoughtful.
+
+<<speech "adda">>I didn't steal this place. I claimed it. For her. For everyone still here. And for myself.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<</LayoutConvoChoices>>
+<</widget>>
+
+:: Adda_Origin_ChangesMade [widget]
+<<widget "Adda_Origin_ChangesMade">>
+<<append "#convoBox">>
+<<speech "jaylie">>And once you took over… what changed?<</speech>>
+
+Adda gives a small grunt, not unkind—more reflective than anything. She swirls the liquid in her glass, the ice clinking softly like distant wind chimes.
+
+<<speech "adda">>Almost everything. But not all at once. You don't reshape a house like this with fire and hammers. You do it like a tailor—quiet snips and careful stitching. Little by little, until the seams hold different shapes.<</speech>>
+
+She shifts in her seat, eyes sweeping the room.
+
+<<speech "adda">>First thing I did was remove the locks from the inside of the rooms. No one here should ever feel like they're trapped, even for show. Then I started cutting ties—with certain clients, certain fixers. If someone didn't treat my people like people, they were no longer welcome. No exceptions.<</speech>>
+
+Jaylie nods slowly, watching Adda's expression.
+
+<<speech "adda">>I hired guards that worked for the hosts, not just the clients. Switched contracts from oral deals to proper ones—signed, sealed, enforceable. Doesn't stop everything, but it gives us a shield if the law ever decides to remember we exist.<</speech>>
+
+A subtle crack of thunder echoes from outside, barely audible beneath the murmur of the parlor. Adda glances toward the window briefly, then back.
+
+<<speech "adda">>The biggest change, though? I made it clear that no one here belongs to anyone. Not to me. Not to the house. Not to the city. Anyone can walk when they want—no debts. No shame. Stay because you choose to. Leave because you can.<</speech>>
+
+She pauses, looking back at Jaylie. Her voice softens.
+
+<<speech "adda">>Lys used to say that dignity was the rarest thing in places like this. So I built a home where it could grow.<</speech>>
+
+Jaylie watches her quietly for a beat before offering a small, genuine smile.
+
+<<speech "jaylie">>I think she'd be proud.<</speech>>
+
+Adda returns the smile, just barely.
+
+<<speech "adda">>I hope so...<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<</LayoutConvoChoices>>
+<</widget>>
+
+:: Adda_Origin_LocalPolitics [widget]
+<<widget "Adda_Origin_LocalPolitics">>
+<<append "#convoBox">>
+<<speech "jaylie">>Any enemies left over from those days?<</speech>>
+
+Adda's mouth curls—not into a smile, exactly, but something sharp and knowing. She leans back, exhaling slowly through her nose, like she's weighing which ghosts are safe to speak aloud.
+
+<<speech "adda">>You don't clear a den of rats without some of them slipping through the cracks. A few of them scurry still. Names I'd prefer you not repeat, unless you want your shoes filled with glass.<</speech>>
+
+She picks up her glass, takes a slow sip, then gestures lazily with it.
+
+<<speech "adda">>There was a man named Vell. Muscle for one of the guilds, back when Lys was still alive. Thought he could own the house from the shadows—skim coin, push substances, threaten the girls if they didn't ‘perform' to spec. I told him once to leave. The second time… I didn't ask.<</speech>>
+
+Her gaze flicks toward the far side of the parlor, where a pair of guests laugh too loudly before quieting again.
+
+<<speech "adda">>He doesn't come around anymore. But he's not gone. Not really. The city has a long memory and a short leash, and some men never forget the bruise to their pride.<</speech>>
+
+Jaylie shifts slightly in her seat, sensing the weight behind her words.
+
+<<speech "adda">>Then there's the Nobleman's Club over on Fallow Row. Not a brothel, technically. More of a... gentleman's retreat. They don't like that we cut into their profits and do it without bowing. One of their chairs still sends little spies now and then, trying to find dirt on us.<</speech>>
+
+Thunder rolls distantly again, this time closer, the windows of the parlor murmuring with a soft, sympathetic rattle. Adda glances toward the sound, then turns her attention back.
+
+<<speech "adda">>But none of them come here. Not anymore. They know what it costs. And I've made it very clear—if anyone touches one of mine, I'll spend every last coin I have making sure it's the last thing they do.<</speech>>
+
+A pause hangs between you.
+
+<<speech "jaylie">>Remind me not to get on your bad side.<</speech>>
+
+Adda lets out a short, warm chuckle that almost cuts the tension.
+
+<<speech "adda">>Smart girl.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<LayoutConvoChoices>>
+<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<</LayoutConvoChoices>>
+<</widget>>
+
+:: Adda_Origin_Exit [widget]
+<<widget "Adda_Origin_Exit">>
+<<append "#convoBox">>
+You exhale softly, your fingers tracing the rim of your glass. Adda watches you for a moment, then shifts her weight in the seat, like she's letting go of something that had settled heavy on her shoulders.
+
+<<speech "jaylie">>We don't have to keep talking about the past.<</speech>>
+
+<<speech "adda">>No. We don't. But thank you for asking. Not many care enough to hear it, let alone understand what it took to get here.<</speech>>
+
+Her gaze drifts for a moment—out toward the parlor where her hosts mingle, laugh, seduce, and survive. The room seems softer in the golden light, but the thunder outside is closer now. A low boom rolls through the walls, like a memory passing overhead.
+
+<<speech "adda">>Now then. You've heard enough ghosts for one night, I think. Let's get back to the living.<</speech>>
+<</append>>
 <<run setup.clearConvoChoices()>>
 <<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
