@@ -216,8 +216,8 @@
 <<run setup.clearConvoChoices()>>
 <</widget>>
 
-:: ReturnToParlor [widget]
-<<widget "ReturnToParlor">>
+:: GoodbyeAddaZero [widget]
+<<widget "GoodbyeAddaZero">>
 <<append "#convoBox">>
   <<speech "jaylie">>We can talk more later.<</speech>>
 

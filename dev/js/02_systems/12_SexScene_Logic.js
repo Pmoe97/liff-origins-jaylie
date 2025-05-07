@@ -87,3 +87,15 @@ setup.SexScene = {
     }
   };
   
+  setup.replacePronouns = function(text, npc) {
+    const p = npc.pronouns;
+    return text
+      .replace(/<<npc\.they>>/g, p.subject)
+      .replace(/<<npc\.them>>/g, p.object)
+      .replace(/<<npc\.their>>/g, p.possessive)
+      .replace(/<<npc\.theirs>>/g, p.possessive + "s") // optional override
+      .replace(/<<npc\.themself>>/g, p.reflexive)
+      .replace(/<<npc\.noun>>/g, p.noun)
+      .replace(/<<npc\.name>>/g, npc.name);
+  };
+  
