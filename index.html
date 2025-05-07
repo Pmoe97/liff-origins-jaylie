@@ -3154,204 +3154,660 @@ State.variables.world = {
   console.log("WorldData is loaded.");
 /* twine-user-script #8: "04_Generated_NPCData.js" */
 /* twine-user-script #9: "04_character.js" */
+/* twine-user-script #8: "04_Generated_NPCData.js" */
+/* twine-user-script #9: "04_character.js" */
 /* ================================
 =  Character Dialogue & Avatars  =
 ================================ */
 
 setup.initializeCharacters = function () {
 	return{
-	jaylie: {
-	  name: "Jaylie",
-	  defaultName: "Jaylie",
-	  known: true,
-	  avatar: "images/portrait_jaylie.png",
-	  color: "white",
-	  bgColor: "rgba(162, 72, 87, 0.8)",
-  
-	  // Player character, not tracked with affection/trust
-	  isPlayer: true
-	},
-  
-	adda: {
-	  name: "Mistress Adda",
-	  defaultName: "Brothel Mistress",
-	  known: false,
-	  avatar: "images/portrait_mistressadda.png",
-	  color: "white",
-	  bgColor: "rgba(32, 32, 32, 0.8)",
-  
-	  trust: 35,
-	  affection: 28,
-	  rapport: 1.2,
-	  tension: 0,
-	  cooldown: 0,
-  
-	  traits: ["Dominant", "Cynical", "Flirty"],
-	  inclinations: ["Bondage", "Praise-Kink"],
-	  motivations: ["Control", "Pleasure"],
-	  socialStyle: "Regal"
-	},
-  
-	kallot: {
-	  name: "Kallot",
-	  defaultName: "Drunk Man",
-	  known: false,
-	  avatar: "images/portrait_kallot.png",
-	  color: "white",
-	  bgColor: "rgba(159, 172, 138, 0.8)",
-  
-	  trust: 12,
-	  affection: 5,
-	  rapport: 1.0,
-	  tension: 0,
-	  cooldown: 0,
-  
-	  traits: ["Cynical", "Melancholic", "Awkward"],
-	  inclinations: ["Voyeurism"],
-	  motivations: ["Redemption", "Connection"],
-	  socialStyle: "Humble"
-	},
-  
-	marie: {
-	  name: "Marie",
-	  defaultName: "Brothel Girl",
-	  known: false,
-	  avatar: "images/portrait_marie.png",
-	  color: "white",
-	  bgColor: "rgba(197, 126, 65, 0.8)",
-  
-	  trust: 0,
-	  affection: 0,
-	  rapport: 0.5,
-	  tension: 0,
-	  cooldown: 0,
-  
-	  traits: ["Introverted", "Guarded", "Submissive"],
-	  inclinations: ["Praise-Kink", "Service-Oriented"],
-	  motivations: ["Safety", "Freedom"],
-	  socialStyle: "Reserved"
-	},
-  
-	eristan: {
-	  name: "Eristan Velthar",
-	  defaultName: "Madman",
-	  known: false,
-	  avatar: "images/portrait_eristan.png",
-	  color: "white",
-	  bgColor: "rgba(53, 18, 4, 0.8)",
-  
-	  trust: 8,
-	  affection: 4,
-	  rapport: 0.9,
-	  tension: 0,
-	  cooldown: 0,
-  
-	  traits: ["Detached", "Curious", "Traumatized"],
-	  inclinations: ["Chastity-Kink"],
-	  motivations: ["Prophecy", "Protection"],
-	  socialStyle: "Unhinged"
-	},
-
-	harroc: {
-		name: "Harroc",
-		defaultName: "Barkeep",
-		known: true,
-		avatar: "images/portrait_harroc.png",
-		color: "white",
-		bgColor: "rgba(65, 48, 35, 0.8)",
-	
-		trust: 50,
-		affection: 10,
-		rapport: 1.1,
-		tension: 0,
-		cooldown: 0,
-	
-		traits: ["Stoic", "Kind", "Guarded"],
-		inclinations: [],
-		motivations: ["Duty", "Redemption"],
-		socialStyle: "Grizzled"
-	  },
-
-	tesska: {
-		name: "Tesska",
-		defaultName: "Barmaid",
-		known: false,
-		avatar: "images/portrait_tesska.png", 
-		color: "white",
-		bgColor: "rgba(189, 108, 99, 0.85)",
-	
-		trust: 15,
-		affection: 20,
-		rapport: 1.0,
-		tension: 0,
-		cooldown: 0,
-	
-		traits: ["Flirty", "Crude", "Confident"],
-		inclinations: ["Exhibitionist", "Teasing"],
-		motivations: ["Freedom", "Excitement"],
-		socialStyle: "Feisty"
-	  },
-	allura: {
-		name: "Allura",
-		defaultName: "Exotic Hostess",
-		known: false,
-		avatar: "images/portrait_allura.png",
-		color: "white",
-		bgColor: "rgba(20, 152, 232, 0.6)",
+		jaylie: {
+			name: "Jaylie",
+			defaultName: "Jaylie",
+			known: true,
+			avatar: "images/portrait_jaylie.png",
+			color: "white",
+			bgColor: "rgba(110, 43, 54, 0.8)",
 		
-		trust: 0,
-		affection: 0,
-		rapport: 1.0,
-		tension: 0,
-		cooldown: 0,
+			isPlayer: true,
+		
+			body: {
+				height: 64, // 5'4"
+				breastSize: 2, // "modest"
+				buttSize: 2, // "modest"
+				bodyType: 3, // "average"
+				lipFullness: 2, // "modest"
+				skinTone: "fair",
+				muscleTone: 2, // "fit"
+				hipWidth: 2, // "wide"
+				bodyHair: 1, // "light"
+				voiceTone: "gentle",
+				hairColor: "auburn",
+				hairStyle: "wavy",
+				hairLength: 20, // "mid-back"
+				eyeColor: "hazel green"
+			}
+		},
+		
+  
+		adda: {
+			name: "Mistress Adda",
+			defaultName: "Brothel Mistress",
+			known: false,
+			avatar: "images/portrait_mistressadda.png",
+			color: "white",
+			bgColor: "rgba(32, 32, 32, 0.8)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Dominant", "Wise", "Seductive"],
+			inclinations: ["bondage", "praise", "service"],
+			motivations: ["Control", "Guidance"],
+			socialStyle: "Regal",
+			
+			pronouns: {
+				subject: "she",         // he / they
+				object: "her",          // him / them
+				possessive: "her",      // his / their
+				reflexive: "herself",   // himself / themself
+				noun: "woman"           // man / person
+			  },
+			  
+			body: {
+				height: 69, // 5'9"
+				breastSize: 4, // "large"
+				buttSize: 3, // "round"
+				bodyType: 4, // "curvy"
+				lipFullness: 3, // "full"
+				skinTone: "olive",
+				muscleTone: 2, // "fit"
+				hipWidth: 3, // "very wide"
+				bodyHair: 1, // "light"
+				voiceTone: "commanding",
+				hairColor: "iron-gray with black undertones",
+				hairStyle: "elegantly pinned with loose waves",
+				hairLength: 20, // "mid-back"
+				eyeColor: "dark hazel"
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: [
+						"Dominate", "Bondage_Use", "Praise_G",
+						"Spank_G", "HairPulling_G", "DirtyTalk_G",
+						"Vaginal_P", "Oral_R", "OrgasmControl_G"
+					],
+					dislikes: ["Submit", "Clit_Rub", "Blindfold_R"]
+				},
+				bodyTypes: {
+					likes: ["SlimWaist", "BigButt", "Curvy", "Fit"],
+					dislikes: ["Emaciated", "VeryHairy"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.5,
+						female: 0.5
+					},
+					anatomyPreference: {
+						penisSize: "modest",
+						breastSize: "medium"
+					}
+				}
+			}
+		},
+		
+  
+		kallot: {
+			name: "Kallot",
+			defaultName: "Drunk Man",
+			known: false,
+			avatar: "images/portrait_kallot.png",
+			color: "white",
+			bgColor: "rgba(159, 172, 138, 0.8)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Cynical", "Melancholic", "Awkward"],
+			inclinations: ["voyeurism", "vanilla", "submission"],
+			motivations: ["Redemption", "Connection"],
+			socialStyle: "Humble",
+			
+			pronouns: {
+				subject: "he",         // he / they
+				object: "him",          // him / them
+				possessive: "his",      // his / their
+				reflexive: "himself",   // himself / themself
+				noun: "man"           // man / person
+			  },
+		
+			body: {
+				height: 68, // 5'8"
+				breastSize: null,
+				buttSize: 3, // "round"
+				penisSize: 6.5, // inches
+				bodyType: 5, // "thick"
+				lipFullness: 2, // "modest"
+				skinTone: "brown",
+				muscleTone: 3, // "athletic"
+				hipWidth: 2, // "modest"
+				bodyHair: 3, // "hairy"
+				voiceTone: "gentle",
+				hairColor: "dark brown",
+				hairStyle: "short and messy",
+				hairLength: 2, // ~short
+				eyeColor: "muddy blue"
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: ["Oral_R", "Oral_G", "Vaginal_P", "Voyeurism", "Submit", "Kissing", "Cuddling"],
+					dislikes: ["Dominate", "Spank_G", "Degrade_G"]
+				},
+				bodyTypes: {
+					likes: ["Curvy", "Soft", "Average"],
+					dislikes: ["Ripped", "Broad", "VeryTall"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.1,
+						female: 0.9
+					},
+					anatomyPreference: {
+						breastSize: "large",
+						buttSize: "plump"
+					}
+				}
+			}
+		},
+		
+  
+		marie: {
+			name: "Marie",
+			defaultName: "Brothel Girl",
+			known: false,
+			avatar: "images/portrait_marie.png",
+			color: "white",
+			bgColor: "rgba(197, 126, 65, 0.8)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Introverted", "Guarded", "Submissive"],
+			inclinations: ["praise", "service", "submission"],
+			motivations: ["Safety", "Freedom"],
+			socialStyle: "Reserved",
+			
+			pronouns: {
+				subject: "she",         // he / they
+				object: "her",          // him / them
+				possessive: "her",      // his / their
+				reflexive: "herself",   // himself / themself
+				noun: "woman"           // man / person
+			  },
+			  
+			body: {
+				height: 61, // 5'1"
+				breastSize: 1, // "small"
+				buttSize: 2, // "modest"
+				bodyType: 1, // "slender"
+				lipFullness: 2, // "modest"
+				skinTone: "porcelain",
+				muscleTone: 0, // "soft"
+				hipWidth: 1, // "modest"
+				bodyHair: 0, // "smooth"
+				voiceTone: "hushed",
+				hairColor: "blonde",
+				hairStyle: "loose and natural",
+				hairLength: 5, // "mid-back"
+				eyeColor: "green"
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: ["Praise_G", "Oral_G", "Oral_R", "Cuddling", "Kissing", "Fingering_R", "BreastPlay_R"],
+					dislikes: ["Spank_G", "HairPulling_G", "Choke_G", "Anal_P", "Clit_Rub"]
+				},
+				bodyTypes: {
+					likes: ["Curvy", "Soft", "Fit"],
+					dislikes: ["Ripped", "VeryTall", "Broad"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.3,
+						female: 0.7
+					},
+					anatomyPreference: {
+						breastSize: "large",
+						penisSize: "modest"
+					}
+				}
+			}
+		},
+		
+  
+		eristan: {
+			name: "Eristan Velthar",
+			defaultName: "Madman",
+			known: false,
+			avatar: "images/portrait_eristan.png",
+			color: "white",
+			bgColor: "rgba(53, 18, 4, 0.8)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Detached", "Curious", "Traumatized"],
+			inclinations: ["chastity", "abstinence", "masochism"],
+			motivations: ["Prophecy", "Protection"],
+			socialStyle: "Unhinged",
+			
+			pronouns: {
+				subject: "he",         // he / they
+				object: "him",          // him / them
+				possessive: "his",      // his / their
+				reflexive: "himself",   // himself / themself
+				noun: "man"           // man / person
+			  },
+		
+			body: {
+				height: 70, // 5'10"
+				breastSize: null,
+				buttSize: 0, // "flat"
+				bodyType: 0, // "emaciated"
+				lipFullness: 1, // "narrow"
+				skinTone: "fair",
+				muscleTone: 0, // "soft"
+				hipWidth: 0, // "narrow"
+				bodyHair: 2, // "natural"
+				voiceTone: "breathy",
+				hairColor: "ashen gray",
+				hairStyle: "wild and unkempt",
+				hairLength: 4, // "shoulder-length"
+				eyeColor: "cloudy blue",
+				penisSize: 9.5 // destiny’s joke
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: [],
+					dislikes: [
+						"Oral_R", "Oral_G", "Vaginal_P", "Anal_P", "Toys_OnSelf",
+						"Toys_Use", "Kissing", "Cuddling", "DirtyTalk_R", "Dominate", "Submit"
+					]
+				},
+				bodyTypes: {
+					likes: [],
+					dislikes: ["Curvy", "Voluptuous", "Fit", "Broad"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.9,
+						female: 0.1
+					},
+					anatomyPreference: {
+						penisSize: "irrelevant",
+						breastSize: "irrelevant"
+					}
+				}
+			}
+		},
+		
 
-		traits: ["Flirty", "Cynical", "Confident"],
-		inclinations: ["Bondage", "Dominant"],
-		motivations: ["Pleasure", "Family"],
-		socialStyle: "Flirty"
-	  },
-	darian: {
-		name: "Darian",
-		defaultName: "Male Host",
-		known: false,
-		avatar: "images/portrait_darian.png",
-		color: "white",
-		bgColor: "rgba(126, 66, 0, 0.6)",
+		harroc: {
+			name: "Harroc",
+			defaultName: "Barkeep",
+			known: true,
+			avatar: "images/portrait_harroc.png",
+			color: "white",
+			bgColor: "rgba(65, 48, 35, 0.8)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Stoic", "Kind", "Guarded"],
+			inclinations: ["vanilla", "monogamy", "aftercare"],
+			motivations: ["Duty", "Redemption"],
+			socialStyle: "Grizzled",
+			
+			pronouns: {
+				subject: "he",         // he / they
+				object: "him",          // him / them
+				possessive: "his",      // his / their
+				reflexive: "himself",   // himself / themself
+				noun: "man"           // man / person
+			  },
+		
+			body: {
+				height: 76, // 6'4"
+				breastSize: null,
+				buttSize: 2, // "modest"
+				bodyType: 6, // "heavyset"
+				lipFullness: 2, // "modest"
+				skinTone: "brown",
+				muscleTone: 5, // "muscular"
+				hipWidth: 1, // "modest"
+				bodyHair: 3, // "hairy"
+				voiceTone: "commanding",
+				hairColor: "grizzled black",
+				hairStyle: "bald with beard",
+				hairLength: 2, // ~"short"
+				eyeColor: "dark brown",
+				penisSize: 7.5
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: ["Vaginal_P", "Cuddling", "Kissing", "BreastPlay_G", "Submit"],
+					dislikes: ["Choke_G", "Spank_G", "Toys_Use", "Anal_P"]
+				},
+				bodyTypes: {
+					likes: ["Curvy", "Thick", "Strong"],
+					dislikes: ["Slender", "Emaciated"]
+				},
+				partners: {
+					genderPreference: {
+						female: 1.0,
+						male: 0.0
+					},
+					anatomyPreference: {
+						breastSize: "large",
+						penisSize: null
+					}
+				}
+			}
+		},
 
-		trust: 3,
-		affection: 0,
-		rapport: 1.0,
-		tension: 0,
-		cooldown: 0,
+		tesska: {
+			name: "Tesska",
+			defaultName: "Barmaid",
+			known: false,
+			avatar: "images/portrait_tesska.png",
+			color: "white",
+			bgColor: "rgba(189, 108, 99, 0.85)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Flirty", "Crude", "Confident"],
+			inclinations: ["exhibitionist", "teasing", "dominant"],
+			motivations: ["Freedom", "Excitement"],
+			socialStyle: "Feisty",
 
-		traits: ["Flirty", "Confident", "Charming"],
-		inclinations: ["Voyeurism", "Exhibitionist"],
-		motivations: ["Pleasure", "Connection"],
-		socialStyle: "Charming"
-	  },
-	bert: {
-		name: "Bert",
-		defaultName: "Brothel Bartender",
-		known: false,
-		avatar: "images/portrait_bert.png",
-		color: "white",
-		bgColor: "rgba(74, 76, 69, 0.6)",
+			pronouns: {
+				subject: "she",         // he / they
+				object: "her",          // him / them
+				possessive: "her",      // his / their
+				reflexive: "herself",   // himself / themself
+				noun: "woman"           // man / person
+			  },
+			  
+		
+			body: {
+				height: 64, // 5'4"
+				breastSize: 4, // "large"
+				buttSize: 3, // "round"
+				bodyType: 5, // "thick"
+				lipFullness: 3, // "full"
+				skinTone: "golden",
+				muscleTone: 4, // "defined"
+				hipWidth: 2, // "wide"
+				bodyHair: 1, // "light"
+				voiceTone: "melodic",
+				hairColor: "fiery red",
+				hairStyle: "braided",
+				hairLength: 5, // "mid-back"
+				eyeColor: "hazel"
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: ["Oral_G", "Oral_R", "Spank_G", "HairPulling_G", "Vaginal_P", "Toys_Use", "Dominate"],
+					dislikes: ["Submit", "Choke_R"]
+				},
+				bodyTypes: {
+					likes: ["Muscular", "Broad", "Defined"],
+					dislikes: ["Emaciated", "Soft"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.9,
+						female: 0.1
+					},
+					anatomyPreference: {
+						penisSize: "large",
+						breastSize: "medium"
+					}
+				}
+			}
+		},
+		
+		allura: {
+			name: "Allura",
+			defaultName: "Exotic Hostess",
+			known: false,
+			avatar: "images/portrait_allura.png",
+			color: "white",
+			bgColor: "rgba(20, 152, 232, 0.6)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+		
+			traits: ["Flirty", "Cynical", "Confident"],
+			inclinations: ["bondage", "dominant", "sadism", "exhibitionism"],
+			motivations: ["Pleasure", "Family"],
+			socialStyle: "Seductive",
+			
+			pronouns: {
+				subject: "she",         // he / they
+				object: "her",          // him / them
+				possessive: "her",      // his / their
+				reflexive: "herself",   // himself / themself
+				noun: "woman"           // man / person
+			  },
 
-		trust:0,
-		affection: 0,
-		rapport: 1.0,
-		tension: 0,
-		cooldown: 0,
+			body: {
+				height: 68, // 5'8"
+				breastSize: 5, // "very large"
+				buttSize: 4, // "plump"
+				bodyType: 4, // "curvy"
+				lipFullness: 4, // "plump"
+				skinTone: "midnight blue",
+				muscleTone: 3, // "athletic"
+				hipWidth: 3, // "very wide"
+				bodyHair: 0, // "smooth"
+				voiceTone: "breathy",
+				hairColor: "black",
+				hairStyle: "voluminous and wild",
+				hairLength: 6, // "waist-length"
+				eyeColor: "gold",
+				horns: "small curled obsidian",
+				ears: "long and pointed"
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: [
+						"Dominate", "Bondage_Use", "Choke_G", "Spank_G", "Toys_Use",
+						"Oral_G", "Oral_R", "FaceSit", "Praise_G", "DirtyTalk_G", "Vaginal_P"
+					],
+					dislikes: ["Submit", "Cuddling", "Creampie_Preference"]
+				},
+				bodyTypes: {
+					likes: ["Defined", "Broad", "Fit", "Muscular"],
+					dislikes: ["Soft", "Emaciated"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.6,
+						female: 0.4
+					},
+					anatomyPreference: {
+						penisSize: "large",
+						breastSize: "medium"
+					}
+				}
+			}
+		},
+		
+		darian: {
+			name: "Darian",
+			defaultName: "Male Host",
+			known: false,
+			avatar: "images/portrait_darian.png",
+			color: "white",
+			bgColor: "rgba(126, 66, 0, 0.6)",
+		
+			trust: 3,
+			affection: 0,
+			rapport: 1.0,
+			tension: 0,
+			cooldown: 0,
+		
+			traits: ["Flirty", "Confident", "Charming"],
+			inclinations: ["voyeurism", "exhibitionism", "praise", "gentle"],
+			motivations: ["Pleasure", "Connection"],
+			socialStyle: "Charming",
+			
+			pronouns: {
+				subject: "he",         // he / they
+				object: "him",          // him / them
+				possessive: "his",      // his / their
+				reflexive: "himself",   // himself / themself
+				noun: "man"           // man / person
+			  },
 
-		traits: ["Stoic", "Cynical", "Guarded"],
-		inclinations: ["Voyeurism"],
-		motivations: ["Loyalty", "Devotion"],
-		socialStyle: "Stoic"
-	}
+			body: {
+				height: 70, // 5'10"
+				breastSize: null,
+				buttSize: 3, // "round"
+				bodyType: 3, // "average"
+				lipFullness: 3, // "full"
+				skinTone: 5, // "deep brown"
+				muscleTone: 4, // "defined"
+				hipWidth: 2, // "modest"
+				bodyHair: 1, // "light"
+				voiceTone: "melodic",
+				hairColor: "black",
+				hairStyle: "short and soft",
+				hairLength: "short",
+				eyeColor: "warm brown",
+				penisSize: 7 // inches – proportional, generous but not absurd
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: [
+						"Praise_G", "Kissing", "Oral_R", "Oral_G", "Cuddling", 
+						"Vaginal_P", "Anal_P", "RomanticPlay", "SensualMassage"
+					],
+					dislikes: ["Degrade_G", "Choke_G", "Spank_G"]
+				},
+				bodyTypes: {
+					likes: ["Curvy", "Average", "Fit", "Soft"],
+					dislikes: ["Broad", "VeryTall"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.5,
+						female: 0.5
+					},
+					anatomyPreference: {
+						penisSize: "modest",
+						breastSize: "full"
+					}
+				}
+			}
+		},
+		
+		bert: {
+			name: "Bert",
+			defaultName: "Brothel Bartender",
+			known: false,
+			avatar: "images/portrait_bert.png",
+			color: "white",
+			bgColor: "rgba(74, 76, 69, 0.6)",
+		
+			trust: 0,
+			affection: 0,
+			rapport: 1.0,
+			tension: 0,
+			cooldown: 0,
+		
+			traits: ["Stoic", "Cynical", "Guarded"],
+			inclinations: ["voyeurism", "abstinence"],
+			motivations: ["Loyalty", "Devotion"],
+			socialStyle: "Stoic",
+
+			pronouns: {
+				subject: "he",         // he / they
+				object: "him",          // him / them
+				possessive: "his",      // his / their
+				reflexive: "himself",   // himself / themself
+				noun: "man"           // man / person
+			  },
+		
+			body: {
+				height: 70, // 5'10"
+				breastSize: null,
+				buttSize: 2, // modest
+				bodyType: 5, // thick
+				lipFullness: 1, // narrow
+				skinTone: 2, // golden
+				muscleTone: 3, // athletic
+				hipWidth: 1, // modest
+				bodyHair: 2, // natural
+				voiceTone: "raspy",
+				hairColor: "black with graying at temples",
+				hairStyle: "neatly parted",
+				hairLength: "cropped",
+				eyeColor: "iron gray",
+				penisSize: 5.5 // statistically average, likely unused
+			},
+		
+			preferences: {
+				sexualActs: {
+					likes: [],
+					dislikes: ["Oral_G", "Oral_R", "Vaginal_P", "Anal_P", "Toys_Use", "Submit", "Dominate"]
+				},
+				bodyTypes: {
+					likes: [],
+					dislikes: []
+				},
+				partners: {
+					genderPreference: {
+						male: 0.5,
+						female: 0.5
+					},
+					anatomyPreference: {
+						penisSize: "irrelevant",
+						breastSize: "irrelevant"
+					}
+				}
+			}
+		},
+		
 	};
 };
   
   /* Character Dialogue & Avatars - End */
+/* twine-user-script #10: "05_sidebarlogic.js" */
 /* twine-user-script #10: "05_sidebarlogic.js" */
 /* Sidebar Update Handlers */
 setup.SidebarUI.update = function () {
@@ -3574,6 +4030,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 
 
 /* twine-user-script #11: "06_loader.js" */
+/* twine-user-script #11: "06_loader.js" */
 (() => {
 	function getMessage(O) {
 		if (O == null) return 'unknown error';
@@ -3605,6 +4062,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 	});
 })();
 /* twine-user-script #12: "07_lucide.js" */
+/* twine-user-script #12: "07_lucide.js" */
 var lucideScript = document.createElement('script');
 lucideScript.src = 'https://unpkg.com/lucide@latest';
 lucideScript.onload = function () {
@@ -3624,6 +4082,7 @@ function renderLucideIconsSafely() {
 	}
 }
 /* twine-user-script #13: "08_debugTools.js" */
+/* twine-user-script #13: "08_debugTools.js" */
 postdisplay["logItemData"] = function () {
 	if (setup.ItemData) {
 		console.log("📦 Available items:", Object.keys(setup.ItemData));
@@ -3631,6 +4090,7 @@ postdisplay["logItemData"] = function () {
 		console.error("❌ setup.ItemData is not defined.");
 	}
 };
+/* twine-user-script #14: "01_InventoryLibrary.js" */
 /* twine-user-script #14: "01_InventoryLibrary.js" */
 /* =============================
 = ITEM METADATA LOADER - START =
@@ -3953,6 +4413,7 @@ console.log("✅ ItemData loaded:", Object.keys(setup.ItemData));
 = ITEM METADATA LOADER - END =
 ============================= */
 /* twine-user-script #15: "02_InventorySystem.js" */
+/* twine-user-script #15: "02_InventorySystem.js" */
 
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
@@ -4196,6 +4657,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.setup = setup;
 /* twine-user-script #16: "03_overlayManager.js" */
+/* twine-user-script #16: "03_overlayManager.js" */
 window.openOverlay = function (source) {
 	const body = document.getElementById("overlay-body");
 	if (!body) return;
@@ -4243,6 +4705,7 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 	}
 };
 /* twine-user-script #17: "04_PassageInjector.js" */
+/* twine-user-script #17: "04_PassageInjector.js" */
 // ===============================
 //  Move Rendered Passage Content into #text-backdrop (Prose Mode Only)
 // ===============================
@@ -4283,6 +4746,7 @@ $(document).on(':passagedisplay', function () {
 	}
 });
 /* twine-user-script #18: "05_BackgroundSystem.js" */
+/* twine-user-script #18: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
 	const bgDiv = document.getElementById("background-image");
 
@@ -4299,6 +4763,7 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
+/* twine-user-script #19: "06_ShopSystem.js" */
 /* twine-user-script #19: "06_ShopSystem.js" */
 setup.ShopSystem = {
   activeCategory: "all",
@@ -4414,6 +4879,7 @@ setup.ShopSystem = {
     // Return to conversation state here if needed
   }
 };
+/* twine-user-script #20: "08_conversation_minigame.js" */
 /* twine-user-script #20: "08_conversation_minigame.js" */
 // 08_conversation_minigame.js
 
@@ -4839,6 +5305,7 @@ setup.ConvoGame = {
   
 };
 /* twine-user-script #21: "09_conversation_ui.js" */
+/* twine-user-script #21: "09_conversation_ui.js" */
 // 09_conversation_ui.js
 
 setup.ConvoUI = {
@@ -4964,6 +5431,7 @@ setup.ConvoUI.animateChoices = function(container) {
 
 
 
+/* twine-user-script #22: "10_dialogueSetup.js" */
 /* twine-user-script #22: "10_dialogueSetup.js" */
 // ===============================
 // 📦 Dialogue Layout Macros
@@ -6545,6 +7013,9 @@ setup.ConvoTropesByTier = {
    toggling content categories per player preference.
 ========================================================= */
 
+// dev/js/data/inclinations.js
+// Refactored to integrate sexual act tags directly for compatibility with NSFW preference logic
+
 setup.Inclinations = {
     // Vanilla / Softcore
     vanilla: {
@@ -7663,7 +8134,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
   [[You step away from Adda and return to the parlor.|Scene02_ReturnToParlor]]
 &lt;&lt;/append&gt;&gt;
+  Her lips curl in a subtle smirk, and she returns her attention to the room — already half-in, half-out of your conversation, watching the ebb and flow of her domain.
+
+  You rise from the couch and glance around. The hush of the brothel settles over you again — warm light, distant laughter, the clink of glass, the faint rumble of thunder pulsing against the windows.
+
+  [[You step away from Adda and return to the parlor.|Scene02_ReturnToParlor]]
+&lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;
+
+/* Adda Noctail Origin Convo Branch - Start */</tw-passagedata><tw-passagedata pid="10" name="Adda_Origin_WhatWasItLike" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Adda_Origin_WhatWasItLike&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
 /* Adda Noctail Origin Convo Branch - Start */</tw-passagedata><tw-passagedata pid="10" name="Adda_Origin_WhatWasItLike" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Adda_Origin_WhatWasItLike&quot;&gt;&gt;
@@ -8043,6 +8523,14 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Bert_ReturnToParlor" tags="widget" position="225,475" size="100,100">&lt;&lt;widget &quot;Bert_ReturnToParlor&quot;&gt;&gt;
+&lt;&lt;speech &quot;Jaylie&quot;&gt;&gt; I think I&#39;ll explore the rest of the parlor.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;speech &quot;bert&quot;&gt;&gt; Of course, Miss. Please enjoy your evening.&lt;&lt;/speech&gt;&gt;
+
+[[You step away from the bar.|ReturnToParlor]]
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Darian_HowLongHere" tags="widget" position="350,475" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="ReturnToParlor" tags="widget" position="225,475" size="100,100">&lt;&lt;widget &quot;Bert_ReturnToParlor&quot;&gt;&gt;
 &lt;&lt;speech &quot;Jaylie&quot;&gt;&gt; I think I&#39;ll explore the rest of the parlor.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;speech &quot;bert&quot;&gt;&gt; Of course, Miss. Please enjoy your evening.&lt;&lt;/speech&gt;&gt;
@@ -8060,6 +8548,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Darian_DoYouLikeJob" tags="widget" position="475,475" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Darian_DoYouLikeJob" tags="widget" position="475,475" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you actually like working here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Would I still be here if I didn’t? Do *you* like your job?&lt;&lt;/speech&gt;&gt;
@@ -8070,6 +8559,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Darian_Bracelet" tags="widget" position="600,475" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Darian_Bracelet" tags="widget" position="600,475" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;That bracelet... it looks important. Where did you get it?&lt;&lt;/speech&gt;&gt;
@@ -8088,6 +8578,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Darian_GetDrink" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Darian_GetDrink" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink? I&#39;m not really sure what I’d like.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Hmm... Bert?&lt;&lt;/speech&gt;&gt;
@@ -8100,11 +8591,13 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Darian_StartMinigame" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Darian_StartMinigame" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Then you’d better be good at asking questions. And better still at listening.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.ConvoGame.start(&quot;darian&quot;)&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Darian_Sister_WhatWasSheLike" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Darian_Sister_WhatWasSheLike" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What was your sister like?&lt;&lt;/speech&gt;&gt;
@@ -8115,6 +8608,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Darian_Sister_HowDidSheDie" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Darian_Sister_HowDidSheDie" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If you don’t mind me asking... how did she die?&lt;&lt;/speech&gt;&gt;
@@ -8129,6 +8623,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Darian_Sister_BraceletMemory" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Darian_Sister_BraceletMemory" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can you tell me more about when she gave you that bracelet?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.&lt;&lt;/speech&gt;&gt;
@@ -8139,6 +8634,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Darian_Sister_ReturnToMain" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Darian_Sister_ReturnToMain" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk about something else now.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Of course. Whatever you need.&lt;&lt;/speech&gt;&gt;
@@ -8147,6 +8643,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Dummy_Placeholder_Locked" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Dummy_Placeholder_Locked" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
   &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
     &lt;em&gt;This option is currently locked.&lt;/em&gt;

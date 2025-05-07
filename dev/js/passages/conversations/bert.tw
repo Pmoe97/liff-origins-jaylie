@@ -80,7 +80,7 @@
 <<run setup.bert_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: ReturnToParlor [widget]
+:: Bert_ReturnToParlor [widget]
 <<widget "Bert_ReturnToParlor">>
 <<speech "Jaylie">> I think I'll explore the rest of the parlor.<</speech>>
 <<speech "bert">> Of course, Miss. Please enjoy your evening.<</speech>>

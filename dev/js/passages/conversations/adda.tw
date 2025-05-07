@@ -25,7 +25,6 @@
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
 
-
 :: Adda_HostsCare [widget]
 <<widget "Adda_HostsCare">>
 <<append "#convoBox">>

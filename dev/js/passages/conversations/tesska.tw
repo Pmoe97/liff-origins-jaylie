@@ -1,0 +1,131 @@
+// =======================
+// Tesska Widgets
+// =======================
+
+:: Tesska_GetDrink [widget]
+<<widget "Tesska_GetDrink">>
+<<set State.variables.tesskaOrderedDrink = true>>
+<<append "#convoBox">>
+	<<speech "jaylie">>Could I get a drink? Nothing fancy. Just... something real.<</speech>>
+	<<speech "tesska">>Coming right up, sugar. Nothing wrong with wanting something simple that still gets the job done. You want flavor or fire? 'Cause I can give you both, but I won't lie—one of 'em's a bit harder to forget.<</speech>>
+	<<speech "jaylie">>Let's start with something strong, I think. I'll work my way toward flavor.<</speech>>
+	<<speech "tesska">>Attagirl. One mug of Strongarm Swill, coming up.<</speech>>
+	<p>You watch her cross to the bar and shout something over to Harroc. He doesn't respond, but reaches for a barrel tap without looking and draws a dark amber drink into a battered tin mug. Tesska slides it in front of you a moment later, and gives the table a soft knock with her knuckle.</p>
+	<<speech "tesska">>Drink it fast if you hate yourself. Slow if you're tryin' to find out whether you do.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.tesska_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Tesska_QuietNight [widget]
+<<widget "Tesska_QuietNight">>
+<<append "#convoBox">>
+	<<speech "jaylie">>It's kind of quiet in here tonight.<</speech>>
+	<<speech "tesska">>Mmhmm. If you asked Harroc, he'd say folks are savin' their strength for the fair. Three days of booze, music, and regrets.
+	She chuckles and wipes a bit of condensation from your table.
+	But me? I think something's in the air. Knights have been too quiet. Too polite. Feels like the city's holdin' its breath for something, and not the good kind.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.tesska_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Tesska_DoYouWorkNights [widget]
+<<widget "Tesska_DoYouWorkNights">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you always work nights?<</speech>>
+
+  <<speech "tesska">>Mmh, nights, days. When you want to keep a place like this running in the city you never stop working.<</speech>>
+
+  Your face fills with shock for a moment, realizing your mistake. 
+
+  <<speech "jaylie">>Oh I am sorry, it was unfair of me to assume—<</speech>>
+
+  <<speech "tesska">>Oh hush, don't fret so much, Sweetheart. It happens more than you think. I have gotten used to it ever since the big guy came into my life. People see his big shining dome and the wall of muscle and think he must have constructed this whole place himself with logs and stones he cut with his bare hands. Truth is, I was running this place long before Harroc ever stepped out of the ring.<</speech>>
+
+  You take another moment to look around the room. The rafters, the center hearth, the walls, tables, benches and stools. You have to appreciate for a moment how pristine things look. Some of the furniture is a little beat up, sure, but you figure all of those are just stories.
+
+  A distant crack of thunder shakes you from your inspection. Tesska hardly seems to notice, her eyes pointed towards the bar.
+
+  <<speech "tesska">>Though don't get me wrong... watching him behind that counter with his arms all flexed and grumbly? Not a bad view while I work.<</speech>>
+
+  You watch Tesska's face as she looks over at Harroc. It's full of a mix of desire and love. You realize only then that Harroc has hardly looked away from Tesska either. They are obviously quite taken by each other.
+
+  <<speech "tesska">>But yes, sweetheart. I happily work most every night. Daytime drinkers are hardly any fun, the nights are when lips get loose and coin purses empty.<</speech>>
+<</append>>
+<<set $teskaTalkedAboutNights = true>>
+<<run setup.clearConvoChoices()>>
+<<run setup.tesska_Conversation_Options_Phase0()>>
+<</widget>>
+
+<<widget "Tesska_HowLongYouAndHarroc">>
+<<append "#convoBox">>
+  <<speech "jaylie">>So... how long have <em>you</em> been running the place? And how long's Harroc been part of it?<</speech>>
+
+  <<speech "tesska">>Mm. Careful now, sweetheart. Ask questions like that and I might just fall in love.<</speech>>
+
+  She leans slightly closer as she says it, her voice velvet-wrapped and playful. Then, with a shift in posture and a glimmer of pride, she eases back into her usual rhythm.
+
+  <<speech "tesska">>I bought this place just short of fifteen years ago. Back when the hearth cracked worse than the mugs and the roof cried harder than the patrons.<</speech>>
+
+  She chuckles softly, folding her arms beneath her chest.
+
+  <<speech "tesska">>I cleaned it up, ran it smart, made it safe. For a while it was just me and a handful of stubborn regulars. Then after a few years of thinking I bit off more than I could chew, Harroc started showing up. Silent, broody, respectful—every tavern has a few. But he kept showing up. And then one night I caught him tossing a rowdy drunk through the door without ever spilling a drop of his own drink and... well. The rest is sweaty, romantic history.<</speech>>
+
+  She glances toward the bar again where Harroc, stoic as ever, appears to be polishing the same mug as always.
+
+  <<speech "tesska">>He moved in about six months after that. Been glued to the floor ever since. Calls me his boss, but we both know better. He's the spine, sure. But I'm the soul.<</speech>>
+
+  A gust of wind blows against the front wall of the building. You hear the supports of the building crackle, but not falter. A daring whistling as the building cuts the storm like a rock in the sea.
+
+  <<speech "tesska">>It may be my baby, but that man is the only thing that has kept me and this place from blowing away.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.tesska_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Tesska_UnusualCustomers [widget]
+<<widget "Tesska_UnusualCustomers">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Do you get a lot of unusual customers in here?<</speech>>
+
+  <<speech "tesska">>Unusual? What, like wide-eyed princesses trying their best to look like they are slumming it with the common-folk?<</speech>>
+
+  You feel your cheeks flush, and she catches it instantly.
+
+  <<speech "tesska">>Relax, sweetheart. I don't mean it cruel. Your secret's not out. I'm just not as innebriated like the rest of this lot, and keeping your wits about you is a requirement for this job. It's not every day a girl like you walks in looking like she's never had to split a tab or fend off a drunkard.<</speech>>
+
+  She leans a little closer, voice lowered just enough to feel like a secret.
+
+  <<speech "tesska">>But yes. We get our share. Half-orc mercenaries like Drekka over there, who bathe in ale more than water. Quiet types with knives too clean and coin too heavy. Once had a man come in wearing a full suit of armor just to drink milk. Sat for three hours. Didn't say a word. Tipped a whole gold and walked out.<</speech>><<set $characters["drekka"].known = true>>
+    
+  She pauses as if waiting for your expression—then grins when you meet her eyes.
+
+  <<speech "tesska">>Point is, Bastion's big. It spills strange folks into every corner, especially places with warmth and liquor. You stay long enough, you'll see a few things that'll make your palace stories feel quaint.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.tesska_Conversation_Options_Phase0()>>
+<</widget>>
+
+<<widget "Tesska_Exit">>
+<<append "#convoBox">>
+  <<speech "jaylie">>Thanks, Tesska. I think I'll just sit quietly for a bit.<</speech>>
+
+  <<speech "tesska">>Suit yourself, sweetheart. But if you get bored, I'm just a holler away—as long as I'm not elbow-deep in someone else's bad decisions.<</speech>>
+
+  She winks, then turns with a little extra sway in her hips as she walks away, glancing once over her shoulder to make sure you're watching.
+<</append>>
+[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+<</widget>>
+
+<<widget "Tesska_ExitDrink">>
+<<append "#convoBox">>
+  <<speech "jaylie">>I think I'm just going to nurse this drink for a while. Thanks again.<</speech>>
+
+  <<speech "tesska">>Mmh, take your time with it. Good drinks—and good company—are meant to be savored.<</speech>>
+
+  She taps her knuckle lightly on the table, gives you a knowing smile, and glides off into the crowd like she owns every beam and brick of the room.
+<</append>>
+[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+<</widget>>

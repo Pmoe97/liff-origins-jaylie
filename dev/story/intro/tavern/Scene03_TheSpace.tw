@@ -1,5 +1,5 @@
 :: Scene03_TheSpace {"position":"475,450"}
-<<bg "threesipsgragon">>
+<<bg "threesipsgragon">><<EndDialogueLayout>>
 <<if !$seenTavernSpace>>
 Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 <</if>>
