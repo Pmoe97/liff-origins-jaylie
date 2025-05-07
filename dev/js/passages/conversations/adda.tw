@@ -25,7 +25,6 @@
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
 
-
 :: Adda_HostsCare [widget]
 <<widget "Adda_HostsCare">>
 <<append "#convoBox">>
@@ -216,7 +215,7 @@
 <<run setup.clearConvoChoices()>>
 <</widget>>
 
-:: ReturnToParlor [widget]
+:: Adda_ReturnToParlor [widget]
 <<widget "ReturnToParlor">>
 <<append "#convoBox">>
   <<speech "jaylie">>We can talk more later.<</speech>>

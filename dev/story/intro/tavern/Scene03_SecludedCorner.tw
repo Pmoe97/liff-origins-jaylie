@@ -1,0 +1,15 @@
+:: Scene03_SecludedCorner
+<<bg "Scene03_SecludedCorner">><<StartDialogueLayout>>
+You slip between the tables and claim a worn corner booth by yourself. The wood creaks under your weight, the seat still warm from whoever sat here last. For a moment, you watch the flicker of firelight dance across the floor, the sound of clinking mugs and shouted laughter rolling over you like a tide.
+
+She approaches from the side, hips swaying with purpose and a smirk already playing on her lips.
+
+<<speech "Tesska">>You drinking alone tonight, Miss?.<</speech>>
+
+You smile but don't have a chance to respond. She rests a hand on the table, leaning just close enough to let the scent of something floral and strong—like lilac and whiskey—hit you at once.
+<</speech>><<set $characters["tesska"].known = true>>
+<<speech "Tesska">>Name's Tesska. Can I get you something, sweetheart? Or are you just here to make the furniture look pretty?<</speech>>
+
+You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
+
+<<DialogueTree "tesska" 0>>
