@@ -1,173 +1,209 @@
-:: Allura_SureOfSelf [widget]
-<<widget "Allura_SureOfSelf">>
+:: Allura_Watching [widget]
+<<widget "Allura_Watching">>
 <<append "#convoBox">>
-  <<speech "jaylie">>You seem very sure of yourself.<</speech>>
 
-  Allura leans forward, the golden light of a nearby candle casting serpentine shadows along her cheekbones. Her lips curve into a slow, knowing smile.
+<<speech "jaylie">>Were you watching me?<</speech>>
 
-  <<speech "allura">>Ah, but confidence is only dangerous if it’s misplaced, no?<</speech>>
+<<speech "allura">><em>Of course I was.</em><</speech>>
+
+She says it like it costs her nothing. No hesitation. No apology. Her tail flicks lazily behind her again, curling in a figure eight.
+
+<<speech "allura">>Like I said before, you walked in like you didn’t want anyone to notice, which only made it harder not to. And then... you looked at me like you were hoping I’d notice anyway. I do not know how you expected me not to stare. It was the most entertaining thing I have seen all night.<</speech>>
+
+You open your mouth, caught somewhere between denial and deflection, but she doesn’t give you room to find either.
+
+<<speech "allura">><em>It’s sweet, you know. The way your eyes try not to linger. The way you sit just far enough away to lie about your curiosity. Please go on and look all you want. I would not have dressed like this if I did not welcome it. I like how your gaze feels on my skin.</em><</speech>>
+
+She leans in just enough to make your pulse catch, but not so much that you could call her out for it. Her eyes are impossibly gold this close—like molten metal poured into a feline frame.
+
+<<speech "jaylie">>You’re very confident. I mean that in a good way of course.<</speech>>
+
+<<speech "allura">>Mm. That’s part of the fun. Most people want to be seen. They just don’t know how to ask for it.<</speech>>
+
+She lifts her glass—something crimson and jeweled with condensation—and takes a sip without ever breaking eye contact. Then she tilts her head, just slightly.
+
+<<speech "allura">>So, Jaylie... now that I've seen you, what will you show me next?<</speech>>
+
 <</append>>
-
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_WhyHere [widget]
-<<widget "Allura_WhyHere">>
+:: Allura_OutOfPlace [widget]
+<<widget "Allura_OutOfPlace">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What brings someone like you to a place like this?<</speech>>
 
-  A low laugh escapes her, like silk brushing skin. She shifts in her seat, the faint rustle of lace and perfume brushing the air between you.
+<<speech "jaylie">>Don’t take this the wrong way, but... you feel kind of out of place here.<</speech>>
 
-  <<speech "allura">>Oh, darling. You say that like this place does not deserve me. I am here because I choose to be... and because there are always mouths to tempt and hearts to twist.<</speech>>
+Allura freezes — dramatically, like a courtesan in a stage play. Her head tilts, her lips part slightly, and she places a hand to her chest with faux offense.
+
+<<speech "allura">>Out of place? You wound me, <em>petite</em>.<</speech>>
+
+She gives an exaggerated sigh, then lets her hand slide down to rest at her hip. Her smile returns, but it’s sharper now — teasing, dangerous.
+
+<<speech "allura">>Here I thought I was the very portrait of hospitality. My tail’s behaving, my cleavage is curated, my drink is full — and yet somehow, I am a misfit in my own chaise lounge.<</speech>>
+
+<<speech "jaylie">>No, I didn’t mean— I just meant that… I don’t get it. You’re stunning. Charismatic. You look like someone who should be draped in silks, surrounded by admirers. I guess I was surprised to find you alone.<</speech>>
+
+Allura’s eyes narrow slightly, the mockery fading just a hair — enough to let something thoughtful flicker underneath.
+
+<<speech "allura">>Ah. So what you’re saying is... I look like I should come with an entourage. A pedestal. A personal fan brigade?<</speech>>
+
+<<speech "jaylie">>I mean... yes? But in a nice way.<</speech>>
+
+Allura chuckles — a low, velvety sound. She sips her drink again and lets a moment pass before responding.
+
+<<speech "allura">>You’re not wrong, mon trésor. I’ve had those nights. But not all attention is desirable. And not every pedestal is worth standing on. Sometimes it’s more fun to pick someone <em>specific</em> to make the effort.<</speech>>
+
+Her tail flicks again, brushing your calf this time — slower, more deliberate.
+
+<<speech "allura">>And tonight, I think I like being the mystery in the corner. The one worth crossing the room for. After all, it worked, no?<</speech>>
+
+You cannot even begin to argue with the logic. You look down and your hands in your lap and laugh to yourself for a moment. Then you look up at Allura. She stares at you. Her lips curling. Then together you both laugh louder, more heartily. It is the first time, you notice, that you have seen a truly revealing response from her. 
+
+<<speech "jaylie">> You got me. <</speech>>
 <</append>>
-
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_TeaseIntent [widget]
-<<widget "Allura_TeaseIntent">>
+:: Allura_Phase0_Enjoyment [widget]
+<<widget "Allura_Phase0_Enjoyment">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What would you do with someone like me? I mean like if we went somewhere more private?<</speech>>
 
-  She slowly traces the rim of her glass with one crimson-painted nail, eyes half-lidded.
+<<speech "jaylie">>Can I ask you something real?<</speech>>
 
-  <<speech "allura">>Mm... I would unwrap you slowly, like a forbidden letter... and read *every line* until your ink runs dry.<</speech>>
+Allura arches a brow — the expression almost amused, but there's a flicker of something sharper beneath it. Caution, maybe. Or curiosity.
 
-  Your breath catches in your throat, and your cheeks flush with heat. 
+<<speech "allura">>You just did, mon cœur. But go on. I’m listening.<</speech>>
 
-  <<speech "jaylie">>Wow.. Uh- Well. You don't have a shy bone in your body, do you?<</speech>>
+<<speech "jaylie">>Do you actually enjoy this? I mean... not the show. Not the act. But the being here. Talking like this. Connecting with someone.<</speech>>
 
-  <<speech "allura">>Oh, mon trésor, you are welcome to inspect my body any time you'd like and if you find such a thing, I assure you we will excise it together.<</speech>>
+The question lingers between you, heavier than the rest. For the first time, Allura doesn’t immediately answer. She swirls her drink slowly, eyes focused on the glass like the answer might settle at the bottom.
+
+<<speech "allura">>You know what most people ask me?<</speech>>
+
+She doesn’t wait for you to guess.
+
+<<speech "allura">>They ask me what I charge. What I like. What I’ll do and what I won’t. You’re the first person tonight who’s asked if I <em>want</em> to be here.<</speech>>
+
+She exhales slowly through her nose and leans back against the cushions, her posture more relaxed than before — not staged, not seductive. Just tired. Honest.
+
+<<speech "allura">>The truth is… some nights, yes. I like the games. The theater of it all. There’s power in being seen — in choosing how to be seen. But then there are nights where I feel like a painting left in the rain. Pretty from a distance, but bleeding underneath.<</speech>>
+
+Her voice never cracks. It doesn’t need to. You hear the weight behind every syllable.
+
+<<speech "allura">>But talking like this? With you? That part I enjoy.<</speech>>
+
+She sets her glass down, empty now, and folds her hands neatly in her lap.
+
+<<speech "allura">>Ask me another one like that, and I might even answer it honestly.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_OrderDrink [widget]
-<<widget "Allura_OrderDrink">>
-<<<append "#convoBox">>
-  <<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
-
-  She raises a single finger, summoning Bert without looking. Rain lightly patters against the windowpane behind her.
-
-  <<speech "allura">>Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*<</speech>>
-
-  <<speech "bert">>Here you are, ladies. A <em>Black Hole</em>. Enjoy.<</speech>>
-
-  She lifts the drink and breathes in deeply before sipping, her expression momentarily softened.
-
-  <<speech "allura">>Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.<</speech>>
-
-  <<speech "jaylie">>Gods! Wow. That is delectable.<</speech>>
-  
-  Allura smiles at you over the rim of her own glass, her eyes glinting in the firelight. Clearly, she is quite pleased with herself.
-<</append>>
-
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase0()>>
-<</widget>>
-
-:: Allura_StartMinigame [widget]
-<<widget "Allura_StartMinigame">>
+:: Allura_WhatCanIDo [widget]
+<<widget "Allura_WhatCanIDo">>
 <<append "#convoBox">>
-  <<speech "jaylie">>I just want to get to know you better.<</speech>>
 
-  A distant thunder roll rumbles faintly through the walls. Allura tilts her head, considering you like a puzzle she already enjoys solving.
+<<speech "jaylie">>If there was anything I could do — right now — to truly make the rest of your night… what would it be?<</speech>>
 
-  <<speech "allura">>Do you now? Be careful, sweetling... the deeper you go, the more you will find yourself reflected in me.<</speech>>
+Allura blinks.
+
+Just once.
+
+You catch the faintest hitch in her breath — like a stage performer who’s forgotten her next line.
+
+<<speech "allura">>Now that...<em>that’s</em> a dangerous question.</speech>>
+
+She says it quietly, almost to herself. No teasing, no act — not yet. She leans forward just a touch, like gravity’s decided she should be closer to you now.
+
+<<speech "allura">>You’d be surprised how few people ask that with any intention behind it. Most of them want a specific answer. One they can anticipate. One that makes them feel clever for guessing right.<</speech>>
+
+Her tail doesn’t flick this time. It curls gently around one ankle, like a ribbon tied in thought.
+
+<<speech "allura">>But you…</speech>
+
+She lifts her eyes to meet yours, and for a moment, the room feels quieter. As if everything’s paused to hear her answer too.
+
+<<speech "allura">>If you mean it — if this isn’t just another performance…?</speech>
+
+She smiles softly. Not like before. No hunger in it. Just something warm and fragile.
+
+<<speech "allura">>Then maybe you’ve already done it. You asked the question.<</speech>>
+
+You feel a strange mix of pride and disappointment, as if you were upset that she didn't ask you to go fight the lightning outside—which but in this moment—something is making you feel like you could have done it.
+
 <</append>>
-<<OpenConvoGame "allura">>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_GoUpstairs [widget]
-<<widget "Allura_GoUpstairs">>
-  <<append #convoBox>>
-    <<speech "jaylie">>Do you think we could go somewhere more private? The incense smoke is making me dizzy.<</speech>>
+:: Allura_DrinkOrder [widget]
+<<widget "Allura_DrinkOrder">>
+<<append "#convoBox">>
 
-    A curling smile grows across Allura's lips.
+<<speech "jaylie">>Would you mind ordering a drink for me?<</speech>>
 
-    <<speech "allura">>Oh, mon chéri, the smoke unfortunately persists even upstairs. But if the prying eyes and lack of privacy are what bother you, I can help with that. Come. Follow me.<</speech>>
+Allura raises an eyebrow, her smile curling at the edges like parchment near flame.
 
-    With grace like a noctail, and the confidence of a dancer, Allura swings her feet to the floor and slowly rises. Every movement is deliberate. You can't help but stare at her curves as she moves in the dim light.
-  
-    She beckons your with a finger. You stand and follow her like a dog on a leash.
+<<speech "allura">>Mmm. Dangerous thing to offer a woman like me that much power, <em>chérie</em>.<</speech>>
 
-    [[She leads you upstairs.|Allura_BedroomOne]]
+She turns slightly, catching Bert’s eye across the room with a subtle flick of her fingers and a tilt of her chin.
+
+<<speech "allura">>Bert, love — something slow and seductive, but with a little teeth. Like me.<</speech>>
+
+<<speech "bert">>Comin’ right up, madame.<</speech>>
+
+Moments later, a pale violet drink arrives in a crystal glass shaped like a blooming flower. The scent hits first—berries, wine, and something herbal beneath it.
+
+<<speech "allura">>We call this one <em>Velvet Mercy</em>. Tastes like a favor you didn’t earn. Be careful with it.<</speech>>
+
+You lift the glass and sip. It's sweet, rich, and ends with a bitter curl that coils at the back of your throat like smoke.
+
+<<speech "jaylie">>That’s... complex.<</speech>>
+
+<<speech "allura">>Aren’t we all?<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
-
 
 :: Allura_ReturnToParlor [widget]
-<<widget "allura_ReturnToParlor">>
-  <<append #convoBox>>
-    <<speech "jaylie">>Hey, this has been fun. We should definitely talk more later.<</speech>>
+<<widget "Allura_ReturnToParlor">>
+<<append "#convoBox">>
 
-    Allura clicks her tongue and playfully shakes her head.
+<<speech "jaylie">>We can talk more later.<</speech>>
 
-    <<speech "allura">>Oh noooo, going so soon? Come back to me when you're ready to play. You know where to find me. No need to beg.<</speech>>
-  
-    You stand from the velvet chaise. Allura's tail flicks playfully against the leg of your pants as you walk away.
+Allura stretches languidly on the chaise, her body language equal parts feline and flame.
 
-    [[You walk back to the middle of the parlor.|Scene02_ReturnToParlor]]  
+<<speech "allura">>Of course, <em>petite</em>. I’ll still be here — spinning webs and sipping slow poison.<</speech>>
 
-  <</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase0()>>
+She raises her glass slightly toward you.
+
+<<speech "allura">>Don’t stay gone too long, hmm? I find myself... growing fond.<</speech>>
+
+<</append>>
+[[You rise and return to the parlor.|Scene02_ReturnToParlor]]
 <</widget>>
 
 
-:: Allura_WhatSheWants [widget]
-<<widget "Allura_WhatSheWants">>
+/*_____*/
+:: Allura_OrderDrink [widget]
+<<widget "Allura_OrderDrink">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What do you really want from people?<</speech>>
-  <<speech "allura">>Want? That’s such a simple word for such... complex flavors. Sometimes I want their breath, sometimes their secrets. And sometimes, I only want to know if they would follow me if I never looked back.<</speech>>
+  <<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
+  <<speech "allura">>Of course, chérie. Bert? Something dark, sinful, and just a little sweet. Like *her.*<</speech>>
+  <p> Bert approaches faster than you can blink, a silver tray in hand, he bends at the waist and presents to you both a cocktail glass filled with a dark swirling liquid. As the fluid moves you feel as though you are watching a galaxy swirl inside the glass.</p>
+  <p> <<speech "bert">>Here you are, ladies. A <em>Black Hole</em>. Enjoy.<</speech>>
+  <p> It's Allura who reaches for the glass. No sooner than it is safely in her clutches down Bert retreat smoothly back to the bar. Allura raises the glass to her nose, inhales, and taste a delicate sip.</p>
+  <p> <<speech "allura">>Mmmmmmm... Ze black cherries in this are divine. You must try it, mon trésor.<</speech>>
+  <p> She holds the glass out to you. You take it from her and mimic her actions. The scent is rich and sweet; the scent of cherries fills your nostrils as though you'd taken a walk through an orchard on harvest day. You take a sip. The flavor is rich and dark, a hint of chocolate lies at the end of it, dark and nutty. It's certainly unlike anything else you've tried before.</p>
+  <p> <<speech "jaylie">> Gods! Wow. That is delectible.<</speech>>
+  <p> Allura smiles at you, very self assured.</p>
+  /*PlaceHolder! Add affection +1, Trust +1 Here */
 <</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase1()>>
-<</widget>>
-
-:: Allura_FeelsAlone [widget]
-<<widget "Allura_FeelsAlone">>
-<<append "#convoBox">>
-  <<speech "jaylie">>Do you ever feel alone, even here?<</speech>>
-  <<speech "allura">>Alone? Chérie... even in the loudest room, we all die with our thoughts. What matters is whether you find someone whose silence you enjoy before the end.<</speech>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase1()>>
-<</widget>>
-
-:: Allura_SomeoneMissed [widget]
-<<widget "Allura_SomeoneMissed">>
-<<append "#convoBox">>
-  <<speech "jaylie">>Is there someone you miss?<</speech>>
-  <<speech "allura">>There are names I no longer speak, faces that visit in dreams, and songs I cannot hum without bleeding a little. But that’s the price of remembering, non?<</speech>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase1()>>
-<</widget>>
-
-:: Allura_BelievesInLove [widget]
-<<widget "Allura_BelievesInLove">>
-<<append "#convoBox">>
-  <<speech "jaylie">>Do you believe in love?<</speech>>
-  <<speech "allura">>I believe in appetite. Love is just the name we give the hunger we choose to starve.<</speech>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase1()>>
-<</widget>>
-
-:: Allura_ReturnToLight [widget]
-<<widget "Allura_ReturnToLight">>
-<<append "#convoBox">>
-  <<speech "jaylie">>We don’t have to talk about this.<</speech>>
-  <<speech "allura">>Of course not. The heart speaks loudest in silence anyway.<</speech>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>

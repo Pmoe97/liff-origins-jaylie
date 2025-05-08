@@ -1,29 +1,35 @@
 :: Scene02_TalkToExotic {"position":"25,900"}
 
 <<bg "parlorallura">><<StartDialogueLayout>>
-You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn't need to.
 
-<<speech "allura">>Ohh... I did not know ze night would bring me such a <strong>beautiful</strong> gift.<</speech>>
+You drift toward the velvet chaise, where the blue-skinned woman is laying, drawn more by the stillness around it than the woman herself—at first.
 
-Her voice drips like honey from a hive, her words are soft, slurred in all the right places. She speaks with a foreign lilt, unfamiliar but intoxicating.
+Then her eyes find you. Golden, slitted like a cat’s, and too calm for the room they’re in.
 
-<<speech "allura">>Come now, <em>petite</em>. Don’t make me beg.<</speech>>
+She doesn’t rise. She doesn't need to.
 
-You feel your cheeks flush before you even realize you’ve moved. You lower yourself beside her on the chaise, close enough to feel the heat of her skin. Allura smiles, her lips a luminous shade of blue that practically glows in the low light.
+<<speech "allura">>You walk like someone hoping not to be noticed… and yet, here you are.<</speech>>
 
-She watches you for a moment—just long enough for the silence to press.
+Her voice is warm and low, with an accent that paints every vowel like a slow drag of silk. She doesn’t smile, exactly—but her lips curl at the edges, just enough to make you feel seen.
 
-<<speech "allura">><em>Mmm…</em> shy, are we? How <em>sweet</em>.<</speech>>
+<<speech "jaylie">>Sorry, I just...<</speech>>
 
-Her tail flicks lazily behind her, then brushes lightly across your knee, just a whisper of contact. The touch sends a quiet shiver up your spine.
+<<speech "allura">>Ah-ah.<</speech>> 
 
-<<speech "allura">>Were you going to tell me what I could do for you, *young one*? And… what shall I call you?<</speech>>
+She lifts a finger, not to silence you, but to taste the moment. Her tail curls idly along the back of the couch.
 
-<<speech "jaylie">>Jaylie. Just… Jaylie.<</speech>>
+<<speech "allura">>Let’s not ruin it with apologies. Come. Sit. Lie, if you prefer.<</speech>>
 
-<<set $characters["adda"].known = true>>
-<<speech "allura">><em>Just</em> Jaylie? I think not. You smell like someone very interesting trying very hard not to be. But... very well, Jaylie. I will play your game. You may call me Allura<</speech>>
+You hesitate only long enough to feel foolish, then ease onto the edge of the chaise. The cushion dips beneath you, a hush of perfume and velvet rising around your skin.
 
-She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it's amusement or anticipation, you can't tell.
+<<speech "allura">>Mmm. Much better. Now… what name do I have the pleasure of toying with tonight?<</speech>>
+
+<<speech "jaylie">>Jaylie.<</speech>>
+
+<<speech "allura">>Jaylie.<em> Such a soft name. But there’s something beneath it, I think. Something sharp.</em><</speech>>
+
+She tilts her head and watches you like she’s measuring shadows in candlelight.
+<<know "allura">>
+<<speech "allura">>You may call me Allura. For now.<</speech>>
 
 <<DialogueTree "allura" 0>>

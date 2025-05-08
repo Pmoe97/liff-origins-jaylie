@@ -181,6 +181,16 @@ Macro.add("SidebarUI", {
 	}
 });
 
+Macro.add("know", {
+	handler() {
+		const charId = this.args[0];
+		if (!charId || !State.variables.characters?.[charId]) {
+			return this.error(`Unknown character ID: ${charId}`);
+		}
+
+		State.variables.characters[charId].known = true;
+	}
+});
 
 
 /* Dialogue Choice Button */
@@ -202,38 +212,38 @@ Macro.add("dialogueChoice", {
 			.on("click", () => {
 				$button.remove();
 
-				// Mark as used unless reusable
+				// Mark as used globally if not reusable
 				State.variables.usedDialogueOptions ??= {};
 				if (!reusable) {
 					State.variables.usedDialogueOptions[target] = true;
 				}
 
-				// 🔍 Automatic usage tracking
-				const npc = State.variables.currentNPC ?? "UnknownNPC";
+				// 🌟 Auto-track per-NPC, per-Phase, per-Widget
+				const char = State.variables.currentNPC || "Unknown";
 				const phase = State.variables.currentPhase ?? "X";
-				const flagKey = `Read_Phase${phase}_${npc}_${target}`;
-				State.variables.readFlags ??= {};
-				State.variables.readFlags[flagKey] = (State.variables.readFlags[flagKey] ?? 0) + 1;
+				const key = `Read_${char}_Phase${phase}_${target}`;
 
+				State.variables[key] ??= 0;
+				State.variables[key]++;
+
+				// Get convo box
 				const $box = $("#convoBox");
 				if ($box.length) {
 					const preChildren = $box[0].children.length;
 
-					// Fade all old entries
+					// Fade previous
 					$box.children().removeClass("active-entry").addClass("faded-entry");
 
-					// Inject response
+					// Inject widget
 					Wikifier.wikifyEval(`<<${target}>>`);
 
-					// Re-inject updated choice list
-					const currentChar = State.variables.currentNPC;
-					const currentPhase = State.variables.currentPhase;
-					const phaseFunc = setup?.[`${currentChar}_Conversation_Options_Phase${currentPhase}`];
+					// Re-inject choices
+					const phaseFunc = setup?.[`${char}_Conversation_Options_Phase${phase}`];
 					if (typeof phaseFunc === "function") {
 						phaseFunc();
 					}
 
-					// Stylize new entry and scroll
+					// Stylize and scroll
 					setTimeout(() => {
 						const box = $box[0];
 						const entries = box.children;
@@ -262,6 +272,7 @@ Macro.add("dialogueChoice", {
 		this.output.append($button[0]);
 	}
 });
+
 
 
 /* Dialogue Tree Macro: Pulls current NPC & Phase and injects options */
