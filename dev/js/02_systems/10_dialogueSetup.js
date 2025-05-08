@@ -96,54 +96,132 @@ setup.addChoice = function (label, passage, reuseFlag = 0) {
 setup.smartChoice = function (label, target, {
 	aff = null,
 	trust = null,
+	rapport = null,
+	tension = null,
+	cooldown = null,
 	variable = null,
+	notVariable = null,
 	item = null,
 	quest = null,
+	compare = null,       // Example: compare: { value: "$gold", op: ">=", against: 500 }
+	conditions = null,    // Custom function(v) => boolean
+	usedMin = null,
+	logic = "and",
 	hide = false,
 	reuse = 0,
-	logic = "and"
+	logUnlock = null,
+	tags = []
 } = {}) {
 	const v = State.variables;
+	const t = State.temporary;
 	const chars = v.characters;
+	const npc = v.currentNPC;
+	const phase = v.currentPhase;
 
 	let checks = [];
 
+	// Core character metric checks
 	if (aff) {
-		const [npc, min] = aff;
-		checks.push((chars?.[npc]?.affection ?? 0) >= min);
+		const [id, min] = aff;
+		checks.push((chars?.[id]?.affection ?? 0) >= min);
 	}
 	if (trust) {
-		const [npc, min] = trust;
-		checks.push((chars?.[npc]?.trust ?? 0) >= min);
+		const [id, min] = trust;
+		checks.push((chars?.[id]?.trust ?? 0) >= min);
 	}
-	if (variable) {
-		checks.push(!!v[variable]);
+	if (rapport) {
+		const [id, min] = rapport;
+		checks.push((chars?.[id]?.rapport ?? 0) >= min);
 	}
+	if (tension) {
+		const [id, max] = tension;
+		checks.push((chars?.[id]?.tension ?? 0) <= max);
+	}
+	if (cooldown) {
+		const [id, max] = cooldown;
+		checks.push((chars?.[id]?.cooldown ?? 0) <= max);
+	}
+
+	// Variable checks
+	if (variable) checks.push(!!v[variable]);
+	if (notVariable) checks.push(!v[notVariable]);
+
+	// Inventory check
 	if (item) {
 		const [id, count] = item;
 		checks.push((v.inventory?.[id] ?? 0) >= count);
 	}
+
+	// Quest progress check
 	if (quest) {
 		const [path, min] = quest;
 		const val = path.split(".").reduce((o, k) => o?.[k], v.quests ?? {});
 		checks.push((val ?? 0) >= min);
 	}
 
-	const passed = logic === "or"
-		? checks.some(Boolean)
-		: checks.every(Boolean);
+	// Custom boolean logic
+	if (typeof conditions === "function") {
+		checks.push(!!conditions(v));
+	}
 
+	// UsedMin scoped to this NPC + phase
+	if (usedMin !== null && npc && phase !== undefined) {
+		const readVars = v[`Read_Phase${phase}_${npc}`] ?? {};
+		const count = Object.values(readVars).filter(v => v >= 1).length;
+		checks.push(count >= usedMin);
+	}
+
+	// Advanced operator
+	if (compare) {
+		const value = typeof compare.value === "string" ? setup._resolvePath(compare.value, v) : compare.value;
+		const against = typeof compare.against === "string" ? setup._resolvePath(compare.against, v) : compare.against;
+		const result = {
+			"==": value == against,
+			"===": value === against,
+			"!=": value != against,
+			"!==": value !== against,
+			"<": value < against,
+			"<=": value <= against,
+			">": value > against,
+			">=": value >= against
+		}[compare.op];
+		checks.push(!!result);
+	}
+
+	// Check logic
+	const passed = logic === "or" ? checks.some(Boolean) : checks.every(Boolean);
+
+	// Log tags
+	if (passed && tags?.length > 0) {
+		v.choiceTags ??= [];
+		tags.forEach(tag => {
+			if (!v.choiceTags.includes(tag)) v.choiceTags.push(tag);
+		});
+	}
+
+	// Log unlock variable
+	if (passed && logUnlock) {
+		v[logUnlock] = true;
+	}
+
+	// Handle output
 	if (passed) {
 		return [label, target, reuse];
 	}
 
-	// Return a "locked" flag if not hidden
 	if (!hide) {
 		return [label, null, reuse, "locked"];
 	}
 
 	return null;
 };
+
+// Path resolver (supports nested vars like "$characters.marie.affection")
+setup._resolvePath = function (path, source = State.variables) {
+	return path.split(".").reduce((acc, key) => acc?.[key], source);
+};
+
+
 
 // ✅ Batch version: Array of smartChoice calls
 setup.smartChoices = function (list) {

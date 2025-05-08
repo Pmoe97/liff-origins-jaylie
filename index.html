@@ -100,7 +100,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="68" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
+	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="72" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Character Sheet Overlay Base */
@@ -2827,6 +2827,13 @@ Macro.add("dialogueChoice", {
 					State.variables.usedDialogueOptions[target] = true;
 				}
 
+				// 🔍 Automatic usage tracking
+				const npc = State.variables.currentNPC ?? "UnknownNPC";
+				const phase = State.variables.currentPhase ?? "X";
+				const flagKey = `Read_Phase${phase}_${npc}_${target}`;
+				State.variables.readFlags ??= {};
+				State.variables.readFlags[flagKey] = (State.variables.readFlags[flagKey] ?? 0) + 1;
+
 				const $box = $("#convoBox");
 				if ($box.length) {
 					const preChildren = $box[0].children.length;
@@ -2852,16 +2859,13 @@ Macro.add("dialogueChoice", {
 						const newEntry = entries[preChildren];
 						if (!newEntry) return;
 
-						// Insert divider before the new entry
 						const divider = document.createElement("div");
 						divider.className = "dialogue-divider";
 						box.insertBefore(divider, newEntry);
 
-						// Highlight the new one
 						newEntry.classList.add("active-entry");
 						newEntry.classList.remove("faded-entry");
 
-						// Scroll to new entry
 						const boxTop = box.getBoundingClientRect().top;
 						const entryTop = newEntry.getBoundingClientRect().top;
 						const offset = entryTop - boxTop;
@@ -2877,6 +2881,7 @@ Macro.add("dialogueChoice", {
 		this.output.append($button[0]);
 	}
 });
+
 
 /* Dialogue Tree Macro: Pulls current NPC & Phase and injects options */
 Macro.add("DialogueTree", {
@@ -3152,8 +3157,6 @@ State.variables.world = {
     specialEvent: null, // e.g., "Harvest Festival"
   };
   console.log("WorldData is loaded.");
-/* twine-user-script #8: "04_Generated_NPCData.js" */
-/* twine-user-script #9: "04_character.js" */
 /* twine-user-script #8: "04_Generated_NPCData.js" */
 /* twine-user-script #9: "04_character.js" */
 /* ================================
@@ -3808,7 +3811,6 @@ setup.initializeCharacters = function () {
   
   /* Character Dialogue & Avatars - End */
 /* twine-user-script #10: "05_sidebarlogic.js" */
-/* twine-user-script #10: "05_sidebarlogic.js" */
 /* Sidebar Update Handlers */
 setup.SidebarUI.update = function () {
 	if (!State.variables.player || !State.variables.world) {
@@ -4030,7 +4032,6 @@ setup.SidebarUI.updateSummaryIcons = function () {
 
 
 /* twine-user-script #11: "06_loader.js" */
-/* twine-user-script #11: "06_loader.js" */
 (() => {
 	function getMessage(O) {
 		if (O == null) return 'unknown error';
@@ -4062,7 +4063,6 @@ setup.SidebarUI.updateSummaryIcons = function () {
 	});
 })();
 /* twine-user-script #12: "07_lucide.js" */
-/* twine-user-script #12: "07_lucide.js" */
 var lucideScript = document.createElement('script');
 lucideScript.src = 'https://unpkg.com/lucide@latest';
 lucideScript.onload = function () {
@@ -4082,7 +4082,6 @@ function renderLucideIconsSafely() {
 	}
 }
 /* twine-user-script #13: "08_debugTools.js" */
-/* twine-user-script #13: "08_debugTools.js" */
 postdisplay["logItemData"] = function () {
 	if (setup.ItemData) {
 		console.log("📦 Available items:", Object.keys(setup.ItemData));
@@ -4090,7 +4089,6 @@ postdisplay["logItemData"] = function () {
 		console.error("❌ setup.ItemData is not defined.");
 	}
 };
-/* twine-user-script #14: "01_InventoryLibrary.js" */
 /* twine-user-script #14: "01_InventoryLibrary.js" */
 /* =============================
 = ITEM METADATA LOADER - START =
@@ -4413,7 +4411,6 @@ console.log("✅ ItemData loaded:", Object.keys(setup.ItemData));
 = ITEM METADATA LOADER - END =
 ============================= */
 /* twine-user-script #15: "02_InventorySystem.js" */
-/* twine-user-script #15: "02_InventorySystem.js" */
 
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
@@ -4657,7 +4654,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.setup = setup;
 /* twine-user-script #16: "03_overlayManager.js" */
-/* twine-user-script #16: "03_overlayManager.js" */
 window.openOverlay = function (source) {
 	const body = document.getElementById("overlay-body");
 	if (!body) return;
@@ -4705,7 +4701,6 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 	}
 };
 /* twine-user-script #17: "04_PassageInjector.js" */
-/* twine-user-script #17: "04_PassageInjector.js" */
 // ===============================
 //  Move Rendered Passage Content into #text-backdrop (Prose Mode Only)
 // ===============================
@@ -4746,7 +4741,6 @@ $(document).on(':passagedisplay', function () {
 	}
 });
 /* twine-user-script #18: "05_BackgroundSystem.js" */
-/* twine-user-script #18: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
 	const bgDiv = document.getElementById("background-image");
 
@@ -4763,7 +4757,6 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
-/* twine-user-script #19: "06_ShopSystem.js" */
 /* twine-user-script #19: "06_ShopSystem.js" */
 setup.ShopSystem = {
   activeCategory: "all",
@@ -4879,7 +4872,6 @@ setup.ShopSystem = {
     // Return to conversation state here if needed
   }
 };
-/* twine-user-script #20: "08_conversation_minigame.js" */
 /* twine-user-script #20: "08_conversation_minigame.js" */
 // 08_conversation_minigame.js
 
@@ -5305,7 +5297,6 @@ setup.ConvoGame = {
   
 };
 /* twine-user-script #21: "09_conversation_ui.js" */
-/* twine-user-script #21: "09_conversation_ui.js" */
 // 09_conversation_ui.js
 
 setup.ConvoUI = {
@@ -5432,7 +5423,6 @@ setup.ConvoUI.animateChoices = function(container) {
 
 
 /* twine-user-script #22: "10_dialogueSetup.js" */
-/* twine-user-script #22: "10_dialogueSetup.js" */
 // ===============================
 // 📦 Dialogue Layout Macros
 // ===============================
@@ -5531,54 +5521,132 @@ setup.addChoice = function (label, passage, reuseFlag = 0) {
 setup.smartChoice = function (label, target, {
 	aff = null,
 	trust = null,
+	rapport = null,
+	tension = null,
+	cooldown = null,
 	variable = null,
+	notVariable = null,
 	item = null,
 	quest = null,
+	compare = null,       // Example: compare: { value: "$gold", op: ">=", against: 500 }
+	conditions = null,    // Custom function(v) => boolean
+	usedMin = null,
+	logic = "and",
 	hide = false,
 	reuse = 0,
-	logic = "and"
+	logUnlock = null,
+	tags = []
 } = {}) {
 	const v = State.variables;
+	const t = State.temporary;
 	const chars = v.characters;
+	const npc = v.currentNPC;
+	const phase = v.currentPhase;
 
 	let checks = [];
 
+	// Core character metric checks
 	if (aff) {
-		const [npc, min] = aff;
-		checks.push((chars?.[npc]?.affection ?? 0) >= min);
+		const [id, min] = aff;
+		checks.push((chars?.[id]?.affection ?? 0) >= min);
 	}
 	if (trust) {
-		const [npc, min] = trust;
-		checks.push((chars?.[npc]?.trust ?? 0) >= min);
+		const [id, min] = trust;
+		checks.push((chars?.[id]?.trust ?? 0) >= min);
 	}
-	if (variable) {
-		checks.push(!!v[variable]);
+	if (rapport) {
+		const [id, min] = rapport;
+		checks.push((chars?.[id]?.rapport ?? 0) >= min);
 	}
+	if (tension) {
+		const [id, max] = tension;
+		checks.push((chars?.[id]?.tension ?? 0) <= max);
+	}
+	if (cooldown) {
+		const [id, max] = cooldown;
+		checks.push((chars?.[id]?.cooldown ?? 0) <= max);
+	}
+
+	// Variable checks
+	if (variable) checks.push(!!v[variable]);
+	if (notVariable) checks.push(!v[notVariable]);
+
+	// Inventory check
 	if (item) {
 		const [id, count] = item;
 		checks.push((v.inventory?.[id] ?? 0) >= count);
 	}
+
+	// Quest progress check
 	if (quest) {
 		const [path, min] = quest;
 		const val = path.split(".").reduce((o, k) => o?.[k], v.quests ?? {});
 		checks.push((val ?? 0) >= min);
 	}
 
-	const passed = logic === "or"
-		? checks.some(Boolean)
-		: checks.every(Boolean);
+	// Custom boolean logic
+	if (typeof conditions === "function") {
+		checks.push(!!conditions(v));
+	}
 
+	// UsedMin scoped to this NPC + phase
+	if (usedMin !== null && npc && phase !== undefined) {
+		const readVars = v[`Read_Phase${phase}_${npc}`] ?? {};
+		const count = Object.values(readVars).filter(v => v >= 1).length;
+		checks.push(count >= usedMin);
+	}
+
+	// Advanced operator
+	if (compare) {
+		const value = typeof compare.value === "string" ? setup._resolvePath(compare.value, v) : compare.value;
+		const against = typeof compare.against === "string" ? setup._resolvePath(compare.against, v) : compare.against;
+		const result = {
+			"==": value == against,
+			"===": value === against,
+			"!=": value != against,
+			"!==": value !== against,
+			"<": value < against,
+			"<=": value <= against,
+			">": value > against,
+			">=": value >= against
+		}[compare.op];
+		checks.push(!!result);
+	}
+
+	// Check logic
+	const passed = logic === "or" ? checks.some(Boolean) : checks.every(Boolean);
+
+	// Log tags
+	if (passed && tags?.length > 0) {
+		v.choiceTags ??= [];
+		tags.forEach(tag => {
+			if (!v.choiceTags.includes(tag)) v.choiceTags.push(tag);
+		});
+	}
+
+	// Log unlock variable
+	if (passed && logUnlock) {
+		v[logUnlock] = true;
+	}
+
+	// Handle output
 	if (passed) {
 		return [label, target, reuse];
 	}
 
-	// Return a "locked" flag if not hidden
 	if (!hide) {
 		return [label, null, reuse, "locked"];
 	}
 
 	return null;
 };
+
+// Path resolver (supports nested vars like "$characters.marie.affection")
+setup._resolvePath = function (path, source = State.variables) {
+	return path.split(".").reduce((acc, key) => acc?.[key], source);
+};
+
+
 
 // ✅ Batch version: Array of smartChoice calls
 setup.smartChoices = function (list) {
@@ -5604,45 +5672,123 @@ setup.smartChoices = function (list) {
 // Centralized enum and descriptor logic for body-related features
 
 const BodyDescriptors = {
-    breastSize: ["flat", "small", "modest", "full", "large", "very large", "massive"],
-    buttSize: ["flat", "tight", "modest", "round", "plump", "large", "voluptuous"],
-    bodyType: ["emaciated", "slender", "lean", "average", "curvy", "thick", "heavyset", "broad"],
-    lipFullness: ["thin", "narrow", "modest", "full", "plump", "voluptuous"],
-    muscleTone: ["soft", "slightly toned", "fit", "athletic", "defined", "muscular", "ripped"],
-    hipWidth: ["narrow", "modest", "wide", "very wide"],
-    bodyHair: ["smooth", "light", "natural", "hairy", "very hairy"],
-    voiceTone: ["hushed", "gentle", "melodic", "breathy", "raspy", "commanding"],
-  
-    heightDescriptor(heightInInches) {
-      if (heightInInches <= 48) return "extremely short";
-      if (heightInInches <= 54) return "short";
-      if (heightInInches <= 60) return "below average height";
-      if (heightInInches <= 66) return "average height";
-      if (heightInInches <= 72) return "tall";
-      if (heightInInches <= 78) return "very tall";
-      return "towering";
-    },
-  
-    penisSizeDesc(sizeInInches) {
-      if (sizeInInches < 3.5) return "small";
-      if (sizeInInches < 5.5) return "modest";
-      if (sizeInInches < 7) return "average";
-      if (sizeInInches < 8.5) return "large";
-      return "very large";
-    },
-  
-    describeBody(profile) {
-      let height = this.heightDescriptor(profile.height);
-      let build = this.bodyType[profile.bodyType];
-      let breasts = profile.breastSize != null ? this.breastSize[profile.breastSize] + " breasts" : null;
-      let butt = profile.buttSize != null ? this.buttSize[profile.buttSize] + " butt" : null;
-  
-      return `A ${height}, ${build} build${breasts ? ", with " + breasts : ""}${butt ? ", and a " + butt : ""}.`;
+  breastSize: ["flat", "small", "modest", "full", "large", "very large", "massive"],
+  buttSize: ["flat", "tight", "modest", "round", "plump", "large", "voluptuous"],
+  bodyType: ["emaciated", "slender", "lean", "average", "curvy", "thick", "heavyset", "broad"],
+  lipFullness: ["thin", "narrow", "modest", "full", "plump", "voluptuous"],
+  muscleTone: ["soft", "slightly toned", "fit", "athletic", "defined", "muscular", "ripped"],
+  hipWidth: ["narrow", "modest", "wide", "very wide"],
+  bodyHair: ["smooth", "light", "natural", "hairy", "very hairy"],
+
+  hairLengthMap: [
+    { label: "bald", max: 0 },
+    { label: "buzzed", max: 1 },
+    { label: "cropped", max: 3 },
+    { label: "short", max: 6 },
+    { label: "ear-length", max: 8 },
+    { label: "jaw-length", max: 10 },
+    { label: "shoulder-length", max: 14 },
+    { label: "mid-back", max: 20 },
+    { label: "waist-length", max: 26 },
+    { label: "butt-length", max: 34 },
+    { label: "floor-length", max: Infinity }
+  ],
+
+  heightDescriptor(heightInInches) {
+    if (heightInInches <= 48) return "extremely short";
+    if (heightInInches <= 54) return "short";
+    if (heightInInches <= 60) return "below average height";
+    if (heightInInches <= 66) return "average height";
+    if (heightInInches <= 72) return "tall";
+    if (heightInInches <= 78) return "very tall";
+    return "towering";
+  },
+
+  penisSizeDesc(sizeInInches) {
+    if (sizeInInches < 3.5) return "small";
+    if (sizeInInches < 5.5) return "modest";
+    if (sizeInInches < 7) return "average";
+    if (sizeInInches < 8.5) return "large";
+    return "very large";
+  },
+
+  getHairLengthLabel(inches) {
+    for (const entry of this.hairLengthMap) {
+      if (inches <= entry.max) return entry.label;
     }
+    return "unknown length";
+  },
+
+  describeHair(profile) {
+    const lengthLabel = this.getHairLengthLabel(profile.hairLength || 0);
+    return `${lengthLabel} ${profile.hairStyle || "unstyled"} ${profile.hairColor || "hair"}`;
+  },
+
+  describeEyes(profile) {
+    return `${profile.eyeColor || "unknown"} eyes`;
+  },
+
+  describeBody(profile) {
+    let height = this.heightDescriptor(profile.height);
+    let build = this.bodyType[profile.bodyType];
+    let breasts = profile.breastSize != null ? this.breastSize[profile.breastSize] + " breasts" : null;
+    let butt = profile.buttSize != null ? this.buttSize[profile.buttSize] + " butt" : null;
+
+    return `A ${height}, ${build} build${breasts ? ", with " + breasts : ""}${butt ? ", and a " + butt : ""}.`;
+  },
+
+  describeFullAppearance(profile) {
+    return `${this.describeBody(profile)} ${profile.skinTone} skin, ${this.describeHair(profile)}, and ${this.describeEyes(profile)}.`;
+  }
+};
+
+setup.BodyDescriptors = BodyDescriptors;
+/* twine-user-script #24: "12_GlobalTextResolver.js" */
+setup.resolveCharacterText = function (text, npc) {
+    if (!npc || typeof npc !== "object") return text;
+  
+    const p = npc.pronouns || {};
+    const b = npc.body || {};
+  
+    // Descriptive helpers
+    const bd = setup.BodyDescriptors || {};
+    const getBody = (index, arr) => arr?.[index] || "unknown";
+    const getHairLength = (inches) => {
+      if (!bd.getHairLengthLabel) return `${inches} inches`;
+      return bd.getHairLengthLabel(inches);
+    };
+  
+    // Resolution map
+    const replacements = {
+      "<<npc.name>>": npc.name || "they",
+      "<<npc.they>>": p.subject || "they",
+      "<<npc.them>>": p.object || "them",
+      "<<npc.their>>": p.possessive || "their",
+      "<<npc.theirs>>": p.possessive + "s" || "theirs",
+      "<<npc.themself>>": p.reflexive || "themself",
+      "<<npc.noun>>": p.noun || "person",
+      "<<npc.eyecolor>>": b.eyeColor || "unknown",
+      "<<npc.hairColor>>": b.hairColor || "unknown",
+      "<<npc.hairStyle>>": b.hairStyle || "unstyled",
+      "<<npc.hairLength>>": getHairLength(b.hairLength || 0),
+      "<<npc.skinTone>>": b.skinTone || "skin",
+      "<<npc.voiceTone>>": b.voiceTone || "neutral",
+      "<<npc.bodyType>>": getBody(b.bodyType, bd.bodyType),
+      "<<npc.buttSize>>": getBody(b.buttSize, bd.buttSize),
+      "<<npc.breastSize>>": b.breastSize != null ? getBody(b.breastSize, bd.breastSize) : "",
+      "<<npc.penisSize>>": b.penisSize != null ? `${b.penisSize.toFixed(1)} inch` : ""
+    };
+  
+    // Apply all replacements
+    for (const [key, value] of Object.entries(replacements)) {
+      const safeVal = (value || "").toString();
+      text = text.replaceAll(key, safeVal);
+    }
+  
+    return text;
   };
   
-  setup.BodyDescriptors = BodyDescriptors;
-/* twine-user-script #24: "12_SexScene_Logic.js" */
+/* twine-user-script #25: "12_SexScene_Logic.js" */
 // SexScene-Logic.js
 // Initial draft of NSFW system handler for Liff Origins: Jaylie and Adventures of Liff
 
@@ -5732,7 +5878,19 @@ setup.SexScene = {
     }
   };
   
-/* twine-user-script #25: "15_npcSystems.js" */
+  setup.replacePronouns = function(text, npc) {
+    const p = npc.pronouns;
+    return text
+      .replace(/<<npc\.they>>/g, p.subject)
+      .replace(/<<npc\.them>>/g, p.object)
+      .replace(/<<npc\.their>>/g, p.possessive)
+      .replace(/<<npc\.theirs>>/g, p.possessive + "s") // optional override
+      .replace(/<<npc\.themself>>/g, p.reflexive)
+      .replace(/<<npc\.noun>>/g, p.noun)
+      .replace(/<<npc\.name>>/g, npc.name);
+  };
+  
+/* twine-user-script #26: "15_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -5775,9 +5933,9 @@ setup.filterNPCs = function (criteria = {}) {
         });
     });
 };
-/* twine-user-script #26: "CrownAndCasteLogic.js" */
-/* twine-user-script #27: "CrownAndCasteUI.js" */
-/* twine-user-script #28: "01_speechMacro.js" */
+/* twine-user-script #27: "CrownAndCasteLogic.js" */
+/* twine-user-script #28: "CrownAndCasteUI.js" */
+/* twine-user-script #29: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -5803,7 +5961,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #29: "02_fogtextMacro.js" */
+/* twine-user-script #30: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -5857,7 +6015,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #30: "03_sidebar.js" */
+/* twine-user-script #31: "03_sidebar.js" */
 // dev/js/03_sidebar.js
 
 setup.SidebarUI = {
@@ -6127,7 +6285,7 @@ function tryLucideIcons() {
 		setTimeout(tryLucideIcons, 250);
 	}
 }
-/* twine-user-script #31: "adda.js" */
+/* twine-user-script #32: "adda.js" */
 setup.adda_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "This place... it’s yours?", target: "Adda_ThisPlaceIsYours" },
@@ -6153,7 +6311,7 @@ setup.adda_Conversation_Options_NoctailOrigin = function () {
 		{ label: "Let’s talk about something else.", target: "Adda_Origin_Exit", reuse: 1 }
 	]);
 };
-/* twine-user-script #32: "allura.js" */
+/* twine-user-script #33: "allura.js" */
 /* Allura Conversation Options Phase 0 */
 setup.allura_Conversation_Options_Phase0 = function () {
 	setup.addSmartChoices([
@@ -6177,7 +6335,7 @@ setup.allura_Conversation_Options_Phase1 = function () {
 		{ label: "We don’t have to talk about this.", target: "Allura_ReturnToLight", reuse: 1 }
 	]);
 };
-/* twine-user-script #33: "bert.js" */
+/* twine-user-script #34: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
 	setup.addChoices([
 		["I want to get to know you better.", "Bert_DenyMinigame", 0],
@@ -6187,7 +6345,7 @@ setup.bert_Conversation_Options_Phase0 = function () {
 		["Nevermind.", "Bert_ReturnToParlor", 1]
 	]);
 };
-/* twine-user-script #34: "darian.js" */
+/* twine-user-script #35: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -6230,8 +6388,8 @@ setup.darian_Conversation_Options_Phase1 = function () {
 	]);
 };
 
-/* twine-user-script #35: "eristan.js" */
-/* twine-user-script #36: "harroc.js" */
+/* twine-user-script #36: "eristan.js" */
+/* twine-user-script #37: "harroc.js" */
  setup.harroc_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "Could I get a drink, please?", target: "Harroc_OrderDrink" },
@@ -6250,8 +6408,8 @@ setup.harroc_Conversation_Options_Rumors = function () {
 		{ label: "Let’s talk about something else.", target: "Harroc_Rumor_Exit", reuse: 1 }
 	]);
 };
-/* twine-user-script #37: "kallot.js" */
-/* twine-user-script #38: "marie.js" */
+/* twine-user-script #38: "kallot.js" */
+/* twine-user-script #39: "marie.js" */
 setup.marie_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "How are you doing?", target: "Marie_Howareyoudoing" },
@@ -6274,8 +6432,25 @@ setup.marie_Conversation_Options_Phase1 = function () {
 
 	]);
 };
-/* twine-user-script #39: "tesska.js" */
-/* twine-user-script #40: "02_DeclarativeDialogueSystem.js" */
+/* twine-user-script #40: "tesska.js" */
+// =======================
+// Tesska Phase 0 Trigger Function
+// =======================
+
+setup.tesska_Conversation_Options_Phase0 = function () {
+	console.log("Tesska Ordered Drink:", State.variables.tesskaOrderedDrink);
+	setup.smartChoices([
+		{ label: "Can I get a drink?", target: "Tesska_GetDrink" },
+		{ label: "It's kind of quiet in here tonight.", target: "Tesska_QuietNight" },
+		{ label: "Do you always work nights?", target: "Tesska_WorkNights" },
+		{ label: "How long have you and Harroc been running this place?", target: "Tesska_RunningThePlace", logic: "and", variable: "tesskaAskedWorkNights", hide: true },
+		{ label: "Do you get many unusual customers?", target: "Tesska_UnusualCustomers" },
+		{label: "Thanks, I think I’ll just sit quietly for a bit.",	target: "Tesska_Exit", variable: "!tesskaOrderedDrink",	hide: true },
+		{label: "Thanks, I think I’m going to nurse this drink for a while.",	target: "Tesska_ExitDrink",	variable: "tesskaOrderedDrink",	hide: true },
+		  
+	]);
+};
+/* twine-user-script #41: "02_DeclarativeDialogueSystem.js" */
 // ===============================
 // Declarative Dialogue Detection System
 // ===============================
@@ -6338,7 +6513,7 @@ setup.startDialogueLayout = function () {
 		</div>
 	`;
 };
-/* twine-user-script #41: "SaveAPI.js" */
+/* twine-user-script #42: "SaveAPI.js" */
 window.SaveAPI = window.SaveAPI || {};
 
 SaveAPI.nativeSaveMenu = function () {
@@ -6358,7 +6533,7 @@ SaveAPI.nativeSaveMenu = function () {
 		alert("Could not open save menu.");
 	}
 };
-/* twine-user-script #42: "999_main.js" */
+/* twine-user-script #43: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -6382,8 +6557,631 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #43: "SexScene_Responses.js" */
-/* twine-user-script #44: "convo_prompts.js" */
+/* twine-user-script #44: "SexScene_Responses.js" */
+setup.SexSceneResponses = {
+  // Example Template Entry
+  Oral_G: {
+    label: "Giving oral",
+    responses: {
+      neutral: [
+        "You lower yourself between <<npc.their>> thighs, breathing softly against <<npc.their>> <<npc.skinTone>> skin.",
+        "Your lips brush along <<npc.their>> inner thigh, pausing just shy of <<npc.their>> most sensitive spot.",
+        "You run your hands up <<npc.their>> <<npc.bodyType>> hips, then press a slow kiss to the center of <<npc.their>> desire.",
+        "You flick your tongue gently, testing what makes <<npc.them>> twitch or sigh.",
+        "You plant slow, reverent kisses along the curve of <<npc.their>> <<npc.buttSize>> thighs.",
+        "Your breath rolls across <<npc.their>> skin as you take your time, savoring their taste and reaction."
+      ],
+      liked: [
+        "<<npc.name>> gasps, their fingers gripping your hair tightly as you move deeper.",
+        "Their breath stutters. 'Yes—right there,' <<npc.they>> whispers, thighs quivering around your head.",
+        "<<npc.name>> arches their back, eyes fluttering shut as your tongue drives them wild.",
+        "Their voice breaks into a moan, hands grabbing at the sheets, hips moving instinctively against you.",
+        "You glance up and catch <<npc.their>> <<npc.eyecolor>> eyes staring down at you, wide and needful.",
+        "<<npc.they>> moans with abandon, their voice <<npc.voiceTone>> and desperate as they beg you not to stop."
+      ],
+      disliked: [
+        "<<npc.name>>'s muscles tighten—not in pleasure. 'Can we do something else?' <<npc.they>> murmurs.",
+        "You feel <<npc.them>> shift uncomfortably, legs pulling back just a bit.",
+        "<<npc.their>> breath is shallow but not excited, and <<npc.they>> avoids eye contact.",
+        "They wince slightly, a hand resting on your head but not guiding—just pausing.",
+        "'Maybe not right now,' <<npc.they>> says softly, and the tension in <<npc.their>> body never fades.",
+        "<<npc.name>> squirms as your tongue moves—less out of pleasure, more discomfort."
+      ],
+      climax: [
+        "<<npc.name>> lets out a broken cry, body locking up as orgasm overtakes <<npc.them>>.",
+        "They grip your shoulders as their thighs spasm, voice choked with ecstasy.",
+        "<<npc.their>> hands claw at the bedding, a guttural moan ripping free as <<npc.they>> cums.",
+        "A deep shudder runs through <<npc.them>>, muscles twitching as release crashes over <<npc.themself>>.",
+        "<<npc.name>> trembles uncontrollably, back arched and breath ragged, lost in climax."
+      ]
+    }
+  },
+  
+  Spank_G: {
+    label: "Spanking them",
+    responses: {
+      neutral: [
+        "You bring your palm down across <<npc.their>> <<npc.buttSize>> backside with a sharp, satisfying smack.",
+        "The sound of skin-on-skin rings out as your hand connects with <<npc.their>> <<npc.skinTone>> rear.",
+        "You deliver a measured swat to <<npc.name>>’s ass, watching the slight ripple of <<npc.their>> <<npc.bodyType>> form.",
+        "Your hand meets <<npc.their>> skin with a clean crack, just hard enough to leave a glow behind.",
+        "You smack them again, savoring the warmth blooming beneath your fingers.",
+        "Your palm strikes <<npc.their>> backside, each smack echoing softly in the air between you."
+      ],
+      liked: [
+        "<<npc.name>> moans loudly, arching back into your hand, clearly craving more.",
+        "They shudder with delight, <<npc.voiceTone>> moans escaping as their <<npc.buttSize>> ass tingles.",
+        "'Harder,' <<npc.they>> begs, rocking <<npc.themself>> into the next impact.",
+        "Their hips wiggle playfully, skin flushing as you keep them on edge.",
+        "<<npc.name>> laughs breathlessly, their <<npc.eyecolor>> eyes burning with mischief.",
+        "They grip the nearest surface, pushing their <<npc.bodyType>> form into you for the next slap."
+      ],
+      disliked: [
+        "<<npc.name>> jolts, a startled noise escaping. 'That’s not really my thing…'",
+        "They flinch under your hand, body going still with unease.",
+        "Their muscles tighten—not in arousal, but restraint. <<npc.they>> says nothing, but their posture speaks volumes.",
+        "You feel <<npc.them>> shift away slightly, tension returning to their spine.",
+        "'Let’s… skip that,' <<npc.they>> mutters, not meeting your gaze.",
+        "They breathe out hard, clearly not enjoying the sting."
+      ]
+    }
+  },
+  
+  Kiss: {
+    label: "Kissing",
+    responses: {
+      neutral: [
+        "You lean in and press your lips gently to <<npc.name>>’s, your breath mingling.",
+        "Your lips meet in a soft, exploratory kiss—testing their mood and desire.",
+        "You brush your mouth against <<npc.their>> own, light as a whisper.",
+        "The kiss is tentative at first, a shared moment of warmth on <<npc.their>> <<npc.skinTone>> cheek.",
+        "Your fingers touch <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair as your mouths meet briefly.",
+        "You kiss <<npc.them>> slowly, watching how <<npc.they>> reacts—gently feeling the space between you close."
+      ],
+      liked: [
+        "<<npc.name>> melts into the kiss, sighing into your mouth as their hands find your waist.",
+        "The kiss deepens—slow, hungry, and filled with unspoken hunger.",
+        "<<npc.they>> hums softly, mouth parting under yours as passion sparks between you.",
+        "<<npc.name>> presses forward eagerly, lips warm and eager against your own.",
+        "Their hands tangle in your hair as <<npc.they>> kisses you like they’ve wanted it for hours.",
+        "They taste like heat and sweetness, their <<npc.voiceTone>> moans swallowed between breaths."
+      ],
+      disliked: [
+        "<<npc.name>> returns the kiss, but there's a stiffness to <<npc.their>> mouth.",
+        "They hesitate before responding, lips barely moving under yours.",
+        "You feel a flicker of tension as <<npc.them>> leans away slightly mid-kiss.",
+        "They shift as your lips touch, eyes opening too soon to meet yours.",
+        "'That’s… not really the vibe,' <<npc.they>> murmurs, avoiding your gaze.",
+        "You brush your mouth to <<npc.theirs>>, but they don’t quite lean in—they seem distracted."
+      ]
+    }
+  },
+
+  Cuddling: {
+    label: "Cuddling",
+    responses: {
+      neutral: [
+        "You draw <<npc.them>> into your arms, your fingers brushing through <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair.",
+        "<<npc.name>> settles beside you, <<npc.their>> breath syncing with yours in a quiet rhythm.",
+        "You cradle <<npc.them>> close, feeling the heat of <<npc.their>> <<npc.bodyType>> form pressed against your chest.",
+        "Your hand strokes <<npc.their>> back gently, your lips near the crown of <<npc.their>> head.",
+        "The silence between you is full, peaceful, the weight of <<npc.them>> grounding you both.",
+        "You both exhale at the same time, the moment suspended in warmth and stillness."
+      ],
+      liked: [
+        "<<npc.name>> hums contentedly, nuzzling closer and relaxing in your hold.",
+        "They whisper something unintelligible against your skin and squeeze your hand softly.",
+        "<<npc.their>> <<npc.voiceTone>> breath brushes your collarbone as <<npc.they>> shifts into a more comfortable position against you.",
+        "<<npc.name>> intertwines <<npc.their>> fingers with yours and presses <<npc.their>> cheek to your chest.",
+        "They smile faintly, eyes closed, a rare vulnerability in the way <<npc.they>> rests against you.",
+        "<<npc.they>> pulls the covers around both of you, burrowing into the warmth of your shared space."
+      ],
+      disliked: [
+        "<<npc.name>> shifts slightly in your arms, posture stiff and guarded.",
+        "They lie against you, but the tension in <<npc.their>> shoulders never quite fades.",
+        "'I’m not really a cuddler,' <<npc.they>> mumbles, pulling back a little.",
+        "<<npc.name>> offers a polite smile but doesn’t settle—like their mind is somewhere else.",
+        "They remain still, unmoving, as if waiting for the moment to end.",
+        "Your hand moves across <<npc.their>> side, but <<npc.they>> doesn’t respond—not warmly, at least."
+      ]
+    }
+  },
+  
+  Fingering_R: {
+    label: "Fingering them",
+    responses: {
+      neutral: [
+        "Your fingers glide down <<npc.their>> <<npc.bodyType>> hips and between <<npc.their>> thighs, moving with slow, deliberate strokes.",
+        "You part <<npc.their>> folds carefully and ease a finger inside, coaxing a breath from <<npc.them>>.",
+        "Your hand moves lower, tracing the curve of <<npc.their>> <<npc.skinTone>> skin before slipping between their legs.",
+        "You explore gently, watching <<npc.their>> face for every twitch of response.",
+        "The heat between <<npc.their>> thighs guides you as your fingers work with steady precision.",
+        "You tease them slowly, your hand confident but patient—testing their arousal."
+      ],
+      liked: [
+        "<<npc.name>> moans as your fingers push deeper, <<npc.their>> hips rising to meet you.",
+        "Their breath catches, hands gripping the sheets as your rhythm builds.",
+        "<<npc.they>> whimpers through clenched teeth, clearly unable to hold back the pleasure.",
+        "They grind into your hand, gasping as your fingers stroke just the right spot.",
+        "Their voice is <<npc.voiceTone>> and ragged, whispering your name between moans.",
+        "<<npc.name>> grips your wrist—not to stop you, but to hold on as waves of pleasure hit."
+      ],
+      disliked: [
+        "<<npc.name>> tenses slightly beneath your hand, discomfort flickering across <<npc.their>> features.",
+        "They shift their hips away from your touch, a soft murmur escaping. 'Maybe not like that.'",
+        "Your fingers meet resistance—not physical, but emotional—as <<npc.they>> stiffens.",
+        "They give a hesitant glance, body still and unresponsive beneath your hand.",
+        "'Can we slow down?' <<npc.they>> asks, voice guarded.",
+        "You feel their breath quicken, but not in arousal—something’s off."
+      ],
+      climax: [
+        "<<npc.name>> cries out, clenching tight around your fingers as pleasure rips through <<npc.them>>.",
+        "They arch hard against you, legs trembling, breath breaking apart into desperate moans.",
+        "Their hips buck uncontrollably, body writhing as they cum in your hand.",
+        "<<npc.name>> trembles from the inside out, the orgasm seizing <<npc.them>> in a long, pulsing wave.",
+        "They scream your name as they finish, body slackening only when the tremors subside.",
+        "A shiver tears through <<npc.them>>, fingers digging into your skin as release crashes down."
+      ]
+    }
+  },
+  
+  BreastPlay_R: {
+    label: "Fondling their breasts",
+    responses: {
+      neutral: [
+        "You cup <<npc.their>> breasts gently, brushing your thumbs across <<npc.their>> nipples in slow, deliberate circles.",
+        "Your hands explore <<npc.their>> chest with reverent care, gauging <<npc.their>> every breath.",
+        "You trace your fingers along the curve of <<npc.their>> <<npc.breastSize>> chest, watching for reactions.",
+        "You lean in to kiss the top of one breast while your thumb teases the other.",
+        "Your hands move confidently across <<npc.their>> skin, keeping pressure light and exploratory.",
+        "You drag your knuckles gently across <<npc.their>> nipples, then cup <<npc.their>> breast with your full hand."
+      ],
+      liked: [
+        "<<npc.name>> moans softly, arching into your hands as heat blooms beneath your touch.",
+        "They whimper when your thumb brushes over <<npc.their>> nipple, and their hips squirm in response.",
+        "You feel them press into your palms, <<npc.their>> breathing ragged and needy.",
+        "Their nipples harden under your fingers, and <<npc.they>> bites <<npc.their>> lip as if to stay quiet.",
+        "They tilt their head back, eyes closed, mouth parted—lost in the sensation.",
+        "<<npc.name>> pants, hands reaching for yours to urge you on with desperate need."
+      ],
+      disliked: [
+        "<<npc.name>> squirms in your grip, shoulders drawing slightly inward.",
+        "Their posture shifts, pulling <<npc.their>> chest away from your hands.",
+        "'That's... not really my spot,' <<npc.they>> murmurs, voice flat.",
+        "They offer a tight-lipped smile, but there's no passion in it.",
+        "They shift uncomfortably beneath your touch, clearly not engaged.",
+        "<<npc.name>> exhales sharply—not with pleasure—and nudges your hands aside."
+      ]
+    }
+  },
+  
+  DirtyTalk_G: {
+    label: "Talking dirty",
+    responses: {
+      neutral: [
+        "You lean in close, letting your <<npc.voiceTone>> voice curl against <<npc.their>> ear with promises you haven’t fulfilled yet.",
+        "You whisper filth with precision, watching how <<npc.name>> reacts to every syllable.",
+        "Your words are deliberate and slow, slipping past your lips like silk soaked in sin.",
+        "You murmur into <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair, letting them feel your breath more than the words themselves.",
+        "You paint a picture in words—raw, indulgent, vivid enough to fog <<npc.their>> <<npc.eyecolor>> eyes.",
+        "Your voice dances through threats and praise, drawing heat from suggestion alone."
+      ],
+      liked: [
+        "<<npc.name>> bites <<npc.their>> lip, a flush spreading across <<npc.their>> <<npc.skinTone>> cheeks as your words hit home.",
+        "They let out a moan just from your voice, pupils blown wide with arousal.",
+        "'Say that again,' <<npc.they>> begs, voice ragged and breath trembling.",
+        "They whimper as you speak, their hands fisting the sheets in anticipation.",
+        "Every word seems to ripple through <<npc.them>>, their <<npc.bodyType>> form responding to the sound of your desire.",
+        "<<npc.name>>'s breath catches, and you see a spark light behind those <<npc.eyecolor>> eyes—they love every filthy thing you say."
+      ],
+      disliked: [
+        "They blink awkwardly and look away. 'That was a lot... all at once.'",
+        "<<npc.name>> pulls back slightly, a flicker of discomfort across <<npc.their>> face.",
+        "They hesitate, lips pressed into a line—not quite rejecting you, but clearly unsettled.",
+        "'Can we keep it... softer?' <<npc.they>> asks, voice low but firm.",
+        "Your words trail off as <<npc.name>> tenses—not with anticipation, but restraint.",
+        "Their body stills, and the heat between you falters under the weight of your tone."
+      ]
+    }
+  },
+  
+  Anal_P_R: {
+    label: "Anal penetration",
+    responses: {
+      neutral: [
+        "You press the tip slowly against <<npc.their>> entrance, watching for any hesitation in <<npc.their>> <<npc.bodyType>> frame.",
+        "You line yourself up with deliberate care, one hand braced on <<npc.their>> <<npc.hipWidth>> hips as you guide yourself forward.",
+        "You apply gentle, steady pressure, letting <<npc.them>> adjust to the sensation before pushing any deeper.",
+        "You stroke along <<npc.their>> back with one hand, the other guiding your length into position.",
+        "You push in gradually, listening to every sound from <<npc.them>>, gauging the comfort in <<npc.their>> breath and muscle tension.",
+        "You ease forward, taking your time and ensuring <<npc.name>> is ready for every inch."
+      ],
+      liked: [
+        "<<npc.name>> groans deeply as you fill <<npc.them>>, hips pushing back eagerly against you.",
+        "They shudder and curse beneath you, body taut with electric pleasure.",
+        "Their voice is <<npc.voiceTone>> and low, begging for more as you drive deeper.",
+        "You feel them push back against you, breathless and hungry, every inch sending shockwaves through <<npc.them>>.",
+        "<<npc.name>>'s moans grow louder with every motion, fingernails clawing at the sheets.",
+        "They cry out, lost in the rhythm, sweat slicking across <<npc.their>> <<npc.skinTone>> back as they ride the edge."
+      ],
+      disliked: [
+        "The moment you press forward, <<npc.name>> stiffens and pulls away. 'Please don't.'",
+        "They go rigid in your arms, body recoiling from the pressure.",
+        "'That’s... not something I’m okay with,' <<npc.they>> says quietly, voice flat.",
+        "<<npc.name>> exhales sharply and twists away, a frown shadowing <<npc.their>> features.",
+        "They shift out of reach, no longer responding to your touch, the air between you chilled.",
+        "Their breathing speeds up—but not from arousal. 'Stop,' they whisper, no room for debate."
+      ]
+    }
+  },
+
+  Anal_P_G: {
+    label: "Partner initiating anal penetration",
+    responses: {
+      neutral: [
+        "<<npc.name>> lines themselves up behind you, one hand guiding themselves as they press carefully forward.",
+        "You feel the pressure begin to mount as <<npc.they>> leans in, slow and cautious against your entrance.",
+        "Their hands steady your hips as they begin to push in, testing your readiness with each shallow thrust.",
+        "They breathe against your back, waiting just a second longer before starting to press inside.",
+        "You brace yourself, feeling the tension as <<npc.name>> begins to work into you gradually.",
+        "They take their time—<<npc.voiceTone>> and focused—as they begin the first careful push."
+      ],
+      liked: [
+        "You groan as <<npc.name>> sinks deeper, <<npc.their>> rhythm deliberate and maddeningly slow.",
+        "They thrust forward slowly, moaning as your body yields to them, inch by inch.",
+        "'You take me so well,' <<npc.they>> whispers, fingers digging into your sides as they bury themselves deeper.",
+        "<<npc.name>> moves with practiced ease, hips pressing firmly against your backside.",
+        "Each inch fills you more, and <<npc.they>> grunts with pleasure as they bottom out.",
+        "You cry out as <<npc.name>> presses fully inside you, panting and rocking their hips just enough to tease."
+      ],
+      disliked: [
+        "You tense as they try to enter—something about the pressure makes your breath hitch in discomfort.",
+        "'Wait—stop,' you mutter, body instinctively pulling away.",
+        "<<npc.name>> hesitates mid-motion, clearly noticing your discomfort.",
+        "The moment feels wrong—your body too tight, their hands too firm.",
+        "'Not like this,' you breathe, trying to steady yourself.",
+        "They slow immediately, concern replacing heat as they ease back from your entrance."
+      ]
+    }
+  },
+  
+  Anal_R: {
+    label: "Receiving anal penetration",
+    responses: {
+      neutral: [
+        "You begin to move, establishing a steady rhythm as <<npc.name>> adjusts to your presence.",
+        "You thrust slowly, reading each breath, each shift of <<npc.their>> <<npc.bodyType>> frame for signs of readiness.",
+        "You hold <<npc.their>> <<npc.hipWidth>> hips as your motion grows deeper, smoother, more confident.",
+        "Each motion earns a subtle reaction from <<npc.them>>—a flinch, a twitch, a moan you’re not sure was pleasure or restraint.",
+        "You push in and out slowly, letting the friction build with careful patience.",
+        "Your hips rock forward again, skin slapping softly against <<npc.their>> <<npc.buttSize>> backside."
+      ],
+      liked: [
+        "<<npc.name>> groans with each thrust, back arching and voice cracking with pleasure.",
+        "They moan wildly, their whole body pushing back into you, hungry for every inch.",
+        "'Yes—don’t stop!' <<npc.they>> pants, gasping as your rhythm deepens.",
+        "<<npc.they>> cries out, fingernails digging into the bedding, toes curling with every push.",
+        "<<npc.name>> slams back into you, pace frantic and needy, pleasure dripping from every movement.",
+        "They tremble with every stroke, breathless and flushed, completely surrendered to the rhythm."
+      ],
+      disliked: [
+        "<<npc.name>> flinches at each thrust, jaw clenched and body tensed in resistance.",
+        "'Slow down,' <<npc.they>> whispers, pain flickering in <<npc.their>> voice.",
+        "You feel <<npc.them>> trying to keep still, but their breath is unsteady—not from arousal.",
+        "'It doesn’t feel right,' <<npc.they>> mutters, voice tight, eyes looking anywhere but at you.",
+        "<<npc.name>>’s body isn’t responding—just enduring—and the tension is impossible to ignore.",
+        "They gasp—not with pleasure, but a strained sound that halts your motion entirely."
+      ],
+      climax: [
+        "<<npc.name>> lets out a guttural moan, whole body seizing up around you as orgasm rips through <<npc.them>>.",
+        "They arch hard, hips slamming into yours, eyes wild as they reach their peak.",
+        "<<npc.they>> sobs your name as climax hits, shaking and flushed and overwhelmed.",
+        "You feel them clamp down hard, body writhing and pulse pounding through their frame.",
+        "They scream into the pillow, coming undone in waves of shaking, feral bliss."
+      ]
+    }
+  },
+  
+  Anal_G: {
+    label: "Partner thrusting into the player (anal)",
+    responses: {
+      neutral: [
+        "<<npc.name>> begins to move inside you, the rhythm building steadily as your body adjusts.",
+        "They thrust slowly at first, careful and deliberate, eyes locked on the way your body takes them.",
+        "Their hips rock against you, each stroke deeper than the last.",
+        "<<npc.their>> breath grows heavier as they settle into motion, your body growing more receptive with every push.",
+        "You feel every inch as <<npc.name>> starts to drive into you, skin slapping softly against your backside.",
+        "They grunt softly, hands gripping your <<pc.bodyType>> waist as they find their rhythm."
+      ],
+      liked: [
+        "They pound into you harder now, each thrust making you cry out with need.",
+        "Their moans mix with yours as their hips slap relentlessly against your ass.",
+        "'So tight,' <<npc.they>> groans, thrusting into you with increasing speed.",
+        "Your body rocks with every motion as <<npc.name>> fucks you, raw and greedy.",
+        "Their grip tightens, pace relentless—<<npc.they>> is lost in it now, drunk on the way you squeeze around them.",
+        "They slam into you again and again, filling you completely, moaning your name with every motion."
+      ],
+      disliked: [
+        "The rhythm feels wrong—each thrust jarring rather than arousing.",
+        "You wince, body tightening involuntarily. 'Too much,' you whisper.",
+        "<<npc.name>> pulls back slightly, clearly sensing your discomfort.",
+        "Their hips stutter mid-thrust, heat fading as your body rejects the motion.",
+        "'You're not okay,' <<npc.they>> murmurs, slowing instantly.",
+        "They stop moving, hands softening on your sides as they lean forward in concern."
+      ],
+      climax: [
+        "<<npc.name>> thrusts deep and groans loudly, body shuddering as they climax inside you.",
+        "They slam forward with one last thrust, crying out your name as they spill into you.",
+        "<<npc.they>> loses control—voice cracking, hands gripping hard—as orgasm takes over.",
+        "Their hips stutter, breath ragged, as they empty themselves with a final trembling cry.",
+        "<<npc.name>> collapses over you, spent and shaking from the intensity of release."
+      ]
+    }
+  },
+    
+  Dominate: {
+    label: "Taking control",
+    responses: {
+      neutral: [
+        "You shift your posture, asserting control with a steady hand and commanding gaze.",
+        "You press them down firmly, making your intentions unmistakable."
+      ],
+      liked: [
+        "<<npc.name>> shivers in anticipation, surrendering eagerly to your lead.",
+        "They melt beneath you, clearly turned on by your dominance."
+      ],
+      disliked: [
+        "<<npc.name>> stiffens, eyes narrowing. 'That's not how I like it.'",
+        "They try to resist your pressure, clearly uncomfortable with your tone."
+      ]
+    }
+  },
+
+  Submit: {
+    label: "Submitting",
+    responses: {
+      neutral: [
+        "You lower yourself, exposing your body in silent invitation.",
+        "You yield control, your breath shallow and expectant."
+      ],
+      liked: [
+        "<<npc.name>> smiles darkly, clearly relishing the power you’ve given up.",
+        "They grip your chin gently, clearly enjoying your submission."
+      ],
+      disliked: [
+        "<<npc.name>> frowns slightly, confused by your sudden passivity.",
+        "'What are you doing?' they ask, tone uncertain."
+      ]
+    }
+  },
+
+  FaceSit: {
+    label: "Face sitting",
+    responses: {
+      neutral: [
+        "You straddle their face slowly, watching their expression for every flicker of desire.",
+        "You settle atop them, hips rocking as they take in your scent and taste."
+      ],
+      liked: [
+        "<<npc.name>> groans hungrily, gripping your thighs and pulling you closer.",
+        "They moan beneath you, clearly loving every second of it."
+      ],
+      disliked: [
+        "They try to shift away, muffled sounds of protest echoing against your skin.",
+        "<<npc.name>>'s body stiffens beneath you—not in pleasure."
+      ]
+    }
+  },
+
+  Praise_G: {
+    label: "Praising your partner",
+    responses: {
+      neutral: [
+        "You murmur soft compliments, letting them know how beautiful, how perfect they are.",
+        "Your words are warm, reverent—meant for them and them alone."
+      ],
+      liked: [
+        "<<npc.name>> blushes fiercely, eyes shining. They clearly thrive on your words.",
+        "They whimper softly, drinking in the affection like it’s oxygen."
+      ],
+      disliked: [
+        "They roll their eyes awkwardly. 'That’s... too much right now.'",
+        "They smile stiffly, not quite sure how to respond to the praise."
+      ]
+    }
+  },
+
+  HairPulling_G: {
+    label: "Pulling their hair",
+    responses: {
+      neutral: [
+        "You tangle your fingers in their hair and give a firm tug.",
+        "You pull their head back slightly, exposing their neck and jawline."
+      ],
+      liked: [
+        "<<npc.name>> gasps, clearly turned on by the control.",
+        "They groan, their eyes flashing with pleasure and challenge."
+      ],
+      disliked: [
+        "<<npc.name>> yelps in surprise and pulls away. 'Easy!'",
+        "They wince, clearly not enjoying the roughness."
+      ]
+    }
+  },
+
+  Choke_G: {
+    label: "Choking them",
+    responses: {
+      neutral: [
+        "You wrap a firm hand around their throat, applying just enough pressure.",
+        "Your fingers tighten slowly at their neck, testing their reaction."
+      ],
+      liked: [
+        "<<npc.name>> gasps in pleasure, eyes rolling slightly as they lean into your grip.",
+        "They moan against your palm, clearly aroused by the control."
+      ],
+      disliked: [
+        "<<npc.name>> grabs your wrist suddenly. 'No.'",
+        "Their body goes rigid, and the mood breaks instantly."
+      ]
+    }
+  },
+
+  Toys_Use: {
+    label: "Using toys on them",
+    responses: {
+      neutral: [
+        "You bring the toy to their body, teasing their skin as they inhale sharply.",
+        "You activate the device and begin tracing it along their most sensitive spots."
+      ],
+      liked: [
+        "<<npc.name>> writhes beneath you, crying out as the sensations build fast.",
+        "Their hands clench the sheets, body trembling from the stimulation."
+      ],
+      disliked: [
+        "<<npc.name>> shifts away from the toy, frowning slightly. 'That’s not my thing.'",
+        "They look uncertain, trying to stay in the mood but clearly unsettled."
+      ]
+    }
+  },
+
+  Edging: {
+    label: "Teasing them to the brink",
+    responses: {
+      neutral: [
+        "You slow your rhythm just before they reach their peak, watching their frustration grow.",
+        "You pull back slightly, leaving them aching and desperate."
+      ],
+      liked: [
+        "<<npc.name>> whines in frustration, begging for more.",
+        "They tremble, pleasure taut just beneath the surface—hooked on the denial."
+      ],
+      disliked: [
+        "They exhale sharply. 'Don't play games,' they mutter, annoyed.",
+        "Their eyes narrow—this isn’t the kind of tease they enjoy."
+      ]
+    }
+  },
+
+  BreastPlay_G: {
+    label: "Giving breast attention",
+    responses: {
+      neutral: [
+        "You lean down and take one of their nipples between your lips, swirling your tongue slowly.",
+        "Your hands explore their chest with gentle, focused care."
+      ],
+      liked: [
+        "<<npc.name>> moans softly, arching into your mouth.",
+        "They whimper, hands tangling in your hair, hungry for more."
+      ],
+      disliked: [
+        "<<npc.name>> pulls your hand away with a hesitant shake of the head.",
+        "They shift uncomfortably, not responding to the touch."
+      ]
+    }
+  },
+
+  Kissing: {
+    label: "Kissing",
+    responses: {
+      neutral: [
+        "Your lips brush against theirs, soft and inviting.",
+        "You lean in for a slow, exploratory kiss.",
+        "You press your mouth to theirs, testing their response with a gentle rhythm.",
+        "Your mouths meet in a quiet moment of shared breath."
+      ],
+      liked: [
+        "<<npc.name>> melts into the kiss, sighing sweetly into your mouth.",
+        "They press closer, the kiss deepening with hunger and warmth.",
+        "Their hands find your face, pulling you in more firmly.",
+        "They moan softly, clearly savoring your touch.",
+        "Their whole body seems to relax into the contact, tension draining away."
+      ],
+      disliked: [
+        "<<npc.name>> turns slightly, deflecting the moment with a tense smile.",
+        "They return the kiss briefly, but there’s little passion behind it.",
+        "<<npc.name>> offers a quick peck and then pulls back, avoiding your eyes.",
+        "You feel their lips hesitate against yours—distant, uncertain.",
+        "Their response is stiff, like they’re going through the motions."
+      ]
+    }
+  },  
+
+  OralAnal_G: {
+    label: "Giving oral to their anus",
+    responses: {
+      neutral: [
+        "You lower yourself slowly, spreading them open with deliberate care.",
+        "You press your mouth to their most private place, working with gentle precision."
+      ],
+      liked: [
+        "<<npc.name>> gasps sharply, body twitching with every flick of your tongue.",
+        "They groan deeply, clearly overwhelmed by the sensation."
+      ],
+      disliked: [
+        "<<npc.name>> tenses up, twisting away. 'Not there…'",
+        "They shiver—not from pleasure—and shift uncomfortably."
+      ]
+    }
+  },
+
+  NipplePlay_R: {
+    label: "Stimulating their nipples",
+    responses: {
+      neutral: [
+        "You circle a fingertip around one nipple, then lightly pinch it.",
+        "Your lips close around the bud, drawing a soft sound from them."
+      ],
+      liked: [
+        "<<npc.name>> moans gently, pressing their chest against your hand.",
+        "Their breath hitches, eyes fluttering shut with pleasure."
+      ],
+      disliked: [
+        "<<npc.name>> wriggles away slightly, looking uneasy.",
+        "'I don’t really feel anything there,' they mutter."
+      ]
+    }
+  },
+
+  Praise_R: {
+    label: "Receiving praise",
+    responses: {
+      neutral: [
+        "<<npc.name>> listens to your praise with a shy smile.",
+        "Their cheeks flush as your words land."
+      ],
+      liked: [
+        "They glow under your compliments, clearly thriving on them.",
+        "'Say that again,' <<npc.name>> whispers, visibly aroused."
+      ],
+      disliked: [
+        "They roll their eyes. 'You don’t need to flatter me.'",
+        "They look away awkwardly, clearly not used to affection like that."
+      ]
+    }
+  },
+
+  Submit: {
+    label: "Submitting",
+    responses: {
+      neutral: [
+        "You expose your body to them, letting them see your vulnerability.",
+        "You lay back and allow their control to take the lead."
+      ],
+      liked: [
+        "<<npc.name>> smiles darkly, clearly enjoying your surrender.",
+        "They press into you with newfound confidence, feeding off your trust."
+      ],
+      disliked: [
+        "They frown slightly. 'Why are you doing that?'",
+        "<<npc.name>> seems confused—maybe they prefer equals, not followers."
+      ]
+    }
+  },
+
+};
+
+/* twine-user-script #45: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -6565,7 +7363,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #45: "convo_tropes.js" */
+/* twine-user-script #46: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -7003,7 +7801,7 @@ setup.ConvoTropesByTier = {
     }
   ]
 };
-/* twine-user-script #46: "inclinations.js" */
+/* twine-user-script #47: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -7017,154 +7815,101 @@ setup.ConvoTropesByTier = {
 // Refactored to integrate sexual act tags directly for compatibility with NSFW preference logic
 
 setup.Inclinations = {
-    // Vanilla / Softcore
-    vanilla: {
-      tags: ["safe", "basic"],
-      soft: true,
-      optional: true
-    },
-    praise: {
-      tags: ["affirmation", "emotional"],
-      likes: ["being adored", "gentle domination"],
-      optional: true
-    },
-    teasing: {
-      tags: ["playful"],
-      likes: ["build-up", "denial"],
-      optional: true
-    },
-    service: {
-      tags: ["submissive"],
-      likes: ["pleasing others", "obedience"],
-      optional: true
-    },
-    exhibitionism: {
-      tags: ["public", "bold"],
-      optional: true
-    },
-    voyeurism: {
-      tags: ["watching", "curiosity"],
-      optional: true
-    },
-  
-    // BDSM Core
-    bondage: {
-      tags: ["restraint", "control"],
-      optional: true
-    },
-    domination: {
-      tags: ["dominant"],
-      optional: true
-    },
-    submission: {
-      tags: ["submissive"],
-      optional: true
-    },
-    sadism: {
-      tags: ["pain giver", "intensity"],
-      optional: true
-    },
-    masochism: {
-      tags: ["pain receiver", "endurance"],
-      optional: true
-    },
-    degradation: {
-      tags: ["verbal", "humiliation"],
-      optional: true
-    },
-    humiliation: {
-      tags: ["embarrassment", "control"],
-      optional: true
-    },
-    spanking: {
-      tags: ["impact"],
-      optional: true
-    },
-    edging: {
-      tags: ["denial", "control"],
-      optional: true
-    },
-  
-    // Fetish Play
-    footFetish: {
-      tags: ["fetish"],
-      optional: true
-    },
-    breathPlay: {
-      tags: ["intensity"],
-      optional: true
-    },
-    sensoryPlay: {
-      tags: ["sensory", "tactile"],
-      optional: true
-    },
-    roleplay: {
-      tags: ["acting", "scenario"],
-      optional: true
-    },
-    temperaturePlay: {
-      tags: ["hot", "cold"],
-      optional: true
-    },
-  
-    // Hardcore / Extreme
-    deepThroat: {
-      tags: ["oral", "intensity"],
-      optional: true
-    },
-    doublePenetration: {
-      tags: ["penetration", "group"],
-      optional: true
-    },
-    gangbang: {
-      tags: ["group"],
-      optional: true
-    },
-    fisting: {
-      tags: ["extreme", "penetration"],
-      optional: true
-    },
-    watersports: {
-      tags: ["wet", "taboo"],
-      optional: true
-    },
-    facials: {
-      tags: ["oral", "climax"],
-      optional: true
-    },
-    creampie: {
-      tags: ["internal", "climax"],
-      optional: true
-    },
-    breeding: {
-      tags: ["fertility", "climax"],
-      optional: true
-    },
-    sizePlay: {
-      tags: ["size", "extreme"],
-      optional: true
-    },
-  
-    // Taboo / Optional Filters
-    incest: {
-      tags: ["taboo"],
-      optional: true
-    },
-    nonCon: {
-      tags: ["taboo", "forced"],
-      optional: true
-    },
-    monster: {
-      tags: ["nonhuman", "taboo"],
-      optional: true
-    },
-    transformation: {
-      tags: ["fantasy", "nonstandard"],
-      optional: true
-    }
-  };
-  
-/* twine-user-script #47: "motivations.js" */
+
+  vanilla: {
+    tags: ["safe", "basic"],
+    acts: ["Kissing", "Cuddling", "EyeContact", "Oral_G", "Oral_R", "Vaginal_P"],
+    soft: true,
+    optional: true
+  },
+
+  praise: {
+    tags: ["affirmation", "emotional"],
+    acts: ["Praise_G", "DirtyTalk_G", "Dominate", "Kissing"],
+    likes: ["being adored", "gentle domination"],
+    optional: true
+  },
+
+  domination: {
+    tags: ["dominant"],
+    acts: ["Dominate", "Spank_G", "Choke_G", "Bondage_Use", "HairPulling_G", "DirtyTalk_G", "OrgasmControl_G"],
+    optional: true
+  },
+
+  submission: {
+    tags: ["submissive"],
+    acts: ["Submit", "Bondage_R", "Choke_R", "Spank_R", "HairPulling_R", "OrgasmControl_R"],
+    optional: true
+  },
+
+  service: {
+    tags: ["giving", "obedient"],
+    acts: ["Oral_G", "Handjob_G", "Praise_G", "Cuddling", "Toys_Use", "Blindfold_G"],
+    optional: true
+  },
+
+  exhibitionism: {
+    tags: ["exposed", "thrill"],
+    acts: ["Exhibition_Solo", "Exhibition_Sex", "Kissing", "FaceSit"],
+    optional: true
+  },
+
+  voyeurism: {
+    tags: ["watching", "observation"],
+    acts: ["Voyeurism"],
+    optional: true
+  },
+
+  roughplay: {
+    tags: ["aggressive", "intense"],
+    acts: ["Spank_G", "Choke_G", "HairPulling_G", "Bite_G", "Degrade_G"],
+    optional: true
+  },
+
+  bondage: {
+    tags: ["restraint", "control"],
+    acts: ["Bondage_Use", "Bondage_R", "Gag_Use", "Blindfold_R", "Blindfold_G"],
+    optional: true
+  },
+
+  sensual: {
+    tags: ["tender", "stimulating"],
+    acts: ["Lick_Body", "NipplePlay_G", "NipplePlay_R", "Fingering_G", "Fingering_R", "BreastPlay_G", "BreastPlay_R"],
+    optional: true
+  },
+
+  breeding: {
+    tags: ["reproductive", "climax"],
+    acts: ["Creampie", "Breeding_Kink", "Creampie_Preference"],
+    optional: true
+  },
+
+  verbal: {
+    tags: ["dirty talk", "expression"],
+    acts: ["DirtyTalk_G", "DirtyTalk_R", "Praise_G", "Degrade_G", "NameCalling"],
+    optional: true
+  },
+
+  sensory: {
+    tags: ["stimulus", "touch"],
+    acts: ["Blindfold_R", "Blindfold_G", "IcePlay", "WaxPlay"],
+    optional: true
+  },
+
+  roleplay: {
+    tags: ["imaginative", "character-based"],
+    acts: ["Roleplay_Master", "Roleplay_Servant", "Roleplay_Teacher", "Roleplay_Stranger"],
+    optional: true
+  },
+
+  riskplay: {
+    tags: ["danger", "excitement"],
+    acts: ["Risk_BeingCaught", "PowerImbalance"],
+    optional: true
+  }
+
+};
+/* twine-user-script #48: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -7252,7 +7997,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #48: "npc_archetypes.js" */
+/* twine-user-script #49: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -7282,7 +8027,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #49: "npc_names.js" */
+/* twine-user-script #50: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -7297,7 +8042,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #50: "personality_traits.js" */
+/* twine-user-script #51: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -7359,7 +8104,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #51: "sexual_acts.js" */
+/* twine-user-script #52: "sexual_acts.js" */
 // dev/js/data/sexual_acts.js
 // Full registry of sexual interaction tags used across preferences, inclinations, and scene logic
 
@@ -7464,7 +8209,7 @@ setup.SexualActs = {
     Creampie_Preference:{ label: "Prefers internal finish", category: "Climax", tags: ["climax", "preference"] }
   };
   
-/* twine-user-script #52: "social_styles.js" */
+/* twine-user-script #53: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -7537,7 +8282,7 @@ setup.SocialStyles = {
     }
   };
   
-/* twine-user-script #53: "DataAuditor.js" */
+/* twine-user-script #54: "DataAuditor.js" */
 setup.DataAuditor = {
     listUniqueValues(objectArray, property) {
       const values = objectArray.flatMap(item => {
@@ -7657,7 +8402,7 @@ void audit.prompts.themes();
 ===========================================================
 */
 
-/* twine-user-script #54: "random-event.js" */
+/* twine-user-script #55: "random-event.js" */
 // repository: https://github.com/TweePower/twee-sugarcube-random-events
 
 const debugLevel = 3; // max debug level
@@ -8134,16 +8879,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
   [[You step away from Adda and return to the parlor.|Scene02_ReturnToParlor]]
 &lt;&lt;/append&gt;&gt;
-  Her lips curl in a subtle smirk, and she returns her attention to the room — already half-in, half-out of your conversation, watching the ebb and flow of her domain.
-
-  You rise from the couch and glance around. The hush of the brothel settles over you again — warm light, distant laughter, the clink of glass, the faint rumble of thunder pulsing against the windows.
-
-  [[You step away from Adda and return to the parlor.|Scene02_ReturnToParlor]]
-&lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;
-
-/* Adda Noctail Origin Convo Branch - Start */</tw-passagedata><tw-passagedata pid="10" name="Adda_Origin_WhatWasItLike" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Adda_Origin_WhatWasItLike&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
 /* Adda Noctail Origin Convo Branch - Start */</tw-passagedata><tw-passagedata pid="10" name="Adda_Origin_WhatWasItLike" tags="widget" position="1225,100" size="100,100">&lt;&lt;widget &quot;Adda_Origin_WhatWasItLike&quot;&gt;&gt;
@@ -8531,14 +9267,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Darian_HowLongHere" tags="widget" position="350,475" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="ReturnToParlor" tags="widget" position="225,475" size="100,100">&lt;&lt;widget &quot;Bert_ReturnToParlor&quot;&gt;&gt;
-&lt;&lt;speech &quot;Jaylie&quot;&gt;&gt; I think I&#39;ll explore the rest of the parlor.&lt;&lt;/speech&gt;&gt;
-&lt;&lt;speech &quot;bert&quot;&gt;&gt; Of course, Miss. Please enjoy your evening.&lt;&lt;/speech&gt;&gt;
-
-[[You step away from the bar.|ReturnToParlor]]
-&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;run setup.bert_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="Darian_HowLongHere" tags="widget" position="350,475" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So how long have you worked here?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.&lt;&lt;/speech&gt;&gt;
@@ -8547,7 +9275,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Darian_DoYouLikeJob" tags="widget" position="475,475" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Darian_DoYouLikeJob" tags="widget" position="475,475" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you actually like working here?&lt;&lt;/speech&gt;&gt;
@@ -8559,7 +9286,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Darian_Bracelet" tags="widget" position="600,475" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Darian_Bracelet" tags="widget" position="600,475" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;That bracelet... it looks important. Where did you get it?&lt;&lt;/speech&gt;&gt;
@@ -8578,7 +9304,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
   &lt;&lt;/if&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Darian_GetDrink" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Darian_GetDrink" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink? I&#39;m not really sure what I’d like.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Hmm... Bert?&lt;&lt;/speech&gt;&gt;
@@ -8591,13 +9316,11 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Darian_StartMinigame" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Darian_StartMinigame" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Then you’d better be good at asking questions. And better still at listening.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.ConvoGame.start(&quot;darian&quot;)&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Darian_Sister_WhatWasSheLike" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Darian_Sister_WhatWasSheLike" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_WhatWasSheLike&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What was your sister like?&lt;&lt;/speech&gt;&gt;
@@ -8608,7 +9331,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Darian_Sister_HowDidSheDie" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Darian_Sister_HowDidSheDie" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_HowDidSheDie&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If you don’t mind me asking... how did she die?&lt;&lt;/speech&gt;&gt;
@@ -8623,7 +9345,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Darian_Sister_BraceletMemory" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Darian_Sister_BraceletMemory" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Darian_Sister_BraceletMemory&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can you tell me more about when she gave you that bracelet?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.&lt;&lt;/speech&gt;&gt;
@@ -8634,7 +9355,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Darian_Conversation_Options_SisterBranch()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Darian_Sister_ReturnToMain" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Darian_Sister_ReturnToMain" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Darian_Sister_ReturnToMain&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk about something else now.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;darian&quot;&gt;&gt;Of course. Whatever you need.&lt;&lt;/speech&gt;&gt;
@@ -8643,7 +9363,6 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;LayoutConvoChoices&gt;&gt;
 &lt;&lt;run setup.Darian_Conversation_Options_Phase0()&gt;&gt;
 &lt;&lt;/LayoutConvoChoices&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Dummy_Placeholder_Locked" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Dummy_Placeholder_Locked" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
   &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
     &lt;em&gt;This option is currently locked.&lt;/em&gt;
@@ -8957,13 +9676,136 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 
 [[Leave Marie and Return to the Parlor.|Scene02_ReturnToParlor]]
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="Tesska_GetDrink" tags="widget" position="1100,725" size="100,100">&lt;&lt;widget &quot;Tesska_GetDrink&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+	&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Could I get a drink? Nothing fancy. Just... something real.&lt;&lt;/speech&gt;&gt;
+	&lt;&lt;set $tesskaOrderedDrink = true&gt;&gt;
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Coming right up, sugar. Nothing wrong with wanting something simple that still gets the job done. You want flavor or fire? &#39;Cause I can give you both, but I won&#39;t lie—one of &#39;em&#39;s a bit harder to forget.&lt;&lt;/speech&gt;&gt;
+	
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Let&#39;s start with something strong, I think. I&#39;ll work my way toward flavor.&lt;&lt;/speech&gt;&gt;
+	
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Attagirl. One mug of Strongarm Swill, coming up. First one&#39;s free &#39;cus I like the look of ya.&lt;&lt;/speech&gt;&gt;
+	
+  &lt;p&gt;You watch her cross to the bar and shout something over to Harroc. He doesn&#39;t respond, but reaches for a barrel tap without looking and draws a dark amber drink into a battered tin mug. Tesska slides it in front of you a moment later, and gives the table a soft knock with her knuckle.&lt;/p&gt;
+	
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Drink it fast if you hate yourself. Slow if you&#39;re tryin&#39; to find out whether you do.&lt;&lt;/speech&gt;&gt;
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="Tesska_QuietNight" tags="widget" position="1225,725" size="100,100">&lt;&lt;widget &quot;Tesska_QuietNight&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+	&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;It&#39;s kind of quiet in here tonight.&lt;&lt;/speech&gt;&gt;
+	
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Mmhmm. If you asked Harroc, he&#39;d say folks are savin&#39; their strength for the fair. Three days of booze, music, and regrets.&lt;&lt;/speech&gt;&gt;
+	
+  She chuckles and wipes a bit of condensation from your table.
+	
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;But me? I think something&#39;s in the air. Knights have been too quiet. Too polite. Feels like the city&#39;s holdin&#39; its breath for something, and not the good kind.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Tesska_DoYouWorkNights" tags="widget" position="100,850" size="100,100">&lt;&lt;widget &quot;Tesska_WorkNights&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you always work nights?&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Mmh, nights, days. When you want to keep a place like this running in the city you never stop working.&lt;&lt;/speech&gt;&gt;
+
+  Your face fills with shock for a moment, realizing your mistake. 
+
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Oh I am sorry, it was unfair of me to assume—&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Oh hush, don&#39;t fret so much, Sweetheart. It happens more than you think. I have gotten used to it ever since the big guy came into my life. People see his big shiny dome and the wall of muscle and think he must have constructed this whole place himself with logs and stones he cut with his bare hands. Truth is, I was running this place long before Harroc ever stepped out of the ring.&lt;&lt;/speech&gt;&gt;
+  &lt;&lt;set State.variables.hintedharrocfighter = true&gt;&gt;
+  You take another moment to look around the room. The rafters, the center hearth, the walls, tables, benches and stools. You have to appreciate for a moment how pristine things look. Some of the furniture is a little beat up, sure, but you figure all of those are just stories.
+
+  A distant crack of thunder shakes you from your inspection. Tesska hardly seems to notice, her eyes pointed towards the bar.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Though don&#39;t get me wrong... watching him behind that counter with his arms all flexed and grumbly? Not a bad view while I work.&lt;&lt;/speech&gt;&gt;
+
+  You watch Tesska&#39;s face as she looks over at Harroc. It&#39;s full of a mix of desire and love. You realize only then that Harroc has hardly looked away from Tesska either. They are obviously quite taken by each other.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;But yes, sweetheart. I happily work most every night. Daytime drinkers are hardly any fun, the nights are when lips get loose and coin purses empty.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;set $tesskaTalkedAboutNights = true&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;Tesska_HowLongYouAndHarroc&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So... how long have &lt;em&gt;you&lt;/em&gt; been running the place? And how long&#39;s Harroc been part of it?&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Mm. Careful now, sweetheart. Ask questions like that and I might just fall in love.&lt;&lt;/speech&gt;&gt;
+
+  She leans slightly closer as she says it, her voice velvet-wrapped and playful. Then, with a shift in posture and a glimmer of pride, she eases back into her usual rhythm.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;I bought this place just short of fifteen years ago. Back when the hearth cracked worse than the mugs and the roof cried harder than the patrons.&lt;&lt;/speech&gt;&gt;
+
+  She chuckles softly, folding her arms beneath her chest.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;I cleaned it up, ran it smart, made it safe. For a while it was just me and a handful of stubborn regulars. Then after a few years of thinking I bit off more than I could chew, Harroc started showing up. Silent, broody, respectful—every tavern has a few. But he kept showing up. And then one night I caught him tossing a rowdy drunk through the door without ever spilling a drop of his own drink and... well. The rest is sweaty, romantic history.&lt;&lt;/speech&gt;&gt;
+
+  She glances toward the bar again where Harroc, stoic as ever, appears to be polishing the same mug as always.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;He moved in about six months after that. Been glued to the floor ever since. Calls me his boss, but we both know better. He&#39;s the spine, sure. But I&#39;m the soul.&lt;&lt;/speech&gt;&gt;
+
+  A gust of wind blows against the front wall of the building. You hear the supports of the building crackle, but not falter. A daring whistling as the building cuts the storm like a rock in the sea.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;It may be my baby, but that man is the only thing that has kept me and this place from blowing away.&lt;&lt;/speech&gt;&gt;
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="Tesska_UnusualCustomers" tags="widget" position="225,850" size="100,100">&lt;&lt;widget &quot;Tesska_UnusualCustomers&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you get a lot of unusual customers in here?&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Unusual? What, like wide-eyed princesses trying their best to look like they are slumming it with the common-folk?&lt;&lt;/speech&gt;&gt;
+
+  You feel your cheeks flush, and she catches it instantly.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Relax, sweetheart. I don&#39;t mean it cruel. Your secret&#39;s not out. I&#39;m just not as innebriated like the rest of this lot, and keeping your wits about you is a requirement for this job. It&#39;s not every day a girl like you walks in looking like she&#39;s never had to split a tab or fend off a drunkard.&lt;&lt;/speech&gt;&gt;
+
+  She leans a little closer, voice lowered just enough to feel like a secret.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;But yes. We get our share. Half-orc mercenaries like Drekka over there, who bathe in ale more than water. Quiet types with knives too clean and coin too heavy. Once had a man come in wearing a full suit of armor just to drink milk. Sat for three hours. Didn&#39;t say a word. Tipped a whole gold and walked out.&lt;&lt;/speech&gt;&gt;&lt;&lt;set $characters[&quot;drekka&quot;].known = true&gt;&gt;
+    
+  She pauses as if waiting for your expression—then grins when you meet her eyes.
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Point is, Bastion&#39;s big. It spills strange folks into every corner, especially places with warmth and liquor. You stay long enough, you&#39;ll see a few things that&#39;ll make your palace stories feel quaint.&lt;&lt;/speech&gt;&gt;
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;Tesska_Exit&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Thanks, Tesska. I think I&#39;ll just sit quietly for a bit.&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Suit yourself, sweetheart. But if you get bored, I&#39;m just a holler away—as long as I&#39;m not elbow-deep in someone else&#39;s bad decisions.&lt;&lt;/speech&gt;&gt;
+
+  She winks, then turns with a little extra sway in her hips as she walks away, glancing once over her shoulder to make sure you&#39;re watching.
+&lt;&lt;/append&gt;&gt;
+[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;Tesska_ExitDrink&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+  &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I think I&#39;m just going to nurse this drink for a while. Thanks again.&lt;&lt;/speech&gt;&gt;
+
+  &lt;&lt;speech &quot;tesska&quot;&gt;&gt;Mmh, take your time with it. Good drinks—and good company—are meant to be savored.&lt;&lt;/speech&gt;&gt;
+
+  She taps her knuckle lightly on the table, gives you a knowing smile, and glides off into the crowd like she owns every beam and brick of the room.
+&lt;&lt;/append&gt;&gt;
+[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
 &lt;&lt;set _npc to setup.generateNPC(&quot;female&quot;, &quot;human&quot;, &quot;Courtesan&quot;)&gt;&gt;
 &lt;&lt;print &quot;Generated NPC: &quot;&gt;&gt;
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
 &lt;&lt;print &quot;Style: &quot; + _npc.style&gt;&gt;
 &lt;&lt;print &quot;Trait: &quot; + _npc.trait + &quot;, Inclination: &quot; + _npc.inclination&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="61" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="62" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="63" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="64" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="65" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="66" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="67" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="68" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
   &lt;&lt;print Macro.has(&quot;SidebarUI&quot;)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
@@ -8971,7 +9813,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 &lt;&lt;run setup.Seed = Math.seedrandom(&quot;liff&quot;)&gt;&gt;
 
 &lt;&lt;SidebarUI&gt;&gt; &lt;!-- still injects your custom sidebar layout --&gt;
-&lt;&lt;run State.variables.characters = setup.initializeCharacters()&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&lt;&lt;run State.variables.characters = setup.initializeCharacters()&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -9020,8 +9862,8 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
       &lt;p id=&quot;convo-summary-gifts&quot;&gt;&lt;/p&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="66" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="67" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="68" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="70" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
+* [[Help]]</tw-passagedata><tw-passagedata pid="71" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="72" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -9035,7 +9877,7 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 [[Wait I am NOT an adult|Underage_Response]]
 
 /*PlaceHolder! Remove option.*/
-[[Go to brothel|TheBrothelParlorOverview]]</tw-passagedata><tw-passagedata pid="69" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="70" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+[[Go to brothel|TheBrothelParlorOverview]]</tw-passagedata><tw-passagedata pid="73" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="74" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -9061,7 +9903,7 @@ You take a moment to catch your breath and find your tongue.
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
 &lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="71" name="Scene02_BrothelBar" tags="" position="100,975" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="75" name="Scene02_BrothelBar" tags="" position="600,975" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
 
@@ -9079,7 +9921,7 @@ His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfe
 
 &lt;&lt;speech &quot;bert&quot;&gt;&gt;In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;bert&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;bert&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn’t surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
 
@@ -9102,7 +9944,7 @@ From here, you may:
 [[Approach the half-demon woman again.|Scene02_TalkToExotic]]
 [[Rejoin the male host for another chat.|Scene02_TalkToMaleHost]]
 [[Look around for signs of Marie.|Scene02_TalkToAngryHost]]
-[[Take a seat and let the parlor move around you.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="73" name="Scene02_TalkToAdda" tags="" position="350,975" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[Take a seat and let the parlor move around you.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="77" name="Scene02_TalkToAdda" tags="" position="850,975" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 Mistress Adda stands with one hand resting lightly on the back of a velvet chair, her other cradling a delicate crystal glass of something deep amber. She is half-illuminated by the glow of a nearby sconce, her dark gown catching the light like polished coal. Her posture is perfect—spine straight, shoulders regal—but there is something soft in her gaze as she watches you approach.
 
@@ -9118,7 +9960,7 @@ She chuckles—a low, warm sound—and gestures to the seat across from her.
 
 You take a seat, and Adda sits next to you, tucking her knees close to yours. Her posture is personal, but not what you would call intimate. The chair is plush beneath you, the fabric warm from the heat of the room. Adda watches you settle with the ease of someone used to holding court.
 
-&lt;&lt;DialogueTree &quot;adda&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="Scene02_TalkToAngryHost" tags="" position="475,975" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;adda&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="Scene02_TalkToAngryHost" tags="" position="975,975" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You approach the blonde girl, who had thrown the horseshoe at the man outside. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
 
@@ -9128,7 +9970,7 @@ You approach the blonde girl, who had thrown the horseshoe at the man outside. S
 
 You take a seat next to her, your knees pointed away from her, making sure to give her space. She seems to stare at everything in the room but you.
 
-&lt;&lt;DialogueTree &quot;marie&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You step closer to the velvet chaise, drawn in by the half-demon’s golden eyes and that lazy, knowing smile. She doesn’t rise to greet you—she doesn&#39;t need to.
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Ohh... I did not know ze night would bring me such a &lt;strong&gt;beautiful&lt;/strong&gt; gift.&lt;&lt;/speech&gt;&gt;
@@ -9154,7 +9996,7 @@ Her tail flicks lazily behind her, then brushes lightly across your knee, just a
 
 She tilts her head and studies you with hunger disguised as affection. Her smile widens—but whether it&#39;s amusement or anticipation, you can&#39;t tell.
 
-&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="Scene02_TalkToMaleHost" tags="" position="725,975" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="Scene02_TalkToMaleHost" tags="" position="1225,975" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;&gt;&gt;
 
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
@@ -9186,7 +10028,7 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can’t help but smile. There’s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-&lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
 You walk up the few steps, pull on the handle, open the door and step inside.  
@@ -9207,7 +10049,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="78" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="82" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
@@ -9234,10 +10076,10 @@ From here, you may:
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
 [[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]
-[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="79" name="Allura_BedroomOne" tags="" position="1100,975" size="100,100">&lt;&lt;bg &quot;Allura_BedroomOne&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
-Allura leads you upstairs. Yay you upstairs now!</tw-passagedata><tw-passagedata pid="80" name="Marie_BedroomOne" tags="" position="1225,975" size="100,100">&lt;&lt;bg &quot;marie_bedroom&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+[[Sit down in an unoccupied corner of the parlor.|Scene02_ObserveRoom]]</tw-passagedata><tw-passagedata pid="83" name="Allura_BedroomOne" tags="" position="350,1100" size="100,100">&lt;&lt;bg &quot;Allura_BedroomOne&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+Allura leads you upstairs. Yay you upstairs now!</tw-passagedata><tw-passagedata pid="84" name="Marie_BedroomOne" tags="" position="475,1100" size="100,100">&lt;&lt;bg &quot;marie_bedroom&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
-Let&#39;s get down to business.</tw-passagedata><tw-passagedata pid="81" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+Let&#39;s get down to business.</tw-passagedata><tw-passagedata pid="85" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -9273,7 +10115,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="82" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="86" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -9313,7 +10155,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="83" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="87" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -9321,7 +10163,7 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="Scene01_2c_HelpHim" tags="" position="175,450" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt; /*need to double check this syntax because I wrote it at work and I suck */
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
@@ -9341,7 +10183,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="85" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="89" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King’s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -9352,7 +10194,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="86" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="90" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one’s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -9365,7 +10207,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you’ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="87" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="91" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -9379,12 +10221,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="88" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="92" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="89" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="93" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn’t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -9393,7 +10235,20 @@ You reach the bar and take a seat on a thick, heavy stool. Scooting closer, you 
 
 The barman steps forward and leans heavily onto the bar in front of you, resting his bulk onto hands as wide as battleaxes.
 
-&lt;&lt;DialogueTree &quot;harroc&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;harroc&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="Scene03_SecludedCorner" tags="" position="475,1225" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+You slip between the tables and claim a worn corner booth by yourself. The wood creaks under your weight, the seat still warm from whoever sat here last. For a moment, you watch the flicker of firelight dance across the floor, the sound of clinking mugs and shouted laughter rolling over you like a tide.
+
+She approaches from the side, hips swaying with purpose and a smirk already playing on her lips.
+
+&lt;&lt;speech &quot;tesska&quot;&gt;&gt;You drinking alone tonight, Miss?.&lt;&lt;/speech&gt;&gt;
+
+You smile but don&#39;t have a chance to respond. She rests a hand on the table, leaning just close enough to let the scent of something floral and strong—like lilac and whiskey—hit you at once.
+&lt;&lt;set $characters[&quot;tesska&quot;].known = true&gt;&gt;
+&lt;&lt;speech &quot;tesska&quot;&gt;&gt;Name&#39;s Tesska. Can I get you something, sweetheart? Or are you just here to make the furniture look pretty?&lt;&lt;/speech&gt;&gt;
+
+You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
+&lt;&lt;set $tesskaOrderedDrink = false&gt;&gt;
+&lt;&lt;DialogueTree &quot;tesska&quot; 0&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 &lt;&lt;/if&gt;&gt;
@@ -9405,7 +10260,7 @@ Across the floor, a barmaid weaves between tables, her tray brimming with wooden
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 You watch as one of the patrons—too drunk to care and too stupid to hide it—reaches up in an attempt to grope her as she passes. Without breaking stride, she jerks her elbow backward with surgical precision, catching the man&#39;s wrist and pinning it painfully against the edge of the table.
 
-&lt;&lt;speech &quot;barmaid&quot;&gt;&gt; &quot;Try that again and you’ll be wearin’ your bollocks like earrings.&quot; &lt;&lt;/speech&gt;&gt;
+&lt;&lt;speech &quot;tesska&quot;&gt;&gt; &quot;Try that again and you’ll be wearin’ your bollocks like earrings.&quot; &lt;&lt;/speech&gt;&gt;
 
 The barmaid&#39;s accent is heavy and her words cut deeply even through the man&#39;s inebriation.
 &lt;&lt;/if&gt;&gt;
@@ -9427,7 +10282,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceTable]]
 [[Approach the cloaked man in the corner.|Scene03_CloakedMan]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="91" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="96" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern’s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -9437,7 +10292,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn’t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="92" name="TestRealm_ConvoMinigame" tags="" position="225,1225" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="97" name="TestRealm_ConvoMinigame" tags="" position="850,1225" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; 0&gt;&gt;</tw-passagedata></tw-storydata>

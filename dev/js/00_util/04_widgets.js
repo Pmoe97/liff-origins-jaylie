@@ -208,6 +208,13 @@ Macro.add("dialogueChoice", {
 					State.variables.usedDialogueOptions[target] = true;
 				}
 
+				// 🔍 Automatic usage tracking
+				const npc = State.variables.currentNPC ?? "UnknownNPC";
+				const phase = State.variables.currentPhase ?? "X";
+				const flagKey = `Read_Phase${phase}_${npc}_${target}`;
+				State.variables.readFlags ??= {};
+				State.variables.readFlags[flagKey] = (State.variables.readFlags[flagKey] ?? 0) + 1;
+
 				const $box = $("#convoBox");
 				if ($box.length) {
 					const preChildren = $box[0].children.length;
@@ -233,16 +240,13 @@ Macro.add("dialogueChoice", {
 						const newEntry = entries[preChildren];
 						if (!newEntry) return;
 
-						// Insert divider before the new entry
 						const divider = document.createElement("div");
 						divider.className = "dialogue-divider";
 						box.insertBefore(divider, newEntry);
 
-						// Highlight the new one
 						newEntry.classList.add("active-entry");
 						newEntry.classList.remove("faded-entry");
 
-						// Scroll to new entry
 						const boxTop = box.getBoundingClientRect().top;
 						const entryTop = newEntry.getBoundingClientRect().top;
 						const offset = entryTop - boxTop;
@@ -258,6 +262,7 @@ Macro.add("dialogueChoice", {
 		this.output.append($button[0]);
 	}
 });
+
 
 /* Dialogue Tree Macro: Pulls current NPC & Phase and injects options */
 Macro.add("DialogueTree", {

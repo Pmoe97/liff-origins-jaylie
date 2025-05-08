@@ -4,14 +4,19 @@
 
 :: Tesska_GetDrink [widget]
 <<widget "Tesska_GetDrink">>
-<<set State.variables.tesskaOrderedDrink = true>>
 <<append "#convoBox">>
 	<<speech "jaylie">>Could I get a drink? Nothing fancy. Just... something real.<</speech>>
-	<<speech "tesska">>Coming right up, sugar. Nothing wrong with wanting something simple that still gets the job done. You want flavor or fire? 'Cause I can give you both, but I won't lie—one of 'em's a bit harder to forget.<</speech>>
-	<<speech "jaylie">>Let's start with something strong, I think. I'll work my way toward flavor.<</speech>>
-	<<speech "tesska">>Attagirl. One mug of Strongarm Swill, coming up.<</speech>>
-	<p>You watch her cross to the bar and shout something over to Harroc. He doesn't respond, but reaches for a barrel tap without looking and draws a dark amber drink into a battered tin mug. Tesska slides it in front of you a moment later, and gives the table a soft knock with her knuckle.</p>
-	<<speech "tesska">>Drink it fast if you hate yourself. Slow if you're tryin' to find out whether you do.<</speech>>
+	<<set $tesskaOrderedDrink = true>>
+  <<speech "tesska">>Coming right up, sugar. Nothing wrong with wanting something simple that still gets the job done. You want flavor or fire? 'Cause I can give you both, but I won't lie—one of 'em's a bit harder to forget.<</speech>>
+	
+  <<speech "jaylie">>Let's start with something strong, I think. I'll work my way toward flavor.<</speech>>
+	
+  <<speech "tesska">>Attagirl. One mug of Strongarm Swill, coming up. First one's free 'cus I like the look of ya.<</speech>>
+	
+  <p>You watch her cross to the bar and shout something over to Harroc. He doesn't respond, but reaches for a barrel tap without looking and draws a dark amber drink into a battered tin mug. Tesska slides it in front of you a moment later, and gives the table a soft knock with her knuckle.</p>
+	
+  <<speech "tesska">>Drink it fast if you hate yourself. Slow if you're tryin' to find out whether you do.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.tesska_Conversation_Options_Phase0()>>
@@ -22,16 +27,19 @@
 <<widget "Tesska_QuietNight">>
 <<append "#convoBox">>
 	<<speech "jaylie">>It's kind of quiet in here tonight.<</speech>>
-	<<speech "tesska">>Mmhmm. If you asked Harroc, he'd say folks are savin' their strength for the fair. Three days of booze, music, and regrets.
-	She chuckles and wipes a bit of condensation from your table.
-	But me? I think something's in the air. Knights have been too quiet. Too polite. Feels like the city's holdin' its breath for something, and not the good kind.<</speech>>
+	
+  <<speech "tesska">>Mmhmm. If you asked Harroc, he'd say folks are savin' their strength for the fair. Three days of booze, music, and regrets.<</speech>>
+	
+  She chuckles and wipes a bit of condensation from your table.
+	
+  <<speech "tesska">>But me? I think something's in the air. Knights have been too quiet. Too polite. Feels like the city's holdin' its breath for something, and not the good kind.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.tesska_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Tesska_DoYouWorkNights [widget]
-<<widget "Tesska_DoYouWorkNights">>
+<<widget "Tesska_WorkNights">>
 <<append "#convoBox">>
   <<speech "jaylie">>Do you always work nights?<</speech>>
 
@@ -41,8 +49,8 @@
 
   <<speech "jaylie">>Oh I am sorry, it was unfair of me to assume—<</speech>>
 
-  <<speech "tesska">>Oh hush, don't fret so much, Sweetheart. It happens more than you think. I have gotten used to it ever since the big guy came into my life. People see his big shining dome and the wall of muscle and think he must have constructed this whole place himself with logs and stones he cut with his bare hands. Truth is, I was running this place long before Harroc ever stepped out of the ring.<</speech>>
-
+  <<speech "tesska">>Oh hush, don't fret so much, Sweetheart. It happens more than you think. I have gotten used to it ever since the big guy came into my life. People see his big shiny dome and the wall of muscle and think he must have constructed this whole place himself with logs and stones he cut with his bare hands. Truth is, I was running this place long before Harroc ever stepped out of the ring.<</speech>>
+  <<set State.variables.hintedharrocfighter = true>>
   You take another moment to look around the room. The rafters, the center hearth, the walls, tables, benches and stools. You have to appreciate for a moment how pristine things look. Some of the furniture is a little beat up, sure, but you figure all of those are just stories.
 
   A distant crack of thunder shakes you from your inspection. Tesska hardly seems to notice, her eyes pointed towards the bar.
@@ -53,7 +61,7 @@
 
   <<speech "tesska">>But yes, sweetheart. I happily work most every night. Daytime drinkers are hardly any fun, the nights are when lips get loose and coin purses empty.<</speech>>
 <</append>>
-<<set $teskaTalkedAboutNights = true>>
+<<set $tesskaTalkedAboutNights = true>>
 <<run setup.clearConvoChoices()>>
 <<run setup.tesska_Conversation_Options_Phase0()>>
 <</widget>>

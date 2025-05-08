@@ -11,7 +11,7 @@ Across the floor, a barmaid weaves between tables, her tray brimming with wooden
 <<if !$seenTavernSpace>>
 You watch as one of the patrons—too drunk to care and too stupid to hide it—reaches up in an attempt to grope her as she passes. Without breaking stride, she jerks her elbow backward with surgical precision, catching the man's wrist and pinning it painfully against the edge of the table.
 
-<<speech "barmaid">> "Try that again and you’ll be wearin’ your bollocks like earrings." <</speech>>
+<<speech "tesska">> "Try that again and you’ll be wearin’ your bollocks like earrings." <</speech>>
 
 The barmaid's accent is heavy and her words cut deeply even through the man's inebriation.
 <</if>>
