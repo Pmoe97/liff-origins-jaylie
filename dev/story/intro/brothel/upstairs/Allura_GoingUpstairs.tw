@@ -1,0 +1,13 @@
+:: Allura_GoingUpstairs
+<<bg "Allura_GoingUpstairs">><<EndDialogueLayout>>
+<p>You follow her through the parlor, back towards the entrance, and through the heavy velvet curtain. She leads you all the way to the stairs by one hand. As you get to the bottom of the stairs lightning cracks, and thunder bellows. The entryway is illuminated in flashing light for a moment and the foundation shakes be beneath your feet. Allura pauses on the second step; she pivots, facing the glass door.</p>
+
+<<speech>>Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.<</speech>>
+
+She turns on her heels once more and climbs the rest of the stairs holding her skirt in her hands as to not step on it. You follow behind her closely.
+
+At the top of the stairs you enter a long, narrow hallway lined with ten or so doors, each — you assume — belonging to a different host. Allura stops at the second door on the left. She leans against the door frame, turns and looks at you.
+
+<<speech "allura">>Welcome to my humble abode, Mon trésor.<</speech>>
+
+She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]

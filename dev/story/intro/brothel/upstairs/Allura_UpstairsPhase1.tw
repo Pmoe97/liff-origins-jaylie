@@ -1,0 +1,19 @@
+:: Allura_UpstairsPhase1
+<<bg "Allura_UpstairsPhase1">><<StartDialogueLayout>>
+You aren’t entirely sure what you expected, but her room surprises you in more ways than one.
+
+It’s dimly lit — not from lack of light, but from choice. A cluster of colored glass lanterns hang in the far corner, casting hues of deep amethyst, rose, and sea-green across the velvet drapes that hang like soft walls over real ones. The air smells faintly of sandalwood and something sweeter, darker — like black cherries left to soak in wine.
+
+The space is smaller than you’d imagined. Intimate. A circular bed rests low to the floor, draped in sheer curtains and piled with cushions in every shade of desire. There’s no vanity, no mirror. No trace of a mask waiting to be put back on. Just an old record player humming gently in the corner with no record turning.
+
+Allura doesn’t close the door behind you right away. She steps past you, brushing your shoulder with hers as she enters, letting her fingers linger on your arm. Her voice loses some of its playful cadence as she speaks next.
+
+<<speech "allura">>Most people don’t make it this far without trying to impress me, or undress me. You seem to want neither. Or maybe both. Perhaps you have not decided yet, either.<</speech>>
+
+She turns to face you again, her hands resting on her hips, her silhouette framed by the soft light behind her.
+
+<<speech "allura">>So... what shall we do with this quiet?<</speech>>
+
+You turn and close the door, the bolt clicks into place and now the two of you feel truly alone. When you've turned back around Allura is laid back on the mattress, her arms reached above her head. She is calm. She is vulnerable. You can't help but feel like she truly wants to be in here with you.
+
+<<DialogueTree "allura" 1>>
