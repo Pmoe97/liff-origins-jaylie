@@ -230,15 +230,25 @@ setup.smartChoices = function (list) {
 		const entry = setup.smartChoice(opt.label, opt.target, {
 			aff: opt.aff,
 			trust: opt.trust,
+			rapport: opt.rapport,
+			tension: opt.tension,
+			cooldown: opt.cooldown,
 			variable: opt.variable,
+			notVariable: opt.notVariable,
 			item: opt.item,
 			quest: opt.quest,
+			compare: opt.compare,
+			conditions: opt.conditions,
+			usedMin: opt.usedMin,
+			logic: opt.logic ?? "and",
 			hide: opt.hide ?? false,
 			reuse: opt.reuse ?? 0,
-			logic: opt.logic ?? "and"
+			logUnlock: opt.logUnlock,
+			tags: opt.tags ?? []
 		});
 		if (entry) final.push(entry);
 	}
 	setup.addChoices(final);
 };
+
 

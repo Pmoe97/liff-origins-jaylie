@@ -2,7 +2,7 @@
 <<bg "Allura_GoingUpstairs">><<EndDialogueLayout>>
 <p>You follow her through the parlor, back towards the entrance, and through the heavy velvet curtain. She leads you all the way to the stairs by one hand. As you get to the bottom of the stairs lightning cracks, and thunder bellows. The entryway is illuminated in flashing light for a moment and the foundation shakes be beneath your feet. Allura pauses on the second step; she pivots, facing the glass door.</p>
 
-<<speech>>Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.<</speech>>
+<<speech "allura">>Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.<</speech>>
 
 She turns on her heels once more and climbs the rest of the stairs holding her skirt in her hands as to not step on it. You follow behind her closely.
 

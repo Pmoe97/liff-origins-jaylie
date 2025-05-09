@@ -1,0 +1,105 @@
+
+SmartChoice System Cheat Sheet
+==============================
+
+What is smartChoice?
+---------------------
+A helper function in your Twine SugarCube game to determine whether a dialogue choice should appear, be clickable, or be hidden.
+It uses logic like 'If trust is high enough' or 'If a variable is true'. Think of it like a smart gatekeeper for dialogue options.
+
+Basic Syntax
+-------------
+Each smartChoice is a JavaScript object with settings like:
+  { label: "Talk to Marie", target: "Marie_Hello", trust: ["marie", 10] }
+
+This means: Only show this if Marie’s trust is 10 or more.
+
+smartChoices(list)
+-------------------
+You pass it an array of smartChoice objects. It checks each one and shows it if allowed.
+
+Example:
+  setup.smartChoices([
+    { label: "Hi", target: "Hello" },
+    { label: "Private Talk", target: "Private", trust: ["npc", 5] }
+  ]);
+
+Common Fields
+--------------
+label:        What the player sees.
+target:       The passage or widget called when clicked.
+trust:        [npc, amount] — requires this trust value or higher.
+aff:          [npc, amount] — same for affection.
+rapport, tension, cooldown — same structure.
+variable:     A boolean flag like $foo. Must be true.
+notVariable:  Opposite of variable — must be false or undefined.
+item:         [id, count] — requires at least X of this item.
+quest:        [path, value] — must have reached quest progress.
+compare:      Advanced logic (see below)
+usedMin:      How many options have been clicked this phase.
+hide:         True hides it completely if not allowed.
+reuse:        1 means it can be picked again after used.
+logic:        "and" or "or" to combine requirements.
+
+Advanced: compare
+-------------------
+Allows >, <, == comparisons.
+
+🔹 Example 1: Player needs at least 500 gold
+{
+  label: "Buy the expensive drink",
+  target: "Buy_ExpensiveDrink",
+  compare: {
+    value: "$gold",
+    op: ">=",
+    against: 500
+  }
+}
+Meaning: Only shows this option if the player has 500 or more gold.
+
+🔹 Example 2: Affection must be below 10
+js
+Copy
+Edit
+{
+  label: "Try to earn her trust",
+  target: "Try_EarnTrust",
+  compare: {
+    value: "characters.marie.affection",
+    op: "<",
+    against: 10
+  }
+}
+Meaning: Only shows this if Marie’s affection is less than 10.
+
+🔹 Example 3: Rapport must equal exactly 1.5
+js
+Copy
+Edit
+{
+  label: "Comment on how close you've become",
+  target: "Rapport_Moment",
+  compare: {
+    value: "characters.harroc.rapport",
+    op: "===",
+    against: 1.5
+  }
+}
+Meaning: Only appears if Harroc’s rapport with the player is exactly 1.5.
+
+
+
+Auto Tracking
+--------------
+When a choice is clicked, it sets:
+  $Read_[PhaseNumber]_[Character]_[Widget] = 1
+
+This lets you check if a player used an option:
+  variable: "Read_1_marie_Hello"
+
+Tips
+-----
+- notVariable is perfect for hiding things *after* they happen.
+- use logic: "or" if any requirement can pass.
+- use logUnlock: "myFlag" to automatically mark it when unlocked.
+

@@ -67,8 +67,8 @@ You cannot even begin to argue with the logic. You look down and your hands in y
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_Phase0_Enjoyment [widget]
-<<widget "Allura_Phase0_Enjoyment">>
+:: Allura_Enjoyment [widget]
+<<widget "Allura_Enjoyment">>
 <<append "#convoBox">>
 
 <<speech "jaylie">>Can I ask you something real?<</speech>>
@@ -172,10 +172,10 @@ You lift the glass and sip. It's sweet, rich, and ends with a bitter curl that c
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Allura_GoSomewherePrivate
+:: Allura_GoSomewherePrivate [widget]
 <<widget "Allura_GoSomewherePrivate">>
 <<append "#convoBox">>
-<<speech "jaylie">>Hey do you have maybe like a private room we could go to? We don't have to like... <stong>DO</strong> anything, I just wanted to get to know you more.<</speech>>
+<<speech "jaylie">>Hey do you have maybe like a private room we could go to? We don't have to like... <strong>DO</strong> anything, I just wanted to get to know you more.<</speech>>
 
 Allura's eyes shine and glow. She feigns emotional damage again, this time less dramatic.
 
@@ -185,7 +185,7 @@ You blush but don't get a chance to respond before she begins to stand. Her tail
 
 <<speech "allura">><em>Viens.</em> Come then. Let’s see if the air upstairs is any quieter.<</speech>>
 
-[[You take her hand and stand|Allura_GoingUpstairs]]
+[[You take her hand and stand.|Allura_GoingUpstairs]]
 <<run setup.clearConvoChoices()>>
 <</append>>
 <</widget>>
@@ -210,3 +210,112 @@ She raises her glass slightly toward you.
 <</widget>>
 
 
+:: YourRoom [widget]
+<<widget "YourRoom">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Your room is beautiful. Do they all look like this?<</speech>>
+
+Allura smiles—not the wicked or sultry kind she often uses downstairs, but something softer. Something a little less prepared.
+
+<<speech "allura">>Ah, you flatter me, mon trésor. But no. Not quite like this.<</speech>>
+
+She glances around her space, her eyes catching on the hanging lanterns, the draped silks, the round bed cradled in shadow and color.
+
+<<speech "allura">>Each room here belongs to the one who lives in it. Decor is left to taste. Some are sparse. Others look like shrines. Mine...<em>mine is a cocoon</em>.<</speech>>
+
+She reaches her arms to either side, taking handfuls of sheets and pulls them in close to her chin. She softly sways back and forth as a moth would, preparing for the comfort of metamorphasis. 
+
+<<speech "allura">>I spend more time here than I do anywhere else. So I wanted it to feel like a dream I could live in. A place that would greet me with gentleness, even when the rest of the world is sharp.<</speech>>
+
+You nod, taking in the details. The smell. The light. The faint brush of silk against your sleeve as you shift where you sit.
+
+<<speech "jaylie">>It feels safe here.<</speech>>
+
+<<speech "allura">>That is the idea. Intimacy without expectation. Warmth without heat. Unless you ask for it, of course.<</speech>>
+
+<<speech "jaylie">>Does it ever get difficult? Sleeping where you— <</speech>>
+
+<<speech "allura">>Fuck strangers for money?<</speech>>
+
+The bluntness catches you off guard. You just shrug a little.
+
+<<speech "allura">>If I worked anywhere else in the city, it might. Here I know I am protected. Adda is not one easily trifled.<</speech>>
+
+She winks—playful again, but not dismissive. Just present. Just... Allura.
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_WhatDoNow [widget]
+<<widget "Allura_WhatDoNow">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>So... what do we do now?<</speech>>
+
+Allura doesn’t answer right away.
+
+She moves to the edge of the bed and folds her legs beneath her, the sheer fabric of her skirt pooling around her like dusk caught in a net. Her eyes follow the gentle flicker of one of the lanterns for a beat before returning to you.
+
+<<speech "allura">>Such a simple question, and yet it always reveals so much.<</speech>>
+
+She pats the bed beside her—not insistently, just an invitation.
+
+<<speech "allura">>Do you ask because you want to be told what comes next? Or because you want permission to choose it yourself?<</speech>>
+
+You sit beside her, close enough to feel the warmth of her thigh near yours.
+
+<<speech "jaylie">>I don’t know yet. Maybe both.<</speech>>
+
+Allura hums—a thoughtful, amused sound. She turns her body toward you, one hand gently resting between you both, fingers splayed on the silk.
+
+<<speech "allura">>Then let’s just... <em>be</em> here for a moment.<</speech>>
+
+She leans back slightly on her hands, her eyes still on yours.
+
+<<speech "allura">>We don’t have to name it. Not yet.<</speech>>
+
+Outside, the thunder murmurs like a distant conversation. Inside, the hush is almost sacred.
+
+<<speech "allura">>But I’m glad you asked.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: Allura_GetComfortable [widget]
+<<widget "Allura_GetComfortable">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Do you mind if I… get comfortable with you?<</speech>>
+
+Allura's lips part, slow and deliberate. She doesn’t blink. She doesn’t breathe. Then—softly—she laughs.
+
+<<speech "allura">><em>Enfin, putain</em>. Mon trésor, I thought you’d never ask.<</speech>>
+
+She rises from the bed in a single, fluid motion, the sheer fabric of her robe catching the lantern light as it flows around her. Her steps toward you are slow, but not hesitant. Intentional. Like she’s savoring the moment as much as the act.
+
+She stops in front of you and holds out her hands—palms up, waiting.
+
+<<speech "allura">>May I?<</speech>>
+
+You nod.
+
+She starts with your boots, kneeling as she unlaces them one by one, her fingers brushing your calves, your ankles. Then your leather jerkin, her hands sliding beneath the hem to feel the warmth of your waist before peeling it away. Her touch never lingers longer than it needs to—but it never hurries either.
+
+Next, she rises, her fingers teasing at the waistband of your trousers. She unbuttons them with slow precision, then draws them down your hips, past your thighs, until they fall away and you're left in only your long tunic and a pair of plain white panties.
+
+You feel the cool air of the room against your skin, and her warmth just in front of you. She looks you over, not with hunger—but appreciation. Admiration.
+
+<<speech "allura">>There. That’s better.<</speech>>
+
+She guides you to the bed with a hand at your back and a whisper of a smile. The cushions embrace you as you sit. Then, without breaking eye contact, she climbs onto the bed beside you and drapes one leg over the other, close but not quite touching.
+
+<<speech "allura">>Comfort is a sacred thing, Jaylie. It’s not always earned. But you? You wear it beautifully.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
