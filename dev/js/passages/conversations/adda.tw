@@ -21,6 +21,7 @@
   <<speech "adda">>Now the city doesn't just know it... it respects it. Noctail's not just a place. It's a promise. One I intend to keep.<</speech>>
 
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
@@ -44,6 +45,7 @@
   <<speech "adda">>This house doesn't run on coin or charm alone, Jaylie. It runs on trust. On knowing someone's got your back, even when the storm gets close.<</speech>>
 
 <</append>>
+<<relation "adda" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
@@ -78,6 +80,7 @@
   <<speech "adda">>Maybe. These men and women know how cold it gets when the fire goes out. I just do my best to make sure that doesn't happen.<</speech>>
 
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
@@ -115,6 +118,7 @@
 
   <<set $addaMentionedOrigin = true>>
 <</append>>
+<<relation "adda" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
 <</widget>>
@@ -144,6 +148,7 @@
 
   <<speech "adda">>Effortless is always the result of effort well hidden, dear.<</speech>>
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
@@ -185,6 +190,7 @@
 
   The thunder outside rolls again, louder now, and the lights in the sconces flicker ever so slightly as if stirred by the storm's breath.
 <</append>>
+<<relation "adda" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_Phase0()>>
 <</widget>>
@@ -212,6 +218,8 @@
 
   [[Follow Adda into a more private room.|Adda_PrivateScene]]
 <</append>>
+<<relation "adda" "trust" 3>>
+<<relation "adda" "affection" 3>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
 
@@ -252,6 +260,7 @@
   <<speech "adda">>She used to say the walls had ears. So she made sure they only heard kindness. I thought it was naive at the time. Now? I think it's the bravest damn thing anyone ever tried in a place like this.<</speech>>
 
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
 <</widget>>
@@ -282,6 +291,7 @@
   <<speech "adda">>She was brave. And she paid for it.<</speech>>
 
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
 <</widget>>
@@ -320,10 +330,9 @@ She leans back, thoughtful.
 <<speech "adda">>I didn't steal this place. I claimed it. For her. For everyone still here. And for myself.<</speech>>
 
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
-<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_Origin_ChangesMade [widget]
@@ -359,10 +368,9 @@ Adda returns the smile, just barely.
 
 <<speech "adda">>I hope so...<</speech>>
 <</append>>
+<<relation "adda" "affection" 1>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
-<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_Origin_LocalPolitics [widget]
@@ -398,10 +406,9 @@ Adda lets out a short, warm chuckle that almost cuts the tension.
 
 <<speech "adda">>Smart girl.<</speech>>
 <</append>>
+<<relation "adda" "trust" 1>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_NoctailOrigin()>>
-<</LayoutConvoChoices>>
 <</widget>>
 
 :: Adda_Origin_Exit [widget]
@@ -417,8 +424,7 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 
 <<speech "adda">>Now then. You've heard enough ghosts for one night, I think. Let's get back to the living.<</speech>>
 <</append>>
+<<relation "adda" "affection" 2>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
 <<run setup.adda_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>

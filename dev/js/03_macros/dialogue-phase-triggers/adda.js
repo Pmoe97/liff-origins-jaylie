@@ -7,7 +7,7 @@ setup.adda_Conversation_Options_Phase0 = function () {
 		{ label: "You don’t seem like someone people say no to.", target: "Adda_CommandPresence" },
 		{ label: "Could you help me get a drink?", target: "Adda_OrderDrink" },
 		{ label: "Can I get to know you better?", target: "Adda_StartMinigame", reuse: 1 },
-		{ label: "Would you ever step away for something a little more private?", target: "Adda_GoPrivate", aff: ["adda", 18], trust: ["adda", 18], hide: true },
+		{ label: "Would you ever step away for something a little more private?", target: "Adda_GoPrivate", aff: ["adda", 10], trust: ["adda", 10], hide: true },
         { label: "We can talk more later.", target: "GoodbyeAddaZero", reuse: 1 }
         
 	]);
