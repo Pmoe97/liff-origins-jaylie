@@ -120,7 +120,7 @@
 <</append>>
 <<relation "adda" "affection" 1>>
 <<run setup.clearConvoChoices()>>
-<<run setup.adda_Conversation_Options_NoctailOrigin()>>
+<<DialogueTree "adda" "NoctailOrigin">>
 <</widget>>
 
 
@@ -214,9 +214,9 @@
 
   <<speech "adda">>Just don't expect the same girl who used to work the floor. She's still in here somewhere… but you'll have to be clever to find her.<</speech>>
 
-  Without another word, she gestures for you to follow, and begins walking toward the back hall.
+  Without another word, she gestures for you to follow, and begins walking toward the a door just behind and to the side of the bar, one which you hadn't noticed was there before.
 
-  [[Follow Adda into a more private room.|Adda_PrivateScene]]
+  [[You follow Adda into her private room.|Adda_PrivateScene]]
 <</append>>
 <<relation "adda" "trust" 3>>
 <<relation "adda" "affection" 3>>
@@ -249,7 +249,7 @@
 
   Adda leans back against the velvet cushion, one leg crossed over the other, fingers tapping lightly on her knee.
 
-  <<speech "adda">>Dusty. Desperate. The kind of place where eyes don't meet and names aren't asked. It made coin, sure—but it bled for it. No warmth, no rules, just survival with a smile.</<speech>>
+  <<speech "adda">>Dusty. Desperate. The kind of place where eyes don't meet and names aren't asked. It made coin, sure—but it bled for it. No warmth, no rules, just survival with a smile.<</speech>>
 
   Her voice tightens, just slightly.
 
@@ -426,5 +426,5 @@ Her gaze drifts for a moment—out toward the parlor where her hosts mingle, lau
 <</append>>
 <<relation "adda" "affection" 2>>
 <<run setup.clearConvoChoices()>>
-<<run setup.adda_Conversation_Options_Phase0()>>
+<<DialogueTree "adda" "Phase0">>
 <</widget>>

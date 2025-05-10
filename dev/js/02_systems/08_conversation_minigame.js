@@ -275,7 +275,18 @@ setup.ConvoGame = {
         window.closeOverlay();
       };
     }
-  
+    // ✅ After overlay is closed, refresh conversation UI if we're still on that NPC
+    const npcId = convo.npcId;
+    const phase = State.variables.currentPhase;
+    const currentNPC = State.variables.currentNPC;
+
+    if (currentNPC === npcId && typeof setup?.[`${npcId}_Conversation_Options_${phase}`] === "function") {
+      setTimeout(() => {
+        console.log(`[ConvoGame] 🔁 Refreshing conversation UI for ${npcId} in phase ${phase}`);
+        setup[`${npcId}_Conversation_Options_${phase}`]();
+      }, 300);
+    }
+
     // Disable all leftover choice buttons
     const buttons = document.querySelectorAll("#convo-choices button");
     buttons.forEach(btn => {

@@ -12,8 +12,11 @@
 :: Bert_OpenShop [widget]
 <<widget "Bert_OpenShop">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What's on the menu?<</speech>>
-  <<speech "bert">>Drinks. Prices vary. Try not to spill.<</speech>>
+  <<speech "bert">>Drinks are listed behind me. If it’s wet and numbs the tongue, I probably have it.<</speech>>
+
+  He glances toward a modest slate board mounted near the shelf. The handwriting is neat, efficient—chalked in white and underlined.
+
+  <<speech "bert">>Ale, spirits, something local we call ‘Red Mercy’—not for the faint-hearted. I’ve also got roasted nuts if you need to fool your stomach into thinking it’s eaten.<</speech>>
 <</append>>
 <<run setup.openShop("bert")>>
 <</widget>>
@@ -24,7 +27,7 @@
   <<speech "jaylie">>I don't usually have such a selection to drink from. I'm not even sure what to ask for.<</speech>>
   Bert raises an eyebrow at you as if waiting for you to get the the point of your request.
   <<speech "jaylie">> Would you mind making something special for me? I'll trust your judgement.<</speech>>
-  <<speech "bert">> Something special you say? I would be delighted to.<</speech>>
+  <<speech "bert">> Something special you say? I would delight in the occasion, Miss.<</speech>>
     With a quick flourish of his arms, a shining metal cup is produced from under the counter, catching the glow of the hanging lanterns as if it had been waiting for just this moment. Bert runs a cloth over it with meticulous care, inspecting it like a jeweler inspecting a rare gem.
 
   <<speech "bert">>You strike me as someone with fire in her spirit, but a touch of sadness behind the eyes. Let’s see if we can match that with something... complicated.<</speech>>
@@ -82,10 +85,11 @@
 
 :: Bert_ReturnToParlor [widget]
 <<widget "Bert_ReturnToParlor">>
+<<append #convoBox>>
 <<speech "Jaylie">> I think I'll explore the rest of the parlor.<</speech>>
 <<speech "bert">> Of course, Miss. Please enjoy your evening.<</speech>>
 
 [[You step away from the bar.|ReturnToParlor]]
+<</append>>
 <<run setup.clearConvoChoices()>>
-<<run setup.bert_Conversation_Options_Phase0()>>
 <</widget>>
