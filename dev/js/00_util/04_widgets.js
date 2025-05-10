@@ -210,45 +210,65 @@ Macro.add("dialogueChoice", {
 			.text(label)
 			.css("cursor", "pointer")
 			.on("click", () => {
+				console.groupCollapsed(`📌 [dialogueChoice] "${label}" → ${target}`);
+				console.log("Reusable:", reusable);
+				console.log("Phase:", State.variables.currentPhase);
+				console.log("NPC:", State.variables.currentNPC);
+
 				$button.remove();
 
-				// Mark as used globally if not reusable
+				// Track globally if not reusable
 				State.variables.usedDialogueOptions ??= {};
 				if (!reusable) {
 					State.variables.usedDialogueOptions[target] = true;
+					console.log("✅ Marked non-reusable as used:", target);
 				}
 
-				// 🌟 Auto-track per-NPC, per-Phase, per-Widget
+				// Track usage by phase + NPC
 				const char = State.variables.currentNPC || "Unknown";
 				const phase = State.variables.currentPhase ?? "X";
-				const key = `Read_${char}_Phase${phase}_${target}`;
-
+				const key = `Read_${phase}_${char}_${target}`;
 				State.variables[key] ??= 0;
 				State.variables[key]++;
+				console.log("📊 Incremented:", key, "→", State.variables[key]);
 
-				// Get convo box
 				const $box = $("#convoBox");
 				if ($box.length) {
 					const preChildren = $box[0].children.length;
 
-					// Fade previous
 					$box.children().removeClass("active-entry").addClass("faded-entry");
 
-					// Inject widget
-					Wikifier.wikifyEval(`<<${target}>>`);
-
-					// Re-inject choices
-					const phaseFunc = setup?.[`${char}_Conversation_Options_Phase${phase}`];
-					if (typeof phaseFunc === "function") {
-						phaseFunc();
+					console.log("📥 Injecting widget: <<", target, ">>");
+					try {
+						Wikifier.wikifyEval(`<<${target}>>`);
+					} catch (e) {
+						console.error("❌ Error injecting widget:", e);
 					}
 
-					// Stylize and scroll
+					if (typeof setup.clearConvoChoices === "function") {
+						setup.clearConvoChoices();
+					} else {
+						console.warn("⚠️ setup.clearConvoChoices not found");
+					}
+
+					const funcKey = `${char}_Conversation_Options_${phase}`;
+					const phaseFunc = setup?.[funcKey];
+
+					if (typeof phaseFunc === "function") {
+						console.log(`🔁 Recalling setup.${funcKey}()`);
+						phaseFunc();
+					} else {
+						console.warn(`⚠️ No phase function found for: ${funcKey}`);
+					}
+
 					setTimeout(() => {
 						const box = $box[0];
 						const entries = box.children;
 						const newEntry = entries[preChildren];
-						if (!newEntry) return;
+						if (!newEntry) {
+							console.warn("🕳 No new entry detected.");
+							return;
+						}
 
 						const divider = document.createElement("div");
 						divider.className = "dialogue-divider";
@@ -265,8 +285,13 @@ Macro.add("dialogueChoice", {
 							top: box.scrollTop + offset,
 							behavior: "smooth"
 						});
+						console.log("🧭 Scrolled to new entry.");
 					}, 10);
+				} else {
+					console.warn("⚠️ convoBox not found.");
 				}
+
+				console.groupEnd();
 			});
 
 		this.output.append($button[0]);
@@ -275,28 +300,36 @@ Macro.add("dialogueChoice", {
 
 
 
+
+
 /* Dialogue Tree Macro: Pulls current NPC & Phase and injects options */
 Macro.add("DialogueTree", {
 	handler() {
-		const [characterName, phase] = this.args;
+		const [characterName, phaseId] = this.args;
 
-		if (!characterName || phase === undefined) {
-			console.error("DialogueTree: Missing character or phase.");
+		if (!characterName || !phaseId) {
+			console.error("DialogueTree: Missing character name or phase identifier.");
 			return;
 		}
 
-		State.variables.currentNPC = characterName;
-		State.variables.currentPhase = phase;
+		const v = State.variables;
+		v.currentNPC = characterName;
+		v.currentPhase = phaseId;
 
 		if (typeof setup.clearConvoChoices === "function") {
 			setup.clearConvoChoices();
 		}
 
-		const setupFunc = setup[`${characterName}_Conversation_Options_Phase${phase}`];
+		// Always use flat naming: setup.char_Conversation_Options_phaseId
+		const functionName = `${characterName}_Conversation_Options_${phaseId}`;
+		const setupFunc = setup[functionName];
+
 		if (typeof setupFunc !== "function") {
-			console.error(`DialogueTree: Missing setup.${characterName}_Conversation_Options_Phase${phase}`);
+			console.error(`DialogueTree: Missing setup function '${functionName}'`);
 			return;
 		}
+
+		console.log(`📂 [DialogueTree] Switching to: ${functionName}`);
 
 		setTimeout(() => {
 			const choiceEl = document.getElementById("convoChoices");
@@ -308,6 +341,8 @@ Macro.add("DialogueTree", {
 		}, 0);
 	}
 });
+
+
 
 /* Injects List of Choices into UI */
 setup.addChoices = function (list) {

@@ -103,8 +103,8 @@ setup.smartChoice = function (label, target, {
 	notVariable = null,
 	item = null,
 	quest = null,
-	compare = null,       // Example: compare: { value: "$gold", op: ">=", against: 500 }
-	conditions = null,    // Custom function(v) => boolean
+	compare = null,
+	conditions = null,
 	usedMin = null,
 	logic = "and",
 	hide = false,
@@ -118,64 +118,99 @@ setup.smartChoice = function (label, target, {
 	const npc = v.currentNPC;
 	const phase = v.currentPhase;
 
+	const debug = true;
 	let checks = [];
 
-	// Core character metric checks
+	if (debug) {
+		console.groupCollapsed(`[smartChoice] ${label}`);
+		console.log("Target:", target);
+		console.log("Character:", npc, "| Phase:", phase);
+	}
+
+	// Relationship stats
 	if (aff) {
 		const [id, min] = aff;
-		checks.push((chars?.[id]?.affection ?? 0) >= min);
+		const result = (chars?.[id]?.affection ?? 0) >= min;
+		checks.push(result);
+		if (debug) console.log(`affection[${id}] >= ${min}? →`, result);
 	}
 	if (trust) {
 		const [id, min] = trust;
-		checks.push((chars?.[id]?.trust ?? 0) >= min);
+		const result = (chars?.[id]?.trust ?? 0) >= min;
+		checks.push(result);
+		if (debug) console.log(`trust[${id}] >= ${min}? →`, result);
 	}
 	if (rapport) {
 		const [id, min] = rapport;
-		checks.push((chars?.[id]?.rapport ?? 0) >= min);
+		const result = (chars?.[id]?.rapport ?? 0) >= min;
+		checks.push(result);
+		if (debug) console.log(`rapport[${id}] >= ${min}? →`, result);
 	}
 	if (tension) {
 		const [id, max] = tension;
-		checks.push((chars?.[id]?.tension ?? 0) <= max);
+		const result = (chars?.[id]?.tension ?? 0) <= max;
+		checks.push(result);
+		if (debug) console.log(`tension[${id}] <= ${max}? →`, result);
 	}
 	if (cooldown) {
 		const [id, max] = cooldown;
-		checks.push((chars?.[id]?.cooldown ?? 0) <= max);
+		const result = (chars?.[id]?.cooldown ?? 0) <= max;
+		checks.push(result);
+		if (debug) console.log(`cooldown[${id}] <= ${max}? →`, result);
 	}
 
 	// Variable checks
-	if (variable) checks.push(!!v[variable]);
-	if (notVariable) checks.push(!v[notVariable]);
-
-	// Inventory check
-	if (item) {
-		const [id, count] = item;
-		checks.push((v.inventory?.[id] ?? 0) >= count);
+	if (variable) {
+		const result = !!v[variable];
+		checks.push(result);
+		if (debug) console.log(`variable[${variable}] →`, result);
+	}
+	if (notVariable) {
+		const result = !v[notVariable];
+		checks.push(result);
+		if (debug) console.log(`notVariable[${notVariable}] →`, result);
 	}
 
-	// Quest progress check
+	// Inventory
+	if (item) {
+		const [id, count] = item;
+		const result = (v.inventory?.[id] ?? 0) >= count;
+		checks.push(result);
+		if (debug) console.log(`item[${id}] x${count} →`, result);
+	}
+
+	// Quest
 	if (quest) {
 		const [path, min] = quest;
 		const val = path.split(".").reduce((o, k) => o?.[k], v.quests ?? {});
-		checks.push((val ?? 0) >= min);
+		const result = (val ?? 0) >= min;
+		checks.push(result);
+		if (debug) console.log(`quest[${path}] >= ${min}? →`, result);
 	}
 
-	// Custom boolean logic
+	// Custom condition
 	if (typeof conditions === "function") {
-		checks.push(!!conditions(v));
+		const result = !!conditions(v);
+		checks.push(result);
+		if (debug) console.log(`custom condition →`, result);
 	}
 
-	// UsedMin scoped to this NPC + phase
+	// UsedMin
 	if (usedMin !== null && npc && phase !== undefined) {
-		const readVars = v[`Read_Phase${phase}_${npc}`] ?? {};
-		const count = Object.values(readVars).filter(v => v >= 1).length;
-		checks.push(count >= usedMin);
+		const readVars = Object.entries(v)
+			.filter(([key]) => key.startsWith(`Read_${phase}_${npc}_`))
+			.map(([, value]) => value);
+		const count = readVars.filter(val => val >= 1).length;
+		const result = count >= usedMin;
+		checks.push(result);
+		if (debug) console.log(`usedMin[${usedMin}] →`, result, `(found: ${count})`);
 	}
 
-	// Advanced operator
+	// Compare logic
 	if (compare) {
 		const value = typeof compare.value === "string" ? setup._resolvePath(compare.value, v) : compare.value;
 		const against = typeof compare.against === "string" ? setup._resolvePath(compare.against, v) : compare.against;
-		const result = {
+		const opMap = {
 			"==": value == against,
 			"===": value === against,
 			"!=": value != against,
@@ -184,12 +219,15 @@ setup.smartChoice = function (label, target, {
 			"<=": value <= against,
 			">": value > against,
 			">=": value >= against
-		}[compare.op];
-		checks.push(!!result);
+		};
+		const result = opMap[compare.op];
+		checks.push(result);
+		if (debug) console.log(`compare ${compare.value} ${compare.op} ${compare.against} →`, result);
 	}
 
-	// Check logic
 	const passed = logic === "or" ? checks.some(Boolean) : checks.every(Boolean);
+	if (debug) console.log("PASS LOGIC:", logic, "→", passed);
+	if (debug) console.groupEnd();
 
 	// Log tags
 	if (passed && tags?.length > 0) {
@@ -204,17 +242,11 @@ setup.smartChoice = function (label, target, {
 		v[logUnlock] = true;
 	}
 
-	// Handle output
-	if (passed) {
-		return [label, target, reuse];
-	}
-
-	if (!hide) {
-		return [label, null, reuse, "locked"];
-	}
-
+	if (passed) return [label, target, reuse];
+	if (!hide) return [label, null, reuse, "locked"];
 	return null;
 };
+
 
 // Path resolver (supports nested vars like "$characters.marie.affection")
 setup._resolvePath = function (path, source = State.variables) {

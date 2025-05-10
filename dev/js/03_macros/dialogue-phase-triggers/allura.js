@@ -5,46 +5,56 @@ setup.allura_Conversation_Options_Phase0 = function () {
 		{ label: "Do you actually enjoy doing this?", target: "Allura_Enjoyment" },
 		{ label: "Can I do anything to make your night?", 	target: "Allura_WhatCanIDo"},
 		{label: "Would you mind ordering a drink for me?", target: "Allura_DrinkOrder"},
-		{ label: "Would you want to go somewhere more private?", target: "Allura_GoSomewherePrivate", /*trust: ["allura", 10], aff: ["allura", 10], logic: "or", hide: false */},
-		{ label: "We can talk more later.", target: "Allura_ReturnToParlor", reuse: 1
-		}
+		{ label: "Would you want to go somewhere more private?", target: "Allura_GoSomewherePrivate", trust: ["allura", 4], aff: ["allura", 4], logic: "and", hide: false},
+		{ label: "We can talk more later.", target: "Allura_ReturnToParlor", reuse: 1, notVariable: "Read_Phase0_allura_Allura_GoSomewherePrivate", hide: true}
 	]);
 };
 
 setup.allura_Conversation_Options_Phase1 = function () {
 	setup.smartChoices([
 		{
-			label: "Your room is beautiful. Do they all look like this?",
-			target: "YourRoom",
-			notVariable: "Read_1_allura_Allura_GetComfortable",
-			hide: false
-		  },
-		  
-		  {
-			label: "So… what do we do now?",
-			target: "Allura_WhatDoNow",
-			notVariable: "Read_1_allura_Allura_GetComfortable",
-			hide: false
-		  },
-		  
+		label: "Your room is beautiful. Do they all look like this?",
+		target: "AlluraRoom",
+		notVariable: "Read_Phase1_allura_Allura_GetComfortable",
+		hide: true
+		},
+		{
+		label: "So… what do we do now?",
+		target: "Allura_WhatDoNow",
+		notVariable: "Read_Phase1_allura_Allura_GetComfortable",
+		hide: true
+		},
 		{ label: "Do you mind if I get comfortable with you?", target: "Allura_GetComfortable" },
-
-		{ label: "Would it be alright if I asked about you?", target: "BackstoryStart", variable: "Read_1_Allura_GetComfortable", hide: false },
-
-		{ label: "Can I kiss you?", target: "Kiss" },
-
-		{ label: "If it's alright… I’d like to just lay here with you.", target: "JustLay", reuse: 1 },
+		{ label: "I want to get to know you better.", target: "AlluraOpenConvoMinigameOne", variable: "Read_Phase1_allura_Allura_GetComfortable", hide: false },
+		{ label: "Can I ask you a little bit about your past?", target: "BackstoryStart", variable: "Read_Phase1_allura_Allura_GetComfortable", hide: false },
+		{
+			label: "Can I kiss you?",
+			target: "KissAllura",
+			variable: "Read_Phase1_allura_Allura_GetComfortable",
+			notVariable: "Read_Phase1_allura_JustLay",
+			aff: ["allura", 9],
+			trust: ["allura", 10],
+			hide: true
+		},
+		{
+			label: "If it's alright… I’d like to just lay here with you.",
+			target: "JustLay",
+			variable: "Read_Phase1_allura_Allura_GetComfortable",
+			notVariable: "Read_Phase1_allura_KissAllura",
+			hide: true
+		}
+		  
 		
-		{ label: "We can talk more later.", target: "ReturnToParlor", reuse: 1 }
 	]);
 };
 
-setup.allura_Conversation_Options_Backstory = function () {
+setup.allura_Conversation_Options_alluraBackstory = function () {
 	setup.smartChoices([
-		{ label: "Where did you grow up?", target: "WhereGrewUp" },
-		{ label: "What was your childhood like?", target: "Childhood" },
-		{ label: "Do you know who your parents were?", target: "Parentage" },
+		{ label: "Where did you grow up?", target: "WhereAlluraGrewUp" },
+		{ label: "Do you know much about your parents?", target: "Parentage" },
 		{ label: "If you could go anywhere in the world, where would it be?", target: "TravelWish" },
+		{ label: "What's the worst or strangest client you've ever had?", target: "StrangeClient" },
 		{ label: "Let’s talk about something else.", target: "BackstoryExit", reuse: 1 }
 	]);
 };
+

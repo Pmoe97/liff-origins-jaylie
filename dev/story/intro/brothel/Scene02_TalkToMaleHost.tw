@@ -31,4 +31,4 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can’t help but smile. There’s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-<<DialogueTree "darian" 0>>
+<<DialogueTree "darian" "Phase0">>

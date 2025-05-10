@@ -1,3 +1,4 @@
+
 :: Allura_Watching [widget]
 <<widget "Allura_Watching">>
 <<append "#convoBox">>
@@ -25,6 +26,7 @@ She lifts her glass—something crimson and jeweled with condensation—and take
 <<speech "allura">>So, Jaylie... now that I've seen you, what will you show me next?<</speech>>
 
 <</append>>
+<<relation "allura" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -63,6 +65,7 @@ You cannot even begin to argue with the logic. You look down and your hands in y
 
 <<speech "jaylie">> You got me. <</speech>>
 <</append>>
+<<relation "allura" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -100,6 +103,7 @@ She sets her glass down, empty now, and folds her hands neatly in her lap.
 <<speech "allura">>Ask me another one like that, and I might even answer it honestly.<</speech>>
 
 <</append>>
+<<relation "allura" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -116,7 +120,7 @@ Just once.
 
 You catch the faintest hitch in her breath — like a stage performer who’s forgotten her next line.
 
-<<speech "allura">>Now that...<em>that’s</em> a dangerous question.</speech>>
+<<speech "allura">>Now that...<em>that’s</em> a dangerous question.<</speech>>
 
 She says it quietly, almost to herself. No teasing, no act — not yet. She leans forward just a touch, like gravity’s decided she should be closer to you now.
 
@@ -124,11 +128,11 @@ She says it quietly, almost to herself. No teasing, no act — not yet. She lean
 
 Her tail doesn’t flick this time. It curls gently around one ankle, like a ribbon tied in thought.
 
-<<speech "allura">>But you…</speech>
+<<speech "allura">>But you…<</speech>>
 
 She lifts her eyes to meet yours, and for a moment, the room feels quieter. As if everything’s paused to hear her answer too.
 
-<<speech "allura">>If you mean it — if this isn’t just another performance…?</speech>
+<<speech "allura">>If you mean it — if this isn’t just another performance…?<</speech>>
 
 She smiles softly. Not like before. No hunger in it. Just something warm and fragile.
 
@@ -137,6 +141,8 @@ She smiles softly. Not like before. No hunger in it. Just something warm and fra
 You feel a strange mix of pride and disappointment, as if you were upset that she didn't ask you to go fight the lightning outside—which but in this moment—something is making you feel like you could have done it.
 
 <</append>>
+<<relation "allura" "trust" 2>>
+<<relation "allura" "affection" 2>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -168,6 +174,7 @@ You lift the glass and sip. It's sweet, rich, and ends with a bitter curl that c
 <<speech "allura">>Aren’t we all?<</speech>>
 
 <</append>>
+<<relation "allura" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase0()>>
 <</widget>>
@@ -186,8 +193,10 @@ You blush but don't get a chance to respond before she begins to stand. Her tail
 <<speech "allura">><em>Viens.</em> Come then. Let’s see if the air upstairs is any quieter.<</speech>>
 
 [[You take her hand and stand.|Allura_GoingUpstairs]]
-<<run setup.clearConvoChoices()>>
+
 <</append>>
+<<relation "allura" "affection" 1>>
+<<run setup.clearConvoChoices()>>
 <</widget>>
 
 
@@ -211,8 +220,8 @@ She raises her glass slightly toward you.
 <</widget>>
 
 
-:: YourRoom [widget]
-<<widget "YourRoom">>
+:: AlluraRoom [widget]
+<<widget "AlluraRoom">>
 <<append "#convoBox">>
 
 <<speech "jaylie">>Your room is beautiful. Do they all look like this?<</speech>>
@@ -246,6 +255,7 @@ The bluntness catches you off guard. You just shrug a little.
 She winks—playful again, but not dismissive. Just present. Just... Allura.
 
 <</append>>
+<<relation "allura" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase1()>>
 <</widget>>
@@ -282,6 +292,7 @@ Outside, the thunder murmurs like a distant conversation. Inside, the hush is al
 
 <<speech "allura">>But I’m glad you asked.<</speech>>
 <</append>>
+<<relation "allura" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase1()>>
 <</widget>>
@@ -317,6 +328,267 @@ She guides you to the bed with a hand at your back and a whisper of a smile. The
 <<speech "allura">>Comfort is a sacred thing, Jaylie. It’s not always earned. But you? You wear it beautifully.<</speech>>
 
 <</append>>
+<<relation "allura" "affection" 1>>
 <<run setup.clearConvoChoices()>>
 <<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: AlluraOpenConvoMinigameOne [widget]
+<<widget "AlluraOpenConvoMinigameOne">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>I want to get to know you better. Not just the part you show the room. I mean... you.<</speech>>
+
+Allura shifts where she sits, her eyes narrowing with intrigue. The corners of her lips curl—not into a smirk, but something softer.
+
+<<speech "allura">>Ah... a rare pleasure. Careful you don't go to far. I have been known to bite when provoked.<</speech>>
+
+<</append>>
+<<OpenConvoGame "allura">>
+<<run setup.clearConvoChoices()>>
+<<run setup.allura_Conversation_Options_Phase1()>>
+<</widget>>
+
+:: BackstoryStart [widget]
+<<widget "BackstoryStart">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Can I ask you a little bit about your past?<</speech>>
+
+Allura doesn't answer immediately. In fact for the first time she seems to be truly caught off guard. She cocks her head to the side and raises an eyebrow.
+
+She reaches up an runs a delicate finger along your face, brushing your cheekbone down to your chin.
+
+<<speech "allura">>Now why would you want to go and do something like that?<</speech>>
+
+<<speech "jaylie">>I just want to know a little about where you come from.<</speech>>
+
+Allura seemed to ponder for a moment. The room is silent, she lightly tickles your chin with the tip of her nail.
+
+<<speech "allura">>You may ask anything you like. I am an open book. Not normally, I'm not, but for you I will make an exception.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<DialogueTree "allura" "alluraBackstory">>
+<</widget>>
+/* Allura Backstory Branch - Start */
+    :: WhereAlluraGrewUp [widget]
+    <<widget "WhereAlluraGrewUp">>
+    <<append "#convoBox">>
+
+    <<speech "jaylie">>Where did you grow up?<</speech>>
+
+    Allura shifts on the bed, stretching one leg out beneath the silk and draping her arm across a cushion.
+
+    <<speech "allura">>Far from here. Farther than you’d guess, I think.<</speech>>
+
+    Her tone is gentle, not evasive—like she’s choosing each word with care rather than caution.
+
+    <<speech "allura">>A small village in the eastern cliffs of Taramel. You wouldn’t find it on most maps. A place of rock and wind and stubborn people who didn’t take kindly to anything they couldn’t explain. Especially not a girl with gold eyes, blue skin, and a tail.<</speech>>
+
+    She doesn’t sound bitter, but there’s a weight behind the words—something old and settled.
+
+    <<speech "allura">>My mother was from that village, but one day when I was around 8 years old I went out to watch the other kids play Fae-Ball. When I went back to our hut my mother was gone along with just about everything we owned, which wasn't much to begin with.<</speech>>
+
+    She watches your face closely as she talks. When you don't seem to be offering comment she continues.
+
+    <<speech "allura">>I stayed there only as long as I had to after that. I truly had no one and spent most of my time begging or scrounging for food. Eventually, I gathered enough coin to make it to the next closest town, down out of the mountains. Then I did that again and then again, until I eventually found myself across an ocean and living in Bastion.<</speech>>
+
+    <<speech "jaylie">>Do you miss it? The cliffs. The people.<</speech>>
+
+    <<speech "allura">>Not even for a second, but sometimes when I close my eyes and dream, I can still feel the moutain air blowing on my back, as if I'm not to forget.<</speech>>
+
+    <</append>>
+    <<relation "allura" "trust" 1>>
+    <<set $currentPhase = "alluraBackstory">>
+    <<run setup.clearConvoChoices()>>
+   <<run setup[`allura_Conversation_Options_${$currentPhase}`]()>>
+    <</widget>>
+
+    :: Parentage [widget]
+    <<widget "Parentage">>
+    <<append "#convoBox">>
+
+    <<speech "jaylie">>Do you know much about your parents?<</speech>>
+
+    Allura leans back on one elbow, her gaze drifting to the lanterns above, watching them swing faintly with the wind outside.
+
+    <<speech "allura">>My mother, a little. My father... well, I know more about him than I’d like to.<</speech>>
+
+    She runs a finger along the edge of a cushion, as if tracing the outline of a thought she hasn’t quite dared to speak aloud.
+
+    <<speech "allura">>My mother was human. Village-born. Hard-edged. She worked with herbs—mostly tinctures and poultices, but also... other things. People came to her with needs they couldn’t name. Secrets steeped in boiling water.<</speech>>
+
+    A faint chuckle escapes her lips, but there’s no joy in it.
+
+    <<speech "allura">>She never spoke of my father. Not once. I asked often. I didn’t understand what I was—so how could I know what he was?<</speech>>
+
+    She looks at you, her expression unreadable.
+
+    <<speech "jaylie">>And what was he? Did she ever tell you?<</speech>>
+
+    <<speech "allura">>She told me, "<em>C’était une malédiction… qui m’a laissée un cadeau.</em>"<</speech>>
+
+    She pauses, letting the words echo. You almost ask for clarification when she speaks again.
+
+    <<speech "allura">>A curse… that left a gift.<</speech>>
+
+    You see the shimmer of a tear, but she wipes it away before it can earn an identity.
+
+    <<speech "allura">>It wasn’t until years later, in Altherin, that I met a Seer who told me more about my patronage. She did a ritual with a drop of my blood... and found a name buried deep inside it.<</speech>>
+
+    <<speech "allura">><em>Traloin.</em><</speech>>
+
+    <<speech "jaylie">>Is that a name I should know?<</speech>>
+
+    <<speech "allura">>If you studied the Jade Coast wars, you might. He wasn’t just a demon. He was responsible for razing half of Medmarr and almost destroying Hale about two centuries ago.<<speech>>
+
+    <</append>>
+    <<relation "allura" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.allura_Conversation_Options_alluraBackstory()>>
+    <</widget>>
+
+    :: TravelWish [widget]
+    <<widget "TravelWish">>
+    <<append "#convoBox">>
+
+    <<speech "jaylie">>If you could go anywhere in the world, where would it be?<</speech>>
+
+    <<speech "allura">>Exciting. This question is far less depressing than I would have guessed you'd ask. I like it all the same.<</speech>>
+
+    She traces a fingertip along the hem of her pillow, thoughtful.
+
+    <<speech "allura">>Somewhere warm. Somewhere that I can get naked and run my feet through the sand and swim in water bluer than I am.<</speech>>
+
+    <<speech "jaylie">>That sounds fun. I wouldn't mind a trip like that either.<</speech>>
+
+    Allura clicks her tongue at you a few times. A sound of disapproval.
+
+    <<speech "allura">>Not a trip for me, <em>Mon Trésor</em>. The day I find that place, I think I would stay there for the rest of time.<</speech>>
+
+    She looks at your almost dejected expression.
+
+    <<speech "allura">>Still... I would not mind the company.<</speech>>
+
+    You smile at the invitation.
+
+    <</append>>
+    <<relation "allura" "trust" 2>>
+    <<relation "allura" "affection" 2>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.allura_Conversation_Options_alluraBackstory()>>
+    <</widget>>
+
+    :: StrangeClient [widget]
+    <<widget "StrangeClient">>
+    <<append "#convoBox">>
+
+    <<speech "jaylie">>What’s the worst or strangest client you’ve ever had?<</speech>>
+
+    Allura exhales a long breath through her nose, a single brow rising.
+
+    <<speech "allura">>You know, I thought you'd ask that much sooner. Most people do. It's usually the first thing that drips out of their curiosity — the scandal, the grotesque, the half-formed fantasy of someone else's humiliation.<</speech>>
+
+    She swirls the drink in her hand once, slowly. The glass catches the lamplight like a gemstone.
+
+    <<speech "allura">>But since you've waited until now, I’ll reward your patience.<</speech>>
+
+    She smiles, but it doesn’t quite reach her eyes.
+
+    <<speech "allura">>There was a man—years ago now. Noble type. Clean boots in a muddy city. Came in once a week, every week, like clockwork. Always asked for silence. Would lie down, fully clothed, on the bed. And just… cry.<</speech>>
+
+    You blink.
+
+    <<speech "jaylie">>Cry?<</speech>>
+
+    <<speech "allura">>Loudly. Unapologetically. Never said a word otherwise. No touching, no questions. Just weeping for the full hour. Then he’d leave double payment and vanish into the street like fog.<</speech>>
+
+    She tilts her head back slightly, eyes drifting upward.
+
+    <<speech "allura">>I don't know what broke him, or why I was the one he chose to break in front of. But there’s something sacred about being someone’s safe place—even if they can’t say your name.<</speech>>
+
+    A hush falls between you, deeper than the storm outside. You don't feel the need to fill it.
+
+    <<speech "allura">>That was the strangest. The worst? Perhaps another time.<</speech>>
+
+    She winks—softly this time—and sips her drink.
+
+    <</append>>
+    <<relation "allura" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.allura_Conversation_Options_alluraBackstory()>>
+    <</widget>>
+
+    :: BackstoryExit [widget]
+    <<widget "BackstoryExit">>
+    <<append "#convoBox">>
+
+    <<speech "jaylie">>Thanks for sharing all that with me. I’d like to talk about something else now, if that’s alright.<</speech>>
+
+    Allura gives a soft nod and a smile touched with warmth.
+
+    <<speech "allura">>Of course, mon trésor. Curiosity comes in waves. I’ll be here when the next one rises.<</speech>>
+
+    <</append>>
+    <<relation "allura" "affection" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<DialogueTree "allura" "Phase1">>
+    <</widget>>
+/* Allura Backstory Branch - End */
+
+:: KissAllura [widget]
+<<widget "KissAllura">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Can I kiss you?<</speech>>
+
+Allura blinks—slow and deliberate. Her smile curves like a question, but she doesn’t answer immediately. Instead, she shifts on the bed, drawing her knees up slightly as her fingers press into the silk.
+
+<<speech "allura">>You’ve asked for a lot tonight, <em>mon trésor</em>.<</speech>>
+
+She leans toward you—but only just enough to make you ache for the rest of the distance.
+
+<<speech "allura">>But a kiss? A real one? That isn’t something I give. It’s something you take.<</speech>>
+
+You feel the room tilt—not physically, but like the air has changed. Her eyes hold yours, daring you to break the space between you. Your eyes lock on her lips, their luscious hue of blue drawing desire out of you all their own. 
+
+She speaks slowly.
+
+<<speech "allura">>So come take it, if you want it.<</speech>>
+
+<p>You do.</p>
+
+You reach for her slowly, one hand brushing her cheek, the other resting on the edge of the bed for balance. And when your lips finally meet—gods, it’s everything. Soft. Warm. Hungrier than you meant it to be, and slower than you expected. She tastes faintly of wine and pomegranate, and the kiss deepens before you even realize it has.
+
+One of her hands finds your waist. The other curls behind your neck, anchoring you in the moment like she doesn’t want it to end.
+
+When you part, neither of you speak at first. Her forehead rests against yours, and her breath is a shared thing between you now.
+
+<<speech "allura">>Mmm. Worth the wait. I am not done with you though, <em>Jaylie</em>. <</speech>>
+<</append>>
+<<relation "allura" "affection" 3>>
+<<relation "allura" "trust" 2>>
+<<run setup.clearConvoChoices()>>
+/* Placeholder: <<StartBANGING>> */
+<</widget>>
+
+:: JustLay [widget]
+<<widget "JustLay">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>If it's alright... I think I’d just like to lay here with you.<</speech>>
+
+Allura tilts her head, surprised—but not displeased. Her smile softens like warm silk folding.
+
+<<speech "allura">>No rush, no performance... I like that. Come, then. Let’s waste time beautifully.<</speech>>
+
+She pulls back a layer of cushions and makes space beside her with a lazy, fluid grace. You slide closer.
+
+<<speech "allura">>Lay your head here. Just for a while.<</speech>>
+
+[[You curl beside her and close your eyes.|Allura_JustLay_Route]]
+
+<</append>>
+<<run setup.clearConvoChoices()>>
 <</widget>>

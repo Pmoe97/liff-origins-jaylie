@@ -32,4 +32,4 @@ She tilts her head and watches you like she’s measuring shadows in candlelight
 <<know "allura">>
 <<speech "allura">>You may call me Allura. For now.<</speech>>
 
-<<DialogueTree "allura" 0>>
+<<DialogueTree "allura" "Phase0">>

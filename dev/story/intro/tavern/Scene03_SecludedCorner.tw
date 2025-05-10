@@ -12,4 +12,4 @@ You smile but don't have a chance to respond. She rests a hand on the table, lea
 
 You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
 <<set $tesskaOrderedDrink = false>>
-<<DialogueTree "tesska" 0>>
+<<DialogueTree "tesska" "Phase0">>

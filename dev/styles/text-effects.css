@@ -56,3 +56,13 @@
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
 }
+
+.fade-slow {
+	opacity: 0;
+	animation: fadeInSlow 2s ease-in-out forwards;
+}
+
+@keyframes fadeInSlow {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}

@@ -17,5 +17,5 @@ His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfe
 
 <<speech "bert">>In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?<</speech>>
 
-<<DialogueTree "bert" 0>>
+<<DialogueTree "bert" "Phase0">>
 

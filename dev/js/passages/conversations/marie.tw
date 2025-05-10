@@ -75,7 +75,7 @@
   <</append>>
   <<relation "marie" "trust" 1>>
   <<relation "marie" "affection" 2>>
-  <<DialogueTree "marie" 1>>
+  <<DialogueTree "marie" "Phase1">>
   <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>
 

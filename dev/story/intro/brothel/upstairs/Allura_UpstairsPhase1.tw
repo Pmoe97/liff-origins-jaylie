@@ -16,4 +16,4 @@ She turns to face you again, her hands resting on her hips, her silhouette frame
 
 You turn and close the door, the bolt clicks into place and now the two of you feel truly alone. When you've turned back around Allura is laid back on the mattress, her arms reached above her head. She is calm. She is vulnerable. You can't help but feel like she truly wants to be in here with you.
 
-<<DialogueTree "allura" 1>>
+<<DialogueTree "allura" "Phase1">>

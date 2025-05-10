@@ -9,4 +9,4 @@ You approach the blonde girl, who had thrown the horseshoe at the man outside. S
 
 You take a seat next to her, your knees pointed away from her, making sure to give her space. She seems to stare at everything in the room but you.
 
-<<DialogueTree "marie" 0>>
+<<DialogueTree "marie" "Phase0">>
