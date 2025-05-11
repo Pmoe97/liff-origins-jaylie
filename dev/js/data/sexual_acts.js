@@ -80,7 +80,7 @@ setup.SexualActs = {
     // RISK & POWER KINKS
     Risk_BeingCaught:   { label: "Risk of being caught", category: "RiskPlay", tags: ["excitement", "fear"] },
     PowerImbalance:     { label: "Power imbalance kink", category: "DomPlay", tags: ["hierarchy"] },
-    OrgasmControl_G:    { label: "Controlling partner’s orgasm", category: "Control", tags: ["edging", "dom"] },
+    OrgasmControl_G:    { label: "Controlling partner's orgasm", category: "Control", tags: ["edging", "dom"] },
     OrgasmControl_R:    { label: "Having orgasm controlled", category: "Control", tags: ["edging", "sub"] },
 
     // HUMILIATION & DEGRADATION

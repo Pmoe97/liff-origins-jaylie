@@ -277,7 +277,7 @@ setup.initializeCharacters = function () {
 				hairStyle: "wild and unkempt",
 				hairLength: 4, // "shoulder-length"
 				eyeColor: "cloudy blue",
-				penisSize: 9.5 // destiny’s joke
+				penisSize: 9.5 // destiny's joke
 			},
 		
 			preferences: {

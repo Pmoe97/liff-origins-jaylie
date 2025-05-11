@@ -1,0 +1,29 @@
+:: Marie_UpstairsPhase2
+<<bg "Marie_UpstairsPhase2">><<StartDialogueLayout>>
+
+You aren't sure what you expected from Marie's room, but this… this is surprising.
+
+It's small, and intimate, but thoughtfully arranged. A single bookshelf stands beside the bed, filled with a modest but curated collection—titles on history, philosophy, poetry, even a few old plays. A soft wool shawl hangs from a hook near the door. The bed is neat, tucked with military precision, save for a few deliberate comforts: an embroidered pillow with frayed edges, a stitched quilt that looks older than the rest of the room's furnishings.
+
+There are no mirrors. But pinned beside the shelf, a few charcoal sketches are tacked to the wall—faces, flowers, a narrow field beneath a moon. All done by hand. All precise.
+
+Marie closes the door behind you, then quietly turns the lock. The sound is subtle, not ominous. More… final. As though she's sealing the room off from the noise outside.
+
+She walks past you and sits on the edge of the bed, smoothing the blanket before shifting back to rest against the wall. Then, glancing to the side, she pats the space beside her without a word.
+
+<<speech "marie">>Come sit with me, Jaylie.<</speech>>
+
+You move to sit beside her. The bed dips gently beneath your weight, but Marie doesn't shift away. She just pulls her knees up and lets her shoulder brush lightly against yours. As you rest a hard shape pokes your butt. You stand up again to look at what you sat on and Marie reaches beneath the pillow and pulls out a book– <em>Avian Varieties of Medmarr</em>.
+<<speech "marie">>Oh sorry about that, I was reading this early this morning and must have forgotten to put it back on the shelf. You mind?<</speech>>
+
+You are closer to the bookshelf so she hands it to you. You take it in your hands and the pages of the book naturally fall open to a page about the <em>Suma</em> an apparent waterfowl native to the Myridin Lake. The book has a colorised depiction of the creature, perched in the shallows on long, stalky legs, and sporting a vibrant, colorful arrangement of pointed feathers. It's eyes are intelligent and thoughtful, as if the artist asked the bird to pose and so it had purposely complied. On the opposite page is a half done charcoal recreation of the same bird. Marie's work.
+
+You look at her and smile before you close the book, turn and place it neatly next to the other's on the shelf.
+
+<<speech "jaylie">>You're quite the artist.<</speech>>
+
+She smiles and scoffs; you see blush forming in her cheeks.
+
+<<speech "marie">>An artist? No. They are just doodles... But anyway... now that we're alone... what kind of guest are you planning to be?<</speech>>
+
+<<DialogueTree "marie" "Phase2">>

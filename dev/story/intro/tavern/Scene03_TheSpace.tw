@@ -1,7 +1,7 @@
 :: Scene03_TheSpace {"position":"475,450"}
 <<bg "threesipsgragon">><<EndDialogueLayout>>
 <<if !$seenTavernSpace>>
-Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire’s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
+Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire's warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 <</if>>
 
 The bar stretches along the eastern wall. Behind it stands the massive figure of the barkeep, who continues to polish the same glass as though it owes him a debt. Near him, slumped with his head buried in his arms, a man snorts gently in his sleep—clearly a long-time resident of that particular barstool.
@@ -11,7 +11,7 @@ Across the floor, a barmaid weaves between tables, her tray brimming with wooden
 <<if !$seenTavernSpace>>
 You watch as one of the patrons—too drunk to care and too stupid to hide it—reaches up in an attempt to grope her as she passes. Without breaking stride, she jerks her elbow backward with surgical precision, catching the man's wrist and pinning it painfully against the edge of the table.
 
-<<speech "tesska">> "Try that again and you’ll be wearin’ your bollocks like earrings." <</speech>>
+<<speech "tesska">> "Try that again and you'll be wearin' your bollocks like earrings." <</speech>>
 
 The barmaid's accent is heavy and her words cut deeply even through the man's inebriation.
 <</if>>

@@ -9,13 +9,13 @@ Without looking your way, he pours the drink with one final flourish and slides 
 
 Only then does he turn to you.
 
-<<speech "bert">>Can I get you something to drink? Maybe something to loosen your inhibitions. Or sharpen them, if that’s more your taste.<</speech>>
+<<speech "bert">>Can I get you something to drink? Maybe something to loosen your inhibitions. Or sharpen them, if that's more your taste.<</speech>>
 
 His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfectly enunciated, with not a syllable wasted.
 
 <<speech "jaylie">>It's my birthday, actually. Thought I'd treat myself.<</speech>>
 
-<<speech "bert">>In that case, the first one’s on the house. Anything in particular you like? Or shall I surprise you?<</speech>>
+<<speech "bert">>In that case, the first one's on the house. Anything in particular you like? Or shall I surprise you?<</speech>>
 
 <<DialogueTree "bert" "Phase0">>
 

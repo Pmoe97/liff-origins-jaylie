@@ -43,7 +43,7 @@ setup.SexSceneResponses = {
       neutral: [
         "You bring your palm down across <<npc.their>> <<npc.buttSize>> backside with a sharp, satisfying smack.",
         "The sound of skin-on-skin rings out as your hand connects with <<npc.their>> <<npc.skinTone>> rear.",
-        "You deliver a measured swat to <<npc.name>>’s ass, watching the slight ripple of <<npc.their>> <<npc.bodyType>> form.",
+        "You deliver a measured swat to <<npc.name>>'s ass, watching the slight ripple of <<npc.their>> <<npc.bodyType>> form.",
         "Your hand meets <<npc.their>> skin with a clean crack, just hard enough to leave a glow behind.",
         "You smack them again, savoring the warmth blooming beneath your fingers.",
         "Your palm strikes <<npc.their>> backside, each smack echoing softly in the air between you."
@@ -57,11 +57,11 @@ setup.SexSceneResponses = {
         "They grip the nearest surface, pushing their <<npc.bodyType>> form into you for the next slap."
       ],
       disliked: [
-        "<<npc.name>> jolts, a startled noise escaping. 'That’s not really my thing…'",
+        "<<npc.name>> jolts, a startled noise escaping. 'That's not really my thing…'",
         "They flinch under your hand, body going still with unease.",
         "Their muscles tighten—not in arousal, but restraint. <<npc.they>> says nothing, but their posture speaks volumes.",
         "You feel <<npc.them>> shift away slightly, tension returning to their spine.",
-        "'Let’s… skip that,' <<npc.they>> mutters, not meeting your gaze.",
+        "'Let's… skip that,' <<npc.they>> mutters, not meeting your gaze.",
         "They breathe out hard, clearly not enjoying the sting."
       ]
     }
@@ -71,7 +71,7 @@ setup.SexSceneResponses = {
     label: "Kissing",
     responses: {
       neutral: [
-        "You lean in and press your lips gently to <<npc.name>>’s, your breath mingling.",
+        "You lean in and press your lips gently to <<npc.name>>'s, your breath mingling.",
         "Your lips meet in a soft, exploratory kiss—testing their mood and desire.",
         "You brush your mouth against <<npc.their>> own, light as a whisper.",
         "The kiss is tentative at first, a shared moment of warmth on <<npc.their>> <<npc.skinTone>> cheek.",
@@ -83,7 +83,7 @@ setup.SexSceneResponses = {
         "The kiss deepens—slow, hungry, and filled with unspoken hunger.",
         "<<npc.they>> hums softly, mouth parting under yours as passion sparks between you.",
         "<<npc.name>> presses forward eagerly, lips warm and eager against your own.",
-        "Their hands tangle in your hair as <<npc.they>> kisses you like they’ve wanted it for hours.",
+        "Their hands tangle in your hair as <<npc.they>> kisses you like they've wanted it for hours.",
         "They taste like heat and sweetness, their <<npc.voiceTone>> moans swallowed between breaths."
       ],
       disliked: [
@@ -91,8 +91,8 @@ setup.SexSceneResponses = {
         "They hesitate before responding, lips barely moving under yours.",
         "You feel a flicker of tension as <<npc.them>> leans away slightly mid-kiss.",
         "They shift as your lips touch, eyes opening too soon to meet yours.",
-        "'That’s… not really the vibe,' <<npc.they>> murmurs, avoiding your gaze.",
-        "You brush your mouth to <<npc.theirs>>, but they don’t quite lean in—they seem distracted."
+        "'That's… not really the vibe,' <<npc.they>> murmurs, avoiding your gaze.",
+        "You brush your mouth to <<npc.theirs>>, but they don't quite lean in—they seem distracted."
       ]
     }
   },
@@ -119,10 +119,10 @@ setup.SexSceneResponses = {
       disliked: [
         "<<npc.name>> shifts slightly in your arms, posture stiff and guarded.",
         "They lie against you, but the tension in <<npc.their>> shoulders never quite fades.",
-        "'I’m not really a cuddler,' <<npc.they>> mumbles, pulling back a little.",
-        "<<npc.name>> offers a polite smile but doesn’t settle—like their mind is somewhere else.",
+        "'I'm not really a cuddler,' <<npc.they>> mumbles, pulling back a little.",
+        "<<npc.name>> offers a polite smile but doesn't settle—like their mind is somewhere else.",
         "They remain still, unmoving, as if waiting for the moment to end.",
-        "Your hand moves across <<npc.their>> side, but <<npc.they>> doesn’t respond—not warmly, at least."
+        "Your hand moves across <<npc.their>> side, but <<npc.they>> doesn't respond—not warmly, at least."
       ]
     }
   },
@@ -152,7 +152,7 @@ setup.SexSceneResponses = {
         "Your fingers meet resistance—not physical, but emotional—as <<npc.they>> stiffens.",
         "They give a hesitant glance, body still and unresponsive beneath your hand.",
         "'Can we slow down?' <<npc.they>> asks, voice guarded.",
-        "You feel their breath quicken, but not in arousal—something’s off."
+        "You feel their breath quicken, but not in arousal—something's off."
       ],
       climax: [
         "<<npc.name>> cries out, clenching tight around your fingers as pleasure rips through <<npc.them>>.",
@@ -199,7 +199,7 @@ setup.SexSceneResponses = {
     label: "Talking dirty",
     responses: {
       neutral: [
-        "You lean in close, letting your <<npc.voiceTone>> voice curl against <<npc.their>> ear with promises you haven’t fulfilled yet.",
+        "You lean in close, letting your <<npc.voiceTone>> voice curl against <<npc.their>> ear with promises you haven't fulfilled yet.",
         "You whisper filth with precision, watching how <<npc.name>> reacts to every syllable.",
         "Your words are deliberate and slow, slipping past your lips like silk soaked in sin.",
         "You murmur into <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair, letting them feel your breath more than the words themselves.",
@@ -247,7 +247,7 @@ setup.SexSceneResponses = {
       disliked: [
         "The moment you press forward, <<npc.name>> stiffens and pulls away. 'Please don't.'",
         "They go rigid in your arms, body recoiling from the pressure.",
-        "'That’s... not something I’m okay with,' <<npc.they>> says quietly, voice flat.",
+        "'That's... not something I'm okay with,' <<npc.they>> says quietly, voice flat.",
         "<<npc.name>> exhales sharply and twists away, a frown shadowing <<npc.their>> features.",
         "They shift out of reach, no longer responding to your touch, the air between you chilled.",
         "Their breathing speeds up—but not from arousal. 'Stop,' they whisper, no room for debate."
@@ -292,14 +292,14 @@ setup.SexSceneResponses = {
         "You begin to move, establishing a steady rhythm as <<npc.name>> adjusts to your presence.",
         "You thrust slowly, reading each breath, each shift of <<npc.their>> <<npc.bodyType>> frame for signs of readiness.",
         "You hold <<npc.their>> <<npc.hipWidth>> hips as your motion grows deeper, smoother, more confident.",
-        "Each motion earns a subtle reaction from <<npc.them>>—a flinch, a twitch, a moan you’re not sure was pleasure or restraint.",
+        "Each motion earns a subtle reaction from <<npc.them>>—a flinch, a twitch, a moan you're not sure was pleasure or restraint.",
         "You push in and out slowly, letting the friction build with careful patience.",
         "Your hips rock forward again, skin slapping softly against <<npc.their>> <<npc.buttSize>> backside."
       ],
       liked: [
         "<<npc.name>> groans with each thrust, back arching and voice cracking with pleasure.",
         "They moan wildly, their whole body pushing back into you, hungry for every inch.",
-        "'Yes—don’t stop!' <<npc.they>> pants, gasping as your rhythm deepens.",
+        "'Yes—don't stop!' <<npc.they>> pants, gasping as your rhythm deepens.",
         "<<npc.they>> cries out, fingernails digging into the bedding, toes curling with every push.",
         "<<npc.name>> slams back into you, pace frantic and needy, pleasure dripping from every movement.",
         "They tremble with every stroke, breathless and flushed, completely surrendered to the rhythm."
@@ -308,8 +308,8 @@ setup.SexSceneResponses = {
         "<<npc.name>> flinches at each thrust, jaw clenched and body tensed in resistance.",
         "'Slow down,' <<npc.they>> whispers, pain flickering in <<npc.their>> voice.",
         "You feel <<npc.them>> trying to keep still, but their breath is unsteady—not from arousal.",
-        "'It doesn’t feel right,' <<npc.they>> mutters, voice tight, eyes looking anywhere but at you.",
-        "<<npc.name>>’s body isn’t responding—just enduring—and the tension is impossible to ignore.",
+        "'It doesn't feel right,' <<npc.they>> mutters, voice tight, eyes looking anywhere but at you.",
+        "<<npc.name>>'s body isn't responding—just enduring—and the tension is impossible to ignore.",
         "They gasp—not with pleasure, but a strained sound that halts your motion entirely."
       ],
       climax: [
@@ -385,7 +385,7 @@ setup.SexSceneResponses = {
         "You yield control, your breath shallow and expectant."
       ],
       liked: [
-        "<<npc.name>> smiles darkly, clearly relishing the power you’ve given up.",
+        "<<npc.name>> smiles darkly, clearly relishing the power you've given up.",
         "They grip your chin gently, clearly enjoying your submission."
       ],
       disliked: [
@@ -422,10 +422,10 @@ setup.SexSceneResponses = {
       ],
       liked: [
         "<<npc.name>> blushes fiercely, eyes shining. They clearly thrive on your words.",
-        "They whimper softly, drinking in the affection like it’s oxygen."
+        "They whimper softly, drinking in the affection like it's oxygen."
       ],
       disliked: [
-        "They roll their eyes awkwardly. 'That’s... too much right now.'",
+        "They roll their eyes awkwardly. 'That's... too much right now.'",
         "They smile stiffly, not quite sure how to respond to the praise."
       ]
     }
@@ -479,7 +479,7 @@ setup.SexSceneResponses = {
         "Their hands clench the sheets, body trembling from the stimulation."
       ],
       disliked: [
-        "<<npc.name>> shifts away from the toy, frowning slightly. 'That’s not my thing.'",
+        "<<npc.name>> shifts away from the toy, frowning slightly. 'That's not my thing.'",
         "They look uncertain, trying to stay in the mood but clearly unsettled."
       ]
     }
@@ -498,7 +498,7 @@ setup.SexSceneResponses = {
       ],
       disliked: [
         "They exhale sharply. 'Don't play games,' they mutter, annoyed.",
-        "Their eyes narrow—this isn’t the kind of tease they enjoy."
+        "Their eyes narrow—this isn't the kind of tease they enjoy."
       ]
     }
   },
@@ -539,10 +539,10 @@ setup.SexSceneResponses = {
       ],
       disliked: [
         "<<npc.name>> turns slightly, deflecting the moment with a tense smile.",
-        "They return the kiss briefly, but there’s little passion behind it.",
+        "They return the kiss briefly, but there's little passion behind it.",
         "<<npc.name>> offers a quick peck and then pulls back, avoiding your eyes.",
         "You feel their lips hesitate against yours—distant, uncertain.",
-        "Their response is stiff, like they’re going through the motions."
+        "Their response is stiff, like they're going through the motions."
       ]
     }
   },  
@@ -578,7 +578,7 @@ setup.SexSceneResponses = {
       ],
       disliked: [
         "<<npc.name>> wriggles away slightly, looking uneasy.",
-        "'I don’t really feel anything there,' they mutter."
+        "'I don't really feel anything there,' they mutter."
       ]
     }
   },
@@ -595,7 +595,7 @@ setup.SexSceneResponses = {
         "'Say that again,' <<npc.name>> whispers, visibly aroused."
       ],
       disliked: [
-        "They roll their eyes. 'You don’t need to flatter me.'",
+        "They roll their eyes. 'You don't need to flatter me.'",
         "They look away awkwardly, clearly not used to affection like that."
       ]
     }

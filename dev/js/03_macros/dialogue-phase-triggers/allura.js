@@ -1,11 +1,11 @@
 setup.allura_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{label: "Were you watching me?", target: "Allura_Watching" },
-		{label: "Don’t take this the wrong way, but you feel out of place here a little.",target: "Allura_OutOfPlace"},
+		{label: "Don't take this the wrong way, but you feel out of place here a little.",target: "Allura_OutOfPlace"},
 		{ label: "Do you actually enjoy doing this?", target: "Allura_Enjoyment" },
 		{ label: "Can I do anything to make your night?", 	target: "Allura_WhatCanIDo"},
 		{label: "Would you mind ordering a drink for me?", target: "Allura_DrinkOrder"},
-		{ label: "Would you want to go somewhere more private?", target: "Allura_GoSomewherePrivate", trust: ["allura", 4], aff: ["allura", 4], logic: "and", hide: false},
+		{ label: "Would you want to go somewhere more private?", target: "Allura_GoSomewherePrivate", trust: ["allura", 4], aff: ["allura", 4], logic: "and", reuse: 1, hide: false},
 		{ label: "We can talk more later.", target: "Allura_ReturnToParlor", reuse: 1, notVariable: "Read_Phase0_allura_Allura_GoSomewherePrivate", hide: true}
 	]);
 };
@@ -37,7 +37,7 @@ setup.allura_Conversation_Options_Phase1 = function () {
 			hide: true
 		},
 		{
-			label: "If it's alright… I’d like to just lay here with you.",
+			label: "If it's alright… I'd like to just lay here with you.",
 			target: "JustLay",
 			variable: "Read_Phase1_allura_Allura_GetComfortable",
 			notVariable: "Read_Phase1_allura_KissAllura",
@@ -54,7 +54,7 @@ setup.allura_Conversation_Options_alluraBackstory = function () {
 		{ label: "Do you know much about your parents?", target: "Parentage" },
 		{ label: "If you could go anywhere in the world, where would it be?", target: "TravelWish" },
 		{ label: "What's the worst or strangest client you've ever had?", target: "StrangeClient" },
-		{ label: "Let’s talk about something else.", target: "BackstoryExit", reuse: 1 }
+		{ label: "Let's talk about something else.", target: "BackstoryExit", reuse: 1 }
 	]);
 };
 

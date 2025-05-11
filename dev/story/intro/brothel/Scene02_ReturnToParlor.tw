@@ -1,25 +1,25 @@
 :: Scene02_ReturnToParlor {"position":"75,775"}
 <<bg "parloroverview">><<EndDialogueLayout>>
 
-The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn’t surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
+The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn't surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
 
 The hush still lingers, that velvety quiet filled with murmured voices and the occasional laugh from unseen corners. Somewhere above, the faint rhythm of movement—floorboards creaking in time with breath—reminds you that pleasure here takes many forms, not all of them spoken.
 
-Low golden light from the crystal sconces bathes the space in its usual amber glow. The shadows aren’t as deep now that your eyes have adjusted, but they still seem to hold secrets just out of reach. Plush couches and marble tables remain as inviting as ever, though the cushions now bear the soft impressions of earlier guests. The room doesn’t reset; it evolves.
+Low golden light from the crystal sconces bathes the space in its usual amber glow. The shadows aren't as deep now that your eyes have adjusted, but they still seem to hold secrets just out of reach. Plush couches and marble tables remain as inviting as ever, though the cushions now bear the soft impressions of earlier guests. The room doesn't reset; it evolves.
 
-Behind the bar, Bert is polishing glassware, his crimson waistcoat catching the light as he leans into a quiet routine. He spares you a glance, but it’s less assessing this time—more like acknowledgment. Recognition.
+Behind the bar, the bartender is polishing glassware, his crimson waistcoat catching the light as he leans into a quiet routine. He spares you a glance, but it's less assessing this time—more like acknowledgment. Recognition.
 
-Adda stands where she often does, by the column in the corner, hands folded in front of her. Her posture is poised, but you catch a slight tilt to her head, as if curious what you’ve learned since last you spoke. She offers a brief smile without words. For her, that’s warmth enough.
+Adda stands where she often does, by the column in the corner, hands folded in front of her. Her posture is poised, but you catch a slight tilt to her head, as if curious what you've learned since last you spoke. She offers a brief smile without words. For her, that's warmth enough.
 
-The half-demon still sprawls across her chaise, though her eyes narrow slightly when she sees you again. Her tail twitches once, idly, like a cat deciding whether to approach. She watches you longer than before.
+The blue-tinted, half-demon still sprawls across her chaise, though her eyes narrow slightly when she sees you again. Her tail twitches once, idly, like a cat deciding whether to approach. She watches you longer than before.
 
-Marie is nowhere to be seen—for now. A few guests are murmuring in her usual corner, and one of the staff seems to be tidying a chaise with a faintly irritated expression.
+The blonde hostest sits off to one side of the Parlor. Her expression is flat and uninviting, but she stills seems like she might be shaken from the confrontation you witnessed in the street.
 
-The male host reappears before you can look too long. His shirt is still scandalously unbuttoned, his smile just as practiced. But this time he nods to you with a little more weight behind it, like you’ve been promoted from curiosity to regular.
+The male host moves from space to space, quietly and respectfully checking on other guests and hosts. His vest-shirt is still scandalously unbuttoned, his smile is practiced yet warm. When he notices you looking he nods .
 
 From here, you may:
-[[Approach the bar and speak to Bert.|Scene02_BrothelBar]]
-[[Approach the half-demon woman again.|Scene02_TalkToExotic]]
-[[Rejoin the male host for another chat.|Scene02_TalkToMaleHost]]
-[[Look around for signs of Marie.|Scene02_TalkToAngryHost]]
-[[Take a seat and let the parlor move around you.|Scene02_ObserveRoom]]
+[[Approach the bar.|Scene02_BrothelBar]]
+[[Approach the half-demon woman.|Scene02_TalkToExotic]]
+[[Approach the male host.|Scene02_TalkToMaleHost]]
+[[Approach the blonde hostest.|Scene02_TalkToAngryHost]]
+[[Approach Adda, the Brothel Mistress.|Scene02_TalkToAdda]]

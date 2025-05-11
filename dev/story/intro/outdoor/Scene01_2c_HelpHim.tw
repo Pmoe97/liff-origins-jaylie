@@ -1,6 +1,6 @@
-:: Scene01_2c_HelpHim {"position":"175,450"}
+:: Scene01_2c_HelpHim
 <<bg "Scene01_2c_HelpHim">>
-<<set $helpedkallot = true>> /*need to double check this syntax because I wrote it at work and I suck */
+<<set $helpedkallot = true>>
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
 You let out a sigh.

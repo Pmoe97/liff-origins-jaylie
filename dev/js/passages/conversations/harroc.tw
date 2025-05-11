@@ -6,11 +6,11 @@
 
   Harroc pauses mid-wipe on a tankard, eyes sliding to meet yours without turning his head. His voice is steady, low.
 
-  <<speech "harroc">>You could. But that didn’t sound like someone who *wants* a drink. Try again.<</speech>>
+  <<speech "harroc">>You could. But that didn't sound like someone who *wants* a drink. Try again.<</speech>>
 
-  You blink. He doesn’t look angry—just expectant. Testing.
+  You blink. He doesn't look angry—just expectant. Testing.
 
-  <<speech "jaylie">>...Alright. I want a drink. Something strong. Something that proves I’m not just a girl in a dress, out past her bedtime.<</speech>>
+  <<speech "jaylie">>...Alright. I want a drink. Something strong. Something that proves I'm not just a girl in a dress, out past her bedtime.<</speech>>
 
   That gets the faintest grunt of approval. He sets the mug down and turns away to pour.
 
@@ -22,9 +22,9 @@
 
   You take a sip—it hits your tongue smooth, then sears your throat with a trailing warmth. You try not to cough.
 
-  <<speech "jaylie">>That’s... intense.<</speech>>
+  <<speech "jaylie">>That's... intense.<</speech>>
 
-  <<speech "harroc">>That’s the idea.<</speech>>
+  <<speech "harroc">>That's the idea.<</speech>>
 
 <</append>>
 <<run setup.clearConvoChoices()>>
@@ -39,7 +39,7 @@
 
   <<speech "harroc">>No.<</speech>>
 
-  He doesn’t elaborate. Just goes back to wiping the rim of a thick mug, gaze drifting over the room without much interest.
+  He doesn't elaborate. Just goes back to wiping the rim of a thick mug, gaze drifting over the room without much interest.
 
   You wait a beat. Then try again.
 
@@ -51,9 +51,9 @@
 
   He sets the mug down and grabs another without looking at you.
 
-  <<speech "harroc">>Two nights from now, this place’ll smell like sweat, cheap wine, and regret. Tonight’s just the pause.<</speech>>
+  <<speech "harroc">>Two nights from now, this place'll smell like sweat, cheap wine, and regret. Tonight's just the pause.<</speech>>
 
-  A log pops loudly in the hearth behind you. He doesn’t react.
+  A log pops loudly in the hearth behind you. He doesn't react.
 
 <</append>>
 <<run setup.clearConvoChoices()>>
@@ -66,13 +66,13 @@
 
   <<speech "jaylie">>Do you have a food menu, or is it just drinks?<</speech>>
 
-  Harroc doesn’t stop what he’s doing—just gestures with a thick thumb toward a chalkboard hung crooked on the wall behind him.
+  Harroc doesn't stop what he's doing—just gestures with a thick thumb toward a chalkboard hung crooked on the wall behind him.
 
-  <<speech "harroc">>Menu’s there. Three kinds of stew. Bread if it’s not gone. Couple of pickled things in jars. Mostly drinks though.<</speech>>
+  <<speech "harroc">>Menu's there. Three kinds of stew. Bread if it's not gone. Couple of pickled things in jars. Mostly drinks though.<</speech>>
 
   He grabs a bottle, uncorks it, sniffs it, and nods to himself.
 
-  <<speech "harroc">>People don’t come here for variety. They come because it stays open, and I don’t water anything down.<</speech>>
+  <<speech "harroc">>People don't come here for variety. They come because it stays open, and I don't water anything down.<</speech>>
 
 <</append>>
 <<run setup.openShop("harroc")>>
@@ -86,9 +86,9 @@
 
   <<speech "jaylie">>Aside from the fair, you heard about anything interesting lately?<</speech>>
 
-  Harroc doesn’t look up, just sets a clean mug down on the bar with a dull *clunk*.  
+  Harroc doesn't look up, just sets a clean mug down on the bar with a dull *clunk*.  
 
-  <<speech "harroc">>Rumors're easy. Truth’s harder. You want noise or something useful?<</speech>>
+  <<speech "harroc">>Rumors're easy. Truth's harder. You want noise or something useful?<</speech>>
 
   Jaylie pauses a second, then gives a soft shrug.
 
@@ -96,11 +96,11 @@
 
   Harroc finally looks up. Not long. Just enough to weigh you.
 
-  <<speech "harroc">>Docks’ve been locked down at night. No one's talking. I’ve seen warehouse doors chained and guarded since last week.  
+  <<speech "harroc">>Docks've been locked down at night. No one's talking. I've seen warehouse doors chained and guarded since last week.  
 
-  Extra patrols posted in the outer wards. More steel on the streets than usual, and they ain’t saying why.  
+  Extra patrols posted in the outer wards. More steel on the streets than usual, and they ain't saying why.  
 
-  And there was a collapse in the lower market. Stone gave out right under a vendor’s stall—just swallowed it. City’s saying it was old pipes. They’re lying.<</speech>>
+  And there was a collapse in the lower market. Stone gave out right under a vendor's stall—just swallowed it. City's saying it was old pipes. They're lying.<</speech>>
 
   He picks up another mug. Starts wiping again.  
 

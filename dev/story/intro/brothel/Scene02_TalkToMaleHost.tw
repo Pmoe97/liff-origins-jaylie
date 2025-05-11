@@ -5,30 +5,30 @@ You find him standing near one of the larger couches, laughing gently with a pai
 
 <<speech "darian">>Good evening, my lady. Looking for someone to share it with?<</speech>>
 
-There’s a charm in his voice, but not the kind that smothers. He doesn’t try too hard, just offers the warmth of someone who’s good at reading what people need, and giving only as much as they’re comfortable taking.
+There's a charm in his voice, but not the kind that smothers. He doesn't try too hard, just offers the warmth of someone who's good at reading what people need, and giving only as much as they're comfortable taking.
 
-You notice his eyes flick briefly toward one of the other hosts in the room, checking in without missing a beat. It’s subtle, but you catch it again later—his gaze always wandering protectively, watching the others like a quiet sentinel.
+You notice his eyes flick briefly toward one of the other hosts in the room, checking in without missing a beat. It's subtle, but you catch it again later—his gaze always wandering protectively, watching the others like a quiet sentinel.
 
 He turns his attention fully back to you.
 
 <<speech "darian">>Most folks who come in here are either looking to forget… or to feel something. Not always the same thing.<</speech>>
 
-He says it gently, almost like it’s a well-worn lyric he’s sung a thousand times.
+He says it gently, almost like it's a well-worn lyric he's sung a thousand times.
 
 <<speech "jaylie">>And which are you?<</speech>>
 
-He chuckles, brushing one hand through his thick, short-cropped hair. A thin golden bracelet glints on his wrist, an simple, yet beautiful, braided piece—elegant and clearly cherished. You spot tiny inscriptions etched into the broad clasp, but you can’t quite make them out.
+He chuckles, brushing one hand through his thick, short-cropped hair. A thin golden bracelet glints on his wrist, a simple, yet beautiful, braided-metal piece. You spot tiny inscriptions etched into the broad clasp, but you can't quite make them out.
 
-<<speech "darian">>Me? I’m here to make sure no one leaves feeling worse than they came in. And maybe to share a song or two. Music soothes wounded hearts.<</speech>>
+<<speech "darian">>Me? I'm here to make sure no one leaves feeling worse than they came in. And maybe to share a song or two. Music soothes wounded hearts.<</speech>>
 
-He gives a short whistle—just a few notes. It’s simple, a melody that feels nostalgic even if you’ve never heard it before.
+He gives a short whistle—just a few notes. It's simple, a melody that feels nostalgic even if you've never heard it before.
 
-<<speech "darian">>You’ve got that look, you know. Like a song I haven’t heard in a long time.<</speech>>
+<<speech "darian">>You've got that look, you know. Like a song I haven't heard in a long time.<</speech>>
 
-He freezes slightly, just for a second. His sudden expression draws a chortle from somewhere deep within you. He looks like he didn’t mean to say it out loud. He laughs himself, awkwardly.
+He freezes slightly, just for a second. His sudden expression draws a chortle from somewhere deep within you. He looks like he didn't mean to say it out loud. He laughs himself, awkwardly.
 <<set $characters["darian"].known = true>>
-<<speech "darian">>Sorry. That was... cliché. I’m better when I’m not trying so hard. I am Darian by the way.<</speech>>
+<<speech "darian">>Sorry. That was... cliché. I'm better when I'm not trying so hard. I am Darian by the way.<</speech>>
 
-You can’t help but smile. There’s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
+You can't help but smile. There's something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
 <<DialogueTree "darian" "Phase0">>

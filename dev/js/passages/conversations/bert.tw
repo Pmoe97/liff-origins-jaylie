@@ -3,7 +3,7 @@
 <<append "#convoBox">>
   <<speech "jaylie">>I want to get to know you better.<</speech>>
   Bert does not break eye contact, nor does he hesiate for a moment in his polishing of the glass in his hand.
-  <<speech "bert">>Unfortunately Miss, that’s not on the menu.<</speech>>
+  <<speech "bert">>Unfortunately Miss, that's not on the menu.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.bert_Conversation_Options_Phase0()>>
@@ -12,11 +12,11 @@
 :: Bert_OpenShop [widget]
 <<widget "Bert_OpenShop">>
 <<append "#convoBox">>
-  <<speech "bert">>Drinks are listed behind me. If it’s wet and numbs the tongue, I probably have it.<</speech>>
+  <<speech "bert">>Drinks are listed behind me. If it's wet and numbs the tongue, I probably have it.<</speech>>
 
   He glances toward a modest slate board mounted near the shelf. The handwriting is neat, efficient—chalked in white and underlined.
 
-  <<speech "bert">>Ale, spirits, something local we call ‘Red Mercy’—not for the faint-hearted. I’ve also got roasted nuts if you need to fool your stomach into thinking it’s eaten.<</speech>>
+  <<speech "bert">>Ale, spirits, something local we call ‘Red Mercy'—not for the faint-hearted. I've also got roasted nuts if you need to fool your stomach into thinking it's eaten.<</speech>>
 <</append>>
 <<run setup.openShop("bert")>>
 <</widget>>
@@ -30,7 +30,7 @@
   <<speech "bert">> Something special you say? I would delight in the occasion, Miss.<</speech>>
     With a quick flourish of his arms, a shining metal cup is produced from under the counter, catching the glow of the hanging lanterns as if it had been waiting for just this moment. Bert runs a cloth over it with meticulous care, inspecting it like a jeweler inspecting a rare gem.
 
-  <<speech "bert">>You strike me as someone with fire in her spirit, but a touch of sadness behind the eyes. Let’s see if we can match that with something... complicated.<</speech>>
+  <<speech "bert">>You strike me as someone with fire in her spirit, but a touch of sadness behind the eyes. Let's see if we can match that with something... complicated.<</speech>>
 
   He turns to the shelf behind him, fingers ghosting over rows of vividly colored bottles, some of which emit a faint shimmer or trace of smoke within their glass. He selects four: 
     -A bottle of *Whisperleaf Gin*—a pale green spirit known for its calming aftertaste
@@ -44,7 +44,7 @@
 
   <<speech "bert">>And now for the ice...<</speech>>
 
-  He reaches into a chilled drawer and pulls out a single crystalline sphere—transparent, but with what looks like a tiny storm cloud suspended in its center. He cracks it gently against the bar’s edge, letting the shards fall like glass snow into the cup. A cover is placed over the top, of the metal cup and Bert quickly begins to shake it with a certain measure and efficiency.
+  He reaches into a chilled drawer and pulls out a single crystalline sphere—transparent, but with what looks like a tiny storm cloud suspended in its center. He cracks it gently against the bar's edge, letting the shards fall like glass snow into the cup. A cover is placed over the top, of the metal cup and Bert quickly begins to shake it with a certain measure and efficiency.
 
   After a moment, one of Bert's hands reaches from above and pulls down a conical, crystal glass. He sets the glass on its edge and gives it a spin. The glass twirls rapidly in place, balancing in such a way that almost defies reason.
 
@@ -86,10 +86,10 @@
 :: Bert_ReturnToParlor [widget]
 <<widget "Bert_ReturnToParlor">>
 <<append #convoBox>>
-<<speech "Jaylie">> I think I'll explore the rest of the parlor.<</speech>>
+<<speech "jaylie">> I think I'll explore the rest of the parlor.<</speech>>
 <<speech "bert">> Of course, Miss. Please enjoy your evening.<</speech>>
 
-[[You step away from the bar.|ReturnToParlor]]
+[[You step away from the bar.|Scene02_ReturnToParlor]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>

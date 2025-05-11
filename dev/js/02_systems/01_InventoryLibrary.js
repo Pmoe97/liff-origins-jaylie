@@ -180,7 +180,7 @@ setup.ItemData.spear_obsidian = {
 	weight: 4.5,
 	value: 390,
 	img: "spear_obsidian.png",
-	description: "A razor-sharp obsidian tip gives this spear excellent cutting power—if it doesn’t shatter."
+	description: "A razor-sharp obsidian tip gives this spear excellent cutting power—if it doesn't shatter."
 };
 setup.ItemData.spear_eldwood = {
 	id: "spear_eldwood",

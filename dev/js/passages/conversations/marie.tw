@@ -3,7 +3,7 @@
 <<widget "Marie_Howareyoudoing">>
   <<append #convoBox>>
     <<speech "jaylie">> I'm Jaylie, by the way.<</speech>>
-    <<speech "marie">> Marie.<</speech>>
+    <<know "marie">><<speech "marie">> Marie.<</speech>>
     <<speech "jaylie">> How are you doing?<</speech>>
     
     Her face twists in annoyance. Likely more than she even intended.
@@ -23,7 +23,7 @@
     You try softening your tone, hoping to break through whatever storm is brewing behind her eyes.
 
     <<speech "jaylie">>Looks like you've had a rough night.<</speech>>
-    <<speech "marie">>Is it the scowl, the clenched jaw, or the ‘go away’ energy that gave it away?<</speech>>
+    <<speech "marie">>Is it the scowl, the clenched jaw, or the ‘go away' energy that gave it away?<</speech>>
 
     She exhales through her nose. Not quite a laugh, not quite a sigh.
 
@@ -38,13 +38,13 @@
 :: Marie_SilentTreatment [widget]
 <<widget "Marie_SilentTreatment">>
   <<append #convoBox>>
-    You glance at her, then at the space between you both. It stretches like a wall you can’t climb.
+    You glance at her, then at the space between you both. It stretches like a wall you can't climb.
 
     <<speech "jaylie">>You know, if it helps, you can talk to me about what happened. I've been told I can be a good listener.<</speech>>
 
-    Marie doesn’t answer at first. Just blinks slowly, then tilts her head ever so slightly in your direction.
+    Marie doesn't answer at first. Just blinks slowly, then tilts her head ever so slightly in your direction.
 
-    <<speech "marie">>I don't need to talk about it. Especially to strangers who sit next to me like I’m a stray cat that needs saving.<</speech>>
+    <<speech "marie">>I don't need to talk about it. Especially to strangers who sit next to me like I'm a stray cat that needs saving.<</speech>>
   <</append>>
   <<relation "marie" "trust" 1>>
   <<run setup.clearConvoChoices()>>
@@ -69,7 +69,7 @@
 
     She smiles. It looks a little forced, but you can tell she is genuinely trying.
 
-    <<speech "marie">>I'm sorry. This isn't how I normally am. It's just been... a night. But I’d like to start over, if you don’t mind.<</speech>>
+    <<speech "marie">>I'm sorry. This isn't how I normally am. It's just been... a night. But I'd like to start over, if you don't mind.<</speech>>
 
     <<speech "jaylie">> Don't worry about it at all. I definitely have my bad days too, but nothing like what you have to deal with.<</speech>>
   <</append>>
@@ -84,7 +84,7 @@
 <<widget "Marie_WhyThisWork">>
 <<append "#convoBox">>
   <<speech "jaylie">>Why did you choose this kind of work?<</speech>>
-  <<speech "marie">>Chose? That’s generous. I chose not to starve. Turns out I’m good at more than surviving, though. I learned how to turn the game in my favor.<</speech>>
+  <<speech "marie">>Chose? That's generous. I chose not to starve. Turns out I'm good at more than surviving, though. I learned how to turn the game in my favor.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
@@ -125,7 +125,7 @@
 
   Marie's expression lights up and she genuinely smiles for a moment. 
 
-  <<speech "marie">>I was born in Altherin actually. I don't remember it very well. My family moved here when I was very little. Sometimes I have dreams though... I think they are memories. The tall trees. The green fields. The open sky, not choked with chimney smoke.<</speech>>
+  <<speech "marie">>I was born in Albcorr, actually. I don't remember it very well. My family moved here when I was very little. Sometimes I have dreams though... I think they are memories. The tall trees. The green fields. The open sky, not choked with chimney smoke.<</speech>>
 
   Her smile fades a little, but you can still tell she is thinking about it fondly.
 
@@ -205,7 +205,7 @@
 
     You grin at her. She looks back at you and her lips crack into a sly smile.
     
-    <<speech "marie">>...but if you *really* want to know me, don’t say I didn’t warn you.<</speech>>
+    <<speech "marie">>...but if you *really* want to know me, don't say I didn't warn you.<</speech>>
 <</append>>
 <<OpenConvoGame "marie">>
 <<run setup.clearConvoChoices()>>
@@ -225,7 +225,7 @@
 
     At the top of the stairs, Marie leads you down a long, narrow hallway before stopping at a non-descript door. She opens it and gestures for you to enter first.
 
-    [[You enter Marie's room.|Marie_BedroomOne]]
+    [[You enter Marie's room.|Marie_UpstairsPhase1]]
     <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
@@ -235,8 +235,379 @@
 <<append "#convoBox">>
   <<speech "jaylie">>We can talk more later.<</speech>>
 
-  <<speech "marie">>Sure. I’ll be here. Try not to get swallowed by the velvet in the meantime.<</speech>>
+  <<speech "marie">>Sure. I'll be here. Try not to get swallowed by the velvet in the meantime.<</speech>>
 
 [[Leave Marie and Return to the Parlor.|Scene02_ReturnToParlor]]
 <</append>>
+<<relation "marie" "affection" 1>>
+<</widget>>
+
+/* Marie Phase 2 Start */
+:: Marie_RoomComment [widget]
+<<widget "Marie_RoomComment">>
+<<append "#convoBox">>
+<<speech "jaylie">>I really like your room. Do they all look like this?<</speech>>
+
+Marie looks at you like you've just said something suspicious. She glances around her own space, then back at you with a raised brow.
+
+<<speech "marie">>You like *this* room? With the busted light sconce and the “aesthetic” wall stain I've covered with a bookshelf?<</speech>>
+
+You laugh softly.
+
+<<speech "jaylie">>Yeah. There's not a lot here—but what is here says a lot about you. Most people in your position wouldn't be able to read let alone fill their time with philosophy, art, and history. Also your bookshelf did its job. I had no clue about the stain.<</speech>>
+
+Marie lets out a small chuckle– a short, quick huff of air through her nose– and stares at you for a beat longer than necessary. You realize that you possibly just betrayed a piece of your 'cover' which had not been exposed before. You feel Marie's eyes look you up and down. They are not cold, just... uncertain. Then she leans back a little against the wall, her voice softening.
+
+<<speech "marie">>Well. That's either the smoothest deflection I've heard tonight... or the first honest thing.<</speech>>
+
+She doesn't press it. But she doesn't look away either.
+
+<</append>>
+<<relation "marie" "trust" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.marie_Conversation_Options_Phase2()>>
+<</widget>>
+
+:: Marie_WhatNow [widget]
+<<widget "Marie_WhatNow">>
+<<append "#convoBox">>
+<<speech "jaylie">>What do you want to do now?<</speech>>
+
+Marie turns her head slightly, eyes narrowing in mild amusement. Not mocking—just thoughtful.
+
+<<speech "marie">>I don't mean to sound indifferent, but you are the own who pays to be here.<</speech>>
+
+She stretches her legs out a bit, brushing her fingers along the edge of the quilt like she's grounding herself in the fabric.
+
+<<speech "marie">>That usually makes you the one who gets to decide.<</speech>>
+
+There's a pause. Just long enough to let the implication settle.
+
+<<speech "marie">>But if you're asking because you *actually* care what I want...<</speech>>
+
+She glances at you, eyes sharp but not unkind.
+
+<<speech "marie">>...then I'd say: talk a little, sit a little, maybe let the night happen slowly for once.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.marie_Conversation_Options_Phase2()>>
+<</widget>>
+
+:: Marie_TalkAboutIt_Success [widget]
+<<widget "Marie_TalkAboutIt_Success">>
+<<append "#convoBox">>
+<<speech "jaylie">>Do you want to talk about what happened outside?<</speech>>
+
+Marie exhales slowly through her nose and tilts her head back against the wall. Her eyes drift toward the ceiling like she’s counting breaths—or deciding if she wants to let them out.
+
+<<speech "marie">>Kallot and I… it’s complicated.<</speech>>
+
+She lets that hang for a moment before continuing, voice quiet but clear.
+
+<<speech "marie">>He’s not usually like that. He’s kind. Gentle. The kind of drunk who rambles about stars and apologizes for existing too much. But tonight he was…<</speech>>
+
+She trails off, shakes her head once.
+
+<<speech "marie">>He was angry. Dismissive. I’ve never seen him like that. I thought maybe he came to see me—but it was like I wasn’t even there.<</speech>>
+
+Her fingers curl into the edge of the quilt again.
+
+<<speech "marie">>I want to forgive him. I do. But I don’t understand why he was like that. Why he *chose* to be like that.<</speech>>
+
+She finally looks at you. Really looks at you.
+
+<<speech "marie">>You ever see someone you care about... shift into someone you don’t recognize? Just long enough to scare you?<</speech>>
+
+<</append>>
+<<relation "marie" "trust" 1>>
+<<relation "marie" "affection" 1>>
+<<run setup.clearConvoChoices()>>
+<<DialogueTree "marie" "TheFight">>
+<</widget>>
+  /* Marie Talk about TheFight Branch - Start */
+  :: Marie_Fight_HowLong [widget]
+  <<widget "Marie_Fight_HowLong">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>How long have you and Kallot been... whatever you are?<</speech>>
+
+  Marie lifts one eyebrow at the phrasing, but there’s no venom in it. Just tired humor.
+
+  <<speech "marie">>That’s one way to put it.<</speech>>
+
+  She draws her legs up slightly and rests her chin on her knees, eyes fixed on the opposite wall as she answers.
+
+  <<speech "marie">>We met about a year ago. He came to the brothel drunk one night, but not... messy. Just lonely. Sad in this quiet, polite kind of way that made me feel like I couldn’t be mean to him, even if I wanted to.<</speech>>
+
+  She gives a faint, private smile.
+
+  <<speech "marie">>He didn’t even ask for anything. Just talked to me. Listened too. Came back the next week with a book he thought I’d like. Some old thing about myths from the Inner Isles. It had footnotes. He highlighted the wrong parts, but still—<</speech>>
+
+  She stops herself, looking back to you.
+
+  <<speech "marie">>Anyway. It just kind of happened. We’d talk. Sometimes he’d hold my hand. Sometimes I’d let him fall asleep on my shoulder. I don’t know what to call that, but… it was something.<</speech>>
+
+  <</append>>
+  <<relation "marie" "trust" 1>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+
+  :: Marie_Fight_Intent [widget]
+  <<widget "Marie_Fight_Intent">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>Do you think he meant to hurt you?<</speech>>
+
+  Marie’s jaw tightens slightly. She doesn’t answer right away. When she finally does, it’s with a kind of careful quiet, like she’s placing each word on a scale.
+
+  <<speech "marie">>No.<</speech>>
+
+  A beat.
+
+  <<speech "marie">>I don’t think so. Not *like that.*<</speech>>
+
+  She folds her arms across her chest, not defensive—more like she’s holding herself in place.
+
+  <<speech "marie">>He’s never laid a hand on me. Not when I didn't want him to. He’s the type to apologize if his elbow brushed me by mistake. That’s... who I thought he was.<</speech>>
+
+  She exhales slowly, the breath catching on something unsaid.
+
+  <<speech "marie">>But words? Being cold? Acting like I was a stranger? I think maybe part of him *did* want to push me away. And maybe that part didn’t care how much it would sting.<</speech>>
+
+  She doesn't cry. She doesn’t need to.
+
+  <<speech "marie">>Sometimes people hurt you just enough that you’ll walk away... so they won’t have to.<</speech>>
+
+  <<speech "jaylie">>I hope this doesn't come across like I am trying to defend his actions. He hurt you and it's okay for you to feel like that, but maybe he did have something extra going on. Something that made him act out like that. I don't know him, obviously, but maybe there is more to the story that only Kallot knows.<</speech>>
+  <</append>>
+  <<relation "marie" "trust" 1>>
+  <<relation "marie" "affection" 2>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+
+
+  :: Marie_Fight_Pattern [widget]
+  <<widget "Marie_Fight_Pattern">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>Has he ever scared you before tonight?<</speech>>
+
+  Marie’s mouth pulls into a line—not frowning, just thoughtful. She glances toward the door, then back at you.
+
+  <<speech "marie">>No. Not once.<</speech>>
+
+  She shifts slightly on the bed, fingers fidgeting with the corner of the quilt.
+
+  <<speech "marie">>Even when he drinks, he’s... careful. Polite, even. If anything, he’s usually the one looking scared—like he’s afraid of taking up too much space.<</speech>>
+
+  She pauses, then adds with a lowered voice:
+
+  <<speech "marie">>I know he’s tied up in something. Work, maybe. Maybe worse. He’s never said it outright, but I’ve heard names. Watched the way he changes when certain people come around.<</speech>>
+
+  She meets your eyes now, steady and certain.
+
+  <<speech "marie">>But even then, he never raised his voice. Never made me flinch. That’s why tonight was...<</speech>>
+
+  She exhales through her nose.
+
+  <<speech "marie">>It felt like looking at a stranger wearing someone I cared about.<</speech>>
+
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+  
+  :: Marie_Fight_Forgiveness [widget]
+  <<widget "Marie_Fight_Forgiveness">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>Do you think you’ll talk to him again after this?<</speech>>
+
+  Marie doesn’t answer right away. She draws one leg beneath her, adjusting her posture like the question physically shifted her balance.
+
+  <<speech "marie">>I don’t know.<</speech>>
+
+  Her voice isn’t cold—it’s honest. Worn a little thin at the edges.
+
+  <<speech "marie">>I want to. Part of me does, anyway. The part that still believes this was... an outlier. A bad night. Something explainable.<</speech>>
+
+  She looks down at her hands, thumbs idly tracing one another.
+
+  <<speech "marie">>But if I open that door and he’s still wearing that same face—the one from tonight—I don’t think I could pretend it didn’t scare me.<</speech>>
+
+  She swallows. Not hard. Not dramatic. Just a quiet moment of choosing her next words carefully.
+
+  <<speech "marie">>I think forgiveness is easier when you understand *why* someone hurt you. When you can file it under something that makes sense. But right now... I’ve got nothing to file it under.<</speech>>
+
+  She glances back at you with a faint, almost bitter smile.
+
+  <<speech "marie">>Maybe that’s the hardest part. Not the pain. The silence that follows it.<</speech>>
+  <</append>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+
+  :: Jaylie_Helped_Kallot [widget]
+  <<widget "Jaylie_Helped_Kallot">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>I helped him, you know...<</speech>>
+
+  Marie tilts her head slightly, curious but guarded.
+
+  <<speech "marie">>You what?<</speech>>
+
+  <<speech "jaylie">>Out on the pavement I mean. You hit him really good and he was bleeding so I pulled him to the alley, out of the rain and put a bandage on his head. When I did he woke up for a second and smiled at me long enough to tell me my hair was pretty.<</speech>>
+
+  You nod slowly, thinking back to that rain-drenched street. The weight of his body. The blood. The way he smiled, even half-conscious.
+
+  <<speech "jaylie">>I didn’t know him. I didn’t know you. He just looked like he wouldn’t do so well if he was left out there.<</speech>>
+
+  Marie doesn’t speak for a few seconds. Her gaze drifts—not away from you, but somewhere distant. Somewhere inside.
+
+  <<speech "marie">>That sounds like him. I nearly killed him, and there he was smiling about it like an idiot.<</speech>>
+
+  She gives a quiet laugh. It’s not bitter.
+
+  <<speech "marie">>Thank you... For not leaving him, not walking past.<</speech>>
+
+  <</append>>
+  <<relation "marie" "affection" 4>>
+  <<relation "marie" "trust" 4>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+
+  :: Marie_Fight_Backstory [widget]
+  <<widget "Marie_Fight_Backstory">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>What were you like before all this? Before the Noctail?<</speech>>
+
+  Marie blinks, clearly caught off guard—not upset, just surprised by the question.
+
+  <<speech "marie">>That’s... not something people usually ask.<</speech>>
+
+  She looks down for a moment, pulling her knees in closer to her chest as if the question peeled away some layer of armor.
+
+  <<speech "marie">>I was quieter, believe it or not. Not in the sulking-in-a-corner way, just... always in my head. I used to read in stairwells, write notes in margins. I wanted to be a scribe, maybe. Work in a library. Somewhere with ink stains and silence and no customers to please.<</speech>>
+
+  A small smile tugs at her mouth—genuine, if faint.
+
+  <<speech "marie">>I was also naïve. Thought I could change the world with enough wit and well-placed sarcasm. Thought people would see value in me just because I was smart and sharp and didn’t take shit from anyone.<</speech>>
+
+  She looks at you then, more open than before. Not vulnerable—just honest.
+
+  <<speech "marie">>Turns out, none of that pays rent. But it still lives in here.<</speech>>
+
+  She taps two fingers gently against her temple.
+
+  <<speech "marie">>And some nights, like this one... I let her back out, just for a little while.<</speech>>
+  <</append>>
+  <<relation "marie" "trust" 2>>
+  <<run setup.clearConvoChoices()>>
+  <<run setup.marie_Conversation_Options_TheFight()>>
+  <</widget>>
+
+  :: Marie_Fight_Exit [widget]
+  <<widget "Marie_Fight_Exit">>
+  <<append "#convoBox">>
+  <<speech "jaylie">>We can talk about something else, if you’d like.<</speech>>
+
+  Marie exhales through her nose—not in annoyance, but relief. Not because the conversation was too much, but because you knew when to let go.
+
+  <<speech "marie">>Thanks. It’s not that I mind talking about it... just sometimes you don’t realize how heavy something is until you say it out loud.<</speech>>
+
+  She adjusts her posture slightly, her tone lighter now—like she’s shaking off a weight but not ignoring it.
+
+  <<speech "marie">>Besides, this was supposed to be your night, wasn’t it?<</speech>>
+
+  There’s a faint smile. Not a performance. Just a moment of softness.
+
+  <<speech "marie">>So... what do you want to talk about instead?<</speech>>
+  <</append>>
+  <<relation "marie" "trust" 1>>
+  <<run setup.clearConvoChoices()>>
+  <<DialogueTree "marie" "Phase2">>
+  <</widget>>
+/* End of TheFight Branch */
+
+:: Marie_TalkAboutIt_Fail [widget]
+<<widget "Marie_TalkAboutIt_Fail">>
+<<append "#convoBox">>
+<<speech "jaylie">>Do you want to talk about what happened outside?<</speech>>
+
+Marie’s expression hardens immediately—not dramatically, but enough to feel the shift. Her jaw tightens. Her eyes narrow just slightly.
+
+<<speech "marie">>Thank you for offering, but I think that I am just going to let it simmer a little longer. I don't mean any offense, but I hope you understand.<</speech>>
+
+She seems sincere, and you aren't about to push it any further.
+
+<<speech "jaylie">>No problem. If you change your mind let me know. Otherwise let's just try to enjoy the rest of the night.<</speech>>
+
+<<speech "marie">>Thank you, Jaylie.<</speech>>
+
+<</append>>
+<<relation "marie" "trust" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.marie_Conversation_Options_Phase2()>>
+<</widget>>
+
+:: Marie_AskToTouch [widget]
+<<widget "Marie_AskToTouch">>
+<<append "#convoBox">>
+<<speech "jaylie">>Can I touch you?<</speech>>
+
+Marie blinks, her breath catching just slightly. Not from fear—but from the weight of the question. You can see it in the way she looks at you now. Like she’s measuring something. Like no one’s asked her *that* before—not like this.
+
+<<speech "marie">>You’re... asking?<</speech>>
+
+She says it softly, more observation than surprise. Her voice drops to a hush, and she leans in—just enough that you feel the warmth between you shift.
+
+<<speech "jaylie">>Of course. I don't really know another way.<</speech>>
+
+<<speech "marie">>Thats the most innocent thing I think I have ever heard in this room.<</speech>>
+
+She extends one hand toward you, palm open, fingers still. Waiting.
+
+<<speech "marie">>Go on, then. Just... be gentle.<</speech>>
+
+You take her hand. She doesn’t pull away.
+
+She just holds it there, eyes never leaving yours, her thumb brushing once—light as breath—against your skin.
+
+With your other hand you reach up to her cheek and gently caress the softness of her face. As you do she leans into your hand slightly, like a cat excited to be touched. You lean towards her. She follows your lead.
+
+When your lips melt you have a hard time thinking the best way to describe the sensation. Not explosions, not passion. The closest thing that comes to mind is contentment. You hold the position for a moment that feels much longer than it likely was, your lips locked together.
+
+When you pull apart Marie does not look directly at you, but speaks downward, her breath shorter than you'd expect it to be.
+
+<<speech "marie">>Lay down on your back.<</speech>>
+
+You don't hesitate to comply.
+
+/* Placeholder <<StartBanging>> */
+
+<</append>>
+<<relation "marie" "trust" 2>>
+<<relation "marie" "affection" 1>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+:: Marie_LayAndTalk [widget]
+<<widget "Marie_LayAndTalk">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>If it’s alright... I think I’d just like to lay here with you.<</speech>>
+
+Marie doesn’t answer right away. She shifts slightly, thoughtful, and then—surprisingly—smiles.
+
+<<speech "marie">>Yeah. That actually sounds... really nice.<</speech>>
+
+She scoots back and folds the blanket down beside her. The gesture is plain, but there’s something careful in it. She’s not offering a show. She’s offering *space*.
+
+<<speech "marie">>Just don’t snore. I’ve already had enough surprises for one night.<</speech>>
+
+You both laugh, quiet and close.
+
+[[You settle in beside her and let the quiet take over.|Marie_JustLay_Route]]
+
+<</append>>
+<<run setup.clearConvoChoices()>>
 <</widget>>

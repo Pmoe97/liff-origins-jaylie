@@ -1,0 +1,14 @@
+:: Marie_UpstairsPhase1
+<<bg "Marie_UpstairsPhase1">><<EndDialogueLayout>>
+
+You follow Marie through the parlor without a word. She doesn't take your hand to lead you, but does not go too far in front of you either. She consistently glances over her shoulder to maintain her distance to you. 
+
+She parts the velvet curtain with one hand and steps into the entry hall. A rumble of thunder rolls through the foundation just as you reach the staircase. Marie pauses at the bottom, her gaze fixed on the door, though she does not comment.
+
+She ascends slowly, as if she is trying to make sure of her own balance with each step, her heels soft against the wood. You trail behind her up a narrow staircase, then down a hallway lined with numbered doors. Faint murmurs echo behind some of them. Laughter behind others.
+
+Marie stops at the third door on the left, near the end. It is decorated with simple red jewels, similar in color to the broach she wears. She hesitates—not dramatically, just enough for you to notice—then opens the door and motions gracefully with one hand for you to step inside first.
+
+<<speech "marie">>This one's me.<</speech>>
+
+[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]

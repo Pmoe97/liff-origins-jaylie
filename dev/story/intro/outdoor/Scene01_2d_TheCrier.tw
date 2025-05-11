@@ -1,15 +1,15 @@
 :: Scene01_2d_TheCrier {"position":"475,250"}
 <<bg "Scene01_2d_TheCrier">>
 The man's gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
-<<speech "eristan">> The <em>Kind one’s echo</em>. The <em>shackled flame</em>... The <em>storm that walks</em>. <</speech>>
+<<speech "eristan">> The <em>Kind one's echo</em>. The <em>shackled flame</em>... The <em>storm that walks</em>. <</speech>>
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
-<<speech "eristan">> <em>Hear me, girl!</em> You come from a place whence you shall <em>never truly return</em>. Your eyes shall be the ones of <em>darkness</em> which men <em>pray not meet</em>. Don’t you understand!? The <em>crimson goddess curses you already</em>. You will have no choice—<em>but now you do</em>!<</speech>>
+<<speech "eristan">> <em>Hear me, girl!</em> You come from a place whence you shall <em>never truly return</em>. Your eyes shall be the ones of <em>darkness</em> which men <em>pray not meet</em>. Don't you understand!? The <em>crimson goddess curses you already</em>. You will have no choice—<em>but now you do</em>!<</speech>>
 He reaches through the air toward you. The lurching motion snaps you from the trance you felt during his approach. As you step back, he collapses to the ground where you just stood.
 <<speech "eristan">> Only <em>you</em> can spare the city from the grip of <em>darkness</em>, but that darkness will <em>plant its seeds in you</em>. <</speech>>
 His head drops to the ground and he continues to mumble quietly at your feet. His words hang in the air like wet wool—heavy, clinging, impossible to shake off.
 At a loss for words you just begin to walk away, unable to pull your eyes from the man crumpled on the ground.
 <<speech "jaylie">> <em>What the fuck…madman.</em> <</speech>>
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
-Still… you feel the weight of his words pressing against your back, long after you’ve turned away.
+Still… you feel the weight of his words pressing against your back, long after you've turned away.
 
 After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]

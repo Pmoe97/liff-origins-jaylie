@@ -1,123 +1,209 @@
 :: Darian_HowLongHere [widget]
 <<widget "Darian_HowLongHere">>
 <<append "#convoBox">>
-  <<speech "jaylie">>So how long have you worked here?<</speech>>
-  <<speech "darian">>Long enough to forget what life was like before it. But... not in a bad way. This place is strange, sure—but it’s become a kind of family. Complicated. Messy. Loyal.<</speech>>
+<<speech "jaylie">>So how long have you worked here?<</speech>>
+
+Darian leans back a little, glancing around the room with something like fondness. Not for the building, necessarily—but for the people moving within it.
+
+<<speech "darian">>A few years, give or take. I wasn’t planning to stay this long, but... the place has a way of pulling you in.<</speech>>
+
+He shrugs, though there’s more weight behind it than he lets on.
+
+<<speech "darian">>It’s not the walls, it’s the people. We look after each other. You don’t find that everywhere. Especially not in this line of work.<</speech>>
+
+He looks at you, warm but steady.
+
+<<speech "darian">>You learn a lot about someone when you're the reason they let their guard down. It’s not always pretty. But sometimes... sometimes it’s beautiful.<</speech>>
+
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
+<<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Darian_DoYouLikeJob [widget]
 <<widget "Darian_DoYouLikeJob">>
 <<append "#convoBox">>
-  <<speech "jaylie">>Do you actually like working here?<</speech>>
-  <<speech "darian">>Would I still be here if I didn’t? Do *you* like your job?<</speech>>
-  <<speech "jaylie">>Ah, sorry... I didn’t mean it like that.<</speech>>
-  <<speech "darian">>It’s alright. I don’t mind honest questions. I’d just rather answer them in ways that make people think.<</speech>>
+<<speech "jaylie">>Do you actually enjoy this job?<</speech>>
+
+Darian’s eyebrows lift slightly, then settle into a thoughtful expression. He doesn’t laugh it off or dodge—it’s clear he’s been asked this before.
+
+<<speech "darian">>Some nights more than others.<</speech>>
+
+He smiles—genuine, not forced.
+
+<<speech "darian">>I won't pretend every moment is fulfilling. But I meet people. I learn from them. Sometimes I help them feel human again, even if just for a little while. That means something to me.<</speech>>
+
+His fingers absentmindedly trace the edge of a nearby glass, thoughtful.
+
+<<speech "darian">>The job isn’t really about what we do. It’s about what people leave with. And when I get that part right... yeah. I like it.<</speech>>
+
+
 <</append>>
+<<relation "darian" "affection" 1>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
+<<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Darian_Bracelet [widget]
 <<widget "Darian_Bracelet">>
 <<append "#convoBox">>
-  <<speech "jaylie">>That bracelet... it looks important. Where did you get it?<</speech>>
-  <<if $characters["darian"].trust >= 5>>
-    <<speech "darian">>My sister gave it to me. She’s not around anymore. I wear it to remember the way *she* saw me—before the world taught me I had to be anything else.<</speech>>
-    <<run setup.clearConvoChoices()>>
-    <<LayoutConvoChoices>>
-    <<run setup.Darian_Conversation_Options_SisterBranch()>>
-    <</LayoutConvoChoices>>
-  <<else>>
-    <<speech "darian">>Just an old gift. We don’t have to talk about it.<</speech>>
-    <<run setup.clearConvoChoices()>>
-    <<LayoutConvoChoices>>
-    <<run setup.Darian_Conversation_Options_Phase0()>>
-    <</LayoutConvoChoices>>
-  <</if>>
+<<speech "jaylie">>That bracelet you're wearing... where did it come from?<</speech>>
+
+Darian glances down at his wrist like he forgot it was even there. His fingers graze the band slowly, almost unconsciously.
+
+<<speech "darian">>It was a gift. From someone important.<</speech>>
+
+He doesn’t elaborate, not right away. His eyes lose focus for a moment—caught somewhere between memory and the present.
+
+<<speech "darian">>I’ve worn it every day since they gave it to me. It’s held up surprisingly well... not unlike the person who made it.<</speech>>
+
+There’s a small pause—long enough for you to sense he’s choosing what *not* to say.
+
+<<speech "darian">>Maybe I’ll tell you more about it sometime. If the night keeps going like this.<</speech>>
+
+He offers a smile—not flirtatious this time, just sincere.
+
 <</append>>
+<<relation "darian" "trust" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
 
 :: Darian_GetDrink [widget]
 <<widget "Darian_GetDrink">>
 <<append "#convoBox">>
-  <<speech "jaylie">>Do you think you could help me get a drink? I'm not really sure what I’d like.<</speech>>
-  <<speech "darian">>Hmm... Bert?<</speech>>
-  <<speech "bert">>Yes, sir?<</speech>>
-  <<speech "darian">>Something warm. Gentle. A little sweet, but not too much. Like a breeze through velvet, if you can swing it.<</speech>>
-  <<speech "bert">>Coming right up.<</speech>>
+<<speech "jaylie">>Do you think you could help me get a drink?<</speech>>
+
+Darian chuckles softly.
+
+<<speech "darian">>You asking because you want a drink, or because you want an excuse to talk to me longer?<</speech>>
+
+Before you can answer, he lifts a hand to catch Bert’s attention.
+
+<<speech "darian">>Bert, can we get something a little warm but not too strong? Something for thinking, not forgetting.<</speech>>
+
+Bert grunts from the far end of the bar, already reaching for bottles.
+
+<<speech "bert">>So... not the ‘Red Mercy,’ then. Got it.<</speech>>
+
+Darian leans in slightly, lowering his voice.
+
+<<speech "darian">>He pretends to be grumpy, but he’s one of the kindest souls in this place. That drink you’re about to get? He only makes it for people he actually likes.<</speech>>
+
+He straightens as Bert slides a glass across the counter. The liquid inside glows a soft amber, curling with steam.
+
+<<speech "darian">>Try that. It’s got a name, but I like calling it 'Second Wind.' Makes you feel like the night’s still got promise.<</speech>>
+
+You lift the glass and breathe in.
+
+The aroma is warm and spiced—notes of orange peel, clove, and something almost floral beneath the heat. When you take a sip, it’s smoother than you expected. The burn is soft, the flavor deep. It blooms across your tongue like dusk settling into firelight.
+
+It doesn’t dull your senses. It *clarifies* them.
+
+You lower the glass, exhaling slow.
+
+<<speech "jaylie">>That’s... actually perfect.<</speech>>
+
+Darian smiles. Not smug. Just pleased.
+
+<<speech "darian">>I thought you might say that.<</speech>>
+
 <</append>>
+<<relation "darian" "affection" 1>>
+<<relation "darian" "trust" 1>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
+<<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
+
+:: Darian_Humming [widget]
+<<widget "Darian_Humming">>
+<<append "#convoBox">>
+<<speech "jaylie">>You hum a lot. Were you a musician once?<</speech>>
+
+Darian pauses, the question catching him mid-thought. He laughs softly—but there's a heaviness under it, like the air changes just a little.
+
+<<speech "darian">>Yeah... I was. Before all this.<</speech>>
+
+He glances down at his hands, flexing his fingers like they still remember a different rhythm.
+
+<<speech "darian">>I was trained in opera. Classical stuff. Big stages, packed halls, fancy suits with too much starch in the collars.<</speech>>
+
+His eyes go distant for a moment.
+
+<<speech "darian">>I used to love it. Music made sense in ways life didn’t. I could climb an aria like a staircase and feel like I’d gone somewhere worth arriving.<</speech>>
+
+A quiet beat.
+
+<<speech "darian">>But that was before. Before a lot of things changed.<</speech>>
+
+He doesn’t say more—not here, not yet—but you can tell the story’s still close behind his smile.
+
+<<speech "darian">>Now I hum to keep pieces of it close. Not for performance. Just... for me.<</speech>>
+
+<</append>>
+<<relation "darian" "affection" 1>>
+<<relation "darian" "trust" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.darian_Conversation_Options_Phase0()>>
+<</widget>>
+
+
 
 :: Darian_StartMinigame [widget]
 <<widget "Darian_StartMinigame">>
 <<append "#convoBox">>
-  <<speech "jaylie">>I just want to get to know you better.<</speech>>
-  <<speech "darian">>Then you’d better be good at asking questions. And better still at listening.<</speech>>
+<<speech "jaylie">>I just want to get to know you better.<</speech>>
+
+Darian tilts his head, his expression unreadable for a moment—thoughtful, maybe a little surprised. Then he smiles, slow and sincere.
+
+<<speech "darian">>That’s not something I hear very often. At least not from people who mean it.<</speech>>
+
+He leans against the bar, arms folded lightly.
+
+<<speech "darian">>Alright, then. Let’s talk. But fair warning—I'm not always the easiest book to read.<</speech>>
+
 <</append>>
-<<run setup.ConvoGame.start("darian")>>
+<<OpenConvoGame "darian">>
+<<run setup.clearConvoChoices()>>
 <</widget>>
 
-:: Darian_Sister_WhatWasSheLike [widget]
-<<widget "Darian_Sister_WhatWasSheLike">>
+:: Darian_GoPrivate [widget]
+<<widget "Darian_GoPrivate">>
 <<append "#convoBox">>
-  <<speech "jaylie">>What was your sister like?<</speech>>
-  <<speech "darian">>Beautiful. Kind to a fault. She’s the reason I ever set foot on a stage—used to beg me to sing for her when we were little. I think she believed I could charm the stars out of the sky if I tried hard enough.<</speech>>
-  <<speech "darian">>But... I haven’t sung for anyone since she passed.<</speech>>
+<<speech "jaylie">>Do you think we could go somewhere more private?<</speech>>
+
+Darian doesn't answer immediately. His gaze lingers on you a moment longer than usual, soft but searching.
+
+<<speech "darian">>We could. If that’s really what you want.<</speech>>
+
+His voice isn’t challenging—it’s careful, like he wants to be sure you're not asking just to fill the space between you.
+
+<<speech "darian">>The hallway upstairs is quiet this time of night. My room’s at the far end. No one will bother us there.<</speech>>
+
+He steps forward, extending a hand—not dramatic, not performative. Just steady.
+
+<<speech "darian">>Come on. I’ll walk with you.<</speech>>
+
+[[You take his hand and follow him.|Darian_UpstairsIntro]]
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_SisterBranch()>>
-<</LayoutConvoChoices>>
 <</widget>>
 
-:: Darian_Sister_HowDidSheDie [widget]
-<<widget "Darian_Sister_HowDidSheDie">>
-<<append "#convoBox">>
-  <<speech "jaylie">>If you don’t mind me asking... how did she die?<</speech>>
-  <<if $characters["darian"].trust >= 7>>
-    <<speech "darian">>It was sickness. Nothing dramatic, just... relentless. I don't blame anyone, but I still wish I’d known how to help her. Maybe then I wouldn’t carry it so heavily.<</speech>>
-  <<else>>
-    <<speech "darian">>I... don’t think I want to talk about that. Not yet.<</speech>>
-  <</if>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_SisterBranch()>>
-<</LayoutConvoChoices>>
-<</widget>>
 
-:: Darian_Sister_BraceletMemory [widget]
-<<widget "Darian_Sister_BraceletMemory">>
+:: Darian_ReturnToParlor [widget]
+<<widget "Darian_ReturnToParlor">>
 <<append "#convoBox">>
-  <<speech "jaylie">>Can you tell me more about when she gave you that bracelet?<</speech>>
-  <<speech "darian">>It was the night before my first performance. I was nervous—so nervous I nearly backed out. She slipped it onto my wrist and told me I had something worth showing the world. Said that no matter what anyone thought, she was proud of me.<</speech>>
-  <<speech "darian">>It wasn’t just a gift. It was a promise—that I wasn’t alone.<</speech>>
-<</append>>
-<<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_SisterBranch()>>
-<</LayoutConvoChoices>>
-<</widget>>
+<<speech "jaylie">>I hope you don't mind, I think I am going to explore the parlor a bit more.<</speech>>
 
-:: Darian_Sister_ReturnToMain [widget]
-<<widget "Darian_Sister_ReturnToMain">>
-<<append "#convoBox">>
-  <<speech "jaylie">>We can talk about something else now.<</speech>>
-  <<speech "darian">>Of course. Whatever you need.<</speech>>
+Darian nods, easy and warm.
+
+<<speech "darian">>Of course. The night’s still young—plenty of stories left to find.<</speech>>
+
+He gives a small bow of the head and gestures subtly back toward the center of the lounge.
+
+<<speech "darian">>If you change your mind... you know where to find me.<</speech>>
+
+[[You walk back to the middle of the parlor.|Scene02_ReturnToParlor]]
 <</append>>
 <<run setup.clearConvoChoices()>>
-<<LayoutConvoChoices>>
-<<run setup.Darian_Conversation_Options_Phase0()>>
-<</LayoutConvoChoices>>
 <</widget>>

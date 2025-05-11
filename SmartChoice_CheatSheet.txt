@@ -12,7 +12,7 @@ Basic Syntax
 Each smartChoice is a JavaScript object with settings like:
   { label: "Talk to Marie", target: "Marie_Hello", trust: ["marie", 10] }
 
-This means: Only show this if Marie’s trust is 10 or more.
+This means: Only show this if Marie's trust is 10 or more.
 
 smartChoices(list)
 -------------------
@@ -70,7 +70,7 @@ Edit
     against: 10
   }
 }
-Meaning: Only shows this if Marie’s affection is less than 10.
+Meaning: Only shows this if Marie's affection is less than 10.
 
 🔹 Example 3: Rapport must equal exactly 1.5
 js
@@ -85,7 +85,7 @@ Edit
     against: 1.5
   }
 }
-Meaning: Only appears if Harroc’s rapport with the player is exactly 1.5.
+Meaning: Only appears if Harroc's rapport with the player is exactly 1.5.
 
 
 

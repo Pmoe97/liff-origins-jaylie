@@ -4,13 +4,13 @@
 
 You drift toward the velvet chaise, where the blue-skinned woman is laying, drawn more by the stillness around it than the woman herself—at first.
 
-Then her eyes find you. Golden, slitted like a cat’s, and too calm for the room they’re in.
+Then her eyes find you. Golden, slitted like a cat's, and too calm for the room they're in.
 
-She doesn’t rise. She doesn't need to.
+She doesn't rise. She doesn't need to.
 
 <<speech "allura">>You walk like someone hoping not to be noticed… and yet, here you are.<</speech>>
 
-Her voice is warm and low, with an accent that paints every vowel like a slow drag of silk. She doesn’t smile, exactly—but her lips curl at the edges, just enough to make you feel seen.
+Her voice is warm and low, with an accent that paints every vowel like a slow drag of silk. She doesn't smile, exactly—but her lips curl at the edges, just enough to make you feel seen.
 
 <<speech "jaylie">>Sorry, I just...<</speech>>
 
@@ -18,7 +18,7 @@ Her voice is warm and low, with an accent that paints every vowel like a slow dr
 
 She lifts a finger, not to silence you, but to taste the moment. Her tail curls idly along the back of the couch.
 
-<<speech "allura">>Let’s not ruin it with apologies. Come. Sit. Lie, if you prefer.<</speech>>
+<<speech "allura">>Let's not ruin it with apologies. Come. Sit. Lie, if you prefer.<</speech>>
 
 You hesitate only long enough to feel foolish, then ease onto the edge of the chaise. The cushion dips beneath you, a hush of perfume and velvet rising around your skin.
 
@@ -26,9 +26,9 @@ You hesitate only long enough to feel foolish, then ease onto the edge of the ch
 
 <<speech "jaylie">>Jaylie.<</speech>>
 
-<<speech "allura">>Jaylie.<em> Such a soft name. But there’s something beneath it, I think. Something sharp.</em><</speech>>
+<<speech "allura">>Jaylie.<em> Such a soft name. But there's something beneath it, I think. Something sharp.</em><</speech>>
 
-She tilts her head and watches you like she’s measuring shadows in candlelight.
+She tilts her head and watches you like she's measuring shadows in candlelight.
 <<know "allura">>
 <<speech "allura">>You may call me Allura. For now.<</speech>>
 

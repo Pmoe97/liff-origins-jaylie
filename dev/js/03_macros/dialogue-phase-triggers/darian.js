@@ -5,13 +5,44 @@
 
 /* Adds options for Phase 0: initial conversation */
 setup.darian_Conversation_Options_Phase0 = function () {
-	setup.addChoices([
-		["So how long have you worked here?", "Darian_HowLongHere", 0],
-		["Do you actually like working here?", "Darian_DoYouLikeJob", 0],
-		["That bracelet... where did you get it?", "Darian_Bracelet", 0],
-		["Do you think you could help me get a drink?", "Darian_GetDrink", 0],
-		["I just want to get to know you better.", "Darian_StartMinigame", 1], // ✅ Reusable (minigame)
-		["Nevermind.", "ReturnToParlor", 1] // ✅ Always reusable exit
+	setup.smartChoices([
+		{
+			label: "How long have you worked here?",
+			target: "Darian_HowLongHere"
+		},
+		{
+			label: "Do you actually enjoy this job?",
+			target: "Darian_DoYouLikeJob"
+		},
+		{
+			label: "That bracelet you're wearing... where did it come from?",
+			target: "Darian_Bracelet"
+		},
+		{
+			label: "Any chance I could convince you to pour me a drink?",
+			target: "Darian_GetDrink"
+		},
+		{
+			label: "You hum a lot. Were you a musician once?",
+			target: "Darian_Humming"
+		},		
+		{
+			label: "I’d like to get to know you better.",
+			target: "Darian_StartMinigame",
+			reuse: 1
+		},
+		{
+			label: "Do you think we could go somewhere more private?",
+			target: "Darian_GoPrivate",
+			trust: ["darian", 8],
+			aff: ["darian", 8],
+			logic: "or"
+		},
+		{
+			label: "Nevermind.",
+			target: "Darian_ReturnToParlor",
+			reuse: 1
+		}
 	]);
 };
 
@@ -32,11 +63,11 @@ setup.darian_Conversation_Options_Phase1 = function () {
 	setup.addChoices([
 		["Do you ever miss singing?", "Darian_MissSinging", 0],
 		["Do you actually like people... or is it just the job?", "Darian_LikesPeople", 0],
-		["You’re kind of terrible at flirting when you’re nervous.", "Darian_BadFlirt", 0],
+		["You're kind of terrible at flirting when you're nervous.", "Darian_BadFlirt", 0],
 		...setup.if(State.variables.characters.darian.affection >= 6, [
 			["Would you go upstairs with me?", "Darian_GoUpstairs", 0]
 		]),
-		["Let’s go back to lighter conversation.", "PHASE_0", 1] // ✅ Phase switcher
+		["Let's go back to lighter conversation.", "PHASE_0", 1] // ✅ Phase switcher
 	]);
 };
 

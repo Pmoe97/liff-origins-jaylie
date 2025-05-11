@@ -9,17 +9,17 @@
 
 She says it like it costs her nothing. No hesitation. No apology. Her tail flicks lazily behind her again, curling in a figure eight.
 
-<<speech "allura">>Like I said before, you walked in like you didn’t want anyone to notice, which only made it harder not to. And then... you looked at me like you were hoping I’d notice anyway. I do not know how you expected me not to stare. It was the most entertaining thing I have seen all night.<</speech>>
+<<speech "allura">>Like I said before, you walked in like you didn't want anyone to notice, which only made it harder not to. And then... you looked at me like you were hoping I'd notice anyway. I do not know how you expected me not to stare. It was the most entertaining thing I have seen all night.<</speech>>
 
-You open your mouth, caught somewhere between denial and deflection, but she doesn’t give you room to find either.
+You open your mouth, caught somewhere between denial and deflection, but she doesn't give you room to find either.
 
-<<speech "allura">><em>It’s sweet, you know. The way your eyes try not to linger. The way you sit just far enough away to lie about your curiosity. Please go on and look all you want. I would not have dressed like this if I did not welcome it. I like how your gaze feels on my skin.</em><</speech>>
+<<speech "allura">><em>It's sweet, you know. The way your eyes try not to linger. The way you sit just far enough away to lie about your curiosity. Please go on and look all you want. I would not have dressed like this if I did not welcome it. I like how your gaze feels on my skin.</em><</speech>>
 
 She leans in just enough to make your pulse catch, but not so much that you could call her out for it. Her eyes are impossibly gold this close—like molten metal poured into a feline frame.
 
-<<speech "jaylie">>You’re very confident. I mean that in a good way of course.<</speech>>
+<<speech "jaylie">>You're very confident. I mean that in a good way of course.<</speech>>
 
-<<speech "allura">>Mm. That’s part of the fun. Most people want to be seen. They just don’t know how to ask for it.<</speech>>
+<<speech "allura">>Mm. That's part of the fun. Most people want to be seen. They just don't know how to ask for it.<</speech>>
 
 She lifts her glass—something crimson and jeweled with condensation—and takes a sip without ever breaking eye contact. Then she tilts her head, just slightly.
 
@@ -35,27 +35,27 @@ She lifts her glass—something crimson and jeweled with condensation—and take
 <<widget "Allura_OutOfPlace">>
 <<append "#convoBox">>
 
-<<speech "jaylie">>Don’t take this the wrong way, but... you feel kind of out of place here.<</speech>>
+<<speech "jaylie">>Don't take this the wrong way, but... you feel kind of out of place here.<</speech>>
 
 Allura freezes — dramatically, like a courtesan in a stage play. Her head tilts, her lips part slightly, and she places a hand to her chest with faux offense.
 
 <<speech "allura">>Out of place? You wound me, <em>petite</em>.<</speech>>
 
-She gives an exaggerated sigh, then lets her hand slide down to rest at her hip. Her smile returns, but it’s sharper now — teasing, dangerous.
+She gives an exaggerated sigh, then lets her hand slide down to rest at her hip. Her smile returns, but it's sharper now — teasing, dangerous.
 
-<<speech "allura">>Here I thought I was the very portrait of hospitality. My tail’s behaving, my cleavage is curated, my drink is full — and yet somehow, I am a misfit in my own chaise lounge.<</speech>>
+<<speech "allura">>Here I thought I was the very portrait of hospitality. My tail's behaving, my cleavage is curated, my drink is full — and yet somehow, I am a misfit in my own chaise lounge.<</speech>>
 
-<<speech "jaylie">>No, I didn’t mean— I just meant that… I don’t get it. You’re stunning. Charismatic. You look like someone who should be draped in silks, surrounded by admirers. I guess I was surprised to find you alone.<</speech>>
+<<speech "jaylie">>No, I didn't mean— I just meant that… I don't get it. You're stunning. Charismatic. You look like someone who should be draped in silks, surrounded by admirers. I guess I was surprised to find you alone.<</speech>>
 
-Allura’s eyes narrow slightly, the mockery fading just a hair — enough to let something thoughtful flicker underneath.
+Allura's eyes narrow slightly, the mockery fading just a hair — enough to let something thoughtful flicker underneath.
 
-<<speech "allura">>Ah. So what you’re saying is... I look like I should come with an entourage. A pedestal. A personal fan brigade?<</speech>>
+<<speech "allura">>Ah. So what you're saying is... I look like I should come with an entourage. A pedestal. A personal fan brigade?<</speech>>
 
 <<speech "jaylie">>I mean... yes? But in a nice way.<</speech>>
 
 Allura chuckles — a low, velvety sound. She sips her drink again and lets a moment pass before responding.
 
-<<speech "allura">>You’re not wrong, mon trésor. I’ve had those nights. But not all attention is desirable. And not every pedestal is worth standing on. Sometimes it’s more fun to pick someone <em>specific</em> to make the effort.<</speech>>
+<<speech "allura">>You're not wrong, mon trésor. I've had those nights. But not all attention is desirable. And not every pedestal is worth standing on. Sometimes it's more fun to pick someone <em>specific</em> to make the effort.<</speech>>
 
 Her tail flicks again, brushing your calf this time — slower, more deliberate.
 
@@ -78,23 +78,23 @@ You cannot even begin to argue with the logic. You look down and your hands in y
 
 Allura arches a brow — the expression almost amused, but there's a flicker of something sharper beneath it. Caution, maybe. Or curiosity.
 
-<<speech "allura">>You just did, mon cœur. But go on. I’m listening.<</speech>>
+<<speech "allura">>You just did, mon cœur. But go on. I'm listening.<</speech>>
 
 <<speech "jaylie">>Do you actually enjoy this? I mean... not the show. Not the act. But the being here. Talking like this. Connecting with someone.<</speech>>
 
-The question lingers between you, heavier than the rest. For the first time, Allura doesn’t immediately answer. She swirls her drink slowly, eyes focused on the glass like the answer might settle at the bottom.
+The question lingers between you, heavier than the rest. For the first time, Allura doesn't immediately answer. She swirls her drink slowly, eyes focused on the glass like the answer might settle at the bottom.
 
 <<speech "allura">>You know what most people ask me?<</speech>>
 
-She doesn’t wait for you to guess.
+She doesn't wait for you to guess.
 
-<<speech "allura">>They ask me what I charge. What I like. What I’ll do and what I won’t. You’re the first person tonight who’s asked if I <em>want</em> to be here.<</speech>>
+<<speech "allura">>They ask me what I charge. What I like. What I'll do and what I won't. You're the first person tonight who's asked if I <em>want</em> to be here.<</speech>>
 
 She exhales slowly through her nose and leans back against the cushions, her posture more relaxed than before — not staged, not seductive. Just tired. Honest.
 
-<<speech "allura">>The truth is… some nights, yes. I like the games. The theater of it all. There’s power in being seen — in choosing how to be seen. But then there are nights where I feel like a painting left in the rain. Pretty from a distance, but bleeding underneath.<</speech>>
+<<speech "allura">>The truth is… some nights, yes. I like the games. The theater of it all. There's power in being seen — in choosing how to be seen. But then there are nights where I feel like a painting left in the rain. Pretty from a distance, but bleeding underneath.<</speech>>
 
-Her voice never cracks. It doesn’t need to. You hear the weight behind every syllable.
+Her voice never cracks. It doesn't need to. You hear the weight behind every syllable.
 
 <<speech "allura">>But talking like this? With you? That part I enjoy.<</speech>>
 
@@ -118,25 +118,25 @@ Allura blinks.
 
 Just once.
 
-You catch the faintest hitch in her breath — like a stage performer who’s forgotten her next line.
+You catch the faintest hitch in her breath — like a stage performer who's forgotten her next line.
 
-<<speech "allura">>Now that...<em>that’s</em> a dangerous question.<</speech>>
+<<speech "allura">>Now that...<em>that's</em> a dangerous question.<</speech>>
 
-She says it quietly, almost to herself. No teasing, no act — not yet. She leans forward just a touch, like gravity’s decided she should be closer to you now.
+She says it quietly, almost to herself. No teasing, no act — not yet. She leans forward just a touch, like gravity's decided she should be closer to you now.
 
-<<speech "allura">>You’d be surprised how few people ask that with any intention behind it. Most of them want a specific answer. One they can anticipate. One that makes them feel clever for guessing right.<</speech>>
+<<speech "allura">>You'd be surprised how few people ask that with any intention behind it. Most of them want a specific answer. One they can anticipate. One that makes them feel clever for guessing right.<</speech>>
 
-Her tail doesn’t flick this time. It curls gently around one ankle, like a ribbon tied in thought.
+Her tail doesn't flick this time. It curls gently around one ankle, like a ribbon tied in thought.
 
 <<speech "allura">>But you…<</speech>>
 
-She lifts her eyes to meet yours, and for a moment, the room feels quieter. As if everything’s paused to hear her answer too.
+She lifts her eyes to meet yours, and for a moment, the room feels quieter. As if everything's paused to hear her answer too.
 
-<<speech "allura">>If you mean it — if this isn’t just another performance…?<</speech>>
+<<speech "allura">>If you mean it — if this isn't just another performance…?<</speech>>
 
 She smiles softly. Not like before. No hunger in it. Just something warm and fragile.
 
-<<speech "allura">>Then maybe you’ve already done it. You asked the question.<</speech>>
+<<speech "allura">>Then maybe you've already done it. You asked the question.<</speech>>
 
 You feel a strange mix of pride and disappointment, as if you were upset that she didn't ask you to go fight the lightning outside—which but in this moment—something is making you feel like you could have done it.
 
@@ -157,21 +157,21 @@ Allura raises an eyebrow, her smile curling at the edges like parchment near fla
 
 <<speech "allura">>Mmm. Dangerous thing to offer a woman like me that much power, <em>chérie</em>.<</speech>>
 
-She turns slightly, catching Bert’s eye across the room with a subtle flick of her fingers and a tilt of her chin.
+She turns slightly, catching Bert's eye across the room with a subtle flick of her fingers and a tilt of her chin.
 
 <<speech "allura">>Bert, love — something slow and seductive, but with a little teeth. Like me.<</speech>>
 
-<<speech "bert">>Comin’ right up, madame.<</speech>>
+<<speech "bert">>Comin' right up, madame.<</speech>>
 
 Moments later, a pale violet drink arrives in a crystal glass shaped like a blooming flower. The scent hits first—berries, wine, and something herbal beneath it.
 
-<<speech "allura">>We call this one <em>Velvet Mercy</em>. Tastes like a favor you didn’t earn. Be careful with it.<</speech>>
+<<speech "allura">>We call this one <em>Velvet Mercy</em>. Tastes like a favor you didn't earn. Be careful with it.<</speech>>
 
 You lift the glass and sip. It's sweet, rich, and ends with a bitter curl that coils at the back of your throat like smoke.
 
-<<speech "jaylie">>That’s... complex.<</speech>>
+<<speech "jaylie">>That's... complex.<</speech>>
 
-<<speech "allura">>Aren’t we all?<</speech>>
+<<speech "allura">>Aren't we all?<</speech>>
 
 <</append>>
 <<relation "allura" "trust" 1>>
@@ -190,7 +190,7 @@ Allura's eyes shine and glow. She feigns emotional damage again, this time less 
 
 You blush but don't get a chance to respond before she begins to stand. Her tail brushes down your leg like it has a mind of its own before she gathers to her feet.
 
-<<speech "allura">><em>Viens.</em> Come then. Let’s see if the air upstairs is any quieter.<</speech>>
+<<speech "allura">><em>Viens.</em> Come then. Let's see if the air upstairs is any quieter.<</speech>>
 
 [[You take her hand and stand.|Allura_GoingUpstairs]]
 
@@ -208,11 +208,11 @@ You blush but don't get a chance to respond before she begins to stand. Her tail
 
 Allura stretches languidly on the chaise, her body language equal parts feline and flame.
 
-<<speech "allura">>Of course, <em>petite</em>. I’ll still be here — spinning webs and sipping slow poison.<</speech>>
+<<speech "allura">>Of course, <em>petite</em>. I'll still be here — spinning webs and sipping slow poison.<</speech>>
 
 She raises her glass slightly toward you.
 
-<<speech "allura">>Don’t stay gone too long, hmm? I find myself... growing fond.<</speech>>
+<<speech "allura">>Don't stay gone too long, hmm? I find myself... growing fond.<</speech>>
 
 <</append>>
 [[You rise and return to middle of the parlor.|Scene02_ReturnToParlor]]
@@ -266,7 +266,7 @@ She winks—playful again, but not dismissive. Just present. Just... Allura.
 
 <<speech "jaylie">>So... what do we do now?<</speech>>
 
-Allura doesn’t answer right away.
+Allura doesn't answer right away.
 
 She moves to the edge of the bed and folds her legs beneath her, the sheer fabric of her skirt pooling around her like dusk caught in a net. Her eyes follow the gentle flicker of one of the lanterns for a beat before returning to you.
 
@@ -278,19 +278,19 @@ She pats the bed beside her—not insistently, just an invitation.
 
 You sit beside her, close enough to feel the warmth of her thigh near yours.
 
-<<speech "jaylie">>I don’t know yet. Maybe both.<</speech>>
+<<speech "jaylie">>I don't know yet. Maybe both.<</speech>>
 
 Allura hums—a thoughtful, amused sound. She turns her body toward you, one hand gently resting between you both, fingers splayed on the silk.
 
-<<speech "allura">>Then let’s just... <em>be</em> here for a moment.<</speech>>
+<<speech "allura">>Then let's just... <em>be</em> here for a moment.<</speech>>
 
 She leans back slightly on her hands, her eyes still on yours.
 
-<<speech "allura">>We don’t have to name it. Not yet.<</speech>>
+<<speech "allura">>We don't have to name it. Not yet.<</speech>>
 
 Outside, the thunder murmurs like a distant conversation. Inside, the hush is almost sacred.
 
-<<speech "allura">>But I’m glad you asked.<</speech>>
+<<speech "allura">>But I'm glad you asked.<</speech>>
 <</append>>
 <<relation "allura" "affection" 1>>
 <<run setup.clearConvoChoices()>>
@@ -303,11 +303,11 @@ Outside, the thunder murmurs like a distant conversation. Inside, the hush is al
 
 <<speech "jaylie">>Do you mind if I… get comfortable with you?<</speech>>
 
-Allura's lips part, slow and deliberate. She doesn’t blink. She doesn’t breathe. Then—softly—she laughs.
+Allura's lips part, slow and deliberate. She doesn't blink. She doesn't breathe. Then—softly—she laughs.
 
-<<speech "allura">><em>Enfin, putain</em>. Mon trésor, I thought you’d never ask.<</speech>>
+<<speech "allura">><em>Enfin, putain</em>. Mon trésor, I thought you'd never ask.<</speech>>
 
-She rises from the bed in a single, fluid motion, the sheer fabric of her robe catching the lantern light as it flows around her. Her steps toward you are slow, but not hesitant. Intentional. Like she’s savoring the moment as much as the act.
+She rises from the bed in a single, fluid motion, the sheer fabric of her robe catching the lantern light as it flows around her. Her steps toward you are slow, but not hesitant. Intentional. Like she's savoring the moment as much as the act.
 
 She stops in front of you and holds out her hands—palms up, waiting.
 
@@ -321,11 +321,11 @@ Next, she rises, her fingers teasing at the waistband of your trousers. She unbu
 
 You feel the cool air of the room against your skin, and her warmth just in front of you. She looks you over, not with hunger—but appreciation. Admiration.
 
-<<speech "allura">>There. That’s better.<</speech>>
+<<speech "allura">>There. That's better.<</speech>>
 
 She guides you to the bed with a hand at your back and a whisper of a smile. The cushions embrace you as you sit. Then, without breaking eye contact, she climbs onto the bed beside you and drapes one leg over the other, close but not quite touching.
 
-<<speech "allura">>Comfort is a sacred thing, Jaylie. It’s not always earned. But you? You wear it beautifully.<</speech>>
+<<speech "allura">>Comfort is a sacred thing, Jaylie. It's not always earned. But you? You wear it beautifully.<</speech>>
 
 <</append>>
 <<relation "allura" "affection" 1>>
@@ -380,13 +380,13 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     Allura shifts on the bed, stretching one leg out beneath the silk and draping her arm across a cushion.
 
-    <<speech "allura">>Far from here. Farther than you’d guess, I think.<</speech>>
+    <<speech "allura">>Far from here. Farther than you'd guess, I think.<</speech>>
 
-    Her tone is gentle, not evasive—like she’s choosing each word with care rather than caution.
+    Her tone is gentle, not evasive—like she's choosing each word with care rather than caution.
 
-    <<speech "allura">>A small village in the eastern cliffs of Taramel. You wouldn’t find it on most maps. A place of rock and wind and stubborn people who didn’t take kindly to anything they couldn’t explain. Especially not a girl with gold eyes, blue skin, and a tail.<</speech>>
+    <<speech "allura">>A small village in the eastern cliffs of Taramel. You wouldn't find it on most maps. A place of rock and wind and stubborn people who didn't take kindly to anything they couldn't explain. Especially not a girl with gold eyes, blue skin, and a tail.<</speech>>
 
-    She doesn’t sound bitter, but there’s a weight behind the words—something old and settled.
+    She doesn't sound bitter, but there's a weight behind the words—something old and settled.
 
     <<speech "allura">>My mother was from that village, but one day when I was around 8 years old I went out to watch the other kids play Fae-Ball. When I went back to our hut my mother was gone along with just about everything we owned, which wasn't much to begin with.<</speech>>
 
@@ -413,21 +413,21 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     Allura leans back on one elbow, her gaze drifting to the lanterns above, watching them swing faintly with the wind outside.
 
-    <<speech "allura">>My mother, a little. My father... well, I know more about him than I’d like to.<</speech>>
+    <<speech "allura">>My mother, a little. My father... well, I know more about him than I'd like to.<</speech>>
 
-    She runs a finger along the edge of a cushion, as if tracing the outline of a thought she hasn’t quite dared to speak aloud.
+    She runs a finger along the edge of a cushion, as if tracing the outline of a thought she hasn't quite dared to speak aloud.
 
-    <<speech "allura">>My mother was human. Village-born. Hard-edged. She worked with herbs—mostly tinctures and poultices, but also... other things. People came to her with needs they couldn’t name. Secrets steeped in boiling water.<</speech>>
+    <<speech "allura">>My mother was human. Village-born. Hard-edged. She worked with herbs—mostly tinctures and poultices, but also... other things. People came to her with needs they couldn't name. Secrets steeped in boiling water.<</speech>>
 
-    A faint chuckle escapes her lips, but there’s no joy in it.
+    A faint chuckle escapes her lips, but there's no joy in it.
 
-    <<speech "allura">>She never spoke of my father. Not once. I asked often. I didn’t understand what I was—so how could I know what he was?<</speech>>
+    <<speech "allura">>She never spoke of my father. Not once. I asked often. I didn't understand what I was—so how could I know what he was?<</speech>>
 
     She looks at you, her expression unreadable.
 
     <<speech "jaylie">>And what was he? Did she ever tell you?<</speech>>
 
-    <<speech "allura">>She told me, "<em>C’était une malédiction… qui m’a laissée un cadeau.</em>"<</speech>>
+    <<speech "allura">>She told me, "<em>C'était une malédiction… qui m'a laissée un cadeau.</em>"<</speech>>
 
     She pauses, letting the words echo. You almost ask for clarification when she speaks again.
 
@@ -435,13 +435,13 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     You see the shimmer of a tear, but she wipes it away before it can earn an identity.
 
-    <<speech "allura">>It wasn’t until years later, in Altherin, that I met a Seer who told me more about my patronage. She did a ritual with a drop of my blood... and found a name buried deep inside it.<</speech>>
+    <<speech "allura">>It wasn't until years later, in Altherin, that I met a Seer who told me more about my patronage. She did a ritual with a drop of my blood... and found a name buried deep inside it.<</speech>>
 
     <<speech "allura">><em>Traloin.</em><</speech>>
 
     <<speech "jaylie">>Is that a name I should know?<</speech>>
 
-    <<speech "allura">>If you studied the Jade Coast wars, you might. He wasn’t just a demon. He was responsible for razing half of Medmarr and almost destroying Hale about two centuries ago.<<speech>>
+    <<speech "allura">>If you studied the Jade Coast wars, you might. He wasn't just a demon. He was responsible for razing half of Medmarr and almost destroying Hale about two centuries ago.<<speech>>
 
     <</append>>
     <<relation "allura" "trust" 1>>
@@ -484,7 +484,7 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
     <<widget "StrangeClient">>
     <<append "#convoBox">>
 
-    <<speech "jaylie">>What’s the worst or strangest client you’ve ever had?<</speech>>
+    <<speech "jaylie">>What's the worst or strangest client you've ever had?<</speech>>
 
     Allura exhales a long breath through her nose, a single brow rising.
 
@@ -492,9 +492,9 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     She swirls the drink in her hand once, slowly. The glass catches the lamplight like a gemstone.
 
-    <<speech "allura">>But since you've waited until now, I’ll reward your patience.<</speech>>
+    <<speech "allura">>But since you've waited until now, I'll reward your patience.<</speech>>
 
-    She smiles, but it doesn’t quite reach her eyes.
+    She smiles, but it doesn't quite reach her eyes.
 
     <<speech "allura">>There was a man—years ago now. Noble type. Clean boots in a muddy city. Came in once a week, every week, like clockwork. Always asked for silence. Would lie down, fully clothed, on the bed. And just… cry.<</speech>>
 
@@ -502,11 +502,11 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     <<speech "jaylie">>Cry?<</speech>>
 
-    <<speech "allura">>Loudly. Unapologetically. Never said a word otherwise. No touching, no questions. Just weeping for the full hour. Then he’d leave double payment and vanish into the street like fog.<</speech>>
+    <<speech "allura">>Loudly. Unapologetically. Never said a word otherwise. No touching, no questions. Just weeping for the full hour. Then he'd leave double payment and vanish into the street like fog.<</speech>>
 
     She tilts her head back slightly, eyes drifting upward.
 
-    <<speech "allura">>I don't know what broke him, or why I was the one he chose to break in front of. But there’s something sacred about being someone’s safe place—even if they can’t say your name.<</speech>>
+    <<speech "allura">>I don't know what broke him, or why I was the one he chose to break in front of. But there's something sacred about being someone's safe place—even if they can't say your name.<</speech>>
 
     A hush falls between you, deeper than the storm outside. You don't feel the need to fill it.
 
@@ -524,11 +524,11 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
     <<widget "BackstoryExit">>
     <<append "#convoBox">>
 
-    <<speech "jaylie">>Thanks for sharing all that with me. I’d like to talk about something else now, if that’s alright.<</speech>>
+    <<speech "jaylie">>Thanks for sharing all that with me. I'd like to talk about something else now, if that's alright.<</speech>>
 
     Allura gives a soft nod and a smile touched with warmth.
 
-    <<speech "allura">>Of course, mon trésor. Curiosity comes in waves. I’ll be here when the next one rises.<</speech>>
+    <<speech "allura">>Of course, mon trésor. Curiosity comes in waves. I'll be here when the next one rises.<</speech>>
 
     <</append>>
     <<relation "allura" "affection" 1>>
@@ -543,13 +543,13 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
 <<speech "jaylie">>Can I kiss you?<</speech>>
 
-Allura blinks—slow and deliberate. Her smile curves like a question, but she doesn’t answer immediately. Instead, she shifts on the bed, drawing her knees up slightly as her fingers press into the silk.
+Allura blinks—slow and deliberate. Her smile curves like a question, but she doesn't answer immediately. Instead, she shifts on the bed, drawing her knees up slightly as her fingers press into the silk.
 
-<<speech "allura">>You’ve asked for a lot tonight, <em>mon trésor</em>.<</speech>>
+<<speech "allura">>You've asked for a lot tonight, <em>mon trésor</em>.<</speech>>
 
 She leans toward you—but only just enough to make you ache for the rest of the distance.
 
-<<speech "allura">>But a kiss? A real one? That isn’t something I give. It’s something you take.<</speech>>
+<<speech "allura">>But a kiss? A real one? That isn't something I give. It's something you take.<</speech>>
 
 You feel the room tilt—not physically, but like the air has changed. Her eyes hold yours, daring you to break the space between you. Your eyes lock on her lips, their luscious hue of blue drawing desire out of you all their own. 
 
@@ -559,9 +559,9 @@ She speaks slowly.
 
 <p>You do.</p>
 
-You reach for her slowly, one hand brushing her cheek, the other resting on the edge of the bed for balance. And when your lips finally meet—gods, it’s everything. Soft. Warm. Hungrier than you meant it to be, and slower than you expected. She tastes faintly of wine and pomegranate, and the kiss deepens before you even realize it has.
+You reach for her slowly, one hand brushing her cheek, the other resting on the edge of the bed for balance. And when your lips finally meet—gods, it's everything. Soft. Warm. Hungrier than you meant it to be, and slower than you expected. She tastes faintly of wine and pomegranate, and the kiss deepens before you even realize it has.
 
-One of her hands finds your waist. The other curls behind your neck, anchoring you in the moment like she doesn’t want it to end.
+One of her hands finds your waist. The other curls behind your neck, anchoring you in the moment like she doesn't want it to end.
 
 When you part, neither of you speak at first. Her forehead rests against yours, and her breath is a shared thing between you now.
 
@@ -577,11 +577,11 @@ When you part, neither of you speak at first. Her forehead rests against yours, 
 <<widget "JustLay">>
 <<append "#convoBox">>
 
-<<speech "jaylie">>If it's alright... I think I’d just like to lay here with you.<</speech>>
+<<speech "jaylie">>If it's alright... I think I'd just like to lay here with you.<</speech>>
 
 Allura tilts her head, surprised—but not displeased. Her smile softens like warm silk folding.
 
-<<speech "allura">>No rush, no performance... I like that. Come, then. Let’s waste time beautifully.<</speech>>
+<<speech "allura">>No rush, no performance... I like that. Come, then. Let's waste time beautifully.<</speech>>
 
 She pulls back a layer of cushions and makes space beside her with a lazy, fluid grace. You slide closer.
 

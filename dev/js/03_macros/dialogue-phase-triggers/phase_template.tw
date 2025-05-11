@@ -14,7 +14,7 @@ setup.addChoices = function (list) {
     if (State.variables.DEBUG) {
       console.log(`[DEBUG] Adding choice: "${label}" → ${target}`);
     }
-    Wikifier.wikifyEval(`<<dialoguechoice \"${label}\" \"${target}\">>`);
+    Wikifier.wikifyEval(`<<dialogueChoice \"${label}\" \"${target}\">>`);
   });
 };
 
@@ -46,7 +46,7 @@ setup.NPC_Conversation_Options_Phase1 = function () {
       ["Why are they dangerous?", "NPC_WhyBad", 0],
       ["Do we know how to stop them?", "NPC_HowToStop", 0]
     ]),
-    ["Let’s talk about something else.", "GENERIC" 1]
+    ["Let's talk about something else.", "GENERIC" 1]
   ]);
 };
 
@@ -58,7 +58,7 @@ setup.NPC_Conversation_Options_Phase2 = function () {
   setup.addChoices([
     ["You seem different tonight.", "NPC_DifferentTonight", 0],
     ["Open up about yourself.", "NPC_PlayerShares", 0],
-    ["Let’s go somewhere private.", "NPC_NSFWTier1", 1]
+    ["Let's go somewhere private.", "NPC_NSFWTier1", 1]
   ]);
 };
 
@@ -68,7 +68,7 @@ setup.NPC_Conversation_Options_Phase2 = function () {
  */
 setup.NPC_Conversation_Options_Generic = function () {
   setup.addChoices([
-    ["How’s the night going?", "NPC_GenericSmallTalk", 0],
+    ["How's the night going?", "NPC_GenericSmallTalk", 0],
     ["Goodbye for now.", "ReturnToParlor", 0]
   ]);
 };
