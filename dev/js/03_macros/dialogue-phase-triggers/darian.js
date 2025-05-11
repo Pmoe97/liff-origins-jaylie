@@ -29,7 +29,7 @@ setup.darian_Conversation_Options_Phase0 = function () {
 		{
 			label: "I’d like to get to know you better.",
 			target: "Darian_StartMinigame",
-			reuse: 1
+			reuse: 0
 		},
 		{
 			label: "Do you think we could go somewhere more private?",

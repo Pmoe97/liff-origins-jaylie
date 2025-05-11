@@ -441,7 +441,7 @@ Allura seemed to ponder for a moment. The room is silent, she lightly tickles yo
 
     <<speech "jaylie">>Is that a name I should know?<</speech>>
 
-    <<speech "allura">>If you studied the Jade Coast wars, you might. He wasn't just a demon. He was responsible for razing half of Medmarr and almost destroying Hale about two centuries ago.<<speech>>
+    <<speech "allura">>If you studied the Jade Coast wars, you might. He wasn't just a demon. He was responsible for razing half of Medmarr and almost destroying Hale about two centuries ago.<</speech>>
 
     <</append>>
     <<relation "allura" "trust" 1>>

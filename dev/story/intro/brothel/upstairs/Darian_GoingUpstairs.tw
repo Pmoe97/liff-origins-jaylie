@@ -1,0 +1,20 @@
+:: Darian_GoingUpstairs
+<<bg "Darian_GoingUpstairs">><<EndDialogueLayout>>
+
+You follow him through the velvet-curtained hall, past the lingering music and soft laughter of the parlor. He guides you by the hand the whole way— a proper escort. like he wants to, and is waiting for permission.
+
+As you reach the foot of the stairs, thunder rolls distantly outside. Darian glances toward the door but says nothing. He simply smiles and starts up the steps, his boots light on the old wood.
+
+The hallway above is quiet, lined with rooms like small forgotten stories. Some doors are closed. A few are cracked just enough to spill warm light into the hall.
+
+He leads you to the very end—furthest from everything else—and pauses at a door with a subtle, worn plaque. Not a number. A name.
+
+The brass is dulled with age, but you catch the engraving: *Avelen*.
+
+He catches your glance.
+
+<<speech "darian">>Stage name. From another life. I like to keep it there for nostalgia now.<</speech>>
+
+He opens the door without ceremony, stepping aside to let you enter first.
+
+[[You step into his room.|Darian_UpstairsRoom]]

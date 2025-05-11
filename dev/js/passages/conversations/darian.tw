@@ -178,13 +178,13 @@ Darian doesn't answer immediately. His gaze lingers on you a moment longer than 
 
 His voice isn’t challenging—it’s careful, like he wants to be sure you're not asking just to fill the space between you.
 
-<<speech "darian">>The hallway upstairs is quiet this time of night. My room’s at the far end. No one will bother us there.<</speech>>
+<<speech "darian">>My room in the hallway upstairs is relatively quiet this time of night, and far more private overall. No one will bother us there.<</speech>>
 
 He steps forward, extending a hand—not dramatic, not performative. Just steady.
 
 <<speech "darian">>Come on. I’ll walk with you.<</speech>>
 
-[[You take his hand and follow him.|Darian_UpstairsIntro]]
+[[You take his hand and follow him.|Darian_GoingUpstairs]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
