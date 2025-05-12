@@ -463,7 +463,73 @@ Macro.add("SceneFadeInNow", {
 	}
 });
 
-
+Macro.add("StartSexScene", {
+	skipArgs: false,
+	handler() {
+	  const args = this.args;
+  
+	  console.log("[SexScene] 🔹 Macro Triggered");
+	  console.log("[SexScene] Arguments Received:", args);
+  
+	  if (!args.length) {
+		return this.error("<<StartSexScene>> requires at least one NPC ID.");
+	  }
+  
+	  let label = "Have Sex";
+	  let npcIdList = "";
+	  let positionOverride = null;
+  
+	  if (args.length === 1) {
+		npcIdList = args[0];
+		console.log(`[SexScene] Using default label. Target NPCs: ${npcIdList}`);
+	  } else if (args.length >= 2) {
+		label = args[0];
+		npcIdList = args[1];
+		if (args[2]) {
+		  positionOverride = args[2];
+		  console.log(`[SexScene] Position override specified: ${positionOverride}`);
+		}
+		console.log(`[SexScene] Custom label: ${label} | Target NPCs: ${npcIdList}`);
+	  }
+  
+	  const $link = $("<span>")
+		.addClass("macro-link")
+		.wiki(label)
+		.css("cursor", "pointer")
+		.on("click", () => {
+		  console.log("[SexScene] 🔸 Link clicked. Beginning setup...");
+  
+		  // Initialize body states
+		  setup.initializeSexSceneStates(npcIdList);
+		  console.log("[SexScene] ✅ States initialized via setup.initializeSexSceneStates");
+  
+		  // Store participants
+		  const npcArray = npcIdList.split(",").map(id => id.trim());
+		  State.variables.sexSceneParticipants = {
+			player: "player",
+			npcs: npcArray
+		  };
+		  console.log("[SexScene] 🧍 Participants set:", State.variables.sexSceneParticipants);
+  
+		  // Set up environment
+		  State.variables.sexSceneEnvironment = {
+			location: State.activePassage,
+			furniture: ["floor", "wall"],
+			positionOverride: positionOverride ?? null
+		  };
+		  console.log("[SexScene] 🛋️ Environment defined:", State.variables.sexSceneEnvironment);
+  
+		  // Launch scene
+		  console.log("[SexScene] 🚪 Entering ::SexScene passage...");
+		  Engine.play("SexScene");
+		});
+  
+	  $(this.output).append($link);
+	}
+  });
+  
+  
+  
 
 
 

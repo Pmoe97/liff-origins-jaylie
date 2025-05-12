@@ -1,101 +1,269 @@
-// SexScene-Logic.js
-// Initial draft of NSFW system handler for Liff Origins: Jaylie and Adventures of Liff
+// ===============================
+// 🍑 Initialize Sex Scene State
+// ===============================
+setup.initializeSexSceneStates = function (npcIdList) {
+	const bodyParts = ["mouth", "hands", "penis", "vagina", "butt", "feet", "breasts"];
 
-setup.SexScene = {
-    start(partnerId) {
-      const npc = State.variables.characters[partnerId];
-      if (!npc) return;
+	const defaultPartState = () => {
+		const state = {};
+		for (const part of bodyParts) {
+			state[part] = {
+				occupiedBy: null,
+				bound: false,
+				gagged: false,
+				disabled: false
+			};
+		}
+		return state;
+	};
+
+	State.variables.sexScenePlayerState = {
+		id: "player",
+		name: "You",
+		arousal: 0,
+		orgasmCount: 0,
+		parts: defaultPartState()
+	};
+
+	State.variables.sexScenePendingActions = [];
+
+	const partnerIds = npcIdList.split(",").map(id => id.trim());
+	State.variables.sexScenePartnerStates = {};
+
+	for (const id of partnerIds) {
+		const char = setup.characters?.[id];
+		if (!char) {
+			console.warn(`SexScene: NPC with ID '${id}' not found in setup.characters`);
+			continue;
+		}
+
+		State.variables.sexScenePartnerStates[id] = {
+			id,
+			name: char.name ?? id,
+			arousal: 0,
+			orgasmCount: 0,
+			parts: defaultPartState()
+		};
+	}
+
+	console.log("Initialized Sex Scene States:", {
+		player: State.variables.sexScenePlayerState,
+		partners: State.variables.sexScenePartnerStates
+	});
+};
+
+// ===============================
+// 💄 Layout Macros
+// ===============================
+Macro.add("StartSexSceneLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (!backdrop) {
+			console.warn("[SexSceneLayout] ⚠️ Could not find #text-backdrop.");
+			return;
+		}
+
+		console.log("[SexSceneLayout] 🔹 Initializing layout...");
+
+		backdrop.classList.add("in-sexscene");
+		backdrop.innerHTML = `
+			<div id="sexSceneLayoutContainer">
+				<div id="sexSceneFeedbackPanel"><div id="sexSceneFeedbackBox"></div></div>
+				<div id="sexSceneActionsPanel"><div id="sexSceneActionsBox"></div></div>
+			</div>
+		`;
+
+		console.log("[SexSceneLayout] ✅ HTML structure injected.");
+
+		const tryInjectPassage = () => {
+			const passage = document.querySelector('#passages > .passage');
+			const feedbackBox = document.getElementById("sexSceneFeedbackBox");
+
+			if (passage && feedbackBox) {
+				feedbackBox.appendChild(passage);
+				console.log("[SexSceneLayout] ✅ Passage content moved to feedback panel.");
+			} else {
+				console.log("[SexSceneLayout] ⏳ Waiting for passage render...");
+				requestAnimationFrame(tryInjectPassage);
+			}
+		};
+
+		tryInjectPassage();
+	}
+});
+
+Macro.add("EndSexSceneLayout", {
+	handler() {
+		const backdrop = document.getElementById("text-backdrop");
+		if (backdrop?.classList.contains("in-sexscene")) {
+			backdrop.classList.remove("in-sexscene");
+			console.log("[SexSceneLayout] 🔸 Layout class removed.");
+		} else {
+			console.warn("[SexSceneLayout] ⚠️ Tried to end layout, but class wasn't present.");
+		}
+	}
+});
+
+// ===============================
+// 🎛️ Render Action Buttons
+// ===============================
+setup.renderSexSceneActions = function () {
+	console.log("[SexSceneRender] 🔄 Rendering available sex actions...");
+
+	const $wrapper = document.getElementById("sexSceneActionsBox");
+	if (!$wrapper) {
+		console.warn("[SexSceneRender] ❌ #sexSceneActionsBox not found.");
+		return;
+	}
+
+	$wrapper.innerHTML = "";
+
+	const playerState = State.variables.sexScenePlayerState;
+	if (!playerState) {
+		console.error("[SexSceneRender] ❌ Player state missing.");
+		return;
+	}
+
+	const groupedActions = {};
+
+	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+		if (!act.usedBy || !Array.isArray(act.usedBy)) {
+			console.warn(`[SexSceneRender] ⚠️ '${label}' missing 'usedBy'.`);
+			continue;
+		}
+
+		for (const part of act.usedBy) {
+			if (!playerState.parts?.[part]) {
+				console.log(`[SexSceneRender] ⛔ '${label}' skipped - no '${part}' on player.`);
+				continue;
+			}
+
+			const partState = playerState.parts[part];
+			if (partState.bound || partState.gagged || partState.disabled) {
+				console.log(`[SexSceneRender] ⛔ '${label}' blocked — ${part} is bound/gagged/disabled.`);
+				continue;
+			}
+
+			if (!groupedActions[part]) groupedActions[part] = [];
+			groupedActions[part].push({ label, act });
+			console.log(`[SexSceneRender] ✅ '${label}' available under '${part}'.`);
+		}
+	}
+
+  for (const [part, actions] of Object.entries(groupedActions)) {
+    if (!actions.length) continue; // ⛔ Skip empty action groups
   
-      State.temporary.sexScene = {
-        partnerId,
-        turnCount: 1,
-        playerArousal: 0,
-        partnerArousal: 0,
-        mood: npc.baseMood || "neutral",
-        position: "default",
-        playerClothing: "clothed",
-        partnerClothing: "clothed",
-        trust: npc.trust || 0,
-        dominance: npc.dominance || 0,
-        actionsTaken: [],
-        ended: false
-      };
+    const $group = document.createElement("div");
+    $group.classList.add("sexscene-group");
+    $group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
   
-      setup.SexScene.renderChoices();
-    },
+    for (const entry of actions) {
+      const $btn = document.createElement("button");
+      $btn.textContent = entry.act.label;
   
-    renderChoices() {
-      const choices = setup.SexScene.getAvailableActions();
-      const $container = $("#sexSceneChoices");
-      $container.empty();
+      const isActive = State.variables.sexScenePendingActions?.some(a => a.label === entry.label);
+      if (isActive) $btn.classList.add("active-sexact");
   
-      for (const action of choices) {
-        $container.append(
-          `<<button "${action.label}" onclick="setup.SexScene.doAction('${action.key}')">>`
-        );
-      }
-    },
-  
-    getAvailableActions() {
-      const state = State.temporary.sexScene;
-      // Example static action list for prototype
-      const allActions = [
-        { key: "kiss", label: "Kiss" },
-        { key: "undress", label: "Undress Them" },
-        { key: "submit", label: "Let Them Take Control" },
-        { key: "command", label: "Give a Command" }
-      ];
-  
-      // Placeholder logic, filter based on arousal, clothing, position, etc.
-      return allActions;
-    },
-  
-    doAction(actionKey) {
-      const scene = State.temporary.sexScene;
-      const npc = State.variables.characters[scene.partnerId];
-  
-      // Apply stat changes based on action
-      setup.SexScene.applyEffect(actionKey, npc);
-      scene.actionsTaken.push(actionKey);
-      scene.turnCount++;
-  
-      // Generate response
-      const response = setup.Response.generate(npc, actionKey);
-      $("#sexSceneResponse").wiki(response);
-  
-      // Re-render choices for next turn
-      setup.SexScene.renderChoices();
-    },
-  
-    applyEffect(actionKey, npc) {
-      const scene = State.temporary.sexScene;
-      switch (actionKey) {
-        case "kiss":
-          scene.playerArousal += 5;
-          scene.partnerArousal += 5;
-          break;
-        case "undress":
-          scene.partnerClothing = "partial";
-          break;
-        case "submit":
-          npc.dominance += 1;
-          break;
-        case "command":
-          npc.dominance -= 1;
-          break;
-      }
+      $btn.onclick = () => setup.toggleSexAction(entry.label);
+      $group.appendChild($btn);
     }
-  };
   
-  setup.replacePronouns = function(text, npc) {
-    const p = npc.pronouns;
-    return text
-      .replace(/<<npc\.they>>/g, p.subject)
-      .replace(/<<npc\.them>>/g, p.object)
-      .replace(/<<npc\.their>>/g, p.possessive)
-      .replace(/<<npc\.theirs>>/g, p.possessive + "s") // optional override
-      .replace(/<<npc\.themself>>/g, p.reflexive)
-      .replace(/<<npc\.noun>>/g, p.noun)
-      .replace(/<<npc\.name>>/g, npc.name);
-  };
-  
+    $wrapper.appendChild($group);
+  }  
+  setup.renderSexSceneContinueButton();
+
+};
+
+// ===============================
+// 🔘 Track & Toggle Pending Actions
+// ===============================
+setup.toggleSexAction = function (label) {
+	const action = setup.SexualActsDB[label];
+	if (!action) {
+		console.warn(`[SexSceneAction] ❌ Unknown label: ${label}`);
+		return;
+	}
+
+	const queue = State.variables.sexScenePendingActions ?? [];
+	const index = queue.findIndex(entry => entry.label === label);
+
+	if (index >= 0) {
+		queue.splice(index, 1);
+		console.log(`[SexSceneAction] 🔄 Removed '${label}' from queue.`);
+	} else {
+		if (action.exclusive && Array.isArray(action.usedBy)) {
+			for (const part of action.usedBy) {
+				for (let i = queue.length - 1; i >= 0; i--) {
+					const existing = setup.SexualActsDB[queue[i].label];
+					if (existing?.usedBy?.includes(part)) {
+						console.log(`[SexSceneAction] 🔁 '${queue[i].label}' removed (exclusive conflict with '${label}')`);
+						queue.splice(i, 1);
+					}
+				}
+			}
+		}
+
+		queue.push({ label, data: action });
+		console.log(`[SexSceneAction] ✅ Added '${label}' to queue.`);
+	}
+
+	State.variables.sexScenePendingActions = queue;
+	setup.renderSexSceneActions();
+};
+
+/* Continue Button and logic handler */
+setup.renderSexSceneContinueButton = function () {
+	const $wrapper = document.getElementById("sexSceneActionsBox");
+	if (!$wrapper) return;
+
+	const $button = document.createElement("button");
+	$button.id = "sexSceneContinueButton";
+	$button.textContent = "Continue";
+	$button.onclick = setup.handleSexSceneContinue;
+	$button.style.marginTop = "2em";
+	$wrapper.appendChild($button);
+};
+
+setup.handleSexSceneContinue = function () {
+	console.log("[SexScene] ▶️ CONTINUE TURN");
+
+	const pending = State.variables.sexScenePendingActions ?? [];
+	if (!pending.length) {
+		console.log("[SexScene] ⚠️ No actions selected this turn.");
+		return;
+	}
+
+	for (const entry of pending) {
+		console.log(`[SexScene] ➤ Applying action '${entry.label}'...`);
+
+		// Example: Arousal gain per action (custom logic can go here)
+		const receiverId = setup.SexualActsDB[entry.label]?.receiver === "npc"
+			? Object.keys(State.variables.sexScenePartnerStates)[0] // TEMP: just grab first NPC
+			: "player";
+
+		const receiverState = receiverId === "player"
+			? State.variables.sexScenePlayerState
+			: State.variables.sexScenePartnerStates[receiverId];
+
+		if (receiverState) {
+			receiverState.arousal += 10;
+			console.log(`   ➕ Arousal +10 to '${receiverState.name}' (${receiverId})`);
+		}
+	}
+
+	// Clear pending queue
+	State.variables.sexScenePendingActions = [];
+
+	// Refresh UI
+	setup.renderSexSceneActions();
+
+	// Optional: Print feedback
+	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
+	if (feedbackBox) {
+		const p = document.createElement("p");
+		p.textContent = "You acted. The scene shifts...";
+		feedbackBox.appendChild(p);
+	}
+
+	console.log("[SexScene] 🔁 Turn complete.");
+};
