@@ -1,42 +1,192 @@
 setup.SexSceneResponses = {
   // Example Template Entry
-  Oral_G: {
-    label: "Giving oral",
-    responses: {
-      neutral: [
-        "You lower yourself between <<npc.their>> thighs, breathing softly against <<npc.their>> <<npc.skinTone>> skin.",
-        "Your lips brush along <<npc.their>> inner thigh, pausing just shy of <<npc.their>> most sensitive spot.",
-        "You run your hands up <<npc.their>> <<npc.bodyType>> hips, then press a slow kiss to the center of <<npc.their>> desire.",
-        "You flick your tongue gently, testing what makes <<npc.them>> twitch or sigh.",
-        "You plant slow, reverent kisses along the curve of <<npc.their>> <<npc.buttSize>> thighs.",
-        "Your breath rolls across <<npc.their>> skin as you take your time, savoring their taste and reaction."
-      ],
-      liked: [
-        "<<npc.name>> gasps, their fingers gripping your hair tightly as you move deeper.",
-        "Their breath stutters. 'Yes—right there,' <<npc.they>> whispers, thighs quivering around your head.",
-        "<<npc.name>> arches their back, eyes fluttering shut as your tongue drives them wild.",
-        "Their voice breaks into a moan, hands grabbing at the sheets, hips moving instinctively against you.",
-        "You glance up and catch <<npc.their>> <<npc.eyecolor>> eyes staring down at you, wide and needful.",
-        "<<npc.they>> moans with abandon, their voice <<npc.voiceTone>> and desperate as they beg you not to stop."
-      ],
-      disliked: [
-        "<<npc.name>>'s muscles tighten—not in pleasure. 'Can we do something else?' <<npc.they>> murmurs.",
-        "You feel <<npc.them>> shift uncomfortably, legs pulling back just a bit.",
-        "<<npc.their>> breath is shallow but not excited, and <<npc.they>> avoids eye contact.",
-        "They wince slightly, a hand resting on your head but not guiding—just pausing.",
-        "'Maybe not right now,' <<npc.they>> says softly, and the tension in <<npc.their>> body never fades.",
-        "<<npc.name>> squirms as your tongue moves—less out of pleasure, more discomfort."
-      ],
-      climax: [
-        "<<npc.name>> lets out a broken cry, body locking up as orgasm overtakes <<npc.them>>.",
-        "They grip your shoulders as their thighs spasm, voice choked with ecstasy.",
-        "<<npc.their>> hands claw at the bedding, a guttural moan ripping free as <<npc.they>> cums.",
-        "A deep shudder runs through <<npc.them>>, muscles twitching as release crashes over <<npc.themself>>.",
-        "<<npc.name>> trembles uncontrollably, back arched and breath ragged, lost in climax."
-      ]
-    }
-  },
+  OralVag_G: {
+  label: "Eat Them Out",
+  responses: {
+    neutral: [
+      "You lower yourself between <<npc.their>> thighs, the scent of arousal heavy as you press your mouth close to their folds.",
+      "Your tongue teases along the edges of their sex, warm and slow, not yet touching their clit directly.",
+      "You kiss your way across their inner thighs, then flick your tongue gently across their entrance, just enough to make them gasp.",
+      "You part their lips with careful fingers and trace a circle around their clit, savoring the way they shift beneath you.",
+      "Your breath brushes over their slick heat as your lips close around their clit in a soft, teasing pull.",
+      "You lap at them slowly, deliberately, learning what makes their muscles twitch and their moans catch."
+    ],
+    liked: [
+      "<<npc.name>> cries out as your tongue presses harder against their clit, hips bucking into your face.",
+      "They grab the back of your head and grind against your mouth, panting, overwhelmed.",
+      "You feel them pulsing against your tongue, thighs clamped tight around your head as they beg you not to stop.",
+      "'Just like that,' they whimper, voice trembling as each flick of your tongue pushes them closer.",
+      "<<npc.name>> is moaning now, steady and uncontrolled, rocking into your rhythm like their life depends on it.",
+      "Their body trembles with every stroke, slick and needy as they ride your mouth to the edge."
+    ],
+    disliked: [
+      "They shift beneath you, legs inching closed, breath no longer matched to pleasure.",
+      "'Wait, it's not working,' <<npc.they>> says, trying to guide your head away.",
+      "You feel a gentle tap on your shoulder—polite, but firm. 'Let’s pause,' they murmur.",
+      "<<npc.name>> fidgets, clearly distracted, their hips angling away from your tongue.",
+      "'Not there,' <<npc.they>> says quietly, eyes avoiding yours as their arousal fades.",
+      "Their muscles stay tight, but the pleasure doesn’t follow. You can feel the moment slipping."
+    ],
+    climax: [
+      "<<npc.name>> gasps, thighs clamping around your head as they cum hard against your tongue.",
+      "They scream your name as their entire body jolts, hands tangled in your hair as they fall apart.",
+      "Their hips shake uncontrollably, and slick heat coats your lips as they cry out in release.",
+      "They arch into your face, sobbing with pleasure, climax rolling through them in waves.",
+      "<<npc.name>> clutches the sheets and shudders violently, completely lost to the orgasm pulsing through them."
+    ]
+  }
+},
   
+  OralVag_R: {
+  label: "Get Eaten Out",
+  responses: {
+    neutral: [
+      "<<npc.name>> lowers their head between your legs, their breath hot against your inner thighs.",
+      "They trail soft kisses up your thighs, pausing just shy of your clit before flicking their tongue tentatively.",
+      "You feel <<npc.their>> tongue slide along your folds, slow and exploratory, testing what draws a breath from you.",
+      "<<npc.name>> spreads your lips gently with their fingers and places a warm kiss right over your clit.",
+      "They start slow, tongue pressing softly against you in careful, deliberate strokes.",
+      "Their mouth moves in lazy circles, lips parting to taste every inch of your slick heat."
+    ],
+    liked: [
+      "Your hips jerk as their tongue presses flat and firm against your clit, licking you with hungry precision.",
+      "They groan into you, the vibration setting off sparks through your core.",
+      "You moan shamelessly, legs trembling as they suck and swirl with practiced ease.",
+      "Each stroke of their tongue makes your body jerk—you're already dangerously close.",
+      "'Oh fuck,' you pant, clutching at the sheets as they work you over without mercy.",
+      "Your fingers twist in their hair as they bury themselves between your legs, relentless and perfect."
+    ],
+    disliked: [
+      "You flinch slightly—<<npc.name>> is too rough, too fast, or just… off.",
+      "Their tongue flicks aimlessly, missing your clit entirely, and your arousal starts to wane.",
+      "They lick you with awkward rhythm, like someone trying to remember instructions, not savor pleasure.",
+      "'Stop,' you whisper, breathless—but not in a good way.",
+      "<<npc.name>> keeps going, but the chemistry is gone, and you’re left trying to fake your way through it.",
+      "You’re wet, but not turned on. Their tongue moves, but your mind’s already slipping away."
+    ]
+  }
+},
+
+OralPenis_G: {
+  label: "Suck Their Cock",
+  responses: {
+    neutral: [
+      "You lower your head and run your tongue slowly along the underside of <<npc.their>> shaft, teasing the sensitive skin with a gentle lick.",
+      "Your lips part as you take <<npc.their>> tip into your mouth, swirling your tongue just beneath the head.",
+      "You stroke the base of <<npc.their>> cock with your hand while your mouth slowly works the top, building rhythm with purpose.",
+      "You kiss along the length of <<npc.their>> shaft before taking them into your mouth again, letting your breath warm them between motions.",
+      "Your tongue explores every inch of <<npc.their>> cock, savoring the heat and weight of it against your lips.",
+      "You glance up through your lashes as you slowly begin to suck, letting your lips stretch around them with a practiced seal."
+    ],
+    liked: [
+      "<<npc.name>> groans deep in their throat, hips twitching as your mouth takes them deeper.",
+      "Their hand tangles in your hair, gripping gently as you suck them with growing confidence.",
+      "'Fuck,' <<npc.they>> gasps, the sound rough and needy as your tongue dances around their shaft.",
+      "They moan louder with each bob of your head, unable to stop themselves from thrusting just a little.",
+      "Pre-cum beads against your tongue as they pant your name, completely undone by your attention.",
+      "Their thighs tense under your grip, every breath hitched with pleasure as you swallow them again and again."
+    ],
+    disliked: [
+      "They shift awkwardly under you, breath catching not from pleasure but discomfort.",
+      "'Wait—' <<npc.they>> mutters, voice strained, their hips pulling back.",
+      "You sense hesitation in the way they touch your shoulder, not quite pushing but definitely pausing.",
+      "<<npc.name>> flinches when your teeth scrape unintentionally, and the moment grows tense.",
+      "'Can we stop?' <<npc.they>> asks, clearly not feeling it anymore.",
+      "Their erection softens slightly as the chemistry fades—you feel it too."
+    ]
+  }
+},
+
+OralPenis_R: {
+  label: "Get Your Cock Sucked",
+  responses: {
+    neutral: [
+      "<<npc.name>> lowers <<npc.their>> head slowly, lips parting as <<npc.they>> takes your shaft into <<npc.their>> mouth.",
+      "Their tongue traces along the underside of your cock, drawing a soft shiver from your spine.",
+      "They stroke the base with one hand while <<npc.they>> suckles at the tip, eyes flicking up to watch your face.",
+      "<<npc.they>> takes you in inch by inch, tongue swirling under the head before pulling back with a slick pop.",
+      "You feel <<npc.their>> warm breath against your cock just before <<npc.they>> begins to suck again, slow and steady.",
+      "<<npc.name>> wraps <<npc.their>> lips around your shaft, bobbing with a rhythm that immediately draws your attention to every twitch and throb."
+    ],
+    liked: [
+      "You groan loudly as <<npc.they>> sinks down further, throat flexing around your cock.",
+      "They hum around your shaft, and the vibration sends a sharp jolt of pleasure through your hips.",
+      "<<npc.name>> moans softly, clearly enjoying the taste of you, drool glistening at the corners of <<npc.their>> mouth.",
+      "They work you with abandon now—no teasing, just hungry, wet pleasure around every inch.",
+      "You buck your hips as <<npc.they>> swallows you again, deep and smooth, tongue tracing every ridge.",
+      "<<npc.they>> sucks harder, messier, eager moans muffled by the fullness of your cock in <<npc.their>> mouth."
+    ],
+    disliked: [
+      "They gag softly, pulling back with a cough and wiping their mouth. 'Sorry,' <<npc.they>> mutters, clearly flustered.",
+      "<<npc.name>> hesitates mid-motion, unsure, the rhythm stalling awkwardly.",
+      "'Am I doing it right?' <<npc.they>> asks, eyes searching your face with quiet uncertainty.",
+      "Their movements feel mechanical, like they’re following instructions instead of passion.",
+      "You feel teeth graze you unexpectedly, and the tension makes it hard to stay in the moment.",
+      "They pause and glance up, lips still around you, but the heat in their eyes is gone."
+    ]
+  }
+},
+
+Deepthroat_G: {
+  label: "Deepthroat Them",
+  responses: {
+    neutral: [
+      "You steady your breath before pushing <<npc.their>> cock deeper into your throat, relaxing as much as you can.",
+      "You sink down slowly, feeling your lips meet the base of <<npc.their>> shaft with a wet gasp.",
+      "A shudder runs through your body as you take all of <<npc.them>> into your mouth, your throat stretching to accommodate them.",
+      "You press your nose to their pelvis, throat tightening briefly before you adjust to the fullness.",
+      "They twitch in your throat as you hold them there, lips stretched wide around the base of their cock.",
+      "You swallow around them slowly, teasing the sensitive underside with the pressure of your throat."
+    ],
+    liked: [
+      "<<npc.name>> groans with raw hunger, head falling back as you swallow them whole.",
+      "Their hand grabs your hair, hips jerking as you take them all the way down again and again.",
+      "'Holy fuck,' <<npc.they>> gasps, voice strained and hoarse from how good it feels.",
+      "<<npc.name>> can barely stay still, their thighs trembling as your throat massages their cock.",
+      "They pant your name, breath hitched and ragged, as you choke and moan around them.",
+      "Their cock pulses hard in your mouth as you push past your gag reflex and bury them deeper with each thrust."
+    ],
+    disliked: [
+      "<<npc.name>> tenses as you try to take them too fast. 'Easy,' <<npc.they>> mutters, concern flickering in their eyes.",
+      "They gently place a hand on your cheek and guide you back, clearly not into this.",
+      "'You don’t have to go that far,' <<npc.they>> says softly, sensing your discomfort.",
+      "Their expression falters—what started as pleasure turns to hesitation.",
+      "They shift their hips away slightly, not resisting, but pulling out of the moment.",
+      "'Maybe stay shallow,' <<npc.they>> suggests with a strained smile, breath shaky."
+    ]
+  }
+},
+
+Deepthroat_R: {
+  label: "Get Deepthroated",
+  responses: {
+    neutral: [
+      "<<npc.name>> lowers <<npc.their>> head with control, sliding your cock deep into <<npc.their>> throat.",
+      "You feel the tight squeeze as <<npc.they>> pushes past the head, lips descending until they meet the base.",
+      "They moan around your shaft, the vibration sending heat all the way through your core.",
+      "<<npc.name>> chokes briefly, then swallows around you, taking a breath before going again.",
+      "Their nose presses against your skin as they take you all the way, throat flexing tightly around your cock.",
+      "The heat and slick pressure of <<npc.their>> throat makes your knees weak with every movement."
+    ],
+    liked: [
+      "You gasp loudly as <<npc.name>> buries you again, throat pulsing around your cock.",
+      "They moan greedily around you, spit dripping from their lips as they deepthroat you over and over.",
+      "Each thrust of their head sends a jolt of pleasure through your spine—you’re barely holding on.",
+      "<<npc.they>> devours you with unrelenting need, taking your full length like it belongs there.",
+      "Their throat tightens around you with every swallow, pulling groans from your chest with ease.",
+      "You feel them drool and gasp around your shaft, their breath ragged between thrusts, completely focused on pleasuring you."
+    ],
+    disliked: [
+      "<<npc.name>> gags and pulls back quickly, coughing softly and wiping their lips.",
+      "'Too deep,' <<npc.they>> whispers, voice shaky and unsure.",
+      "They try again but their eyes water, and they stop almost immediately.",
+      "You sense them hesitating, posture stiff and rhythm broken.",
+      "'Maybe just the tip for now,' <<npc.they>> says awkwardly, clearly not comfortable going deeper.",
+      "They shift back and stroke you instead, avoiding eye contact as the mood falters."
+    ]
+  }
+},
+
   Spank_G: {
     label: "Spanking them",
     responses: {
@@ -65,38 +215,8 @@ setup.SexSceneResponses = {
         "They breathe out hard, clearly not enjoying the sting."
       ]
     }
-  },
+},
   
-  Kiss: {
-    label: "Kissing",
-    responses: {
-      neutral: [
-        "You lean in and press your lips gently to <<npc.name>>'s, your breath mingling.",
-        "Your lips meet in a soft, exploratory kiss—testing their mood and desire.",
-        "You brush your mouth against <<npc.their>> own, light as a whisper.",
-        "The kiss is tentative at first, a shared moment of warmth on <<npc.their>> <<npc.skinTone>> cheek.",
-        "Your fingers touch <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair as your mouths meet briefly.",
-        "You kiss <<npc.them>> slowly, watching how <<npc.they>> reacts—gently feeling the space between you close."
-      ],
-      liked: [
-        "<<npc.name>> melts into the kiss, sighing into your mouth as their hands find your waist.",
-        "The kiss deepens—slow, hungry, and filled with unspoken hunger.",
-        "<<npc.they>> hums softly, mouth parting under yours as passion sparks between you.",
-        "<<npc.name>> presses forward eagerly, lips warm and eager against your own.",
-        "Their hands tangle in your hair as <<npc.they>> kisses you like they've wanted it for hours.",
-        "They taste like heat and sweetness, their <<npc.voiceTone>> moans swallowed between breaths."
-      ],
-      disliked: [
-        "<<npc.name>> returns the kiss, but there's a stiffness to <<npc.their>> mouth.",
-        "They hesitate before responding, lips barely moving under yours.",
-        "You feel a flicker of tension as <<npc.them>> leans away slightly mid-kiss.",
-        "They shift as your lips touch, eyes opening too soon to meet yours.",
-        "'That's… not really the vibe,' <<npc.they>> murmurs, avoiding your gaze.",
-        "You brush your mouth to <<npc.theirs>>, but they don't quite lean in—they seem distracted."
-      ]
-    }
-  },
-
   Cuddling: {
     label: "Cuddling",
     responses: {
@@ -125,9 +245,9 @@ setup.SexSceneResponses = {
         "Your hand moves across <<npc.their>> side, but <<npc.they>> doesn't respond—not warmly, at least."
       ]
     }
-  },
+},
   
-  Fingering_R: {
+  FingeringVag_G: {
     label: "Fingering them",
     responses: {
       neutral: [
@@ -154,16 +274,218 @@ setup.SexSceneResponses = {
         "'Can we slow down?' <<npc.they>> asks, voice guarded.",
         "You feel their breath quicken, but not in arousal—something's off."
       ],
-      climax: [
-        "<<npc.name>> cries out, clenching tight around your fingers as pleasure rips through <<npc.them>>.",
-        "They arch hard against you, legs trembling, breath breaking apart into desperate moans.",
-        "Their hips buck uncontrollably, body writhing as they cum in your hand.",
-        "<<npc.name>> trembles from the inside out, the orgasm seizing <<npc.them>> in a long, pulsing wave.",
-        "They scream your name as they finish, body slackening only when the tremors subside.",
-        "A shiver tears through <<npc.them>>, fingers digging into your skin as release crashes down."
-      ]
     }
-  },
+},
+
+  FingeringVag_R: {
+  label: "Being fingered (vaginally)",
+  responses: {
+    neutral: [
+      "<<npc.name>> slides their fingers between your thighs, exploring you with slow, focused intent.",
+      "You inhale sharply as <<npc.they>> slips one finger inside, testing your readiness.",
+      "Their touch is gentle but deliberate, coaxing your body with practiced rhythm.",
+      "You feel their fingertips curl just right, stroking deep inside with purpose.",
+      "Their other hand rests firm on your hip as they work you open with steady pressure.",
+      "<<npc.name>> moves slowly at first, watching your breath and body for every subtle reaction."
+    ],
+    liked: [
+      "You cry out as their fingers find your most sensitive spot, hips bucking to meet their rhythm.",
+      "Your body pulses around them, pleasure building fast under their steady attention.",
+      "'Right there,' you gasp, clinging to them as the sensation floods through you.",
+      "They speed up, and your moans become desperate—you're close and <<npc.they>> knows it.",
+      "Your breath hitches again and again, every stroke deeper, hotter, wetter.",
+      "You rock against their hand shamelessly, greedy for every curling motion."
+    ],
+    disliked: [
+      "You flinch as their fingers move awkwardly—too dry, too fast, too much.",
+      "'Slow down,' you mutter, trying to adjust but feeling disconnected.",
+      "Their rhythm never quite lands, and your body resists the motion.",
+      "You shift away, discomfort overriding whatever arousal had started to build.",
+      "'That doesn't feel good,' you say, voice tight.",
+      "<<npc.name>> notices your reaction and pauses, concern replacing heat."
+    ]
+  }
+},
+
+FingeringAnal_G: {
+  label: "Fingering them (anal)",
+  responses: {
+    neutral: [
+      "You trail your fingers lower, circling gently before slipping one against the tight ring of muscle.",
+      "<<npc.name>> gasps softly as you press inward, slowly easing in.",
+      "You apply a little more pressure, watching their breath catch as your finger slides deeper.",
+      "Their body tenses, then softens as you begin to move with careful rhythm.",
+      "You curl your finger slowly inside <<npc.them>>, letting them adjust to the intrusion.",
+      "Your free hand rests on <<npc.their>> hip while your other hand works them open with deliberate care."
+    ],
+    liked: [
+      "<<npc.name>> moans shamelessly, pushing back into your touch.",
+      "They whimper as you curl your fingers just right—<<npc.they>> loves every second of it.",
+      "Their body clenches and releases, begging for more pressure, more depth.",
+      "'Don't stop,' they pant, squirming against your hand.",
+      "<<npc.name>> gasps as your rhythm builds—<<npc.they>> is clearly loving every stroke.",
+      "They tremble, walls fluttering around your fingers as they lose themselves to the pleasure."
+    ],
+    disliked: [
+      "<<npc.name>> flinches, jaw tight. 'Not there,' they mutter.",
+      "Their breath hitches uncomfortably and their body pulls away.",
+      "They tense up hard as you press in, a wince flickering across their face.",
+      "'That feels... off,' they say, clearly not enjoying the sensation.",
+      "You notice their body resisting instead of yielding—this isn't what they want.",
+      "<<npc.name>> shakes their head softly, voice quiet but firm. 'Please don’t.'"
+    ]
+  }
+},
+
+Handjob_G: {
+  label: "Stroke Their Cock",
+  responses: {
+    neutral: [
+      "You wrap your fingers around <<npc.their>> shaft, stroking slowly from base to tip with firm pressure.",
+      "Your hand slides easily along their cock, building a steady rhythm as you watch their reactions.",
+      "You tease the head with your thumb, circling the tip before gliding back down the shaft.",
+      "<<npc.name>> exhales softly as your grip tightens slightly, your pace deliberate and smooth.",
+      "You pump your hand along their length, letting the slick friction do its work.",
+      "Your wrist flexes just right, drawing soft gasps from <<npc.them>> with every upstroke."
+    ],
+    liked: [
+      "<<npc.name>> groans loudly, hips twitching into your grip.",
+      "'Just like that,' they pant, voice trembling with arousal.",
+      "Their cock pulses in your hand as you stroke faster, their breath coming hard and fast.",
+      "You feel them throb between your fingers, the heat building with every pass.",
+      "They bite their lip, eyes locked on your hand working their length with practiced care.",
+      "<<npc.they>> bucks slightly, moaning as your thumb slides over the slit at the tip."
+    ],
+    disliked: [
+      "They shift slightly, your hand not quite finding the rhythm they need.",
+      "'Softer,' <<npc.they>> says with a strained voice, body tensing under your grip.",
+      "Your movements feel off, and <<npc.name>> gently pulls your hand away.",
+      "'Let me show you,' they offer, trying to guide your pace.",
+      "<<npc.name>> winces—your grip might be too dry, or the angle too rough.",
+      "They give a half-hearted moan, but the connection just isn’t there."
+    ]
+  }
+},
+
+Handjob_R: {
+  label: "Get a Handjob",
+  responses: {
+    neutral: [
+      "<<npc.name>> wraps <<npc.their>> hand around your cock, stroking slowly from base to tip.",
+      "They run their thumb across the head, smearing a bead of pre-cum before gliding back down the shaft.",
+      "Their grip is firm but smooth, working you with a slow, deliberate rhythm.",
+      "You groan softly as <<npc.they>> starts to pump your cock, watching your face for every reaction.",
+      "<<npc.name>> strokes you steadily, letting your arousal build under their practiced touch.",
+      "Their hand moves with confident ease, coaxing tension from your body with every stroke."
+    ],
+    liked: [
+      "You buck into their fist, moaning as their strokes grow faster and slicker.",
+      "'You like that?' <<npc.they>> whispers, twisting their wrist just right on the downstroke.",
+      "Your cock pulses in their hand, every squeeze making your hips jerk uncontrollably.",
+      "They lock eyes with you as their grip tightens, pace quickening to match your breath.",
+      "You gasp as they tease the head with their palm before plunging back into a full stroke.",
+      "<<npc.name>> works you like they know your body better than you do—every motion perfect."
+    ],
+    disliked: [
+      "Their touch is awkward—too slow, too dry—and your arousal dips slightly.",
+      "'Too rough,' you mutter, shifting your hips back with a wince.",
+      "They hesitate, watching your face for guidance. 'Is this okay?' <<npc.they>> asks.",
+      "You feel their grip falter, rhythm stuttering as the chemistry fades.",
+      "Their stroking is inconsistent, and you find yourself waiting for it to feel good—but it doesn’t.",
+      "<<npc.name>> sighs and pulls back gently, clearly sensing it’s not working."
+    ]
+  }
+},
+
+ClitRub_G: {
+  label: "Rub Their Clit",
+  responses: {
+    neutral: [
+      "You slide your fingers down between <<npc.their>> thighs, gently finding their clit with the tip of your finger.",
+      "You rub small, slow circles over their swollen bud, testing their rhythm and watching their breath.",
+      "Your thumb brushes over their clit again and again, gentle but insistent.",
+      "You tease their entrance with one finger while the other plays lightly across their clit.",
+      "Your touch is light at first—barely a whisper—before you press in a little firmer.",
+      "You shift your hand just slightly to hit the right spot, rhythmically stroking the slick nub of flesh."
+    ],
+    liked: [
+      "<<npc.name>> gasps and arches against your hand, thighs trembling.",
+      "They moan sharply, breath catching as your touch sends sparks straight to their core.",
+      "'Right there—don't stop!' <<npc.they>> cries, hips grinding against your fingers.",
+      "<<npc.name>> writhes with each stroke, every nerve lighting up as you rub harder.",
+      "Their whole body clenches and releases in rhythm with your hand, pleasure growing by the second.",
+      "<<npc.name>> moans, breathless, begging with every broken sound for more pressure, more speed."
+    ],
+    disliked: [
+      "They flinch slightly, and their thighs try to close around your hand.",
+      "'Too sensitive,' <<npc.they>> mutters, shifting their hips away.",
+      "They squirm under your hand, clearly not enjoying the sensation.",
+      "You feel their tension—not pleasure but resistance—as they pull back from your touch.",
+      "<<npc.name>> gently catches your wrist and whispers, 'Not like that.'",
+      "Your fingers move, but their body doesn’t respond—the spark isn’t there."
+    ]
+  }
+},
+
+ClitRub_R: {
+  label: "Get Your Clit Rubbed",
+  responses: {
+    neutral: [
+      "<<npc.name>> slides a hand between your legs, fingers gliding directly to your clit.",
+      "They circle your clit slowly, testing the pace and watching your every reaction.",
+      "Their fingers stroke you with practiced precision, neither too light nor too rough.",
+      "They press their thumb over your clit and begin slow, rhythmic motion that sends shivers through your core.",
+      "You gasp as they find your clit instantly, teasing it with gentle flicks and steady pressure.",
+      "Their touch is patient, methodical—every stroke designed to make you ache."
+    ],
+    liked: [
+      "You moan sharply, hips bucking against their hand.",
+      "Their fingers rub you in tight, perfect circles, and your body melts under the pressure.",
+      "'There,' you whimper, clinging to the sensation as pleasure builds fast.",
+      "<<npc.name>> smirks as your thighs twitch with each pass—completely in control of your pleasure.",
+      "Your body jerks with every stroke, your clit swollen and desperate for more.",
+      "You cry out as their fingers speed up, drawing you closer and closer to the edge with every press."
+    ],
+    disliked: [
+      "You shift your hips, trying to guide them—but their touch feels off.",
+      "'Not like that,' you mutter, frustration slipping into your voice.",
+      "Their fingers are too rough, and the tension makes it hard to enjoy the moment.",
+      "They fumble with their rhythm, and your arousal cools with every awkward stroke.",
+      "You flinch slightly—your clit too sensitive for the current pressure.",
+      "'Slow down,' you breathe, pulling away instinctively."
+    ]
+  }
+},
+
+FingeringAnal_R: {
+  label: "Being fingered (anal)",
+  responses: {
+    neutral: [
+      "<<npc.name>> slides their hand lower, circling slowly before applying pressure where you're most sensitive.",
+      "You gasp as <<npc.their>> fingers tease at your entrance, then press in with controlled slowness.",
+      "They ease a finger inside you, their other hand resting steady on your hip as your body adjusts.",
+      "Their touch is firm but careful, each motion sending a ripple of heat up your spine.",
+      "You clench slightly around them, feeling the tension rise with every slow curl of their fingers.",
+      "<<npc.name>> watches you closely, adjusting their rhythm to match your breathing."
+    ],
+    liked: [
+      "You moan loudly, pressing back against their hand, hungry for more.",
+      "Their fingers hit just the right spot, and your hips buck without thought.",
+      "You cry out, body trembling as their rhythm builds steadily.",
+      "Your breath stutters with every push—you're completely undone by their touch.",
+      "You feel your muscles flutter around them, desperate for more friction and depth.",
+      "'Don't stop,' you whisper, body clinging to every stroke."
+    ],
+    disliked: [
+      "You wince as they push in too quickly, discomfort blooming sharp and sudden.",
+      "'Wait—' you mutter, tension making it hard to breathe.",
+      "Your body stiffens involuntarily, clearly not welcoming the intrusion.",
+      "You flinch, and <<npc.name>> pauses immediately, sensing your hesitation.",
+      "'This doesn't feel good,' you say, shifting away slightly.",
+      "You shake your head, voice tight. 'Not that way, please.'"
+    ]
+  }
+},
   
   BreastPlay_R: {
     label: "Fondling their breasts",
@@ -193,7 +515,7 @@ setup.SexSceneResponses = {
         "<<npc.name>> exhales sharply—not with pleasure—and nudges your hands aside."
       ]
     }
-  },
+},
   
   DirtyTalk_G: {
     label: "Talking dirty",
@@ -223,9 +545,9 @@ setup.SexSceneResponses = {
         "Their body stills, and the heat between you falters under the weight of your tone."
       ]
     }
-  },
+},
   
-  Anal_P_R: {
+  Anal_P_G: {
     label: "Anal penetration",
     responses: {
       neutral: [
@@ -253,9 +575,9 @@ setup.SexSceneResponses = {
         "Their breathing speeds up—but not from arousal. 'Stop,' they whisper, no room for debate."
       ]
     }
-  },
+},
 
-  Anal_P_G: {
+  Anal_P_R: {
     label: "Partner initiating anal penetration",
     responses: {
       neutral: [
@@ -283,341 +605,1245 @@ setup.SexSceneResponses = {
         "They slow immediately, concern replacing heat as they ease back from your entrance."
       ]
     }
-  },
+},
   
   Anal_R: {
-    label: "Receiving anal penetration",
-    responses: {
-      neutral: [
-        "You begin to move, establishing a steady rhythm as <<npc.name>> adjusts to your presence.",
-        "You thrust slowly, reading each breath, each shift of <<npc.their>> <<npc.bodyType>> frame for signs of readiness.",
-        "You hold <<npc.their>> <<npc.hipWidth>> hips as your motion grows deeper, smoother, more confident.",
-        "Each motion earns a subtle reaction from <<npc.them>>—a flinch, a twitch, a moan you're not sure was pleasure or restraint.",
-        "You push in and out slowly, letting the friction build with careful patience.",
-        "Your hips rock forward again, skin slapping softly against <<npc.their>> <<npc.buttSize>> backside."
-      ],
-      liked: [
-        "<<npc.name>> groans with each thrust, back arching and voice cracking with pleasure.",
-        "They moan wildly, their whole body pushing back into you, hungry for every inch.",
-        "'Yes—don't stop!' <<npc.they>> pants, gasping as your rhythm deepens.",
-        "<<npc.they>> cries out, fingernails digging into the bedding, toes curling with every push.",
-        "<<npc.name>> slams back into you, pace frantic and needy, pleasure dripping from every movement.",
-        "They tremble with every stroke, breathless and flushed, completely surrendered to the rhythm."
-      ],
-      disliked: [
-        "<<npc.name>> flinches at each thrust, jaw clenched and body tensed in resistance.",
-        "'Slow down,' <<npc.they>> whispers, pain flickering in <<npc.their>> voice.",
-        "You feel <<npc.them>> trying to keep still, but their breath is unsteady—not from arousal.",
-        "'It doesn't feel right,' <<npc.they>> mutters, voice tight, eyes looking anywhere but at you.",
-        "<<npc.name>>'s body isn't responding—just enduring—and the tension is impossible to ignore.",
-        "They gasp—not with pleasure, but a strained sound that halts your motion entirely."
-      ],
-      climax: [
-        "<<npc.name>> lets out a guttural moan, whole body seizing up around you as orgasm rips through <<npc.them>>.",
-        "They arch hard, hips slamming into yours, eyes wild as they reach their peak.",
-        "<<npc.they>> sobs your name as climax hits, shaking and flushed and overwhelmed.",
-        "You feel them clamp down hard, body writhing and pulse pounding through their frame.",
-        "They scream into the pillow, coming undone in waves of shaking, feral bliss."
-      ]
-    }
-  },
+  label: "Receiving anal from your partner",
+  responses: {
+    neutral: [
+      "<<npc.name>> enters you slowly, giving you time to adjust with each controlled motion.",
+      "You feel <<npc.them>> push in deeper, their hips rocking against you with steady rhythm.",
+      "Their grip is firm as they begin to move, the friction sending a sharp pulse through your core.",
+      "They thrust with careful pressure, breath hot against your neck as your body adapts.",
+      "Each motion stretches you further, the fullness building steadily as <<npc.name>> finds their rhythm.",
+      "Your body jolts slightly with every push, tension and anticipation balancing on the edge of pleasure."
+    ],
+    liked: [
+      "You cry out as their pace quickens, the pressure pushing you deeper into bliss.",
+      "Your back arches with each thrust, moaning openly as your body clutches around them.",
+      "You beg for more, unable to get enough of their heat driving into you.",
+      "<<npc.name>> pounds into you harder, and your breath breaks into helpless gasps.",
+      "You meet every thrust eagerly, gripping the sheets as waves of sensation crash through you.",
+      "You feel yourself stretching around them, every push drawing another sharp, delicious cry."
+    ],
+    disliked: [
+      "You wince as the motion grows uncomfortable—your breath shallow and uneven.",
+      "'Stop,' you whisper, voice unsteady with unease.",
+      "Your body tightens involuntarily, fighting against the pressure.",
+      "<<npc.name>> pauses as you flinch, clearly sensing something's wrong.",
+      "The sensation burns—not with pleasure—and you press a hand against their hip to slow them.",
+      "You shake your head, the tension in your spine overwhelming whatever arousal had built."
+    ]
+  }
+},
   
   Anal_G: {
-    label: "Partner thrusting into the player (anal)",
-    responses: {
-      neutral: [
-        "<<npc.name>> begins to move inside you, the rhythm building steadily as your body adjusts.",
-        "They thrust slowly at first, careful and deliberate, eyes locked on the way your body takes them.",
-        "Their hips rock against you, each stroke deeper than the last.",
-        "<<npc.their>> breath grows heavier as they settle into motion, your body growing more receptive with every push.",
-        "You feel every inch as <<npc.name>> starts to drive into you, skin slapping softly against your backside.",
-        "They grunt softly, hands gripping your <<pc.bodyType>> waist as they find their rhythm."
-      ],
-      liked: [
-        "They pound into you harder now, each thrust making you cry out with need.",
-        "Their moans mix with yours as their hips slap relentlessly against your ass.",
-        "'So tight,' <<npc.they>> groans, thrusting into you with increasing speed.",
-        "Your body rocks with every motion as <<npc.name>> fucks you, raw and greedy.",
-        "Their grip tightens, pace relentless—<<npc.they>> is lost in it now, drunk on the way you squeeze around them.",
-        "They slam into you again and again, filling you completely, moaning your name with every motion."
-      ],
-      disliked: [
-        "The rhythm feels wrong—each thrust jarring rather than arousing.",
-        "You wince, body tightening involuntarily. 'Too much,' you whisper.",
-        "<<npc.name>> pulls back slightly, clearly sensing your discomfort.",
-        "Their hips stutter mid-thrust, heat fading as your body rejects the motion.",
-        "'You're not okay,' <<npc.they>> murmurs, slowing instantly.",
-        "They stop moving, hands softening on your sides as they lean forward in concern."
-      ],
-      climax: [
-        "<<npc.name>> thrusts deep and groans loudly, body shuddering as they climax inside you.",
-        "They slam forward with one last thrust, crying out your name as they spill into you.",
-        "<<npc.they>> loses control—voice cracking, hands gripping hard—as orgasm takes over.",
-        "Their hips stutter, breath ragged, as they empty themselves with a final trembling cry.",
-        "<<npc.name>> collapses over you, spent and shaking from the intensity of release."
-      ]
-    }
-  },
+  label: "Giving anal to your partner",
+  responses: {
+    neutral: [
+      "You guide yourself into <<npc.name>> slowly, watching every twitch and breath for signs of readiness.",
+      "You press in carefully, letting <<npc.them>> adjust to your size as you settle into a steady rhythm.",
+      "Your hands rest firm on <<npc.their>> hips as you move deeper, the tightness making every thrust deliberate.",
+      "You thrust into <<npc.them>> slowly, each movement making your body hum with tension.",
+      "Their breath shudders as you begin to move, your body finding a rhythm against their taut backside.",
+      "You roll your hips, pushing in with smooth control, savoring the way their body yields to you."
+    ],
+    liked: [
+      "<<npc.name>> moans loudly, pushing back into every thrust, hungry for more.",
+      "They cry out your name, hips rocking in sync with yours, completely lost in the sensation.",
+      "'Deeper,' they gasp, fingers clawing at the sheets with every motion.",
+      "They shudder under you, gripping the bedding tight as your rhythm builds.",
+      "Their body trembles with pleasure, clearly loving the pressure and fullness.",
+      "<<npc.name>> arches into you with abandon, gasping and whimpering with each deep stroke."
+    ],
+    disliked: [
+      "<<npc.name>> flinches with every push, breath catching in discomfort.",
+      "'Slow down,' they whisper, body tense and resisting the motion.",
+      "They try to stay still, but the discomfort is clear in every movement.",
+      "'This doesn't feel good,' they murmur, voice tight and distant.",
+      "You see them wince slightly, their body tightening up with unease.",
+      "<<npc.name>> shifts away from you, tension replacing pleasure in their posture."
+    ]
+  }
+},
     
   Dominate: {
-    label: "Taking control",
-    responses: {
-      neutral: [
-        "You shift your posture, asserting control with a steady hand and commanding gaze.",
-        "You press them down firmly, making your intentions unmistakable."
-      ],
-      liked: [
-        "<<npc.name>> shivers in anticipation, surrendering eagerly to your lead.",
-        "They melt beneath you, clearly turned on by your dominance."
-      ],
-      disliked: [
-        "<<npc.name>> stiffens, eyes narrowing. 'That's not how I like it.'",
-        "They try to resist your pressure, clearly uncomfortable with your tone."
-      ]
-    }
-  },
+  label: "Taking control",
+  responses: {
+    neutral: [
+      "You shift your weight over <<npc.name>>, your gaze steady and commanding as you take the lead.",
+      "You press <<npc.them>> down by the shoulders, asserting your intentions without a word.",
+      "Your hand slides to <<npc.their>> throat—not to squeeze, just to *hold*—as you pin <<npc.them>> in place.",
+      "You take firm hold of <<npc.their>> <<npc.hipWidth>> hips, guiding the rhythm with absolute control.",
+      "Your body cages <<npc.them>>, heat radiating off you as you press forward with slow dominance.",
+      "You move deliberately, forcing <<npc.them>> to follow your pace and your will."
+    ],
+    liked: [
+      "<<npc.name>> gasps, clearly turned on as <<npc.they>> yields completely to your control.",
+      "They whimper beneath you, eyes glassy with submission and need.",
+      "Your grip tightens, and <<npc.name>> moans as if the power shift alone pushes them closer to release.",
+      "They melt into the sheets, a breathy 'yes' escaping <<npc.their>> lips as you press <<npc.them>> down.",
+      "<<npc.name>> looks up at you with shining <<npc.eyecolor>> eyes—needy, obedient, desperate for more.",
+      "Their breathing quickens as your command takes over, and <<npc.they>> seems to *blossom* under your dominance."
+    ],
+    disliked: [
+      "<<npc.name>> stiffens, clearly not responding well to the pressure.",
+      "They push back against your grip, discomfort flickering across <<npc.their>> features.",
+      "You feel <<npc.them>> tense up, the mood shifting as their eyes narrow.",
+      "'That’s not how I like it,' <<npc.they>> mutters, voice hardening.",
+      "<<npc.name>> pulls away slightly, body defensive rather than inviting.",
+      "They meet your stare, unflinching—and not in a good way. The heat between you stutters and fades."
+    ]
+  }
+},
 
   Submit: {
-    label: "Submitting",
-    responses: {
-      neutral: [
-        "You lower yourself, exposing your body in silent invitation.",
-        "You yield control, your breath shallow and expectant."
-      ],
-      liked: [
-        "<<npc.name>> smiles darkly, clearly relishing the power you've given up.",
-        "They grip your chin gently, clearly enjoying your submission."
-      ],
-      disliked: [
-        "<<npc.name>> frowns slightly, confused by your sudden passivity.",
-        "'What are you doing?' they ask, tone uncertain."
-      ]
-    }
-  },
+  label: "Submitting",
+  responses: {
+    neutral: [
+      "You lower yourself, offering <<npc.name>> full access to your body without resistance.",
+      "You turn your head slightly, exposing your throat, eyes lowered in quiet surrender.",
+      "You lie back and let <<npc.them>> take the lead, body relaxed and expectant beneath <<npc.them>>.",
+      "You loosen your grip on control and exhale, letting <<npc.name>> see your vulnerability.",
+      "Your hands fall to your sides, posture softening as you yield to whatever <<npc.name>> wants.",
+      "You breathe slowly, watching <<npc.their>> reaction as you stop directing and start receiving.",
+      "You expose your body to <<npc.name>>, laying back with arms at your sides, inviting whatever comes next.",
+      "You soften your posture, letting your breath slow as you yield to <<npc.their>> control.",
+      "You lower your gaze and your guard, baring your vulnerability without a word.",
+      "You lie back, placing trust in <<npc.name>>'s hands as you stop directing and start surrendering.",
+      "Your legs part slightly and your hands rest at your sides, making no move except to welcome.",
+      "You breathe deeply and let <<npc.name>> feel your stillness—your wordless offering of control."
+    ],
+    liked: [
+      "<<npc.name>> smiles darkly, fingers running along your jaw as they take full advantage of your surrender.",
+      "They straddle you with confidence, clearly turned on by your obedience.",
+      "<<npc.they>> leans in close, breath hot against your ear. 'Good. Just like that.'",
+      "Their touch grows bolder as they revel in the power you've given up willingly.",
+      "They press into you with growing hunger, clearly aroused by the way you submit.",
+      "<<npc.name>> moans approvingly, hands moving over your body like you’re a gift to unwrap.",
+      "<<npc.name>> smiles darkly, hunger flickering in <<npc.their>> <<npc.eyecolor>> eyes as they take in your surrender.",
+      "They press into you with newfound confidence, clearly aroused by your obedience.",
+      "'Good,' <<npc.they>> murmurs, voice thick with approval, as <<npc.they>> begins to take what you've offered.",
+      "<<npc.name>> runs a hand down your chest, clearly reveling in the power shift.",
+      "They move over you, dominant and sure, their touch almost reverent in its certainty.",
+      "Their voice is low and <<npc.voiceTone>>, thrilled by the submission you've given freely."
+    ],
+    disliked: [
+      "<<npc.name>> frowns slightly, confused by your sudden passivity.",
+      "'What are you doing?' they ask, tone uncertain.",
+      "They hesitate, clearly uncomfortable with the shift in energy.",
+      "You feel <<npc.them>> hesitate above you, uncertain how to respond to your lack of initiative.",
+      "'This isn’t really my thing,' <<npc.they>> mutters, their voice tense.",
+      "<<npc.name>> looks unsure—like your surrender leaves a void they don’t want to fill.",
+      "<<npc.name>> frowns slightly. 'Why are you doing that?' <<npc.they>> asks, confused.",
+      "They seem taken aback, shifting slightly as if unsure what to do with your passivity.",
+      "'Are you okay?' <<npc.they>> asks, blinking in uncertainty at your sudden stillness.",
+      "<<npc.name>> hesitates, not reaching for you—unsure how to respond to your surrender.",
+      "'I wasn’t expecting... that,' <<npc.they>> mutters, clearly not one to take control by default.",
+      "They stiffen slightly, expression unreadable as your deference throws off their rhythm."
+    ]
+  }
+},
 
-  FaceSit: {
-    label: "Face sitting",
-    responses: {
-      neutral: [
-        "You straddle their face slowly, watching their expression for every flicker of desire.",
-        "You settle atop them, hips rocking as they take in your scent and taste."
-      ],
-      liked: [
-        "<<npc.name>> groans hungrily, gripping your thighs and pulling you closer.",
-        "They moan beneath you, clearly loving every second of it."
-      ],
-      disliked: [
-        "They try to shift away, muffled sounds of protest echoing against your skin.",
-        "<<npc.name>>'s body stiffens beneath you—not in pleasure."
-      ]
-    }
+  FaceSit_G: {
+  label: "Face sitting",
+  responses: {
+    neutral: [
+      "You straddle <<npc.name>>’s face slowly, watching <<npc.their>> expression for any flicker of hesitation—or hunger.",
+      "You settle your <<pc.bodyType>> hips atop <<npc.their>> mouth, rocking gently as they take in your scent and heat.",
+      "You plant your knees on either side of <<npc.their>> head, hovering until you're sure they’re ready.",
+      "You lower yourself carefully, bracing on the headboard while <<npc.name>> exhales hot breath against your skin.",
+      "You grip the headboard, letting your body sink lower, pressing your thighs gently around <<npc.their>> face.",
+      "Your breath shudders as you rest your weight on them, waiting for their reaction beneath you."
+    ],
+    liked: [
+      "<<npc.name>> groans hungrily, gripping your thighs and pulling you down with urgency.",
+      "They moan against you, tongue eager and unrelenting as their hands grip your hips.",
+      "Their grip tightens, fingers digging into your skin as <<npc.they>> devours you with raw, greedy need.",
+      "'Fuck,' they breathe against your heat, and then there are no more words—just moaning, licking, gasping.",
+      "They press themselves up into you, clearly lost in the pleasure of being beneath you.",
+      "Their eyes flutter shut and their breath turns ragged—they're loving every second of this."
+    ],
+    disliked: [
+      "They try to shift away, muffled sounds of protest lost against your thighs.",
+      "<<npc.name>>'s body stiffens beneath you—not in pleasure, but in discomfort.",
+      "They hesitate beneath you, hands tapping lightly on your thighs—trying to ease you off.",
+      "You feel them go still, and not in a submissive way—the energy falters instantly.",
+      "'Wait, I'm not sure about this,' they mutter breathlessly when you lift just enough to hear.",
+      "Their hands slide to your waist, not to pull you closer—but to stop you."
+    ]
+  }
+},
+
+  FaceSit_R: {
+  label: "Having them sit on your face",
+  responses: {
+    neutral: [
+      "<<npc.name>> climbs over you, lowering <<npc.their>> <<npc.buttSize>> body with careful control.",
+      "You feel the heat of <<npc.their>> skin as they settle down over your mouth, steady but cautious.",
+      "They straddle your face, hips hovering for a moment before lowering onto you.",
+      "Their scent fills your senses as <<npc.name>> eases into place, letting you feel every inch of pressure.",
+      "They press down slowly, hands bracing against the wall or headboard as they guide your mouth to work.",
+      "You grip <<npc.their>> thighs as they lower themselves, your breath lost beneath their weight."
+    ],
+    liked: [
+      "<<npc.name>> groans loudly, grinding down with abandon as they ride your tongue.",
+      "'Fuck yes,' they cry, tightening their grip on your hair as they take control of your mouth.",
+      "They moan helplessly above you, thighs trembling as they push harder into your face.",
+      "You feel them buck against your tongue, clearly loving every second of it.",
+      "They lean back, using your face like a throne, their voice breaking with every movement.",
+      "<<npc.name>> doesn't hold back—their rhythm wild and desperate as they smother you with need."
+    ],
+    disliked: [
+      "They hesitate halfway down, tension flickering across <<npc.their>> body.",
+      "'Wait—I’m not sure about this,' they murmur, backing off quickly.",
+      "They lower onto your mouth but never settle, clearly unsure or uncomfortable.",
+      "<<npc.name>> shifts awkwardly, then rises again, the moment fading from heat to hesitation.",
+      "Their breathing changes—faster, but not in arousal. You feel the discomfort before they say anything.",
+      "'Sorry,' they say gently, climbing off, the tension lingering in the air."
+    ]
   },
+},
 
   Praise_G: {
-    label: "Praising your partner",
-    responses: {
-      neutral: [
-        "You murmur soft compliments, letting them know how beautiful, how perfect they are.",
-        "Your words are warm, reverent—meant for them and them alone."
-      ],
-      liked: [
-        "<<npc.name>> blushes fiercely, eyes shining. They clearly thrive on your words.",
-        "They whimper softly, drinking in the affection like it's oxygen."
-      ],
-      disliked: [
-        "They roll their eyes awkwardly. 'That's... too much right now.'",
-        "They smile stiffly, not quite sure how to respond to the praise."
-      ]
-    }
-  },
+  label: "Praising your partner",
+  responses: {
+    neutral: [
+      "You murmur soft compliments into <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair, each word meant only for <<npc.them>>.",
+      "Your fingers brush down <<npc.their>> back as you whisper, 'You're beautiful,' with quiet conviction.",
+      "You smile against <<npc.their>> neck, letting the warmth of your words wrap around <<npc.them>>.",
+      "Your tone is low and steady, reverent. 'You're perfect like this,' you breathe.",
+      "You cradle <<npc.their>> face, locking eyes with <<npc.them>> as you tell them exactly how much they mean in this moment.",
+      "You speak slowly and clearly, every syllable laced with honest admiration."
+    ],
+    liked: [
+      "<<npc.name>> blushes fiercely, <<npc.their>> <<npc.eyecolor>> eyes shimmering as your words sink in.",
+      "They shiver at the praise, mouth parting in a breathless sound between a moan and a sigh.",
+      "<<npc.they>> whimpers softly, as if your voice alone is enough to undo <<npc.them>>.",
+      "<<npc.name>> pulls you tighter, as if needing your closeness to match your words.",
+      "They melt beneath you, whispering, 'Don’t stop saying those things,' voice shaking.",
+      "<<npc.their>> body responds before <<npc.they>> does, hips twitching slightly, breath catching in pure reaction to being adored."
+    ],
+    disliked: [
+      "<<npc.name>> shifts awkwardly. 'That’s... kind of a lot right now,' <<npc.they>> mumbles.",
+      "They smile, but it’s distant. 'You don’t have to say all that,' <<npc.they>> adds, glancing away.",
+      "They don’t quite respond—shoulders stiff, breath shallow. Something’s off.",
+      "<<npc.name>> laughs quietly but it doesn’t reach <<npc.their>> eyes. 'Let’s focus on what we’re doing,' <<npc.they>> offers.",
+      "You feel them recoil slightly at the affection, unsure how to accept the sentiment.",
+      "<<npc.they>> nods but offers no verbal response—your words may have landed wrong this time."
+    ]
+  }
+},
 
   HairPulling_G: {
-    label: "Pulling their hair",
-    responses: {
-      neutral: [
-        "You tangle your fingers in their hair and give a firm tug.",
-        "You pull their head back slightly, exposing their neck and jawline."
-      ],
-      liked: [
-        "<<npc.name>> gasps, clearly turned on by the control.",
-        "They groan, their eyes flashing with pleasure and challenge."
-      ],
-      disliked: [
-        "<<npc.name>> yelps in surprise and pulls away. 'Easy!'",
-        "They wince, clearly not enjoying the roughness."
-      ]
-    }
-  },
+  label: "Pulling their hair",
+  responses: {
+    neutral: [
+      "You thread your fingers through <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair, gripping just tight enough to command attention.",
+      "You curl your fist in <<npc.their>> locks and pull gently, tilting <<npc.their>> head to expose the soft line of <<npc.their>> neck.",
+      "Your hand tightens in <<npc.name>>'s hair, just enough to make <<npc.them>> pause beneath you.",
+      "You tug <<npc.their>> head back slowly, watching the tension ripple down <<npc.their>> spine.",
+      "You take a handful of <<npc.their>> hair and guide <<npc.them>> where you want, pressure teasing but not cruel.",
+      "You fist their hair near the base and tug with slow precision, your breath on <<npc.their>> ear."
+    ],
+    liked: [
+      "<<npc.name>> gasps, hips bucking at the jolt of control.",
+      "They groan with satisfaction, a <<npc.voiceTone>> sound that only deepens when you tug again.",
+      "'Yes,' they whisper, eyes darkening with arousal as your grip tightens.",
+      "They tilt their head willingly into your hand, offering more of themselves to the pull.",
+      "<<npc.name>> smiles wickedly even as you pull harder—<<npc.they>> loves the pain laced with pleasure.",
+      "Their hands clutch at your arms as you pull, breath hitching with every sharp tug."
+    ],
+    disliked: [
+      "<<npc.name>> yelps, twisting out of your grip. 'Not like that,' <<npc.they>> snaps.",
+      "They wince under your hand, body recoiling from the sudden pressure.",
+      "'Easy!' they say, reaching back to pry your hand from <<npc.their>> hair.",
+      "You feel <<npc.them>> stiffen immediately—whatever thrill you hoped for doesn’t land.",
+      "<<npc.name>> mutters something under <<npc.their>> breath and turns <<npc.their>> head away.",
+      "They shift out of reach, clearly not enjoying the force you're applying."
+    ]
+  }
+},
 
   Choke_G: {
-    label: "Choking them",
-    responses: {
-      neutral: [
-        "You wrap a firm hand around their throat, applying just enough pressure.",
-        "Your fingers tighten slowly at their neck, testing their reaction."
-      ],
-      liked: [
-        "<<npc.name>> gasps in pleasure, eyes rolling slightly as they lean into your grip.",
-        "They moan against your palm, clearly aroused by the control."
-      ],
-      disliked: [
-        "<<npc.name>> grabs your wrist suddenly. 'No.'",
-        "Their body goes rigid, and the mood breaks instantly."
-      ]
-    }
-  },
+  label: "Choking them",
+  responses: {
+    neutral: [
+      "You wrap your hand firmly around <<npc.name>>’s throat, letting your grip settle without fully tightening.",
+      "Your fingers close slowly around <<npc.their>> neck, watching <<npc.their>> breath and body for a reaction.",
+      "You press your palm against <<npc.their>> throat, your touch dominant but careful.",
+      "You tilt <<npc.their>> chin up with a firm grip at the jawline, letting dominance bleed into restraint.",
+      "You test the tension with your hand at <<npc.name>>’s neck—just enough pressure to make <<npc.them>> aware of it.",
+      "You slide your hand around <<npc.their>> throat, pausing as your thumb brushes the side of <<npc.their>> jaw."
+    ],
+    liked: [
+      "<<npc.name>> moans low in <<npc.their>> throat, eyes fluttering as your grip tightens.",
+      "They gasp sharply, hips twitching as your hand closes around <<npc.their>> neck.",
+      "'Harder,' <<npc.they>> breathes, voice breaking with pleasure.",
+      "They look up at you, <<npc.eyecolor>> eyes wide and wild with arousal.",
+      "Your fingers dig deeper into <<npc.their>> neck, and <<npc.they>> shudders—utterly hooked on the control.",
+      "They writhe beneath you, moaning into your touch, their breath ragged and desperate."
+    ],
+    disliked: [
+      "<<npc.name>>’s hand flies to your wrist, prying it away. 'No,' <<npc.they>> says, breathless—but not in a good way.",
+      "Their whole body locks up, and <<npc.they>> stares at you, stunned and stiff.",
+      "'That’s too much,' <<npc.they>> mutters quickly, voice thin and guarded.",
+      "They push you off with surprising strength, clearly shaken by your grip.",
+      "<<npc.name>> coughs lightly and pulls away, turning their face from yours.",
+      "You feel <<npc.them>> go completely still—not from obedience, but discomfort."
+    ]
+  }
+},
 
-  Toys_Use: {
-    label: "Using toys on them",
-    responses: {
-      neutral: [
-        "You bring the toy to their body, teasing their skin as they inhale sharply.",
-        "You activate the device and begin tracing it along their most sensitive spots."
-      ],
-      liked: [
-        "<<npc.name>> writhes beneath you, crying out as the sensations build fast.",
-        "Their hands clench the sheets, body trembling from the stimulation."
-      ],
-      disliked: [
-        "<<npc.name>> shifts away from the toy, frowning slightly. 'That's not my thing.'",
-        "They look uncertain, trying to stay in the mood but clearly unsettled."
-      ]
-    }
-  },
+  Toys_G: {
+  label: "Using toys on them",
+  responses: {
+    neutral: [
+      "You bring the toy to <<npc.name>>’s <<npc.skinTone>> skin, teasing gently along <<npc.their>> inner thigh.",
+      "You switch on the toy and begin circling it along <<npc.their>> most sensitive spots, watching for reaction.",
+      "Your hand steadies the device as you press it lightly against <<npc.their>> entrance, just enough to make <<npc.them>> shiver.",
+      "The hum fills the air as you glide the toy along <<npc.their>> <<npc.buttSize>> curves and back again.",
+      "You trace slow, experimental lines over <<npc.their>> chest, gauging where the sensation hits best.",
+      "You let the toy vibrate gently against <<npc.their>> skin, its presence alone sending subtle tremors through them."
+    ],
+    liked: [
+      "<<npc.name>> writhes beneath the pressure, moaning as the sensation overwhelms <<npc.them>>.",
+      "They gasp with every movement, hips bucking toward the toy uncontrollably.",
+      "<<npc.they>> clutches the bedding as your toy works in steady pulses against all the right places.",
+      "They cry out as the intensity builds fast, eyes squeezing shut in overstimulated bliss.",
+      "'More,' <<npc.they>> begs breathlessly, unable to hold still under the pulsing rhythm.",
+      "<<npc.name>> trembles, mouth open, thighs shaking as the toy drives them to the edge."
+    ],
+    disliked: [
+      "<<npc.name>> shifts away slightly, discomfort flickering in <<npc.their>> expression.",
+      "They bite their lip, not in pleasure, but in hesitance—'That’s not really for me,' <<npc.they>> murmurs.",
+      "Their body stiffens under the toy, the heat fading from <<npc.their>> skin.",
+      "'I don’t think I like that,' they mutter, gently pushing your hand aside.",
+      "They force a smile, but their hips pull back, clearly trying to avoid the contact.",
+      "The whirr of the toy fills the silence—but <<npc.name>> is no longer moaning. Just enduring."
+    ]
+  }
+},
 
-  Edging: {
-    label: "Teasing them to the brink",
-    responses: {
-      neutral: [
-        "You slow your rhythm just before they reach their peak, watching their frustration grow.",
-        "You pull back slightly, leaving them aching and desperate."
-      ],
-      liked: [
-        "<<npc.name>> whines in frustration, begging for more.",
-        "They tremble, pleasure taut just beneath the surface—hooked on the denial."
-      ],
-      disliked: [
-        "They exhale sharply. 'Don't play games,' they mutter, annoyed.",
-        "Their eyes narrow—this isn't the kind of tease they enjoy."
-      ]
-    }
-  },
+  Edging_G: {
+  label: "Teasing them to the brink",
+  responses: {
+    neutral: [
+      "You slow your rhythm deliberately, drawing back just as <<npc.name>> starts to unravel.",
+      "You pause the stimulation, letting their body throb with denial and unsatisfied need.",
+      "You ease off the pressure, watching <<npc.their>> <<npc.bodyType>> form twitch and writhe beneath you.",
+      "You hover just close enough to keep <<npc.them>> aching, each denied moment sharpening their hunger.",
+      "Their breathing stutters as you stop—on purpose—smiling softly at the sound of their frustration.",
+      "You watch <<npc.name>>’s eyes flutter and fists tighten as the pleasure is pulled just out of reach again."
+    ],
+    liked: [
+      "<<npc.name>> lets out a desperate moan, hips chasing your touch even as you pull away.",
+      "'Please,' <<npc.they>> begs, voice breaking under the weight of held-back climax.",
+      "Their whole body shakes with tension, breath ragged as the edge becomes unbearable.",
+      "They whimper at your restraint, eyes glazed, addicted to the denial.",
+      "<<npc.name>> claws at the sheets, breathless and wrecked from being kept so close—but not quite there.",
+      "'You're cruel,' <<npc.they>> moans, but their tone is soaked with bliss and surrender."
+    ],
+    disliked: [
+      "<<npc.name>> exhales sharply and glares. 'Don’t play games with me.'",
+      "Their expression hardens, clearly unamused by the lack of follow-through.",
+      "They pull away with a frustrated growl, body tense and arousal fading fast.",
+      "'If you’re not going to finish it, don’t start,' <<npc.they>> mutters flatly.",
+      "<<npc.name>>'s jaw tightens, and the moment turns sour as they push you off.",
+      "They sit up, irritation overtaking arousal. 'That’s not how I want this to go.'"
+    ]
+  }
+},
 
   BreastPlay_G: {
-    label: "Giving breast attention",
-    responses: {
-      neutral: [
-        "You lean down and take one of their nipples between your lips, swirling your tongue slowly.",
-        "Your hands explore their chest with gentle, focused care."
-      ],
-      liked: [
-        "<<npc.name>> moans softly, arching into your mouth.",
-        "They whimper, hands tangling in your hair, hungry for more."
-      ],
-      disliked: [
-        "<<npc.name>> pulls your hand away with a hesitant shake of the head.",
-        "They shift uncomfortably, not responding to the touch."
-      ]
-    }
-  },
+  label: "Giving breast attention",
+  responses: {
+    neutral: [
+      "You lean down and take one of <<npc.name>>’s nipples between your lips, swirling your tongue slowly.",
+      "Your hands explore <<npc.their>> chest with gentle care, fingers tracing the curve of <<npc.their>> <<npc.breastSize>> breasts.",
+      "You kiss softly along the top of <<npc.their>> chest before focusing on the sensitive flesh below.",
+      "You drag your tongue across one nipple, letting the warmth of your breath do the rest.",
+      "You cup each breast in your hands and begin teasing in slow, circular motions.",
+      "Your fingers gently roll <<npc.their>> nipples, gauging every twitch in <<npc.their>> body."
+    ],
+    liked: [
+      "<<npc.name>> moans softly, arching into your mouth as if offering more.",
+      "They whimper, hands tangling in your hair, chest rising into your touch.",
+      "'Don’t stop,' <<npc.they>> breathes, eyes fluttering closed with pleasure.",
+      "<<npc.name>> clutches at your shoulders, clearly reveling in every flick and squeeze.",
+      "Their breath hitches as your mouth works over them, moaning between sharp gasps.",
+      "You feel their heartbeat quicken under your lips, their nipples hardening beneath your touch."
+    ],
+    disliked: [
+      "<<npc.name>> pulls your hand away with a hesitant shake of the head, clearly not into it.",
+      "They shift under you, chest no longer responding to the contact.",
+      "'Let’s do something else,' <<npc.they>> says quietly, voice unsure.",
+      "Their breath slows, not in pleasure—more like they’re waiting for it to end.",
+      "<<npc.name>> glances away, not quite engaged with your attention to their chest.",
+      "You feel <<npc.them>> pull slightly back, tension growing in <<npc.their>> posture."
+    ]
+  }
+},
 
   Kissing: {
-    label: "Kissing",
-    responses: {
-      neutral: [
-        "Your lips brush against theirs, soft and inviting.",
-        "You lean in for a slow, exploratory kiss.",
-        "You press your mouth to theirs, testing their response with a gentle rhythm.",
-        "Your mouths meet in a quiet moment of shared breath."
-      ],
-      liked: [
-        "<<npc.name>> melts into the kiss, sighing sweetly into your mouth.",
-        "They press closer, the kiss deepening with hunger and warmth.",
-        "Their hands find your face, pulling you in more firmly.",
-        "They moan softly, clearly savoring your touch.",
-        "Their whole body seems to relax into the contact, tension draining away."
-      ],
-      disliked: [
-        "<<npc.name>> turns slightly, deflecting the moment with a tense smile.",
-        "They return the kiss briefly, but there's little passion behind it.",
-        "<<npc.name>> offers a quick peck and then pulls back, avoiding your eyes.",
-        "You feel their lips hesitate against yours—distant, uncertain.",
-        "Their response is stiff, like they're going through the motions."
-      ]
-    }
-  },  
+  label: "Kissing",
+  responses: {
+    neutral: [
+      "Your lips brush gently against <<npc.name>>’s, soft and exploratory, inviting more.",
+      "You lean in, pressing your mouth to theirs in a careful rhythm, testing their response.",
+      "You kiss <<npc.them>> slowly, your hand brushing through <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair.",
+      "Your mouths meet in a quiet exchange, the tension between you thinning with each passing breath.",
+      "You cradle <<npc.their>> jaw as your lips meet, letting the moment hang delicately in the air.",
+      "You linger at the edge of their mouth, your kiss slow, seeking, and cautious.",
+      "You lean in and press your lips gently to <<npc.name>>'s, your breath mingling.",
+      "Your lips meet in a soft, exploratory kiss—testing their mood and desire.",
+      "You brush your mouth against <<npc.their>> own, light as a whisper.",
+      "The kiss is tentative at first, a shared moment of warmth on <<npc.their>> <<npc.skinTone>> cheek.",
+      "Your fingers touch <<npc.their>> <<npc.hairLength>> <<npc.hairColor>> hair as your mouths meet briefly.",
+      "You kiss <<npc.them>> slowly, watching how <<npc.they>> reacts—gently feeling the space between you close."
+
+    ],
+    liked: [
+      "<<npc.name>> melts into the kiss, sighing sweetly against your lips as <<npc.they>> presses closer.",
+      "They moan softly, mouth parting to deepen the kiss, clearly savoring every second.",
+      "<<npc.their>> hands slide into your hair as they return the kiss with eager hunger.",
+      "They pull you closer with a needy sound, mouth hungry and breath trembling.",
+      "<<npc.name>> kisses you back fiercely, their body flush against yours, losing themselves in the heat.",
+      "Their lips move in perfect sync with yours, a low <<npc.voiceTone>> sound escaping with every breath.",
+      "<<npc.name>> melts into the kiss, sighing into your mouth as their hands find your waist.",
+      "The kiss deepens—slow, hungry, and filled with unspoken hunger.",
+      "<<npc.they>> hums softly, mouth parting under yours as passion sparks between you.",
+      "<<npc.name>> presses forward eagerly, lips warm and eager against your own.",
+      "Their hands tangle in your hair as <<npc.they>> kisses you like they've wanted it for hours.",
+      "They taste like heat and sweetness, their <<npc.voiceTone>> moans swallowed between breaths."
+    ],
+    disliked: [
+      "<<npc.name>> turns slightly, deflecting the kiss with a polite but tense smile.",
+      "They return the kiss briefly, but the passion isn’t there—just motion.",
+      "Their lips part just enough to be polite, but their eyes never close.",
+      "<<npc.name>> exhales slowly through their nose, barely engaging before pulling away.",
+      "They give a quick peck and glance off to the side, the intimacy broken.",
+      "You feel hesitation in their lips—present, but emotionally elsewhere.",
+      "<<npc.name>> returns the kiss, but there's a stiffness to <<npc.their>> mouth.",
+      "They hesitate before responding, lips barely moving under yours.",
+      "You feel a flicker of tension as <<npc.them>> leans away slightly mid-kiss.",
+      "They shift as your lips touch, eyes opening too soon to meet yours.",
+      "'That's… not really the vibe,' <<npc.they>> murmurs, avoiding your gaze.",
+      "You brush your mouth to <<npc.theirs>>, but they don't quite lean in—they seem distracted."
+    ]
+  }
+},
 
   OralAnal_G: {
-    label: "Giving oral to their anus",
-    responses: {
-      neutral: [
-        "You lower yourself slowly, spreading them open with deliberate care.",
-        "You press your mouth to their most private place, working with gentle precision."
-      ],
-      liked: [
-        "<<npc.name>> gasps sharply, body twitching with every flick of your tongue.",
-        "They groan deeply, clearly overwhelmed by the sensation."
-      ],
-      disliked: [
-        "<<npc.name>> tenses up, twisting away. 'Not there…'",
-        "They shiver—not from pleasure—and shift uncomfortably."
-      ]
-    }
+  label: "Giving oral to their anus",
+  responses: {
+    neutral: [
+      "You lower yourself between <<npc.name>>’s thighs, hands parting <<npc.their>> <<npc.buttSize>> rear with steady care.",
+      "You press your mouth to <<npc.their>> most private place, tongue exploring gently with deliberate precision.",
+      "You run your hands along <<npc.their>> hips and thighs before leaning in, letting your breath tease their entrance.",
+      "You kiss the soft skin just above their opening, then slowly move lower, watching for every reaction.",
+      "You begin slowly, circling their entrance with your tongue as your grip steadies <<npc.their>> waist.",
+      "You explore them with a mix of curiosity and reverence, letting the moment dictate your rhythm."
+    ],
+    liked: [
+      "<<npc.name>> gasps sharply, body jolting as your tongue finds just the right pressure.",
+      "They moan into the sheets, legs trembling with every flick of your tongue.",
+      "Their breath comes ragged and fast, hips bucking slightly toward your mouth.",
+      "'Oh gods,' <<npc.they>> pants, voice trembling with each wave of sensation.",
+      "They grip the bedding tightly, unable to stay still beneath the intensity of your touch.",
+      "<<npc.name>> lets out a helpless moan, clearly overwhelmed by the depth of pleasure you're giving them."
+    ],
+    disliked: [
+      "<<npc.name>> tenses, the muscles in <<npc.their>> back and thighs locking tight.",
+      "They flinch slightly, pulling away with a shaken breath. 'Not there…'",
+      "You feel <<npc.them>> shiver—not with pleasure—and <<npc.they>> shifts uncomfortably.",
+      "'That’s not something I like,' <<npc.they>> murmurs, glancing back with unease.",
+      "<<npc.name>>’s body goes still under your touch, the mood fading as discomfort sets in.",
+      "They reach back gently, guiding you away from the area with a soft but firm touch."
+    ]
+  }
+},
+
+  OralAnal_R: {
+  label: "Receiving oral on your anus",
+  responses: {
+    neutral: [
+      "<<npc.name>> lowers themselves behind you, hands parting your <<pc.buttSize>> cheeks with deliberate care.",
+      "Their breath grazes your skin before you feel the first flick of <<npc.their>> tongue—soft, exploratory.",
+      "They tease around your entrance slowly, taking their time and watching your reaction.",
+      "You feel a tentative lick, followed by the warmth of <<npc.name>>'s mouth pressing gently against you.",
+      "Their hands steady your hips as their tongue moves with patient curiosity.",
+      "They kiss softly before continuing, clearly feeling out your comfort level with every motion."
+    ],
+    liked: [
+      "Your breath catches as <<npc.name>> works their tongue with growing confidence, every motion hitting just right.",
+      "They moan into you, clearly loving the way your body responds to their attention.",
+      "Their tongue circles and presses in rhythmic pulses, sending shivers through your core.",
+      "You gasp as they bury their face deeper, mouth eager and relentless.",
+      "<<npc.name>> holds you open, tongue lapping at you with a hunger that leaves you trembling.",
+      "Each flick of their tongue draws a moan from your lips—you’re melting under their mouth."
+    ],
+    disliked: [
+      "You tense as <<npc.name>> starts, the sensation more awkward than arousing.",
+      "They hesitate, and so do you—the rhythm isn’t quite there.",
+      "'Let’s not,' you murmur, pulling away slightly.",
+      "They lick once, then pause—unsure, and it shows.",
+      "You shift under them, trying to stay in the moment, but the chemistry falters.",
+      "Their tongue moves without enthusiasm, and the heat between you starts to fade."
+    ]
   },
+},
 
   NipplePlay_R: {
-    label: "Stimulating their nipples",
-    responses: {
-      neutral: [
-        "You circle a fingertip around one nipple, then lightly pinch it.",
-        "Your lips close around the bud, drawing a soft sound from them."
-      ],
-      liked: [
-        "<<npc.name>> moans gently, pressing their chest against your hand.",
-        "Their breath hitches, eyes fluttering shut with pleasure."
-      ],
-      disliked: [
-        "<<npc.name>> wriggles away slightly, looking uneasy.",
-        "'I don't really feel anything there,' they mutter."
-      ]
-    }
-  },
+  label: "Stimulating their nipples",
+  responses: {
+    neutral: [
+      "You circle a fingertip around one of <<npc.name>>’s nipples, then give it a gentle pinch, gauging their reaction.",
+      "You lean down and close your lips over the bud, applying just enough suction to elicit a soft sound.",
+      "You drag your thumb lightly across <<npc.their>> chest, watching how their <<npc.breastSize>> skin responds.",
+      "Your fingers tease the peak, twisting it slowly between two fingers while your free hand steadies their waist.",
+      "You alternate between firm and featherlight pressure, testing what draws the most breath from <<npc.them>>.",
+      "You let your tongue swirl slowly over the sensitive nub, watching <<npc.their>> eyes for flickers of pleasure."
+    ],
+    liked: [
+      "<<npc.name>> moans gently, arching into your hand with need.",
+      "Their breath hitches as you tease them, nipples hardening beneath your touch.",
+      "<<npc.they>> gasps when your tongue flicks just right, body visibly shivering.",
+      "They whimper and cling to you, clearly loving the attention you’re giving their chest.",
+      "<<npc.name>> presses <<npc.their>> <<npc.breastSize>> chest toward you, desperate for more stimulation.",
+      "They murmur encouragement through ragged breath, clearly thriving under your attention."
+    ],
+    disliked: [
+      "<<npc.name>> wriggles away slightly, discomfort flickering in <<npc.their>> expression.",
+      "'I don't really feel anything there,' <<npc.they>> mutters, eyes a bit distant.",
+      "They glance down at your hand, then back up at you—offering a polite but uneasy smile.",
+      "Their chest remains still under your touch, body not reacting to the stimulation.",
+      "<<npc.name>> places a hand gently over yours, guiding it elsewhere with quiet insistence.",
+      "'Not really my spot,' they say softly, shifting away from your mouth."
+    ]
+  }
+},
 
   Praise_R: {
-    label: "Receiving praise",
-    responses: {
-      neutral: [
-        "<<npc.name>> listens to your praise with a shy smile.",
-        "Their cheeks flush as your words land."
-      ],
-      liked: [
-        "They glow under your compliments, clearly thriving on them.",
-        "'Say that again,' <<npc.name>> whispers, visibly aroused."
-      ],
-      disliked: [
-        "They roll their eyes. 'You don't need to flatter me.'",
-        "They look away awkwardly, clearly not used to affection like that."
-      ]
-    }
-  },
+  label: "Receiving praise",
+  responses: {
+    neutral: [
+      "<<npc.name>> listens to your words with a shy smile, eyes flicking down as if to hide the reaction.",
+      "Their cheeks flush slightly, <<npc.their>> <<npc.skinTone>> skin warming under your gaze.",
+      "<<npc.name>> tilts <<npc.their>> head, clearly unsure how to respond—but not rejecting it.",
+      "They nod softly at your words, a hint of pride flickering behind <<npc.their>> <<npc.eyecolor>> eyes.",
+      "<<npc.they>> accepts the praise with quiet grace, saying nothing but visibly taking it in.",
+      "They breathe in slowly, lips twitching into a small, thoughtful smile."
+    ],
+    liked: [
+      "<<npc.name>> beams, eyes shining as your compliments land deeper than words alone ever could.",
+      "Their chest rises with a sharp inhale, and <<npc.they>> leans into your voice like it’s a lifeline.",
+      "<<npc.they>> moans softly—yes, from your touch, but more so from your words.",
+      "'Say that again,' <<npc.name>> whispers, breath catching at the intimacy in your tone.",
+      "They tremble just a little, <<npc.their>> body softening completely beneath your affection.",
+      "<<npc.name>> looks up at you, adoration spilling from every inch of <<npc.their>> <<npc.bodyType>> frame."
+    ],
+    disliked: [
+      "<<npc.name>> rolls <<npc.their>> eyes slightly. 'You don't need to flatter me,' <<npc.they>> mutters.",
+      "They give you a forced smile, clearly unsure how to accept your affection.",
+      "'Let's just… stay focused,' they say, brushing off your words like they don’t know how to hold them.",
+      "<<npc.name>> stiffens subtly. Compliments don’t seem to sit well on <<npc.their>> skin.",
+      "They look away quickly, clearly not used to receiving that kind of affection.",
+      "'That’s sweet, but… not really my thing,' <<npc.they>> says, trying not to kill the mood but clearly off-balance."
+    ]
+  }
+},
 
-  Submit: {
-    label: "Submitting",
-    responses: {
-      neutral: [
-        "You expose your body to them, letting them see your vulnerability.",
-        "You lay back and allow their control to take the lead."
-      ],
-      liked: [
-        "<<npc.name>> smiles darkly, clearly enjoying your surrender.",
-        "They press into you with newfound confidence, feeding off your trust."
-      ],
-      disliked: [
-        "They frown slightly. 'Why are you doing that?'",
-        "<<npc.name>> seems confused—maybe they prefer equals, not followers."
-      ]
-    }
-  },
+  HairPulling_R: {
+  label: "Having your hair pulled",
+  responses: {
+    neutral: [
+      "<<npc.name>> threads their fingers into your hair and gives a testing tug, watching your reaction.",
+      "They take a firm grip near your scalp, pulling just enough to shift your posture.",
+      "<<npc.name>> yanks your head back slightly, not harshly—just enough to make a point.",
+      "Their hand tightens in your hair, controlling your movement with quiet dominance.",
+      "You feel their grip twist and pull, making your breath hitch in surprise.",
+      "They gather your hair into their fist, holding you in place without a word."
+    ],
+    liked: [
+      "<<npc.name>> groans as they yank your head back roughly, clearly turned on by your reaction.",
+      "'You like that, don’t you?' <<npc.they>> growls, voice thick with hunger.",
+      "They pull again, harder this time, eyes burning with control and lust.",
+      "Their hand fisting your hair sends a thrill straight through you, their dominance unmistakable.",
+      "<<npc.name>> uses your hair like a handle, grinding into you as their rhythm grows more intense.",
+      "They grin darkly as you gasp, clearly enjoying the power in their grip."
+    ],
+    disliked: [
+      "<<npc.name>> reaches for your hair but hesitates, pulling back before committing.",
+      "They run their fingers through your hair, but their grip is awkward and half-hearted.",
+      "'Sorry, that’s... not something I’m into,' <<npc.they>> mutters, letting go immediately.",
+      "They pull your hair once, then wince. 'Did that hurt? I didn’t mean—never mind.'",
+      "<<npc.name>> drops their hand after a weak tug, clearly uncomfortable with the idea.",
+      "They try it briefly, but the hesitation in their movements kills the mood."
+    ]
+  }
+},
 
-};
+  Choke_R: {
+  label: "Being choked",
+  responses: {
+    neutral: [
+      "<<npc.name>> wraps a firm hand around your throat, applying light pressure without fully cutting off air.",
+      "They lean in close, tightening their grip just enough to make your pulse race.",
+      "Their fingers slide up your neck before squeezing slowly, asserting silent control.",
+      "<<npc.name>>’s hand closes around your throat, testing how you respond to their hold.",
+      "They push you back gently by the neck, a command more than a threat.",
+      "Their grip is controlled, calculated—just enough to make your breath catch in your chest."
+    ],
+    liked: [
+      "You gasp as <<npc.name>> tightens their grip, your vision blurring slightly with arousal.",
+      "They moan against your ear while choking you, clearly thrilled by your helplessness.",
+      "'That's it,' <<npc.they>> growls, breath hot as they dominate your breathing and your body.",
+      "Their hand clamps down and your knees nearly buckle, pleasure blooming behind your eyes.",
+      "<<npc.name>> stares into your face as their grip tightens, reading your reactions with hunger.",
+      "The mix of pressure and dominance sends a tremble down your spine—<<npc.they>> knows it, and deepens their hold."
+    ],
+    disliked: [
+      "You grab at <<npc.their>> wrist instinctively, and they release you immediately, concern flashing in their eyes.",
+      "'That’s not really my thing,' they say, withdrawing their hand.",
+      "They choke you once, then quickly let go—apologetic and clearly uncomfortable.",
+      "Their fingers freeze at your throat, unsure whether to continue.",
+      "'Did I hurt you?' <<npc.they>> asks, tension rising in their tone.",
+      "They pull back entirely, the moment fading as their confidence falters."
+    ]
+  }
+},
+
+  Choke_R: {
+  label: "Being choked",
+  responses: {
+    neutral: [
+      "<<npc.name>> wraps a firm hand around your throat, applying light pressure without fully cutting off air.",
+      "They lean in close, tightening their grip just enough to make your pulse race.",
+      "Their fingers slide up your neck before squeezing slowly, asserting silent control.",
+      "<<npc.name>>’s hand closes around your throat, testing how you respond to their hold.",
+      "They push you back gently by the neck, a command more than a threat.",
+      "Their grip is controlled, calculated—just enough to make your breath catch in your chest."
+    ],
+    liked: [
+      "You gasp as <<npc.name>> tightens their grip, your vision blurring slightly with arousal.",
+      "They moan against your ear while choking you, clearly thrilled by your helplessness.",
+      "'That's it,' <<npc.they>> growls, breath hot as they dominate your breathing and your body.",
+      "Their hand clamps down and your knees nearly buckle, pleasure blooming behind your eyes.",
+      "<<npc.name>> stares into your face as their grip tightens, reading your reactions with hunger.",
+      "The mix of pressure and dominance sends a tremble down your spine—<<npc.they>> knows it, and deepens their hold."
+    ],
+    disliked: [
+      "You grab at <<npc.their>> wrist instinctively, and they release you immediately, concern flashing in their eyes.",
+      "'That’s not really my thing,' they say, withdrawing their hand.",
+      "They choke you once, then quickly let go—apologetic and clearly uncomfortable.",
+      "Their fingers freeze at your throat, unsure whether to continue.",
+      "'Did I hurt you?' <<npc.they>> asks, tension rising in their tone.",
+      "They pull back entirely, the moment fading as their confidence falters."
+    ]
+  },
+},
+
+  NipplePlay_G: {
+  label: "Stimulating their nipples",
+  responses: {
+    neutral: [
+      "You drag your thumbs over <<npc.their>> chest, teasing slow circles around each nipple.",
+      "You lean down to flick your tongue over one of <<npc.name>>'s nipples, breath warm and patient.",
+      "Your fingers roll the bud between them gently, watching <<npc.their>> body for any subtle responses.",
+      "You give each nipple a soft pinch, gauging how <<npc.name>> reacts to the sensation.",
+      "You alternate pressure between both sides of their chest, keeping the rhythm light and deliberate.",
+      "You suck lightly, lips closing over one nipple while your other hand explores their side."
+    ],
+    liked: [
+      "<<npc.name>> moans sharply as your tongue dances over <<npc.their>> nipple, back arching in response.",
+      "They gasp, hands gripping your shoulders as pleasure sparks through their chest.",
+      "Their nipples harden quickly under your touch, <<npc.they>> breathes faster with every motion.",
+      "<<npc.name>> presses <<npc.their>> chest closer to your mouth, clearly loving the attention.",
+      "'Yes,' <<npc.they>> pants, voice shaky and filled with need, encouraging you to keep going.",
+      "They tremble as you tease, their body practically begging for more of your mouth."
+    ],
+    disliked: [
+      "<<npc.name>> squirms slightly under your hand, face tightening with discomfort.",
+      "They glance away, their chest unmoving as your fingers graze their nipple.",
+      "'I’m not really sensitive there,' <<npc.they>> murmurs, offering a faint smile.",
+      "<<npc.name>> reaches for your wrist, gently moving your hand away from their chest.",
+      "They shift subtly out of range, clearly not enjoying the attention there.",
+      "You feel their posture tense beneath your mouth—this isn’t working for them."
+    ]
+  }
+},
+
+  Spank_R: {
+  label: "Being spanked",
+  responses: {
+    neutral: [
+      "<<npc.name>> brings their hand down against your backside with a firm, measured slap.",
+      "You feel the sting ripple across your skin as <<npc.name>> spanks you with casual dominance.",
+      "Their palm lands solidly on your rear, the impact more attention-grabbing than painful.",
+      "<<npc.they>> gives your ass a warning smack, watching your body jolt in response.",
+      "You brace as their hand connects, the heat blooming across your <<pc.buttSize>> rear.",
+      "They spank you slowly, deliberately, gauging how you respond to each strike."
+    ],
+    liked: [
+      "You cry out in pleasure as <<npc.name>> spanks you again, harder this time.",
+      "<<npc.name>> grins wickedly as they land another slap, clearly enjoying the way your body jumps under their touch.",
+      "'You like that, don’t you?' they growl, hand cracking down against your skin again.",
+      "They rain down sharp, rhythmic smacks, your skin tingling and your body aching for more.",
+      "Your breath stutters, ass throbbing as they keep spanking you with increasing intensity.",
+      "The pain blends with pleasure, each strike sending heat through your core."
+    ],
+    disliked: [
+      "You flinch as their hand lands, the sting unpleasant and jarring.",
+      "'That’s too rough,' you mutter, twisting away from their next attempt.",
+      "Your breath catches—but not in a good way—as <<npc.name>> lands another slap.",
+      "You wince and pull away slightly, body no longer responding with arousal.",
+      "'I’m not into that,' you say quietly, hoping they get the message.",
+      "Their hand pauses mid-air as they see the discomfort in your face."
+    ]
+  },
+},
+
+  Toys_OnSelf: {
+  label: "Using a toy on yourself",
+  responses: {
+    neutral: [
+      "You bring the toy between your legs, meeting <<npc.name>>'s gaze as it begins to hum.",
+      "You start teasing yourself with slow, deliberate movements, the sound of the toy filling the room.",
+      "Your breath quickens as you guide the toy across your most sensitive spots.",
+      "You close your eyes for a moment, focusing on the sensation as <<npc.name>> watches in silence.",
+      "The rhythm builds as you work the toy against yourself, body twitching with each pulse.",
+      "You keep your hand steady, letting the pleasure bloom while <<npc.name>> observes your every move."
+    ],
+    liked: [
+      "<<npc.name>> groans at the sight, eyes darkening as they watch you fall apart.",
+      "They moan your name, clearly turned on by your display.",
+      "'Don't stop,' <<npc.they>> whispers, breath ragged, clearly hooked on the show.",
+      "Their hand slides over your body, joining yours without interrupting your rhythm.",
+      "<<npc.name>> can’t take their eyes off you, body shifting with rising arousal.",
+      "They reach down to help hold you open, murmuring praise as the toy makes you shudder."
+    ],
+    disliked: [
+      "<<npc.name>> looks away awkwardly. 'That’s... more of a solo thing for me.'",
+      "They shift on the bed, clearly unsure how to engage with what you’re doing.",
+      "'You don’t need that,' <<npc.they>> says, trying to smile but not fully masking the discomfort.",
+      "They say nothing, but the change in energy is noticeable.",
+      "<<npc.name>> offers a weak chuckle—'Guess I wasn’t expecting that.'",
+      "They reach for your hand gently, stopping the motion with a polite shake of the head."
+    ]
+  },
+},
+
+  Toys_R: {
+  label: "Having a toy used on you",
+  responses: {
+    neutral: [
+      "<<npc.name>> brings the toy to your body, letting it buzz gently before making contact.",
+      "They trail the toy along your inner thigh, eyes locked on your face as they gauge your reaction.",
+      "You feel the first spark of vibration as <<npc.name>> presses the toy against you with cautious intent.",
+      "Their grip is steady, but exploratory—they move slowly, mapping your responses in silence.",
+      "The hum fills the air as <<npc.name>> starts to trace circles, teasing but not overwhelming.",
+      "They move with care, their expression focused as they test your limits with the toy’s pulsing rhythm."
+    ],
+    liked: [
+      "You gasp as the toy hits just the right spot, and <<npc.name>> leans in with a wicked grin.",
+      "They moan softly as they watch you fall apart, clearly enjoying the power in their hands.",
+      "'You’re so sensitive here,' <<npc.they>> whispers, pressing the toy deeper into you.",
+      "Your whole body jolts with pleasure, and <<npc.name>> doesn’t let up—keeping the rhythm steady and devastating.",
+      "They hold the toy in place while their free hand steadies your shaking hips.",
+      "Their focus never wavers as they work you toward the edge, breath hot and full of praise."
+    ],
+    disliked: [
+      "You flinch slightly as the toy hits too hard or too fast—<<npc.name>> notices and pulls back.",
+      "'That not working for you?' they ask, concern overtaking arousal.",
+      "They fumble with the controls, clearly unsure how to read your body.",
+      "<<npc.name>> slows the movement, but the heat between you is already fading.",
+      "'I thought you liked this,' they mutter, the moment cooling as you gently move their hand away.",
+      "You shift your hips away, breath shallow—not from pleasure, but from misalignment."
+    ]
+  },
+},
+
+  Edging_R: {
+  label: "Being edged",
+  responses: {
+    neutral: [
+      "<<npc.name>> slows their rhythm just before you reach the edge, a knowing glint in <<npc.their>> eyes.",
+      "They pull back just enough to leave you throbbing, body aching for more.",
+      "Their hand or hips stop mid-motion, and you whimper as the heat stalls just shy of release.",
+      "You feel the pleasure rising—and then fading again, thanks to <<npc.name>>’s careful timing.",
+      "They hover at your most sensitive point, never quite giving you what you're begging for.",
+      "Each time you get close, <<npc.name>> shifts pace, dragging you through a wave of delicious denial."
+    ],
+    liked: [
+      "You cry out as <<npc.name>> stops again—so close it hurts, so perfect you crave more.",
+      "They smirk as you squirm beneath them, completely at their mercy and begging for release.",
+      "Your hips buck involuntarily, chasing sensation, but <<npc.name>> holds you down with maddening precision.",
+      "'You're not ready yet,' they murmur, clearly savoring your desperation.",
+      "Every pause leaves you shaking, your climax just out of reach—and they love watching you suffer.",
+      "They whisper praise and denial all at once, keeping you right where they want you: trembling and undone."
+    ],
+    disliked: [
+      "You groan in frustration, the pleasure slipping away again—and not in a good way.",
+      "'Stop playing games,' you mutter, breath short but annoyed.",
+      "They hesitate too long, and the heat you felt begins to fade entirely.",
+      "'Just finish it already,' you growl, pulse cooling with each moment of inaction.",
+      "Your body goes still—not out of submission, but disappointment.",
+      "<<npc.name>> pulls away again, and your expression makes it clear: you're not enjoying this anymore."
+    ]
+  },
+},
+
+  DirtyTalk_R: {
+  label: "Being talked dirty to",
+  responses: {
+    neutral: [
+      "<<npc.name>> leans in close, whispering something low and filthy against your ear.",
+      "Their voice is <<npc.voiceTone>>, curling around you with lewd intent and slow heat.",
+      "'You like this, don’t you?' they breathe, fingers sliding along your body.",
+      "You hear the words, soft and rough at once, threading into your thoughts like a command.",
+      "They murmur vivid, obscene promises while pressing their body tightly to yours.",
+      "Their words linger in the air—raw, suggestive, just enough to make your breath catch."
+    ],
+    liked: [
+      "Their voice alone makes your knees weak—dirty, teasing, full of control and hunger.",
+      "'You're so fucking hot like this,' they growl, and your whole body tightens at the sound.",
+      "<<npc.name>> moans your name between phrases, the filth pouring from their mouth making you ache.",
+      "'Look at you. Desperate for it,' they hiss, clearly loving how their words affect you.",
+      "Each syllable makes your skin burn hotter, arousal feeding on every filthy compliment.",
+      "You whimper as their words sink in—crude, confident, and exactly what you needed to hear."
+    ],
+    disliked: [
+      "'You like being used, don’t you?' they say, but it lands wrong—too sharp, too forced.",
+      "You flinch slightly at the tone. It doesn’t feel seductive—it feels off.",
+      "<<npc.name>> says something filthy, but the moment freezes instead of deepening.",
+      "You avert your gaze, the words missing your rhythm entirely.",
+      "'Let’s… not talk like that,' you say, tension rising between breaths.",
+      "Their dirty talk feels like performance, not connection—and it jars you out of the moment."
+    ]
+  },
+},
+
+  Bondage_G: {
+  label: "Binding your partner",
+  responses: {
+    neutral: [
+      "You reach for restraints and begin securing <<npc.name>>’s wrists with steady precision.",
+      "You guide <<npc.them>> into position and loop a length of cloth around <<npc.their>> arms.",
+      "You move slowly, letting the anticipation build as you tighten each binding point with care.",
+      "You lean in close as you cinch the knot, your breath warm against <<npc.their>> skin.",
+      "You bind <<npc.their>> ankles and spread <<npc.them>> out across the bed, fully exposed.",
+      "You finish tying <<npc.name>> in place, admiring how still <<npc.they>> becomes under your control."
+    ],
+    liked: [
+      "<<npc.name>> shivers in excitement, clearly turned on by your control.",
+      "They exhale sharply, hips twitching as you lock the final restraint into place.",
+      "A moan escapes <<npc.them>> the moment the bindings tighten—<<npc.they>> loves being held like this.",
+      "Their breath comes faster, muscles tensing with need as they feel your control fully take hold.",
+      "'Tighter,' <<npc.they>> whispers, completely lost in the thrill of surrender.",
+      "<<npc.name>> presses into your hands eagerly, hungry for every knot and strap."
+    ],
+    disliked: [
+      "<<npc.name>> flinches as the restraints begin to tighten. 'No... I don’t want this,' <<npc.they>> says.",
+      "They pull back sharply, resisting your hands before you can finish.",
+      "You notice their body go rigid, their eyes distant and unengaged.",
+      "'Don’t tie me down,' <<npc.they>> says firmly, voice hard.",
+      "They shake their head and sit up, clearly not responding well to being bound.",
+      "<<npc.name>> jerks away from the restraints before they’re even in place—this isn’t something they want."
+    ]
+  }
+},
+
+  Bondage_R: {
+  label: "Being bound",
+  responses: {
+    neutral: [
+      "<<npc.name>> moves slowly, wrapping fabric around your wrists with measured care.",
+      "They guide your hands above your head, fastening them securely while watching your face.",
+      "You feel soft pressure as <<npc.they>> binds your ankles and pushes you gently back into place.",
+      "<<npc.name>> circles you, pulling knots tight, each loop a symbol of silent control.",
+      "You hear the soft sound of leather or fabric tightening as <<npc.they>> secures you.",
+      "They fasten the last restraint with a quiet, practiced calm, waiting for your breath to quicken."
+    ],
+    liked: [
+      "You moan softly as the last strap is secured—<<npc.name>> knows exactly how to hold you still.",
+      "The moment your limbs are locked down, you shiver in anticipation, completely at <<npc.their>> mercy.",
+      "You feel your heartbeat speed up as <<npc.name>> steps back to admire their work—<<npc.they>> clearly loves seeing you bound.",
+      "'So good like this,' <<npc.they>> purrs, fingers brushing your skin as your restraints hold you tight.",
+      "Your breathing turns shallow, pulse quickening—you love every second of this surrender.",
+      "<<npc.name>> tightens the last knot, and you groan involuntarily, arousal surging through you."
+    ],
+    disliked: [
+      "You shift uncomfortably as the restraints tighten, unease flickering in your chest.",
+      "'Wait, I don’t think I like this,' you mutter as <<npc.name>> begins to bind your wrists.",
+      "The moment feels wrong—your body too still, your skin too cold beneath the fabric.",
+      "You tense up, breath catching in your throat. 'This isn’t working,' you whisper.",
+      "<<npc.name>> notices your discomfort and pauses, unsure whether to continue.",
+      "You pull away slightly, wrists flexing against the restraints with clear hesitation."
+    ]
+  }
+},
+
+  Gag_R: {
+  label: "Being gagged",
+  responses: {
+    neutral: [
+      "<<npc.name>> raises the toy slowly, holding your gaze as they press it to your lips.",
+      "They slip the gag between your lips gently, adjusting the straps behind your head with practiced fingers.",
+      "You feel the soft resistance of the gag settle against your tongue, muffling your breath as <<npc.they>> fastens it tight.",
+      "The pressure of leather or rubber stretches your jaw open, and <<npc.name>> watches your expression closely.",
+      "They secure the buckle and pause to admire the way the gag alters your breathing.",
+      "<<npc.name>> checks the fit one last time, tugging the strap gently before stepping back to observe you."
+    ],
+    liked: [
+      "Your eyes flutter shut as the gag tightens—you feel instantly more exposed, more helpless, and more aroused.",
+      "You groan through the gag, the muffled sound only fueling <<npc.name>>’s intensity.",
+      "<<npc.name>> smirks as you struggle to speak, clearly enjoying the control.",
+      "Your hips squirm involuntarily as the gag locks in, your body thriving on silent surrender.",
+      "You can’t form words, only desperate moans—and <<npc.they>> clearly loves it that way.",
+      "<<npc.name>> brushes a finger down your cheek, possessive and pleased as your mouth stays obediently stuffed."
+    ],
+    disliked: [
+      "You flinch slightly as the gag presses between your lips. It’s too tight, too sudden.",
+      "The rubber stretches your mouth open in a way that doesn’t feel right, and your breath catches in discomfort.",
+      "You try to speak—but all that comes out is panic and a muffled grunt.",
+      "Your body tenses hard, and <<npc.name>>’s hand pauses at the strap, sensing something’s off.",
+      "'You okay?' <<npc.they>> asks softly, already loosening it.",
+      "You shake your head quickly, gag muffling the words, but your eyes say enough: you’re not enjoying this."
+    ]
+  }
+},
+
+  Gag_G: {
+  label: "Gagging your partner",
+  responses: {
+    neutral: [
+      "You raise the toy slowly, holding it to <<npc.name>>’s lips with steady hands.",
+      "You guide the gag into place and pull the straps taut behind <<npc.their>> head.",
+      "You press the gag between <<npc.their>> lips, waiting for <<npc.them>> to open obediently.",
+      "The straps slide snugly into place as you fasten the buckle, letting the silence settle between you.",
+      "You tighten the gag carefully, brushing hair away from <<npc.name>>’s face as you admire the sight.",
+      "With the toy secured, <<npc.name>> can no longer speak—only whimper or moan through muffled breath."
+    ],
+    liked: [
+      "<<npc.name>> opens <<npc.their>> mouth without hesitation, clearly eager to be silenced.",
+      "They moan softly as the gag locks in, eyes darkening with lust as <<npc.they>> surrenders voice and control.",
+      "They nod while gagged, accepting the restraint eagerly as their breath hitches with arousal.",
+      "Their body trembles slightly as the toy is secured—clearly, <<npc.they>> loves this kind of submission.",
+      "Their eyes meet yours with desperate hunger as they whimper behind the gag.",
+      "<<npc.name>> shifts their hips toward you, clearly thriving on the loss of verbal control."
+    ],
+    disliked: [
+      "<<npc.name>> turns <<npc.their>> head slightly, lips pressing shut in resistance.",
+      "They try to speak as you place the gag, and their voice stumbles out—'Wait… no.'",
+      "You feel <<npc.them>> tense as the toy enters <<npc.their>> mouth, discomfort flickering in their eyes.",
+      "They shake their head, clearly not comfortable with the loss of voice or control.",
+      "You hear a muffled protest as they jerk their head slightly, trying to avoid the strap.",
+      "<<npc.name>>’s eyes narrow, body stiffening as the toy is buckled in place—they're not enjoying this."
+    ]
+  }
+},
+
+  Blindfold_G: {
+  label: "Blindfolding your partner",
+  responses: {
+    neutral: [
+      "You lift the soft cloth and bring it to <<npc.name>>’s eyes, your fingers brushing gently along <<npc.their>> temple.",
+      "You tie the blindfold snugly behind <<npc.name>>’s head, watching <<npc.their>> breath slow as their sight vanishes.",
+      "You pull the fabric into place, robbing <<npc.them>> of vision while your voice whispers close.",
+      "You rest your hand on <<npc.their>> chest to steady them while securing the blindfold around <<npc.their>> head.",
+      "They inhale sharply as darkness sets in, <<npc.their>> lips parting slightly with anticipation.",
+      "You stroke <<npc.their>> cheek once before the blindfold slides down—then everything goes dark for <<npc.them>>."
+    ],
+    liked: [
+      "<<npc.name>> exhales deeply, a thrilled shiver running through <<npc.their>> <<npc.bodyType>> form.",
+      "They smile faintly as the blindfold tightens, clearly savoring the surrender of control.",
+      "They moan softly as their world goes dark, body twitching in response to every unseen touch.",
+      "‘I trust you,’ <<npc.they>> whispers just before the cloth covers <<npc.their>> eyes.",
+      "<<npc.name>> tilts <<npc.their>> head toward the sound of your breath, clearly focused entirely on feel and sound.",
+      "Their chest rises sharply, lips parted in expectation—each moment of blindness seems to intensify <<npc.their>> desire."
+    ],
+    disliked: [
+      "<<npc.name>> flinches as the cloth nears <<npc.their>> eyes. 'I… I'd rather not,' <<npc.they>> says softly.",
+      "They turn <<npc.their>> head away, breath catching uncomfortably. 'Can we skip that?'",
+      "Their body stiffens as soon as the fabric blocks their vision, the mood slipping away.",
+      "'No blindfolds,' <<npc.they>> mutters, voice tense.",
+      "<<npc.name>> shakes <<npc.their>> head quickly and pulls the cloth away, clearly uneasy.",
+      "Their posture turns guarded the moment the light disappears—they’re not comfortable with this kind of trust."
+    ]
+  }
+},
+
+  Degrade_G: {
+  label: "Degrading your partner",
+  responses: {
+    neutral: [
+      "You speak low and sharp, letting your words drip with cruel control.",
+      "You call <<npc.name>> a filthy little thing as you guide <<npc.them>> exactly where you want.",
+      "Your voice is condescending, your tone dominant, your gaze cold and commanding.",
+      "You sneer as you press <<npc.them>> down, reminding <<npc.them>> how needy and pathetic <<npc.they>> look right now.",
+      "You grip <<npc.their>> jaw and force <<npc.them>> to look up at you while you tell <<npc.them>> what a mess <<npc.they>> are.",
+      "You chuckle darkly, running your hand through <<npc.their>> <<npc.hairColor>> hair while belittling <<npc.them>>."
+    ],
+    liked: [
+      "<<npc.name>> moans, cheeks flushing as <<npc.they>> sinks deeper into submission under your words.",
+      "They whimper, eyes wide and breath shallow—clearly aroused by your cruelty.",
+      "'Say it again,' <<npc.they>> begs, clearly drunk on the humiliation.",
+      "Their hips twitch, mouth open, clearly loving every word that strips them down.",
+      "They nod eagerly, soaking up the degradation like praise.",
+      "<<npc.name>> gasps and bites <<npc.their>> lip, your insults only stoking the fire in <<npc.their>> body."
+    ],
+    disliked: [
+      "<<npc.name>>'s expression hardens. 'What the hell was that?'",
+      "They recoil slightly, the moment soured by your words.",
+      "'Don't talk to me like that,' <<npc.they>> snaps, pulling away.",
+      "Their body goes stiff—whatever fire was there now flickers out.",
+      "<<npc.name>>'s eyes narrow, clearly hurt by your tone.",
+      "They turn their face away, breathing shallow—not with desire, but discomfort."
+    ]
+  }
+},
+
+  Degrade_R: {
+  label: "Being degraded",
+  responses: {
+    neutral: [
+      "<<npc.name>> leans in close, whispering something cutting in a low, dominant voice.",
+      "They grip your chin, forcing you to meet their eyes as they insult you softly, cruelly.",
+      "'You're so needy,' <<npc.they>> mutters with a smirk. 'Look at the mess you're making.'",
+      "<<npc.name>> chuckles darkly as they call you a toy—something to be used and discarded.",
+      "They pin you down and murmur cold praise twisted into insults.",
+      "'That’s all you're good for, isn't it?' <<npc.they>> sneers."
+    ],
+    liked: [
+      "A hot flush spreads through your body, the sting of their words igniting something deeper.",
+      "You whimper under the weight of <<npc.name>>’s verbal dominance—part of you aches for more.",
+      "Their insults cut like a knife, but they thrill you anyway—your breath comes quicker.",
+      "You nod, unable to deny the truth in their cruel voice, arousal only growing.",
+      "Your heart races under the verbal assault, and you feel your body react more intensely.",
+      "Their condescending words light a fire in your gut—and your moans betray your enjoyment."
+    ],
+    disliked: [
+      "You flinch, confusion flashing through you—this isn’t what you wanted at all.",
+      "Their tone hits wrong. The words feel cruel, not sexy—and your arousal flickers out.",
+      "You try to pull away, eyes narrowing. 'Stop. That’s not okay.'",
+      "Your body freezes beneath them, the tension in your jaw saying everything.",
+      "You turn your head away, the sting in their words cutting deeper than you expected.",
+      "'Don’t,' you mutter, voice shaking—not from lust, but from discomfort."
+    ]
+  }
+},
+
+  CreampieVag_G: {
+  label: "Vaginal creampie",
+  responses: {
+    neutral: [
+      "Your rhythm turns frantic as the pressure builds, your release crashing forward uncontrollably.",
+      "With a guttural groan, you drive deep into <<npc.name>> and spill everything inside.",
+      "Your grip tightens as you bury yourself fully in <<npc.them>>, warmth flooding from you in pulsing waves.",
+      "Your body tenses hard as you unload inside <<npc.their>> core, breath ragged and broken.",
+      "You slam into <<npc.them>> one last time and let go—filling <<npc.them>> completely.",
+      "With a gasp and a deep thrust, your climax overtakes you, thick warmth flooding into <<npc.name>>."
+    ],
+    liked: [
+      "<<npc.name>> cries out as you release inside them, body trembling around you.",
+      "'Yes, inside,' <<npc.they>> gasps, wrapping their legs around you tighter.",
+      "<<npc.their>> breath catches, eyes rolling back as the heat spreads through their core.",
+      "They moan wildly, clutching at you as their own climax crashes down in sync with yours.",
+      "Their nails dig into your skin, a shuddering moan escaping them as they feel every pulse of your release.",
+      "'Fuck, fill me,' they whisper, trembling with satisfaction as you finish deep inside."
+    ],
+    disliked: [
+      "<<npc.name>> gasps and tries to pull back too late. 'No—pull out!'",
+      "They freeze, panic flashing in <<npc.their>> eyes as your release fills them.",
+      "'What the hell are you doing!?' <<npc.they>> yells, shoving at your chest.",
+      "Their body stiffens beneath you—there’s no pleasure in the tension now.",
+      "They push against your hips, clearly trying to escape the contact.",
+      "You see hurt and shock in <<npc.their>> face, the intimacy breaking instantly."
+    ]
+  }
+},
+
+  CreampieAnal_G: {
+  label: "Anal creampie",
+  responses: {
+    neutral: [
+      "You grip <<npc.name>>’s hips hard as you drive in deep, your body shuddering violently as you release.",
+      "Your breath hitches as you slam forward one last time, spilling thick warmth deep into <<npc.their>> ass.",
+      "You bury yourself fully in <<npc.them>>, groaning through clenched teeth as your climax erupts.",
+      "With a final thrust, your body goes taut and your release surges inside, hot and heavy.",
+      "Your grip tightens as your orgasm rips through you, pumping deep into <<npc.name>>’s tight body.",
+      "You thrust deep and freeze, gasping as you unload every pulse of pleasure inside <<npc.them>>."
+    ],
+    liked: [
+      "<<npc.name>> moans helplessly, pressing back against you as they feel every thick pulse fill them.",
+      "'Yes—inside,' <<npc.they>> groans, clearly overwhelmed by the rawness of it.",
+      "Their body twitches around you, clearly relishing the feeling of being filled so intimately.",
+      "<<npc.name>> lets out a breathless cry, completely surrendering to the intensity of your climax.",
+      "They gasp as warmth spreads inside, hips rocking instinctively with each pulse.",
+      "<<npc.name>> clenches tightly around you, clearly loving every messy, hot second of it."
+    ],
+    disliked: [
+      "<<npc.name>> gasps sharply and tries to pull away, panic in <<npc.their>> eyes. 'No, not inside!'",
+      "They freeze beneath you, breath caught and body stiff. This wasn’t what they wanted.",
+      "'What the fuck—why didn’t you warn me?' they snap, shoving you away.",
+      "<<npc.name>> goes silent, expression closed off as your warmth floods them.",
+      "You feel them pull away quickly, trying to escape the sudden intimacy.",
+      "'You weren’t supposed to… do that,' <<npc.they>> mutters, clearly upset."
+    ]
+  }
+},
+
+  CreampieAnal_R: {
+  label: "Being anally creampied",
+  responses: {
+    neutral: [
+      "<<npc.name>> groans low as their thrusts turn ragged—and then you feel it: a sudden, hot flood deep inside.",
+      "Their body locks up, buried to the hilt, and you can feel every heavy pulse of their climax fill you.",
+      "They thrust deep one final time, releasing inside you with a broken gasp.",
+      "The warmth pours into you suddenly, unexpectedly, as <<npc.they>> shudders through release.",
+      "You feel their hips twitch against yours, then still, as thick heat fills your core.",
+      "<<npc.name>> moans your name as they finish deep, panting hard and gripping your hips."
+    ],
+    liked: [
+      "You gasp as their release fills you completely, the heat making your spine arch involuntarily.",
+      "'Yes… inside me,' you whisper, clenching around them as the sensation overtakes you.",
+      "Your body shudders, breath catching as their orgasm pulses inside, overwhelming and perfect.",
+      "You cry out, the pressure and warmth pushing you over the edge alongside them.",
+      "Every slow throb inside you feeds your pleasure, your body trembling from the intensity.",
+      "You moan with them, body greedy for every drop, every twitch of fullness."
+    ],
+    disliked: [
+      "'No!' you cry out, trying to pull away—but <<npc.name>> finishes anyway.",
+      "You freeze as warmth suddenly fills you—uninvited, unplanned.",
+      "The sensation hits wrong. You stiffen beneath them, heart pounding with something colder than arousal.",
+      "You try to speak, to object—but it’s already happening. They don’t stop.",
+      "Your breath shortens with discomfort, and you pull away the moment they go slack.",
+      "'I didn’t want that,' you mutter, not meeting their eyes."
+    ]
+  }
+},
+
+  CreampieOral_G: {
+  label: "Oral creampie",
+  responses: {
+    neutral: [
+      "You groan and grip <<npc.name>>’s head tightly as the pressure breaks—you release directly into their mouth.",
+      "Your hips jerk forward instinctively as warmth spills across <<npc.their>> tongue.",
+      "You cry out as you finish, pulse after pulse flooding <<npc.their>> mouth with your release.",
+      "With a sharp gasp, you bury yourself in <<npc.name>>’s throat, unloading every last drop.",
+      "You hold <<npc.them>> in place, panting as you twitch in their mouth, completely spent.",
+      "Your body convulses as you climax, your release filling <<npc.name>> so fast they nearly gag."
+    ],
+    liked: [
+      "<<npc.name>> groans hungrily, swallowing everything without hesitation.",
+      "They moan around you, clearly relishing the taste and warmth you’re giving them.",
+      "They keep sucking even as you twitch, milking every last drop with practiced ease.",
+      "<<npc.name>> gazes up at you as they swallow—owning the moment completely.",
+      "Their tongue flicks along your shaft even mid-release, moaning like they can't get enough.",
+      "They draw back slowly when you're done, licking their lips with a satisfied, sinful smile."
+    ],
+    disliked: [
+      "<<npc.name>> jerks back, coughing and gasping. 'Warn me next time!'",
+      "They pull away with a grimace, wiping their mouth quickly.",
+      "'Ugh, are you serious?' they mutter, clearly not amused.",
+      "They spit to the side and look up at you, expression flat. 'That’s not okay.'",
+      "<<npc.name>> looks shaken, eyes wide—not with arousal, but discomfort.",
+      "They gag suddenly, pushing you back with both hands, trying to recover."
+    ]
+  }
+},
+
+  CreampieOral_R: {
+  label: "Mouth creampie (receiving)",
+  responses: {
+    neutral: [
+      "<<npc.name>> lets out a deep moan, hips thrusting forward as warmth floods your mouth.",
+      "They groan hard, pulsing against your tongue as their climax overtakes them.",
+      "Without warning, <<npc.name>> grabs your head and finishes in your mouth, every twitch echoing through your throat.",
+      "You feel their grip tighten as thick heat fills your mouth in heavy pulses.",
+      "<<npc.name>> gasps, holding your head in place while they release fully against your tongue.",
+      "Their body shakes, release filling your mouth with intensity and need."
+    ],
+    liked: [
+      "You moan around them, savoring the warmth and weight of their climax.",
+      "You swallow eagerly, the taste driving your own arousal higher.",
+      "They groan again as you keep sucking through the finish, coaxing every drop.",
+      "You grip their hips and hold them there, taking it all with obedient hunger.",
+      "Their fingers thread into your hair, clearly delighted by your eagerness to take everything.",
+      "'Good,' they pant, stroking your cheek as you finish swallowing."
+    ],
+    disliked: [
+      "Your eyes go wide as the taste hits—hot and sudden. You cough, trying to pull away.",
+      "'No warning!?' you sputter as warmth fills your mouth.",
+      "You gag slightly, the sensation overwhelming and unwelcome.",
+      "You jerk back too late, coughing the moment they finish.",
+      "You spit immediately, trying to clear the taste from your mouth as your stomach turns.",
+      "'Not in my mouth,' you mutter, wiping your lips and glaring."
+    ]
+  }
+},
+
+  WaxPlay_G: {
+  label: "Dripping wax on them",
+  responses: {
+    neutral: [
+      "You tip the candle slowly, watching a thick drop of wax fall onto <<npc.name>>’s skin.",
+      "The wax lands on <<npc.their>> stomach in a perfect bead—<<npc.they>> flinches, but doesn’t pull away.",
+      "You trace your hand down their chest, then drizzle a single drop of wax across their sternum.",
+      "A small hiss escapes <<npc.name>> as you let the heat kiss <<npc.their>> skin.",
+      "The wax sizzles faintly as it cools on <<npc.their>> thigh—<<npc.they>> watches you intently.",
+      "You tip the candle again, letting wax drip across their belly in slow, stinging trails."
+    ],
+    liked: [
+      "<<npc.name>> moans sharply, clearly turned on by the bite of heat.",
+      "Their hips buck as another drop lands, mixing pain with deep pleasure.",
+      "They gasp and smile wickedly—'Don’t stop,' they whisper.",
+      "Their body trembles, skin eager for the next drop as they squirm beneath your hand.",
+      "They groan low in their throat, a clear sign that the heat is fueling their fire.",
+      "<<npc.name>> arches toward the sensation, desperate for more of your wicked tease."
+    ],
+    disliked: [
+      "<<npc.name>> flinches hard, breath catching. 'That’s too much,' <<npc.they>> mutters.",
+      "They jerk away from your hand as the wax hits. 'No—stop that.'",
+      "The drop lands and <<npc.their>> expression shifts immediately from arousal to discomfort.",
+      "They shake their head quickly. 'Not a fan of pain play,' they add, voice tense.",
+      "<<npc.name>> covers the spot with their hand, clearly not enjoying the burn.",
+      "They wince and pull back. 'Let’s not use that,' they say flatly."
+    ]
+  }
+},
+
+  WaxPlay_R: {
+  label: "Wax dripped on you",
+  responses: {
+    neutral: [
+      "<<npc.name>> tilts the candle carefully, watching your body as the first drop falls.",
+      "You gasp as the wax touches your skin—hot, brief, and sharp.",
+      "They hover over you with a steady hand, letting a second drop fall near your ribs.",
+      "You watch their expression darken with focus as they paint a trail of heat down your chest.",
+      "A hiss escapes your lips as <<npc.name>> drizzles a slow line of wax along your stomach.",
+      "You squirm as the wax cools across your skin, every drop a surprise in its sting."
+    ],
+    liked: [
+      "You groan, the sting of each drop sending pulses of heat straight between your legs.",
+      "A smile plays at your lips as you arch toward the heat, hungry for more.",
+      "You tremble beneath <<npc.name>>’s touch, every drop of wax feeding your desire.",
+      "'Please,' you whisper, already addicted to the pain-pleasure dance.",
+      "You cry out, hips twitching as the pain melts into want—you love this.",
+      "Every drop makes you shudder harder, the fire in your blood stoked with each fall of wax."
+    ],
+    disliked: [
+      "You flinch hard, breath catching in your throat as the wax lands.",
+      "'Stop,' you say quickly, voice tense and unsure.",
+      "You jerk away from the next drop, eyes wide with discomfort.",
+      "Your skin stings unpleasantly and the tension in your body spikes.",
+      "'No more,' you mutter, shielding your chest with a shaking hand.",
+      "You wince as the wax hits—this isn’t something you enjoy."
+    ]
+  }
+},
+
+}
+
 

@@ -28,7 +28,7 @@ setup.Inclinations = {
 
   domination: {
     tags: ["dominant"],
-    acts: ["Dominate", "Spank_G", "Choke_G", "Bondage_Use", "HairPulling_G", "DirtyTalk_G", "OrgasmControl_G"],
+    acts: ["Dominate", "Spank_G", "Choke_G", "Bondage_G", "HairPulling_G", "DirtyTalk_G", "OrgasmControl_G"],
     optional: true
   },
 
@@ -64,7 +64,7 @@ setup.Inclinations = {
 
   bondage: {
     tags: ["restraint", "control"],
-    acts: ["Bondage_Use", "Bondage_R", "Gag_Use", "Blindfold_R", "Blindfold_G"],
+    acts: ["Bondage_G", "Bondage_R", "Gag_Use", "Blindfold_R", "Blindfold_G"],
     optional: true
   },
 
@@ -82,13 +82,13 @@ setup.Inclinations = {
 
   verbal: {
     tags: ["dirty talk", "expression"],
-    acts: ["DirtyTalk_G", "DirtyTalk_R", "Praise_G", "Degrade_G", "NameCalling"],
+    acts: ["DirtyTalk_G", "DirtyTalk_R", "Praise_G", "Degrade_G", "Degrade_G"],
     optional: true
   },
 
   sensory: {
     tags: ["stimulus", "touch"],
-    acts: ["Blindfold_R", "Blindfold_G", "IcePlay", "WaxPlay"],
+    acts: ["Blindfold_R", "Blindfold_G", "WaxPlay"],
     optional: true
   },
 

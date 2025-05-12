@@ -20,6 +20,8 @@ He looks at you, warm but steady.
 <<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
 
+
+
 :: Darian_DoYouLikeJob [widget]
 <<widget "Darian_DoYouLikeJob">>
 <<append "#convoBox">>
@@ -43,6 +45,8 @@ His fingers absentmindedly trace the edge of a nearby glass, thoughtful.
 <<run setup.clearConvoChoices()>>
 <<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
+
+
 
 :: Darian_Bracelet [widget]
 <<widget "Darian_Bracelet">>
@@ -68,6 +72,8 @@ He offers a smile—not flirtatious this time, just sincere.
 <<run setup.clearConvoChoices()>>
 <<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
+
+
 
 :: Darian_GetDrink [widget]
 <<widget "Darian_GetDrink">>
@@ -114,6 +120,8 @@ Darian smiles. Not smug. Just pleased.
 <<run setup.clearConvoChoices()>>
 <<run setup.darian_Conversation_Options_Phase0()>>
 <</widget>>
+
+
 
 :: Darian_Humming [widget]
 <<widget "Darian_Humming">>
@@ -167,6 +175,8 @@ He leans against the bar, arms folded lightly.
 <<run setup.clearConvoChoices()>>
 <</widget>>
 
+
+
 :: Darian_GoPrivate [widget]
 <<widget "Darian_GoPrivate">>
 <<append "#convoBox">>
@@ -186,8 +196,10 @@ He steps forward, extending a hand—not dramatic, not performative. Just steady
 
 [[You take his hand and follow him.|Darian_GoingUpstairs]]
 <</append>>
+<<relation "darian" "trust" 1>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
+
 
 
 :: Darian_ReturnToParlor [widget]
@@ -204,6 +216,464 @@ He gives a small bow of the head and gestures subtly back toward the center of t
 <<speech "darian">>If you change your mind... you know where to find me.<</speech>>
 
 [[You walk back to the middle of the parlor.|Scene02_ReturnToParlor]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+
+
+:: Darian_RoomComment [widget]
+<<widget "Darian_RoomComment">>
+<<append "#convoBox">>
+<<speech "jaylie">>I like your room. Are they all like this?<</speech>>
+
+Darian smiles faintly, glancing around at the heavy curtain-lined walls like he’s seeing them through someone else’s eyes.
+
+<<speech "darian">>Not quite. Each host decorates their own. Some lean decadent. Others lean... chaotic.<</speech>>
+
+He runs a hand along one of the thick curtains.
+
+<<speech "darian">>These started as an attempt to make the place feel more like a theater. Turns out, they’re also pretty good at keeping sound in. Which is useful, apparently, because not all the customers enjoy spontaneous arias through the walls.<</speech>>
+
+He laughs softly, then looks at you with just a hint of that stage-smile beneath the surface.
+
+<<speech "darian">>I try not to take it personally, but I do sing quieter now.<</speech>>
+<</append>>
+<<relation "darian" "trust" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.darian_Conversation_Options_Phase1()>>
+<</widget>>
+
+
+
+:: Darian_WhatNow [widget]
+<<widget "Darian_WhatNow">>
+<<append "#convoBox">>
+<<speech "jaylie">>So... what do we do now?<</speech>>
+
+Darian leans back slightly, resting his hands behind him on the bed. His smile curves just a little, thoughtful rather than teasing.
+
+<<speech "darian">>That depends on what you need from tonight.<</speech>>
+
+He shifts to look at you more directly, his tone quiet but grounded.
+
+<<speech "darian">>Some people come here to forget. Others come to feel something real. A few aren’t even sure why they showed up—they just didn’t want to be alone.<</speech>>
+
+He shrugs—not indifferent, but understanding.
+
+<<speech "darian">>I don’t have a script for this part. We write it together.<</speech>>
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.darian_Conversation_Options_Phase1()>>
+<</widget>>
+
+
+
+:: Darian_HowsYourNight [widget]
+<<widget "Darian_HowsYourNight">>
+<<append "#convoBox">>
+<<speech "jaylie">>So how's your night been? You know... before I showed up and clearly became the highlight of it.<</speech>>
+
+Darian laughs, low and honest.
+
+<<speech "darian">>Dangerously bold of you to assume you were the highlight at all. I'll have you know I have been proposed to by <em>three</em> women tonight.<</speech>>
+
+<<speech "jaylie">>Only three? Clearly you're slipping.<</speech>>
+
+<<speech "darian">>One of them offered me a goat in exchange. I almost said yes just to see if she’d actually follow through.<</speech>>
+
+You both laugh for a moment before the room goes quiet again. The walls absorbing the laughs like they were hungry for it. Darian speaks again through a half-hearted smile.
+
+<<speech "darian">>But in truth? It’s been a long night. Not bad. Just... long. The kind that leaves you a little quiet inside.<</speech>>
+
+He exhales gently, like saying that out loud takes some of the weight off.
+
+<<speech "darian">>Still, you showing up when you did? Definitely helped balance the scales.<</speech>>
+
+<</append>>
+<<relation "darian" "affection" 1>>
+<<run setup.clearConvoChoices()>>
+<<run setup.darian_Conversation_Options_Phase1()>>
+<</widget>>
+
+
+
+:: Darian_AskDeeper [widget]
+<<widget "Darian_AskDeeper">>
+<<append "#convoBox">>
+<<speech "jaylie">>Do you mind if I ask you some more personal questions?<</speech>>
+
+Darian arches a brow, his smile tugging crooked at the edges.
+
+<<speech "darian">>You can—but they won’t come cheap.<</speech>>
+
+<<speech "jaylie">>Oh. I, uh... I have coin.<</speech>>
+
+He laughs softly, shaking his head.
+
+<<speech "darian">>Keep your coin, girl. I meant you'll pay with answers of your own.<</speech>>
+
+He leans forward slightly, eyes steady now—no longer teasing.
+
+<<speech "darian">>Fair exchange. You ask. I ask. We both leave a little lighter.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<DialogueTree "darian" "DarianDialogueDuet">>
+<</widget>>
+
+
+/*DarianDialogueDuet - Start */
+    :: DarianDuet_Bracelet [widget]
+    <<widget "DarianDuet_Bracelet">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>Tell me about that bracelet.<</speech>>
+
+    Darian lifts his wrist slightly, glancing at the worn gold band like he forgot it was there. His smile twists—not embarrassed, exactly. Just private.
+
+    <<speech "darian">>That’s not a question.<</speech>>
+
+    <<speech "jaylie">>Alright, fine. Who gave you the bracelet?<</speech>>
+
+    He runs his thumb over the clasp once. Slowly.
+
+    <<speech "darian">>My sister. The one person who knew me before the stage, before the noise. She made it by hand when we were younger. Said I needed something to wear that wasn’t an act.<</speech>>
+
+    A beat.
+
+    <<speech "darian">>I don’t take it off. Not ever.<</speech>>
+
+    He lets that linger, then leans slightly closer—eyes on you now, not the bracelet.
+
+    <<speech "darian">>My turn.<</speech>>
+
+    <<speech "darian">>Who is this girl wearing royal-cut leather, trying so hard not to be a girl?<</speech>>
+
+    You freeze.
+
+    It isn’t accusation. It’s observation. Quiet. Precise.
+
+    <<speech "darian">>You carry yourself like a noble, but you look at people like you're still hoping you can be one of them. That’s not common. Especially not in this city.<</speech>>
+
+    You open your mouth, but the words come slower than you expect.
+
+    <<speech "jaylie">>You're sharp. I am a noble. I don't get out often enough because of it, so moments like this are special to me. I often wish I was on this side of that wall. Being born never felt much like the gift people make it out to be.<</speech>>
+
+    Darian’s voice softens.
+
+    <<speech "darian">>Keep it up then noble-girl. Perhaps you'll be a 'noble of the people' one day. Gods know we don't have enough of those. Common folk starve while the rich can eat themselves to bursting.<</speech>>
+
+    You frown slightly. Darian notices.
+
+    <<speech "darian">>I apologize. That wasn’t an accusation. Quite the opposite. Like I said, we need more people like you.<</speech>>
+
+    <</append>>
+    <<relation "darian" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: DarianDuet_Performing [widget]
+    <<widget "DarianDuet_Performing">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>What was it like to travel around performing?<</speech>>
+
+    Darian leans back against the curtain-lined wall, head tilted, gaze drifting.
+
+    <<speech "darian">>Lonely. But rewarding. Like lighting candles in the dark and hoping someone out there is warmed by the glow.<</speech>>
+
+    He breathes out through his nose, not quite a sigh.
+
+    <<speech "darian">>For a while, my sister traveled with me. She was the pragmatic one. Knew when to rest. Knew when I was pushing too hard. She got sick, though. Had to settle. I stayed close when I could... but life pulls in too many directions.<</speech>>
+
+    He doesn’t say the rest right away. He just looks down at his hands.
+
+    <<speech "darian">>When she passed, I didn’t even know until days after. No final song. No goodbye. Just... silence. And after that, the stage never felt like it had room for me anymore.<</speech>>
+
+    He looks solemn for a moment before looking back at you.
+
+    <<speech "darian">>Your turn.<</speech>>
+
+    He looks at you now, not accusing, but searching.
+
+    <<speech "darian">>Was it your mother or father?<</speech>>
+
+    You blink.
+
+    <<speech "jaylie">>What?<</speech>>
+
+    <<speech "darian">>One of them died. I can tell. You speak like someone who carries the absence of a parent like a second name.<</speech>>
+
+    You hesitate, then lower your gaze.
+
+    <<speech "jaylie">>My mother. She died giving birth to me.<</speech>>
+
+    He nods slowly. Not with pity—just understanding.
+
+    <<speech "darian">>I thought so. You don't dress like a girl who was raised by her mother.<</speech>>
+
+    You glance down at yourself, a soft scoff rising from your throat.
+
+    <<speech "jaylie">>Guess I didn’t realize that was a style now.<</speech>>
+
+    <<speech "darian">>Not style. Energy. You dress like someone who had to learn softness the hard way.<</speech>>
+    <</append>>
+    <<relation "darian" "affection" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: DarianDuet_WhyNoctail [widget]
+    <<widget "DarianDuet_WhyNoctail">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>Why did you start working at the Noctail?<</speech>>
+
+    Darian gives a short laugh—one with no real humor behind it.
+
+    <<speech "darian">>Because there’s no applause in grief. And no stage that wants a broken voice.<</speech>>
+
+    He shifts, hands clasped loosely in his lap.
+
+    <<speech "darian">>After my sister passed, I couldn’t sing without feeling like the echo was chasing me. I tried. Gods, I tried. But every theater felt too big. Too empty.<</speech>>
+
+    His voice lowers.
+
+    <<speech "darian">>So I came here. Not because I wanted to be touched, or paid, or even needed... but because I wanted to disappear into something smaller. Something real. Where no one claps when you bleed well.<</speech>>
+
+    He pauses, then looks around the room—not wistfully, but with something close to gratitude.
+
+    <<speech "darian">>Strange thing is... I didn’t disappear. I just stopped performing. And somewhere in the quiet, I started to feel like I belonged again.<</speech>>
+
+    <<speech "darian">>The others here—Adda, Bert, Marie... they became something like family. They don’t need me to dazzle. They just need me to show up. And I can do that.<</speech>>
+
+    He lets the silence settle. Then:
+
+    <<speech "darian">>Now it’s my turn...Why did *you* come here tonight?<</speech>>
+
+    You falter—not because you don’t know, but because no one’s asked it quite like that.
+
+    <<speech "jaylie">>Honestly? I’m not sure. I went out tonight because I wanted to drink.<</speech>>
+
+    Darian doesn’t let that sit.
+
+    <<speech "darian">>What were you trying to drown?<</speech>>
+
+    You hesitate, gaze falling.
+
+    <<speech "jaylie">>It’s my birthday.<</speech>>
+
+    He blinks once, then nods—like it clicks into place.
+
+    <<speech "jaylie">>My birthdays have never been a happy occasion. Just reminders. Of what’s gone. Of what’s expected. Of what I’ll never quite live up to.<</speech>>
+
+    Darian doesn’t interrupt. He just watches you, steady as the curtains lining his room.
+
+    <<speech "darian">>Then I’m glad you came here. And I hope, just for tonight... you get to forget every bit of that.<</speech>>
+
+    <</append>>
+    <<relation "darian" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: DarianDuet_StageLove [widget]
+    <<widget "DarianDuet_StageLove">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>Did you ever fall in love on stage?<</speech>>
+
+    Darian laughs, the sound low but fond—like a memory he’s already forgiven himself for.
+
+    <<speech "darian">>Far too many times. It’s a dangerous thing, singing love into the dark and pretending you don’t mean it.<</speech>>
+
+    He leans forward, elbows on knees.
+
+    <<speech "darian">>I fell for duets, for glances across the wings, for the way some people touched your hand like it was the first time <strong>every</strong>time. But the stage is a mirror, not a home. Love there doesn’t last—it just echoes.<</speech>>
+
+    His smile falters, just slightly.
+
+    <<speech "darian">>Still, I’d be lying if I said I didn’t chase it. And some of those moments? They were real. Even if they didn’t survive the final bow.<</speech>>
+
+    He meets your gaze again.
+
+    <<speech "darian">>My turn.<</speech>>
+
+    <<speech "darian">>When was the last time someone looked at you and didn’t want something?<</speech>>
+
+    The question hits deeper than you expect. You try to answer—but nothing comes right away.
+
+    <<speech "jaylie">>I... don’t know.<</speech>>
+
+    You smile, but it’s brittle.
+
+    <<speech "jaylie">>Maybe that’s why I’m here.<</speech>>
+
+    Darian watches you for a breath, then nods. The air between you shifts—quieter now, but fuller.
+
+    <<speech "darian">>Then I hope I’m not the exception. Just the reminder you deserved.<</speech>>
+
+    He says it without ceremony. No smile. No teasing tone. Just truth.
+
+    <<speech "darian">>That you're still worth looking at... without wanting to take anything away.<</speech>>
+
+    <</append>><<relation "darian" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: DarianDuet_MissOldLife [widget]
+    <<widget "DarianDuet_MissOldLife">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>Do you ever miss the life you had before all this?<</speech>>
+
+    Darian doesn’t answer right away. His gaze drops—not distant, but inward. Like he’s checking a wound to see if it still stings.
+
+    <<speech "darian">>No. Not exactly.<</speech>>
+
+    He leans back, the curtain behind him pressing in like quiet velvet.
+
+    <<speech "darian">>I remember it fondly. The stages. The travel. The music. The way it all felt like I was part of something larger than myself.<</speech>>
+
+    A pause.
+
+    <<speech "darian">>But missing it... that would mean wanting it back. And I know what it would cost to have that again.<</speech>>
+
+    He taps the bracelet lightly with one finger.
+
+    <<speech "darian">>I don’t need the stage. I needed her. The rest was just echo.<</speech>>
+
+    He glances at you—not fragile, but stripped down to something real.
+
+    <<speech "darian">>Your turn. Where would you go if you didn’t have to be anyone tonight?<</speech>>
+
+    You think on it for a moment.
+
+    <<speech "jaylie">>Poor choice of question. It answers itself don't you think? This was my attempt at not being anyone tonight. Yet it still feels like running away from something rather than being something else.<</speech>>
+
+    Darian smiles gently.
+
+    <<speech "darian">>Then maybe it’s not about being something else. Maybe it’s about letting yourself <strong>be</strong>, without needing a title to go with it.<</speech>>
+
+    <</append>>
+    <<relation "darian" "trust" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: DarianDuet_MostBeautiful [widget]
+    <<widget "DarianDuet_MostBeautiful">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>What’s the most beautiful thing you’ve ever seen?<</speech>>
+
+    Darian doesn't answer immediately. When he does, it's without flourish.
+
+    <<speech "darian">>Oh I remember. Once after a show I found myself not quite able to go to sleep, so I went out and explored the city. The theater I had been in, I learned, was brand new because the old one in the city had burned down. Rather than build on top of the ashes, the town left the old theater still standing. I made a mission of finding it.<</speech>>
+
+    He smiles faintly, the memory distant but polished.
+
+    <<speech "darian">>I found the old theater a few blocks away and was terrified upon my approach because I heard a truly haunting voice coming from within. I've no clue what came over me because despite thinking it must be haunted I was drawn inside like a sailor to a siren. There was no vengeful spirit though, just a girl standing on the remnants of the old stage, singing her heart out to an empty theater, now an audience of one. Her voice cracked halfway through, and she laughed at herself. Kept singing anyway. That was years ago. I never learned her name. But I still remember how the sound carried through the rain.<</speech>>
+
+    He turns to you now—softer, but not fragile.
+
+    <<speech "darian">>What about you? What moment do you carry around when the world’s too loud?<</speech>>
+
+    You breathe in, slow. A flicker of something rises—small, strange, but real.
+
+    <<speech "jaylie">>There’s a well behind the old barracks. When I was a child, I used to sit there and listen to the wind echo down the stone. It sounded like a voice trying to remember a song it had almost forgotten.<</speech>>
+
+    Darian’s gaze doesn’t waver.
+
+    <<speech "darian">>Maybe that’s what we are, then. Songs trying to remember themselves.<</speech>>
+
+    You laugh at him, not cruelly. 
+
+    <<speech "jaylie">>You are so full of cheesey clichés.<</speech>>
+    <</append>>
+    <<relation "darian" "affection" 1>>
+    <<run setup.clearConvoChoices()>>
+    <<run setup.darian_Conversation_Options_DarianDialogueDuet()>>
+    <</widget>>
+
+
+
+    :: ReturnToDarianPhase1 [widget]
+    <<widget "ReturnToDarianPhase1">>
+    <<append "#convoBox">>
+    <<speech "jaylie">>Let’s talk about something else.<</speech>>
+
+    Darian nods once, as if to say: *Of course.*
+
+    <<speech "darian">>The world will still be waiting for us after the quiet. No need to rush back into it.<</speech>>
+
+    He leans back slightly, letting the moment stretch just long enough to breathe.
+
+    <<speech "darian">>So... what else would you like to know?<</speech>>
+
+    <</append>>
+    <<run setup.clearConvoChoices()>>
+    <<DialogueTree "darian" "Phase1">>
+    <</widget>>
+/* DarianDialogueDuet - End */
+
+
+
+:: Darian_AskToKiss [widget]
+<<widget "Darian_AskToKiss">>
+<<append "#convoBox">>
+<<speech "jaylie">>Do you mind if I kiss you?<</speech>>
+
+Darian doesn't respond immediately. He watches you for a moment, the playful glint in his eyes softening into something steadier.
+
+<<speech "darian">>You could have, you know. Without asking.<</speech>>
+
+He says it gently—not dismissively, but as if to say *you don’t need permission to be kind.*
+
+<<speech "darian">>But I’m glad you did.<</speech>>
+
+He leans forward—not fast, not hesitant—and meets you halfway.
+
+The kiss is quiet. Warm. Intentional. The kind that doesn’t ask for anything back.
+
+His hand brushes your cheek like he’s trying to memorize its shape. When the kiss breaks, he doesn’t move far—just far enough to breathe.
+
+<<speech "darian">>Well... that ruined me a little.<</speech>>
+
+<<speech "jaylie">>Could we take it further?<</speech>>
+
+<<speech "darian">>You don't need to as—<</speech>>
+
+You kiss him again. More passionately.
+
+<</append>>
+<<relation "darian" "trust" 1>>
+<<relation "darian" "affection" 2>>
+<<run setup.clearConvoChoices()>>
+/* Placeholder <<StartBanging>> */>>
+<</widget>>
+
+
+
+:: Darian_MusicRequest [widget]
+<<widget "Darian_MusicRequest">>
+<<append "#convoBox">>
+<p>You glance around the room, then back at Darian. The question escapes you before you can second-guess it.</p>
+
+<<speech "jaylie">>Would it be too much trouble... to pass the time with some music?<</speech>>
+
+For a moment, Darian doesn’t speak. He just watches you. Not guarded—but still. Like you’ve opened a door he hasn’t walked through in years.
+
+<<speech "darian">>You’re the first person who’s asked that in a long time.<</speech>>
+
+[[He gives you a warm, welcoming smile.|Darian_MusicMontage]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>

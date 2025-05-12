@@ -1,6 +1,5 @@
 :: Scene02_TalkToMaleHost
-<<bg "parlordarian">><<StartDialogueLayout>>>>
-
+<<bg "parlordarian">><<StartDialogueLayout>>
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
 <<speech "darian">>Good evening, my lady. Looking for someone to share it with?<</speech>>
@@ -19,7 +18,7 @@ He says it gently, almost like it's a well-worn lyric he's sung a thousand times
 
 He chuckles, brushing one hand through his thick, short-cropped hair. A thin golden bracelet glints on his wrist, a simple, yet beautiful, braided-metal piece. You spot tiny inscriptions etched into the broad clasp, but you can't quite make them out.
 
-<<speech "darian">>Me? I'm here to make sure no one leaves feeling worse than they came in. And maybe to share a song or two. Music soothes wounded hearts.<</speech>>
+<<speech "darian">>Me? I'm here to make sure no one leaves feeling worse than they came in. Maybe inspire a few songs in peoples' souls.<</speech>>
 
 He gives a short whistle—just a few notes. It's simple, a melody that feels nostalgic even if you've never heard it before.
 

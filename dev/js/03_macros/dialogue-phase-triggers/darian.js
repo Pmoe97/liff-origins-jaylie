@@ -34,40 +34,89 @@ setup.darian_Conversation_Options_Phase0 = function () {
 		{
 			label: "Do you think we could go somewhere more private?",
 			target: "Darian_GoPrivate",
-			trust: ["darian", 8],
-			aff: ["darian", 8],
-			logic: "or"
+			trust: ["darian", 6],
+			aff: ["darian", 3],
+			logic: "and"
 		},
 		{
 			label: "Nevermind.",
 			target: "Darian_ReturnToParlor",
-			reuse: 1
+			notVariable: "Read_Phase0_darian_Darian_GoPrivate",
+			reuse: 1,
+			hide: true
 		}
 	]);
 };
 
-
-/* Adds options unlocked if Jaylie passes the trust threshold for bracelet backstory */
-setup.darian_Conversation_Options_SisterBranch = function () {
-	setup.addChoices([
-		["What was your sister like?", "Darian_Sister_WhatWasSheLike", 0],
-		["How did your sister die?", "Darian_Sister_HowDidSheDie", 0],
-		["Tell me more about the bracelet.", "Darian_Sister_BraceletMemory", 0],
-		["We can talk about something else now.", "Darian_Sister_ReturnToMain", 1] // ✅ Return branch
+setup.darian_Conversation_Options_Phase1 = function () {
+	setup.smartChoices([
+		{
+			label: "I like your room. Are they all like this?",
+			target: "Darian_RoomComment"
+		},
+		{
+			label: "So... what do we do now?",
+			target: "Darian_WhatNow"
+		},
+		{
+			label: "So how has your night been?",
+			target: "Darian_HowsYourNight"
+		},
+		{
+			label: "Do you mind if I ask you some more personal questions?",
+			target: "Darian_AskDeeper",
+			reuse: 1
+		},
+		{
+			label: "Do you mind if I kiss you?",
+			target: "Darian_AskToKiss",
+			trust: ["darian", 9],
+			aff: ["darian", 6],
+			logic: "and",
+			notVariable: "Read_Phase1_darian_Darian_MusicRequest"
+		},
+		{
+			label: "Would it be too much trouble to pass the time with some music?",
+			target: "Darian_MusicRequest",
+			trust: ["darian", 14],
+			aff: ["darian", 9],
+			logic: "and",
+			notVariable: "Read_Phase1_darian_Darian_AskToKiss"
+		}
 	]);
 };
 
-
-/* Placeholder for Phase 1 — can be implemented after minigame or relationship gain */
-setup.darian_Conversation_Options_Phase1 = function () {
-	setup.addChoices([
-		["Do you ever miss singing?", "Darian_MissSinging", 0],
-		["Do you actually like people... or is it just the job?", "Darian_LikesPeople", 0],
-		["You're kind of terrible at flirting when you're nervous.", "Darian_BadFlirt", 0],
-		...setup.if(State.variables.characters.darian.affection >= 6, [
-			["Would you go upstairs with me?", "Darian_GoUpstairs", 0]
-		]),
-		["Let's go back to lighter conversation.", "PHASE_0", 1] // ✅ Phase switcher
+setup.darian_Conversation_Options_DarianDialogueDuet = function () {
+	setup.smartChoices([
+		{
+			label: "Who gave you that bracelet?",
+			target: "DarianDuet_Bracelet"
+		},
+		{
+			label: "What was it like to travel around performing?",
+			target: "DarianDuet_Performing"
+		},
+		{
+			label: "Why did you start working at the Noctail?",
+			target: "DarianDuet_WhyNoctail"
+		},
+		{
+			label: "Did you ever fall in love on stage?",
+			target: "DarianDuet_StageLove"
+		},
+		{
+			label: "Do you ever miss the life you had before all this?",
+			target: "DarianDuet_MissOldLife"
+		},
+		{
+			label: "What’s the most beautiful thing you’ve ever seen?",
+			target: "DarianDuet_MostBeautiful"
+		},
+		{
+			label: "Let's talk about something else.",
+			target: "ReturnToDarianPhase1",
+			reuse: 1
+		}
 	]);
 };
 

@@ -81,38 +81,51 @@ setup.ConvoGame = {
   },
   
   injectChoices() {
-    const convo = State.temporary.convo;
-    const choiceBox = document.getElementById("convo-choices");
-    if (!choiceBox) return;
-  
-    choiceBox.innerHTML = "";
-  
-    const tierList = setup.ConvoTropesByTier?.[convo.heatTier] ?? [];
-  
-    if (tierList.length === 0) {
-      choiceBox.innerHTML = "<em>No conversation options available.</em>";
-      console.warn(`[ConvoUI] No tropes found for HAWT™ tier ${convo.heatTier}`);
-      return;
+  const convo = State.temporary.convo;
+  const choiceBox = document.getElementById("convo-choices");
+  if (!choiceBox) return;
+
+  choiceBox.innerHTML = "";
+
+  const tierList = setup.ConvoTropesByTier?.[convo.heatTier] ?? [];
+
+  if (tierList.length === 0) {
+    choiceBox.innerHTML = "<em>No conversation options available.</em>";
+    console.warn(`[ConvoUI] No tropes found for HAWT™ tier ${convo.heatTier}`);
+    return;
+  }
+
+  const unused = tierList.filter(trope => !convo.usedTropes.includes(trope.label));
+
+  // Cryptographically secure shuffle
+  function cryptoShuffle(array) {
+    const arr = array.slice(); // Clone to avoid mutation
+    for (let i = arr.length - 1; i > 0; i--) {
+      const rand = window.crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
+      const j = Math.floor(rand * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-  
-    const unused = tierList.filter(trope => !convo.usedTropes.includes(trope.label));
-    const shuffled = unused.sort(() => Math.random() - 0.5);
-    const finalTropes = shuffled.slice(0, 4);
-  
-    if (finalTropes.length === 0) {
-      choiceBox.innerHTML = "<em>No conversation options available.</em>";
-      return;
-    }
-  
-    for (const trope of finalTropes) {
-      const btn = document.createElement("button");
-      btn.textContent = `${trope.label} (${this.getSuccessChance(trope)}%)`;
-      btn.onclick = () => this.handleChoice(trope);
-      choiceBox.appendChild(btn);
-    }
-       
-    setup.ConvoUI.animateChoices(choiceBox);
-  },
+    return arr;
+  }
+
+  const shuffled = cryptoShuffle(unused);
+  const finalTropes = shuffled.slice(0, 4);
+
+  if (finalTropes.length === 0) {
+    choiceBox.innerHTML = "<em>No conversation options available.</em>";
+    return;
+  }
+
+  for (const trope of finalTropes) {
+    const btn = document.createElement("button");
+    btn.textContent = `${trope.label} (${this.getSuccessChance(trope)}%)`;
+    btn.onclick = () => this.handleChoice(trope);
+    choiceBox.appendChild(btn);
+  }
+
+  setup.ConvoUI.animateChoices(choiceBox);
+},
+
 
   handleChoice(trope) {
     const convo = State.temporary.convo;

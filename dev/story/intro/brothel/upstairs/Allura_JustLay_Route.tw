@@ -1,42 +1,61 @@
 :: Allura_JustLay_Route
 <<set $currentPhase = "None">>
 <<EndDialogueLayout>>
+
 <div id="montage">
 	<p>You settle in beside her, head finding a soft spot in the sea of cushions. Allura doesn't pull you close—she lets you come to her at your own pace. But her presence is magnetic, and soon your shoulders touch. Her tail coils near your leg, not quite brushing it.</p>
 
 	<p>One of her hands finds your hair. She brushes it back, slow and rhythmic, untangling knots that weren't really there. You close your eyes to the sound of her gentle breathing and the soft hiss of rain outside the window.</p>
-
-	<p><<link "Some time passes.">>
-		<<replace "#montage">>
-			<p>The lamp light flickers as a draft slips through the hallway. You shift to your side and feel the cushions dip with her weight as she mirrors you.</p>
-			<<speech "allura">>“You tense when you think too much...It makes your bones feel noisy.”<</speech>>
-			<p>You laugh, then stifle it when her fingers slide back up to your neck.
-			<<speech "jaylie">>Ooh...Don't stop.<</speech>>
-
-			<p><<link "More time passes.">>
-				<<replace "#montage">>
-					<p>Allura hums now. A tune you don't recognize. You're both facing the ceiling, barely touching.</p>
-					<p>Eventually, she shifts closer and drapes one leg across yours, lazily. 
-					<<speech "allura">>Still breathing?<</speech>>
-					<<speech "jaylie">>Best hour of my life.<</speech>> 
-					<p>You reply without thinking. She smiles at that. Not the coy one. The real one.</p>
-
-					<p><<link "Even more time passes.">>
-						<<replace "#montage">>
-							<p>You don't remember who moved first, but at some point, you're tucked against her completely.</p>
-							<p>“You know,” she says, voice quiet and rich, “you're dangerous in your own way. You're kind.”</p>
-							<p>You want to say something clever. Instead, you nuzzle her collarbone and say, “Then let me be dangerous a little longer.”</p>
-
-							<<timed 5s>><<replace "#finalLink">><p><a  id="finalLink" class="fade-slow" href="EverythinggoeswhiteLightningStrikeScene">Suddenly—</a></p>
-								<</replace>>
-							<</timed>>
-						<</replace>>
-					<</link>>
-				<</replace>>
-			<</link>>
-		<</replace>>
-	<</link>></p>
 </div>
 
-<div id="finalLink"></div>
+<span id="montage-link">
+	<<link "Some time passes.">>
+		<<replace "#montage-link">>
+			<<append "#montage">>
+				<div class="montage-fade fade-start">
+					<p>The lamp light flickers as a draft slips through the hallway. You shift to your side and feel the cushions dip with her weight as she mirrors you.</p>
+					<<speech "allura">>You tense when you think too much... It makes your bones feel noisy.<</speech>>
+					<p>You laugh, then stifle it when her fingers slide back up to your neck.</p>
+					<<speech "jaylie">>Ooh... Don't stop.<</speech>>
+				</div>
+			<</append>>
+			<<SceneFadeInNow>>
 
+			<span id="montage-link">
+				<<link "More time passes.">>
+					<<replace "#montage-link">>
+						<<append "#montage">>
+							<div class="montage-fade fade-start">
+								<p>Allura hums now. A tune you don't recognize. You're both facing the ceiling, barely touching.</p>
+								<p>Eventually, she shifts closer and drapes one leg across yours, lazily.</p>
+								<<speech "allura">>Still breathing?<</speech>>
+								<<speech "jaylie">>Best hour of my life.<</speech>>
+								<p>You reply without thinking. She smiles at that. Not the coy one. The real one.</p>
+							</div>
+						<</append>>
+						<<SceneFadeInNow>>
+
+						<span id="montage-link">
+							<<link "Even more time passes.">>
+								<<replace "#montage-link">>
+									<<append "#montage">>
+										<div class="montage-fade fade-start">
+											<p>You don't remember who moved first, but at some point, you're tucked against her completely.</p>
+											<p>“You know,” she says, voice quiet and rich, “you're dangerous in your own way. You're kind.”</p>
+											<p>You want to say something clever. Instead, you nuzzle her collarbone and say, “Then let me be dangerous a little longer.”</p>
+										</div><</append>><<SceneFadeInNow>><<timed 5s>>
+										<<replace "#finalLink">>
+											<p><a id="finalLink" class="fade-slow" href="EverythinggoeswhiteLightningStrikeScene">Suddenly—</a></p>
+										<</replace>>
+									<</timed>>
+								<</replace>>
+							<</link>>
+						</span>
+					<</replace>>
+				<</link>>
+			</span>
+		<</replace>>
+	<</link>>
+</span>
+
+<div id="finalLink"></div>

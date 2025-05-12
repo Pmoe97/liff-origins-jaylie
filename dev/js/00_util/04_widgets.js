@@ -452,3 +452,18 @@ Macro.add("relation", {
 		console.log(`[relation] ${mode} ${value} to ${charId}.${stat} → ${char[stat]}`);
 	}
 });
+
+Macro.add("SceneFadeInNow", {
+	handler() {
+		setTimeout(() => {
+			const nodes = document.querySelectorAll("#montage .fade-start");
+			nodes.forEach(n => n.classList.remove("fade-start"));
+			console.log(`[SceneFadeInNow] ${nodes.length} element(s) faded in.`);
+		}, 20);
+	}
+});
+
+
+
+
+
