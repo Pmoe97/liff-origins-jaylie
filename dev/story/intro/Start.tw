@@ -13,4 +13,4 @@ This story will contain elements of an ''ADULT/MATURE'' nature. Content like thi
 [[Wait I am NOT an adult|Underage_Response]]
 
 /*PlaceHolder! Remove option.*/
-[[Go to brothel|TheBrothelParlorOverview]]
+<<StartSexScene "allura">>

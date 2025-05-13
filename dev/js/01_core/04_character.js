@@ -99,7 +99,14 @@ setup.initializeCharacters = function () {
 						breastSize: "medium"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
   
@@ -166,7 +173,14 @@ setup.initializeCharacters = function () {
 						buttSize: "plump"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
   
@@ -232,7 +246,14 @@ setup.initializeCharacters = function () {
 						penisSize: "modest"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
   
@@ -302,7 +323,14 @@ setup.initializeCharacters = function () {
 						breastSize: "irrelevant"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
 
@@ -369,7 +397,14 @@ setup.initializeCharacters = function () {
 						penisSize: null
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 
 		tesska: {
@@ -435,7 +470,14 @@ setup.initializeCharacters = function () {
 						breastSize: "medium"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
 		allura: {
@@ -505,7 +547,14 @@ setup.initializeCharacters = function () {
 						breastSize: "medium"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
 		darian: {
@@ -575,7 +624,14 @@ setup.initializeCharacters = function () {
 						breastSize: "full"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
 		bert: {
@@ -642,7 +698,14 @@ setup.initializeCharacters = function () {
 						breastSize: "irrelevant"
 					}
 				}
-			}
+			},
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			  },
+			  
 		},
 		
 	};

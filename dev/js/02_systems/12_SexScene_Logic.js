@@ -127,14 +127,21 @@ setup.renderSexSceneActions = function () {
 	const groupedActions = {};
 
 	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+		if (act.giver !== "player") {
+			console.log(`[SexSceneRender] 🔒 Skipped '${label}' — not player-giver.`);
+			continue;
+		}
+
 		if (!act.usedBy || !Array.isArray(act.usedBy)) {
 			console.warn(`[SexSceneRender] ⚠️ '${label}' missing 'usedBy'.`);
 			continue;
 		}
 
+		let isValid = false;
+
 		for (const part of act.usedBy) {
 			if (!playerState.parts?.[part]) {
-				console.log(`[SexSceneRender] ⛔ '${label}' skipped - no '${part}' on player.`);
+				console.log(`[SexSceneRender] ⛔ '${label}' skipped — no '${part}' on player.`);
 				continue;
 			}
 
@@ -147,32 +154,38 @@ setup.renderSexSceneActions = function () {
 			if (!groupedActions[part]) groupedActions[part] = [];
 			groupedActions[part].push({ label, act });
 			console.log(`[SexSceneRender] ✅ '${label}' available under '${part}'.`);
+			isValid = true;
+		}
+
+		if (!isValid) {
+			console.log(`[SexSceneRender] 🚫 '${label}' had no valid parts after filtering.`);
 		}
 	}
 
-  for (const [part, actions] of Object.entries(groupedActions)) {
-    if (!actions.length) continue; // ⛔ Skip empty action groups
-  
-    const $group = document.createElement("div");
-    $group.classList.add("sexscene-group");
-    $group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
-  
-    for (const entry of actions) {
-      const $btn = document.createElement("button");
-      $btn.textContent = entry.act.label;
-  
-      const isActive = State.variables.sexScenePendingActions?.some(a => a.label === entry.label);
-      if (isActive) $btn.classList.add("active-sexact");
-  
-      $btn.onclick = () => setup.toggleSexAction(entry.label);
-      $group.appendChild($btn);
-    }
-  
-    $wrapper.appendChild($group);
-  }  
-  setup.renderSexSceneContinueButton();
+	for (const [part, actions] of Object.entries(groupedActions)) {
+		if (!actions.length) continue;
 
+		const $group = document.createElement("div");
+		$group.classList.add("sexscene-group");
+		$group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
+
+		for (const entry of actions) {
+			const $btn = document.createElement("button");
+			$btn.textContent = entry.act.label;
+
+			const isActive = State.variables.sexScenePendingActions?.some(a => a.label === entry.label);
+			if (isActive) $btn.classList.add("active-sexact");
+
+			$btn.onclick = () => setup.toggleSexAction(entry.label);
+			$group.appendChild($btn);
+		}
+
+		$wrapper.appendChild($group);
+	}
+
+	setup.renderSexSceneContinueButton();
 };
+
 
 // ===============================
 // 🔘 Track & Toggle Pending Actions
@@ -266,4 +279,163 @@ setup.handleSexSceneContinue = function () {
 	}
 
 	console.log("[SexScene] 🔁 Turn complete.");
+};
+
+/** ======================================================
+ *   ORGASM TRIGGER & FEEDBACK SYSTEM
+ *   Drop into 12_SexScene_Logic.js
+ * ===================================================== */
+
+setup.triggerOrgasm = function (charId) {
+	const isPlayer = charId === "player";
+	const char = isPlayer ? State.variables.player : State.variables.characters?.[charId];
+	const state = isPlayer ? null : State.variables.sexSceneNPCStates?.[charId];
+	if (!char) return;
+
+	// Reset excitement, add fatigue
+	char.status.excitement = 0;
+	char.status.fatigue = Math.min(char.status.fatigue + 40, char.status.maxFatigue);
+
+	if (isPlayer) {
+		setup.offerPlayerOrgasmChoices();
+	} else {
+		setup.displayNPCOrgasmFeedback(charId);
+	}
+};
+
+setup.displayNPCOrgasmFeedback = function (npcId) {
+	const state = State.variables.sexSceneNPCStates?.[npcId];
+	const lastAct = state?.lastReceivedAction ?? null;
+	const npc = State.variables.characters[npcId];
+	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
+	if (!feedbackBox) return;
+
+	let climaxText = `<<npc.name>> orgasms, body trembling with release.`; // fallback
+
+	if (lastAct && setup.SexSceneResponses[lastAct]?.responses?.climax) {
+		const options = setup.SexSceneResponses[lastAct].responses.climax;
+		const pick = options[Math.floor(Math.random() * options.length)];
+		climaxText = pick;
+	}
+
+	const p = document.createElement("p");
+	p.innerHTML = Wikifier.parse(climaxText);
+	feedbackBox.appendChild(p);
+};
+
+setup.offerPlayerOrgasmChoices = function () {
+	const box = document.getElementById("sexSceneFeedbackBox");
+	if (!box) return;
+
+	const p = document.createElement("p");
+	p.innerHTML = "You're right at the edge. How do you want to finish?";
+	box.appendChild(p);
+
+	const choices = [
+		["Cum Inside", "inside"],
+		["Pull Out / Cum Outside", "outside"],
+		["Cum on Their Face", "face"]
+	];
+
+	for (const [label, mode] of choices) {
+		const btn = document.createElement("button");
+		btn.className = "orgasm-choice-button";
+		btn.textContent = label;
+		btn.onclick = () => setup.resolvePlayerOrgasm(mode);
+		box.appendChild(btn);
+	}
+};
+
+setup.resolvePlayerOrgasm = function (mode) {
+	const box = document.getElementById("sexSceneFeedbackBox");
+	if (!box) return;
+
+	const lines = {
+		inside: "You release deep inside them, gasping as the climax overtakes you.",
+		outside: "You pull out at the last second, stroking yourself to a messy finish across their body.",
+		face: "You guide yourself upward and finish across their face, groaning through every twitch of pleasure."
+	};
+
+	const p = document.createElement("p");
+	p.innerHTML = Wikifier.parse(lines[mode] ?? lines.inside);
+	box.appendChild(p);
+
+	// Reset player excitement, add fatigue again just in case
+	const player = State.variables.player;
+	player.status.excitement = 0;
+	player.status.fatigue = Math.min(player.status.fatigue + 40, player.status.maxFatigue);
+};
+
+
+setup.performSexAct = function (label, targetId = null) {
+	console.log(`[SexSceneAction] 🟢 Attempting action: ${label}`);
+
+	const act = setup.SexualActsDB?.[label];
+	if (!act) {
+		console.warn(`[SexSceneAction] ❌ Action '${label}' not found in SexualActsDB.`);
+		return;
+	}
+
+	const player = State.variables.player;
+	const playerStatus = player.status;
+	const playerState = State.variables.sexScenePlayerState;
+
+	// If no specific target passed, pick the first NPC (assumes 1v1 scenes for now)
+	if (!targetId) {
+		const npcIds = Object.keys(State.variables.sexSceneNPCStates || {});
+		if (npcIds.length === 0) {
+			console.warn("[SexSceneAction] ❌ No available NPCs to target.");
+			return;
+		}
+		targetId = npcIds[0];
+	}
+	const targetState = State.variables.sexSceneNPCStates[targetId];
+	const targetChar = State.variables.characters[targetId];
+	const targetStatus = targetChar.status;
+
+	console.log(`[SexSceneAction] 📌 Target: ${targetId}`);
+	console.log(`[SexSceneAction] ✅ Player excitement: ${playerStatus.excitement}`);
+	console.log(`[SexSceneAction] ✅ Target excitement: ${targetStatus.excitement}`);
+
+	// -- SIMULATED AROUSAL GAIN (adjust later per act type)
+	const arousalGain = 25;
+
+	if (act.usedBy.includes("genitals") && act.targetPart === "genitals") {
+		console.log(`[SexSceneAction] 🔥 Genital-to-genital detected. Doubling arousal.`);
+		playerStatus.excitement += arousalGain;
+		targetStatus.excitement += arousalGain;
+	} else {
+		playerStatus.excitement += arousalGain;
+		targetStatus.excitement += arousalGain;
+	}
+
+	console.log(`[SexSceneAction] 🧪 New player excitement: ${playerStatus.excitement}`);
+	console.log(`[SexSceneAction] 🧪 New target excitement: ${targetStatus.excitement}`);
+
+	// -- TRACK LAST RECEIVED ACTION
+	targetState.lastReceivedAction = label;
+	console.log(`[SexSceneAction] 📎 Set '${label}' as last received act for '${targetId}'.`);
+
+	// -- DISPLAY RESPONSE (placeholder)
+	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
+	if (feedbackBox) {
+		const line = `${label}: you stimulate ${targetChar.name}.`;
+		const p = document.createElement("p");
+		p.textContent = line;
+		feedbackBox.appendChild(p);
+	}
+
+	// -- ORGASM CHECK
+	if (playerStatus.excitement >= playerStatus.maxExcitement) {
+		console.log("[SexSceneAction] 🚨 PLAYER climax threshold reached.");
+		setup.triggerOrgasm("player");
+	}
+
+	if (targetStatus.excitement >= targetStatus.maxExcitement) {
+		console.log(`[SexSceneAction] 🚨 NPC '${targetId}' climax threshold reached.`);
+		setup.triggerOrgasm(targetId);
+	}
+
+	// -- Re-render actions for continued play
+	setup.renderSexSceneActions();
 };
