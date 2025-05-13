@@ -151,25 +151,26 @@ setup.renderSexSceneActions = function () {
 	}
 
   for (const [part, actions] of Object.entries(groupedActions)) {
-    if (!actions.length) continue; // ⛔ Skip empty action groups
-  
-    const $group = document.createElement("div");
-    $group.classList.add("sexscene-group");
-    $group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
-  
-    for (const entry of actions) {
-      const $btn = document.createElement("button");
-      $btn.textContent = entry.act.label;
-  
-      const isActive = State.variables.sexScenePendingActions?.some(a => a.label === entry.label);
-      if (isActive) $btn.classList.add("active-sexact");
-  
-      $btn.onclick = () => setup.toggleSexAction(entry.label);
-      $group.appendChild($btn);
-    }
-  
-    $wrapper.appendChild($group);
-  }  
+	if (!actions.length) continue; // ⛔ Skip empty action groups
+
+	const $group = document.createElement("div");
+	$group.classList.add("sexscene-group");
+	$group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
+
+	for (const entry of actions) {
+		const $btn = document.createElement("button");
+		$btn.textContent = entry.act.label;
+
+		const isActive = State.variables.sexScenePendingActions?.some(a => a.label === entry.label);
+		if (isActive) $btn.classList.add("active-sexact");
+
+		$btn.onclick = () => setup.toggleSexAction(entry.label);
+		$group.appendChild($btn);
+	}
+
+	$wrapper.appendChild($group);
+}
+
   setup.renderSexSceneContinueButton();
 
 };
