@@ -46,3 +46,11 @@
 #sexSceneActionsBox button:hover {
 	background-color: #444;
 }
+
+button.active-sexact {
+	background-color: #893c8c;
+	color: white;
+	font-weight: bold;
+	border: 2px solid #c78de6;
+	box-shadow: 0 0 8px #c78de6;
+}

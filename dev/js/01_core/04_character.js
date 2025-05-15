@@ -11,9 +11,9 @@ setup.initializeCharacters = function () {
 			avatar: "images/portrait_jaylie.png",
 			color: "white",
 			bgColor: "rgba(110, 43, 54, 0.8)",
-		
+			
 			isPlayer: true,
-		
+
 			body: {
 				height: 64, // 5'4"
 				breastSize: 2, // "modest"
@@ -28,7 +28,12 @@ setup.initializeCharacters = function () {
 				hairColor: "auburn",
 				hairStyle: "wavy",
 				hairLength: 20, // "mid-back"
-				eyeColor: "hazel green"
+				eyeColor: "hazel green",
+
+				// Required anatomy
+				vagina: true,
+				clitoris: true,
+				penisSize: null
 			}
 		},
 		
@@ -487,24 +492,24 @@ setup.initializeCharacters = function () {
 			avatar: "images/portrait_allura.png",
 			color: "white",
 			bgColor: "rgba(20, 152, 232, 0.6)",
-		
+
 			trust: 0,
 			affection: 0,
 			rapport: 0.5,
 			tension: 0,
-		
+
 			traits: ["Flirty", "Cynical", "Confident"],
 			inclinations: ["bondage", "dominant", "sadism", "exhibitionism"],
 			motivations: ["Pleasure", "Family"],
 			socialStyle: "Seductive",
 			
 			pronouns: {
-				subject: "she",         // he / they
-				object: "her",          // him / them
-				possessive: "her",      // his / their
-				reflexive: "herself",   // himself / themself
-				noun: "woman"           // man / person
-			  },
+				subject: "she",
+				object: "her",
+				possessive: "her",
+				reflexive: "herself",
+				noun: "woman"
+			},
 
 			body: {
 				height: 68, // 5'8"
@@ -522,9 +527,14 @@ setup.initializeCharacters = function () {
 				hairLength: 6, // "waist-length"
 				eyeColor: "gold",
 				horns: "small curled obsidian",
-				ears: "long and pointed"
+				ears: "long and pointed",
+
+				// Required anatomy
+				vagina: true,
+				clitoris: true,
+				penisSize: null
 			},
-		
+
 			preferences: {
 				sexualActs: {
 					likes: [
@@ -548,15 +558,15 @@ setup.initializeCharacters = function () {
 					}
 				}
 			},
+
 			status: {
 				excitement: 0,
 				maxExcitement: 100,
 				fatigue: 0,
 				maxFatigue: 100
-			  },
-			  
+			}
 		},
-		
+	
 		darian: {
 			name: "Darian",
 			defaultName: "Male Host",
