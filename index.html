@@ -1787,6 +1787,14 @@ body:not(.sidebar-collapsed) #text-container {
 #sexSceneActionsBox button:hover {
 	background-color: #444;
 }
+
+button.active-sexact {
+	background-color: #893c8c;
+	color: white;
+	font-weight: bold;
+	border: 2px solid #c78de6;
+	box-shadow: 0 0 8px #c78de6;
+}
 /* twine-user-stylesheet #13: "shop-styles.css" */
 /* =============================
    SHOP OVERLAY LAYOUT
@@ -3297,16 +3305,16 @@ State.variables.player = {
   
 	// === Secondary Skills (Earn XP individually) ===
 	secondarySkills: {
-	  riding: 0,
-	  dancing: 0,
-	  swimming: 0,
-	  cleaning: 0,
-	  disguise: 0,
-	  hands: 0,
-	  mouth: 0,
-	  breasts: 0,
-	  vagina: 0,
-	  anus: 0
+	  riding: 100,
+	  dancing: 100,
+	  swimming: 100,
+	  cleaning: 100,
+	  disguise: 100,
+	  hands: 100,
+	  mouth: 100,
+	  breasts: 100,
+	  vagina: 100,
+	  anus: 100
 	},
   
 	// === Equipment ===
@@ -3393,7 +3401,7 @@ setup.initializeCharacters = function () {
 				// Required anatomy
 				vagina: true,
 				clitoris: true,
-				penisSize: null
+				penisSize: 5
 			}
 		},
 		
@@ -3891,8 +3899,10 @@ setup.initializeCharacters = function () {
 
 				// Required anatomy
 				vagina: true,
+				buttSize: 3,
+				anus: true,
 				clitoris: true,
-				penisSize: null
+				penisSize: 4
 			},
 
 			preferences: {
@@ -6140,42 +6150,43 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 		disabled: false
 	});
 
-	const detectBodyParts = char => {
+	// ✅ Updated and centralized body-to-parts detection
+	const detectBodyParts = (char) => {
 		const body = char.body || {};
 		const parts = {};
-		const debugSummary = [];
+		const summary = [];
 
-		// Universal defaults
+		// Standard human parts assumed unless explicitly false
 		parts.mouth = defaultPartState();
-		debugSummary.push("Mouth");
+		summary.push("Mouth");
 
-		parts.hands = defaultPartState();
-		debugSummary.push("Hands");
+		parts.hand = defaultPartState(); // normalized to singular
+		summary.push("Hand");
 
 		parts.feet = defaultPartState();
-		debugSummary.push("Feet");
+		summary.push("Feet");
 
 		parts.anus = defaultPartState();
-		debugSummary.push("Anus");
+		summary.push("Anus");
 
 		if (body.penisSize != null) {
 			parts.penis = defaultPartState();
-			debugSummary.push(`Penis (${body.penisSize}in)`);
+			summary.push(`Penis (${body.penisSize}in)`);
 		}
 
 		if (body.vagina) {
 			parts.vagina = defaultPartState();
 			parts.clitoris = defaultPartState();
-			debugSummary.push("Vagina");
-			debugSummary.push("Clitoris");
+			summary.push("Vagina");
+			summary.push("Clitoris");
 		}
 
 		if (body.breastSize > 0) {
 			parts.breasts = defaultPartState();
-			debugSummary.push(`Breasts (size ${body.breastSize})`);
+			summary.push(`Breasts (size ${body.breastSize})`);
 		}
 
-		return { parts, summary: debugSummary };
+		return { parts, summary };
 	};
 
 	// PLAYER INIT
@@ -6189,7 +6200,7 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 		orgasmCount: 0
 	};
 
-	console.log(`[SexSceneInit] 🧍 Player Anatomy: ${playerPartsData.summary.join(", ")}`);
+	console.log(`[SexSceneInit] 🧍 Player Anatomy Parts: ${playerPartsData.summary.join(", ")}`);
 
 	// PARTNERS INIT
 	const partnerIds = npcIdListString.split(",").map(id => id.trim());
@@ -6212,7 +6223,7 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 			lastReceivedAction: null
 		};
 
-		console.log(`[SexSceneInit] 👤 ${npc.name}'s Anatomy: ${npcPartsData.summary.join(", ")}`);
+		console.log(`[SexSceneInit] 👤 ${npc.name}'s Anatomy Parts: ${npcPartsData.summary.join(", ")}`);
 	}
 
 	State.variables.sexScenePendingActions = [];
@@ -6273,6 +6284,25 @@ Macro.add("EndSexSceneLayout", {
 		}
 	}
 });
+
+
+/* Body Part Detector */
+setup.detectBodyParts = function (body) {
+	const parts = {};
+
+	// Core anatomy parts
+	if (body?.mouth !== false) parts.mouth = {};
+	if (body?.hands !== false) parts.hand = {}; // normalized to "hand" not "hands"
+	if (body?.feet !== false) parts.feet = {};
+	if (body?.anus !== false || body?.buttSize >= 0) parts.anus = {};
+	if (body?.vagina) parts.vagina = {};
+	if (body?.clitoris) parts.clitoris = {};
+	if (body?.penisSize) parts.penis = {};
+	if (body?.breastSize > 0) parts.breasts = {};
+
+	return parts;
+};
+
 
 // ===============================
 // 🎛️ Render Action Buttons
@@ -6382,6 +6412,7 @@ setup.renderSexSceneActions = function () {
 			const isActive = pending.some(p => p.label === entry.label);
 			if (isActive) $btn.classList.add("active-sexact");
 
+
 			$btn.onclick = () => setup.toggleSexAction(entry.label);
 			$group.appendChild($btn);
 		}
@@ -6404,28 +6435,30 @@ setup.toggleSexAction = function (label) {
 		return;
 	}
 
-	const queue = State.variables.sexScenePendingActions ?? [];
+	// Ensure pending action list exists
+	if (!State.variables.sexScenePendingActions) {
+		State.variables.sexScenePendingActions = [];
+	}
+	const queue = State.variables.sexScenePendingActions;
 	const index = queue.findIndex(entry => entry.label === label);
 
 	if (index >= 0) {
-		// Remove if already selected
+		// Already active — remove it
 		queue.splice(index, 1);
 		console.log(`[SexSceneAction] 🔄 Removed '${label}' from queue.`);
 	} else {
-		// Handle exclusive subject part conflicts
+		// Exclusive: remove any other act using the same subjectParts
 		if (act.exclusive && Array.isArray(act.subjectParts)) {
-			for (const part of act.subjectParts) {
-				for (let i = queue.length - 1; i >= 0; i--) {
-					const existing = setup.SexualActsDB[queue[i].label];
-					if (existing?.subjectParts?.includes(part)) {
-						console.log(`[SexSceneAction] 🔁 '${queue[i].label}' removed — exclusive conflict on '${part}'`);
-						queue.splice(i, 1);
-					}
+			for (let i = queue.length - 1; i >= 0; i--) {
+				const existing = setup.SexualActsDB[queue[i].label];
+				if (existing?.subjectParts?.some(part => act.subjectParts.includes(part))) {
+					console.log(`[SexSceneAction] 🔁 '${queue[i].label}' removed — exclusive conflict on '${part}'`);
+					queue.splice(i, 1);
 				}
 			}
 		}
 
-		// Handle stageGroup conflict at same stage level
+		// Remove same stageGroup+stageLevel act
 		if (act.stageGroup) {
 			for (let i = queue.length - 1; i >= 0; i--) {
 				const existing = setup.SexualActsDB[queue[i].label];
@@ -6439,13 +6472,16 @@ setup.toggleSexAction = function (label) {
 			}
 		}
 
+		// Push the new action
 		queue.push({ label });
 		console.log(`[SexSceneAction] ✅ Added '${label}' to queue.`);
 	}
 
+	// Save and refresh UI
 	State.variables.sexScenePendingActions = queue;
 	setup.renderSexSceneActions();
 };
+
 
 
 /* Continue Button and logic handler */
@@ -6598,11 +6634,12 @@ setup.handleSexSceneContinue = function () {
 		}
 	}
 
-	// If we just resolved a climax, all actions were cleared already
+	// If we just resolved a climax, actions were already cleared
 	if (!playerClimaxResolved) {
-		State.variables.sexScenePendingActions = [];
+		// Persist toggled actions into the next round
 		setup.renderSexSceneActions();
-	}
+	}	
+
 
 	console.log("[SexScene] 🔁 Turn complete.");
 };

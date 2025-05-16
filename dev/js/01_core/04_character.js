@@ -33,7 +33,7 @@ setup.initializeCharacters = function () {
 				// Required anatomy
 				vagina: true,
 				clitoris: true,
-				penisSize: null
+				penisSize: 5
 			}
 		},
 		
@@ -531,8 +531,10 @@ setup.initializeCharacters = function () {
 
 				// Required anatomy
 				vagina: true,
+				buttSize: 3,
+				anus: true,
 				clitoris: true,
-				penisSize: null
+				penisSize: 4
 			},
 
 			preferences: {

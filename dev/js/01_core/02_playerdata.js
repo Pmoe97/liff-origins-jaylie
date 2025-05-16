@@ -46,16 +46,16 @@ State.variables.player = {
   
 	// === Secondary Skills (Earn XP individually) ===
 	secondarySkills: {
-	  riding: 0,
-	  dancing: 0,
-	  swimming: 0,
-	  cleaning: 0,
-	  disguise: 0,
-	  hands: 0,
-	  mouth: 0,
-	  breasts: 0,
-	  vagina: 0,
-	  anus: 0
+	  riding: 100,
+	  dancing: 100,
+	  swimming: 100,
+	  cleaning: 100,
+	  disguise: 100,
+	  hands: 100,
+	  mouth: 100,
+	  breasts: 100,
+	  vagina: 100,
+	  anus: 100
 	},
   
 	// === Equipment ===
