@@ -77,11 +77,15 @@ State.variables.player = {
 	  maxExcitement: 100,
   
 	  // Conditional Status Effects
-	  poisoned: false,
-	  intoxicated: false,
-	  charmed: false,
+	  poisoned: 0,
+	  maxPoisoned: 100,
+	  intoxicated: 0,
+	  maxIntoxicated: 100,
+	  charmed: 0,
+	  maxCharmed: 100,
 	  burning: false,
-	  bleeding: false,
+	  bleeding: 0,
+	  maxBleeding: 50,
 	  stunned: false
 	}
   };

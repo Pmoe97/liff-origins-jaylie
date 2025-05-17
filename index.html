@@ -1565,7 +1565,7 @@ body:not(.sidebar-collapsed) #text-container {
 /* === Text Backdrop Main Style === */
 #text-backdrop {
   background-color: rgba(240, 240, 240, 0.05);
-  padding: 2.5rem;
+  padding: 1.1rem;
   width: 100%;
   max-width: 850px;
   min-width: 300px;
@@ -1773,11 +1773,11 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 #sexSceneActionsBox button {
-	margin: 6px;
-	padding: 0.6em 1.2em;
+	margin: 0px;
+	padding: 0.2em 0.5em;
 	font-size: 0.95rem;
 	border: 1px solid #777;
-	border-radius: 6px;
+	border-radius: 10px;
 	background: #2e2e2e;
 	color: #fff;
 	cursor: pointer;
@@ -1789,11 +1789,8 @@ body:not(.sidebar-collapsed) #text-container {
 }
 
 button.active-sexact {
-	background-color: #893c8c;
 	color: white;
-	font-weight: bold;
-	border: 2px solid #c78de6;
-	box-shadow: 0 0 8px #c78de6;
+	box-shadow: 0 0 6px #fff;
 }
 /* twine-user-stylesheet #13: "shop-styles.css" */
 /* =============================
@@ -3336,11 +3333,15 @@ State.variables.player = {
 	  maxExcitement: 100,
   
 	  // Conditional Status Effects
-	  poisoned: false,
-	  intoxicated: false,
-	  charmed: false,
+	  poisoned: 0,
+	  maxPoisoned: 100,
+	  intoxicated: 0,
+	  maxIntoxicated: 100,
+	  charmed: 0,
+	  maxCharmed: 100,
 	  burning: false,
-	  bleeding: false,
+	  bleeding: 0,
+	  maxBleeding: 50,
 	  stunned: false
 	}
   };
@@ -6519,6 +6520,12 @@ setup.renderSexSceneContinueButton = function () {
 setup.handleSexSceneContinue = function () {
 	console.log("[SexScene] ▶️ CONTINUE TURN");
 
+	// 🧠 NPC makes their decision first
+	for (const npcId of Object.keys(State.variables.sexScenePartnerStates)) {
+		setup.npcDecideActions(npcId);
+	}
+
+
 	const pending = State.variables.sexScenePendingActions ?? [];
 	if (!pending.length) {
 		console.log("[SexScene] ⚠️ No actions selected this turn.");
@@ -6754,6 +6761,125 @@ setup.offerPlayerOrgasmChoices = function () {
 
 	console.log(`[OrgasmUI] 💦 ${relevantOrgasmActs.length} orgasm options rendered.`);
 };
+
+
+/*=========================================================================================
+================= NPC DECISION MAKING =====================================================
+======================================================================================== */
+
+setup.npcDecideActions = function (npcId) {
+	const npc = State.variables.characters[npcId];
+	const npcState = State.variables.sexScenePartnerStates[npcId];
+	if (!npc || !npcState) {
+		console.warn(`[NPC AI] ❌ Cannot resolve NPC '${npcId}'.`);
+		return;
+	}
+
+	const availableActs = [];
+
+	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+		if (act.giver !== "npc" || act.receiver !== "player") continue;
+		if (act.isCumming) continue;
+
+		if (!act.subjectParts.every(p => npcState.parts?.[p])) continue;
+		if (!act.objectParts.every(p => State.variables.sexScenePlayerState.parts?.[p])) continue;
+
+		const score = setup.npcEvaluateAction(npc, act);
+		availableActs.push({ label, score });
+	}
+
+	if (!availableActs.length) {
+		console.warn(`[NPC AI] ⚠ No available acts for '${npc.name}'.`);
+		return;
+	}
+
+	// Prevent duplicate selection of same act
+	const topActs = availableActs.sort((a, b) => b.score - a.score).slice(0, 3);
+	const chosen = topActs[Math.floor(Math.random() * topActs.length)];
+
+	if (State.variables.sexScenePendingActions.some(p => p.label === chosen.label)) {
+		console.log(`[NPC AI] ⚠ '${npc.name}' tried to pick '${chosen.label}' but it's already queued.`);
+		return;
+	}
+
+	console.log(`[NPC AI] 🤔 '${npc.name}' selects '${chosen.label}' (score: ${chosen.score})`);
+
+	// Track recent acts for inclination learning
+	if (!npcState.recentActs) npcState.recentActs = [];
+	npcState.recentActs.push(chosen.label);
+
+	// Add to pending
+	State.variables.sexScenePendingActions.push({ label: chosen.label, data: setup.SexualActsDB[chosen.label] });
+};
+
+
+
+setup.npcEvaluateAction = function (npc, act) {
+	let score = 10;
+
+	if (npc.preferences?.sexualActs?.likes?.includes(act.label)) score += 20;
+	if (npc.preferences?.sexualActs?.dislikes?.includes(act.label)) score -= 20;
+
+	const npcStatus = npc.status;
+	if (npcStatus.excitement >= 70 && act.stageLevel >= 1) score += 15;
+	if (npcStatus.fatigue >= 70 && act.stageLevel <= 0) score += 10;
+
+	const playerStatus = State.variables.player.status;
+	if (playerStatus.excitement >= 80 && act.baseExcitement.object >= 10) score += 10;
+
+	if (act.inclinationTags) {
+		for (const tag of act.inclinationTags) {
+			if (npc.inclinations?.includes(tag)) score += 5;
+		}
+	}
+
+	// Mood bias if present
+	const mood = State.variables.sexScenePartnerStates[npc.id]?.mood;
+	if (mood === "aggressive" && act.stageLevel >= 1) score += 8;
+	if (mood === "gentle" && act.stageLevel === 0) score += 8;
+	if (mood === "teasing" && act.stageLevel === 0 && act.inclinationTags?.includes("tease")) score += 10;
+
+	score += Math.random() * 5;
+
+	return score;
+};
+
+
+setup.npcMoodInit = function (npcId) {
+	const moods = ["aggressive", "teasing", "gentle"];
+	const mood = moods[Math.floor(Math.random() * moods.length)];
+	State.variables.sexScenePartnerStates[npcId].mood = mood;
+	console.log(`[NPC AI] '${npcId}' mood set to '${mood}'.`);
+};
+
+
+setup.npcInclinationShift = function (npcId) {
+	const npc = State.variables.characters[npcId];
+	const npcState = State.variables.sexScenePartnerStates[npcId];
+	if (!npc || !npcState?.recentActs) return;
+
+	const uniqueActs = [...new Set(npcState.recentActs)];
+
+	for (const actLabel of uniqueActs) {
+		if (Math.random() <= 0.1) {
+			const act = setup.SexualActsDB[actLabel];
+			if (!act || !act.inclinationTags) continue;
+
+			for (const tag of act.inclinationTags) {
+				if (!npc.inclinations.includes(tag)) {
+					npc.inclinations.push(tag);
+					console.log(`[NPC AI] 🌱 '${npc.name}' developed stronger inclination toward '${tag}' from '${actLabel}'.`);
+				}
+			}
+		}
+	}
+
+	// Clear session-specific tracking after learning
+	npcState.recentActs = [];
+};
+
+
+
 /* twine-user-script #26: "15_npcSystems.js" */
 setup.NPCs = [];
 

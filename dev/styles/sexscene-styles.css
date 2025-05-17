@@ -32,11 +32,11 @@
 }
 
 #sexSceneActionsBox button {
-	margin: 6px;
-	padding: 0.6em 1.2em;
+	margin: 0px;
+	padding: 0.2em 0.5em;
 	font-size: 0.95rem;
 	border: 1px solid #777;
-	border-radius: 6px;
+	border-radius: 10px;
 	background: #2e2e2e;
 	color: #fff;
 	cursor: pointer;
@@ -48,9 +48,6 @@
 }
 
 button.active-sexact {
-	background-color: #893c8c;
 	color: white;
-	font-weight: bold;
-	border: 2px solid #c78de6;
-	box-shadow: 0 0 8px #c78de6;
+	box-shadow: 0 0 6px #fff;
 }

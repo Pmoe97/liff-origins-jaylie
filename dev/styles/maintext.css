@@ -61,7 +61,7 @@ body:not(.sidebar-collapsed) #text-container {
 /* === Text Backdrop Main Style === */
 #text-backdrop {
   background-color: rgba(240, 240, 240, 0.05);
-  padding: 2.5rem;
+  padding: 1.1rem;
   width: 100%;
   max-width: 850px;
   min-width: 300px;
