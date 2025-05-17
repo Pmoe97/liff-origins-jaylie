@@ -215,7 +215,7 @@
 	border-radius: 2px;
 	transition: width 0.4s ease, background 0.3s ease;
 	position: absolute;
-	left: 60px;
+	left: 36%;
 	right: 6px;
 	top: 50%;
 	transform: translateY(-50%);

@@ -11,31 +11,23 @@ setup.initializeCharacters = function () {
 			avatar: "images/portrait_jaylie.png",
 			color: "white",
 			bgColor: "rgba(110, 43, 54, 0.8)",
-			
-			isPlayer: true,
 
-			body: {
-				height: 64, // 5'4"
-				breastSize: 2, // "modest"
-				buttSize: 2, // "modest"
-				bodyType: 3, // "average"
-				lipFullness: 2, // "modest"
-				skinTone: "fair",
-				muscleTone: 2, // "fit"
-				hipWidth: 2, // "wide"
-				bodyHair: 1, // "light"
-				voiceTone: "gentle",
-				hairColor: "auburn",
-				hairStyle: "wavy",
-				hairLength: 20, // "mid-back"
-				eyeColor: "hazel green",
+			isPlayer: true, // Optional: May be used to prevent this character from appearing in random events
 
-				// Required anatomy
-				vagina: true,
-				clitoris: true,
-				penisSize: 5
-			}
+			// Optional fallback portrait info — no runtime body data needed here
+			pronouns: {
+				subject: "she",
+				object: "her",
+				possessive: "her",
+				reflexive: "herself",
+				noun: "woman"
+			},
+
+			// Optional static traits used only for fallback conversations
+			traits: ["Curious", "Stubborn", "Playful"],
+			socialStyle: "Warm"
 		},
+
 		
   
 		adda: {

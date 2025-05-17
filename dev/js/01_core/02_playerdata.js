@@ -1,92 +1,115 @@
-// dev/js/01_core/02_playerdata.js
-
 State.variables.player = {
 	// === Identity ===
-	name: "Unnamed",
+	name: "Jaylie",
 	age: 18,
 	dob: "Unknown",
 	race: "Human",
-	gender: "Unknown",
-  
+	gender: "Female",
+
 	// === Leveling ===
 	level: 1,
 	experience: 69,
 	experienceToNextLevel: 100,
-  
+
 	// === Attributes (Perk-based) ===
 	attributes: {
-	  strength: 5,
-	  agility: 5,
-	  toughness: 5,
-	  charisma: 5,
-	  intelligence: 5,
-	  insight: 5
+		strength: 5,
+		agility: 5,
+		toughness: 5,
+		charisma: 5,
+		intelligence: 5,
+		insight: 5
 	},
-  
+
 	// === Primary Skills (Earn XP individually) ===
 	primarySkills: {
-	  athletics: 0,
-	  acrobatics: 0,
-	  sleightOfHand: 0,
-	  stealth: 0,
-	  fortitude: 0,
-	  willpower: 0,
-	  deception: 0,
-	  intimidation: 0,
-	  performance: 0,
-	  persuasion: 0,
-	  magic: 0,
-	  investigation: 0,
-	  religion: 0,
-	  history: 0,
-	  perception: 0,
-	  survival: 0,
-	  medicine: 0
+		athletics: { value: 0, xp: 0 },
+		acrobatics: { value: 0, xp: 0 },
+		sleightOfHand: { value: 0, xp: 0 },
+		stealth: { value: 0, xp: 0 },
+		fortitude: { value: 0, xp: 0 },
+		willpower: { value: 0, xp: 0 },
+		deception: { value: 0, xp: 0 },
+		intimidation: { value: 0, xp: 0 },
+		performance: { value: 0, xp: 0 },
+		persuasion: { value: 0, xp: 0 },
+		magic: { value: 0, xp: 0 },
+		investigation: { value: 0, xp: 0 },
+		religion: { value: 0, xp: 0 },
+		history: { value: 0, xp: 0 },
+		perception: { value: 0, xp: 0 },
+		survival: { value: 0, xp: 0 },
+		medicine: { value: 0, xp: 0 }
 	},
-  
+
 	// === Secondary Skills (Earn XP individually) ===
 	secondarySkills: {
-	  riding: 100,
-	  dancing: 100,
-	  swimming: 100,
-	  cleaning: 100,
-	  disguise: 100,
-	  hands: 100,
-	  mouth: 100,
-	  breasts: 100,
-	  vagina: 100,
-	  anus: 100
+		riding: { value: 100, xp: 0 },
+		dancing: { value: 100, xp: 0 },
+		swimming: { value: 100, xp: 0 },
+		cleaning: { value: 100, xp: 0 },
+		disguise: { value: 100, xp: 0 },
+		hands: { value: 100, xp: 0 },
+		mouth: { value: 100, xp: 0 },
+		breasts: { value: 100, xp: 0 },
+		vagina: { value: 100, xp: 0 },
+		anus: { value: 100, xp: 0 }
 	},
-  
+
 	// === Equipment ===
 	equipment: {
-	  weaponMain: "Fists",
-	  weaponOffhand: "None",
-	  armor: "Simple Clothes"
+		weaponMain: "Fists",
+		weaponOffhand: "None",
+		armor: "Simple Clothes"
 	},
-  
+
+	// === Body Anatomy ===
+	body: {
+		height: 64, // inches
+		breastSize: 2, // modest
+		buttSize: 2, // modest
+		bodyType: 3, // average
+		lipFullness: 2, // modest
+		skinTone: "fair",
+		muscleTone: 2, // fit
+		hipWidth: 2, // wide
+		bodyHair: 1, // light
+		voiceTone: "gentle",
+		hairColor: "auburn",
+		hairStyle: "wavy",
+		hairLength: 20, // mid-back
+		eyeColor: "hazel green",
+
+		// Functional anatomy
+		vagina: true,
+		clitoris: true,
+		penisSize: 5 // Placeholder For testing
+	},
+
 	// === Current Status ===
 	status: {
-	  health: 100,
-	  maxHealth: 100,
-	  fatigue: 25,
-	  maxFatigue: 100,
-	  composure: 100,
-	  maxComposure: 100,
-	  excitement: 15,
-	  maxExcitement: 100,
-  
-	  // Conditional Status Effects
-	  poisoned: 0,
-	  maxPoisoned: 100,
-	  intoxicated: 0,
-	  maxIntoxicated: 100,
-	  charmed: 0,
-	  maxCharmed: 100,
-	  burning: false,
-	  bleeding: 0,
-	  maxBleeding: 50,
-	  stunned: false
+		health: 100,
+		maxHealth: 100,
+		fatigue: 25,
+		maxFatigue: 100,
+		composure: 100,
+		maxComposure: 100,
+		excitement: 15,
+		maxExcitement: 100,
+		isCumming: false,
+
+		// Conditional Status Effects
+		poisoned: 0,
+		maxPoisoned: 100,
+		intoxicated: 0,
+		maxIntoxicated: 100,
+		charmed: 0,
+		maxCharmed: 100,
+		burning: false,
+		bleeding: 0,
+		maxBleeding: 50,
+		stunned: false
 	}
-  };
-  console.log("PlayerData is loaded.");
+};
+
+console.log("✅ PlayerData loaded successfully.");

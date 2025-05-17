@@ -31,6 +31,20 @@
 	color: #ccc;
 }
 
+.sexscene-group {
+	margin-bottom: 0.5rem; /* reduce group spacing */
+	padding-bottom: 0.5rem;
+}
+
+.sexscene-group h3 {
+	font-size: 1rem; /* was probably 1.25rem+ before */
+	margin-bottom: 0.15rem;
+	margin-top: 0.5rem;
+	line-height: 1.2;
+	letter-spacing: 0.5px;
+}
+
+
 #sexSceneActionsBox button {
 	margin: 0px;
 	padding: 0.2em 0.5em;
@@ -49,5 +63,88 @@
 
 button.active-sexact {
 	color: white;
-	box-shadow: 0 0 6px #fff;
+}
+
+button.active-sexact.pending {
+  box-shadow: 0 0 6px #fff;
+}
+
+/* 🌈 Smooth animated conic ring for ongoing sex acts */
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+button.active-sexact.ongoing {
+  position: relative;
+  color: white;
+  background: #2e2e2e; /* Static inner fill */
+  border: 2px solid transparent;
+  border-radius: 10px;
+  z-index: 0;
+  overflow: hidden;
+}
+
+button.active-sexact.ongoing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px; /* Border thickness */
+  background: conic-gradient(
+    from var(--gradient-angle),
+    #222222,
+    #585858,
+    #1b1b1b,
+    #dbdbdb,
+    #aaaaaa
+  );
+  animation: rotation 6s linear infinite;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0); 
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+button.active-sexact.ongoing::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    #222222,
+    #585858,
+    #1b1b1b,
+    #dbdbdb,
+    #aaaaaa,
+  );
+  animation: rotation 6s linear infinite;
+
+  /* Glow settings */
+  filter: blur(12px);
+  opacity: 0.45;
+  z-index: -2;
+
+  /* Ensure it shows outside the button’s shape */
+  mask: none;
+  -webkit-mask: none;
+  pointer-events: none;
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
 }
