@@ -1,1 +1,44 @@
 :: Darian_PostSexPhase1
+<<EndSexSceneLayout>><<bg "Darian_PostSexPhase1">>
+
+Darian lies beside you, one arm behind his head, the other tracing slow, absent lines along your upper arm. His skin is cool, covered in a sweet sheen of sweat. You feel the rise and fall of his breath as it slowly steadies.
+
+For a while, he just gazes up at the ceiling, silent. When he finally speaks, his voice is soft—mellowed by the moment.
+
+<<speech "darian">>You know… I used to think there was nothing sweeter than holding a final note and hearing a crowd hold its breath.<</speech>>
+
+He glances toward you, lips curling into a faint, crooked smile.
+
+<<speech "darian">>That… might be the first thing to ever compete.<</speech>>
+
+You smack his arm with a grin, laughing.
+
+<<speech "jaylie">>Gods! How do you still have lame pickup lines <em>after</em>?<</speech>>
+
+He rolls onto his side, brushing a knuckle along your collarbone—light as a sigh.
+
+<<speech "darian">>You're right, that was terrible.<</speech>>
+
+Your lips curl into a devilish smile as you lean in.
+
+<<speech "jaylie">>Oh, so I was that bad, then?<</speech>>
+
+His face flushes. The smile falters. He stammers an awkward apology. You burst out laughing as he bows his head in exaggerated defeat.
+
+<<speech "darian">>Please, have mercy on me, woman. You do something to me—I lose my edge.<</speech>>
+
+You’re just about to reply when the world erupts.
+
+A flash of white fills the room—brilliant, blinding, immediate. No delay. The explosion that follows shakes the walls and rattles the floor beneath you.
+
+You feel it in your bones. The hair on your body stands on end. There's a sharp taste of metal on your tongue.
+
+As the light fades, you blink rapidly, trying to clear your vision. You cross to the window, searching the street outside for answers.
+
+Just down the road, a faint orange glow flickers.
+
+At first, it looks like lamplight.
+
+But then you realize the truth.
+
+<<speech "jaylie">>[[Fire!|Universal_FireEvent_Start]]<</speech>>

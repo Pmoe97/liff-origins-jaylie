@@ -1,2 +1,43 @@
-:: Marie_PostSexPhase1.tw
+:: Marie_PostSexPhase1
+<<EndSexSceneLayout>><<bg "Marie_PostSexPhase1">>
+
+Marie lies with her back to you, the candlelight tracing gentle edges across her curves. The bedsheets cling to her hips, one leg stretched long, the other bent in close. She’s quiet. Not withdrawn—just still, like she's waiting to remember how to breathe.
+
+You reach out, grazing your fingertips down her arm. She doesn’t flinch. Doesn’t speak. Not until a long breath slips out of her nose.
+
+<<speech "marie">>I—<</speech>>
+
+She looks at you with something between a frown and confusion.
+
+<<speech "jaylie">>What is it?<</speech>>
+
+She tries again.
+
+<<speech "marie">>I just don't know how you did that. You came in here looking innocent as a mouse, disarmed me right in the middle of feeling like an angry feral Noctail and got me to do all of that.<</speech>>
+
+You can't help but chuckle a little, an act which almost seems to annoy and confuse Marie even more. She looks at you with her brilliant emerald eyes, waiting for an answer.
+
+<<speech "jaylie">>If it makes you feel any better, that was not at all the way I expected tonight to go either.<</speech>>
+
+She finally relents. She smiles.
+
+<<speech "marie">>Thank you for not letting my entire night be awful. It was really nice that you came along. Maybe next time I can learn a thing or two about you instead of you letting me talk about my problems the whole time.<</speech>>
+
+You nod against the silence. No quip. No follow-up. Just listening.
+
+She shifts slightly, rolling enough that her shoulder brushes yours. A pause. Then a sigh—softer now.
+
+Then it happens.
+
+A blinding flash. Light so white it devours the room, your sight, your sense of space. There’s no time to react before the sound comes—a thunderclap so immediate and powerful it feels like a war drum in your ribs.
+
+Marie is up in an instant. No panic—just motion. A practiced readiness. Her eyes sharpen.
+
+<<speech "marie">>Gods, what the hell?<</speech>>
+
+You’re already pulling yourself up, heartbeat tripping over itself.
+
+You cross to the window and draw the curtain back. Down the street, an orange glow is licking upward into the night.
+
+<<speech "jaylie">>[[...Fire.|Universal_FireEvent_Start]]<</speech>>
 

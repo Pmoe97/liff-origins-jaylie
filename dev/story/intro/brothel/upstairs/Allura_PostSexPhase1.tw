@@ -1,3 +1,44 @@
 :: Allura_PostSexPhase1
+<<EndSexSceneLayout>><<bg "Allura_PostSexPhase1">>
 
+Allura lounges beside you like a goddess painted into silk—one leg draped over yours, her skin glowing with the heat of what just passed. She doesn’t speak right away. She just exists there beside you—smug, sensual, and devastatingly at ease.
 
+She stretches slowly, arms above her head, the fabric of her robe slipping from one shoulder.
+
+<<speech "allura">><em>Mmm. Mon trésor...</em><</speech>>
+
+Her voice curls around the words like incense.
+
+<<speech "allura">>You are full of surprises. I thought I had you mapped by now—but then you go and do <em>that</em>.<</speech>>
+
+You raise an eyebrow. She smirks.
+
+<<speech "jaylie">>That was you thinking you had me figured out?<</speech>>
+
+<<speech "allura">>Of course. I always think that. Until someone proves me wrong. Which you did—deliciously.<</speech>>
+
+She rolls onto her side, propping her head on one hand, and drags a single nail lightly down your chest.
+
+<<speech "allura">>Tell me… was it always in you? That hunger? That nerve? Or did I bring it out of you?<</speech>>
+
+You open your mouth to respond—
+
+And then the world ends.
+
+A blinding flash detonates against the window, bathing the room in pure white. There's no delay. No pause.
+
+The thunderclap that follows is instant and violent, like the sky itself has been torn open above you. The bed trembles beneath you. The perfume in the air turns sharp. You can taste the charge on your tongue.
+
+Allura bolts upright—fluid, alert. Her playfulness gone in an instant.
+
+<<speech "allura">><em>Putain de merde—</em> that was <strong>close.</strong><</speech>>
+
+She moves to the window without waiting, yanking the curtain back. Her eyes narrow.
+
+<<speech "allura">>There. Down the street.<</speech>>
+
+You move beside her following her gaze.
+
+An orange glow is climbing the darkness—faint, flickering... spreading.
+
+<<speech "jaylie">>[[...Fire.|Universal_FireEvent_Start]]<</speech>>

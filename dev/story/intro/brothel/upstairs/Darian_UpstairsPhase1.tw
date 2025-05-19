@@ -1,5 +1,5 @@
 :: Darian_UpstairsPhase1
-<<bg "Darian_UpstairsPhase1">><<StartDialogueLayout>>
+<<bg "Darian_UpstairsPhase1">><<EndSexSceneLayout>><<StartDialogueLayout>>
 
 You step inside, and the first thing you notice is the quiet.
 

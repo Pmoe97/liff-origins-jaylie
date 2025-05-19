@@ -1,2 +1,42 @@
 :: Adda_PostSexPhase1
+<<EndSexSceneLayout>><<bg "Adda_PostSexPhase1">>
 
+Adda sits beside you on the edge of the low settee, one knee crossed over the other, her robe drawn closed but loose at the collar. A soft trail of steam curls from the teacup in her hand—when did she pour it? You didn’t hear.
+
+She’s already composed. Back straight. Hair gathered. Breathing steady. As if nothing in this room has power over her anymore.
+
+<<speech "adda">>Most who’ve shared this room with me left with more questions than answers.<</speech>>
+
+She takes a sip, gaze drifting toward the bar beyond the curtain. Her voice is calm—almost absentminded—but the weight behind it lands all the same.
+
+<<speech "adda">>You, though... I think you already understand that some things aren’t meant to be explained. Only witnessed.<</speech>>
+
+You shift beside her, feeling the tension still unwinding in your body.
+
+<<speech "jaylie">>Is that what I am, then? A witness?<</speech>>
+
+Adda’s lips curve—just a little. Not quite a smile. More like a secret unfolding.
+
+<<speech "adda">>Perhaps. Or perhaps you're just a rare moment of peace in a life that’s forgotten how to recognize it.<</speech>>
+
+She doesn’t look at you when she says it.
+
+But then she does. Her eyes find yours, and for a heartbeat, the whole room feels quiet enough to hear your pulse.
+
+And then the sky ruptures.
+
+The entire chamber floods with light—brilliant, white, wrong. Before thought can form, the blast of thunder hits like a fist in your chest. The floor trembles beneath you. The glassware behind the bar shatters with a sound like ice snapping in a furnace.
+
+You taste metal. Your skin crawls.
+
+Adda is already standing. Not startled—just ready. Her eyes are locked on the curtain.
+
+<<speech "adda">>That was close. Too close.<</speech>>
+
+She moves toward the outer door, pulling the velvet aside to peer into the parlor. You follow, breath still catching.
+
+<<speech "adda">>There.<</speech>>
+
+Down the lane, beyond the windows—an orange glow. Distant. Rising. Spreading.
+
+<<speech "jaylie">>[[...Fire.|Universal_FireEvent_Start]]<</speech>>
