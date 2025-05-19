@@ -19,5 +19,6 @@ She steps closer, slowly—never hurrying, never uncertain. One hand reaches out
 
 <<speech "adda">>Strip, darling. Slowly. I want to see if you can follow orders... before I give the ones that matter.<</speech>>
 
-/* Placeholder: <<StartBanging>> */
+<<StartSexScene "adda">>
+<<EndSexScene "Adda_PostSexPhase1">>
 

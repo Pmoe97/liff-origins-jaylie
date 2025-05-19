@@ -180,21 +180,19 @@ setup.SexualActsDB = {
 	},
 
 	Player_Cum_Anal_Inside: {
-		label: "Cum Deep In Their Ass",
-		category: "Orgasm",
-		actionType: "orgasm",
-		stageLevel: 0,
-		isCumming: true,
-		giver: "player",
-		receiver: "npc",
-		subjectParts: ["penis"],
-		objectParts: ["anus"],
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
-		preferenceTags: ["Anal_P", "Orgasm_Inside"],
-		inclinationTags: ["dominance", "release"],
-		togglable: false
+	label: "Cum Deep In Their Ass",
+	category: "Orgasm",
+	actionType: "orgasm",
+	stageLevel: 0,
+	isCumming: true,
+	giver: "player",
+	receiver: "npc",
+	subjectParts: ["penis"],
+	objectParts: ["anus"],
+	orgasmTags: ["anal_internal", "penetration"],
+	preferenceTags: ["Anal_P", "Orgasm_Inside"],
+	inclinationTags: ["dominance", "release"],
+	togglable: false
 	},
 
 	Player_Cum_Vaginal_Inside: {
@@ -207,9 +205,7 @@ setup.SexualActsDB = {
 		receiver: "npc",
 		subjectParts: ["penis"],
 		objectParts: ["vagina"],
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
+		orgasmTags: ["vaginal_internal", "penetration"],
 		preferenceTags: ["Vaginal_P", "Orgasm_Inside"],
 		inclinationTags: ["intimacy", "release"],
 		togglable: false
@@ -224,12 +220,68 @@ setup.SexualActsDB = {
 		giver: "player",
 		receiver: "npc",
 		subjectParts: ["penis"],
-		objectParts: ["face"], // non-functional anatomy; logic-only target
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
+		objectParts: ["face"], // not a tracked body part, but logically targeted
+		orgasmTags: ["facial", "external"],
 		preferenceTags: ["Oral_G", "Face_Cum"],
 		inclinationTags: ["control", "messy"],
 		togglable: false
-	}
+	},
+
+
+
+
+
+
+
+	/*  NPC ACTION LIST */
+	/* HAND */
+	Handjob_Penis_NPC_Tease: {
+	label: "Stroke Your Cock Teasingly",
+	giver: "npc",
+	receiver: "player",
+	subjectParts: ["hand"],
+	objectParts: ["penis"],
+	stageGroup: "Handjob_NPC",
+	stageLevel: 0,
+	baseExcitement: { subject: 5, object: 10 },
+	inclinationTags: ["tease"],
+	togglable: false
+	},
+
+
+
+
+	/* MOUTH */
+
+
+
+
+	/* FEET */
+
+
+
+
+	/* ANUS */
+
+
+
+
+	/* PENIS */
+
+
+
+
+
+	/* VAGINA */
+
+
+
+
+
+	/* BREASTS */
+
+
+
+
+
 };

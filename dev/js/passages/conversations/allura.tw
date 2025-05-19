@@ -570,7 +570,8 @@ When you part, neither of you speak at first. Her forehead rests against yours, 
 <<relation "allura" "affection" 3>>
 <<relation "allura" "trust" 2>>
 <<run setup.clearConvoChoices()>>
-/* Placeholder: <<StartBANGING>> */
+<<StartSexScene "allura">>
+<<EndSexScene "Allura_PostSexPhase1">>
 <</widget>>
 
 :: JustLay [widget]

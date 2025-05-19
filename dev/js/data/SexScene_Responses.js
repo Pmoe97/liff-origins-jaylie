@@ -96,7 +96,61 @@ setup.SexSceneResponses = {
 			"You pull up and let loose across their face, watching it paint their cheeks and lips.",
 			"Your body jerks with each spurt as you cover their face with sticky warmth."
 		]
-	}
+	},
+
+
+
+
+
+
+
+
+	/*  NPC ACTION LIST */
+	/* NPC - HAND */
+	Handjob_Penis_NPC_Tease: {
+	Neutral: ["Their hand moves rhythmically along your length."],
+	Liked: ["They give your cock a slow, teasing stroke that makes your breath catch."],
+	Disliked: ["They stroke you without much care or focus."]
+	},
+
+
+
+
+
+
+
+	/* MOUTH */
+
+
+
+
+	/* FEET */
+
+
+
+
+	/* ANUS */
+
+
+
+
+	/* PENIS */
+
+
+
+
+
+	/* VAGINA */
+
+
+
+
+
+	/* BREASTS */
+
+
+
+
 
 
 };

@@ -582,11 +582,13 @@ When you pull apart Marie does not look directly at you, but speaks downward, he
 
 You don't hesitate to comply.
 
-/* Placeholder <<StartBanging>> */
+
 
 <</append>>
 <<relation "marie" "trust" 2>>
 <<relation "marie" "affection" 1>>
+<<StartSexScene "marie">>
+<<EndSexScene "Marie_PostSexPhase1">>
 <<run setup.clearConvoChoices()>>
 <</widget>>
 

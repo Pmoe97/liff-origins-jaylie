@@ -91,6 +91,14 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 	}
 
 	console.log("[SexSceneInit] ✅ Sex scene state initialized.");
+
+	// === Have NPC(s) decide initial action before first turn
+	const npcIds = Object.keys(State.variables.sexScenePartnerStates ?? {});
+	for (const npcId of npcIds) {
+		setup.npcDecideActions(npcId);
+	}
+
+
 };
 
 
@@ -152,6 +160,7 @@ Macro.add("EndSexSceneLayout", {
 });
 
 
+
 /* Body Part Detector */
 setup.detectBodyParts = function (body) {
 	const parts = {};
@@ -203,14 +212,15 @@ setup.renderSexSceneActions = function () {
 
 	const pending = State.variables.sexScenePendingActions ?? [];
 	const ongoing = State.variables.sexSceneOngoingActions ?? [];
-	const isCumming = playerChar.status?.isCumming ?? false;
+	const isCumming = playerChar.status?.isCumming === true;
+	const allowedClimax = State.variables.sexSceneFilteredOrgasmOptions ?? [];
 
 	const groupedActions = {};
 	const hands = ["leftHand", "rightHand"];
-	const bodyParts = ["mouth", "feet", "anus", "penis", "vagina", "clitoris", "breasts"];
+	const bodyParts = ["mouth", "feet", "anus", "penis", "vagina", "breasts"];
 	[...hands, ...bodyParts].forEach(part => groupedActions[part] = []);
 
-	// Track active stages per group/hand combo
+	// Track stage levels by group + hand
 	const activeStageMap = {};
 	for (const entry of ongoing) {
 		const act = setup.SexualActsDB[entry.label];
@@ -221,22 +231,45 @@ setup.renderSexSceneActions = function () {
 		}
 	}
 
-	// === Sort all valid actions into groupedActions
+// === Filter and group valid actions
 	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
 		if (act.giver !== "player" || !Array.isArray(act.subjectParts)) continue;
 
-		// During climax: show only climax actions
-		if (isCumming !== !!act.isCumming) continue;
+		const isActClimax = !!act.isCumming;
+		if (isCumming !== isActClimax) {
+			console.log(`[OrgasmFilter] ❌ Skipping '${label}' — isCumming mismatch.`);
+			continue;
+		}
 
-		if (act.objectParts?.some(p => !partnerState.parts?.[p])) continue;
+		// === Orgasm-specific debug filtering
+		if (isCumming && isActClimax) {
+			const missingSubject = act.subjectParts.filter(p => !playerState.parts?.[p]);
+			const missingObject = act.objectParts?.filter(p => !partnerState.parts?.[p]) ?? [];
 
+			if (missingSubject.length > 0) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — player missing: ${missingSubject.join(", ")}`);
+				continue;
+			}
+			if (missingObject.length > 0) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — partner missing: ${missingObject.join(", ")}`);
+				continue;
+			}
+			if (typeof allowedClimax !== "undefined" && allowedClimax.length > 0 && !allowedClimax.includes(label)) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — not in allowedClimax list.`);
+				continue;
+			}
+
+			console.log(`[OrgasmFilter] ✅ '${label}' PASSED — valid climax option.`);
+		}
+
+		// === Skill check
 		if (act.skillsRequired && !Object.entries(act.skillsRequired).every(
 			([skill, min]) => (playerSkills[skill] ?? 0) >= min
 		)) continue;
 
-		const isHand = act.subjectParts.includes("hand");
-
-		if (isHand) {
+		// === Hand actions
+		const isHandAction = act.subjectParts.includes("hand");
+		if (isHandAction) {
 			hands.forEach(hand => {
 				const handState = playerState.parts?.[hand];
 				if (!handState || handState.bound || handState.disabled) return;
@@ -251,32 +284,37 @@ setup.renderSexSceneActions = function () {
 
 				groupedActions[hand].push({ label, act, assignedHand: hand });
 			});
-		} else {
-			if (!act.subjectParts.every(p => {
-				const state = playerState.parts?.[p];
-				return state && !state.bound && !state.disabled;
-			})) continue;
-
-			let visible = true;
-			if (act.stageGroup) {
-				const key = act.stageGroup;
-				const level = activeStageMap[key] ?? -1;
-				visible = [0, level, level + 1].includes(act.stageLevel);
-			}
-			if (!visible) continue;
-
-			const primary = act.subjectParts[0];
-			groupedActions[primary].push({ label, act });
+			continue;
 		}
+
+		// === Non-hand actions
+		const allPartsValid = act.subjectParts.every(part => {
+			const state = playerState.parts?.[part];
+			return state && !state.bound && !state.disabled;
+		});
+		if (!allPartsValid) continue;
+
+		let visible = true;
+		if (act.stageGroup) {
+			const key = act.stageGroup;
+			const level = activeStageMap[key] ?? -1;
+			visible = [0, level, level + 1].includes(act.stageLevel);
+		}
+		if (!visible) continue;
+
+		const primary = act.subjectParts[0];
+		groupedActions[primary].push({ label, act });
 	}
 
-	// === Render UI blocks for each part
+
+
+	// Render UI groups
 	for (const [part, actions] of Object.entries(groupedActions)) {
 		const $group = document.createElement("div");
 		$group.classList.add("sexscene-group");
 		$group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
 
-		// REST button — always rendered first
+		// REST button
 		const restLabel = `__REST_${part}`;
 		const isRestPending = pending.some(p => p.label === restLabel);
 		const isRestOngoing = ongoing.every(p =>
@@ -295,7 +333,6 @@ setup.renderSexSceneActions = function () {
 		$rest.onclick = () => setup.toggleRestAction(part);
 		$group.appendChild($rest);
 
-		// All other action buttons
 		actions.forEach(entry => {
 			const $btn = document.createElement("button");
 			$btn.textContent = entry.act.label;
@@ -309,11 +346,8 @@ setup.renderSexSceneActions = function () {
 				(p.assignedHand ?? null) === (entry.assignedHand ?? null)
 			);
 
-			if (isPending) {
-				$btn.classList.add("active-sexact", "pending");
-			} else if (isOngoing) {
-				$btn.classList.add("active-sexact", "ongoing");
-			}
+			if (isPending) $btn.classList.add("active-sexact", "pending");
+			else if (isOngoing) $btn.classList.add("active-sexact", "ongoing");
 
 			$btn.onclick = () => setup.toggleSexAction(entry.label, entry.assignedHand);
 			$group.appendChild($btn);
@@ -324,6 +358,7 @@ setup.renderSexSceneActions = function () {
 
 	setup.renderSexSceneContinueButton();
 };
+
 
 
 // ===============================
@@ -382,30 +417,51 @@ setup.renderSexSceneContinueButton = function () {
 		return;
 	}
 
-	const $button = document.createElement("button");
-	$button.id = "sexSceneContinueButton";
-	$button.textContent = "Continue";
-	$button.style.marginTop = "2em";
+	// Remove existing footer buttons if present
+	const existing = document.getElementById("sexSceneFooterButtons");
+	if (existing) existing.remove();
+
+	// Create a new footer container with flex layout
+	const $footer = document.createElement("div");
+	$footer.id = "sexSceneFooterButtons";
+	
+
+	// --- Continue Button (left side)
+	const $continue = document.createElement("button");
+	$continue.id = "sexSceneContinueButton";
+	$continue.textContent = "Continue";
+	$continue.style.flex = "1";
 
 	const pending = State.variables.sexScenePendingActions ?? [];
 	const ongoing = State.variables.sexSceneOngoingActions ?? [];
 	const isCumming = State.variables.player?.status?.isCumming === true;
 
 	let isEnabled = false;
-
 	if (isCumming) {
-		// ✅ Only allow Continue if a climax action has been selected
 		isEnabled = pending.some(p => setup.SexualActsDB[p.label]?.isCumming);
 	} else {
-		// ✅ Normal state: allow if any pending or ongoing actions exist
 		isEnabled = pending.length > 0 || ongoing.length > 0;
 	}
 
-	$button.disabled = !isEnabled;
-	$button.classList.toggle("disabled", !isEnabled);
-	$button.onclick = setup.handleSexSceneContinue;
+	$continue.disabled = !isEnabled;
+	$continue.classList.toggle("disabled", !isEnabled);
+	$continue.onclick = setup.handleSexSceneContinue;
 
-	$wrapper.appendChild($button);
+	// --- End Scene Button (right side)
+	const $end = document.createElement("button");
+	$end.id = "sexSceneEndButton";
+	$end.textContent = "End Scene";
+	$end.style.flex = "1";
+	$end.onclick = () => {
+		const exitTarget = State.variables.sexSceneExitTarget || "AfterSexFallback";
+		console.log(`[SexSceneExit] 🚪 Exiting to: ${exitTarget}`);
+		Engine.play(exitTarget);
+	};
+
+	// Append in new order: Continue (left), End (right)
+	$footer.appendChild($continue);
+	$footer.appendChild($end);
+	$wrapper.appendChild($footer);
 };
 
 
@@ -468,6 +524,7 @@ setup.handleSexSceneContinue = function () {
 	const partnerId = Object.keys(State.variables.sexScenePartnerStates ?? {})[0];
 	const partnerChar = State.variables.characters[partnerId];
 	const partnerState = State.variables.sexScenePartnerStates[partnerId];
+	const playerState = State.variables.sexScenePlayerState;
 	const partnerStatus = partnerChar.status;
 
 	const isCumming = playerStatus.isCumming ?? false;
@@ -515,9 +572,18 @@ setup.handleSexSceneContinue = function () {
 			playerStatus.isCumming = false;
 			playerClimaxResolved = true;
 
+			// ✅ Force delayed render refresh after orgasm resolution
+			setTimeout(() => {
+				if (document.getElementById("sexSceneActionsBox")) {
+					console.log("[SexSceneFix] 🔁 Post-orgasm refresh triggered.");
+					setup.renderSexSceneActions();
+				}
+			}, 50); // Delay ensures DOM is ready
+
+
 			console.log(`[SexScene] ✅ Orgasm resolved with '${label}'.`);
 			console.log("   ➕ Excitement reset, fatigue increased.");
-			continue; // Do not treat as ongoing
+			continue; // Do not persist
 		}
 
 		// === Arousal Gain
@@ -538,7 +604,20 @@ setup.handleSexSceneContinue = function () {
 			const sameHand = hand ? p.assignedHand === hand : true;
 			return !(sameGroup && sameHand);
 		});
-		newOngoing.push({ label, assignedHand: hand });
+
+		if (act.togglable) {
+			newOngoing.push({ label, assignedHand: hand });
+		} else {
+			// Default back to Rest for non-togglable actions
+			const restPart = hand ?? act.subjectParts?.[0];
+			if (restPart) {
+				const restLabel = `__REST_${restPart}`;
+				if (!pending.some(p => p.label === restLabel)) {
+					pending.push({ label: restLabel });
+					console.log(`[SexScene] 🔁 Defaulting '${restPart}' to Rest after non-togglable '${label}'.`);
+				}
+			}
+		}
 
 		// === Feedback Text
 		let flavor = "Neutral";
@@ -566,33 +645,38 @@ setup.handleSexSceneContinue = function () {
 
 	// === Cleanup & Rerender
 	if (!playerClimaxResolved) {
-		// Filter invalid ongoing
 		const validOngoing = newOngoing.filter(entry => {
 			const act = setup.SexualActsDB[entry.label];
-			if (!act || act.isCumming) return false;
+			if (!act || act.isCumming || act.togglable === false) return false;
 
 			const partOk = act.subjectParts.every(part => {
-				const resolvedPart = part === "hand" ? entry.assignedHand : part;
-				const state = playerState.parts?.[resolvedPart];
+				const resolved = part === "hand" ? entry.assignedHand : part;
+				const state = playerState.parts?.[resolved];
 				return state && !state.bound && !state.disabled;
 			});
 			if (!partOk) return false;
 
-			const objectOk = !act.objectParts?.some(p => !partnerState.parts?.[p]);
-			if (!objectOk) return false;
+			if (act.objectParts?.some(p => !partnerState.parts?.[p])) return false;
 
 			if (act.skillsRequired) {
 				for (const [skill, min] of Object.entries(act.skillsRequired)) {
 					if ((State.variables.player.skills?.[skill] ?? 0) < min) return false;
 				}
 			}
+
 			return true;
 		});
 
 		State.variables.sexSceneOngoingActions = validOngoing;
 		State.variables.sexScenePendingActions = [];
-
 		setup.renderSexSceneActions();
+
+		// === Run NPC Turn
+		const npcIds = Object.keys(State.variables.sexScenePartnerStates ?? {});
+		for (const npcId of npcIds) {
+			setup.npcDecideActions(npcId);
+		}
+
 	}
 
 	// === Render Feedback
@@ -638,7 +722,6 @@ setup.triggerOrgasm = function (charId) {
 	console.log(`   ➡️ Fatigue now: ${char.status.fatigue}/${char.status.maxFatigue}`);
 
 	if (!isPlayer) {
-		// NPC orgasm: show passive feedback or animation here if needed
 		setup.displayNPCOrgasmFeedback?.(charId);
 		return;
 	}
@@ -665,10 +748,21 @@ setup.triggerOrgasm = function (charId) {
 		return;
 	}
 
-	// === Manual orgasm resolution (via action)
+	// === Manual orgasm resolution (requires orgasm choice action)
 	char.status.isCumming = true;
 	console.log("[Orgasm] 🚩 Player is now in 'isCumming' resolution phase.");
 
+	// ✅ Clear ongoing, and force every body part to rest
+	State.variables.sexSceneOngoingActions = [];
+	State.variables.sexScenePendingActions = [];
+
+	const parts = Object.keys(state.parts ?? {});
+	for (const part of parts) {
+		State.variables.sexScenePendingActions.push({ label: `__REST_${part}` });
+		console.log(`[Orgasm] 🔄 Forcing '${part}' to REST (pending) during orgasm resolution.`);
+	}
+
+	// ✅ Display prompt
 	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
 	if (feedbackBox) {
 		const p = document.createElement("p");
@@ -676,6 +770,9 @@ setup.triggerOrgasm = function (charId) {
 		feedbackBox.appendChild(p);
 		console.log("[OrgasmUI] 💬 Prompt rendered in feedback box.");
 	}
+
+	// ✅ Trigger rerender to reflect forced REST state
+	setup.renderSexSceneActions();
 };
 
 
@@ -741,6 +838,21 @@ setup.displayNPCOrgasmFeedback = function (npcId) {
 	feedbackBox.appendChild(p);
 };
 
+setup.scheduleSexSceneRefresh = function () {
+	console.log("[SexSceneFix] ⏳ Scheduling post-passage render refresh...");
+
+	requestAnimationFrame(() => {
+		setTimeout(() => {
+			if (document.getElementById("sexSceneActionsBox")) {
+				console.log("[SexSceneFix] 🔁 Forcing UI refresh after passage load.");
+				setup.renderSexSceneActions();
+			} else {
+				console.warn("[SexSceneFix] ⚠️ Action box not found. Skipping refresh.");
+			}
+		}, 50); // tweak if needed
+	});
+};
+
 
 setup.offerPlayerOrgasmChoices = function () {
 	const box = document.getElementById("sexSceneFeedbackBox");
@@ -749,11 +861,76 @@ setup.offerPlayerOrgasmChoices = function () {
 		return;
 	}
 
+	// ✅ Insert the prompt at the bottom of feedback
 	const p = document.createElement("p");
 	p.innerHTML = "You're right at the edge. How do you want to finish?";
 	box.appendChild(p);
+	console.log("[OrgasmUI] 💬 Prompt inserted. Context-aware orgasm filtering in progress...");
 
-	console.log("[OrgasmUI] 💬 Prompt inserted. Orgasm choice buttons will be rendered via body groups.");
+	const playerState = State.variables.sexScenePlayerState;
+	const ongoing = State.variables.sexSceneOngoingActions ?? [];
+
+	// 🧠 Derive orgasm context based on ongoing stimulation
+	const contextTags = new Set();
+
+	for (const entry of ongoing) {
+		const act = setup.SexualActsDB[entry.label];
+		if (!act || act.isCumming) continue;
+
+		// Include object parts to derive physical context
+		act.objectParts?.forEach(part => {
+			if (part === "vagina") contextTags.add("vaginal_internal");
+			if (part === "anus") contextTags.add("anal_internal");
+			if (part === "face") contextTags.add("facial");
+			if (["breasts", "feet", "mouth", "clitoris"].includes(part)) contextTags.add("external");
+		});
+
+		// Add inclination context
+		act.inclinationTags?.forEach(tag => {
+			if (["penetration", "control", "release", "dominance"].includes(tag)) {
+				contextTags.add(tag);
+			}
+		});
+	}
+
+	// 🔍 Find valid orgasm actions for the current context
+	const playerParts = playerState?.parts ?? {};
+	const partnerId = Object.keys(State.variables.sexScenePartnerStates ?? {})[0];
+	const partnerParts = State.variables.sexScenePartnerStates?.[partnerId]?.parts ?? {};
+
+	const validOptions = [];
+
+	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+		if (!act.isCumming) continue;
+
+		const hasPlayerParts = act.subjectParts.every(part => playerParts[part]);
+		const hasPartnerParts = act.objectParts.every(part => partnerParts[part]);
+		if (!hasPlayerParts || !hasPartnerParts) continue;
+
+		const match = act.orgasmTags?.some(tag => contextTags.has(tag));
+		if (match) {
+			validOptions.push({ label, act });
+		}
+	}
+
+	// 🛑 Fallback: if no context matches, show all options
+	if (validOptions.length === 0) {
+		console.warn("[OrgasmUI] ⚠️ No orgasm actions matched context — showing all by default.");
+		for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+			if (act.isCumming) {
+				const hasPlayerParts = act.subjectParts.every(part => playerParts[part]);
+				const hasPartnerParts = act.objectParts.every(part => partnerParts[part]);
+				if (hasPlayerParts && hasPartnerParts) {
+					validOptions.push({ label, act });
+				}
+			}
+		}
+	}
+
+	// 👻 Inject filtered orgasm options directly into UI groups on next render
+	State.variables.sexSceneFilteredOrgasmOptions = validOptions.map(opt => opt.label);
+	console.log(`[OrgasmUI] ✅ ${validOptions.length} orgasm options queued for button render.`);
+	setup.renderSexSceneActions(); // Re-render buttons now that options are filtered
 };
 
 
@@ -761,6 +938,17 @@ setup.offerPlayerOrgasmChoices = function () {
 /*=========================================================================================
 ================= NPC DECISION MAKING =====================================================
 ======================================================================================== */
+setup.partExists = function (part, partsObj) {
+	switch (part) {
+		case "hand":
+			return !!(partsObj.leftHand || partsObj.rightHand);
+		case "genital":
+			return !!(partsObj.penis || partsObj.vagina);
+		default:
+			return !!partsObj[part];
+	}
+};
+
 
 setup.npcDecideActions = function (npcId) {
 	const npc = State.variables.characters?.[npcId];
@@ -778,9 +966,9 @@ setup.npcDecideActions = function (npcId) {
 		if (act.giver !== "npc" || act.receiver !== "player") continue;
 		if (act.isCumming) continue;
 
-		// Anatomy validation
-		const npcHasParts = act.subjectParts.every(p => npcState.parts?.[p]);
-		const playerHasParts = act.objectParts.every(p => playerState.parts?.[p]);
+		// Use partExists to validate anatomy
+		const npcHasParts = act.subjectParts.every(p => setup.partExists(p, npcState.parts));
+		const playerHasParts = act.objectParts.every(p => setup.partExists(p, playerState.parts));
 		if (!npcHasParts || !playerHasParts) continue;
 
 		const score = setup.npcEvaluateAction(npc, act);
@@ -788,15 +976,13 @@ setup.npcDecideActions = function (npcId) {
 	}
 
 	if (availableActs.length === 0) {
-		console.warn(`[NPC AI] ⚠ No valid acts found for '${npc.name}'.`);
+		console.warn(`[NPC AI] ⚠ No valid acts found for '${npc?.name ?? npcId}'.`);
 		return;
 	}
 
-	// Pick from top 3 highest-scoring actions
 	const topActs = availableActs.sort((a, b) => b.score - a.score).slice(0, 3);
 	const chosen = topActs[Math.floor(Math.random() * topActs.length)];
 
-	// Avoid re-queuing the same label
 	if (State.variables.sexScenePendingActions.some(p => p.label === chosen.label)) {
 		console.log(`[NPC AI] ⚠ '${npc.name}' attempted to reuse '${chosen.label}'. Skipping.`);
 		return;
@@ -804,11 +990,9 @@ setup.npcDecideActions = function (npcId) {
 
 	console.log(`[NPC AI] 🤔 '${npc.name}' selects '${chosen.label}' (score: ${chosen.score})`);
 
-	// Track for AI learning / behavior modeling
 	npcState.recentActs = npcState.recentActs ?? [];
 	npcState.recentActs.push(chosen.label);
 
-	// Add to pending
 	State.variables.sexScenePendingActions.push({
 		label: chosen.label,
 		data: setup.SexualActsDB[chosen.label]

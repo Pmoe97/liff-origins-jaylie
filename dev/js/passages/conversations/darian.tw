@@ -657,7 +657,8 @@ You kiss him again. More passionately.
 <<relation "darian" "trust" 1>>
 <<relation "darian" "affection" 2>>
 <<run setup.clearConvoChoices()>>
-/* Placeholder <<StartBanging>> */>>
+<<StartSexScene "darian">>
+<<EndSexScene "Darian_PostSexPhase1">>
 <</widget>>
 
 

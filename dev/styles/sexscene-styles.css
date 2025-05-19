@@ -148,3 +148,16 @@ button.active-sexact.ongoing::after {
     --gradient-angle: 360deg;
   }
 }
+
+#sexSceneFooterButtons {
+	display: flex;
+	justify-content: space-between;
+	gap: 16em;
+	margin-top: 2em;
+}
+
+#sexSceneContinueButton,
+#sexSceneEndButton {
+	flex: 1 1 auto;
+}
+

@@ -1,5 +1,3 @@
-console.log("✅ widgets.js loaded");
-
 /* Background Macro */
 Macro.add("bg", {
 	handler: function () {
@@ -528,8 +526,21 @@ Macro.add("StartSexScene", {
 	}
   });
   
-  
-  
+Macro.add("EndSexScene", {
+	handler() {
+		if (this.args.length === 0 || typeof this.args[0] !== "string") {
+			return this.error("You must provide a valid passage name as a string.");
+		}
+
+		const exitTarget = this.args[0];
+		State.variables.sexSceneExitTarget = exitTarget;
+
+		console.log(`[SexSceneInit] 📍 Exit passage set to '${exitTarget}'`);
+	}
+});
+
+
+ console.log("✅ widgets.js loaded"); 
 
 
 

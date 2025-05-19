@@ -1889,6 +1889,19 @@ button.active-sexact.ongoing::after {
     --gradient-angle: 360deg;
   }
 }
+
+#sexSceneFooterButtons {
+	display: flex;
+	justify-content: space-between;
+	gap: 16em;
+	margin-top: 2em;
+}
+
+#sexSceneContinueButton,
+#sexSceneEndButton {
+	flex: 1 1 auto;
+}
+
 /* twine-user-stylesheet #13: "shop-styles.css" */
 /* =============================
    SHOP OVERLAY LAYOUT
@@ -2791,8 +2804,6 @@ if (typeof setup.SidebarUI === "undefined") {
 	setup.SidebarUI = {};
 }
 /* twine-user-script #3: "04_widgets.js" */
-console.log("✅ widgets.js loaded");
-
 /* Background Macro */
 Macro.add("bg", {
 	handler: function () {
@@ -3321,8 +3332,21 @@ Macro.add("StartSexScene", {
 	}
   });
   
-  
-  
+Macro.add("EndSexScene", {
+	handler() {
+		if (this.args.length === 0 || typeof this.args[0] !== "string") {
+			return this.error("You must provide a valid passage name as a string.");
+		}
+
+		const exitTarget = this.args[0];
+		State.variables.sexSceneExitTarget = exitTarget;
+
+		console.log(`[SexSceneInit] 📍 Exit passage set to '${exitTarget}'`);
+	}
+});
+
+
+ console.log("✅ widgets.js loaded"); 
 
 
 
@@ -6263,50 +6287,45 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 		disabled: false
 	});
 
-	// ✅ Updated and centralized body-to-parts detection
 	const detectBodyParts = (char) => {
-	const body = char.body || {};
-	const parts = {};
-	const summary = [];
+		const body = char.body || {};
+		const parts = {};
+		const summary = [];
 
-	// Core anatomy parts assumed unless explicitly false
-	parts.mouth = defaultPartState();
-	summary.push("Mouth");
+		// Core anatomy
+		parts.mouth = defaultPartState();
+		summary.push("Mouth");
 
-	// Split hands into left and right, but actions can still use "hand"
-	parts.leftHand = defaultPartState();
-	parts.rightHand = defaultPartState();
-	summary.push("Left Hand");
-	summary.push("Right Hand");
+		parts.leftHand = defaultPartState();
+		parts.rightHand = defaultPartState();
+		summary.push("Left Hand", "Right Hand");
 
-	parts.feet = defaultPartState();
-	summary.push("Feet");
+		parts.feet = defaultPartState();
+		summary.push("Feet");
 
-	parts.anus = defaultPartState();
-	summary.push("Anus");
+		parts.anus = defaultPartState();
+		summary.push("Anus");
 
-	if (body.penisSize != null) {
-		parts.penis = defaultPartState();
-		summary.push(`Penis (${body.penisSize}in)`);
-	}
+		if (body.penisSize != null) {
+			parts.penis = defaultPartState();
+			summary.push(`Penis (${body.penisSize}in)`);
+		}
 
-	if (body.vagina) {
-		parts.vagina = defaultPartState();
-		parts.clitoris = defaultPartState();
-		summary.push("Vagina");
-		summary.push("Clitoris");
-	}
+		if (body.vagina) {
+			parts.vagina = defaultPartState();
+			parts.clitoris = defaultPartState();
+			summary.push("Vagina", "Clitoris");
+		}
 
-	if (body.breastSize > 0) {
-		parts.breasts = defaultPartState();
-		summary.push(`Breasts (size ${body.breastSize})`);
-	}
+		if (body.breastSize > 0) {
+			parts.breasts = defaultPartState();
+			summary.push(`Breasts (size ${body.breastSize})`);
+		}
 
-	return { parts, summary };
-};
+		return { parts, summary };
+	};
 
-
-	// PLAYER INIT
+	// === PLAYER INIT ===
 	const playerChar = State.variables.player;
 	const playerPartsData = detectBodyParts(playerChar);
 
@@ -6316,13 +6335,14 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 		parts: playerPartsData.parts,
 		orgasmCount: 0
 	};
+
+	// These should always reset during scene init
 	State.variables.sexScenePendingActions = [];
 	State.variables.sexSceneOngoingActions = [];
 
-
 	console.log(`[SexSceneInit] 🧍 Player Anatomy Parts: ${playerPartsData.summary.join(", ")}`);
 
-	// PARTNERS INIT
+	// === PARTNERS INIT ===
 	const partnerIds = npcIdListString.split(",").map(id => id.trim());
 	State.variables.sexScenePartnerStates = {};
 
@@ -6346,9 +6366,15 @@ setup.initializeSexSceneStates = function (npcIdListString) {
 		console.log(`[SexSceneInit] 👤 ${npc.name}'s Anatomy Parts: ${npcPartsData.summary.join(", ")}`);
 	}
 
-	State.variables.sexScenePendingActions = [];
-
 	console.log("[SexSceneInit] ✅ Sex scene state initialized.");
+
+	// === Have NPC(s) decide initial action before first turn
+	const npcIds = Object.keys(State.variables.sexScenePartnerStates ?? {});
+	for (const npcId of npcIds) {
+		setup.npcDecideActions(npcId);
+	}
+
+
 };
 
 
@@ -6383,6 +6409,9 @@ Macro.add("StartSexSceneLayout", {
 			if (passage && feedbackBox) {
 				feedbackBox.appendChild(passage);
 				console.log("[SexSceneLayout] ✅ Passage content moved to feedback panel.");
+
+				// ✅ Once layout is stable, render the actions
+				setup.renderSexSceneActions();
 			} else {
 				console.log("[SexSceneLayout] ⏳ Waiting for passage render...");
 				requestAnimationFrame(tryInjectPassage);
@@ -6390,14 +6419,9 @@ Macro.add("StartSexSceneLayout", {
 		};
 
 		tryInjectPassage();
-		if (State.variables.sexSceneClimaxFeedback) {
-			console.log("[SexSceneLayout] 🪄 Re-injecting climax feedback after passage reload.");
-			setup.renderSexSceneActions(); // Triggers feedback render + UI buttons
-		}
-
 	}
-	
 });
+
 
 Macro.add("EndSexSceneLayout", {
 	handler() {
@@ -6412,19 +6436,26 @@ Macro.add("EndSexSceneLayout", {
 });
 
 
+
 /* Body Part Detector */
 setup.detectBodyParts = function (body) {
 	const parts = {};
 
-	// Core anatomy parts
-	if (body?.mouth !== false) parts.mouth = {};
-	if (body?.hands !== false) parts.hand = {}; // normalized to "hand" not "hands"
-	if (body?.feet !== false) parts.feet = {};
-	if (body?.anus !== false || body?.buttSize >= 0) parts.anus = {};
-	if (body?.vagina) parts.vagina = {};
-	if (body?.clitoris) parts.clitoris = {};
-	if (body?.penisSize) parts.penis = {};
-	if (body?.breastSize > 0) parts.breasts = {};
+	if (!body || typeof body !== "object") return parts;
+
+	// Core anatomy defaults (included unless explicitly false)
+	if (body.mouth !== false) parts.mouth = {};
+	if (body.hands !== false) parts.hand = {}; // normalized to single "hand"
+	if (body.feet !== false) parts.feet = {};
+
+	// Anus present unless explicitly excluded
+	if (body.anus !== false || body.buttSize >= 0) parts.anus = {};
+
+	// Sexual anatomy
+	if (body.vagina) parts.vagina = {};
+	if (body.clitoris) parts.clitoris = {};
+	if (body.penisSize != null) parts.penis = {};
+	if (body.breastSize > 0) parts.breasts = {};
 
 	return parts;
 };
@@ -6457,13 +6488,15 @@ setup.renderSexSceneActions = function () {
 
 	const pending = State.variables.sexScenePendingActions ?? [];
 	const ongoing = State.variables.sexSceneOngoingActions ?? [];
+	const isCumming = playerChar.status?.isCumming === true;
+	const allowedClimax = State.variables.sexSceneFilteredOrgasmOptions ?? [];
 
 	const groupedActions = {};
 	const hands = ["leftHand", "rightHand"];
-	const bodyParts = ["mouth", "feet", "anus", "penis", "vagina", "clitoris", "breasts"];
+	const bodyParts = ["mouth", "feet", "anus", "penis", "vagina", "breasts"];
 	[...hands, ...bodyParts].forEach(part => groupedActions[part] = []);
 
-	// === Track the highest stage per stageGroup + hand combo
+	// Track stage levels by group + hand
 	const activeStageMap = {};
 	for (const entry of ongoing) {
 		const act = setup.SexualActsDB[entry.label];
@@ -6474,33 +6507,44 @@ setup.renderSexSceneActions = function () {
 		}
 	}
 
-	// === Step 1: Organize available acts into part groups
-	const isCumming = playerChar.status?.isCumming ?? false;
-
+// === Filter and group valid actions
 	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
 		if (act.giver !== "player" || !Array.isArray(act.subjectParts)) continue;
 
-		// 🚫 If climax phase is active, hide all non-orgasm actions
-		if (isCumming && !act.isCumming) continue;
-
-		// ✅ If climax phase is NOT active, hide orgasm actions
-		if (!isCumming && act.isCumming) continue;
-
-
-		const isHandAction = act.subjectParts.includes("hand");
-
-		// Validate object parts
-		if (act.objectParts?.some(p => !partnerState.parts?.[p])) continue;
-
-		// Validate required skills
-		if (act.skillsRequired) {
-			const skillCheck = Object.entries(act.skillsRequired).every(([skill, min]) => {
-				return (playerSkills[skill] ?? 0) >= min;
-			});
-			if (!skillCheck) continue;
+		const isActClimax = !!act.isCumming;
+		if (isCumming !== isActClimax) {
+			console.log(`[OrgasmFilter] ❌ Skipping '${label}' — isCumming mismatch.`);
+			continue;
 		}
 
-		// === Hand-based actions
+		// === Orgasm-specific debug filtering
+		if (isCumming && isActClimax) {
+			const missingSubject = act.subjectParts.filter(p => !playerState.parts?.[p]);
+			const missingObject = act.objectParts?.filter(p => !partnerState.parts?.[p]) ?? [];
+
+			if (missingSubject.length > 0) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — player missing: ${missingSubject.join(", ")}`);
+				continue;
+			}
+			if (missingObject.length > 0) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — partner missing: ${missingObject.join(", ")}`);
+				continue;
+			}
+			if (typeof allowedClimax !== "undefined" && allowedClimax.length > 0 && !allowedClimax.includes(label)) {
+				console.log(`[OrgasmFilter] ❌ '${label}' skipped — not in allowedClimax list.`);
+				continue;
+			}
+
+			console.log(`[OrgasmFilter] ✅ '${label}' PASSED — valid climax option.`);
+		}
+
+		// === Skill check
+		if (act.skillsRequired && !Object.entries(act.skillsRequired).every(
+			([skill, min]) => (playerSkills[skill] ?? 0) >= min
+		)) continue;
+
+		// === Hand actions
+		const isHandAction = act.subjectParts.includes("hand");
 		if (isHandAction) {
 			hands.forEach(hand => {
 				const handState = playerState.parts?.[hand];
@@ -6509,13 +6553,8 @@ setup.renderSexSceneActions = function () {
 				let visible = true;
 				if (act.stageGroup) {
 					const key = act.stageGroup + hand;
-					const activeLevel = activeStageMap[key] ?? -1;
-
-					const isStarter = act.stageLevel === 0;
-					const isCurrent = act.stageLevel === activeLevel;
-					const isNext = act.stageLevel === activeLevel + 1;
-
-					if (!isStarter && !isCurrent && !isNext) visible = false;
+					const level = activeStageMap[key] ?? -1;
+					visible = [0, level, level + 1].includes(act.stageLevel);
 				}
 				if (!visible) return;
 
@@ -6525,22 +6564,17 @@ setup.renderSexSceneActions = function () {
 		}
 
 		// === Non-hand actions
-		const allValid = act.subjectParts.every(part => {
+		const allPartsValid = act.subjectParts.every(part => {
 			const state = playerState.parts?.[part];
 			return state && !state.bound && !state.disabled;
 		});
-		if (!allValid) continue;
+		if (!allPartsValid) continue;
 
 		let visible = true;
 		if (act.stageGroup) {
 			const key = act.stageGroup;
-			const activeLevel = activeStageMap[key] ?? -1;
-
-			const isStarter = act.stageLevel === 0;
-			const isCurrent = act.stageLevel === activeLevel;
-			const isNext = act.stageLevel === activeLevel + 1;
-
-			if (!isStarter && !isCurrent && !isNext) visible = false;
+			const level = activeStageMap[key] ?? -1;
+			visible = [0, level, level + 1].includes(act.stageLevel);
 		}
 		if (!visible) continue;
 
@@ -6548,13 +6582,15 @@ setup.renderSexSceneActions = function () {
 		groupedActions[primary].push({ label, act });
 	}
 
-	// === Step 2: Render each group with buttons
+
+
+	// Render UI groups
 	for (const [part, actions] of Object.entries(groupedActions)) {
 		const $group = document.createElement("div");
 		$group.classList.add("sexscene-group");
 		$group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
 
-		// === REST button first
+		// REST button
 		const restLabel = `__REST_${part}`;
 		const isRestPending = pending.some(p => p.label === restLabel);
 		const isRestOngoing = ongoing.every(p =>
@@ -6573,7 +6609,6 @@ setup.renderSexSceneActions = function () {
 		$rest.onclick = () => setup.toggleRestAction(part);
 		$group.appendChild($rest);
 
-		// === Action buttons
 		actions.forEach(entry => {
 			const $btn = document.createElement("button");
 			$btn.textContent = entry.act.label;
@@ -6582,17 +6617,13 @@ setup.renderSexSceneActions = function () {
 				p.label === entry.label &&
 				(p.assignedHand ?? null) === (entry.assignedHand ?? null)
 			);
-
 			const isOngoing = ongoing.some(p =>
 				p.label === entry.label &&
 				(p.assignedHand ?? null) === (entry.assignedHand ?? null)
 			);
 
-			if (isPending) {
-				$btn.classList.add("active-sexact", "pending");
-			} else if (isOngoing) {
-				$btn.classList.add("active-sexact", "ongoing");
-			}
+			if (isPending) $btn.classList.add("active-sexact", "pending");
+			else if (isOngoing) $btn.classList.add("active-sexact", "ongoing");
 
 			$btn.onclick = () => setup.toggleSexAction(entry.label, entry.assignedHand);
 			$group.appendChild($btn);
@@ -6601,9 +6632,9 @@ setup.renderSexSceneActions = function () {
 		$wrapper.appendChild($group);
 	}
 
-
 	setup.renderSexSceneContinueButton();
 };
+
 
 
 // ===============================
@@ -6612,40 +6643,39 @@ setup.renderSexSceneActions = function () {
 setup.toggleSexAction = function (label, assignedHand = null) {
 	const act = setup.SexualActsDB[label];
 	if (!act) {
-		console.warn(`[SexSceneAction] ❌ Unknown label: ${label}`);
+		console.warn(`[SexSceneAction] ❌ Unknown label: '${label}'`);
 		return;
 	}
 
-	const queue = State.variables.sexScenePendingActions ?? [];
+	let queue = State.variables.sexScenePendingActions ?? [];
+	queue = [...queue]; // Defensive copy to avoid mutation bugs
 
 	if (assignedHand) {
-		// Remove any previous action assigned to this hand
+		// Remove any action currently using this hand
 		const existingIndex = queue.findIndex(entry => entry.assignedHand === assignedHand);
 		if (existingIndex >= 0) {
+			console.log(`[SexSceneAction] 🔄 Removed existing '${queue[existingIndex].label}' on '${assignedHand}'.`);
 			queue.splice(existingIndex, 1);
-			console.log(`[SexSceneAction] 🔄 Removed existing '${assignedHand}' action.`);
 		}
 
-		// Add new one (if different)
 		queue.push({ label, assignedHand });
 		console.log(`[SexSceneAction] ✅ Assigned '${label}' to '${assignedHand}'.`);
 	} else {
-		// Remove any queued actions that share subject parts (radio behavior)
-		const playerState = State.variables.sexScenePlayerState;
+		// Radio group logic — clear any conflicting non-hand actions
 		const subjectParts = act.subjectParts || [];
 
-		for (let i = queue.length - 1; i >= 0; i--) {
-			const existing = setup.SexualActsDB[queue[i].label];
-			if (!existing || queue[i].assignedHand) continue;
+		queue = queue.filter(entry => {
+			const existing = setup.SexualActsDB[entry.label];
+			if (!existing || entry.assignedHand) return true;
 
 			const conflict = existing.subjectParts?.some(part => subjectParts.includes(part));
 			if (conflict) {
-				console.log(`[SexSceneAction] 🔁 '${queue[i].label}' removed due to conflict with '${label}'.`);
-				queue.splice(i, 1);
+				console.log(`[SexSceneAction] 🔁 '${entry.label}' removed (conflict with '${label}').`);
+				return false;
 			}
-		}
+			return true;
+		});
 
-		// Add this one
 		queue.push({ label });
 		console.log(`[SexSceneAction] ✅ Queued '${label}' (non-hand).`);
 	}
@@ -6658,57 +6688,88 @@ setup.toggleSexAction = function (label, assignedHand = null) {
 /* Continue Button and logic handler */
 setup.renderSexSceneContinueButton = function () {
 	const $wrapper = document.getElementById("sexSceneActionsBox");
-	if (!$wrapper) return;
+	if (!$wrapper) {
+		console.warn("[SexSceneRender] ❌ Cannot render Continue button: #sexSceneActionsBox missing.");
+		return;
+	}
 
-	const $button = document.createElement("button");
-	$button.id = "sexSceneContinueButton";
-	$button.textContent = "Continue";
-	$button.style.marginTop = "2em";
+	// Remove existing footer buttons if present
+	const existing = document.getElementById("sexSceneFooterButtons");
+	if (existing) existing.remove();
+
+	// Create a new footer container with flex layout
+	const $footer = document.createElement("div");
+	$footer.id = "sexSceneFooterButtons";
+	
+
+	// --- Continue Button (left side)
+	const $continue = document.createElement("button");
+	$continue.id = "sexSceneContinueButton";
+	$continue.textContent = "Continue";
+	$continue.style.flex = "1";
 
 	const pending = State.variables.sexScenePendingActions ?? [];
 	const ongoing = State.variables.sexSceneOngoingActions ?? [];
-	const isCumming = State.variables.player?.status?.isCumming ?? false;
+	const isCumming = State.variables.player?.status?.isCumming === true;
 
-	let enabled = false;
-
+	let isEnabled = false;
 	if (isCumming) {
-		enabled = pending.some(p => setup.SexualActsDB[p.label]?.isCumming === true);
+		isEnabled = pending.some(p => setup.SexualActsDB[p.label]?.isCumming);
 	} else {
-		enabled = pending.length > 0 || ongoing.length > 0;
+		isEnabled = pending.length > 0 || ongoing.length > 0;
 	}
 
-	$button.disabled = !enabled;
-	$button.classList.toggle("disabled", !enabled);
-	$button.onclick = setup.handleSexSceneContinue;
-	$wrapper.appendChild($button);
+	$continue.disabled = !isEnabled;
+	$continue.classList.toggle("disabled", !isEnabled);
+	$continue.onclick = setup.handleSexSceneContinue;
+
+	// --- End Scene Button (right side)
+	const $end = document.createElement("button");
+	$end.id = "sexSceneEndButton";
+	$end.textContent = "End Scene";
+	$end.style.flex = "1";
+	$end.onclick = () => {
+		const exitTarget = State.variables.sexSceneExitTarget || "AfterSexFallback";
+		console.log(`[SexSceneExit] 🚪 Exiting to: ${exitTarget}`);
+		Engine.play(exitTarget);
+	};
+
+	// Append in new order: Continue (left), End (right)
+	$footer.appendChild($continue);
+	$footer.appendChild($end);
+	$wrapper.appendChild($footer);
 };
 
 
 
 setup.toggleRestAction = function (part) {
-	const queue = State.variables.sexScenePendingActions ?? [];
+	let queue = State.variables.sexScenePendingActions ?? [];
+	const cleanedQueue = [];
 
-	// Remove all pending actions for this part
-	for (let i = queue.length - 1; i >= 0; i--) {
-		const label = queue[i].label;
-		if (label.startsWith("__REST_")) {
-			queue.splice(i, 1);
-			continue;
-		}
+	for (const entry of queue) {
+		const label = entry.label;
+
+		// Always remove other rest actions (you only get one per part)
+		if (label.startsWith("__REST_")) continue;
+
 		const act = setup.SexualActsDB[label];
 		if (!act) continue;
-		if (
-			queue[i].assignedHand === part ||
-			act.subjectParts?.includes(part)
-		) {
-			queue.splice(i, 1);
-		}
+
+		// Remove actions assigned to this hand or involving this part
+		const isHandMatch = entry.assignedHand === part;
+		const isPartMatch = act.subjectParts?.includes(part);
+
+		if (isHandMatch || isPartMatch) continue;
+
+		cleanedQueue.push(entry);
 	}
 
-	queue.push({ label: `__REST_${part}` });
+	// Add the new rest action
+	cleanedQueue.push({ label: `__REST_${part}` });
 
-	State.variables.sexScenePendingActions = queue;
-	console.log(`[RestAction] 🧘 Queued rest for ${part}`);
+	State.variables.sexScenePendingActions = cleanedQueue;
+
+	console.log(`[RestAction] 🧘 Queued rest for '${part}'.`);
 	setup.renderSexSceneActions();
 };
 
@@ -6720,9 +6781,9 @@ setup.handleSexSceneContinue = function () {
 	let pending = State.variables.sexScenePendingActions ?? [];
 	const ongoing = State.variables.sexSceneOngoingActions ?? [];
 
-	// Fallback to ongoing actions if none were selected this turn
+	// Use ongoing if nothing new is selected
 	if (pending.length === 0 && ongoing.length > 0) {
-		console.log("[SexScene] 🔁 No new actions selected — reusing ongoing actions as this turn’s pending.");
+		console.log("[SexScene] 🔁 No new actions selected — reusing ongoing actions.");
 		pending = [...ongoing];
 		State.variables.sexScenePendingActions = pending;
 	}
@@ -6739,6 +6800,7 @@ setup.handleSexSceneContinue = function () {
 	const partnerId = Object.keys(State.variables.sexScenePartnerStates ?? {})[0];
 	const partnerChar = State.variables.characters[partnerId];
 	const partnerState = State.variables.sexScenePartnerStates[partnerId];
+	const playerState = State.variables.sexScenePlayerState;
 	const partnerStatus = partnerChar.status;
 
 	const isCumming = playerStatus.isCumming ?? false;
@@ -6755,7 +6817,6 @@ setup.handleSexSceneContinue = function () {
 		if (label.startsWith("__REST_")) {
 			const restedPart = label.replace("__REST_", "");
 			console.log(`[SexScene] 💤 Resting '${restedPart}' — clearing associated actions.`);
-
 			newOngoing = newOngoing.filter(p => {
 				const act = setup.SexualActsDB[p.label];
 				if (!act) return true;
@@ -6773,51 +6834,45 @@ setup.handleSexSceneContinue = function () {
 		}
 
 		console.log(`[SexScene] ➤ Applying action '${label}'...`);
-		let responseLine = "";
 
-		// === Orgasm resolution
+		// === Orgasm Resolution
 		if (isCumming && act.isCumming) {
 			const climaxLines = setup.SexSceneResponses[label]?.climax ?? [];
-			const responseLine = climaxLines.length
+			const line = climaxLines.length
 				? climaxLines[Math.floor(Math.random() * climaxLines.length)]
 				: "You groan and release with a shudder.";
+			playerFeedback.push(line);
 
-			// Save it for next turn
-			State.variables.sexSceneClimaxFeedback = responseLine;
-
-			// Handle status and clear
 			playerStatus.excitement = 0;
 			playerStatus.fatigue = Math.min(playerStatus.fatigue + 40, playerStatus.maxFatigue);
 			playerStatus.isCumming = false;
 			playerClimaxResolved = true;
 
-			State.variables.sexScenePendingActions = [];
-			State.variables.sexSceneOngoingActions = [];
+			// ✅ Force delayed render refresh after orgasm resolution
+			setTimeout(() => {
+				if (document.getElementById("sexSceneActionsBox")) {
+					console.log("[SexSceneFix] 🔁 Post-orgasm refresh triggered.");
+					setup.renderSexSceneActions();
+				}
+			}, 50); // Delay ensures DOM is ready
 
-			console.log(`[SexScene] ✅ Orgasm resolved with '${label}'. Excitement reset. Fatigue applied.`);
-			console.log("[SexScene] 💨 Cleared all actions post-orgasm.");
 
-			Engine.play(passage()); // Restart the passage to render anew
-			return;
+			console.log(`[SexScene] ✅ Orgasm resolved with '${label}'.`);
+			console.log("   ➕ Excitement reset, fatigue increased.");
+			continue; // Do not persist
 		}
 
+		// === Arousal Gain
+		playerStatus.excitement += act.baseExcitement?.subject ?? 0;
+		partnerStatus.excitement += act.baseExcitement?.object ?? 0;
 
-		// === Excitement gain
-		const subjectAmount = act.baseExcitement?.subject ?? 0;
-		const objectAmount = act.baseExcitement?.object ?? 0;
-		playerStatus.excitement += subjectAmount;
-		partnerStatus.excitement += objectAmount;
+		console.log(`   ➕ Player excitement: ${playerStatus.excitement}`);
+		console.log(`   ➕ ${partnerChar.name} excitement: ${partnerStatus.excitement}`);
 
-		console.log(`   ➕ Player excitement +${subjectAmount} = ${playerStatus.excitement}`);
-		console.log(`   ➕ ${partnerChar.name} excitement +${objectAmount} = ${partnerStatus.excitement}`);
+		partnerState.lastReceivedAction = label;
 
-		if (partnerState) {
-			partnerState.lastReceivedAction = label;
-		}
-
-		// === Manage ongoing actions (stageGroup logic)
+		// === Ongoing Action Update
 		const hand = entry.assignedHand ?? null;
-
 		newOngoing = newOngoing.filter(p => {
 			const other = setup.SexualActsDB[p.label];
 			if (!other) return true;
@@ -6826,29 +6881,33 @@ setup.handleSexSceneContinue = function () {
 			return !(sameGroup && sameHand);
 		});
 
-		newOngoing.push({ label, assignedHand: hand });
-
-		// === Feedback generation
-		let flavor = "Neutral";
-		if (partnerChar.preferences?.sexualActs?.likes?.includes(label)) {
-			flavor = "Liked";
-		} else if (partnerChar.preferences?.sexualActs?.dislikes?.includes(label)) {
-			flavor = "Disliked";
+		if (act.togglable) {
+			newOngoing.push({ label, assignedHand: hand });
+		} else {
+			// Default back to Rest for non-togglable actions
+			const restPart = hand ?? act.subjectParts?.[0];
+			if (restPart) {
+				const restLabel = `__REST_${restPart}`;
+				if (!pending.some(p => p.label === restLabel)) {
+					pending.push({ label: restLabel });
+					console.log(`[SexScene] 🔁 Defaulting '${restPart}' to Rest after non-togglable '${label}'.`);
+				}
+			}
 		}
 
-		const responseData = setup.SexSceneResponses[label];
-		const textList = responseData?.[flavor] ?? [];
-		responseLine = textList.length
-			? textList[Math.floor(Math.random() * textList.length)]
+		// === Feedback Text
+		let flavor = "Neutral";
+		if (partnerChar.preferences?.sexualActs?.likes?.includes(label)) flavor = "Liked";
+		if (partnerChar.preferences?.sexualActs?.dislikes?.includes(label)) flavor = "Disliked";
+
+		const responseList = setup.SexSceneResponses[label]?.[flavor] ?? [];
+		const response = responseList.length
+			? responseList[Math.floor(Math.random() * responseList.length)]
 			: `${partnerChar.name} reacts passively.`;
 
-		if (act.receiver === "player") {
-			playerFeedback.push(responseLine);
-		} else {
-			npcFeedback.push(responseLine);
-		}
+		(act.receiver === "player" ? playerFeedback : npcFeedback).push(response);
 
-		// === Orgasm triggers
+		// === Orgasm Triggers (Post-action)
 		if (!isCumming && partnerStatus.excitement >= partnerStatus.maxExcitement) {
 			console.log(`[SexScene] 🚨 ${partnerChar.name} orgasm triggered.`);
 			setup.triggerOrgasm(partnerId);
@@ -6860,84 +6919,66 @@ setup.handleSexSceneContinue = function () {
 		}
 	}
 
-	// === Filter invalid ongoing actions
+	// === Cleanup & Rerender
 	if (!playerClimaxResolved) {
-		const playerState = State.variables.sexScenePlayerState;
-		const partnerState = State.variables.sexScenePartnerStates[partnerId];
-		const playerSkills = State.variables.player.skills || {};
-
-		newOngoing = newOngoing.filter(entry => {
+		const validOngoing = newOngoing.filter(entry => {
 			const act = setup.SexualActsDB[entry.label];
-			if (!act || act.isCumming) return false;
+			if (!act || act.isCumming || act.togglable === false) return false;
 
-			const validSubjects = act.subjectParts.every(part => {
-				const p = part === "hand" ? entry.assignedHand : part;
-				const state = playerState.parts?.[p];
+			const partOk = act.subjectParts.every(part => {
+				const resolved = part === "hand" ? entry.assignedHand : part;
+				const state = playerState.parts?.[resolved];
 				return state && !state.bound && !state.disabled;
 			});
-			if (!validSubjects) return false;
+			if (!partOk) return false;
 
 			if (act.objectParts?.some(p => !partnerState.parts?.[p])) return false;
 
 			if (act.skillsRequired) {
 				for (const [skill, min] of Object.entries(act.skillsRequired)) {
-					if ((playerSkills[skill] ?? 0) < min) return false;
+					if ((State.variables.player.skills?.[skill] ?? 0) < min) return false;
 				}
 			}
+
 			return true;
 		});
 
-		State.variables.sexSceneOngoingActions = newOngoing;
+		State.variables.sexSceneOngoingActions = validOngoing;
 		State.variables.sexScenePendingActions = [];
 		setup.renderSexSceneActions();
+
+		// === Run NPC Turn
+		const npcIds = Object.keys(State.variables.sexScenePartnerStates ?? {});
+		for (const npcId of npcIds) {
+			setup.npcDecideActions(npcId);
+		}
+
 	}
 
-	// === Feedback rendering
+	// === Render Feedback
 	if (feedbackBox) {
-		// === 1. Climax feedback (if stored from previous turn)
-		const storedClimax = State.variables.sexSceneClimaxFeedback;
-		if (storedClimax) {
-			const climaxPara = document.createElement("p");
-			try {
-				const temp = document.createElement("span");
-				new Wikifier(temp, storedClimax);
-				climaxPara.innerHTML = temp.innerHTML;
-			} catch (err) {
-				console.warn(`[Feedback] ❌ Parse error (climax): ${err.message}`);
-				climaxPara.textContent = storedClimax;
-			}
-			feedbackBox.appendChild(climaxPara);
-			State.variables.sexSceneClimaxFeedback = null;
-		}
-
-		// === 2. NPC feedback (if any)
 		if (npcFeedback.length > 0) {
 			const npcPara = document.createElement("p");
-			npcPara.innerHTML = npcFeedback.map(line => `<span>${line}</span>`).join(" ");
+			npcPara.innerHTML = npcFeedback.map(l => `<span>${l}</span>`).join(" ");
 			feedbackBox.appendChild(npcPara);
 		}
-
-		// === 3. Player feedback (if any)
 		if (playerFeedback.length > 0) {
 			const playerPara = document.createElement("p");
-			playerPara.innerHTML = playerFeedback.map(line => `<span>${line}</span>`).join(" ");
+			playerPara.innerHTML = playerFeedback.map(l => `<span>${l}</span>`).join(" ");
 			feedbackBox.appendChild(playerPara);
 		}
 	}
 
-
 	console.groupCollapsed("[SexScene] 🧷 Final Ongoing Actions");
 	console.dir(State.variables.sexSceneOngoingActions);
 	console.groupEnd();
-
 	console.log("[SexScene] 🔁 Turn complete.");
 };
 
 
-/** ======================================================
- *   ORGASM TRIGGER & FEEDBACK SYSTEM
- *   Drop into 12_SexScene_Logic.js
- * ===================================================== */
+/* ======================================================
+   ORGASM TRIGGER & FEEDBACK SYSTEM
+ ===================================================== */
 
 setup.triggerOrgasm = function (charId) {
 	const isPlayer = charId === "player";
@@ -6949,63 +6990,86 @@ setup.triggerOrgasm = function (charId) {
 		return;
 	}
 
-	// Clamp excitement to 0, apply fatigue
+	// Clamp excitement and apply fatigue
 	char.status.excitement = 0;
 	char.status.fatigue = Math.min(char.status.fatigue + 40, char.status.maxFatigue);
 
 	console.log(`[Orgasm] 💦 ${isPlayer ? "Player" : char.name} orgasmed.`);
 	console.log(`   ➡️ Fatigue now: ${char.status.fatigue}/${char.status.maxFatigue}`);
 
-	if (isPlayer) {
-		const hasPenis = !!state.parts?.penis;
-		const hasVagina = !!state.parts?.vagina;
+	if (!isPlayer) {
+		setup.displayNPCOrgasmFeedback?.(charId);
+		return;
+	}
 
-		if (!hasPenis && hasVagina) {
-			console.log("[Orgasm] ✅ Auto-resolving climax for vagina-only player.");
+	const hasPenis = !!state.parts?.penis;
+	const hasVagina = !!state.parts?.vagina;
 
-			const feedbackBox = document.getElementById("sexSceneFeedbackBox");
-			if (feedbackBox) {
-				const p = document.createElement("p");
-				p.innerHTML = "A wave of pleasure crashes over you as your body trembles in release.";
-				feedbackBox.appendChild(p);
-			}
-
-			char.status.isCumming = false;
-			State.variables.sexScenePendingActions = [];
-			State.variables.sexSceneOngoingActions = [];
-			setup.renderSexSceneActions();
-			return;
-		}
-
-		// ✅ Insert the prompt immediately when climax state starts
-		char.status.isCumming = true;
-		console.log("[Orgasm] 🚩 Player is now in 'isCumming' resolution phase.");
+	// === Auto-orgasm for vagina-only players
+	if (!hasPenis && hasVagina) {
+		console.log("[Orgasm] ✅ Auto-resolving climax for vagina-only player.");
 
 		const feedbackBox = document.getElementById("sexSceneFeedbackBox");
 		if (feedbackBox) {
 			const p = document.createElement("p");
-			p.innerHTML = "You're right at the edge. How do you want to finish?";
+			p.innerHTML = "A wave of pleasure crashes over you as your body trembles in release.";
 			feedbackBox.appendChild(p);
-			console.log("[OrgasmUI] 💬 Prompt rendered in feedback box.");
 		}
+
+		char.status.isCumming = false;
+		State.variables.sexScenePendingActions = [];
+		State.variables.sexSceneOngoingActions = [];
+
+		setup.renderSexSceneActions();
+		return;
 	}
 
+	// === Manual orgasm resolution (requires orgasm choice action)
+	char.status.isCumming = true;
+	console.log("[Orgasm] 🚩 Player is now in 'isCumming' resolution phase.");
+
+	// ✅ Clear ongoing, and force every body part to rest
+	State.variables.sexSceneOngoingActions = [];
+	State.variables.sexScenePendingActions = [];
+
+	const parts = Object.keys(state.parts ?? {});
+	for (const part of parts) {
+		State.variables.sexScenePendingActions.push({ label: `__REST_${part}` });
+		console.log(`[Orgasm] 🔄 Forcing '${part}' to REST (pending) during orgasm resolution.`);
+	}
+
+	// ✅ Display prompt
+	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
+	if (feedbackBox) {
+		const p = document.createElement("p");
+		p.innerHTML = "You're right at the edge. How do you want to finish?";
+		feedbackBox.appendChild(p);
+		console.log("[OrgasmUI] 💬 Prompt rendered in feedback box.");
+	}
+
+	// ✅ Trigger rerender to reflect forced REST state
+	setup.renderSexSceneActions();
 };
 
 
 setup.autoResolveVaginalOrgasm = function () {
 	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
-	if (!feedbackBox) return;
+	if (!feedbackBox) {
+		console.warn("[Orgasm] ❌ Feedback box not found for auto-orgasm.");
+		return;
+	}
 
 	const p = document.createElement("p");
 	p.innerHTML = "A wave of pleasure crashes over you as your body trembles in release.";
 	feedbackBox.appendChild(p);
 
+	// Reset orgasm state and clear queued actions
 	State.variables.player.status.isCumming = false;
+	State.variables.player.status.excitement = 0;
 	State.variables.sexScenePendingActions = [];
 	State.variables.sexSceneOngoingActions = [];
-	setup.renderSexSceneActions();
 
+	setup.renderSexSceneActions();
 	console.log("[Orgasm] ✅ Auto-orgasm complete.");
 };
 
@@ -7013,42 +7077,136 @@ setup.autoResolveVaginalOrgasm = function () {
 setup.displayNPCOrgasmFeedback = function (npcId) {
 	const state = State.variables.sexSceneNPCStates?.[npcId];
 	const lastAct = state?.lastReceivedAction ?? null;
-	const npc = State.variables.characters[npcId];
+	const npc = State.variables.characters?.[npcId];
 	const feedbackBox = document.getElementById("sexSceneFeedbackBox");
 
 	if (!npc || !feedbackBox) {
-		console.warn(`[OrgasmFeedback] ❌ Missing NPC data or feedback box for '${npcId}'.`);
+		console.warn(`[OrgasmFeedback] ❌ Missing NPC or feedbackBox for '${npcId}'.`);
 		return;
 	}
 
-	let climaxText = `${npc.name} orgasms, body trembling with release.`; // fallback
+	let climaxText = `${npc.name} orgasms, body trembling with release.`; // Default fallback
 
-	// Pull from updated SexSceneResponses
-	if (lastAct && setup.SexSceneResponses[lastAct]?.climax) {
-		const options = setup.SexSceneResponses[lastAct].climax;
-		if (Array.isArray(options) && options.length > 0) {
-			const pick = options[Math.floor(Math.random() * options.length)];
-			climaxText = pick;
-			console.log(`[OrgasmFeedback] 💬 Using climax line from '${lastAct}'`);
+	if (lastAct) {
+		const response = setup.SexSceneResponses[lastAct];
+		const climaxLines = response?.climax ?? [];
+
+		if (Array.isArray(climaxLines) && climaxLines.length > 0) {
+			climaxText = climaxLines[Math.floor(Math.random() * climaxLines.length)];
+			console.log(`[OrgasmFeedback] 💬 '${npc.name}' climax response sourced from '${lastAct}'.`);
+		} else {
+			console.log(`[OrgasmFeedback] ⚠️ No climax lines found for '${lastAct}'. Using fallback.`);
 		}
+	} else {
+		console.log(`[OrgasmFeedback] ⚠️ No lastReceivedAction for '${npc.name}'. Using fallback.`);
 	}
 
 	const p = document.createElement("p");
-	p.innerHTML = Wikifier.parse(climaxText);
+	try {
+		const span = document.createElement("span");
+		new Wikifier(span, climaxText);
+		p.innerHTML = span.innerHTML;
+	} catch (err) {
+		console.warn(`[OrgasmFeedback] ❌ Error parsing climax text: ${err.message}`);
+		p.textContent = climaxText;
+	}
+
 	feedbackBox.appendChild(p);
+};
+
+setup.scheduleSexSceneRefresh = function () {
+	console.log("[SexSceneFix] ⏳ Scheduling post-passage render refresh...");
+
+	requestAnimationFrame(() => {
+		setTimeout(() => {
+			if (document.getElementById("sexSceneActionsBox")) {
+				console.log("[SexSceneFix] 🔁 Forcing UI refresh after passage load.");
+				setup.renderSexSceneActions();
+			} else {
+				console.warn("[SexSceneFix] ⚠️ Action box not found. Skipping refresh.");
+			}
+		}, 50); // tweak if needed
+	});
 };
 
 
 setup.offerPlayerOrgasmChoices = function () {
 	const box = document.getElementById("sexSceneFeedbackBox");
-	if (!box) return;
+	if (!box) {
+		console.warn("[OrgasmUI] ❌ Feedback box not found — cannot render prompt.");
+		return;
+	}
 
-	// Add prompt paragraph only (no buttons!)
+	// ✅ Insert the prompt at the bottom of feedback
 	const p = document.createElement("p");
 	p.innerHTML = "You're right at the edge. How do you want to finish?";
 	box.appendChild(p);
+	console.log("[OrgasmUI] 💬 Prompt inserted. Context-aware orgasm filtering in progress...");
 
-	console.log("[OrgasmUI] 💬 Prompt inserted. Orgasm choices will be rendered in body group actions.");
+	const playerState = State.variables.sexScenePlayerState;
+	const ongoing = State.variables.sexSceneOngoingActions ?? [];
+
+	// 🧠 Derive orgasm context based on ongoing stimulation
+	const contextTags = new Set();
+
+	for (const entry of ongoing) {
+		const act = setup.SexualActsDB[entry.label];
+		if (!act || act.isCumming) continue;
+
+		// Include object parts to derive physical context
+		act.objectParts?.forEach(part => {
+			if (part === "vagina") contextTags.add("vaginal_internal");
+			if (part === "anus") contextTags.add("anal_internal");
+			if (part === "face") contextTags.add("facial");
+			if (["breasts", "feet", "mouth", "clitoris"].includes(part)) contextTags.add("external");
+		});
+
+		// Add inclination context
+		act.inclinationTags?.forEach(tag => {
+			if (["penetration", "control", "release", "dominance"].includes(tag)) {
+				contextTags.add(tag);
+			}
+		});
+	}
+
+	// 🔍 Find valid orgasm actions for the current context
+	const playerParts = playerState?.parts ?? {};
+	const partnerId = Object.keys(State.variables.sexScenePartnerStates ?? {})[0];
+	const partnerParts = State.variables.sexScenePartnerStates?.[partnerId]?.parts ?? {};
+
+	const validOptions = [];
+
+	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+		if (!act.isCumming) continue;
+
+		const hasPlayerParts = act.subjectParts.every(part => playerParts[part]);
+		const hasPartnerParts = act.objectParts.every(part => partnerParts[part]);
+		if (!hasPlayerParts || !hasPartnerParts) continue;
+
+		const match = act.orgasmTags?.some(tag => contextTags.has(tag));
+		if (match) {
+			validOptions.push({ label, act });
+		}
+	}
+
+	// 🛑 Fallback: if no context matches, show all options
+	if (validOptions.length === 0) {
+		console.warn("[OrgasmUI] ⚠️ No orgasm actions matched context — showing all by default.");
+		for (const [label, act] of Object.entries(setup.SexualActsDB)) {
+			if (act.isCumming) {
+				const hasPlayerParts = act.subjectParts.every(part => playerParts[part]);
+				const hasPartnerParts = act.objectParts.every(part => partnerParts[part]);
+				if (hasPlayerParts && hasPartnerParts) {
+					validOptions.push({ label, act });
+				}
+			}
+		}
+	}
+
+	// 👻 Inject filtered orgasm options directly into UI groups on next render
+	State.variables.sexSceneFilteredOrgasmOptions = validOptions.map(opt => opt.label);
+	console.log(`[OrgasmUI] ✅ ${validOptions.length} orgasm options queued for button render.`);
+	setup.renderSexSceneActions(); // Re-render buttons now that options are filtered
 };
 
 
@@ -7056,12 +7214,25 @@ setup.offerPlayerOrgasmChoices = function () {
 /*=========================================================================================
 ================= NPC DECISION MAKING =====================================================
 ======================================================================================== */
+setup.partExists = function (part, partsObj) {
+	switch (part) {
+		case "hand":
+			return !!(partsObj.leftHand || partsObj.rightHand);
+		case "genital":
+			return !!(partsObj.penis || partsObj.vagina);
+		default:
+			return !!partsObj[part];
+	}
+};
+
 
 setup.npcDecideActions = function (npcId) {
-	const npc = State.variables.characters[npcId];
-	const npcState = State.variables.sexScenePartnerStates[npcId];
-	if (!npc || !npcState) {
-		console.warn(`[NPC AI] ❌ Cannot resolve NPC '${npcId}'.`);
+	const npc = State.variables.characters?.[npcId];
+	const npcState = State.variables.sexScenePartnerStates?.[npcId];
+	const playerState = State.variables.sexScenePlayerState;
+
+	if (!npc || !npcState || !playerState) {
+		console.warn(`[NPC AI] ❌ Could not resolve required data for '${npcId}'.`);
 		return;
 	}
 
@@ -7071,35 +7242,37 @@ setup.npcDecideActions = function (npcId) {
 		if (act.giver !== "npc" || act.receiver !== "player") continue;
 		if (act.isCumming) continue;
 
-		if (!act.subjectParts.every(p => npcState.parts?.[p])) continue;
-		if (!act.objectParts.every(p => State.variables.sexScenePlayerState.parts?.[p])) continue;
+		// Use partExists to validate anatomy
+		const npcHasParts = act.subjectParts.every(p => setup.partExists(p, npcState.parts));
+		const playerHasParts = act.objectParts.every(p => setup.partExists(p, playerState.parts));
+		if (!npcHasParts || !playerHasParts) continue;
 
 		const score = setup.npcEvaluateAction(npc, act);
 		availableActs.push({ label, score });
 	}
 
-	if (!availableActs.length) {
-		console.warn(`[NPC AI] ⚠ No available acts for '${npc.name}'.`);
+	if (availableActs.length === 0) {
+		console.warn(`[NPC AI] ⚠ No valid acts found for '${npc?.name ?? npcId}'.`);
 		return;
 	}
 
-	// Prevent duplicate selection of same act
 	const topActs = availableActs.sort((a, b) => b.score - a.score).slice(0, 3);
 	const chosen = topActs[Math.floor(Math.random() * topActs.length)];
 
 	if (State.variables.sexScenePendingActions.some(p => p.label === chosen.label)) {
-		console.log(`[NPC AI] ⚠ '${npc.name}' tried to pick '${chosen.label}' but it's already queued.`);
+		console.log(`[NPC AI] ⚠ '${npc.name}' attempted to reuse '${chosen.label}'. Skipping.`);
 		return;
 	}
 
 	console.log(`[NPC AI] 🤔 '${npc.name}' selects '${chosen.label}' (score: ${chosen.score})`);
 
-	// Track recent acts for inclination learning
-	if (!npcState.recentActs) npcState.recentActs = [];
+	npcState.recentActs = npcState.recentActs ?? [];
 	npcState.recentActs.push(chosen.label);
 
-	// Add to pending
-	State.variables.sexScenePendingActions.push({ label: chosen.label, data: setup.SexualActsDB[chosen.label] });
+	State.variables.sexScenePendingActions.push({
+		label: chosen.label,
+		data: setup.SexualActsDB[chosen.label]
+	});
 };
 
 
@@ -7107,28 +7280,37 @@ setup.npcDecideActions = function (npcId) {
 setup.npcEvaluateAction = function (npc, act) {
 	let score = 10;
 
-	if (npc.preferences?.sexualActs?.likes?.includes(act.label)) score += 20;
-	if (npc.preferences?.sexualActs?.dislikes?.includes(act.label)) score -= 20;
+	const npcPrefs = npc.preferences?.sexualActs;
+	const npcInclinations = npc.inclinations ?? [];
+	const npcStatus = npc.status ?? {};
+	const playerStatus = State.variables.player?.status ?? {};
+	const mood = State.variables.sexScenePartnerStates?.[npc.id]?.mood ?? null;
 
-	const npcStatus = npc.status;
+	// === Preferences
+	if (npcPrefs?.likes?.includes(act.label)) score += 20;
+	if (npcPrefs?.dislikes?.includes(act.label)) score -= 20;
+
+	// === Fatigue / Excitement
 	if (npcStatus.excitement >= 70 && act.stageLevel >= 1) score += 15;
 	if (npcStatus.fatigue >= 70 && act.stageLevel <= 0) score += 10;
 
-	const playerStatus = State.variables.player.status;
-	if (playerStatus.excitement >= 80 && act.baseExcitement.object >= 10) score += 10;
+	if (playerStatus.excitement >= 80 && act.baseExcitement?.object >= 10) score += 10;
 
+	// === Inclinations
 	if (act.inclinationTags) {
 		for (const tag of act.inclinationTags) {
-			if (npc.inclinations?.includes(tag)) score += 5;
+			if (npcInclinations.includes(tag)) score += 5;
 		}
 	}
 
-	// Mood bias if present
-	const mood = State.variables.sexScenePartnerStates[npc.id]?.mood;
+	// === Mood Biasing
 	if (mood === "aggressive" && act.stageLevel >= 1) score += 8;
 	if (mood === "gentle" && act.stageLevel === 0) score += 8;
-	if (mood === "teasing" && act.stageLevel === 0 && act.inclinationTags?.includes("tease")) score += 10;
+	if (mood === "teasing" && act.stageLevel === 0 && act.inclinationTags?.includes("tease")) {
+		score += 10;
+	}
 
+	// === Small randomness for variation
 	score += Math.random() * 5;
 
 	return score;
@@ -7136,40 +7318,49 @@ setup.npcEvaluateAction = function (npc, act) {
 
 
 setup.npcMoodInit = function (npcId) {
+	const state = State.variables.sexScenePartnerStates?.[npcId];
+	if (!state) {
+		console.warn(`[NPC AI] ❌ Cannot assign mood — no partner state for '${npcId}'.`);
+		return;
+	}
+
 	const moods = ["aggressive", "teasing", "gentle"];
-	const mood = moods[Math.floor(Math.random() * moods.length)];
-	State.variables.sexScenePartnerStates[npcId].mood = mood;
-	console.log(`[NPC AI] '${npcId}' mood set to '${mood}'.`);
+	const index = Math.floor(Math.random() * moods.length);
+	const mood = moods[index];
+
+	state.mood = mood;
+
+	console.log(`[NPC AI] 🎭 '${npcId}' mood initialized as '${mood}'.`);
 };
 
 
 setup.npcInclinationShift = function (npcId) {
-	const npc = State.variables.characters[npcId];
-	const npcState = State.variables.sexScenePartnerStates[npcId];
-	if (!npc || !npcState?.recentActs) return;
+	const npc = State.variables.characters?.[npcId];
+	const npcState = State.variables.sexScenePartnerStates?.[npcId];
+	if (!npc || !npcState?.recentActs?.length) return;
 
-	const uniqueActs = [...new Set(npcState.recentActs)];
+	const seen = new Set();
 
-	for (const actLabel of uniqueActs) {
-		if (Math.random() <= 0.1) {
-			const act = setup.SexualActsDB[actLabel];
-			if (!act || !act.inclinationTags) continue;
+	for (const actLabel of npcState.recentActs) {
+		if (seen.has(actLabel)) continue;
+		seen.add(actLabel);
 
-			for (const tag of act.inclinationTags) {
-				if (!npc.inclinations.includes(tag)) {
-					npc.inclinations.push(tag);
-					console.log(`[NPC AI] 🌱 '${npc.name}' developed stronger inclination toward '${tag}' from '${actLabel}'.`);
-				}
+		if (Math.random() > 0.1) continue; // 10% chance to learn
+
+		const act = setup.SexualActsDB[actLabel];
+		if (!act?.inclinationTags) continue;
+
+		for (const tag of act.inclinationTags) {
+			if (!npc.inclinations?.includes(tag)) {
+				npc.inclinations = npc.inclinations ?? [];
+				npc.inclinations.push(tag);
+				console.log(`[NPC AI] 🌱 '${npc.name}' developed inclination toward '${tag}' from '${actLabel}'.`);
 			}
 		}
 	}
 
-	// Clear session-specific tracking after learning
-	npcState.recentActs = [];
+	npcState.recentActs = []; // Clear tracking
 };
-
-
-
 /* twine-user-script #26: "15_npcSystems.js" */
 setup.NPCs = [];
 
@@ -8223,21 +8414,19 @@ setup.SexualActsDB = {
 	},
 
 	Player_Cum_Anal_Inside: {
-		label: "Cum Deep In Their Ass",
-		category: "Orgasm",
-		actionType: "orgasm",
-		stageLevel: 0,
-		isCumming: true,
-		giver: "player",
-		receiver: "npc",
-		subjectParts: ["penis"],
-		objectParts: ["anus"],
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
-		preferenceTags: ["Anal_P", "Orgasm_Inside"],
-		inclinationTags: ["dominance", "release"],
-		togglable: false
+	label: "Cum Deep In Their Ass",
+	category: "Orgasm",
+	actionType: "orgasm",
+	stageLevel: 0,
+	isCumming: true,
+	giver: "player",
+	receiver: "npc",
+	subjectParts: ["penis"],
+	objectParts: ["anus"],
+	orgasmTags: ["anal_internal", "penetration"],
+	preferenceTags: ["Anal_P", "Orgasm_Inside"],
+	inclinationTags: ["dominance", "release"],
+	togglable: false
 	},
 
 	Player_Cum_Vaginal_Inside: {
@@ -8250,9 +8439,7 @@ setup.SexualActsDB = {
 		receiver: "npc",
 		subjectParts: ["penis"],
 		objectParts: ["vagina"],
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
+		orgasmTags: ["vaginal_internal", "penetration"],
 		preferenceTags: ["Vaginal_P", "Orgasm_Inside"],
 		inclinationTags: ["intimacy", "release"],
 		togglable: false
@@ -8267,14 +8454,70 @@ setup.SexualActsDB = {
 		giver: "player",
 		receiver: "npc",
 		subjectParts: ["penis"],
-		objectParts: ["face"], // non-functional anatomy; logic-only target
-		canTakeVirginity: false,
-		skillsRequired: {},
-		baseExcitement: { subject: 0, object: 0 },
+		objectParts: ["face"], // not a tracked body part, but logically targeted
+		orgasmTags: ["facial", "external"],
 		preferenceTags: ["Oral_G", "Face_Cum"],
 		inclinationTags: ["control", "messy"],
 		togglable: false
-	}
+	},
+
+
+
+
+
+
+
+	/*  NPC ACTION LIST */
+	/* HAND */
+	Handjob_Penis_NPC_Tease: {
+	label: "Stroke Your Cock Teasingly",
+	giver: "npc",
+	receiver: "player",
+	subjectParts: ["hand"],
+	objectParts: ["penis"],
+	stageGroup: "Handjob_NPC",
+	stageLevel: 0,
+	baseExcitement: { subject: 5, object: 10 },
+	inclinationTags: ["tease"],
+	togglable: false
+	},
+
+
+
+
+	/* MOUTH */
+
+
+
+
+	/* FEET */
+
+
+
+
+	/* ANUS */
+
+
+
+
+	/* PENIS */
+
+
+
+
+
+	/* VAGINA */
+
+
+
+
+
+	/* BREASTS */
+
+
+
+
+
 };
 /* twine-user-script #45: "SexScene_Responses.js" */
 setup.SexSceneResponses = {
@@ -8375,7 +8618,61 @@ setup.SexSceneResponses = {
 			"You pull up and let loose across their face, watching it paint their cheeks and lips.",
 			"Your body jerks with each spurt as you cover their face with sticky warmth."
 		]
-	}
+	},
+
+
+
+
+
+
+
+
+	/*  NPC ACTION LIST */
+	/* NPC - HAND */
+	Handjob_Penis_NPC_Tease: {
+	Neutral: ["Their hand moves rhythmically along your length."],
+	Liked: ["They give your cock a slow, teasing stroke that makes your breath catch."],
+	Disliked: ["They stroke you without much care or focus."]
+	},
+
+
+
+
+
+
+
+	/* MOUTH */
+
+
+
+
+	/* FEET */
+
+
+
+
+	/* ANUS */
+
+
+
+
+	/* PENIS */
+
+
+
+
+
+	/* VAGINA */
+
+
+
+
+
+	/* BREASTS */
+
+
+
+
 
 
 };
@@ -10689,7 +10986,8 @@ When you part, neither of you speak at first. Her forehead rests against yours, 
 &lt;&lt;relation &quot;allura&quot; &quot;affection&quot; 3&gt;&gt;
 &lt;&lt;relation &quot;allura&quot; &quot;trust&quot; 2&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-/* Placeholder: &lt;&lt;StartBANGING&gt;&gt; */
+&lt;&lt;StartSexScene &quot;allura&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Allura_PostSexPhase1&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="JustLay" tags="widget" position="1225,350" size="100,100">&lt;&lt;widget &quot;JustLay&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
@@ -11386,7 +11684,8 @@ You kiss him again. More passionately.
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;relation &quot;darian&quot; &quot;affection&quot; 2&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-/* Placeholder &lt;&lt;StartBanging&gt;&gt; */&gt;&gt;
+&lt;&lt;StartSexScene &quot;darian&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Darian_PostSexPhase1&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="Darian_MusicRequest" tags="widget" position="1100,600" size="100,100">&lt;&lt;widget &quot;Darian_MusicRequest&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;p&gt;You glance around the room, then back at Darian. The question escapes you before you can second-guess it.&lt;/p&gt;
@@ -12042,11 +12341,13 @@ When you pull apart Marie does not look directly at you, but speaks downward, he
 
 You don&#39;t hesitate to comply.
 
-/* Placeholder &lt;&lt;StartBanging&gt;&gt; */
+
 
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;relation &quot;marie&quot; &quot;trust&quot; 2&gt;&gt;
 &lt;&lt;relation &quot;marie&quot; &quot;affection&quot; 1&gt;&gt;
+&lt;&lt;StartSexScene &quot;marie&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Marie_PostSexPhase1&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="Marie_LayAndTalk" tags="widget" position="225,975" size="100,100">&lt;&lt;widget &quot;Marie_LayAndTalk&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
@@ -12268,7 +12569,8 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 [[Wait I am NOT an adult|Underage_Response]]
 
 /*PlaceHolder! Remove option.*/
-&lt;&lt;StartSexScene &quot;allura&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="88" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;StartSexScene &quot;allura&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Allura_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="88" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -12471,7 +12773,7 @@ From here, you may:
 [[Approach the bar and request a drink.|Scene02_BrothelBar]]
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
-[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="97" name="Adda_PrivateScene" tags="" position="850,1225" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="97" name="Adda_PostSexPhase1" tags="" position="850,1225" size="100,100"></tw-passagedata><tw-passagedata pid="98" name="Adda_PrivateScene" tags="" position="975,1225" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The door to her private chamber closes with a decisive click behind you. The sound echoes in the stillness like a judgment passed. No music, no muffled laughter from the floor below—just the rich silence of a room that doesn&#39;t often welcome guests.
 
@@ -12491,7 +12793,8 @@ She steps closer, slowly—never hurrying, never uncertain. One hand reaches out
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Strip, darling. Slowly. I want to see if you can follow orders... before I give the ones that matter.&lt;&lt;/speech&gt;&gt;
 
-/* Placeholder: &lt;&lt;StartBanging&gt;&gt; */</tw-passagedata><tw-passagedata pid="98" name="Allura_GoingUpstairs" tags="" position="975,1225" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;StartSexScene &quot;adda&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Adda_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Allura_GoingUpstairs" tags="" position="1100,1225" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 &lt;p&gt;You follow her through the parlor, back towards the entrance, and through the heavy velvet curtain. She leads you all the way to the stairs by one hand. As you get to the bottom of the stairs lightning cracks, and thunder bellows. The entryway is illuminated in flashing light for a moment and the foundation shakes be beneath your feet. Allura pauses on the second step; she pivots, facing the glass door.&lt;/p&gt;
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.&lt;&lt;/speech&gt;&gt;
@@ -12502,7 +12805,7 @@ At the top of the stairs you enter a long, narrow hallway lined with ten or so d
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Welcome to my humble abode, Mon trésor.&lt;&lt;/speech&gt;&gt;
 
-She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="99" name="Allura_JustLay_Route" tags="" position="1100,1225" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
+She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="100" name="Allura_JustLay_Route" tags="" position="1225,1225" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -12561,7 +12864,7 @@ She reaches down and turns the handle to the door, pushing it open and gesturing
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="100" name="Allura_UpstairsPhase1" tags="" position="1225,1225" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="101" name="Allura_PostSexPhase1" tags="" position="100,1350" size="100,100"></tw-passagedata><tw-passagedata pid="102" name="Allura_UpstairsPhase1" tags="" position="225,1350" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You aren&#39;t entirely sure what you expected, but her room surprises you in more ways than one.
 
 It&#39;s dimly lit — not from lack of light, but from choice. A cluster of colored glass lanterns hang in the far corner, casting hues of deep amethyst, rose, and sea-green across the velvet drapes that hang like soft walls over real ones. The air smells faintly of sandalwood and something sweeter, darker — like black cherries left to soak in wine.
@@ -12578,7 +12881,7 @@ She turns to face you again, her hands resting on her hips, her silhouette frame
 
 You turn and close the door, the bolt clicks into place and now the two of you feel truly alone. When you&#39;ve turned back around Allura is laid back on the mattress, her arms reached above her head. She is calm. She is vulnerable. You can&#39;t help but feel like she truly wants to be in here with you.
 
-&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="Darian_GoingUpstairs" tags="" position="100,1350" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="103" name="Darian_GoingUpstairs" tags="" position="350,1350" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow him out of the parlor and through the heavy velvet-curtained hall, past the lingering music and soft laughter of the parlor. He guides you by the hand the whole way— a proper gentleman&#39;s escort.
 
@@ -12596,7 +12899,7 @@ He catches your glance.
 
 He opens the door without ceremony, stepping aside to let you enter first.
 
-[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="102" name="Darian_MusicMontage" tags="" position="225,1350" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
+[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="104" name="Darian_MusicMontage" tags="" position="475,1350" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
 &lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
@@ -12675,7 +12978,7 @@ He opens the door without ceremony, stepping aside to let you enter first.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="103" name="Darian_UpstairsPhase1" tags="" position="350,1350" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="105" name="Darian_PostSexPhase1" tags="" position="600,1350" size="100,100"></tw-passagedata><tw-passagedata pid="106" name="Darian_UpstairsPhase1" tags="" position="725,1350" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You step inside, and the first thing you notice is the quiet.
 
@@ -12695,7 +12998,7 @@ He steps past you and gestures to the bed with a soft smile.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Make yourself comfortable. You’re safe here.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="Marie_JustLay_Route" tags="" position="475,1350" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="Marie_JustLay_Route" tags="" position="850,1350" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -12759,7 +13062,7 @@ He steps past you and gestures to the bed with a soft smile.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="105" name="Marie_UpstairsPhase1" tags="" position="600,1350" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="108" name="Marie_PostSexPhase1.tw" tags="" position="975,1350" size="100,100"></tw-passagedata><tw-passagedata pid="109" name="Marie_UpstairsPhase1" tags="" position="1100,1350" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow Marie through the parlor without a word. She doesn&#39;t take your hand to lead you, but does not go too far in front of you either. She consistently glances over her shoulder to maintain her distance to you. 
 
@@ -12771,7 +13074,7 @@ Marie stops at the third door on the left, near the end. It is decorated with si
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;This one&#39;s me.&lt;&lt;/speech&gt;&gt;
 
-[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="106" name="Marie_UpstairsPhase2" tags="" position="725,1350" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="110" name="Marie_UpstairsPhase2" tags="" position="1225,1350" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You aren&#39;t sure what you expected from Marie&#39;s room, but this… this is surprising.
 
@@ -12798,7 +13101,7 @@ She smiles and scoffs; you see blush forming in her cheeks.
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;An artist? No. They are just doodles... But anyway... now that we&#39;re alone... what kind of guest are you planning to be?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -12834,7 +13137,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="108" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="112" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -12874,7 +13177,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="109" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="113" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -12882,7 +13185,7 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="Scene01_2c_HelpHim" tags="" position="1225,1350" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="Scene01_2c_HelpHim" tags="" position="475,1475" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt;
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
@@ -12902,7 +13205,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="111" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="115" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King&#39;s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -12913,7 +13216,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="112" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="116" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one&#39;s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -12926,7 +13229,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you&#39;ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="113" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="117" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -12940,12 +13243,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="114" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="118" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="115" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="119" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn&#39;t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -12954,7 +13257,7 @@ You reach the bar and take a seat on a thick, heavy stool. Scooting closer, you 
 
 The barman steps forward and leans heavily onto the bar in front of you, resting his bulk onto hands as wide as battleaxes.
 
-&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="Scene03_SecludedCorner" tags="" position="725,1475" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="Scene03_SecludedCorner" tags="" position="1225,1475" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You slip between the tables and claim a worn corner booth by yourself. The wood creaks under your weight, the seat still warm from whoever sat here last. For a moment, you watch the flicker of firelight dance across the floor, the sound of clinking mugs and shouted laughter rolling over you like a tide.
 
 She approaches from the side, hips swaying with purpose and a smirk already playing on her lips.
@@ -12967,7 +13270,7 @@ You smile but don&#39;t have a chance to respond. She rests a hand on the table,
 
 You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
 &lt;&lt;set $tesskaOrderedDrink = false&gt;&gt;
-&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;bg &quot;threesipsgragon&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire&#39;s warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
 &lt;&lt;/if&gt;&gt;
@@ -13001,7 +13304,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceTable]]
 [[Approach the cloaked man in the corner.|Scene03_CloakedMan]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="118" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="122" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern&#39;s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -13011,7 +13314,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn&#39;t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="119" name="TestRealm_ConvoMinigame" tags="" position="1100,1475" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="123" name="TestRealm_ConvoMinigame" tags="" position="350,1600" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata></tw-storydata>
