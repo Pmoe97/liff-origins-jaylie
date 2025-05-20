@@ -1,42 +1,47 @@
 :: Adda_PostSexPhase1
 <<EndSexSceneLayout>><<bg "Adda_PostSexPhase1">>
 
-Adda sits beside you on the edge of the low settee, one knee crossed over the other, her robe drawn closed but loose at the collar. A soft trail of steam curls from the teacup in her hand—when did she pour it? You didn’t hear.
+Adda rises before you’ve even shifted. She moves with quiet finality, gathering her dark blue dress from its heap on the floor and pulling it up her body and onto her arms. The silky material falls against her skin like it never left.
 
-She’s already composed. Back straight. Hair gathered. Breathing steady. As if nothing in this room has power over her anymore.
+You sit up slowly as she crosses to a low shelf tucked behind the bar. A ceramic teapot waits—still warm, still full. She pours a single cup, adds a measured spoon of honey, stirs without looking.
 
-<<speech "adda">>Most who’ve shared this room with me left with more questions than answers.<</speech>>
+<<speech "adda">>Apologies if you were hoping to linger, but I have a business to run. Cuddling doesn’t keep the lights on.<</speech>>
 
-She takes a sip, gaze drifting toward the bar beyond the curtain. Her voice is calm—almost absentminded—but the weight behind it lands all the same.
+She says it without cruelty. Just truth. You watch the steam rise from her cup as she takes a sip and exhales—quiet, focused. Already in the next moment.
 
-<<speech "adda">>You, though... I think you already understand that some things aren’t meant to be explained. Only witnessed.<</speech>>
+You begin to dress. She doesn’t rush you, but she doesn’t slow down either. The calm between you isn’t intimate—it’s professional. Familiar. Like two performers striking the final pose before the curtain falls.
 
-You shift beside her, feeling the tension still unwinding in your body.
+When you’re both ready, she moves to the inner door leading back to the parlor and opens it with a practiced flick of the wrist.
 
-<<speech "jaylie">>Is that what I am, then? A witness?<</speech>>
+<<speech "adda">>Come. Let’s not make the others wonder if I’ve decided to retire on a whim.<</speech>>
 
-Adda’s lips curve—just a little. Not quite a smile. More like a secret unfolding.
+You follow her through the velvet curtain. The parlor is quieter now, low laughter and murmured voices brushing the candlelit air. She walks with purpose, already surveying the room, reading it like a ledger.
 
-<<speech "adda">>Perhaps. Or perhaps you're just a rare moment of peace in a life that’s forgotten how to recognize it.<</speech>>
+<<speech "jaylie">>You really do see everything that happens here, don’t you?<</speech>>
 
-She doesn’t look at you when she says it.
+<<speech "adda">>I have to. This house only works because someone’s watching when the rest of the world blinks.<</speech>>
 
-But then she does. Her eyes find yours, and for a heartbeat, the whole room feels quiet enough to hear your pulse.
+You’re halfway across the floor when it happens.
 
-And then the sky ruptures.
+Light. So bright it swallows everything—color, shape, thought. The room vanishes in a white roar. And then—
 
-The entire chamber floods with light—brilliant, white, wrong. Before thought can form, the blast of thunder hits like a fist in your chest. The floor trembles beneath you. The glassware behind the bar shatters with a sound like ice snapping in a furnace.
+Sound. A thunderclap so close it doesn’t crack—it detonates.
 
-You taste metal. Your skin crawls.
+Glass behind the bar bursts. The floor lurches. Every guest in the room freezes.
 
-Adda is already standing. Not startled—just ready. Her eyes are locked on the curtain.
+Adda’s head snaps toward the front curtain, her voice suddenly all business.
 
-<<speech "adda">>That was close. Too close.<</speech>>
+<<speech "adda">>That wasn’t distant. Move.<</speech>>
 
-She moves toward the outer door, pulling the velvet aside to peer into the parlor. You follow, breath still catching.
+You push forward with her, the curtain parting beneath your hands. At the brothel’s entrance, the door rattles against its frame.
 
-<<speech "adda">>There.<</speech>>
+Through the windows, down the street—
 
-Down the lane, beyond the windows—an orange glow. Distant. Rising. Spreading.
+A flicker of orange.
+
+It grows. It dances.
+
+It burns.
 
 <<speech "jaylie">>[[...Fire.|Universal_FireEvent_Start]]<</speech>>
+

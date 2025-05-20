@@ -80,34 +80,58 @@
 <<run setup.harroc_Conversation_Options_Phase0()>>
 <</widget>>
 
-:: Harroc_RumorIntro [widget]
-<<widget "Harroc_RumorIntro">>
+:: Harroc_Rumors [widget]
+<<widget "Harroc_Rumors">>
 <<append "#convoBox">>
 
   <<speech "jaylie">>Aside from the fair, you heard about anything interesting lately?<</speech>>
 
   Harroc doesn't look up, just sets a clean mug down on the bar with a dull *clunk*.  
 
-  <<speech "harroc">>Rumors're easy. Truth's harder. You want noise or something useful?<</speech>>
+  <<speech "harroc">>Aside from the usual bounty-hunter and underworld nonsense, the city's been quiet. Think either everything's going fine, which it's usual not, or the city is just holding its breath waiting for something to happen.<</speech>>
 
-  Jaylie pauses a second, then gives a soft shrug.
+  You give him an eyebrow.
 
-  <<speech "jaylie">>I'll take what you've got.<</speech>>
+  <<speech "jaylie">>What do you mean about the underworld nonsense.<</speech>>
 
-  Harroc finally looks up. Not long. Just enough to weigh you.
+  Harroc finally looks up at you, as serious as you have seen him tonight.
 
-  <<speech "harroc">>Docks've been locked down at night. No one's talking. I've seen warehouse doors chained and guarded since last week.  
+  <<speech "harroc">>Don't you go worrying about that, not something you should muddy yer' boots with.<</speech>>  
 
-  Extra patrols posted in the outer wards. More steel on the streets than usual, and they ain't saying why.  
-
-  And there was a collapse in the lower market. Stone gave out right under a vendor's stall—just swallowed it. City's saying it was old pipes. They're lying.<</speech>>
+  His tone seems final, and you decide not to press the issue. The criminal element in Bastion is something you always knew existed, but no matter who you ask, you never manage to learn much about it.
 
   He picks up another mug. Starts wiping again.  
 
-  <<speech "harroc">>That enough to chew on, or do you want names and dates too?<</speech>>
+  <<speech "jaylie">>What about the bounty hunter stuff?<</speech>>
+
+  He doesn't quite sigh so much as deflate a little.
+
+  <<speech "harroc">>Want to know about that? Talk to the fella in the corner over there. Think he's with the guild.<</speech>>
+
+  He moves onto the next mug with his rag.
+
+  <<speech "harroc">>Somethin' else, girl?<</speech>>
 
 <</append>>
-<<set $harrocRumorBranch = true>>
+<<relation "harroc" "trust" 1>>
 <<run setup.clearConvoChoices()>>
-<<run setup.harroc_Conversation_Options_Rumors()>>
+<<run setup.harroc_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Harroc_Phase0_Goodbye [widget]
+<<widget "Harroc_Phase0_Goodbye">>
+<<append "#convoBox">>
+
+
+You offer Harroc a small nod. 
+
+<<speech "jaylie">>I'll let you get back to it.<</speech>>
+
+He grunts in acknowledgment, still polishing the same mug with practiced, absent motions. The clink of glass and quiet murmur of voices fills the space as you turn away.
+
+[[You walk back towards the main area of the tavern.|Scene03_TheSpace]]
+
+<</append>>
+<<run setup.clearConvoChoices()>>
 <</widget>>
