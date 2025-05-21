@@ -711,7 +711,80 @@ setup.initializeCharacters = function () {
 			  },
 			  
 		},
-		
+
+		redmarrow: {
+			name: "Leopold Redmarrow",
+			defaultName: "Cloaked Man",
+			known: false,
+			avatar: "images/portrait_leopold.png", // You can swap in your actual filename
+			color: "white",
+			bgColor: "rgba(132, 54, 54, 0.75)",
+
+			trust: 0,
+			affection: 0,
+			rapport: 0.5,
+			tension: 0,
+
+			traits: ["Flashy", "Evasive", "Charismatic"],
+			inclinations: ["performance", "control", "deception"],
+			motivations: ["Reputation", "Comfort"],
+			socialStyle: "Charming",
+
+			pronouns: {
+				subject: "he",
+				object: "him",
+				possessive: "his",
+				reflexive: "himself",
+				noun: "man"
+			},
+
+			body: {
+				height: 71, // 5'11"
+				breastSize: null,
+				buttSize: 2, // "modest"
+				bodyType: 3, // "average"
+				lipFullness: 3, // "full"
+				skinTone: "light olive",
+				muscleTone: 2, // "fit"
+				hipWidth: 2, // "modest"
+				bodyHair: 1, // "light"
+				voiceTone: "silken",
+				hairColor: "rich chestnut brown",
+				hairStyle: "slicked back under a wide-brimmed hat",
+				hairLength: 3, // "short-medium"
+				eyeColor: "hazel",
+				penisSize: 6.5 // enough for bravado
+			},
+
+			preferences: {
+				sexualActs: {
+					likes: ["Praise_R", "Teasing", "Oral_R", "RomanticPlay"],
+					dislikes: ["Submit", "Cuddling", "Anal_P"]
+				},
+				bodyTypes: {
+					likes: ["Elegant", "Fit", "Mysterious"],
+					dislikes: ["Disheveled", "OverlyMuscular"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.4,
+						female: 0.6
+					},
+					anatomyPreference: {
+						penisSize: "modest",
+						breastSize: "medium"
+					}
+				}
+			},
+
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			}
+		},
+
 	};
 };
   

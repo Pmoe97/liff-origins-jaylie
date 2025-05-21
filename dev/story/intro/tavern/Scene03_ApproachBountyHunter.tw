@@ -1,0 +1,12 @@
+
+:: Scene03_ApproachBountyHunter
+<<StartDialogueLayout>><<bg "Scene03_ApproachBountyHunter">>
+The man in the corner doesn’t look up as you approach—not at first. He continues dragging a whetstone down the edge of his dagger in slow, practiced strokes. His cloak is pulled back just enough to reveal a polished leather chestplate too clean to have seen real battle. The dark, tailored armor gleams faintly in the firelight, stitched with crimson threading that looks more decorative than durable.
+
+Atop his head sits a wide-brimmed hat—deep gray, too dramatic for this tavern by half—plumed with a long, vividly colored feather that arcs like a banner. Everything about him is curated. Styled. Flashy. From the glint of his rings to the way his boots rest just-so, crossed at the ankle.
+
+Eventually, he speaks—low, smooth, like a man who assumes you came here on purpose.
+
+<<speech "redmarrow">>Something I can help you with?<</speech>>
+
+<<DialogueTree "redmarrow" "Phase0">>
