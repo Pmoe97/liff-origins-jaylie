@@ -178,7 +178,7 @@ He chuckles at you flatly.
 He smilesâ€”content, apparently, that the conversation is over.
 
 <</append>>
-
+<<bg "PayingTheBountyHunter">>
 <<additem "player" "gold_coin" -20>>
 /*<<set $quests.bounty_cutpurse = { active: true, name: "Tel Varas", paidRedmarrow: true }>>*/
 <<run setup.clearConvoChoices()>>
@@ -297,6 +297,7 @@ Redmarrow gives a faint nod and adjusts his posture, as if shedding the whole â€
 <<speech "redmarrow">>As you like. I can be versatile.<</speech>>
 
 <</append>>
+<<bg "Scene03_ApproachBountyHunter">>
 <<run setup.clearConvoChoices()>>
 <<DialogueTree "redmarrow" "Phase0">>
 <</widget>>

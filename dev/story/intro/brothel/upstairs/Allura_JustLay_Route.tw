@@ -1,5 +1,5 @@
 :: Allura_JustLay_Route
-<<set $currentPhase = "None">>
+<<set $currentPhase = "None">><<bg "Allura_JustLay_Route">>
 <<EndDialogueLayout>>
 
 <div id="montage">
