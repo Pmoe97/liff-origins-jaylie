@@ -9,3 +9,14 @@
 
 <<SidebarUI>> <!-- still injects your custom sidebar layout -->
 <<run State.variables.characters = setup.initializeCharacters()>>
+
+<<run
+	(() => {
+		const path = State.variables.bgImage;
+		const el = document.getElementById("background");
+		if (path && el) {
+			el.style.backgroundImage = `url('${path}')`;
+			console.log(`🖼️ Background applied on init: ${path}`);
+		}
+	})();
+>>

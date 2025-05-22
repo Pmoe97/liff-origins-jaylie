@@ -86,6 +86,7 @@
   <<speech "jaylie">>Why did you choose this kind of work?<</speech>>
   <<speech "marie">>Chose? That's generous. I chose not to starve. Turns out I'm good at more than surviving, though. I learned how to turn the game in my favor.<</speech>>
 <</append>>
+<<bg "Scene02_LessAngryHost">>
 <<run setup.clearConvoChoices()>>
 <<run setup.marie_Conversation_Options_Phase1()>>
 <</widget>>

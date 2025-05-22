@@ -3,13 +3,24 @@ Macro.add("bg", {
 	handler: function () {
 		const arg = this.args[0];
 		if (typeof arg === "string") {
-			State.variables.bgImage = "images/background_" + arg + ".png";
+			const path = "images/background_" + arg + ".png";
+			State.variables.bgImage = path;
 			State.variables.bgImageSetThisPassage = true;
+
+			// Immediately apply to background
+			const el = document.getElementById("background-image");
+			if (el) {
+				el.style.backgroundImage = `url('${path}')`;
+				console.log(`🖼️ Background updated to: ${path}`);
+			} else {
+				console.warn("⚠️ Could not find #background element.");
+			}
 		} else {
 			return this.error("Invalid argument to <<bg>>. Expected a string like 'tavern'.");
 		}
 	}
 });
+
 
 /* SidebarUI Widget */
 Macro.add("SidebarUI", {

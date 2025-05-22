@@ -139,8 +139,8 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 
 .charactersheet-close-btn {
   position: absolute;
-  top: 15px;
-  right: 25px;
+  top: 3%;
+  right: 5%;
   background: transparent;
   border: none;
   font-size: 24px;
@@ -2809,13 +2809,24 @@ Macro.add("bg", {
 	handler: function () {
 		const arg = this.args[0];
 		if (typeof arg === "string") {
-			State.variables.bgImage = "images/background_" + arg + ".png";
+			const path = "images/background_" + arg + ".png";
+			State.variables.bgImage = path;
 			State.variables.bgImageSetThisPassage = true;
+
+			// Immediately apply to background
+			const el = document.getElementById("background-image");
+			if (el) {
+				el.style.backgroundImage = `url('${path}')`;
+				console.log(`🖼️ Background updated to: ${path}`);
+			} else {
+				console.warn("⚠️ Could not find #background element.");
+			}
 		} else {
 			return this.error("Invalid argument to <<bg>>. Expected a string like 'tavern'.");
 		}
 	}
 });
+
 
 /* SidebarUI Widget */
 Macro.add("SidebarUI", {
@@ -12007,6 +12018,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Why did you choose this kind of work?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;marie&quot;&gt;&gt;Chose? That&#39;s generous. I chose not to starve. Turns out I&#39;m good at more than surviving, though. I learned how to turn the game in my favor.&lt;&lt;/speech&gt;&gt;
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;bg &quot;Scene02_LessAngryHost&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Marie_HostsOrFriends" tags="widget" position="100,850" size="100,100">&lt;&lt;widget &quot;Marie_HostsOrFriends&quot;&gt;&gt;
@@ -12909,7 +12921,18 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;run setup.Seed = Math.seedrandom(&quot;liff&quot;)&gt;&gt;
 
 &lt;&lt;SidebarUI&gt;&gt; &lt;!-- still injects your custom sidebar layout --&gt;
-&lt;&lt;run State.variables.characters = setup.initializeCharacters()&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&lt;&lt;run State.variables.characters = setup.initializeCharacters()&gt;&gt;
+
+&lt;&lt;run
+	(() =&gt; {
+		const path = State.variables.bgImage;
+		const el = document.getElementById(&quot;background&quot;);
+		if (path &amp;&amp; el) {
+			el.style.backgroundImage = `url(&#39;${path}&#39;)`;
+			console.log(`🖼️ Background applied on init: ${path}`);
+		}
+	})();
+&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
