@@ -1,5 +1,5 @@
 :: Start {"position":"175,125"}
-<<bg "default">><<ClearSnapshots>>
+<<bg "default">><<ClearSnapshots>><<additem "player" "gold_coin" 100>>
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -11,7 +11,9 @@ This story will contain elements of an ''ADULT/MATURE'' nature. Content like thi
 [[Go forth and journey on|StoryStart_Scene01]]
 
 [[Wait I am NOT an adult|Underage_Response]]
-
 /*PlaceHolder! Remove option.*/
 <<StartSexScene "allura">>
 <<EndSexScene "Allura_PostSexPhase1">>
+
+/*PlaceHolder */
+<<CrownAndCaste "15" "ghost" "ghost" "adda">>

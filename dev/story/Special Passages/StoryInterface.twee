@@ -49,3 +49,37 @@
     </div>
   </div>
 </div>
+
+
+<!--===============================
+=  Crown & Caste Overlay Startup =
+================================-->
+<div id="crown-caste-overlay" class="overlay-hidden">
+
+  <div id="crown-caste-frame">
+    
+    <!-- Crown Dice Center Circle -->
+    <div id="center-circle">
+      <div class="crown-die" id="crown-die-1">?</div>
+      <div class="crown-die" id="crown-die-2">?</div>
+      <div class="crown-die" id="crown-die-3">?</div>
+    </div>
+
+    <!-- Quadrant Player Zones -->
+    <div id="top-left" class="player-zone">...</div>
+    <div id="top-right" class="player-zone">...</div>
+    <div id="bottom-left" class="player-zone">...</div>
+    <div id="bottom-right" class="player-zone">...</div>
+
+    <!-- Action Panel -->
+    <div id="action-panel">
+      <div id="action-title">Your Turn</div>
+      <button id="btn-roll">Roll</button>
+      <button id="btn-lock">Lock/Unlock</button>
+      <button id="btn-chip">Use Chip</button>
+      <button id="btn-end">End Turn</button>
+    </div>
+
+  </div>
+
+</div>

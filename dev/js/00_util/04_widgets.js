@@ -415,6 +415,73 @@ Macro.add("OpenConvoGame", {
 });
 
 
+Macro.add("CrownAndCaste", {
+	handler() {
+	  const buyIn = parseInt(this.args[0], 10);
+	  const npcIds = this.args.slice(1, 4);
+	  const houseRule = this.args[4] || null;
+  
+	  if (isNaN(buyIn)) {
+		return this.error("CrownAndCaste requires a numeric buy-in as the first argument.");
+	  }
+  
+	  const characters = State.variables.characters;
+	  const sessionPlayers = ["jaylie"];
+	  npcIds.forEach(id => {
+		if (id === "ghost") {
+		  sessionPlayers.push("ghost");
+		} else if (characters?.[id]) {
+		  sessionPlayers.push(id);
+		} else {
+		  console.warn(`[CrownAndCaste] Invalid NPC ID: ${id}`);
+		}
+	  });
+  
+	  const playerGold = State.variables.inventory_player?.gold_coin || 0;
+	  const hasEnoughGold = playerGold >= buyIn;
+  
+	  const sessionKey = `crown-and-caste-${Date.now()}`;
+	  const uniqueId = `start-cnc-${sessionKey}`;
+	  const buttonId = `btn-${uniqueId}`;
+	  const goldIcon = `<i data-lucide='coins'></i>`;
+  
+	  const btnHTML = `
+		<div id="${uniqueId}" class="start-minigame-button-wrapper">
+		  <button class="start-minigame-button" id="${buttonId}" ${hasEnoughGold ? "" : "disabled"}>
+			Play Crown & Caste | Buy-In: ${buyIn} ${goldIcon}
+		  </button>
+		  ${!hasEnoughGold ? `<p class='minigame-warning'>(Not enough gold to join this table)</p>` : ""}
+		</div>
+	  `;
+  
+	  $(this.output).append(btnHTML);
+  
+	  // Attach button logic after it’s inserted
+	  const buttonEl = document.getElementById(buttonId);
+	  if (buttonEl) {
+		buttonEl.addEventListener("click", () => {
+		  setup.CrownAndCaste.initSession(sessionPlayers);
+		  State.temporary.ccHouseRule = houseRule;
+		  State.temporary.ccBuyIn = buyIn;
+		  setup.CrownAndCaste.startGame();
+		  window.openOverlay("crown-and-caste-page");
+
+  
+		  const wrapper = document.getElementById(uniqueId);
+		  if (wrapper) {
+			wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+			wrapper.style.opacity = '0';
+			wrapper.style.transform = 'translateY(-10px)';
+			setTimeout(() => wrapper.remove(), 400);
+		  }
+  
+		  if (window.lucide) lucide.createIcons(); // Refresh Lucide icons
+		});
+	  }
+	}
+  });
+  
+
 /* Optional Utility: Clears conversation snapshot state */
 Macro.add("ClearSnapshots", {
 	handler() {

@@ -825,159 +825,207 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   }
 }
 /* twine-user-stylesheet #5: "crown-and-caste-style.css" */
-/* crown-and-caste-style.css */
+/* ===============================
+   Crown & Caste Gameboard Layout
+==================================*/
 
 #crown-caste-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(12, 12, 12, 0.95);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Segoe UI', sans-serif;
-    color: #f0e6d2;
-  }
-  
-  .hidden {
-    display: none !important;
-  }
-  
-  .crown-caste-container {
-    width: 95%;
-    max-width: 1300px;
-    background: #1a1a1a;
-    border: 3px solid #b4975a;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    border-radius: 12px;
-  }
-  
-  /* Top: Crown Dice Row */
-  .crown-dice-row {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
-  
-  .crown-die {
-    width: 64px;
-    height: 64px;
-    font-size: 2rem;
-    background-color: #3a3a3a;
-    border: 2px solid #b4975a;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Main Area Split */
-  .main-game-area {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  /* Left Column: Player Panels */
-  .player-panel-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex: 1;
-  }
-  
-  .player-panel {
-    background-color: #2a2a2a;
-    border: 1px solid #666;
-    padding: 0.5rem;
-    border-radius: 6px;
-  }
-  
-  .player-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-  }
-  
-  .player-gold,
-  .player-chips {
-    font-size: 0.9rem;
-    margin: 2px 0;
-  }
-  
-  .player-dice {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.3rem;
-  }
-  
-  .caste-die {
-    width: 48px;
-    height: 48px;
-    font-size: 1.5rem;
-    background-color: #444;
-    border: 2px solid #888;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Right Column: Action Panel */
-  .action-panel {
-    flex: 1;
-    background-color: #252525;
-    border: 1px solid #555;
-    border-radius: 6px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  
-  #action-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .action-panel button {
-    background-color: #b4975a;
-    color: #1a1a1a;
-    border: none;
-    padding: 0.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-  }
-  
-  .action-panel button:hover {
-    background-color: #d6b86c;
-  }
-  
-  #lock-controls,
-  #chip-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  /* Bottom Bar */
-  .game-info-bar {
-    display: flex;
-    justify-content: space-between;
-    background-color: #111;
-    padding: 0.5rem 1rem;
-    border-top: 2px solid #b4975a;
-    font-size: 0.95rem;
-    border-radius: 0 0 6px 6px;
-  }
-  
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #2b1a17;
+  color: #f0e6d2;
+  font-family: 'Garamond', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.overlay-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#crown-caste-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 1024px;
+  max-height: 768px;
+  margin: auto;
+  background: radial-gradient(circle at center, #3b2a26 30%, #211513 100%);
+  overflow: hidden;
+}
+
+/* Frame Cross */
+#crown-caste-frame::before,
+#crown-caste-frame::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  width: 3px;
+  height: 200%;
+  background-color: #4d2d2d;
+  z-index: 1;
+  transform-origin: center;
+}
+#crown-caste-frame::before {
+  transform: rotate(45deg);
+}
+#crown-caste-frame::after {
+  transform: rotate(-45deg);
+}
+
+/* Center Crown Dice */
+#center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.crown-die {
+  width: 50px;
+  height: 50px;
+  background-color: #2e1e1c;
+  border: 2px solid #c2a96b;
+  color: #f0e6d2;
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 6px;
+}
+
+/* Player Zones */
+.player-zone {
+  position: absolute;
+  width: 42%;
+  height: 42%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-sizing: border-box;
+}
+
+#top-left    { top: 0; left: 0; }
+#top-right   { top: 0; right: 0; }
+#bottom-left { bottom: 0; left: 0; }
+#bottom-right{ bottom: 0; right: 0; }
+
+.player-zone.active-player {
+  box-shadow: 0 0 10px 2px #ffe98a inset;
+}
+
+/* Player Stats */
+.player-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.stats-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+}
+
+/* Dice in Zones */
+.zone-dice {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.zone-die {
+  width: 40px;
+  height: 40px;
+  background-color: #382423;
+  border: 1px solid #a9864c;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 1.2em;
+  color: #f0e6d2;
+}
+
+.zone-die.locked {
+  background-color: #1e1413;
+  color: #999;
+  border-color: #664f2d;
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.2) inset;
+}
+
+/* Action Panel */
+#action-panel {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: #3b2a26;
+  border: 2px solid #997c54;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#action-title {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 6px;
+  color: #ffe98a;
+}
+
+#action-panel button {
+  background: #705234;
+  color: #f0e6d2;
+  font-family: inherit;
+  border: 1px solid #c2a96b;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background 0.2s ease;
+}
+
+#action-panel button:hover {
+  background: #8b6c45;
+}
+
+#action-panel button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Chip / Gold Icons */
+.stat-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-icon i {
+  vertical-align: middle;
+  font-size: 1.1em;
+  color: #ffe98a;
+}
 /* twine-user-stylesheet #6: "dialoguestyles.css" */
 #convoBox {
     padding: 1em;
@@ -1627,8 +1675,8 @@ body:not(.sidebar-collapsed) #text-container {
 }
 .overlay-close-btn {
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: 3%;
+	right: 5%;
 	background: none;
 	border: 2px solid #ccc;
 	color: white;
@@ -3220,6 +3268,73 @@ Macro.add("OpenConvoGame", {
 	}
 });
 
+
+Macro.add("CrownAndCaste", {
+	handler() {
+	  const buyIn = parseInt(this.args[0], 10);
+	  const npcIds = this.args.slice(1, 4);
+	  const houseRule = this.args[4] || null;
+  
+	  if (isNaN(buyIn)) {
+		return this.error("CrownAndCaste requires a numeric buy-in as the first argument.");
+	  }
+  
+	  const characters = State.variables.characters;
+	  const sessionPlayers = ["jaylie"];
+	  npcIds.forEach(id => {
+		if (id === "ghost") {
+		  sessionPlayers.push("ghost");
+		} else if (characters?.[id]) {
+		  sessionPlayers.push(id);
+		} else {
+		  console.warn(`[CrownAndCaste] Invalid NPC ID: ${id}`);
+		}
+	  });
+  
+	  const playerGold = State.variables.inventory_player?.gold_coin || 0;
+	  const hasEnoughGold = playerGold >= buyIn;
+  
+	  const sessionKey = `crown-and-caste-${Date.now()}`;
+	  const uniqueId = `start-cnc-${sessionKey}`;
+	  const buttonId = `btn-${uniqueId}`;
+	  const goldIcon = `<i data-lucide='coins'></i>`;
+  
+	  const btnHTML = `
+		<div id="${uniqueId}" class="start-minigame-button-wrapper">
+		  <button class="start-minigame-button" id="${buttonId}" ${hasEnoughGold ? "" : "disabled"}>
+			Play Crown & Caste | Buy-In: ${buyIn} ${goldIcon}
+		  </button>
+		  ${!hasEnoughGold ? `<p class='minigame-warning'>(Not enough gold to join this table)</p>` : ""}
+		</div>
+	  `;
+  
+	  $(this.output).append(btnHTML);
+  
+	  // Attach button logic after it’s inserted
+	  const buttonEl = document.getElementById(buttonId);
+	  if (buttonEl) {
+		buttonEl.addEventListener("click", () => {
+		  setup.CrownAndCaste.initSession(sessionPlayers);
+		  State.temporary.ccHouseRule = houseRule;
+		  State.temporary.ccBuyIn = buyIn;
+		  setup.CrownAndCaste.startGame();
+		  window.openOverlay("crown-and-caste-page");
+
+  
+		  const wrapper = document.getElementById(uniqueId);
+		  if (wrapper) {
+			wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+			wrapper.style.opacity = '0';
+			wrapper.style.transform = 'translateY(-10px)';
+			setTimeout(() => wrapper.remove(), 400);
+		  }
+  
+		  if (window.lucide) lucide.createIcons(); // Refresh Lucide icons
+		});
+	  }
+	}
+  });
+  
 
 /* Optional Utility: Clears conversation snapshot state */
 Macro.add("ClearSnapshots", {
@@ -7489,7 +7604,895 @@ setup.filterNPCs = function (criteria = {}) {
     });
 };
 /* twine-user-script #27: "CrownAndCasteLogic.js" */
+setup.CrownAndCaste = {
+  // ==========================
+  // 1. Core Initialization
+  // ==========================
+
+  initSession(playerIds) {
+    const maxPlayers = 4;
+    const finalIds = playerIds.slice(0, maxPlayers);
+
+    const generatedPlayers = finalIds.map((id, index) => {
+      if (id === "ghost") {
+        return {
+          name: `Ghost ${index + 1}`,
+          isGhost: true,
+          isPlayer: false,
+          gold: 15,
+          chips: 3,
+          casteDice: [null, null, null],
+          locks: [false, false, false],
+          combo: null,
+          scoreRank: null,
+          isEliminated: false,
+          bet: 0,
+        };
+      }
+
+      if (index === 0) {
+        return {
+          name: id,
+          isPlayer: true,
+          isGhost: false,
+          gold: 15,
+          chips: 3,
+          casteDice: [null, null, null],
+          locks: [false, false, false],
+          combo: null,
+          scoreRank: null,
+          isEliminated: false,
+          bet: 0,
+        };
+      }
+
+      const npc = State.variables.characters?.[id];
+      return {
+        name: npc?.name || `Unknown (${id})`,
+        isGhost: false,
+        isPlayer: false,
+        npcId: id,
+        gold: 15,
+        chips: 3,
+        casteDice: [null, null, null],
+        locks: [false, false, false],
+        combo: null,
+        scoreRank: null,
+        isEliminated: false,
+        bet: 0,
+      };
+    });
+
+    State.temporary.ccSession = {
+      players: generatedPlayers,
+      dealerIndex: Math.floor(Math.random() * generatedPlayers.length),
+      currentRound: 1,
+      currentPlayerIndex: 0,
+      crownDice: [null, null, null],
+      crownLocks: [false, false, false],
+      crownProtected: false,
+      gameNumber: 1,
+      pot: 0,
+      turnPhase: "betting",
+      gamesSinceChipRefresh: 0,
+    };
+
+    console.log("[CrownAndCaste] Session initialized:", State.temporary.ccSession);
+  },
+
+  startGame() {
+    const session = State.temporary.ccSession;
+
+    if (!session || !session.players) {
+      console.error("[CrownAndCaste] No session found. Call initSession first.");
+      return;
+    }
+
+    session.currentRound = 1;
+    session.currentPlayerIndex = 0;
+    session.pot = 0;
+    session.turnPhase = "rolling";
+    session.crownDice = [null, null, null];
+    session.crownLocks = [false, false, false];
+    session.crownProtected = false;
+
+    for (const player of session.players) {
+      player.casteDice = [null, null, null];
+      player.locks = [false, false, false];
+      player.combo = null;
+      player.scoreRank = null;
+      player.bet = 0;
+    }
+
+    setup.CrownAndCaste.collectBets();
+    setup.CrownAndCaste.rollCrownDie(0);
+
+    console.log(`[CrownAndCaste] Game ${session.gameNumber} started. First Crown Die rolled.`);
+  },
+
+  nextTurn() {
+    const session = State.temporary.ccSession;
+    const totalPlayers = session.players.length;
+    let nextIndex = session.currentPlayerIndex;
+
+    for (let i = 0; i < totalPlayers; i++) {
+      nextIndex = (nextIndex + 1) % totalPlayers;
+      const candidate = session.players[nextIndex];
+      if (!candidate.isEliminated) {
+        session.currentPlayerIndex = nextIndex;
+        console.log(`[CrownAndCaste] Turn passed to ${candidate.name}.`);
+        return;
+      }
+    }
+
+    console.warn("[CrownAndCaste] No eligible players remaining for next turn.");
+  },
+
+  endTurn() {
+    const session = State.temporary.ccSession;
+    const currentPlayer = session.players[session.currentPlayerIndex];
+
+    if (session.currentRound === 3) {
+      currentPlayer.locks = [true, true, true];
+    }
+
+    let playersRemaining = session.players.length;
+    let nextIndex = session.currentPlayerIndex;
+
+    for (let i = 0; i < playersRemaining; i++) {
+      nextIndex = (nextIndex + 1) % playersRemaining;
+      const candidate = session.players[nextIndex];
+      if (!candidate.isEliminated) {
+        session.currentPlayerIndex = nextIndex;
+
+        if (nextIndex === session.dealerIndex) {
+          break;
+        }
+
+        console.log(`[CrownAndCaste] Next player is ${candidate.name}`);
+        return;
+      }
+    }
+
+    if (session.currentRound < 3) {
+      session.currentRound++;
+      console.log(`[CrownAndCaste] Advancing to Round ${session.currentRound}`);
+      setup.CrownAndCaste.rollCrownDie(session.currentRound - 1);
+
+      let next = session.dealerIndex;
+      for (let i = 0; i < playersRemaining; i++) {
+        next = (next + 1) % playersRemaining;
+        if (!session.players[next].isEliminated) {
+          session.currentPlayerIndex = next;
+          break;
+        }
+      }
+
+      return;
+    }
+
+    console.log("[CrownAndCaste] Final round completed. Resolving game...");
+    setup.CrownAndCaste.resolveGame();
+  },
+
+  // ==========================
+  // 2. Dice Logic
+  // ==========================
+
+  rollCasteDice(playerIndex) {
+    const session = State.temporary.ccSession;
+    const player = session.players[playerIndex];
+
+    if (!player || player.isEliminated) {
+      console.warn(`[CrownAndCaste] Cannot roll dice for player index ${playerIndex}`);
+      return;
+    }
+
+    for (let i = 0; i < 3; i++) {
+      if (!player.locks[i]) {
+        player.casteDice[i] = this.rollDie();
+      }
+    }
+
+    console.log(`[CrownAndCaste] Rolled Caste Dice for ${player.name}:`, player.casteDice);
+
+    if (setup.CrownAndCasteUI?.updateDiceDisplay) {
+      setup.CrownAndCasteUI.updateDiceDisplay(playerIndex);
+    }
+  },
+
+  lockDie(playerIndex, dieIndex) {
+    const session = State.temporary.ccSession;
+    const player = session.players[playerIndex];
+
+    if (!player || player.isEliminated) {
+      console.warn(`[CrownAndCaste] Cannot toggle lock for player index ${playerIndex}`);
+      return;
+    }
+
+    if (dieIndex < 0 || dieIndex >= 3) {
+      console.warn(`[CrownAndCaste] Invalid die index: ${dieIndex}`);
+      return;
+    }
+
+    player.locks[dieIndex] = !player.locks[dieIndex];
+
+    console.log(`[CrownAndCaste] ${player.name} ${player.locks[dieIndex] ? "locked" : "unlocked"} die ${dieIndex + 1}`);
+
+    if (setup.CrownAndCasteUI?.updateLockDisplay) {
+      setup.CrownAndCasteUI.updateLockDisplay(playerIndex, dieIndex, player.locks[dieIndex]);
+    }
+  },
+
+  rollCrownDie(index) {
+    const session = State.temporary.ccSession;
+
+    if (index < 0 || index > 2) {
+      console.warn(`[CrownAndCaste] Invalid Crown Die index: ${index}`);
+      return;
+    }
+
+    if (session.crownProtected || session.crownLocks[index]) {
+      console.log(`[CrownAndCaste] Crown Die ${index + 1} is locked and cannot be rerolled.`);
+      return;
+    }
+
+    const value = this.rollDie();
+    session.crownDice[index] = value;
+
+    console.log(`[CrownAndCaste] Crown Die ${index + 1} rolled: ${value}`);
+
+    if (setup.CrownAndCasteUI?.updateCrownDisplay) {
+      setup.CrownAndCasteUI.updateCrownDisplay(index, value);
+    }
+  },
+
+  lockCrownDice() {
+    const session = State.temporary.ccSession;
+
+    session.crownProtected = true;
+    session.crownLocks = [true, true, true];
+
+    console.log(`[CrownAndCaste] Crown has been protected. All Crown Dice are now locked.`);
+
+    if (setup.CrownAndCasteUI?.updateCrownLockDisplay) {
+      for (let i = 0; i < 3; i++) {
+        setup.CrownAndCasteUI.updateCrownLockDisplay(i, true);
+      }
+    }
+  },
+
+  // ==========================
+  // 3. Control Chips
+  // ==========================
+
+  useControlChip(playerIndex, actionType, targetIndex = null) {
+    const session = State.temporary.ccSession;
+    const player = session.players[playerIndex];
+  
+    if (!player || player.isEliminated) {
+      console.warn(`[CrownAndCaste] Invalid or eliminated player for chip use.`);
+      return;
+    }
+  
+    if (player.chips <= 0) {
+      console.warn(`[CrownAndCaste] Player ${player.name} has no Control Chips left.`);
+      return;
+    }
+  
+    // Chip cost logic (adjustable per tavern if needed)
+    const chipCost = 2;
+    const actualCost = Math.min(chipCost, player.gold); // Fortune’s Mercy rule
+    player.gold -= actualCost;
+    player.chips--;
+  
+    console.log(`[CrownAndCaste] ${player.name} used a Control Chip (${actionType}), paid ${actualCost}g.`);
+  
+    switch (actionType) {
+      case "reroll-own": {
+        if (targetIndex === null || targetIndex < 0 || targetIndex >= 3) {
+          console.warn("[CrownAndCaste] Invalid targetIndex for reroll-own.");
+          return;
+        }
+  
+        if (!player.locks[targetIndex]) {
+          console.warn(`[CrownAndCaste] Cannot reroll an unlocked die.`);
+          return;
+        }
+  
+        player.casteDice[targetIndex] = this.rollDie();
+        console.log(`[CrownAndCaste] ${player.name} rerolled their locked die ${targetIndex + 1}.`);
+        break;
+      }
+  
+      case "reroll-other": {
+        const targetPlayer = session.players[targetIndex];
+        if (
+          !targetPlayer ||
+          targetPlayer.isEliminated ||
+          targetIndex === playerIndex
+        ) {
+          console.warn("[CrownAndCaste] Invalid target for reroll-other.");
+          return;
+        }
+  
+        const lockedDice = targetPlayer.locks.map((v, i) => v ? i : null).filter(i => i !== null);
+        if (lockedDice.length === 0) {
+          console.warn(`[CrownAndCaste] Target player ${targetPlayer.name} has no locked dice.`);
+          return;
+        }
+  
+        const dieToReroll = lockedDice[Math.floor(Math.random() * lockedDice.length)];
+        targetPlayer.casteDice[dieToReroll] = this.rollDie();
+        console.log(`[CrownAndCaste] ${player.name} rerolled ${targetPlayer.name}'s locked die ${dieToReroll + 1}.`);
+        break;
+      }
+  
+      case "reroll-crown": {
+        if (session.crownProtected) {
+          console.warn("[CrownAndCaste] Crown Dice are protected. Cannot reroll.");
+          return;
+        }
+  
+        const unlockedCrown = session.crownLocks.map((v, i) => !v ? i : null).filter(i => i !== null);
+        if (unlockedCrown.length === 0) {
+          console.warn("[CrownAndCaste] No unlocked Crown Dice available to reroll.");
+          return;
+        }
+  
+        const dieToReroll = unlockedCrown[Math.floor(Math.random() * unlockedCrown.length)];
+        this.rollCrownDie(dieToReroll);
+        console.log(`[CrownAndCaste] ${player.name} rerolled Crown Die ${dieToReroll + 1}.`);
+        break;
+      }
+  
+      case "lock-crown": {
+        this.lockCrownDice();
+        console.log(`[CrownAndCaste] ${player.name} used a chip to Protect the Crown.`);
+        break;
+      }
+  
+      default:
+        console.warn(`[CrownAndCaste] Unknown actionType: ${actionType}`);
+        break;
+    }
+  
+    // Optional UI sync
+    if (setup.CrownAndCasteUI?.updateChipDisplay) {
+      setup.CrownAndCasteUI.updateChipDisplay(playerIndex, player.chips, player.gold);
+    }
+  },
+  
+
+  canUseControlChip(playerIndex) {
+    const session = State.temporary.ccSession;
+    const player = session.players?.[playerIndex];
+  
+    if (!player || player.isEliminated) {
+      console.warn(`[CrownAndCaste] Cannot use chip: invalid or eliminated player at index ${playerIndex}.`);
+      return false;
+    }
+  
+    const hasChips = player.chips > 0;
+  
+    if (!hasChips) {
+      console.log(`[CrownAndCaste] ${player.name} has no Control Chips left.`);
+    }
+  
+    return hasChips;
+  },
+  
+
+  // ==========================
+  // 4. Scoring & Results
+  // ==========================
+
+  resolveGame() {
+    const session = State.temporary.ccSession;
+  
+    if (!session || !session.players || session.players.length === 0) {
+      console.error("[CrownAndCaste] Cannot resolve game: no session or players found.");
+      return;
+    }
+  
+    // Evaluate each player's combo
+    session.players.forEach((p, i) => {
+      p.combo = this.evaluateCombos(p); // { name, details? }
+      p.scoreRank = this.rankCombo(p.combo.name);
+      console.log(`[CrownAndCaste] ${p.name}'s combo: ${p.combo.name} (Rank ${p.scoreRank})`);
+    });
+  
+    // Find highest ranked player(s)
+    const ranked = session.players.map((p, i) => ({ index: i, rank: p.scoreRank }));
+    ranked.sort((a, b) => b.rank - a.rank); // highest rank first
+  
+    const topRank = ranked[0].rank;
+    const tied = ranked.filter(r => r.rank === topRank);
+    let winnerIndex;
+  
+    if (tied.length > 1) {
+      winnerIndex = this.breakTie(tied.map(r => r.index));
+      console.log(`[CrownAndCaste] Tie-breaker selected winner: ${session.players[winnerIndex].name}`);
+    } else {
+      winnerIndex = tied[0].index;
+      console.log(`[CrownAndCaste] Winner: ${session.players[winnerIndex].name}`);
+    }
+  
+    // Award pot
+    this.adjustGold(winnerIndex, session.pot);
+    console.log(`[CrownAndCaste] ${session.players[winnerIndex].name} receives ${session.pot}g.`);
+  
+    // Advance session state
+    session.gameNumber++;
+    session.gamesSinceChipRefresh++;
+    this.advanceDealer();
+  
+    if (session.gamesSinceChipRefresh >= 3) {
+      this.refreshControlChips();
+      session.gamesSinceChipRefresh = 0;
+      console.log("[CrownAndCaste] All control chips have been refreshed.");
+    }
+  
+    this.checkElimination();
+  
+    // Optional UI result trigger
+    if (setup.CrownAndCasteUI?.showGameResult) {
+      setup.CrownAndCasteUI.showGameResult(winnerIndex);
+    }
+  },
+  
+  evaluateCombos(player) {
+    const session = State.temporary.ccSession;
+  
+    if (!session || !player || player.isEliminated) {
+      console.warn("[CrownAndCaste] Cannot evaluate combos: invalid session or player.");
+      return { name: "High Dice", usedDice: [], rank: 0 };
+    }
+  
+    const fullDiceSet = player.casteDice.concat(session.crownDice);
+    const result = setup.CrownAndCasteCombos.evaluate(fullDiceSet);
+  
+    if (!result || !result.name) {
+      console.warn("[CrownAndCaste] Invalid combo evaluation result. Defaulting to High Dice.");
+      return { name: "High Dice", usedDice: [], rank: 0 };
+    }
+  
+    return result;
+  },
+  
+
+  rankCombo(name) {
+    if (!name || typeof name !== "string") {
+      console.warn("[CrownAndCaste] Invalid combo name for ranking.");
+      return 0;
+    }
+  
+    const rank = setup.CrownAndCasteCombos?.rankIndex?.(name);
+  
+    if (typeof rank !== "number") {
+      console.warn(`[CrownAndCaste] Unknown combo name: '${name}'. Defaulting to rank 0.`);
+      return 0;
+    }
+  
+    return rank;
+  },
+  
+
+  breakTie(indices) {
+    const session = State.temporary.ccSession;
+    const candidates = indices.map(i => ({
+      index: i,
+      player: session.players[i],
+    }));
+  
+    // 1. Compare highest combo value (e.g., triple 8s > triple 7s)
+    let topComboValue = -1;
+    let strongest = [];
+  
+    for (const c of candidates) {
+      const combo = c.player.combo;
+      if (!combo || !combo.usedDice || !combo.usedDice.length) continue;
+  
+      // Determine max die value within the combo
+      const fullDice = c.player.casteDice.concat(session.crownDice);
+      const comboDice = combo.usedDice.map(i => fullDice[i]);
+      const highest = Math.max(...comboDice);
+  
+      if (highest > topComboValue) {
+        topComboValue = highest;
+        strongest = [c];
+      } else if (highest === topComboValue) {
+        strongest.push(c);
+      }
+    }
+  
+    if (strongest.length === 1) return strongest[0].index;
+  
+    // 2. Compare most Caste Dice used in the combo
+    let maxCasteCount = -1;
+    let casteStrongest = [];
+  
+    for (const c of strongest) {
+      const combo = c.player.combo;
+      const count = combo.usedDice.filter(i => i < 3).length; // caste dice = indexes 0–2
+      if (count > maxCasteCount) {
+        maxCasteCount = count;
+        casteStrongest = [c];
+      } else if (count === maxCasteCount) {
+        casteStrongest.push(c);
+      }
+    }
+  
+    if (casteStrongest.length === 1) return casteStrongest[0].index;
+  
+    // 3. Compare total of unused dice
+    let highestLeftover = -1;
+    let finalists = [];
+  
+    for (const c of casteStrongest) {
+      const combo = c.player.combo;
+      const fullDice = c.player.casteDice.concat(session.crownDice);
+      const unused = fullDice.filter((_, i) => !combo.usedDice.includes(i));
+      const total = unused.reduce((a, b) => a + b, 0);
+  
+      if (total > highestLeftover) {
+        highestLeftover = total;
+        finalists = [c];
+      } else if (total === highestLeftover) {
+        finalists.push(c);
+      }
+    }
+  
+    if (finalists.length === 1) return finalists[0].index;
+  
+    // 4. Sudden-death roll
+    const rolled = finalists.map(f => ({
+      index: f.index,
+      roll: this.rollDie() + this.rollDie() + this.rollDie()
+    }));
+  
+    rolled.sort((a, b) => b.roll - a.roll);
+    console.log(`[CrownAndCaste] Tie-break resolved by sudden-death roll: ${rolled[0].roll}`);
+    return rolled[0].index;
+  },
+  
+
+  // ==========================
+  // 5. Betting & Pot
+  // ==========================
+
+  collectBets() {
+    const session = State.temporary.ccSession;
+    const minBet = 3;
+    const maxBet = 10;
+  
+    session.pot = 0;
+  
+    session.players.forEach((p, i) => {
+      if (p.isEliminated) {
+        console.log(`[CrownAndCaste] Skipping bet for eliminated player: ${p.name}`);
+        p.bet = 0;
+        return;
+      }
+  
+      // Auto-bet logic (static for now, can expand later with UI)
+      const desiredBet = minBet;
+  
+      // Apply Fortune’s Mercy if they can't afford minimum
+      const actualBet = Math.min(desiredBet, p.gold);
+      p.gold -= actualBet;
+      p.bet = actualBet;
+      session.pot += actualBet;
+  
+      console.log(`[CrownAndCaste] ${p.name} bet ${actualBet}g. Remaining: ${p.gold}g`);
+    });
+  
+    console.log(`[CrownAndCaste] Total pot is now ${session.pot}g.`);
+  },  
+
+  adjustGold(playerIndex, amount) {
+    const session = State.temporary.ccSession;
+    const player = session.players?.[playerIndex];
+  
+    if (!player) {
+      console.warn(`[CrownAndCaste] adjustGold failed: invalid player index ${playerIndex}`);
+      return;
+    }
+  
+    if (player.isEliminated) {
+      console.log(`[CrownAndCaste] adjustGold ignored for eliminated player: ${player.name}`);
+      return;
+    }
+  
+    player.gold += amount;
+    console.log(`[CrownAndCaste] ${player.name} gold adjusted by ${amount}. New total: ${player.gold}g`);
+  },  
+
+  // ==========================
+  // 6. Session Management
+  // ==========================
+
+  advanceDealer() {
+    const session = State.temporary.ccSession;
+    const totalPlayers = session.players.length;
+  
+    let nextDealer = session.dealerIndex;
+  
+    for (let i = 0; i < totalPlayers; i++) {
+      nextDealer = (nextDealer - 1 + totalPlayers) % totalPlayers;
+      if (!session.players[nextDealer].isEliminated) {
+        session.dealerIndex = nextDealer;
+        console.log(`[CrownAndCaste] New dealer is ${session.players[nextDealer].name}`);
+        return;
+      }
+    }
+  
+    console.warn("[CrownAndCaste] Could not assign a new dealer. All players eliminated?");
+  },  
+
+  refreshControlChips() {
+    const session = State.temporary.ccSession;
+  
+    session.players.forEach(p => {
+      if (!p.isEliminated) {
+        p.chips = 3;
+        console.log(`[CrownAndCaste] ${p.name}'s Control Chips refreshed to 3.`);
+      }
+    });
+  },
+  
+
+  checkElimination() {
+    const session = State.temporary.ccSession;
+  
+    session.players.forEach(p => {
+      if (!p.isEliminated && p.gold <= 0) {
+        p.isEliminated = true;
+        console.log(`[CrownAndCaste] ${p.name} has been eliminated (0g remaining).`);
+      }
+    });
+  },
+  
+  // ==========================
+  // 7. Helpers
+  // ==========================
+
+  rollDie() {
+    const value = Math.ceil(Math.random() * 8); // d8
+    console.log(`[CrownAndCaste] Rolled die: ${value}`);
+    return value;
+  },
+  
+
+  logSessionState() {
+    console.log("[CrownAndCaste] Current session state:");
+    console.log(JSON.stringify(State.temporary.ccSession, null, 2));
+  },
+  
+};
+
+  // ==========================
+  // 8. Combos Logic
+  // ==========================
+setup.CrownAndCasteCombos = {
+  RANKS: [
+    "High Dice",
+    "Single Pair",
+    "Dual Pairs",
+    "Triplet",
+    "Tri-Crown",
+    "Line of Five",
+    "Jester’s Court",
+    "Courtesan's Quad",
+    "Split Line",
+    "Octline",
+    "Courtly Quad",
+    "Royal Spread",
+    "Fivefold Glory",
+    "Imperial Crown"
+  ],
+
+  rankIndex(name) {
+    return this.RANKS.indexOf(name);
+  },
+
+  evaluate(diceArray) {
+    const counts = {};
+    for (const die of diceArray) {
+      counts[die] = (counts[die] || 0) + 1;
+    }
+
+    const values = diceArray.slice().sort((a, b) => a - b);
+    const unique = [...new Set(values)];
+    const countValues = Object.values(counts).sort((a, b) => b - a);
+
+    const hasNOfKind = n => Object.values(counts).includes(n);
+    const getAllOfCount = n => Object.entries(counts).filter(([_, c]) => c === n).map(([v]) => parseInt(v));
+    const isStraight = (len = 6) => {
+      for (let i = 0; i <= values.length - len; i++) {
+        let streak = 1;
+        for (let j = i; j < i + len - 1; j++) {
+          if (values[j + 1] !== values[j] + 1) break;
+          streak++;
+        }
+        if (streak === len) return true;
+      }
+      return false;
+    };
+
+    const countPairs = () => getAllOfCount(2).length;
+    const countTriplets = () => getAllOfCount(3).length;
+
+    const combo = (name) => ({
+      name,
+      usedDice: [...Array(6).keys()], // placeholder
+      rank: this.rankIndex(name)
+    });
+
+    if (countValues[0] === 6) return combo("Imperial Crown");
+    if (countValues[0] === 5) return combo("Fivefold Glory");
+    if (countTriplets() === 2) return combo("Royal Spread");
+    if (countValues[0] === 4 && countValues[1] === 2) return combo("Courtly Quad");
+    if (isStraight(6)) return combo("Octline");
+    if (hasSplitLine(values)) return combo("Split Line");
+    if (countValues[0] === 4 && countValues[1] <= 1) return combo("Courtesan's Quad");
+    if (countPairs() === 3) return combo("Jester’s Court");
+    if (isStraight(5)) return combo("Line of Five");
+    if (countValues.includes(3) && countValues.includes(2)) return combo("Tri-Crown");
+    if (countValues[0] === 3) return combo("Triplet");
+    if (countPairs() === 2) return combo("Dual Pairs");
+    if (countPairs() === 1) return combo("Single Pair");
+
+    return combo("High Dice");
+  }
+};
+
+function hasSplitLine(values) {
+  const unique = [...new Set(values)].sort((a, b) => a - b);
+  const straights = [];
+
+  for (let i = 0; i <= unique.length - 3; i++) {
+    const a = unique[i], b = unique[i + 1], c = unique[i + 2];
+    if (b === a + 1 && c === b + 1) {
+      straights.push([a, b, c]);
+    }
+  }
+
+  return straights.length >= 2;
+}
 /* twine-user-script #28: "CrownAndCasteUI.js" */
+setup.CrownAndCasteUI = {
+    renderMinigame() {
+      window.openOverlay("crown-caste-overlay");
+  
+      setTimeout(() => {
+        this.highlightCurrentPlayer();
+        this.renderCrownDice();
+        this.renderPlayerPanels();
+        this.renderActionPanel();
+  
+        if (State.variables.DEBUG || setup.DEBUG) {
+          console.log("[CrownAndCasteUI] Game UI initialized.");
+        }
+      }, 100);
+    },
+  
+    closeMinigame() {
+      const overlay = document.getElementById("crown-caste-overlay");
+      if (overlay) {
+        overlay.classList.add("overlay-hidden");
+      }
+  
+      if (State.variables.DEBUG || setup.DEBUG) {
+        console.log("[CrownAndCasteUI] Minigame overlay hidden.");
+      }
+    },
+  
+    getPositionId(index) {
+      const zones = ["bottom-left", "top-left", "top-right", "bottom-right"];
+      return zones[index] || `unknown-${index}`;
+    },
+  
+    highlightCurrentPlayer() {
+      const session = State.temporary.ccSession;
+      const currentId = this.getPositionId(session.currentPlayerIndex);
+      const panels = document.querySelectorAll(".player-zone");
+  
+      panels.forEach(panel => {
+        if (panel.id === currentId) {
+          panel.classList.add("active-player");
+        } else {
+          panel.classList.remove("active-player");
+        }
+      });
+    },
+  
+    renderCrownDice() {
+      const session = State.temporary.ccSession;
+      session.crownDice.forEach((val, i) => {
+        const el = document.getElementById(`crown-die-${i + 1}`);
+        if (el) el.textContent = val ?? "?";
+      });
+    },
+  
+    renderPlayerPanels() {
+      const session = State.temporary.ccSession;
+      session.players.forEach((p, i) => {
+        const containerId = this.getPositionId(i);
+        const el = document.getElementById(containerId);
+        if (!el) return;
+  
+        el.querySelector(".gold-amount").textContent = p.gold;
+        el.querySelector(".chip-count").textContent = p.chips;
+  
+        p.casteDice.forEach((val, j) => {
+          const dieEl = el.querySelector(`#${containerId}-die-${j + 1}`);
+          if (dieEl) dieEl.textContent = val ?? "?";
+          if (p.locks[j]) {
+            dieEl.classList.add("locked");
+          } else {
+            dieEl.classList.remove("locked");
+          }
+        });
+      });
+    },
+  
+    renderActionPanel() {
+      const session = State.temporary.ccSession;
+      const player = session.players[session.currentPlayerIndex];
+  
+      const titleEl = document.getElementById("action-title");
+      if (titleEl) titleEl.textContent = player.name === "jaylie" ? "Your Turn" : `${player.name}'s Turn`;
+  
+      const isPlayer = player.isPlayer;
+      const buttons = document.querySelectorAll("#action-panel button");
+      buttons.forEach(btn => {
+        btn.disabled = !isPlayer;
+      });
+  
+      if (isPlayer && setup.CrownAndCasteUI?.updateActionButtons) {
+        setup.CrownAndCasteUI.updateActionButtons();
+      }
+    },
+  
+    updateChipDisplay(playerIndex, chipCount, goldCount) {
+      const containerId = this.getPositionId(playerIndex);
+      const el = document.getElementById(containerId);
+      if (el) {
+        el.querySelector(".chip-count").textContent = chipCount;
+        el.querySelector(".gold-amount").textContent = goldCount;
+      }
+    },
+  
+    updateCrownDisplay(index, value) {
+      const el = document.getElementById(`crown-die-${index + 1}`);
+      if (el) el.textContent = value;
+    },
+  
+    updateCrownLockDisplay(index, isLocked) {
+      const el = document.getElementById(`crown-die-${index + 1}`);
+      if (el) {
+        el.classList.toggle("locked", isLocked);
+      }
+    },
+  
+    updateLockDisplay(playerIndex, dieIndex, isLocked) {
+      const containerId = this.getPositionId(playerIndex);
+      const el = document.getElementById(`${containerId}-die-${dieIndex + 1}`);
+      if (el) {
+        el.classList.toggle("locked", isLocked);
+      }
+    },
+  
+    showGameResult(winnerIndex) {
+      const winner = State.temporary.ccSession.players[winnerIndex];
+      alert(`🏆 ${winner.name} wins the round!`);
+      if (State.variables.DEBUG || setup.DEBUG) {
+        console.log(`[CrownAndCasteUI] Round won by ${winner.name}`);
+      }
+    }
+  };
+  
 /* twine-user-script #29: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
@@ -12671,7 +13674,7 @@ He chuckles at you flatly.
 He smiles—content, apparently, that the conversation is over.
 
 &lt;&lt;/append&gt;&gt;
-
+&lt;&lt;bg &quot;PayingTheBountyHunter&quot;&gt;&gt;
 &lt;&lt;additem &quot;player&quot; &quot;gold_coin&quot; -20&gt;&gt;
 /*&lt;&lt;set $quests.bounty_cutpurse = { active: true, name: &quot;Tel Varas&quot;, paidRedmarrow: true }&gt;&gt;*/
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
@@ -12770,6 +13773,7 @@ Redmarrow gives a faint nod and adjusts his posture, as if shedding the whole �
 &lt;&lt;speech &quot;redmarrow&quot;&gt;&gt;As you like. I can be versatile.&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;/append&gt;&gt;
+&lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="Redmarrow_Exit" tags="widget" position="475,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_Exit&quot;&gt;&gt;
@@ -12981,8 +13985,42 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
       &lt;p id=&quot;convo-summary-gifts&quot;&gt;&lt;/p&gt;
     &lt;/div&gt;
   &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;!--===============================
+=  Crown &amp; Caste Overlay Startup =
+================================--&gt;
+&lt;div id=&quot;crown-caste-overlay&quot; class=&quot;overlay-hidden&quot;&gt;
+
+  &lt;div id=&quot;crown-caste-frame&quot;&gt;
+    
+    &lt;!-- Crown Dice Center Circle --&gt;
+    &lt;div id=&quot;center-circle&quot;&gt;
+      &lt;div class=&quot;crown-die&quot; id=&quot;crown-die-1&quot;&gt;?&lt;/div&gt;
+      &lt;div class=&quot;crown-die&quot; id=&quot;crown-die-2&quot;&gt;?&lt;/div&gt;
+      &lt;div class=&quot;crown-die&quot; id=&quot;crown-die-3&quot;&gt;?&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Quadrant Player Zones --&gt;
+    &lt;div id=&quot;top-left&quot; class=&quot;player-zone&quot;&gt;...&lt;/div&gt;
+    &lt;div id=&quot;top-right&quot; class=&quot;player-zone&quot;&gt;...&lt;/div&gt;
+    &lt;div id=&quot;bottom-left&quot; class=&quot;player-zone&quot;&gt;...&lt;/div&gt;
+    &lt;div id=&quot;bottom-right&quot; class=&quot;player-zone&quot;&gt;...&lt;/div&gt;
+
+    &lt;!-- Action Panel --&gt;
+    &lt;div id=&quot;action-panel&quot;&gt;
+      &lt;div id=&quot;action-title&quot;&gt;Your Turn&lt;/div&gt;
+      &lt;button id=&quot;btn-roll&quot;&gt;Roll&lt;/button&gt;
+      &lt;button id=&quot;btn-lock&quot;&gt;Lock/Unlock&lt;/button&gt;
+      &lt;button id=&quot;btn-chip&quot;&gt;Use Chip&lt;/button&gt;
+      &lt;button id=&quot;btn-end&quot;&gt;End Turn&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="96" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="97" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="98" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;
+* [[Help]]</tw-passagedata><tw-passagedata pid="97" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="98" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;&lt;&lt;additem &quot;player&quot; &quot;gold_coin&quot; 100&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -12994,10 +14032,12 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 [[Go forth and journey on|StoryStart_Scene01]]
 
 [[Wait I am NOT an adult|Underage_Response]]
-
 /*PlaceHolder! Remove option.*/
 &lt;&lt;StartSexScene &quot;allura&quot;&gt;&gt;
-&lt;&lt;EndSexScene &quot;Allura_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="100" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;EndSexScene &quot;Allura_PostSexPhase1&quot;&gt;&gt;
+
+/*PlaceHolder */
+&lt;&lt;CrownAndCaste &quot;15&quot; &quot;ghost&quot; &quot;ghost&quot; &quot;adda&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="100" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -13276,7 +14316,7 @@ At the top of the stairs you enter a long, narrow hallway lined with ten or so d
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Welcome to my humble abode, Mon trésor.&lt;&lt;/speech&gt;&gt;
 
-She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="112" name="Allura_JustLay_Route" tags="" position="225,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
+She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="112" name="Allura_JustLay_Route" tags="" position="225,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Allura_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -13553,7 +14593,7 @@ He steps past you and gestures to the bed with a soft smile.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Make yourself comfortable. You’re safe here.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="Marie_JustLay_Route" tags="" position="1100,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="Marie_JustLay_Route" tags="" position="1100,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Marie_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -13897,7 +14937,7 @@ Elsewhere, seated along a longer communal bench perpendicular to the end of the 
 
 A more boisterous table sits nearby: four men locked in a heated dice game. One slams the table with a triumphant shout as bones rattle across the surface, and another curses violently as coins are scraped across the wood. Empty claims of cheating erupt at the end of one of their rounds.
 
-In the far northwestern corner, a figure cloaked in deep gray sits alone. His hood remains up, and he holds a long, thin dagger in one hand, sharpening it with a whetstone in slow, methodical strokes. Between each pass, he lifts a delicate, stemmed glass filled with a dark, almost purple liquid, sipping it with the precision of a scholar. He doesn&#39;t seem to notice—or care—that anyone else exists.
+In the far northwestern corner, a figure shrouded by the shadow of his own large, wide-brimmed hat sits with his legs propped up on the table. Ge holds a long, thin dagger in one hand, sharpening it with a whetstone in slow, methodical strokes. Between each pass, he lifts a delicate, stemmed glass filled with a dark, almost purple liquid, sipping it with the precision of a scholar. He doesn&#39;t seem to notice—or care—that anyone else exists.
 
 Leaning against a thick support beam near the fire, a hulking woman looms. She might be part orc, judging by her broad shoulders and the greenish cast to her skin. Heavy with furs and armor, she chews through a mutton chop with visible relish, grease trailing down her chin. A massive, chipped greatsword hangs from her belt, its tip nearly scraping the floorboards. She keeps one eye on the room, as if daring someone to make her evening interesting.
 
