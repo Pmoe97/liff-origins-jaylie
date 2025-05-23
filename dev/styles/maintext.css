@@ -123,8 +123,8 @@ body:not(.sidebar-collapsed) #text-container {
 }
 .overlay-close-btn {
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: 3%;
+	right: 5%;
 	background: none;
 	border: 2px solid #ccc;
 	color: white;
