@@ -134,7 +134,7 @@ button.active-sexact.ongoing::after {
   opacity: 0.45;
   z-index: -2;
 
-  /* Ensure it shows outside the button’s shape */
+  /* Ensure it shows outside the button's shape */
   mask: none;
   -webkit-mask: none;
   pointer-events: none;

@@ -1,76 +1,135 @@
-<div id="crown-caste-overlay" class="overlay-hidden">
+<!-- Crown & Caste Game Overlay (injected via overlayManager into #overlay-body) -->
+<!-- Orientation Warning Overlay -->
+<div id="orientation-warning" style="display: none;">
+  <div class="orientation-warning-content">
+    <div class="orientation-icon">📱</div>
+    <h3>Please Rotate Your Device</h3>
+    <p>Crown & Caste plays best in portrait mode.<br>Please rotate your device vertically for the optimal experience.</p>
+    <div class="rotation-animation">↻</div>
+  </div>
+</div>
 
-  <div id="crown-caste-frame">
-    
-    <!-- Crown Dice Center Circle -->
-    <div id="center-circle">
-      <div class="crown-die" id="crown-die-1">?</div>
-      <div class="crown-die" id="crown-die-2">?</div>
-      <div class="crown-die" id="crown-die-3">?</div>
+<div id="crown-caste-frame">
+
+  <!-- Crown Dice Center Circle -->
+  <div id="center-circle" class="clickable-crown tooltip-parent" data-tooltip="Click to Protect the Crown (when using Control Chip)" aria-label="Click to Protect the Crown">
+    <div id="crown-pot">Pot: [0]</div>
+    <div class="crown-die-group">
+      <div class="crown-die clickable-crown-die" id="crown-die-1" data-index="0">?</div>
+      <div class="crown-die clickable-crown-die" id="crown-die-2" data-index="1">?</div>
+      <div class="crown-die clickable-crown-die" id="crown-die-3" data-index="2">?</div>
     </div>
-
-    <!-- Player Zones -->
-    <div id="top-left" class="player-zone">
-      <div class="player-name">?</div>
-      <div class="stats-line">
-        <span class="stat-icon"><span class="gold-amount">0</span> <i data-lucide="coins"></i></span>
-        <span class="stat-icon"><span class="chip-count">0</span> 🪙</span>
-      </div>
-      <div class="zone-dice">
-        <div class="zone-die" id="top-left-die-1">?</div>
-        <div class="zone-die" id="top-left-die-2">?</div>
-        <div class="zone-die" id="top-left-die-3">?</div>
-      </div>
+    <div class="crown-protected-indicator" id="crown-protected" style="display: none;">
+      <i data-lucide="shield"></i> Protected
     </div>
-
-    <div id="top-right" class="player-zone">
-      <div class="player-name">?</div>
-      <div class="stats-line">
-        <span class="stat-icon"><span class="gold-amount">0</span> <i data-lucide="coins"></i></span>
-        <span class="stat-icon"><span class="chip-count">0</span> 🪙</span>
-      </div>
-      <div class="zone-dice">
-        <div class="zone-die" id="top-right-die-1">?</div>
-        <div class="zone-die" id="top-right-die-2">?</div>
-        <div class="zone-die" id="top-right-die-3">?</div>
-      </div>
-    </div>
-
-    <div id="bottom-left" class="player-zone">
-      <div class="player-name">?</div>
-      <div class="stats-line">
-        <span class="stat-icon"><span class="gold-amount">0</span> <i data-lucide="coins"></i></span>
-        <span class="stat-icon"><span class="chip-count">0</span> 🪙</span>
-      </div>
-      <div class="zone-dice">
-        <div class="zone-die" id="bottom-left-die-1">?</div>
-        <div class="zone-die" id="bottom-left-die-2">?</div>
-        <div class="zone-die" id="bottom-left-die-3">?</div>
-      </div>
-    </div>
-
-    <div id="bottom-right" class="player-zone">
-      <div class="player-name">?</div>
-      <div class="stats-line">
-        <span class="stat-icon"><span class="gold-amount">0</span> <i data-lucide="coins"></i></span>
-        <span class="stat-icon"><span class="chip-count">0</span> 🪙</span>
-      </div>
-      <div class="zone-dice">
-        <div class="zone-die" id="bottom-right-die-1">?</div>
-        <div class="zone-die" id="bottom-right-die-2">?</div>
-        <div class="zone-die" id="bottom-right-die-3">?</div>
-      </div>
-    </div>
-
-    <!-- Action Panel -->
-    <div id="action-panel">
-      <div id="action-title">Your Turn</div>
-      <button id="btn-roll">Roll</button>
-      <button id="btn-lock">Lock/Unlock</button>
-      <button id="btn-chip">Use Chip</button>
-      <button id="btn-end">End Turn</button>
-    </div>
-
   </div>
 
+  <!-- North (NPC 2) -->
+  <div id="top-center" class="player-zone zone-north" data-player-index="2">
+    <div class="player-name" data-role="name">?</div>
+    <div class="player-stats">
+      <div class="stat-display" data-role="gold">
+        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+      </div>
+      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
+        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      </div>
+    </div>
+    <div class="dice-triangle triangle-north">
+      <div class="zone-die clickable-die" id="top-center-die-1" data-player="2" data-die="0">?</div>
+      <div class="zone-die clickable-die" id="top-center-die-2" data-player="2" data-die="1">?</div>
+      <div class="zone-die clickable-die" id="top-center-die-3" data-player="2" data-die="2">?</div>
+    </div>
+  </div>
+
+  <!-- West (NPC 1) -->
+  <div id="middle-left" class="player-zone zone-west" data-player-index="1">
+    <div class="player-name" data-role="name">?</div>
+    <div class="player-stats">
+      <div class="stat-display" data-role="gold">
+        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+      </div>
+      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
+        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      </div>
+    </div>
+    <div class="dice-triangle triangle-west">
+      <div class="zone-die clickable-die" id="middle-left-die-1" data-player="1" data-die="0">?</div>
+      <div class="zone-die clickable-die" id="middle-left-die-2" data-player="1" data-die="1">?</div>
+      <div class="zone-die clickable-die" id="middle-left-die-3" data-player="1" data-die="2">?</div>
+    </div>
+  </div>
+
+  <!-- East (NPC 3) -->
+  <div id="middle-right" class="player-zone zone-east" data-player-index="3">
+    <div class="player-name" data-role="name">?</div>
+    <div class="player-stats">
+      <div class="stat-display" data-role="gold">
+        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+      </div>
+      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
+        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      </div>
+    </div>
+    <div class="dice-triangle triangle-east">
+      <div class="zone-die clickable-die" id="middle-right-die-1" data-player="3" data-die="0">?</div>
+      <div class="zone-die clickable-die" id="middle-right-die-2" data-player="3" data-die="1">?</div>
+      <div class="zone-die clickable-die" id="middle-right-die-3" data-player="3" data-die="2">?</div>
+    </div>
+  </div>
+
+  <!-- South (Player) -->
+  <div id="bottom-center" class="player-zone zone-south" data-player-index="0">
+    <div class="dice-triangle triangle-south">
+      <div class="zone-die clickable-die" id="bottom-center-die-1" data-player="0" data-die="0">?</div>
+      <div class="zone-die clickable-die" id="bottom-center-die-2" data-player="0" data-die="1">?</div>
+      <div class="zone-die clickable-die" id="bottom-center-die-3" data-player="0" data-die="2">?</div>
+    </div>
+    <div class="player-stats">
+      <div class="stat-display" data-role="gold">
+        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+      </div>
+      <div class="stat-display chip-display clickable-chips active-chips tooltip-parent" data-tooltip="Click to activate Control Chip mode" aria-label="Activate chip mode">
+        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      </div>
+    </div>
+    <div class="player-name" data-role="name">?</div>
+    <div class="player-actions" id="player-actions" style="display: none;">
+      <button id="end-turn-btn" class="end-turn-button">End Turn</button>
+    </div>
+  </div>
+
+  <!-- Game Status Display -->
+  <div id="game-status">
+    <div id="current-turn">Your Turn</div>
+    <div id="current-round">Round 1</div>
+    <div id="game-phase">Betting Phase</div>
+  </div>
+
+  <!-- Betting Panel (shown during betting phase) -->
+  <div id="betting-panel" style="display: none;">
+    <div class="betting-title">Place Your Bet (3-10g)</div>
+    <div class="betting-controls">
+      <button class="bet-btn" data-amount="3">3g</button>
+      <button class="bet-btn" data-amount="5">5g</button>
+      <button class="bet-btn" data-amount="7">7g</button>
+      <button class="bet-btn" data-amount="10">10g</button>
+    </div>
+  </div>
+
+  <!-- Next Game Panel (shown when game is complete) -->
+  <div id="next-game-panel" style="display: none;">
+    <div class="next-game-title">Game Complete!</div>
+    <div class="next-game-controls">
+      <button id="next-game-btn" class="next-game-button">Start Next Game</button>
+    </div>
+  </div>
+
+  <!-- Action Feedback -->
+  <div id="action-feedback"></div>
 </div>
+ 
+<!-- END GAME BUTTON - If Eliminated, or Last Player Left -->
+  <div id="end-game-panel" style="display: none;">
+    <button id="end-game-btn" class="end-game-button">Leave Table</button>
+  </div>

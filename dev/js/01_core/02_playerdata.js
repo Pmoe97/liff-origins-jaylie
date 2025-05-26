@@ -83,7 +83,6 @@ State.variables.player = {
 		// Functional anatomy
 		vagina: true,
 		clitoris: true,
-		penisSize: 5 // Placeholder For testing
 	},
 
 	// === Current Status ===

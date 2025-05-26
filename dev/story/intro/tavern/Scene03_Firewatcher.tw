@@ -1,0 +1,10 @@
+:: Scene03_Firewatcher
+<<StartDialogueLayout>>
+
+As you step toward the hearth, the half-orc woman turns just slightly—enough to clock you, not enough to welcome you.
+
+She sizes you up with a glance, tearing another bite from the mutton before speaking.
+
+<<speech "brakka">>Your perfume is ruining the taste of my dinner. What do you want, Silks?<</speech>>
+
+<<DialogueTree "brakka" "Phase0">>

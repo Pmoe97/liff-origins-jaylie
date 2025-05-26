@@ -27,7 +27,7 @@ setup.darian_Conversation_Options_Phase0 = function () {
 			target: "Darian_Humming"
 		},		
 		{
-			label: "I’d like to get to know you better.",
+			label: "I'd like to get to know you better.",
 			target: "Darian_StartMinigame",
 			reuse: 0
 		},
@@ -109,7 +109,7 @@ setup.darian_Conversation_Options_DarianDialogueDuet = function () {
 			target: "DarianDuet_MissOldLife"
 		},
 		{
-			label: "What’s the most beautiful thing you’ve ever seen?",
+			label: "What's the most beautiful thing you've ever seen?",
 			target: "DarianDuet_MostBeautiful"
 		},
 		{

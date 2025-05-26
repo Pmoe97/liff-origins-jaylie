@@ -1,30 +1,38 @@
 :: Scene03_TheSpace {"position":"475,450"}
-<<bg "threesipsgragon">><<EndDialogueLayout>>
+<<EndDialogueLayout>><<bg "threesipsdragon">>
 <<if !$seenTavernSpace>>
-Surrounding the center hearth, more than a dozen figures sit in groups of varying sizes at heavy wooden tables of varying shapes. The fire's warmth radiates outward, licking the stonework floor and casting flickering gold across the cracked beams above.
+Surrounding the center hearth, more than a dozen figures cluster at thick wooden tables—scarred by knives, stained by drink, and mismatched in shape. The fire’s warmth ripples outward, licking the cracked flagstone floor and painting the rafters above in flickering gold.
 <</if>>
 
-The bar stretches along the eastern wall. Behind it stands the massive figure of the barkeep, who continues to polish the same glass as though it owes him a debt. Near him, slumped with his head buried in his arms, a man snorts gently in his sleep—clearly a long-time resident of that particular barstool.
+The bar stretches along the eastern wall, its counter worn smooth by time and tension. Behind it stands the barkeep—massive, grim, and seemingly committed to the slow execution of a single glass. He polishes it with the focus of a man settling a grudge.
 
-Across the floor, a barmaid weaves between tables, her tray brimming with wooden mugs.
+Slumped beside him, head buried in his arms, a man snores softly into the crook of his elbow. Judging by the wobble of his stool and the crust of dried ale at his chin, he’s been a fixture of that spot for hours—if not days.
+
+Across the room, a barmaid threads through the crowd with practiced grace, a tray of frothing mugs balanced in one hand like a weapon. Her braid swings like a pendulum, and her boots make no sound against the stone.
 
 <<if !$seenTavernSpace>>
-You watch as one of the patrons—too drunk to care and too stupid to hide it—reaches up in an attempt to grope her as she passes. Without breaking stride, she jerks her elbow backward with surgical precision, catching the man's wrist and pinning it painfully against the edge of the table.
+One of the patrons—red-faced and too drunk to remember his own hands—reaches for her as she passes. Without breaking stride, she twists at the waist and slams his wrist against the table with a move so fluid it seems rehearsed.
 
-<<speech "tesska">> "Try that again and you'll be wearin' your bollocks like earrings." <</speech>>
+<<speech "tesska">> "Try that again and you’ll be wearin’ your bollocks like earrings."<</speech>>
 
-The barmaid's accent is heavy and her words cut deeply even through the man's inebriation.
+The room barely reacts. The man yelps, but no one comes to his defense.
 <</if>>
 
-The man who'd attempted to grope the barmaid and his two friends are clearly deep in their cups, their table cluttered with overturned tankards and the remains of a shared meat pie.
+The offender and his two friends stew in their corner, muttering into overturned tankards and picking half-heartedly at the bones of a shared meat pie.
 
-Elsewhere, seated along a longer communal bench perpendicular to the end of the hearth, the old man who first shouted at you now dines in quiet company. Two others—neither of them speaking—share the table, focused on their meals and drinks in silence.
+Elsewhere, at a long communal bench near the hearth’s edge, an older man eats in silence. He’s flanked by two others—both silent, both chewing with the intensity of soldiers pretending not to listen.
 
-A more boisterous table sits nearby: four men locked in a heated dice game. One slams the table with a triumphant shout as bones rattle across the surface, and another curses violently as coins are scraped across the wood. Empty claims of cheating erupt at the end of one of their rounds.
+Nearby, a more raucous table erupts with noise. Four men are locked in a tense dice game, knuckles white, coins scattered, curses loud. One slams the table with a triumphant shout as the bones scatter, while another curses so creatively he draws a laugh from a table over.
 
-In the far northwestern corner, a figure shrouded by the shadow of his own large, wide-brimmed hat sits with his legs propped up on the table. Ge holds a long, thin dagger in one hand, sharpening it with a whetstone in slow, methodical strokes. Between each pass, he lifts a delicate, stemmed glass filled with a dark, almost purple liquid, sipping it with the precision of a scholar. He doesn't seem to notice—or care—that anyone else exists.
+In the far northwestern corner, a figure reclines beneath the shadow of his own wide-brimmed hat. His legs are propped on the table’s edge, and in one hand he methodically sharpens a thin-bladed dagger. Between strokes, he sips from a delicate stemmed glass filled with something dark and expensive-looking. He doesn’t seem to notice—or care—that anyone else exists.
 
-Leaning against a thick support beam near the fire, a hulking woman looms. She might be part orc, judging by her broad shoulders and the greenish cast to her skin. Heavy with furs and armor, she chews through a mutton chop with visible relish, grease trailing down her chin. A massive, chipped greatsword hangs from her belt, its tip nearly scraping the floorboards. She keeps one eye on the room, as if daring someone to make her evening interesting.
+Leaning against a thick support beam near the hearth, a hulking woman watches the room with quiet disdain. She doesn’t sit—just looms, like she’s too restless or too proud to claim a seat.
+
+A heavy fur is draped across her shoulders, its coarse texture concealing her chest without much ceremony. Her arms are bare—cords of muscle twisted like ropes beneath green-tinged skin. She wears no shirt, just a leather wrap beneath the fur and a belt strapped tight across her exposed midriff. From the belt hangs more fur, forming a crude skirt that sways with her movements.
+
+In one hand, she grips a massive leg of mutton. In the other, a heavy metal mug of ale or something equally punishing. At her hip rests a greatsword nearly as tall as she is, the tip of its battered sheath brushing the floor with each subtle shift of her stance.
+
+She tears off a bite of meat with her teeth, then scans the room with eyes that dare someone—anyone—to ruin her meal.
 
 <<set $seenTavernSpace = true>>
 
@@ -34,4 +42,3 @@ From here, you may:
 [[Approach the cloaked man in the corner.|Scene03_ApproachBountyHunter]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
 [[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]
-

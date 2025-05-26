@@ -54,7 +54,7 @@
 <!--===============================
 =  Crown & Caste Overlay Startup =
 ================================-->
-<div id="crown-caste-overlay" class="overlay-hidden">
+<div id="crown-and-caste-page" class="overlay-hidden">
 
   <div id="crown-caste-frame">
     

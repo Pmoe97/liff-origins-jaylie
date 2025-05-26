@@ -3,7 +3,7 @@
 <<EndDialogueLayout>>
 
 <div id="montage">
-	<p>You lie on your side, facing her. Marie’s hair spills over her pillow in soft, tangled waves. She watches you—not intensely, but openly, like she’s studying something she never thought she’d have a chance to.</p>
+	<p>You lie on your side, facing her. Marie's hair spills over her pillow in soft, tangled waves. She watches you—not intensely, but openly, like she's studying something she never thought she'd have a chance to.</p>
 
 	<p>You both say nothing for a while. Her fingertips trail small patterns on the quilt between you.</p>
 </div>
@@ -15,7 +15,7 @@
 				<div class="montage-fade fade-start">
 					<p>The rain outside ticks against the window like a soft metronome. Marie shifts closer, not quite touching you. Her voice is quiet when it comes.</p>
 
-					<<speech "marie">>Do you ever think about how different your life might’ve been... if you’d just taken one wrong turn and never noticed?<</speech>>
+					<<speech "marie">>Do you ever think about how different your life might've been... if you'd just taken one wrong turn and never noticed?<</speech>>
 
 					<p>You hum in reply. She smiles faintly and lets it drop.</p>
 				</div>
@@ -27,13 +27,13 @@
 					<<replace "#montage-link">>
 						<<append "#montage">>
 							<div class="montage-fade fade-start">
-								<p>You're both lying on your backs now, staring at the ceiling. Marie lifts one hand and slowly traces constellations you can’t see in the wooden grain above.</p>
+								<p>You're both lying on your backs now, staring at the ceiling. Marie lifts one hand and slowly traces constellations you can't see in the wooden grain above.</p>
 
 								<<speech "marie">>They say in Medmarr there's a lake so deep, it reflects the stars even at noon.<</speech>>
 
 								<<speech "jaylie">>Have you seen it?<</speech>>
 
-								<<speech "marie">>No. But I want to. And I’d rather not go alone.<</speech>>
+								<<speech "marie">>No. But I want to. And I'd rather not go alone.<</speech>>
 							</div>
 						<</append>>
 						<<SceneFadeInNow>>

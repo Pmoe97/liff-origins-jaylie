@@ -9,14 +9,14 @@ The furniture is modest and well kept—an upright piano stands against one wall
 
 A velvet armchair sits near the bed, and atop it lies a folded overcoat and a small, flat tin. You recognize it immediately for what it is: a vocal tin, used by singers to keep their throat warm and clear.
 
-There’s no mirror. No vanity. But on the wall above the bed hangs a tapestry—simple, woven, depicting a great lake beneath a starry sky. No name, no inscription. Just still water and distant light.
+There's no mirror. No vanity. But on the wall above the bed hangs a tapestry—simple, woven, depicting a great lake beneath a starry sky. No name, no inscription. Just still water and distant light.
 
 Darian closes the door behind you gently.
 
-<<speech "darian">>It’s not much, but it’s mine. What I’ve held onto. What I’ve let go.<</speech>>
+<<speech "darian">>It's not much, but it's mine. What I've held onto. What I've let go.<</speech>>
 
 He steps past you and gestures to the bed with a soft smile.
 
-<<speech "darian">>Make yourself comfortable. You’re safe here.<</speech>>
+<<speech "darian">>Make yourself comfortable. You're safe here.<</speech>>
 
 <<DialogueTree "darian" "Phase1">>

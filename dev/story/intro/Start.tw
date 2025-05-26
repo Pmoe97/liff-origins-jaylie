@@ -11,9 +11,6 @@ This story will contain elements of an ''ADULT/MATURE'' nature. Content like thi
 [[Go forth and journey on|StoryStart_Scene01]]
 
 [[Wait I am NOT an adult|Underage_Response]]
-/*PlaceHolder! Remove option.*/
-<<StartSexScene "allura">>
-<<EndSexScene "Allura_PostSexPhase1">>
 
-/*PlaceHolder */
-<<CrownAndCaste "15" "ghost" "ghost" "adda">>
+/*Placeholder */
+[[Skip to Tavern|Scene03_TheSpace]]

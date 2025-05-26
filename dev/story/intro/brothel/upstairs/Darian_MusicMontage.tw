@@ -4,9 +4,9 @@
 <<EndDialogueLayout>>
 
 <div id="montage">
-	<p>Darian crosses the room and brushes the dust cover off a dark upright piano tucked into a curtained alcove. It looks worn but carefully maintained—like it’s been waiting, not forgotten. He runs a hand across the keys once without pressing them, then sits.</p>
+	<p>Darian crosses the room and brushes the dust cover off a dark upright piano tucked into a curtained alcove. It looks worn but carefully maintained—like it's been waiting, not forgotten. He runs a hand across the keys once without pressing them, then sits.</p>
 
-	<p>He doesn’t look at you right away. He just closes his eyes and breathes in. Then his fingers begin to move.</p>
+	<p>He doesn't look at you right away. He just closes his eyes and breathes in. Then his fingers begin to move.</p>
 </div>
 
 <span id="montage-link">
@@ -14,9 +14,9 @@
 		<<replace "#montage-link">>
 			<<append "#montage">>
 				<div class="montage-fade fade-start">
-					<p>At first, it’s only piano. A slow, minor melody that unfolds like candlelight—soft and flickering. The chords are melancholy but not sad. Reflective. Like something that remembers joy without claiming it.</p>
+					<p>At first, it's only piano. A slow, minor melody that unfolds like candlelight—soft and flickering. The chords are melancholy but not sad. Reflective. Like something that remembers joy without claiming it.</p>
 
-					<p>You close your eyes. The curtains absorb every echo. This isn’t a performance. It’s a confession.</p>
+					<p>You close your eyes. The curtains absorb every echo. This isn't a performance. It's a confession.</p>
 				</div>
 			<</append>>
 			<<SceneFadeInNow>>
@@ -34,13 +34,13 @@
 								<i>The silence watched, the shadows stayed—</i><br>
 								<i>and yet I sang, though light decayed.”</i><br><br>
 
-								<i>“My sister’s laugh, my mother’s grace,</i><br>
+								<i>“My sister's laugh, my mother's grace,</i><br>
 								<i>the echo lost in every place.</i><br>
 								<i>I sing not now to be adored—</i><br>
-								<i>I sing for ghosts I can’t afford.”</i>
+								<i>I sing for ghosts I can't afford.”</i>
 								</blockquote>
 
-								<p>His voice is soft, low, haunting. Every note feels chosen. Earned. You don’t move. You don’t breathe too loudly. You just <em>listen</em>.</p>
+								<p>His voice is soft, low, haunting. Every note feels chosen. Earned. You don't move. You don't breathe too loudly. You just <em>listen</em>.</p>
 							</div>
 						<</append>>
 						<<SceneFadeInNow>>
@@ -52,9 +52,9 @@
 										<div class="montage-fade fade-start">
 											<p>The final note fades into silence. Darian lets his hands fall away from the keys slowly, like he's afraid the stillness will shatter if he moves too quickly.</p>
 
-											<p>He looks at you—really looks at you. There’s no performer left in him. Just a man who let go of something heavy and wants to know if it landed softly.</p>
+											<p>He looks at you—really looks at you. There's no performer left in him. Just a man who let go of something heavy and wants to know if it landed softly.</p>
 
-											<<speech "darian">>That song’s never had an audience before.<</speech>>
+											<<speech "darian">>That song's never had an audience before.<</speech>>
 
 											<<speech "jaylie">>You should give it more often. If not to them... then to yourself.<</speech>>
 

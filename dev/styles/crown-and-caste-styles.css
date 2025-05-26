@@ -1,0 +1,1005 @@
+/* ========================================
+   ORIENTATION WARNING OVERLAY
+======================================== */
+#orientation-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Garamond', serif;
+  color: #f0e6d2;
+}
+
+.orientation-warning-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 300px;
+}
+
+.orientation-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  transform: rotate(90deg);
+  animation: phoneRotate 2s ease-in-out infinite;
+}
+
+.orientation-warning-content h3 {
+  color: #ffe98a;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.orientation-warning-content p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+  color: #f0e6d2;
+}
+
+.rotation-animation {
+  font-size: 2rem;
+  color: #d4b26e;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes phoneRotate {
+  0%, 100% { transform: rotate(90deg); }
+  50% { transform: rotate(0deg); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   CROWN & CASTE MAIN FRAME + BACKGROUND
+======================================== */
+#overlay-body > #crown-caste-frame {
+  position: relative;
+  width: min(48rem, 90vw, 85vh);
+  aspect-ratio: 1 / 1;
+  margin: auto;
+  background: radial-gradient(circle at center, #3b2a26 30%, #211513 100%);
+  overflow: hidden;
+  font-family: 'Garamond', serif;
+  color: #f0e6d2;
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  min-height: 400px;
+  max-width: 700px;
+}
+
+#overlay-panel {
+  background-color: #2b1a17 !important;
+  background-image: none !important;
+}
+
+#crown-caste-frame::before,
+#crown-caste-frame::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  width: 3px;
+  height: 200%;
+  background-color: #4d2d2d;
+  transform-origin: center;
+  z-index: 1;
+}
+#crown-caste-frame::before { transform: rotate(45deg); }
+#crown-caste-frame::after  { transform: rotate(-45deg); }
+
+/* ========================================
+   CENTER CROWN DICE AREA
+======================================== */
+#center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(120px, 20vw, 220px);
+  height: clamp(120px, 20vw, 220px);
+  padding: clamp(6px, 1vw, 12px);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(2px, 0.5vw, 8px);
+  z-index: 2;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#center-circle:hover {
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+#center-circle.chip-mode {
+  box-shadow: 0 0 20px rgba(255, 100, 100, 0.5);
+  background: rgba(40, 0, 0, 0.9);
+}
+
+#crown-pot {
+  font-size: clamp(0.8em, 1.5vw, 1em);
+  color: #d4b26e;
+  margin-bottom: 4px;
+}
+
+.crown-die-group {
+  display: flex;
+  justify-content: center;
+  gap: clamp(4px, 1vw, 8px);
+  margin-top: 15%;
+  margin-bottom: 37%;
+}
+
+.crown-die {
+  width: clamp(35px, 6vw, 50px);
+  height: clamp(35px, 6vw, 50px);
+  background-color: #2e1e1c;
+  border: 2px solid #c2a96b;
+  border-radius: 6px;
+  color: #f0e6d2;
+  font-size: clamp(1em, 2vw, 1.5em);
+  text-align: center;
+  line-height: clamp(35px, 6vw, 50px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crown-die:hover {
+  background-color: #3e2e2c;
+  transform: scale(1.05);
+}
+
+.crown-die.locked {
+  background-color: #1a1a1a;
+  border-color: #666;
+  color: #888;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3) inset;
+}
+
+.crown-protected-indicator {
+  font-size: clamp(0.7em, 1.2vw, 0.8em);
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ========================================
+   PLAYER ZONE POSITIONS (RESPONSIVE)
+======================================== */
+.player-zone {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.zone-north { 
+  top: clamp(15px, 4vw, 25px); 
+  left: 50%; 
+  transform: translateX(-50%); 
+}
+.zone-south { 
+  bottom: clamp(15px, 4vw, 25px); 
+  left: 50%; 
+  transform: translateX(-50%); 
+}
+.zone-west  { 
+  top: 50%; 
+  left: clamp(15px, 4vw, 25px); 
+  transform: translateY(-50%); 
+  align-items: flex-start; 
+}
+.zone-east  { 
+  top: 50%; 
+  right: clamp(15px, 4vw, 25px); 
+  transform: translateY(-50%); 
+  align-items: flex-end; 
+}
+
+.player-zone.active-player {
+  filter: brightness(1.2);
+}
+
+.player-zone.current-turn {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ========================================
+   PLAYER UI ELEMENTS (RESPONSIVE)
+======================================== */
+.player-name {
+  font-weight: bold;
+  font-size: clamp(0.8em, 1.5vw, 1em);
+  color: #f8eacb;
+  text-align: center;
+  white-space: nowrap;
+  margin-bottom: clamp(4px, 1vw, 8px);
+}
+
+.player-stats {
+  display: flex;
+  gap: clamp(8px, 1.5vw, 12px);
+  margin-bottom: clamp(4px, 1vw, 8px);
+}
+
+.stat-display {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 0.5vw, 4px);
+  font-size: clamp(0.7em, 1.2vw, 0.85em);
+  color: #f8eacb;
+  padding: clamp(2px, 0.5vw, 4px) clamp(4px, 1vw, 6px);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.stat-display i {
+  color: #ffe98a;
+  font-size: clamp(0.8em, 1.2vw, 1em);
+}
+
+.chip-display {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip-display:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+.chip-display.active {
+  background: rgba(255, 100, 100, 0.3);
+  border: 1px solid #ff6464;
+  box-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+}
+
+/* Zone-specific positioning */
+.zone-south .player-stats {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.zone-north .player-stats {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.zone-west .player-stats,
+.zone-east .player-stats {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ========================================
+   DICE TRIANGLE POSITIONS (RESPONSIVE)
+======================================== */
+.dice-triangle {
+  position: relative;
+  width: clamp(60px, 10vw, 80px);
+  height: clamp(60px, 10vw, 80px);
+}
+
+.zone-die {
+  width: clamp(30px, 5vw, 40px);
+  height: clamp(30px, 5vw, 40px);
+  background-color: #382423;
+  border: 1px solid #a9864c;
+  border-radius: 4px;
+  color: #f0e6d2;
+  text-align: center;
+  line-height: clamp(30px, 5vw, 40px);
+  font-size: clamp(0.9em, 1.5vw, 1.2em);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: absolute;
+}
+
+.zone-die:hover {
+  background-color: #483433;
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.zone-die.locked {
+  background-color: #1e1413;
+  color: #999;
+  border-color: #664f2d;
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.2) inset;
+}
+
+.zone-die.rollable {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.zone-die.chip-target {
+  box-shadow: 0 0 15px rgba(255, 100, 100, 0.7);
+  border-color: #ff6464;
+}
+
+/* Triangle positioning (responsive) */
+.zone-south .zone-die:nth-child(1) { top: -25%; left: 50%; transform: translateX(-50%); }
+.zone-south .zone-die:nth-child(2) { bottom: 17%; left: -7%; }
+.zone-south .zone-die:nth-child(3) { bottom: 17%; right: -7%; }
+
+.zone-north .zone-die:nth-child(1) { bottom: -10%; left: 50%; transform: translateX(-50%); }
+.zone-north .zone-die:nth-child(2) { top: 5%; left: -6%; }
+.zone-north .zone-die:nth-child(3) { top: 5%; right: -6%; }
+
+.zone-west .zone-die:nth-child(1) { right: -100%; top: -15%; transform: translateY(-50%); }
+.zone-west .zone-die:nth-child(2) { left: 94%; bottom: 115%; }
+.zone-west .zone-die:nth-child(3) { left: 94%; bottom: 57%; }
+
+.zone-east .zone-die:nth-child(1) { left: -100%; top: -15%; transform: translateY(-50%); }
+.zone-east .zone-die:nth-child(2) { right: 94%; top: -5%; }
+.zone-east .zone-die:nth-child(3) { right: 94%; bottom: 115%; }
+
+/* ========================================
+   GAME STATUS & CONTROLS
+======================================== */
+#game-status {
+  position: absolute;
+  top: clamp(8px, 2vw, 12px);
+  right: clamp(8px, 2vw, 12px);
+  background: rgba(0, 0, 0, 0.7);
+  padding: clamp(6px, 1vw, 8px) clamp(8px, 1.5vw, 12px);
+  border-radius: 6px;
+  font-size: clamp(0.7em, 1.2vw, 0.8em);
+  z-index: 5;
+}
+
+#game-status div {
+  margin-bottom: 2px;
+}
+
+#current-turn {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+#betting-panel {
+  position: absolute;
+  bottom: clamp(8px, 2vw, 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b2a26;
+  border: 2px solid #997c54;
+  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
+  border-radius: 8px;
+  z-index: 5;
+  text-align: center;
+}
+
+.betting-title {
+  font-weight: bold;
+  font-size: clamp(0.9em, 1.5vw, 1.1em);
+  color: #ffe98a;
+  margin-bottom: clamp(6px, 1vw, 8px);
+}
+
+.betting-controls {
+  display: flex;
+  gap: clamp(4px, 1vw, 8px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bet-btn {
+  background: #705234;
+  color: #f0e6d2;
+  font-family: inherit;
+  border: 1px solid #c2a96b;
+  padding: clamp(4px, 1vw, 6px) clamp(8px, 1.5vw, 12px);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: clamp(0.8em, 1.2vw, 0.9em);
+  transition: all 0.2s ease;
+  min-width: clamp(35px, 6vw, 45px);
+}
+
+.bet-btn:hover {
+  background: #8b6c45;
+  transform: scale(1.05);
+}
+
+.bet-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
+}
+
+#action-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px);
+  border-radius: 6px;
+  font-size: clamp(0.8em, 1.3vw, 1em);
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#action-feedback.show {
+  opacity: 1;
+}
+
+.disabled-during-betting {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: grayscale(0.4);
+  cursor: not-allowed;
+}
+
+#player-actions {
+  margin-top: 6px;
+  text-align: center;
+}
+
+.end-turn-button {
+  background: #8b6c45;
+  color: #f0e6d2;
+  border: 2px solid #c2a96b;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.end-turn-button:hover {
+  background: #a07d56;
+}
+
+.crown-icon {
+  font-size: 1em;
+  color: #ffd700;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+
+/* ========================================
+   DESKTOP OPTIMIZATIONS
+======================================== */
+@media (min-width: 1024px) {
+  #crown-caste-frame {
+    width: min(45rem, 75vw);
+    max-width: 650px;
+  }
+  
+  #center-circle {
+    width: clamp(160px, 22vw, 200px);
+    height: clamp(160px, 22vw, 200px);
+  }
+  
+  .zone-north { 
+    top: clamp(25px, 3.5vw, 35px); 
+  }
+  .zone-south { 
+    bottom: clamp(25px, 3.5vw, 35px); 
+  }
+  .zone-west  { 
+    left: clamp(25px, 3.5vw, 35px); 
+  }
+  .zone-east  { 
+    right: clamp(25px, 3.5vw, 35px); 
+  }
+  
+  .dice-triangle {
+    width: clamp(70px, 9vw, 85px);
+    height: clamp(70px, 9vw, 85px);
+  }
+  
+  .zone-die {
+    width: clamp(35px, 4.5vw, 42px);
+    height: clamp(35px, 4.5vw, 42px);
+    line-height: clamp(35px, 4.5vw, 42px);
+    font-size: clamp(1em, 1.4vw, 1.2em);
+  }
+  
+  .player-name {
+    font-size: clamp(0.9em, 1.3vw, 1em);
+  }
+  
+  .stat-display {
+    font-size: clamp(0.8em, 1.1vw, 0.9em);
+    padding: clamp(4px, 0.7vw, 6px) clamp(6px, 0.9vw, 8px);
+  }
+  
+  #game-status {
+    font-size: clamp(0.8em, 1.1vw, 0.9em);
+    padding: clamp(7px, 0.9vw, 10px) clamp(10px, 1.2vw, 12px);
+  }
+  
+  #betting-panel {
+    padding: clamp(12px, 1.4vw, 16px) clamp(18px, 2vw, 24px);
+  }
+  
+  .betting-title {
+    font-size: clamp(1.1em, 1.3vw, 1.2em);
+  }
+  
+  .bet-btn {
+    font-size: clamp(0.9em, 1.1vw, 1em);
+    padding: clamp(6px, 0.9vw, 8px) clamp(12px, 1.4vw, 16px);
+    min-width: clamp(45px, 5.5vw, 55px);
+  }
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+======================================== */
+@media (max-width: 768px) {
+  #crown-caste-frame {
+    width: 95vw;
+    height: 95vw;
+    min-height: 350px;
+  }
+  
+  #center-circle {
+    width: clamp(100px, 18vw, 160px);
+    height: clamp(100px, 18vw, 160px);
+  }
+  
+  .zone-north { 
+    top: clamp(20px, 5vw, 35px); 
+  }
+  .zone-south { 
+    bottom: clamp(20px, 5vw, 35px); 
+  }
+  .zone-west  { 
+    left: clamp(20px, 5vw, 35px); 
+  }
+  .zone-east  { 
+    right: clamp(20px, 5vw, 35px); 
+  }
+  
+  .player-stats {
+    flex-direction: column !important;
+    gap: 3px !important;
+  }
+  
+  .stat-display {
+    font-size: clamp(0.6em, 1vw, 0.75em);
+    padding: 2px 4px;
+  }
+  
+  .player-name {
+    font-size: clamp(0.7em, 1.2vw, 0.9em);
+    margin-bottom: 3px;
+  }
+  
+  .dice-triangle {
+    width: clamp(50px, 8vw, 70px);
+    height: clamp(50px, 8vw, 70px);
+  }
+  
+  .zone-die {
+    width: clamp(25px, 4vw, 35px);
+    height: clamp(25px, 4vw, 35px);
+    line-height: clamp(25px, 4vw, 35px);
+    font-size: clamp(0.8em, 1.2vw, 1em);
+  }
+  
+  #game-status {
+    font-size: clamp(0.6em, 1vw, 0.7em);
+    padding: 4px 6px;
+    top: clamp(5px, 1vw, 10px);
+    right: clamp(5px, 1vw, 10px);
+  }
+  
+  #betting-panel {
+    bottom: clamp(5px, 1vw, 10px);
+    padding: clamp(6px, 1vw, 10px) clamp(8px, 1.5vw, 15px);
+  }
+  
+  .betting-title {
+    font-size: clamp(0.8em, 1.2vw, 1em);
+    margin-bottom: 4px;
+  }
+  
+  .bet-btn {
+    font-size: clamp(0.7em, 1vw, 0.8em);
+    padding: 3px 6px;
+    min-width: clamp(30px, 5vw, 40px);
+  }
+}
+
+@media (max-width: 480px) {
+  #crown-caste-frame {
+    width: 98vw;
+    height: 98vw;
+    min-height: 320px;
+  }
+  
+  #center-circle {
+    width: clamp(80px, 16vw, 120px);
+    height: clamp(80px, 16vw, 120px);
+  }
+  
+  .crown-die {
+    width: clamp(25px, 4.5vw, 35px);
+    height: clamp(25px, 4.5vw, 35px);
+    line-height: clamp(25px, 4.5vw, 35px);
+    font-size: clamp(0.8em, 1.5vw, 1.1em);
+  }
+  
+  .crown-die-group {
+    gap: 2px;
+    margin-top: 10%;
+    margin-bottom: 30%;
+  }
+  
+  .zone-north { 
+    top: clamp(25px, 6vw, 40px); 
+  }
+  .zone-south { 
+    bottom: clamp(25px, 6vw, 40px); 
+  }
+  .zone-west  { 
+    left: clamp(25px, 6vw, 40px); 
+  }
+  .zone-east  { 
+    right: clamp(25px, 6vw, 40px); 
+  }
+  
+  .dice-triangle {
+    width: clamp(40px, 7vw, 60px);
+    height: clamp(40px, 7vw, 60px);
+  }
+  
+  .zone-die {
+    width: clamp(20px, 3.5vw, 30px);
+    height: clamp(20px, 3.5vw, 30px);
+    line-height: clamp(20px, 3.5vw, 30px);
+    font-size: clamp(0.7em, 1.1vw, 0.9em);
+  }
+  
+  .player-name {
+    font-size: clamp(0.6em, 1.1vw, 0.8em);
+    margin-bottom: 2px;
+  }
+  
+  .stat-display {
+    font-size: clamp(0.55em, 0.9vw, 0.7em);
+    padding: 1px 3px;
+    gap: 1px;
+  }
+  
+  .betting-controls {
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .bet-btn {
+    font-size: clamp(0.65em, 0.9vw, 0.75em);
+    padding: 2px 5px;
+  }
+  
+  #game-status {
+    font-size: clamp(0.55em, 0.9vw, 0.65em);
+    padding: 3px 5px;
+  }
+  
+  #betting-panel {
+    padding: 5px 8px;
+  }
+  
+  .betting-title {
+    font-size: clamp(0.7em, 1.1vw, 0.9em);
+    margin-bottom: 3px;
+  }
+}
+
+/* ========================================
+   INTERACTION STATES
+======================================== */
+.clickable-die.can-roll {
+  animation: pulse-green 1.5s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+}
+
+.clickable-die.can-lock {
+  animation: pulse-blue 1.5s infinite;
+}
+
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 100, 255, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(0, 100, 255, 0.7); }
+}
+
+.game-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.game-disabled .clickable-die,
+.game-disabled .clickable-chips,
+.game-disabled .clickable-crown {
+  cursor: default;
+}
+
+/* ========================================
+   GAME LAUNCH BUTTON STYLES
+======================================== */
+.start-minigame-button-wrapper {
+  margin: clamp(8px, 2vw, 16px) 0;
+  padding: clamp(12px, 2vw, 20px);
+  background: linear-gradient(135deg, #3b2a26 0%, #2b1a17 100%);
+  border: 2px solid #997c54;
+  border-radius: 8px;
+  font-family: 'Garamond', serif;
+}
+
+.crown-caste-game-info {
+  margin-bottom: clamp(8px, 1.5vw, 12px);
+  text-align: center;
+}
+
+.crown-caste-game-info h4 {
+  color: #ffe98a;
+  font-size: clamp(1.1em, 2vw, 1.3em);
+  margin: 0 0 clamp(6px, 1vw, 8px) 0;
+  font-weight: bold;
+}
+
+.game-details {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: clamp(8px, 1.5vw, 12px);
+  margin-bottom: clamp(6px, 1vw, 8px);
+}
+
+.game-details span {
+  color: #f0e6d2;
+  font-size: clamp(0.8em, 1.3vw, 0.9em);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stakes-level {
+  font-weight: bold;
+  color: #d4b26e;
+}
+
+.buy-in {
+  color: #ffe98a;
+}
+
+.players {
+  color: #c2a96b;
+}
+
+.house-rules-display {
+  font-size: clamp(0.7em, 1.1vw, 0.8em);
+  color: #a9864c;
+  font-style: italic;
+  margin-top: clamp(4px, 0.8vw, 6px);
+  padding: clamp(4px, 0.8vw, 6px);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.start-minigame-button {
+  width: 100%;
+  background: linear-gradient(135deg, #705234 0%, #5a3f28 100%);
+  color: #f0e6d2;
+  font-family: inherit;
+  border: 2px solid #c2a96b;
+  padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: clamp(0.9em, 1.5vw, 1.1em);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.start-minigame-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #8b6c45 0%, #6d4f35 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.start-minigame-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #444;
+  border-color: #666;
+  color: #999;
+}
+
+.minigame-warning {
+  color: #ff6b6b;
+  font-size: clamp(0.7em, 1.1vw, 0.8em);
+  text-align: center;
+  margin: clamp(6px, 1vw, 8px) 0 0 0;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .game-details {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .start-minigame-button-wrapper {
+    margin: 12px 0;
+    padding: 16px;
+  }
+}
+
+/* ========================================
+   CUSTOM TOOLTIP STYLE (data-tooltip)
+   (Scoped to prevent layout collisions)
+======================================== */
+.tooltip-parent {
+  position: relative;
+}
+
+.tooltip-parent[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.8);
+  color: #f0e6d2;
+  font-size: 0.75em;
+  padding: 4px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  margin-bottom: 6px;
+}
+
+.tooltip-parent[data-tooltip]:hover::after {
+  opacity: 1;
+}
+
+/* ========================================
+   DICE ROLLING ANIMATION
+======================================== */
+.rolling {
+  animation: dice-roll 0.1s infinite;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+  background-size: 400% 400%;
+  animation: dice-roll 0.1s infinite, rainbow-bg 0.5s infinite;
+  color: #fff !important;
+  font-weight: bold;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes dice-roll {
+  0%, 100% { transform: scale(1.1) rotate(0deg); }
+  25% { transform: scale(1.15) rotate(2deg); }
+  50% { transform: scale(1.1) rotate(0deg); }
+  75% { transform: scale(1.15) rotate(-2deg); }
+}
+
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Crown dice rolling animation */
+.crown-die.rolling {
+  animation: crown-dice-roll 0.1s infinite;
+  background: linear-gradient(45deg, #ffd700, #ffed4e, #f39c12, #e67e22);
+  background-size: 400% 400%;
+  animation: crown-dice-roll 0.1s infinite, gold-bg 0.5s infinite;
+  color: #2c3e50 !important;
+  font-weight: bold;
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+}
+
+@keyframes crown-dice-roll {
+  0%, 100% { transform: scale(1.1) rotate(0deg); }
+  25% { transform: scale(1.15) rotate(3deg); }
+  50% { transform: scale(1.1) rotate(0deg); }
+  75% { transform: scale(1.15) rotate(-3deg); }
+}
+
+@keyframes gold-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ========================================
+   NEXT GAME PANEL STYLES
+======================================== */
+#next-game-panel {
+  position: absolute;
+  bottom: clamp(8px, 2vw, 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b2a26;
+  border: 2px solid #997c54;
+  padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
+  border-radius: 8px;
+  z-index: 5;
+  text-align: center;
+}
+
+.next-game-title {
+  font-weight: bold;
+  font-size: clamp(0.9em, 1.5vw, 1.1em);
+  color: #ffe98a;
+  margin-bottom: clamp(6px, 1vw, 8px);
+}
+
+.next-game-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.next-game-button {
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  color: white;
+  font-family: inherit;
+  border: 2px solid #ffd700;
+  padding: clamp(6px, 1vw, 8px) clamp(12px, 2vw, 16px);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: clamp(0.8em, 1.2vw, 0.9em);
+  font-weight: bold;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.next-game-button:hover {
+  background: linear-gradient(135deg, #e6c547, #c9a429);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.next-game-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}

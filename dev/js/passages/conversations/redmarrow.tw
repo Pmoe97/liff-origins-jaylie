@@ -6,17 +6,17 @@ You nod toward his outfit, eyebrows raised.
 
 <<speech "jaylie">>You always dress this sharp, or is tonight special?<</speech>>
 
-He doesn’t look up right away—just finishes a long, deliberate stroke of his whetstone before setting the blade aside.
+He doesn't look up right away—just finishes a long, deliberate stroke of his whetstone before setting the blade aside.
 
 <<speech "redmarrow">>A professional must cultivate presence. Fear is a language, girl—and sometimes the only way to speak it is with polish and posture.<</speech>>
 
-His voice is smooth, deliberate—like every word was chosen for maximum effect. There’s a hint of a foreign accent, just enough to sound exotic without quite placing it. Every syllable lands with the flair of a man who enjoys being listened to.
+His voice is smooth, deliberate—like every word was chosen for maximum effect. There's a hint of a foreign accent, just enough to sound exotic without quite placing it. Every syllable lands with the flair of a man who enjoys being listened to.
 
-He lifts his glass, swirling the inky red liquid like it’s blood.
+He lifts his glass, swirling the inky red liquid like it's blood.
 
-<<speech "redmarrow">>Besides, if you knew how many lives this armor’s saved, you’d understand why I keep it looking just the right kind of worn.<</speech>>
+<<speech "redmarrow">>Besides, if you knew how many lives this armor's saved, you'd understand why I keep it looking just the right kind of worn.<</speech>>
 
-You can’t help a soft laugh. You question for a moment if armor is meant to save any lives other than the wearer's but decide against questioning this out loud.
+You can't help a soft laugh. You question for a moment if armor is meant to save any lives other than the wearer's but decide against questioning this out loud.
 
 <<speech "jaylie">>You kinda look like you stepped out of a painting.<</speech>>
 
@@ -35,21 +35,21 @@ Your comment was less a compliment and more an observation, but he obviously too
 
 You tilt your head slightly, taking in the armor, the dagger, the air of self-importance.
 
-<<speech "jaylie">>So… what do you do, exactly? You look like you’re either waiting for a duel or a portrait session.<</speech>>
+<<speech "jaylie">>So… what do you do, exactly? You look like you're either waiting for a duel or a portrait session.<</speech>>
 
 He chuckles softly, finally setting down his glass.
 <<know>>
-<<speech "redmarrow">>Both, if I'm lucky. But officially? I’m a licensed bounty contractor—charter-recognized and Guild-backed. Dangerous work, of course, but Leopold Redmarrow does not shy from danger.<</speech>>
+<<speech "redmarrow">>Both, if I'm lucky. But officially? I'm a licensed bounty contractor—charter-recognized and Guild-backed. Dangerous work, of course, but Leopold Redmarrow does not shy from danger.<</speech>>
 
 He leans forward, resting one elbow on the table with the confidence of a man who knows how to fill space.
 
 <<speech "redmarrow">>Most days, it's chasing coin. Some days, justice. And every so often, something a bit more... poetic.<</speech>>
 
-You’re not sure what “poetic” bounty work looks like, but he clearly thinks it sounds impressive.
+You're not sure what “poetic” bounty work looks like, but he clearly thinks it sounds impressive.
 
 <<speech "jaylie">>So you catch criminals for money.<</speech>>
 
-<<speech "redmarrow">>That’s the skeleton of it, sure. But when you dress the bones in legend and legacy, it walks a bit taller.<</speech>>
+<<speech "redmarrow">>That's the skeleton of it, sure. But when you dress the bones in legend and legacy, it walks a bit taller.<</speech>>
 
 He flashes a smile so polished it might as well be part of his armor.
 
@@ -67,15 +67,15 @@ You squint slightly, letting your tone ride the edge of teasing.
 
 <<speech "jaylie">>Redmarrow? That your real name?<</speech>>
 
-He smirks before you even finish the question, like he’s been waiting for this exact moment.
+He smirks before you even finish the question, like he's been waiting for this exact moment.
 
 <<speech "redmarrow">>Ah. The question behind all great men.<</speech>>
 
-He picks up his glass again, but doesn’t drink—just holds it aloft like a toast to himself.
+He picks up his glass again, but doesn't drink—just holds it aloft like a toast to himself.
 
 <<speech "redmarrow">>Some are born into names. Others earn them. And a rare few... are wise enough to choose their own before fate does it for them.<</speech>>
 
-<<speech "jaylie">>That’s not really an answer. Which are you?<</speech>>
+<<speech "jaylie">>That's not really an answer. Which are you?<</speech>>
 
 He winks, finally sipping the wine.
 
@@ -95,7 +95,7 @@ You get the sense that “truth” is a negotiable concept for Leopold Redmarrow
 
 <<speech "jaylie">>Can anyone take work from the Guild? Or do you have to be invited or something?<</speech>>
 
-Redmarrow leans back slightly, resting one boot on the leg of the table like he’s posing for a statue.
+Redmarrow leans back slightly, resting one boot on the leg of the table like he's posing for a statue.
 
 <<speech "redmarrow">>Not normally, no. To be properly registered, you need to be recruited by an active member, sign the charter, and—of course—pay the initiation fees.<</speech>>
 
@@ -105,7 +105,7 @@ He swirls his wine and grins.
 
 You raise an eyebrow.
 
-<<speech "jaylie">>So it’s expensive?<</speech>>
+<<speech "jaylie">>So it's expensive?<</speech>>
 
 <<speech "redmarrow">>Costly? No, no. *Efficient.* Twenty gold covers all the paperwork. And, coincidentally, I happen to have a contract I could share that would more than offset that upfront cost.<</speech>>
 
@@ -147,7 +147,7 @@ He doesn't answer right away—just gives you a slow smile, like you passed some
 
 You place the coin down on the table.
 
-Leopold sweeps it up with one smooth motion—almost too smooth, like he’s done this *a lot*. He doesn’t even check the weight.
+Leopold sweeps it up with one smooth motion—almost too smooth, like he's done this *a lot*. He doesn't even check the weight.
 
 <<speech "redmarrow">>A wise investment, er–.<</speech>>
 
@@ -157,11 +157,11 @@ You realize you haven't shared your name yet.
 
 <<speech "redmarrow">>A wise investment, Jaylie.<</speech>>
 
-He pulls a folded scrap of parchment from inside his coat and slides it toward you like it’s contraband.
+He pulls a folded scrap of parchment from inside his coat and slides it toward you like it's contraband.
 
-<<speech "redmarrow">>Target’s a pickpocket named Tel Varas. He’s known well enough around the city, and he’s slipped past the Wardens more times than they care to admit. So much so, apparently that the City passed it to the guild. He's not dangerous, just slimy.<</speech>>
+<<speech "redmarrow">>Target's a pickpocket named Tel Varas. He's known well enough around the city, and he's slipped past the Wardens more times than they care to admit. So much so, apparently that the City passed it to the guild. He's not dangerous, just slimy.<</speech>>
 
-You glance down at the parchment. It’s vague. A name, a rough sketch, and a few scribbled locations—none of it official.
+You glance down at the parchment. It's vague. A name, a rough sketch, and a few scribbled locations—none of it official.
 
 <<speech "jaylie">>This looks like it was written in a tavern bathroom.<</speech>>
 
@@ -198,7 +198,7 @@ Redmarrow gives a slight, theatrical sigh—but it's performative, not impatient
 
 He taps the parchment again with one finger.
 
-<<speech "redmarrow">>He’s been dipping through the outer wards for weeks. The city watch is tired of chasing him in circles, so they handed it off to the Guild. Which means us.<</speech>>
+<<speech "redmarrow">>He's been dipping through the outer wards for weeks. The city watch is tired of chasing him in circles, so they handed it off to the Guild. Which means us.<</speech>>
 
 He sips from his glass like he just summarized a real war criminal.
 
@@ -214,13 +214,13 @@ He sips from his glass like he just summarized a real war criminal.
 
 <<speech "jaylie">>Any idea where I should start looking for him?<</speech>>
 
-Redmarrow waves a hand vaguely, like the question’s too mundane for a man of his rank.
+Redmarrow waves a hand vaguely, like the question's too mundane for a man of his rank.
 
-<<speech "redmarrow">>If I knew *exactly* where he was, I wouldn’t need to outsource the job, would I?<</speech>>
+<<speech "redmarrow">>If I knew *exactly* where he was, I wouldn't need to outsource the job, would I?<</speech>>
 
 He leans back with an easy smirk.
 
-<<speech "redmarrow">>But word is he’s been casing the outer wards. And with the fair about to start, let’s just say it’s a pickpocket’s wet dream.<</speech>>
+<<speech "redmarrow">>But word is he's been casing the outer wards. And with the fair about to start, let's just say it's a pickpocket's wet dream.<</speech>>
 
 He taps his temple with one gloved finger.
 
@@ -240,13 +240,13 @@ You imagine he might be stay close to the fairgrounds in King Market square over
 
 <<speech "jaylie">>And how much is this job paying again?<</speech>>
 
-Redmarrow grins like he’s just been waiting for the question.
+Redmarrow grins like he's just been waiting for the question.
 
 <<speech "redmarrow">>Official bounty on Tel Varas is a hundred gold.<</speech>>
 
 He lets the number hang in the air for a beat, watching your reaction.
 
-<<speech "redmarrow">>Modest by Guild standards, but for a first mark? It’s a fine stepping stone.<</speech>>
+<<speech "redmarrow">>Modest by Guild standards, but for a first mark? It's a fine stepping stone.<</speech>>
 
 He lifts his glass again, just shy of a toast.
 
@@ -268,15 +268,15 @@ He says it like he's quoting an invisible rulebook that only he has access to.
 
 Redmarrow hesitates—just for a breath—then offers a casual shrug.
 
-<<speech "redmarrow">>Technically… there’s a standing bonus if any stolen goods are recovered intact.<</speech>>
+<<speech "redmarrow">>Technically… there's a standing bonus if any stolen goods are recovered intact.<</speech>>
 
-He says it lightly, like he’s not sure why he even bothered mentioning it.
+He says it lightly, like he's not sure why he even bothered mentioning it.
 
 <<speech "redmarrow">>Twenty percent of their appraised value, paid out separately. But that's the kind of thing that only comes up if you're *very* lucky and *very* quick.<</speech>>
 
 He waves a hand as if to dismiss the thought entirely.
 
-<<speech "redmarrow">>Just focus on the bounty. Clean job, clear proof, no complications—that’s how you build a name.<</speech>>
+<<speech "redmarrow">>Just focus on the bounty. Clean job, clear proof, no complications—that's how you build a name.<</speech>>
 
 He smiles like he's being helpful, but you can feel the unspoken asterisk hovering behind his words.
 
@@ -290,7 +290,7 @@ He smiles like he's being helpful, but you can feel the unspoken asterisk hoveri
 <<widget "Redmarrow_ReturnBountytoPhase0">>
 <<append "#convoBox">>
 
-<<speech "jaylie">>Let’s talk about something else.<</speech>>
+<<speech "jaylie">>Let's talk about something else.<</speech>>
 
 Redmarrow gives a faint nod and adjusts his posture, as if shedding the whole “professional” act without hesitation.
 
@@ -311,7 +311,7 @@ Redmarrow gives a faint nod and adjusts his posture, as if shedding the whole �
 
 Redmarrow gives a shallow nod, swirling his glass slowly before taking a measured sip.
 
-<<speech "redmarrow">>I intend to. Should fortune favor you, perhaps you’ll earn the same.<</speech>>
+<<speech "redmarrow">>I intend to. Should fortune favor you, perhaps you'll earn the same.<</speech>>
 
 
 [[You turn back toward the tavern's main floor.|Scene03_TheSpace]]

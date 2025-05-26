@@ -299,25 +299,25 @@ She glances at you, eyes sharp but not unkind.
 <<append "#convoBox">>
 <<speech "jaylie">>Do you want to talk about what happened outside?<</speech>>
 
-Marie exhales slowly through her nose and tilts her head back against the wall. Her eyes drift toward the ceiling like she’s counting breaths—or deciding if she wants to let them out.
+Marie exhales slowly through her nose and tilts her head back against the wall. Her eyes drift toward the ceiling like she's counting breaths—or deciding if she wants to let them out.
 
-<<speech "marie">>Kallot and I… it’s complicated.<</speech>>
+<<speech "marie">>Kallot and I… it's complicated.<</speech>>
 
 She lets that hang for a moment before continuing, voice quiet but clear.
 
-<<speech "marie">>He’s not usually like that. He’s kind. Gentle. The kind of drunk who rambles about stars and apologizes for existing too much. But tonight he was…<</speech>>
+<<speech "marie">>He's not usually like that. He's kind. Gentle. The kind of drunk who rambles about stars and apologizes for existing too much. But tonight he was…<</speech>>
 
 She trails off, shakes her head once.
 
-<<speech "marie">>He was angry. Dismissive. I’ve never seen him like that. I thought maybe he came to see me—but it was like I wasn’t even there.<</speech>>
+<<speech "marie">>He was angry. Dismissive. I've never seen him like that. I thought maybe he came to see me—but it was like I wasn't even there.<</speech>>
 
 Her fingers curl into the edge of the quilt again.
 
-<<speech "marie">>I want to forgive him. I do. But I don’t understand why he was like that. Why he *chose* to be like that.<</speech>>
+<<speech "marie">>I want to forgive him. I do. But I don't understand why he was like that. Why he *chose* to be like that.<</speech>>
 
 She finally looks at you. Really looks at you.
 
-<<speech "marie">>You ever see someone you care about... shift into someone you don’t recognize? Just long enough to scare you?<</speech>>
+<<speech "marie">>You ever see someone you care about... shift into someone you don't recognize? Just long enough to scare you?<</speech>>
 
 <</append>>
 <<relation "marie" "trust" 1>>
@@ -331,21 +331,21 @@ She finally looks at you. Really looks at you.
   <<append "#convoBox">>
   <<speech "jaylie">>How long have you and Kallot been... whatever you are?<</speech>>
 
-  Marie lifts one eyebrow at the phrasing, but there’s no venom in it. Just tired humor.
+  Marie lifts one eyebrow at the phrasing, but there's no venom in it. Just tired humor.
 
-  <<speech "marie">>That’s one way to put it.<</speech>>
+  <<speech "marie">>That's one way to put it.<</speech>>
 
   She draws her legs up slightly and rests her chin on her knees, eyes fixed on the opposite wall as she answers.
 
-  <<speech "marie">>We met about a year ago. He came to the brothel drunk one night, but not... messy. Just lonely. Sad in this quiet, polite kind of way that made me feel like I couldn’t be mean to him, even if I wanted to.<</speech>>
+  <<speech "marie">>We met about a year ago. He came to the brothel drunk one night, but not... messy. Just lonely. Sad in this quiet, polite kind of way that made me feel like I couldn't be mean to him, even if I wanted to.<</speech>>
 
   She gives a faint, private smile.
 
-  <<speech "marie">>He didn’t even ask for anything. Just talked to me. Listened too. Came back the next week with a book he thought I’d like. Some old thing about myths from the Inner Isles. It had footnotes. He highlighted the wrong parts, but still—<</speech>>
+  <<speech "marie">>He didn't even ask for anything. Just talked to me. Listened too. Came back the next week with a book he thought I'd like. Some old thing about myths from the Inner Isles. It had footnotes. He highlighted the wrong parts, but still—<</speech>>
 
   She stops herself, looking back to you.
 
-  <<speech "marie">>Anyway. It just kind of happened. We’d talk. Sometimes he’d hold my hand. Sometimes I’d let him fall asleep on my shoulder. I don’t know what to call that, but… it was something.<</speech>>
+  <<speech "marie">>Anyway. It just kind of happened. We'd talk. Sometimes he'd hold my hand. Sometimes I'd let him fall asleep on my shoulder. I don't know what to call that, but… it was something.<</speech>>
 
   <</append>>
   <<relation "marie" "trust" 1>>
@@ -358,25 +358,25 @@ She finally looks at you. Really looks at you.
   <<append "#convoBox">>
   <<speech "jaylie">>Do you think he meant to hurt you?<</speech>>
 
-  Marie’s jaw tightens slightly. She doesn’t answer right away. When she finally does, it’s with a kind of careful quiet, like she’s placing each word on a scale.
+  Marie's jaw tightens slightly. She doesn't answer right away. When she finally does, it's with a kind of careful quiet, like she's placing each word on a scale.
 
   <<speech "marie">>No.<</speech>>
 
   A beat.
 
-  <<speech "marie">>I don’t think so. Not *like that.*<</speech>>
+  <<speech "marie">>I don't think so. Not *like that.*<</speech>>
 
-  She folds her arms across her chest, not defensive—more like she’s holding herself in place.
+  She folds her arms across her chest, not defensive—more like she's holding herself in place.
 
-  <<speech "marie">>He’s never laid a hand on me. Not when I didn't want him to. He’s the type to apologize if his elbow brushed me by mistake. That’s... who I thought he was.<</speech>>
+  <<speech "marie">>He's never laid a hand on me. Not when I didn't want him to. He's the type to apologize if his elbow brushed me by mistake. That's... who I thought he was.<</speech>>
 
   She exhales slowly, the breath catching on something unsaid.
 
-  <<speech "marie">>But words? Being cold? Acting like I was a stranger? I think maybe part of him *did* want to push me away. And maybe that part didn’t care how much it would sting.<</speech>>
+  <<speech "marie">>But words? Being cold? Acting like I was a stranger? I think maybe part of him *did* want to push me away. And maybe that part didn't care how much it would sting.<</speech>>
 
-  She doesn't cry. She doesn’t need to.
+  She doesn't cry. She doesn't need to.
 
-  <<speech "marie">>Sometimes people hurt you just enough that you’ll walk away... so they won’t have to.<</speech>>
+  <<speech "marie">>Sometimes people hurt you just enough that you'll walk away... so they won't have to.<</speech>>
 
   <<speech "jaylie">>I hope this doesn't come across like I am trying to defend his actions. He hurt you and it's okay for you to feel like that, but maybe he did have something extra going on. Something that made him act out like that. I don't know him, obviously, but maybe there is more to the story that only Kallot knows.<</speech>>
   <</append>>
@@ -392,21 +392,21 @@ She finally looks at you. Really looks at you.
   <<append "#convoBox">>
   <<speech "jaylie">>Has he ever scared you before tonight?<</speech>>
 
-  Marie’s mouth pulls into a line—not frowning, just thoughtful. She glances toward the door, then back at you.
+  Marie's mouth pulls into a line—not frowning, just thoughtful. She glances toward the door, then back at you.
 
   <<speech "marie">>No. Not once.<</speech>>
 
   She shifts slightly on the bed, fingers fidgeting with the corner of the quilt.
 
-  <<speech "marie">>Even when he drinks, he’s... careful. Polite, even. If anything, he’s usually the one looking scared—like he’s afraid of taking up too much space.<</speech>>
+  <<speech "marie">>Even when he drinks, he's... careful. Polite, even. If anything, he's usually the one looking scared—like he's afraid of taking up too much space.<</speech>>
 
   She pauses, then adds with a lowered voice:
 
-  <<speech "marie">>I know he’s tied up in something. Work, maybe. Maybe worse. He’s never said it outright, but I’ve heard names. Watched the way he changes when certain people come around.<</speech>>
+  <<speech "marie">>I know he's tied up in something. Work, maybe. Maybe worse. He's never said it outright, but I've heard names. Watched the way he changes when certain people come around.<</speech>>
 
   She meets your eyes now, steady and certain.
 
-  <<speech "marie">>But even then, he never raised his voice. Never made me flinch. That’s why tonight was...<</speech>>
+  <<speech "marie">>But even then, he never raised his voice. Never made me flinch. That's why tonight was...<</speech>>
 
   She exhales through her nose.
 
@@ -420,27 +420,27 @@ She finally looks at you. Really looks at you.
   :: Marie_Fight_Forgiveness [widget]
   <<widget "Marie_Fight_Forgiveness">>
   <<append "#convoBox">>
-  <<speech "jaylie">>Do you think you’ll talk to him again after this?<</speech>>
+  <<speech "jaylie">>Do you think you'll talk to him again after this?<</speech>>
 
-  Marie doesn’t answer right away. She draws one leg beneath her, adjusting her posture like the question physically shifted her balance.
+  Marie doesn't answer right away. She draws one leg beneath her, adjusting her posture like the question physically shifted her balance.
 
-  <<speech "marie">>I don’t know.<</speech>>
+  <<speech "marie">>I don't know.<</speech>>
 
-  Her voice isn’t cold—it’s honest. Worn a little thin at the edges.
+  Her voice isn't cold—it's honest. Worn a little thin at the edges.
 
   <<speech "marie">>I want to. Part of me does, anyway. The part that still believes this was... an outlier. A bad night. Something explainable.<</speech>>
 
   She looks down at her hands, thumbs idly tracing one another.
 
-  <<speech "marie">>But if I open that door and he’s still wearing that same face—the one from tonight—I don’t think I could pretend it didn’t scare me.<</speech>>
+  <<speech "marie">>But if I open that door and he's still wearing that same face—the one from tonight—I don't think I could pretend it didn't scare me.<</speech>>
 
   She swallows. Not hard. Not dramatic. Just a quiet moment of choosing her next words carefully.
 
-  <<speech "marie">>I think forgiveness is easier when you understand *why* someone hurt you. When you can file it under something that makes sense. But right now... I’ve got nothing to file it under.<</speech>>
+  <<speech "marie">>I think forgiveness is easier when you understand *why* someone hurt you. When you can file it under something that makes sense. But right now... I've got nothing to file it under.<</speech>>
 
   She glances back at you with a faint, almost bitter smile.
 
-  <<speech "marie">>Maybe that’s the hardest part. Not the pain. The silence that follows it.<</speech>>
+  <<speech "marie">>Maybe that's the hardest part. Not the pain. The silence that follows it.<</speech>>
   <</append>>
   <<run setup.clearConvoChoices()>>
   <<run setup.marie_Conversation_Options_TheFight()>>
@@ -459,13 +459,13 @@ She finally looks at you. Really looks at you.
 
   You nod slowly, thinking back to that rain-drenched street. The weight of his body. The blood. The way he smiled, even half-conscious.
 
-  <<speech "jaylie">>I didn’t know him. I didn’t know you. He just looked like he wouldn’t do so well if he was left out there.<</speech>>
+  <<speech "jaylie">>I didn't know him. I didn't know you. He just looked like he wouldn't do so well if he was left out there.<</speech>>
 
-  Marie doesn’t speak for a few seconds. Her gaze drifts—not away from you, but somewhere distant. Somewhere inside.
+  Marie doesn't speak for a few seconds. Her gaze drifts—not away from you, but somewhere distant. Somewhere inside.
 
   <<speech "marie">>That sounds like him. I nearly killed him, and there he was smiling about it like an idiot.<</speech>>
 
-  She gives a quiet laugh. It’s not bitter.
+  She gives a quiet laugh. It's not bitter.
 
   <<speech "marie">>Thank you... For not leaving him, not walking past.<</speech>>
 
@@ -483,7 +483,7 @@ She finally looks at you. Really looks at you.
 
   Marie blinks, clearly caught off guard—not upset, just surprised by the question.
 
-  <<speech "marie">>That’s... not something people usually ask.<</speech>>
+  <<speech "marie">>That's... not something people usually ask.<</speech>>
 
   She looks down for a moment, pulling her knees in closer to her chest as if the question peeled away some layer of armor.
 
@@ -491,7 +491,7 @@ She finally looks at you. Really looks at you.
 
   A small smile tugs at her mouth—genuine, if faint.
 
-  <<speech "marie">>I was also naïve. Thought I could change the world with enough wit and well-placed sarcasm. Thought people would see value in me just because I was smart and sharp and didn’t take shit from anyone.<</speech>>
+  <<speech "marie">>I was also naïve. Thought I could change the world with enough wit and well-placed sarcasm. Thought people would see value in me just because I was smart and sharp and didn't take shit from anyone.<</speech>>
 
   She looks at you then, more open than before. Not vulnerable—just honest.
 
@@ -509,17 +509,17 @@ She finally looks at you. Really looks at you.
   :: Marie_Fight_Exit [widget]
   <<widget "Marie_Fight_Exit">>
   <<append "#convoBox">>
-  <<speech "jaylie">>We can talk about something else, if you’d like.<</speech>>
+  <<speech "jaylie">>We can talk about something else, if you'd like.<</speech>>
 
   Marie exhales through her nose—not in annoyance, but relief. Not because the conversation was too much, but because you knew when to let go.
 
-  <<speech "marie">>Thanks. It’s not that I mind talking about it... just sometimes you don’t realize how heavy something is until you say it out loud.<</speech>>
+  <<speech "marie">>Thanks. It's not that I mind talking about it... just sometimes you don't realize how heavy something is until you say it out loud.<</speech>>
 
-  She adjusts her posture slightly, her tone lighter now—like she’s shaking off a weight but not ignoring it.
+  She adjusts her posture slightly, her tone lighter now—like she's shaking off a weight but not ignoring it.
 
-  <<speech "marie">>Besides, this was supposed to be your night, wasn’t it?<</speech>>
+  <<speech "marie">>Besides, this was supposed to be your night, wasn't it?<</speech>>
 
-  There’s a faint smile. Not a performance. Just a moment of softness.
+  There's a faint smile. Not a performance. Just a moment of softness.
 
   <<speech "marie">>So... what do you want to talk about instead?<</speech>>
   <</append>>
@@ -534,7 +534,7 @@ She finally looks at you. Really looks at you.
 <<append "#convoBox">>
 <<speech "jaylie">>Do you want to talk about what happened outside?<</speech>>
 
-Marie’s expression hardens immediately—not dramatically, but enough to feel the shift. Her jaw tightens. Her eyes narrow just slightly.
+Marie's expression hardens immediately—not dramatically, but enough to feel the shift. Her jaw tightens. Her eyes narrow just slightly.
 
 <<speech "marie">>Thank you for offering, but I think that I am just going to let it simmer a little longer. I don't mean any offense, but I hope you understand.<</speech>>
 
@@ -555,9 +555,9 @@ She seems sincere, and you aren't about to push it any further.
 <<append "#convoBox">>
 <<speech "jaylie">>Can I touch you?<</speech>>
 
-Marie blinks, her breath catching just slightly. Not from fear—but from the weight of the question. You can see it in the way she looks at you now. Like she’s measuring something. Like no one’s asked her *that* before—not like this.
+Marie blinks, her breath catching just slightly. Not from fear—but from the weight of the question. You can see it in the way she looks at you now. Like she's measuring something. Like no one's asked her *that* before—not like this.
 
-<<speech "marie">>You’re... asking?<</speech>>
+<<speech "marie">>You're... asking?<</speech>>
 
 She says it softly, more observation than surprise. Her voice drops to a hush, and she leans in—just enough that you feel the warmth between you shift.
 
@@ -569,7 +569,7 @@ She extends one hand toward you, palm open, fingers still. Waiting.
 
 <<speech "marie">>Go on, then. Just... be gentle.<</speech>>
 
-You take her hand. She doesn’t pull away.
+You take her hand. She doesn't pull away.
 
 She just holds it there, eyes never leaving yours, her thumb brushing once—light as breath—against your skin.
 
@@ -597,15 +597,15 @@ You don't hesitate to comply.
 <<widget "Marie_LayAndTalk">>
 <<append "#convoBox">>
 
-<<speech "jaylie">>If it’s alright... I think I’d just like to lay here with you.<</speech>>
+<<speech "jaylie">>If it's alright... I think I'd just like to lay here with you.<</speech>>
 
-Marie doesn’t answer right away. She shifts slightly, thoughtful, and then—surprisingly—smiles.
+Marie doesn't answer right away. She shifts slightly, thoughtful, and then—surprisingly—smiles.
 
 <<speech "marie">>Yeah. That actually sounds... really nice.<</speech>>
 
-She scoots back and folds the blanket down beside her. The gesture is plain, but there’s something careful in it. She’s not offering a show. She’s offering *space*.
+She scoots back and folds the blanket down beside her. The gesture is plain, but there's something careful in it. She's not offering a show. She's offering *space*.
 
-<<speech "marie">>Just don’t snore. I’ve already had enough surprises for one night.<</speech>>
+<<speech "marie">>Just don't snore. I've already had enough surprises for one night.<</speech>>
 
 You both laugh, quiet and close.
 

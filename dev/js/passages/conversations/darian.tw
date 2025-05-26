@@ -5,15 +5,15 @@
 
 Darian leans back a little, glancing around the room with something like fondness. Not for the building, necessarily—but for the people moving within it.
 
-<<speech "darian">>A few years, give or take. I wasn’t planning to stay this long, but... the place has a way of pulling you in.<</speech>>
+<<speech "darian">>A few years, give or take. I wasn't planning to stay this long, but... the place has a way of pulling you in.<</speech>>
 
-He shrugs, though there’s more weight behind it than he lets on.
+He shrugs, though there's more weight behind it than he lets on.
 
-<<speech "darian">>It’s not the walls, it’s the people. We look after each other. You don’t find that everywhere. Especially not in this line of work.<</speech>>
+<<speech "darian">>It's not the walls, it's the people. We look after each other. You don't find that everywhere. Especially not in this line of work.<</speech>>
 
 He looks at you, warm but steady.
 
-<<speech "darian">>You learn a lot about someone when you're the reason they let their guard down. It’s not always pretty. But sometimes... sometimes it’s beautiful.<</speech>>
+<<speech "darian">>You learn a lot about someone when you're the reason they let their guard down. It's not always pretty. But sometimes... sometimes it's beautiful.<</speech>>
 
 <</append>>
 <<run setup.clearConvoChoices()>>
@@ -27,7 +27,7 @@ He looks at you, warm but steady.
 <<append "#convoBox">>
 <<speech "jaylie">>Do you actually enjoy this job?<</speech>>
 
-Darian’s eyebrows lift slightly, then settle into a thoughtful expression. He doesn’t laugh it off or dodge—it’s clear he’s been asked this before.
+Darian's eyebrows lift slightly, then settle into a thoughtful expression. He doesn't laugh it off or dodge—it's clear he's been asked this before.
 
 <<speech "darian">>Some nights more than others.<</speech>>
 
@@ -37,7 +37,7 @@ He smiles—genuine, not forced.
 
 His fingers absentmindedly trace the edge of a nearby glass, thoughtful.
 
-<<speech "darian">>The job isn’t really about what we do. It’s about what people leave with. And when I get that part right... yeah. I like it.<</speech>>
+<<speech "darian">>The job isn't really about what we do. It's about what people leave with. And when I get that part right... yeah. I like it.<</speech>>
 
 
 <</append>>
@@ -57,13 +57,13 @@ Darian glances down at his wrist like he forgot it was even there. His fingers g
 
 <<speech "darian">>It was a gift. From someone important.<</speech>>
 
-He doesn’t elaborate, not right away. His eyes lose focus for a moment—caught somewhere between memory and the present.
+He doesn't elaborate, not right away. His eyes lose focus for a moment—caught somewhere between memory and the present.
 
-<<speech "darian">>I’ve worn it every day since they gave it to me. It’s held up surprisingly well... not unlike the person who made it.<</speech>>
+<<speech "darian">>I've worn it every day since they gave it to me. It's held up surprisingly well... not unlike the person who made it.<</speech>>
 
-There’s a small pause—long enough for you to sense he’s choosing what *not* to say.
+There's a small pause—long enough for you to sense he's choosing what *not* to say.
 
-<<speech "darian">>Maybe I’ll tell you more about it sometime. If the night keeps going like this.<</speech>>
+<<speech "darian">>Maybe I'll tell you more about it sometime. If the night keeps going like this.<</speech>>
 
 He offers a smile—not flirtatious this time, just sincere.
 
@@ -84,31 +84,31 @@ Darian chuckles softly.
 
 <<speech "darian">>You asking because you want a drink, or because you want an excuse to talk to me longer?<</speech>>
 
-Before you can answer, he lifts a hand to catch Bert’s attention.
+Before you can answer, he lifts a hand to catch Bert's attention.
 
 <<speech "darian">>Bert, can we get something a little warm but not too strong? Something for thinking, not forgetting.<</speech>>
 
 Bert grunts from the far end of the bar, already reaching for bottles.
 
-<<speech "bert">>So... not the ‘Red Mercy,’ then. Got it.<</speech>>
+<<speech "bert">>So... not the ‘Red Mercy,' then. Got it.<</speech>>
 
 Darian leans in slightly, lowering his voice.
 
-<<speech "darian">>He pretends to be grumpy, but he’s one of the kindest souls in this place. That drink you’re about to get? He only makes it for people he actually likes.<</speech>>
+<<speech "darian">>He pretends to be grumpy, but he's one of the kindest souls in this place. That drink you're about to get? He only makes it for people he actually likes.<</speech>>
 
 He straightens as Bert slides a glass across the counter. The liquid inside glows a soft amber, curling with steam.
 
-<<speech "darian">>Try that. It’s got a name, but I like calling it 'Second Wind.' Makes you feel like the night’s still got promise.<</speech>>
+<<speech "darian">>Try that. It's got a name, but I like calling it 'Second Wind.' Makes you feel like the night's still got promise.<</speech>>
 
 You lift the glass and breathe in.
 
-The aroma is warm and spiced—notes of orange peel, clove, and something almost floral beneath the heat. When you take a sip, it’s smoother than you expected. The burn is soft, the flavor deep. It blooms across your tongue like dusk settling into firelight.
+The aroma is warm and spiced—notes of orange peel, clove, and something almost floral beneath the heat. When you take a sip, it's smoother than you expected. The burn is soft, the flavor deep. It blooms across your tongue like dusk settling into firelight.
 
-It doesn’t dull your senses. It *clarifies* them.
+It doesn't dull your senses. It *clarifies* them.
 
 You lower the glass, exhaling slow.
 
-<<speech "jaylie">>That’s... actually perfect.<</speech>>
+<<speech "jaylie">>That's... actually perfect.<</speech>>
 
 Darian smiles. Not smug. Just pleased.
 
@@ -138,13 +138,13 @@ He glances down at his hands, flexing his fingers like they still remember a dif
 
 His eyes go distant for a moment.
 
-<<speech "darian">>I used to love it. Music made sense in ways life didn’t. I could climb an aria like a staircase and feel like I’d gone somewhere worth arriving.<</speech>>
+<<speech "darian">>I used to love it. Music made sense in ways life didn't. I could climb an aria like a staircase and feel like I'd gone somewhere worth arriving.<</speech>>
 
 A quiet beat.
 
 <<speech "darian">>But that was before. Before a lot of things changed.<</speech>>
 
-He doesn’t say more—not here, not yet—but you can tell the story’s still close behind his smile.
+He doesn't say more—not here, not yet—but you can tell the story's still close behind his smile.
 
 <<speech "darian">>Now I hum to keep pieces of it close. Not for performance. Just... for me.<</speech>>
 
@@ -164,11 +164,11 @@ He doesn’t say more—not here, not yet—but you can tell the story’s still
 
 Darian tilts his head, his expression unreadable for a moment—thoughtful, maybe a little surprised. Then he smiles, slow and sincere.
 
-<<speech "darian">>That’s not something I hear very often. At least not from people who mean it.<</speech>>
+<<speech "darian">>That's not something I hear very often. At least not from people who mean it.<</speech>>
 
 He leans against the bar, arms folded lightly.
 
-<<speech "darian">>Alright, then. Let’s talk. But fair warning—I'm not always the easiest book to read.<</speech>>
+<<speech "darian">>Alright, then. Let's talk. But fair warning—I'm not always the easiest book to read.<</speech>>
 
 <</append>>
 <<OpenConvoGame "darian">>
@@ -184,15 +184,15 @@ He leans against the bar, arms folded lightly.
 
 Darian doesn't answer immediately. His gaze lingers on you a moment longer than usual, soft but searching.
 
-<<speech "darian">>We could. If that’s really what you want.<</speech>>
+<<speech "darian">>We could. If that's really what you want.<</speech>>
 
-His voice isn’t challenging—it’s careful, like he wants to be sure you're not asking just to fill the space between you.
+His voice isn't challenging—it's careful, like he wants to be sure you're not asking just to fill the space between you.
 
 <<speech "darian">>My room in the hallway upstairs is relatively quiet this time of night, and far more private overall. No one will bother us there.<</speech>>
 
 He steps forward, extending a hand—not dramatic, not performative. Just steady.
 
-<<speech "darian">>Come on. I’ll walk with you.<</speech>>
+<<speech "darian">>Come on. I'll walk with you.<</speech>>
 
 [[You take his hand and follow him.|Darian_GoingUpstairs]]
 <</append>>
@@ -209,7 +209,7 @@ He steps forward, extending a hand—not dramatic, not performative. Just steady
 
 Darian nods, easy and warm.
 
-<<speech "darian">>Of course. The night’s still young—plenty of stories left to find.<</speech>>
+<<speech "darian">>Of course. The night's still young—plenty of stories left to find.<</speech>>
 
 He gives a small bow of the head and gestures subtly back toward the center of the lounge.
 
@@ -227,13 +227,13 @@ He gives a small bow of the head and gestures subtly back toward the center of t
 <<append "#convoBox">>
 <<speech "jaylie">>I like your room. Are they all like this?<</speech>>
 
-Darian smiles faintly, glancing around at the heavy curtain-lined walls like he’s seeing them through someone else’s eyes.
+Darian smiles faintly, glancing around at the heavy curtain-lined walls like he's seeing them through someone else's eyes.
 
 <<speech "darian">>Not quite. Each host decorates their own. Some lean decadent. Others lean... chaotic.<</speech>>
 
 He runs a hand along one of the thick curtains.
 
-<<speech "darian">>These started as an attempt to make the place feel more like a theater. Turns out, they’re also pretty good at keeping sound in. Which is useful, apparently, because not all the customers enjoy spontaneous arias through the walls.<</speech>>
+<<speech "darian">>These started as an attempt to make the place feel more like a theater. Turns out, they're also pretty good at keeping sound in. Which is useful, apparently, because not all the customers enjoy spontaneous arias through the walls.<</speech>>
 
 He laughs softly, then looks at you with just a hint of that stage-smile beneath the surface.
 
@@ -257,11 +257,11 @@ Darian leans back slightly, resting his hands behind him on the bed. His smile c
 
 He shifts to look at you more directly, his tone quiet but grounded.
 
-<<speech "darian">>Some people come here to forget. Others come to feel something real. A few aren’t even sure why they showed up—they just didn’t want to be alone.<</speech>>
+<<speech "darian">>Some people come here to forget. Others come to feel something real. A few aren't even sure why they showed up—they just didn't want to be alone.<</speech>>
 
 He shrugs—not indifferent, but understanding.
 
-<<speech "darian">>I don’t have a script for this part. We write it together.<</speech>>
+<<speech "darian">>I don't have a script for this part. We write it together.<</speech>>
 <</append>>
 <<run setup.clearConvoChoices()>>
 <<run setup.darian_Conversation_Options_Phase1()>>
@@ -280,11 +280,11 @@ Darian laughs, low and honest.
 
 <<speech "jaylie">>Only three? Clearly you're slipping.<</speech>>
 
-<<speech "darian">>One of them offered me a goat in exchange. I almost said yes just to see if she’d actually follow through.<</speech>>
+<<speech "darian">>One of them offered me a goat in exchange. I almost said yes just to see if she'd actually follow through.<</speech>>
 
 You both laugh for a moment before the room goes quiet again. The walls absorbing the laughs like they were hungry for it. Darian speaks again through a half-hearted smile.
 
-<<speech "darian">>But in truth? It’s been a long night. Not bad. Just... long. The kind that leaves you a little quiet inside.<</speech>>
+<<speech "darian">>But in truth? It's been a long night. Not bad. Just... long. The kind that leaves you a little quiet inside.<</speech>>
 
 He exhales gently, like saying that out loud takes some of the weight off.
 
@@ -305,7 +305,7 @@ He exhales gently, like saying that out loud takes some of the weight off.
 
 Darian arches a brow, his smile tugging crooked at the edges.
 
-<<speech "darian">>You can—but they won’t come cheap.<</speech>>
+<<speech "darian">>You can—but they won't come cheap.<</speech>>
 
 <<speech "jaylie">>Oh. I, uh... I have coin.<</speech>>
 
@@ -331,17 +331,17 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     Darian lifts his wrist slightly, glancing at the worn gold band like he forgot it was there. His smile twists—not embarrassed, exactly. Just private.
 
-    <<speech "darian">>That’s not a question.<</speech>>
+    <<speech "darian">>That's not a question.<</speech>>
 
     <<speech "jaylie">>Alright, fine. Who gave you the bracelet?<</speech>>
 
     He runs his thumb over the clasp once. Slowly.
 
-    <<speech "darian">>My sister. The one person who knew me before the stage, before the noise. She made it by hand when we were younger. Said I needed something to wear that wasn’t an act.<</speech>>
+    <<speech "darian">>My sister. The one person who knew me before the stage, before the noise. She made it by hand when we were younger. Said I needed something to wear that wasn't an act.<</speech>>
 
     A beat.
 
-    <<speech "darian">>I don’t take it off. Not ever.<</speech>>
+    <<speech "darian">>I don't take it off. Not ever.<</speech>>
 
     He lets that linger, then leans slightly closer—eyes on you now, not the bracelet.
 
@@ -351,21 +351,21 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     You freeze.
 
-    It isn’t accusation. It’s observation. Quiet. Precise.
+    It isn't accusation. It's observation. Quiet. Precise.
 
-    <<speech "darian">>You carry yourself like a noble, but you look at people like you're still hoping you can be one of them. That’s not common. Especially not in this city.<</speech>>
+    <<speech "darian">>You carry yourself like a noble, but you look at people like you're still hoping you can be one of them. That's not common. Especially not in this city.<</speech>>
 
     You open your mouth, but the words come slower than you expect.
 
     <<speech "jaylie">>You're sharp. I am a noble. I don't get out often enough because of it, so moments like this are special to me. I often wish I was on this side of that wall. Being born never felt much like the gift people make it out to be.<</speech>>
 
-    Darian’s voice softens.
+    Darian's voice softens.
 
     <<speech "darian">>Keep it up then noble-girl. Perhaps you'll be a 'noble of the people' one day. Gods know we don't have enough of those. Common folk starve while the rich can eat themselves to bursting.<</speech>>
 
     You frown slightly. Darian notices.
 
-    <<speech "darian">>I apologize. That wasn’t an accusation. Quite the opposite. Like I said, we need more people like you.<</speech>>
+    <<speech "darian">>I apologize. That wasn't an accusation. Quite the opposite. Like I said, we need more people like you.<</speech>>
 
     <</append>>
     <<relation "darian" "trust" 1>>
@@ -388,9 +388,9 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     <<speech "darian">>For a while, my sister traveled with me. She was the pragmatic one. Knew when to rest. Knew when I was pushing too hard. She got sick, though. Had to settle. I stayed close when I could... but life pulls in too many directions.<</speech>>
 
-    He doesn’t say the rest right away. He just looks down at his hands.
+    He doesn't say the rest right away. He just looks down at his hands.
 
-    <<speech "darian">>When she passed, I didn’t even know until days after. No final song. No goodbye. Just... silence. And after that, the stage never felt like it had room for me anymore.<</speech>>
+    <<speech "darian">>When she passed, I didn't even know until days after. No final song. No goodbye. Just... silence. And after that, the stage never felt like it had room for me anymore.<</speech>>
 
     He looks solemn for a moment before looking back at you.
 
@@ -416,7 +416,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     You glance down at yourself, a soft scoff rising from your throat.
 
-    <<speech "jaylie">>Guess I didn’t realize that was a style now.<</speech>>
+    <<speech "jaylie">>Guess I didn't realize that was a style now.<</speech>>
 
     <<speech "darian">>Not style. Energy. You dress like someone who had to learn softness the hard way.<</speech>>
     <</append>>
@@ -434,11 +434,11 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     Darian gives a short laugh—one with no real humor behind it.
 
-    <<speech "darian">>Because there’s no applause in grief. And no stage that wants a broken voice.<</speech>>
+    <<speech "darian">>Because there's no applause in grief. And no stage that wants a broken voice.<</speech>>
 
     He shifts, hands clasped loosely in his lap.
 
-    <<speech "darian">>After my sister passed, I couldn’t sing without feeling like the echo was chasing me. I tried. Gods, I tried. But every theater felt too big. Too empty.<</speech>>
+    <<speech "darian">>After my sister passed, I couldn't sing without feeling like the echo was chasing me. I tried. Gods, I tried. But every theater felt too big. Too empty.<</speech>>
 
     His voice lowers.
 
@@ -446,33 +446,33 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     He pauses, then looks around the room—not wistfully, but with something close to gratitude.
 
-    <<speech "darian">>Strange thing is... I didn’t disappear. I just stopped performing. And somewhere in the quiet, I started to feel like I belonged again.<</speech>>
+    <<speech "darian">>Strange thing is... I didn't disappear. I just stopped performing. And somewhere in the quiet, I started to feel like I belonged again.<</speech>>
 
-    <<speech "darian">>The others here—Adda, Bert, Marie... they became something like family. They don’t need me to dazzle. They just need me to show up. And I can do that.<</speech>>
+    <<speech "darian">>The others here—Adda, Bert, Marie... they became something like family. They don't need me to dazzle. They just need me to show up. And I can do that.<</speech>>
 
     He lets the silence settle. Then:
 
-    <<speech "darian">>Now it’s my turn...Why did *you* come here tonight?<</speech>>
+    <<speech "darian">>Now it's my turn...Why did *you* come here tonight?<</speech>>
 
-    You falter—not because you don’t know, but because no one’s asked it quite like that.
+    You falter—not because you don't know, but because no one's asked it quite like that.
 
-    <<speech "jaylie">>Honestly? I’m not sure. I went out tonight because I wanted to drink.<</speech>>
+    <<speech "jaylie">>Honestly? I'm not sure. I went out tonight because I wanted to drink.<</speech>>
 
-    Darian doesn’t let that sit.
+    Darian doesn't let that sit.
 
     <<speech "darian">>What were you trying to drown?<</speech>>
 
     You hesitate, gaze falling.
 
-    <<speech "jaylie">>It’s my birthday.<</speech>>
+    <<speech "jaylie">>It's my birthday.<</speech>>
 
     He blinks once, then nods—like it clicks into place.
 
-    <<speech "jaylie">>My birthdays have never been a happy occasion. Just reminders. Of what’s gone. Of what’s expected. Of what I’ll never quite live up to.<</speech>>
+    <<speech "jaylie">>My birthdays have never been a happy occasion. Just reminders. Of what's gone. Of what's expected. Of what I'll never quite live up to.<</speech>>
 
-    Darian doesn’t interrupt. He just watches you, steady as the curtains lining his room.
+    Darian doesn't interrupt. He just watches you, steady as the curtains lining his room.
 
-    <<speech "darian">>Then I’m glad you came here. And I hope, just for tonight... you get to forget every bit of that.<</speech>>
+    <<speech "darian">>Then I'm glad you came here. And I hope, just for tonight... you get to forget every bit of that.<</speech>>
 
     <</append>>
     <<relation "darian" "trust" 1>>
@@ -487,35 +487,35 @@ He leans forward slightly, eyes steady now—no longer teasing.
     <<append "#convoBox">>
     <<speech "jaylie">>Did you ever fall in love on stage?<</speech>>
 
-    Darian laughs, the sound low but fond—like a memory he’s already forgiven himself for.
+    Darian laughs, the sound low but fond—like a memory he's already forgiven himself for.
 
-    <<speech "darian">>Far too many times. It’s a dangerous thing, singing love into the dark and pretending you don’t mean it.<</speech>>
+    <<speech "darian">>Far too many times. It's a dangerous thing, singing love into the dark and pretending you don't mean it.<</speech>>
 
     He leans forward, elbows on knees.
 
-    <<speech "darian">>I fell for duets, for glances across the wings, for the way some people touched your hand like it was the first time <strong>every</strong>time. But the stage is a mirror, not a home. Love there doesn’t last—it just echoes.<</speech>>
+    <<speech "darian">>I fell for duets, for glances across the wings, for the way some people touched your hand like it was the first time <strong>every</strong>time. But the stage is a mirror, not a home. Love there doesn't last—it just echoes.<</speech>>
 
     His smile falters, just slightly.
 
-    <<speech "darian">>Still, I’d be lying if I said I didn’t chase it. And some of those moments? They were real. Even if they didn’t survive the final bow.<</speech>>
+    <<speech "darian">>Still, I'd be lying if I said I didn't chase it. And some of those moments? They were real. Even if they didn't survive the final bow.<</speech>>
 
     He meets your gaze again.
 
     <<speech "darian">>My turn.<</speech>>
 
-    <<speech "darian">>When was the last time someone looked at you and didn’t want something?<</speech>>
+    <<speech "darian">>When was the last time someone looked at you and didn't want something?<</speech>>
 
     The question hits deeper than you expect. You try to answer—but nothing comes right away.
 
-    <<speech "jaylie">>I... don’t know.<</speech>>
+    <<speech "jaylie">>I... don't know.<</speech>>
 
-    You smile, but it’s brittle.
+    You smile, but it's brittle.
 
-    <<speech "jaylie">>Maybe that’s why I’m here.<</speech>>
+    <<speech "jaylie">>Maybe that's why I'm here.<</speech>>
 
     Darian watches you for a breath, then nods. The air between you shifts—quieter now, but fuller.
 
-    <<speech "darian">>Then I hope I’m not the exception. Just the reminder you deserved.<</speech>>
+    <<speech "darian">>Then I hope I'm not the exception. Just the reminder you deserved.<</speech>>
 
     He says it without ceremony. No smile. No teasing tone. Just truth.
 
@@ -533,7 +533,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
     <<append "#convoBox">>
     <<speech "jaylie">>Do you ever miss the life you had before all this?<</speech>>
 
-    Darian doesn’t answer right away. His gaze drops—not distant, but inward. Like he’s checking a wound to see if it still stings.
+    Darian doesn't answer right away. His gaze drops—not distant, but inward. Like he's checking a wound to see if it still stings.
 
     <<speech "darian">>No. Not exactly.<</speech>>
 
@@ -547,11 +547,11 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     He taps the bracelet lightly with one finger.
 
-    <<speech "darian">>I don’t need the stage. I needed her. The rest was just echo.<</speech>>
+    <<speech "darian">>I don't need the stage. I needed her. The rest was just echo.<</speech>>
 
     He glances at you—not fragile, but stripped down to something real.
 
-    <<speech "darian">>Your turn. Where would you go if you didn’t have to be anyone tonight?<</speech>>
+    <<speech "darian">>Your turn. Where would you go if you didn't have to be anyone tonight?<</speech>>
 
     You think on it for a moment.
 
@@ -559,7 +559,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     Darian smiles gently.
 
-    <<speech "darian">>Then maybe it’s not about being something else. Maybe it’s about letting yourself <strong>be</strong>, without needing a title to go with it.<</speech>>
+    <<speech "darian">>Then maybe it's not about being something else. Maybe it's about letting yourself <strong>be</strong>, without needing a title to go with it.<</speech>>
 
     <</append>>
     <<relation "darian" "trust" 1>>
@@ -572,7 +572,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
     :: DarianDuet_MostBeautiful [widget]
     <<widget "DarianDuet_MostBeautiful">>
     <<append "#convoBox">>
-    <<speech "jaylie">>What’s the most beautiful thing you’ve ever seen?<</speech>>
+    <<speech "jaylie">>What's the most beautiful thing you've ever seen?<</speech>>
 
     Darian doesn't answer immediately. When he does, it's without flourish.
 
@@ -584,15 +584,15 @@ He leans forward slightly, eyes steady now—no longer teasing.
 
     He turns to you now—softer, but not fragile.
 
-    <<speech "darian">>What about you? What moment do you carry around when the world’s too loud?<</speech>>
+    <<speech "darian">>What about you? What moment do you carry around when the world's too loud?<</speech>>
 
     You breathe in, slow. A flicker of something rises—small, strange, but real.
 
-    <<speech "jaylie">>There’s a well behind the old barracks. When I was a child, I used to sit there and listen to the wind echo down the stone. It sounded like a voice trying to remember a song it had almost forgotten.<</speech>>
+    <<speech "jaylie">>There's a well behind the old barracks. When I was a child, I used to sit there and listen to the wind echo down the stone. It sounded like a voice trying to remember a song it had almost forgotten.<</speech>>
 
-    Darian’s gaze doesn’t waver.
+    Darian's gaze doesn't waver.
 
-    <<speech "darian">>Maybe that’s what we are, then. Songs trying to remember themselves.<</speech>>
+    <<speech "darian">>Maybe that's what we are, then. Songs trying to remember themselves.<</speech>>
 
     You laugh at him, not cruelly. 
 
@@ -608,7 +608,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
     :: ReturnToDarianPhase1 [widget]
     <<widget "ReturnToDarianPhase1">>
     <<append "#convoBox">>
-    <<speech "jaylie">>Let’s talk about something else.<</speech>>
+    <<speech "jaylie">>Let's talk about something else.<</speech>>
 
     Darian nods once, as if to say: *Of course.*
 
@@ -635,15 +635,15 @@ Darian doesn't respond immediately. He watches you for a moment, the playful gli
 
 <<speech "darian">>You could have, you know. Without asking.<</speech>>
 
-He says it gently—not dismissively, but as if to say *you don’t need permission to be kind.*
+He says it gently—not dismissively, but as if to say *you don't need permission to be kind.*
 
-<<speech "darian">>But I’m glad you did.<</speech>>
+<<speech "darian">>But I'm glad you did.<</speech>>
 
 He leans forward—not fast, not hesitant—and meets you halfway.
 
-The kiss is quiet. Warm. Intentional. The kind that doesn’t ask for anything back.
+The kiss is quiet. Warm. Intentional. The kind that doesn't ask for anything back.
 
-His hand brushes your cheek like he’s trying to memorize its shape. When the kiss breaks, he doesn’t move far—just far enough to breathe.
+His hand brushes your cheek like he's trying to memorize its shape. When the kiss breaks, he doesn't move far—just far enough to breathe.
 
 <<speech "darian">>Well... that ruined me a little.<</speech>>
 
@@ -670,9 +670,9 @@ You kiss him again. More passionately.
 
 <<speech "jaylie">>Would it be too much trouble... to pass the time with some music?<</speech>>
 
-For a moment, Darian doesn’t speak. He just watches you. Not guarded—but still. Like you’ve opened a door he hasn’t walked through in years.
+For a moment, Darian doesn't speak. He just watches you. Not guarded—but still. Like you've opened a door he hasn't walked through in years.
 
-<<speech "darian">>You’re the first person who’s asked that in a long time.<</speech>>
+<<speech "darian">>You're the first person who's asked that in a long time.<</speech>>
 
 [[He gives you a warm, welcoming smile.|Darian_MusicMontage]]
 <</append>>

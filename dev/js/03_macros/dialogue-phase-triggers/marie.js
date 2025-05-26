@@ -84,7 +84,7 @@ setup.marie_Conversation_Options_TheFight = function () {
 			target: "Marie_Fight_Pattern"
 		},
 		{
-			label: "Do you think you’ll talk to him again after this?",
+			label: "Do you think you'll talk to him again after this?",
 			target: "Marie_Fight_Forgiveness"
 		},
 		{
