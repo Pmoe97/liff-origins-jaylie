@@ -1,51 +1,64 @@
+/* =============================
+=      Conversation Styles     =
+============================= */
+
 #convoBox {
-    padding: 1em;
-    margin-bottom: 1em;
-    background: rgba(255, 255, 255, 0.01); /* soft translucent overlay */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.5em;
-    color: #eee;
-    min-height: 4em;
-    font-size: 1rem;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-  
-  #convoChoices {
-    padding-left: 1em;
-    margin-top: 1em;
-  }
-  
-  #convoChoices p {
-    margin: 0.5em 0;
-  }
-  
-  #convoChoices a.link-internal {
-    color: #a0e0ff;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  #convoChoices a.link-internal:hover {
-    text-decoration: underline;
-  }
-  /* =============================
+  padding: 1em;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5em;
+  color: #eee;
+  font-size: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  scroll-padding-bottom: 2em;
+  overflow-x: hidden;
+  max-width: 80%;
+}
+
+#convoChoices {
+  padding-left: 1em;
+  margin-top: 1em;
+}
+
+#convoChoices p {
+  margin: 0.5em 0;
+}
+
+#convoChoices a.link-internal {
+  color: #a0e0ff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#convoChoices a.link-internal:hover {
+  text-decoration: underline;
+}
+
+/* =============================
 =      Conversation Layout     =
 ============================= */
+
+/* Let layout container fill full height of visible space */
 #convoLayoutContainer {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  width: 100%;
-  height: 100%;
+  gap: 5px;
+  width: 80vw;
+  height: 85vh; /* Fills full screen height */
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 #convoChoicesPanel {
-  flex: 1;
+  flex: 0.75;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
   gap: 10px;
 }
 
@@ -53,23 +66,26 @@
   flex: 2;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
   overflow-y: auto;
-  max-height: 80vh;
-  gap: 10px;
+  overflow-x: hidden; /* 👈 Add this! */
   padding-right: 10px;
+  gap: 10px;
 }
+
 .dialogue-choice {
-	color: #9feaff;
-	text-shadow: 1px 1px 2px #000;
-	padding: 4px 8px;
-	margin: 6px 0;
-	transition: color 0.2s ease;
-	cursor: pointer;
+  color: #9feaff;
+  text-shadow: 1px 1px 2px #000;
+  padding: 4px 8px;
+  margin: 6px 0;
+  transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .dialogue-choice:hover {
-	color: #ffffff;
-	text-shadow: 1px 1px 3px #00c8ff;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px #00c8ff;
 }
 
 #text-backdrop.in-dialogue #convoLayoutContainer {
@@ -83,11 +99,17 @@
 #text-backdrop.in-dialogue #convoBoxPanel {
   width: 70%;
 }
+
 .dialogue-choice.locked {
-	opacity: 0.5;
-	cursor: not-allowed;
-	pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
+
+/* =============================
+=     Minigame Button Styles   =
+============================= */
+
 .start-minigame-button-wrapper {
   text-align: center;
   margin-top: 1.5em;
@@ -120,23 +142,70 @@
   transform: scale(0.98);
   box-shadow: 0 0 5px rgba(255, 64, 64, 0.5);
 }
-/* Faded old entries */
+
+/* =============================
+=       Conversation States    =
+============================= */
+
 .faded-entry {
-	opacity: 0.6;
-	transition: opacity 0.3s ease;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
-/* Highlighted current entry */
 .active-entry {
-	opacity: 1;
+  opacity: 1;
 }
 
-/* Elegant divider between old and new */
 .dialogue-divider {
-	width: 60%;
-	height: 1px;
-	background: linear-gradient(to right, transparent, #888, transparent);
-	margin: 1em auto;
-	opacity: 0.4;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #888, transparent);
+  margin: 1em auto;
+  opacity: 0.4;
 }
 
+/* =============================
+=      Mobile Device Tweaks    =
+============================= */
+
+body.mobile-device #convoBoxPanel {
+  padding-top: 0.5em;
+  padding-bottom: 0.75em;
+  padding-right: 0.5em;
+}
+
+body.mobile-device #convoChoicesPanel {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+body.mobile-device #convoBox {
+  font-size: 0.95rem;
+  padding: 0.75em 1em;
+  margin: 0;
+  min-height: 6em;
+}
+
+body.mobile-device .dialogue-choice {
+  font-size: 1rem;
+  padding: 6px 12px;
+}
+
+body.mobile-device #convoChoices {
+  padding-left: 0.5em;
+  margin-top: 0.5em;
+}
+
+body.portrait #convoLayoutContainer {
+  gap: 14px;
+}
+
+body.landscape #convoLayoutContainer {
+  gap: 20px;
+  height:100vh
+}
+
+body.reduced-motion * {
+  transition: none !important;
+  animation: none !important;
+}

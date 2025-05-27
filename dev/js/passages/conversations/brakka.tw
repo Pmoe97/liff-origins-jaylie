@@ -1,0 +1,134 @@
+:: Brakka_Howareyoutonight [widget]
+<<widget "Brakka_Howareyoutonight">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>How are you doing tonight?<</speech>>
+
+Brakka lifts her mug and downs a swig without looking at you.
+
+<<speech "brakka">>I must’ve looked like I was doing pretty damn well for you to walk up that casual.<</speech>>
+
+She wipes her mouth with the back of her hand and finally gives you a once-over.
+
+<<speech "brakka">>Listen <em>Silks</em>, unless you've got business with me, I'd prefer to finish my meal in peace so I can get home before this storm drowns the city.<</speech>><<set $calledSilks += 1>>
+
+She let's out a little grunt before taking another swig from her mug, the foaming liquid runs down her chin which she wipes with the back of a greasy hand.
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.brakka_Conversation_Options_Phase0()>>
+<</widget>>
+
+:: Brakka_WhySilks [widget]
+<<widget "Brakka_WhySilks">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Why do you keep calling me "Silks"?<</speech>>
+
+Brakka doesn’t answer at first. She tears another bite from her mutton, chews, and swallows without rushing.
+
+<<speech "brakka">>Because you're soft.<</speech>>
+
+You blink. She looks at you like that should’ve been the full explanation.
+
+A beat passes. Brakka lets out a slow exhale—half sigh, half surrender—and gestures vaguely in your direction with the bone still in her hand.
+
+<<speech "brakka">>You walk like the ground was paved for you. Like the floorboards were laid so your steps wouldn’t creak.<</speech>>
+
+She takes a quick bite of her mutton, but doesn't pause to chew. She continues, muffled, through thick chomps of meat.
+
+<<speech "brakka">>You approach strangers like they owe you the conversation. Everything about you is soft. Your clothes. Your voice. Your hair. Your skin.<</speech>>
+
+She narrows her eyes, not unkindly—but weighing you.
+
+<<speech "brakka">>You look like someone who’s never had to fight hard for much in her life. Like someone who’s known luxury. Silk sheets. Soft hands. Easy roads.<</speech>>
+
+She turns her gaze back toward the fire.
+
+<<speech "brakka">>Talk to me again when you wear a few scars.<</speech>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.brakka_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Brakka_FightComment [widget]
+<<widget "Brakka_FightComment">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>You look like you’ve seen some fights.<</speech>>
+
+Brakka lets out a low grunt—could be amusement, could be approval. She tears off another bite of meat and speaks with her mouth half full.
+
+<<speech "brakka">>Few. Guild sends me where the coin flows. Sometimes that’s escort duty. Sometimes it’s cracking skulls at the edge of the provinces.<</speech>>
+
+She finally looks at you, eyes sharp but not unkind.
+
+<<speech "brakka">>This city's soft, <em>Silks</em>, but the bastards crawling outside it? They know how to bleed.<</speech>><<set $calledSilks += 1>>
+
+She takes a swig from her mug and wipes her mouth with the back of her wrist.
+
+<<speech "brakka">>If you’re asking whether I’ve earned my scars—yeah. I’ve earned ’em.<</speech>>
+
+She goes quiet again, shifting her weight against the beam, her focus already drifting back to her meal.
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.brakka_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Brakka_HelloAttempt [widget]
+<<widget "Brakka_HelloAttempt">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>I just wanted to say hi.<</speech>>
+
+Brakka doesn’t look up. She just rips another chunk from the mutton bone and chews slowly, deliberately.
+
+<<speech "brakka">>You just did.<</speech>>
+
+She finally lifts her eyes—just enough to make it feel like a warning.
+
+<<speech "brakka">>Now unless you’re here to fight, drink, or pay off a debt, take your manners elsewhere, <em>Silks</em>.<</speech>><<set $calledSilks += 1>>
+
+<</append>>
+<<run setup.clearConvoChoices()>>
+<<run setup.brakka_Conversation_Options_Phase0()>>
+<</widget>>
+
+
+:: Brakka_ExitwithTournyInvite [widget]
+<<widget "Brakka_ExitwithTournyInvite">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Enjoy your meal.<</speech>>
+
+Brakka grunts—noncommittal, but not dismissive. She downs what’s left in her mug and eyes you over the rim.
+
+<<speech "brakka">>If you’re feeling not-so-soft, come find me during the fair.<</speech>>
+
+She tosses the bare mutton bone into the fire and cracks her knuckles one-handed.
+
+<<speech "brakka">>Guild’s hosting a tournament. I’ll be there. Figured I’d offer you the chance to prove me wrong—or right. Either way, I’ll enjoy the show.<</speech>>
+
+[[You step away from the hearth and return to the main tavern.|Scene03_TheSpace]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>
+
+:: Brakka_ExitNormally [widget]
+<<widget "Brakka_ExitNormally">>
+<<append "#convoBox">>
+
+<<speech "jaylie">>Enjoy your meal.<</speech>>
+
+Brakka doesn’t look up—just raises her mug slightly in acknowledgment and takes a slow drink.
+
+<<speech "brakka">>Might do, Silks.<</speech>><<set $calledSilks += 1>>
+
+[[You turn back toward the tavern’s main floor.|Scene03_TheSpace]]
+<</append>>
+<<run setup.clearConvoChoices()>>
+<</widget>>

@@ -100,7 +100,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="98" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
+	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="104" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Character Sheet Overlay Base */
@@ -1831,54 +1831,67 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 /* twine-user-stylesheet #6: "dialoguestyles.css" */
+/* =============================
+=      Conversation Styles     =
+============================= */
+
 #convoBox {
-    padding: 1em;
-    margin-bottom: 1em;
-    background: rgba(255, 255, 255, 0.01); /* soft translucent overlay */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.5em;
-    color: #eee;
-    min-height: 4em;
-    font-size: 1rem;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-  
-  #convoChoices {
-    padding-left: 1em;
-    margin-top: 1em;
-  }
-  
-  #convoChoices p {
-    margin: 0.5em 0;
-  }
-  
-  #convoChoices a.link-internal {
-    color: #a0e0ff;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  #convoChoices a.link-internal:hover {
-    text-decoration: underline;
-  }
-  /* =============================
+  padding: 1em;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5em;
+  color: #eee;
+  font-size: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  scroll-padding-bottom: 2em;
+  overflow-x: hidden;
+  max-width: 80%;
+}
+
+#convoChoices {
+  padding-left: 1em;
+  margin-top: 1em;
+}
+
+#convoChoices p {
+  margin: 0.5em 0;
+}
+
+#convoChoices a.link-internal {
+  color: #a0e0ff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#convoChoices a.link-internal:hover {
+  text-decoration: underline;
+}
+
+/* =============================
 =      Conversation Layout     =
 ============================= */
+
+/* Let layout container fill full height of visible space */
 #convoLayoutContainer {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  width: 100%;
-  height: 100%;
+  gap: 5px;
+  width: 80vw;
+  height: 85vh; /* Fills full screen height */
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 #convoChoicesPanel {
-  flex: 1;
+  flex: 0.75;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
   gap: 10px;
 }
 
@@ -1886,23 +1899,26 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   flex: 2;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
   overflow-y: auto;
-  max-height: 80vh;
-  gap: 10px;
+  overflow-x: hidden; /* 👈 Add this! */
   padding-right: 10px;
+  gap: 10px;
 }
+
 .dialogue-choice {
-	color: #9feaff;
-	text-shadow: 1px 1px 2px #000;
-	padding: 4px 8px;
-	margin: 6px 0;
-	transition: color 0.2s ease;
-	cursor: pointer;
+  color: #9feaff;
+  text-shadow: 1px 1px 2px #000;
+  padding: 4px 8px;
+  margin: 6px 0;
+  transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .dialogue-choice:hover {
-	color: #ffffff;
-	text-shadow: 1px 1px 3px #00c8ff;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px #00c8ff;
 }
 
 #text-backdrop.in-dialogue #convoLayoutContainer {
@@ -1916,11 +1932,17 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 #text-backdrop.in-dialogue #convoBoxPanel {
   width: 70%;
 }
+
 .dialogue-choice.locked {
-	opacity: 0.5;
-	cursor: not-allowed;
-	pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
+
+/* =============================
+=     Minigame Button Styles   =
+============================= */
+
 .start-minigame-button-wrapper {
   text-align: center;
   margin-top: 1.5em;
@@ -1953,26 +1975,73 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   transform: scale(0.98);
   box-shadow: 0 0 5px rgba(255, 64, 64, 0.5);
 }
-/* Faded old entries */
+
+/* =============================
+=       Conversation States    =
+============================= */
+
 .faded-entry {
-	opacity: 0.6;
-	transition: opacity 0.3s ease;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
-/* Highlighted current entry */
 .active-entry {
-	opacity: 1;
+  opacity: 1;
 }
 
-/* Elegant divider between old and new */
 .dialogue-divider {
-	width: 60%;
-	height: 1px;
-	background: linear-gradient(to right, transparent, #888, transparent);
-	margin: 1em auto;
-	opacity: 0.4;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #888, transparent);
+  margin: 1em auto;
+  opacity: 0.4;
 }
 
+/* =============================
+=      Mobile Device Tweaks    =
+============================= */
+
+body.mobile-device #convoBoxPanel {
+  padding-top: 0.5em;
+  padding-bottom: 0.75em;
+  padding-right: 0.5em;
+}
+
+body.mobile-device #convoChoicesPanel {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+body.mobile-device #convoBox {
+  font-size: 0.95rem;
+  padding: 0.75em 1em;
+  margin: 0;
+  min-height: 6em;
+}
+
+body.mobile-device .dialogue-choice {
+  font-size: 1rem;
+  padding: 6px 12px;
+}
+
+body.mobile-device #convoChoices {
+  padding-left: 0.5em;
+  margin-top: 0.5em;
+}
+
+body.portrait #convoLayoutContainer {
+  gap: 14px;
+}
+
+body.landscape #convoLayoutContainer {
+  gap: 20px;
+  height:100vh
+}
+
+body.reduced-motion * {
+  transition: none !important;
+  animation: none !important;
+}
 /* twine-user-stylesheet #7: "inventory.css" */
 /* =============================
 =         Inventory UI         =
@@ -2439,6 +2508,8 @@ body:not(.sidebar-collapsed) #text-container {
 #text-backdrop.in-dialogue {
   max-width: 1200px;
   min-height: 500px;
+  padding-bottom: 1%;
+  padding-top: 5%;
 }
 
 /* === Text Backdrop Scrollbar Styling === */
@@ -2926,8 +2997,9 @@ button.active-sexact.ongoing::after {
 	position: relative;
 	width: 300px;
 	transition: width 0.4s ease;
-	overflow: hidden;
+	overflow: auto;
 	border-right: 2px solid #333;
+	padding-bottom: 1%;
 }
 
 /* =============================
@@ -3108,8 +3180,10 @@ button.active-sexact.ongoing::after {
 	margin: 6px 10px;
 	position: relative;
 	overflow: hidden;
+	font-size: 0.8em;
 }
 
+/* Icon styling */
 .status-bar i,
 .status-bar svg {
 	width: 18px;
@@ -3120,23 +3194,86 @@ button.active-sexact.ongoing::after {
 	pointer-events: none;
 }
 
+/* Label styling */
 .status-bar span {
-	font-size: 0.8em;
+	position: relative;
+	z-index: 2; /* Ensure it's above the fill */
 	white-space: nowrap;
+	color: white;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); /* Adds contrast glow */
+	cursor: default;
 }
 
-.status-bar-fill {
-	background: linear-gradient(90deg, #4caf50, #81c784);
-	height: 70%;
-	width: 0%;
-	border-radius: 2px;
-	transition: width 0.4s ease, background 0.3s ease;
+
+/* NEW: Fill wrapper for width control */
+.status-bar-fill-wrapper {
 	position: absolute;
-	left: 36%;
+	left: 25px; /* Adjust based on icon + label + spacing */
 	right: 6px;
 	top: 50%;
+	height: 70%;
 	transform: translateY(-50%);
+	pointer-events: none;
 	z-index: 0;
+}
+
+/* Fill bar itself (set width dynamically in JS) */
+.status-bar-fill {
+	width: 0%;
+	height: 100%;
+	border-radius: 2px;
+	transition: width 0.4s ease, background 0.3s ease;
+}
+/* Health: forest green to neon green */
+#health-fill {
+	background: linear-gradient(90deg, #375d38, #0b8110);
+}
+
+/* Fatigue: sky blue to midnight blue */
+#fatigue-fill {
+	background: linear-gradient(90deg, #001b40, #a2e9ff );
+}
+
+/* Composure: electric yellow to golden amber */
+#composure-fill {
+	background: linear-gradient(90deg,#c0a800, #fff77a );
+}
+
+/* Excitement: magenta pink to deep purple */
+#excitement-fill {
+	background: linear-gradient(90deg, #ff4fd8, #3b0063);
+}
+
+.bar-value {
+	position: absolute;
+	transform: translateY(-50%);
+	color: #d6ffb9;
+	font-weight: 700;
+	font-size: 0.75em;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	pointer-events: none;
+	text-shadow: 0 0 2px #000;
+	top: 20%
+}
+.status-bar:hover .bar-value {
+	opacity: 1;
+}
+#health-value {
+
+	left: 150px;
+}
+
+#fatigue-value {
+	left: 150px;
+}
+
+#composure-value {
+	left: 120px;
+}
+
+#excitement-value {
+	left: 120px;
 }
 
 /* =============================
@@ -3168,6 +3305,7 @@ button.active-sexact.ongoing::after {
 /* =============================
 =        Summary View         
 ============================= */
+
 #sidebar-summary {
 	display: flex;
 	flex-direction: column;
@@ -3182,14 +3320,18 @@ button.active-sexact.ongoing::after {
 	box-sizing: border-box;
 }
 
+/* Top Line Items */
 #summary-time,
 #summary-gold,
-#summary-level {
+#summary-level,
+#summary-date {
 	font-size: 0.7em;
 	text-align: center;
 	word-break: break-word;
+	line-height: 1.3;
 }
 
+/* Mini container for time, date, weather, etc. */
 #summary-top {
 	display: flex;
 	flex-direction: column;
@@ -3198,6 +3340,7 @@ button.active-sexact.ongoing::after {
 	width: 100%;
 }
 
+/* Compact vertical layout for 4 stat icons */
 #summary-status-icons {
 	display: flex;
 	flex-direction: column;
@@ -3205,12 +3348,67 @@ button.active-sexact.ongoing::after {
 	gap: 4px;
 }
 
-#summary-status-icons i {
+/* Icon wrap container */
+.summary-icon-wrap {
+	position: relative;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Lucide icons inside summary view */
+.summary-icon-wrap i {
+	position: relative;
+	z-index: 2;
 	width: 18px;
 	height: 18px;
 	stroke-width: 2;
+	color: white;
+	transition: filter 0.3s ease;
+	pointer-events: none;
 }
 
+/* Fill bar that grows behind each icon */
+.summary-fill {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 0%;
+	z-index: 1;
+	border-radius: 4px;
+	opacity: 0.5;
+	transition: height 0.3s ease;
+}
+
+/* Stat-specific gradients (fills animate by JS) */
+#summary-health-fill {
+	background: linear-gradient(to top, #4caf50, #0b8110);
+}
+#summary-fatigue-fill {
+	background: linear-gradient(to top, #a2e9ff, #001b40);
+}
+#summary-composure-fill {
+	background: linear-gradient(to top, #fff77a, #c0a800);
+}
+#summary-excitement-fill {
+	background: linear-gradient(to top, #ff4fd8, #3b0063);
+}
+
+/* Optional glow classes applied by JS */
+#summary-status-icons i.low {
+	filter: drop-shadow(0 0 2px #f44336cc);
+}
+#summary-status-icons i.mid {
+	filter: drop-shadow(0 0 2px #ffc107cc);
+}
+#summary-status-icons i.high {
+	filter: drop-shadow(0 0 3px #4caf50cc);
+}
+
+/* Level + mini-XP display block */
 #summary-level-exp {
 	display: flex;
 	flex-direction: column;
@@ -3219,8 +3417,9 @@ button.active-sexact.ongoing::after {
 	width: 80%;
 }
 
+/* XP progress bar styling */
 .exp-bar-mini {
-	background: rgba(255,255,255,0.05);
+	background: rgba(255, 255, 255, 0.05);
 	border: 1px solid #555;
 	height: 6px;
 	width: 100%;
@@ -3235,6 +3434,7 @@ button.active-sexact.ongoing::after {
 	transition: width 0.4s ease;
 }
 
+/* Status effect icons (e.g. poisoned) */
 #summary-conditions {
 	display: flex;
 	flex-wrap: wrap;
@@ -3331,7 +3531,7 @@ button.active-sexact.ongoing::after {
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.8);
     box-shadow: 5px 5px 3px black;
-    margin-bottom: 1em;
+    margin-bottom: 0em;
     color: white;
 }
 
@@ -3502,7 +3702,56 @@ button.active-sexact.ongoing::after {
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "01_SnapshotNav.js" */
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "00_GlobalDeviceTypeAwareness.js" */
+setup.isMobileDevice = function () {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+         (window.innerWidth <= 768 && window.innerHeight <= 1024);
+};
+
+// Detect current orientation
+setup.isPortrait = function () {
+  return window.matchMedia("(orientation: portrait)").matches;
+};
+
+setup.isLandscape = function () {
+  return window.matchMedia("(orientation: landscape)").matches;
+};
+
+// Simple tablet detector (optional)
+setup.isTabletDevice = function () {
+  return setup.isMobileDevice() && window.devicePixelRatio <= 2 && Math.max(window.innerWidth, window.innerHeight) >= 834;
+};
+
+// Desktop check (opposite of mobile)
+setup.isDesktop = function () {
+  return !setup.isMobileDevice();
+};
+
+// Detects if user prefers reduced motion
+setup.prefersReducedMotion = function () {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+};
+
+// Detects if user prefers dark mode (can use to match system theme)
+setup.prefersDarkMode = function () {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
+
+setup.injectDeviceClasses = function () {
+  const body = document.body;
+  if (setup.isMobileDevice()) body.classList.add("mobile-device");
+  else body.classList.add("desktop-device");
+
+  if (setup.isTabletDevice()) body.classList.add("tablet-device");
+  if (setup.isPortrait()) body.classList.add("portrait");
+  else body.classList.add("landscape");
+
+  if (setup.prefersDarkMode()) body.classList.add("dark-mode");
+  if (setup.prefersReducedMotion()) body.classList.add("reduced-motion");
+};
+
+document.addEventListener("DOMContentLoaded", setup.injectDeviceClasses);
+/* twine-user-script #2: "01_SnapshotNav.js" */
 /* ===============================
    SNAPSHOT SYSTEM
    =============================== */
@@ -3647,7 +3896,7 @@ button.active-sexact.ongoing::after {
       END SNAPSHOT SYSTEM
       =============================== */
    
-/* twine-user-script #2: "03_setup_sidebarui.js" */
+/* twine-user-script #3: "03_setup_sidebarui.js" */
 if (typeof setup === "undefined") {
 	setup = {};
 }
@@ -3655,7 +3904,7 @@ if (typeof setup === "undefined") {
 if (typeof setup.SidebarUI === "undefined") {
 	setup.SidebarUI = {};
 }
-/* twine-user-script #3: "04_widgets.js" */
+/* twine-user-script #4: "04_widgets.js" */
 /* Background Macro */
 Macro.add("bg", {
 	handler: function () {
@@ -3714,21 +3963,49 @@ Macro.add("SidebarUI", {
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
+				<!-- Time & Date -->
 				<span id="summary-time">--:--</span>
+				<span id="summary-date">Loading Date...</span>
+
+				<!-- Weather + Location -->
+				<div id="summary-location-weather" style="display: flex; flex-direction: column; align-items: center;">
+					<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
+					<span id="summary-location">Unknown</span>
+				</div>
+
+				<!-- Gold -->
 				<span id="summary-gold">0</span>
-				<span id="summary-level">Lvl 1</span>
-				<div class="exp-bar-mini">
-					<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
-				</div>
+
+				<!-- Status Icons with Fill Effect -->
 				<div id="summary-status-icons">
-					<i id="summary-health" data-lucide="heart"></i>
-					<i id="summary-fatigue" data-lucide="zap"></i>
-					<i id="summary-composure" data-lucide="brain"></i>
-					<i id="summary-excitement" data-lucide="flame"></i>
+					<div class="summary-icon-wrap" id="summary-health-wrap">
+						<div class="summary-fill" id="summary-health-fill"></div>
+						<i id="summary-health" data-lucide="heart"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-fatigue-wrap">
+						<div class="summary-fill" id="summary-fatigue-fill"></div>
+						<i id="summary-fatigue" data-lucide="zap"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-composure-wrap">
+						<div class="summary-fill" id="summary-composure-fill"></div>
+						<i id="summary-composure" data-lucide="brain"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-excitement-wrap">
+						<div class="summary-fill" id="summary-excitement-fill"></div>
+						<i id="summary-excitement" data-lucide="flame"></i>
+					</div>
 				</div>
-				<div id="summary-conditions">
-					<!-- Dynamic icons like poisoned/charmed will inject here -->
+
+				<!-- Level + XP Mini -->
+				<div id="summary-level-exp" style="display: flex; flex-direction: column; align-items: center;">
+					<span id="summary-level">Lvl 1</span>
+					<div class="exp-bar-mini">
+						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
+					</div>
 				</div>
+
+				<!-- Conditions (e.g., poisoned, etc.) -->
+				<div id="summary-conditions"></div>
 			</div>
 
 
@@ -3752,25 +4029,42 @@ Macro.add("SidebarUI", {
 				<!-- Status Trackers -->
 				<div id="sidebar-status-tracker">
 					<div class="status-bar" id="health-bar">
-						<i data-lucide="heart"></i><span>Health</span>
-						<div class="status-bar-fill" id="health-fill"></div>
+						<i data-lucide="heart"></i>
+						<span>Health</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="health-fill"></div>
+						</div>
+						<span class="bar-value" id="health-value"></span>
 					</div>
 					<div class="status-bar" id="fatigue-bar">
-						<i data-lucide="zap"></i><span>Fatigue</span>
-						<div class="status-bar-fill" id="fatigue-fill"></div>
+						<i data-lucide="zap"></i>
+						<span>Fatigue</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="fatigue-fill"></div>
+						</div>
+						<span class="bar-value" id="fatigue-value"></span>
 					</div>
 					<div class="status-bar" id="composure-bar">
-						<i data-lucide="brain"></i><span>Composure</span>
-						<div class="status-bar-fill" id="composure-fill"></div>
+						<i data-lucide="brain"></i>
+						<span>Composure</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="composure-fill"></div>
+						</div>
+						<span class="bar-value" id="composure-value"></span>
 					</div>
 					<div class="status-bar" id="excitement-bar">
-						<i data-lucide="flame"></i><span>Excitement</span>
-						<div class="status-bar-fill" id="excitement-fill"></div>
+						<i data-lucide="flame"></i>
+						<span>Excitement</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="excitement-fill"></div>
+						</div>
+						<span class="bar-value" id="excitement-value"></span>
 					</div>
 					<div id="conditional-status-bars"></div>
 				</div>
+				
 
-				<!-- Carry Weight (Hidden unless 85% full) -->
+				<!-- Carry Weight -->
 				<div id="sidebar-carryweight" style="display:none;">
 					<i data-lucide="package"></i> <span id="carryweight-text">Carryweight: 0/100</span>
 					<div class="status-bar-carry">
@@ -3787,23 +4081,18 @@ Macro.add("SidebarUI", {
 					<span id="exp-text">0/100 XP</span>
 				</div>
 
-				<!-- Buttons injected here -->
+				<!-- Buttons -->
 				<div id="custom-sidebar-buttons">
-					<!-- Character Button -->
 					<div class="button-single">
 						<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
 							<i data-lucide="scroll-text"></i> Character
 						</button>
 					</div>
-
-					<!-- Inventory Button -->
 					<div class="button-single">
 						<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
 							<i data-lucide="backpack"></i> Inventory
 						</button>
 					</div>
-
-					<!-- Journal & People Buttons -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('journal-page')">
 							<i data-lucide="book-open"></i> Journal
@@ -3812,8 +4101,6 @@ Macro.add("SidebarUI", {
 							<i data-lucide="users"></i> People
 						</button>
 					</div>
-
-					<!-- Stats & Achievements -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
 							<i data-lucide="brain"></i> Stats
@@ -3822,19 +4109,30 @@ Macro.add("SidebarUI", {
 							<i data-lucide="star"></i> Achievements
 						</button>
 					</div>
-
-					<!-- Saves & Options -->
 					<div class="button-pair">
 						<button id="btn-saves" class="sidebar-btn"><i data-lucide="save"></i> Saves</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
 					</div>
-				</div> <!-- end #custom-sidebar-buttons -->
-			</div> <!-- end #sidebar-content -->
+				</div>
+			</div>
 		`;
 
-		// AFTER injecting sidebar HTML, safely initialize the SidebarUI
+		// Set bar fill width and value label
+		const s = State.variables.player.status;
+		function updateBar(id, current, max) {
+			const fill = document.getElementById(`${id}-fill`);
+			const value = document.getElementById(`${id}-value`);
+			if (fill) fill.style.width = `${(current / max) * 100}%`;
+			if (value) value.textContent = `${Math.round(current)} / ${Math.round(max)}`;
+		}
+
+		updateBar("health", s.health, s.maxHealth);
+		updateBar("fatigue", s.fatigue, s.maxFatigue);
+		updateBar("composure", s.composure, s.maxComposure);
+		updateBar("excitement", s.excitement, s.maxExcitement);
+
 		if (window.setup?.SidebarUI?.initialize) {
 			console.log("[SidebarUI] Now initializing after Sidebar injection...");
 			setup.SidebarUI.initialize();
@@ -3847,6 +4145,8 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
+
 
 Macro.add("know", {
 	handler() {
@@ -4346,7 +4646,7 @@ Macro.add("EndSexScene", {
 
 
  console.log("✅ widgets.js loaded");
-/* twine-user-script #4: "cssPathFix.js" */
+/* twine-user-script #5: "cssPathFix.js" */
 if (
 	document.location.href.toLowerCase().includes("/twine/scratch/") ||
 	document.location.href.toLowerCase().includes("/temp/") ||
@@ -4364,13 +4664,17 @@ if (
 		});
 	});
 }
-/* twine-user-script #5: "01_initVars.js" */
-State.variables.inventory_player = {};
+/* twine-user-script #6: "01_initVars.js" */
+State.variables.inventory_player = Object.assign(
+	{},
+	State.variables.player.startingInventory
+);
+
 State.variables.DEBUG = true;
 
 // Tavern state tracking
 State.variables.seenTavernSpace = false;
-/* twine-user-script #6: "02_playerdata.js" */
+/* twine-user-script #7: "02_playerdata.js" */
 State.variables.player = {
 	// === Identity ===
 	name: "Jaylie",
@@ -4436,6 +4740,12 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
+	// === Inventory & Carry ===
+	carryWeight: {
+		current: 0,
+	},
+
+
 	// === Body Anatomy ===
 	body: {
 		height: 64, // inches
@@ -4482,10 +4792,15 @@ State.variables.player = {
 		maxBleeding: 50,
 		stunned: false
 	}
+
+	/* ==================== */
+	/* - Player Inventory - */
+	/* ==================== */
+	
 };
 
 console.log("✅ PlayerData loaded successfully.");
-/* twine-user-script #7: "03_worldstate.js" */
+/* twine-user-script #8: "03_worldstate.js" */
 State.variables.world = {
     // === Time and Calendar ===
     dayOfYear: 1,     // 1-400
@@ -4504,8 +4819,8 @@ State.variables.world = {
     specialEvent: null, // e.g., "Harvest Festival"
   };
   console.log("WorldData is loaded.");
-/* twine-user-script #8: "04_Generated_NPCData.js" */
-/* twine-user-script #9: "04_character.js" */
+/* twine-user-script #9: "04_Generated_NPCData.js" */
+/* twine-user-script #10: "04_character.js" */
 /* ================================
 =  Character Dialogue & Avatars  =
 ================================ */
@@ -5293,204 +5608,518 @@ setup.initializeCharacters = function () {
 			}
 		},
 
+		brakka: {
+			name: "Brakka",
+			defaultName: "Half-Orc Fighter",
+			known: false,
+			avatar: "images/portrait_brakka.png", // Swap with actual path
+			color: "white",
+			bgColor: "rgba(85, 110, 73, 0.8)",
+
+			trust: 0,
+			affection: 0,
+			rapport: 0.4,
+			tension: 0,
+
+			traits: ["Blunt", "Short-Tempered", "Independent"],
+			inclinations: ["dominance", "violence", "solitude"],
+			motivations: ["Strength", "Respect"],
+			socialStyle: "Rough",
+
+			pronouns: {
+				subject: "she",
+				object: "her",
+				possessive: "her",
+				reflexive: "herself",
+				noun: "woman"
+			},
+
+			body: {
+				height: 73, // 6'1"
+				breastSize: 2, // "modest"
+				buttSize: 2, // "modest"
+				bodyType: 5, // "muscular"
+				lipFullness: 2, // "modest"
+				skinTone: "greenish bronze",
+				muscleTone: 6, // "ripped"
+				hipWidth: 2, // "modest"
+				bodyHair: 2, // "natural"
+				voiceTone: "gravelly",
+				hairColor: "black",
+				hairStyle: "shaved sides, top tied back",
+				hairLength: 2, // "short"
+				eyeColor: "amber"
+			},
+
+			preferences: {
+				sexualActs: {
+					likes: ["Dominate", "Spank_G", "WrestlePlay", "Teasing"],
+					dislikes: ["Cuddling", "Praise_R", "Service"]
+				},
+				bodyTypes: {
+					likes: ["Strong", "Lean", "Fit"],
+					dislikes: ["Delicate", "OverlySoft"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.5,
+						female: 0.5
+					},
+					anatomyPreference: {
+						penisSize: "large",
+						breastSize: "irrelevant"
+					}
+				}
+			},
+
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			}
+		},
+
 	};
 };
   
   /* Character Dialogue & Avatars - End */
-/* twine-user-script #10: "05_sidebarlogic.js" */
-/* Sidebar Update Handlers */
-setup.SidebarUI.update = function () {
-	if (!State.variables.player || !State.variables.world) {
-	  console.warn("SidebarUI: Player or World data missing.");
-	  return;
-	}
-  
-	setup.SidebarUI.updateStatuses();
-	setup.SidebarUI.updateCarryWeight();
-	setup.SidebarUI.updateLevelAndExp();
-	setup.SidebarUI.updateGold();
-	setup.SidebarUI.updateTime();
-	setup.SidebarUI.updateDate();
-	setup.SidebarUI.updateWeather();
-	setup.SidebarUI.updateSummaryIcons();
-  };
-  
-/* Status Bar Update Handlers */
-setup.SidebarUI.updateStatuses = function () {
-	const status = State.variables.player.status;
-  
-	const bars = [
-	  { id: "health", value: status.health, max: status.maxHealth },
-	  { id: "fatigue", value: status.fatigue, max: status.maxFatigue },
-	  { id: "composure", value: status.composure, max: status.maxComposure },
-	  { id: "excitement", value: status.excitement, max: status.maxExcitement }
-	];
-  
-	bars.forEach(bar => {
-	  const fill = document.getElementById(`${bar.id}-fill`);
-	  if (fill) {
-		const percent = (bar.value / bar.max) * 100;
-		fill.style.width = `${percent}%`;
-  
-		// Color coding
-		if (percent >= 70) {
-		  fill.style.background = "linear-gradient(90deg, #4caf50, #81c784)"; // Green
-		} else if (percent >= 30) {
-		  fill.style.background = "linear-gradient(90deg, #ff9800, #ffc107)"; // Yellow
-		} else {
-		  fill.style.background = "linear-gradient(90deg, #f44336, #e57373)"; // Red
+/* twine-user-script #11: "05_sidebarlogic.js" */
+setup.SidebarUI = {
+	update() {
+		if (!State.variables.player || !State.variables.world) {
+			console.warn("SidebarUI: Player or World data missing.");
+			return;
 		}
-	  }
-	});
-  };
+		this.updateStatuses();
+		this.updateCarryWeight();
+		this.updateLevelAndExp();
+		this.updateGold();
+		this.updateTime();
+		this.updateDate();
+		this.updateWeather();
+		this.updateSummaryIcons();
+	},
 
-  /* Carryweight Update Handler */
-  setup.SidebarUI.updateCarryWeight = function () {
-	const weight = State.variables.player.carryWeight;
-	const carryContainer = document.getElementById("sidebar-carryweight");
-	const carryFill = document.getElementById("carry-fill");
-	const carryText = document.getElementById("carryweight-text");
-  
-	const percent = (weight.current / weight.max) * 100;
-  
-	if (percent >= 85) {
-	  carryContainer.style.display = "block";
-	  carryFill.style.width = `${percent}%`;
-	  carryText.textContent = `Carryweight: ${weight.current}/${weight.max}`;
-	} else {
-	  carryContainer.style.display = "none";
-	}
-  };
-  
-  /* Level and Experience Update Handler */
-  setup.SidebarUI.updateLevelAndExp = function () {
-	const player = State.variables.player;
-  
-	const expPercent = (player.experience / player.experienceToNextLevel) * 100;
-	const expFill = document.getElementById("exp-fill");
-	const expText = document.getElementById("exp-text");
-	const levelText = document.getElementById("sidebar-level");
-  
-	if (expFill) expFill.style.width = `${expPercent}%`;
-	if (expText) expText.textContent = `${player.experience}/${player.experienceToNextLevel} XP`;
-	if (levelText) levelText.textContent = `Lvl ${player.level}`;
-  
-	// Update mini version for collapsed mode
-	const miniFill = document.getElementById("exp-fill-mini");
-	const miniLevel = document.getElementById("summary-level");
-	if (miniFill) miniFill.style.width = `${expPercent}%`;
-	if (miniLevel) miniLevel.textContent = `Lvl ${player.level}`;
-  };
-  
-  /* Time Update Handler */
-  setup.SidebarUI.updateTime = function () {
-	const world = State.variables.world;
-	if (!world) return;
-  
-	const hours = world.hour;
-	const minutes = world.minute.toString().padStart(2, "0");
-	let timeString = "";
-  
-	if (world.is24HourFormat) {
-	  timeString = `${hours}:${minutes}`;
-	} else {
-	  const suffix = hours >= 12 ? "PM" : "AM";
-	  const hour12 = ((hours + 11) % 12 + 1);
-	  timeString = `${hour12}:${minutes} ${suffix}`;
-	}
-  
-	const timeDisplay = document.getElementById("sidebar-time");
-	const timeSummary = document.getElementById("summary-time");
-  
-	if (timeDisplay) timeDisplay.textContent = timeString;
-	if (timeSummary) timeSummary.textContent = timeString;
-  };
-  /* Date Update Handler */
-  setup.SidebarUI.updateDate = function () {
-	const world = State.variables.world;
-	if (!world) return;
-  
-	const seasons = ["Rain", "Sun", "Harvest", "Snow"];
-	const seasonIndex = Math.floor((world.dayOfYear - 1) / 100);
-	const seasonDay = ((world.dayOfYear - 1) % 100) + 1;
-	const seasonName = seasons[seasonIndex] || "Unknown";
-  
-	const dateString = `${seasonDay} of ${seasonName}, ${world.year} AI`;
-  
-	const dateDisplay = document.getElementById("sidebar-date");
-	if (dateDisplay) dateDisplay.textContent = dateString;
-  };
-  
-  /* Weather Icon Update Handler */
-  setup.SidebarUI.updateWeather = function () {
-	const world = State.variables.world;
-	const icon = document.getElementById("sidebar-weather-icon");
-  
-	if (!icon) return;
-  
-	const weatherIcons = {
-	  "Clear": "sun",
-	  "Rain": "cloud-rain",
-	  "Storm": "cloud-lightning",
-	  "Snow": "snowflake",
-	  "Fog": "cloud-fog"
-	};
-  
-	const weatherName = world.weather || "Clear";
-	const iconName = weatherIcons[weatherName] || "sun";
-  
-	icon.setAttribute("data-lucide", iconName);
-	icon.setAttribute("title", weatherName);
-  
-	if (window.lucide) {
-	  lucide.createIcons();
-	}
-  };
-  
-/* Summary Icon Color Update (Summary View) Handler */
-setup.SidebarUI.updateSummaryIcons = function () {
-	const status = State.variables.player.status;
-  
-	const icons = [
-	  { id: "summary-health", value: status.health, max: status.maxHealth },
-	  { id: "summary-fatigue", value: status.fatigue, max: status.maxFatigue },
-	  { id: "summary-composure", value: status.composure, max: status.maxComposure },
-	  { id: "summary-excitement", value: status.excitement, max: status.maxExcitement }
-	];
-  
-	icons.forEach(icon => {
-	  const element = document.getElementById(icon.id);
-	  if (element) {
-		const percent = (icon.value / icon.max) * 100;
-		if (percent >= 70) {
-		  element.style.color = "#4caf50"; // Green
-		} else if (percent >= 30) {
-		  element.style.color = "#ffc107"; // Yellow
+	updateStatuses() {
+		const status = State.variables.player.status;
+
+		const bars = [
+			{ id: "health", value: status.health, max: status.maxHealth },
+			{ id: "fatigue", value: status.fatigue, max: status.maxFatigue },
+			{ id: "composure", value: status.composure, max: status.maxComposure },
+			{ id: "excitement", value: status.excitement, max: status.maxExcitement }
+		];
+
+		bars.forEach(bar => {
+			const fill = document.getElementById(`${bar.id}-fill`);
+			if (fill) {
+				const percent = (bar.value / bar.max) * 100;
+				fill.style.width = `${percent}%`;
+
+				if (percent >= 70) {
+					fill.style.background = "linear-gradient(90deg, #4caf50, #81c784)";
+				} else if (percent >= 30) {
+					fill.style.background = "linear-gradient(90deg, #ff9800, #ffc107)";
+				} else {
+					fill.style.background = "linear-gradient(90deg, #f44336, #e57373)";
+				}
+			}
+		});
+	},
+
+	updateCarryWeight() {
+		const weight = State.variables.player.carryWeight;
+		const carryContainer = document.getElementById("sidebar-carryweight");
+		const carryFill = document.getElementById("carry-fill");
+		const carryText = document.getElementById("carryweight-text");
+
+		const percent = (weight.current / weight.max) * 100;
+
+		if (percent >= 85) {
+			carryContainer.style.display = "block";
+			carryFill.style.width = `${percent}%`;
+			carryText.textContent = `Carryweight: ${weight.current}/${weight.max}`;
 		} else {
-		  element.style.color = "#f44336"; // Red
+			carryContainer.style.display = "none";
 		}
-	  }
-	});
-  };
-  
-  /* Gold Update Handler */
-  setup.SidebarUI.getGoldAmount = function () {
-	const inventory = State.variables.inventory_player;
-	if (!inventory) return 0;
-  
-	return inventory["gold_coin"] || 0;
-  };
-  
-  setup.SidebarUI.updateGold = function () {
-	const gold = setup.SidebarUI.getGoldAmount();
-	const goldDisplay = document.getElementById("sidebar-gold-amount");
-	const goldSummary = document.getElementById("summary-gold");
-  
-	const formattedGold = gold >= 1000 ? (gold / 1000).toFixed(1) + "K" : gold;
-  
-	if (goldDisplay) goldDisplay.textContent = formattedGold;
-	if (goldSummary) goldSummary.textContent = formattedGold;
-  };
+	},
+
+	updateLevelAndExp() {
+		const player = State.variables.player;
+		const expPercent = (player.experience / player.experienceToNextLevel) * 100;
+
+		const expFill = document.getElementById("exp-fill");
+		const expText = document.getElementById("exp-text");
+		const levelText = document.getElementById("sidebar-level");
+
+		if (expFill) expFill.style.width = `${expPercent}%`;
+		if (expText) expText.textContent = `${player.experience}/${player.experienceToNextLevel} XP`;
+		if (levelText) levelText.textContent = `Lvl ${player.level}`;
+
+		const miniFill = document.getElementById("exp-fill-mini");
+		const miniLevel = document.getElementById("summary-level");
+		if (miniFill) miniFill.style.width = `${expPercent}%`;
+		if (miniLevel) miniLevel.textContent = `Lvl ${player.level}`;
+	},
+
+	updateTime() {
+		const world = State.variables.world;
+		if (!world) return;
+
+		const hours = world.hour;
+		const minutes = world.minute.toString().padStart(2, "0");
+		let timeString = "";
+
+		if (world.is24HourFormat) {
+			timeString = `${hours}:${minutes}`;
+		} else {
+			const suffix = hours >= 12 ? "PM" : "AM";
+			const hour12 = ((hours + 11) % 12 + 1);
+			timeString = `${hour12}:${minutes} ${suffix}`;
+		}
+
+		const timeDisplay = document.getElementById("sidebar-time");
+		const timeSummary = document.getElementById("summary-time");
+
+		if (timeDisplay) timeDisplay.textContent = timeString;
+		if (timeSummary) timeSummary.textContent = timeString;
+	},
+
+	updateDate() {
+		const world = State.variables.world;
+		if (!world) return;
+
+		const seasons = ["Rain", "Sun", "Harvest", "Snow"];
+		const seasonIndex = Math.floor((world.dayOfYear - 1) / 100);
+		const seasonDay = ((world.dayOfYear - 1) % 100) + 1;
+		const seasonName = seasons[seasonIndex] || "Unknown";
+
+		const dateString = `${seasonDay} of ${seasonName}, ${world.year} AI`;
+
+		const dateDisplay = document.getElementById("sidebar-date");
+		if (dateDisplay) dateDisplay.textContent = dateString;
+	},
+
+	updateWeather() {
+		const world = State.variables.world;
+		const icon = document.getElementById("sidebar-weather-icon");
+
+		if (!icon) return;
+
+		const weatherIcons = {
+			"Clear": "sun",
+			"Rain": "cloud-rain",
+			"Storm": "cloud-lightning",
+			"Snow": "snowflake",
+			"Fog": "cloud-fog"
+		};
+
+		const weatherName = world.weather || "Clear";
+		const iconName = weatherIcons[weatherName] || "sun";
+
+		icon.setAttribute("data-lucide", iconName);
+		icon.setAttribute("title", weatherName);
+
+		if (window.lucide) {
+			lucide.createIcons();
+		}
+	},
+
+	updateSummaryIcons() {
+		const status = State.variables.player.status;
+
+		const icons = [
+			{ id: "summary-health", fillId: "summary-health-fill", value: status.health, max: status.maxHealth },
+			{ id: "summary-fatigue", fillId: "summary-fatigue-fill", value: status.fatigue, max: status.maxFatigue },
+			{ id: "summary-composure", fillId: "summary-composure-fill", value: status.composure, max: status.maxComposure },
+			{ id: "summary-excitement", fillId: "summary-excitement-fill", value: status.excitement, max: status.maxExcitement }
+		];
+
+		icons.forEach(icon => {
+			const iconEl = document.getElementById(icon.id);
+			const fillEl = document.getElementById(icon.fillId);
+			const percent = Math.max(0, Math.min(100, (icon.value / icon.max) * 100));
+
+			if (fillEl) {
+				fillEl.style.height = `${percent}%`;
+			}
+
+			if (iconEl) {
+				iconEl.classList.remove("low", "mid", "high");
+
+				if (percent >= 70) {
+					iconEl.classList.add("high");
+					iconEl.style.filter = "drop-shadow(0 0 3px #4caf50cc)";
+				} else if (percent >= 30) {
+					iconEl.classList.add("mid");
+					iconEl.style.filter = "drop-shadow(0 0 2px #ffc107cc)";
+				} else {
+					iconEl.classList.add("low");
+					iconEl.style.filter = "drop-shadow(0 0 2px #f44336cc)";
+				}
+			}
+		});
+	},
+
+	getGoldAmount() {
+		const inventory = State.variables.inventory_player;
+		if (!inventory) return 0;
+
+		return inventory["gold_coin"] || 0;
+	},
+
+	updateGold() {
+		const gold = this.getGoldAmount();
+		const goldDisplay = document.getElementById("sidebar-gold-amount");
+		const goldSummary = document.getElementById("summary-gold");
+
+		const formattedGold = gold >= 1000 ? (gold / 1000).toFixed(1) + "K" : gold;
+
+		if (goldDisplay) goldDisplay.textContent = formattedGold;
+		if (goldSummary) goldSummary.textContent = formattedGold;
+	},
+
+	initialize() {
+		console.log("[SidebarUI] Initializing SidebarUI...");
+		const toggleButton = document.getElementById("sidebar-toggle");
+
+		if (!toggleButton) {
+			console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
+			return;
+		}
+
+		toggleButton.addEventListener("click", () => {
+			console.log("[SidebarUI] Collapse button clicked!");
+			this.toggleSidebar();
+		});
+
+		this.startAutoRefresh();
+		this.tryLucideIcons();
+	},
+
+	toggleSidebar() {
+		const sidebar = document.getElementById("custom-sidebar");
+		const arrow = document.getElementById("sidebar-arrow");
+		const toggleButton = document.getElementById("sidebar-toggle");
+		const summary = document.getElementById("sidebar-summary");
+		const content = document.getElementById("sidebar-content");
+
+		if (!sidebar || !summary || !content) {
+			console.warn("[SidebarUI] Sidebar or required elements not found.");
+			return;
+		}
+
+		sidebar.classList.toggle("collapsed");
+		const isCollapsed = sidebar.classList.contains("collapsed");
+
+		// Set class on <body>
+		document.body.classList.toggle("sidebar-collapsed", isCollapsed);
+
+		// Flip arrow
+		if (arrow) {
+			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
+		}
+
+		// Fix toggle button position
+		if (toggleButton) {
+			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
+		}
+
+		// Show/hide summary vs full content
+		summary.style.display = isCollapsed ? "flex" : "none";
+		content.style.display = isCollapsed ? "none" : "block";
+
+		// Update all sidebar data (including summary icons)
+		this.update();
+
+		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
+	},
+
+
+	startAutoRefresh() {
+		if (this._refreshTimer) {
+			clearInterval(this._refreshTimer);
+		}
+		this._refreshTimer = setInterval(() => {
+			this.updateSidebar();
+		}, 1000);
+	},
+
+	updateSidebar() {
+		const player = State.variables.player;
+		const world = State.variables.world;
+		const inventory = State.variables.inventory || [];
+
+		if (!player || !world) {
+			console.warn("[SidebarUI] Player or WorldState missing — cannot update sidebar.");
+			return;
+		}
+
+		this.updateText("sidebar-time", this.formatWorldTime(world.hour, world.minute, world.is24HourFormat));
+		this.updateText("sidebar-date", this.formatWorldDate(world.dayOfYear, world.year));
+		this.updateText("sidebar-location", world.locationName || "Unknown Location");
+
+		this.updateWeatherIcon(world.weather);
+
+		const goldAmount = this.findGoldAmount(inventory);
+		this.updateText("sidebar-gold-amount", goldAmount);
+		this.updateText("summary-gold", this.abbreviateGold(goldAmount));
+
+		this.updateText("summary-level", `Lvl ${player.level}`);
+		this.updateExpBars(player);
+		this.updateStatusBars(player);
+
+		this.updateStatusIcon("summary-health", player.status.health, player.status.maxHealth);
+		this.updateStatusIcon("summary-fatigue", player.status.fatigue, player.status.maxFatigue, true);
+		this.updateStatusIcon("summary-composure", player.status.composure, player.status.maxComposure);
+		this.updateStatusIcon("summary-excitement", player.status.excitement, player.status.maxExcitement);
+
+		this.updateConditionalStatusIcons(player.status);
+	},
+
+	updateText(id, text) {
+		const el = document.getElementById(id);
+		if (el) el.textContent = text;
+	},
+
+	updateWeatherIcon(weatherType) {
+		const icon = document.getElementById("sidebar-weather-icon");
+		if (!icon) return;
+
+		const weatherIcons = {
+			"Clear": "sun",
+			"Rain": "cloud-rain",
+			"Storm": "cloud-lightning",
+			"Snow": "cloud-snow",
+			"Fog": "cloud-fog"
+		};
+
+		const iconName = weatherIcons[weatherType] || "sun";
+		icon.setAttribute("data-lucide", iconName);
+
+		if (window.lucide) {
+			lucide.createIcons();
+		}
+	},
+
+	findGoldAmount(inventory) {
+		const goldItem = inventory.find(item => item.key === "gold_coin");
+		return goldItem ? goldItem.amount : 0;
+	},
+
+	abbreviateGold(amount) {
+		if (amount >= 1000000) return (amount / 1000000).toFixed(1) + "M";
+		if (amount >= 1000) return (amount / 1000).toFixed(1) + "K";
+		return amount.toString();
+	},
+
+	updateExpBars(player) {
+		const percent = Math.min((player.experience / player.experienceToNextLevel) * 100, 100);
+		const mainFill = document.getElementById("exp-fill");
+		const miniFill = document.getElementById("exp-fill-mini");
+
+		if (mainFill) mainFill.style.width = `${percent}%`;
+		if (miniFill) miniFill.style.width = `${percent}%`;
+
+		this.updateText("exp-text", `${player.experience}/${player.experienceToNextLevel} XP`);
+	},
+
+	updateStatusBars(player) {
+		this.setFillWidth("health-fill", (player.status.health / player.status.maxHealth) * 100);
+		this.setFillWidth("fatigue-fill", (player.status.fatigue / player.status.maxFatigue) * 100);
+		this.setFillWidth("composure-fill", (player.status.composure / player.status.maxComposure) * 100);
+		this.setFillWidth("excitement-fill", (player.status.excitement / player.status.maxExcitement) * 100);
+	},
+
+	setFillWidth(id, percent) {
+		const fill = document.getElementById(id);
+		if (fill) {
+			fill.style.width = `${Math.min(Math.max(percent, 0), 100)}%`;
+		}
+	},
+
+	updateStatusIcon(iconId, current, max, inverse = false) {
+		const icon = document.getElementById(iconId);
+		if (!icon) return;
+
+		const ratio = current / max;
+		let color = "white";
+
+		if (inverse) {
+			if (ratio >= 0.75) color = "red";
+			else if (ratio >= 0.5) color = "orange";
+			else color = "green";
+		} else {
+			if (ratio <= 0.25) color = "red";
+			else if (ratio <= 0.5) color = "orange";
+			else color = "green";
+		}
+
+		icon.style.stroke = color;
+	},
+
+	updateConditionalStatusIcons(status) {
+		const container = document.getElementById("summary-conditions");
+		if (!container) return;
+
+		container.innerHTML = "";
+
+		const effects = [
+			{ key: "poisoned", icon: "skull" },
+			{ key: "intoxicated", icon: "glass-water" },
+			{ key: "charmed", icon: "heart-handshake" },
+			{ key: "burning", icon: "flame" },
+			{ key: "bleeding", icon: "droplet" },
+			{ key: "stunned", icon: "zap-off" }
+		];
+
+		effects.forEach(effect => {
+			if (status[effect.key]) {
+				const newIcon = document.createElement("i");
+				newIcon.setAttribute("data-lucide", effect.icon);
+				newIcon.style.width = "16px";
+				newIcon.style.height = "16px";
+				container.appendChild(newIcon);
+			}
+		});
+
+		if (window.lucide) {
+			lucide.createIcons();
+		}
+	},
+
+	formatWorldTime(hour, minute, is24h) {
+		if (is24h) {
+			return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
+		} else {
+			const ampm = hour >= 12 ? "PM" : "AM";
+			const h12 = hour % 12 || 12;
+			return `${h12}:${minute.toString().padStart(2, "0")} ${ampm}`;
+		}
+	},
+
+	formatWorldDate(dayOfYear, year) {
+		const seasons = ["Rain", "Sun", "Harvest", "Snow"];
+		const seasonLength = 100;
+		const seasonIndex = Math.floor((dayOfYear - 1) / seasonLength);
+		const seasonDay = ((dayOfYear - 1) % seasonLength) + 1;
+		const season = seasons[seasonIndex] || "Unknown";
+
+		return `${seasonDay} of ${season}, ${year} AI`;
+	},
+
+	tryLucideIcons() {
+		if (typeof lucide !== "undefined") {
+			lucide.createIcons();
+			console.log("[SidebarUI] Lucide icons rendered successfully!");
+		} else {
+			console.warn("[SidebarUI] Lucide not ready yet — retrying in 250ms...");
+			setTimeout(this.tryLucideIcons, 250);
+		}
+	}
+};
+
   
   $(document).on(":storyready", () => {
 	const btn = document.getElementById("btn-saves");
@@ -5518,7 +6147,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 
 
 
-/* twine-user-script #11: "06_loader.js" */
+/* twine-user-script #12: "06_loader.js" */
 (() => {
 	function getMessage(O) {
 		if (O == null) return 'unknown error';
@@ -5549,7 +6178,7 @@ setup.SidebarUI.updateSummaryIcons = function () {
 		}
 	});
 })();
-/* twine-user-script #12: "07_lucide.js" */
+/* twine-user-script #13: "07_lucide.js" */
 var lucideScript = document.createElement('script');
 lucideScript.src = 'https://unpkg.com/lucide@latest';
 lucideScript.onload = function () {
@@ -5568,7 +6197,7 @@ function renderLucideIconsSafely() {
 		setTimeout(renderLucideIconsSafely, 50);
 	}
 }
-/* twine-user-script #13: "08_debugTools.js" */
+/* twine-user-script #14: "08_debugTools.js" */
 postdisplay["logItemData"] = function () {
 	if (setup.ItemData) {
 		console.log("📦 Available items:", Object.keys(setup.ItemData));
@@ -5576,7 +6205,7 @@ postdisplay["logItemData"] = function () {
 		console.error("❌ setup.ItemData is not defined.");
 	}
 };
-/* twine-user-script #14: "01_InventoryLibrary.js" */
+/* twine-user-script #15: "01_InventoryLibrary.js" */
 /* =============================
 = ITEM METADATA LOADER - START =
 ============================= */
@@ -5586,6 +6215,24 @@ if (typeof setup === 'undefined') {
 if (typeof setup.ItemData === 'undefined') {
 	setup.ItemData = {};
 }
+/* =============================
+=     Weapons - Daggers     =
+============================= */
+setup.ItemData.dagger_silver = {
+  id: "longsword_silver",
+  name: "Silvered Dagger",
+  type: "weapon",
+  subtype: "dagger",
+  tags: ["piercing", "1H", "anti-undead"],
+  material: "Silver",
+  rarity: 1,
+  damage: { piercing:[3,6]},
+  weight: 1.5,
+  value: 450,
+  img: "weapon_dagger_silver.png",
+  description: "A silver-plated longsword favored by monster hunters. Effective against undead."
+};
+
 /* =============================
 =     Weapons - Longswords     =
 ============================= */
@@ -6023,7 +6670,7 @@ console.log("✅ ItemData loaded:", Object.keys(setup.ItemData));
 /* =============================
 = ITEM METADATA LOADER - END =
 ============================= */
-/* twine-user-script #15: "02_InventorySystem.js" */
+/* twine-user-script #16: "02_InventorySystem.js" */
 
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
@@ -6265,8 +6912,50 @@ document.addEventListener("DOMContentLoaded", () => {
   if (setup.updateCondensedPaperdoll) setup.updateCondensedPaperdoll();
 });
 
+
+/* =============================== */
+/* Carryweight Logic Implemenation */
+/* =============================== */
+setup.calculateMaxCarryWeight = function () {
+	const strength = State.variables.player?.attributes?.strength || 1;
+	return 30 + (strength * 5); // 30 base + 5 per Strength point
+};
+
+setup.calculateInventoryWeight = function (target = "player") {
+	const inventory = State.variables[`inventory_${target}`];
+	if (!inventory) return 0;
+
+	let totalWeight = 0;
+
+	for (const itemId in inventory) {
+		const item = getItemMetadata(itemId);
+		const amount = inventory[itemId];
+
+		if (item?.weight) {
+			totalWeight += item.weight * amount;
+		}
+	}
+
+	return totalWeight;
+};
+
+setup.updatePlayerCarryWeight = function () {
+	const player = State.variables.player;
+	if (!player) return;
+
+	const currentWeight = setup.calculateInventoryWeight("player");
+	const maxWeight = setup.calculateMaxCarryWeight();
+
+	player.carryWeight = {
+		current: currentWeight,
+		max: maxWeight
+	};
+};
+
+
+
 window.setup = setup;
-/* twine-user-script #16: "03_overlayManager.js" */
+/* twine-user-script #17: "03_overlayManager.js" */
 window.openOverlay = function (source) {
 	const body = document.getElementById("overlay-body");
 	if (!body) return;
@@ -6313,12 +7002,15 @@ setup.loadOverlayHTML = async function (overlayId, filename) {
 		console.error(`❌ Error loading overlay file '${filename}':`, err);
 	}
 };
-/* twine-user-script #17: "04_PassageInjector.js" */
+/* twine-user-script #18: "04_PassageInjector.js" */
 // ===============================
 //  Move Rendered Passage Content into #text-backdrop (Prose Mode Only)
 // ===============================
 
 $(document).on(':passagerender', function () {
+	// Optional: Disable transition glitch on initial load
+	document.body.classList.add("rendering");
+
 	setTimeout(function () {
 		const passage = document.querySelector('#passages > .passage');
 		const backdrop = document.getElementById('text-backdrop');
@@ -6328,21 +7020,40 @@ $(document).on(':passagerender', function () {
 				passageFound: !!passage,
 				backdropFound: !!backdrop
 			});
+			document.body.classList.remove("rendering");
 			return;
 		}
 
+		// Skip layout injection if it's handled by the dialogue system
 		const isDialogue = passage.innerHTML.includes("StartDialogueLayout");
 		if (isDialogue) {
 			console.log("[PassageInjector] Skipping injection (dialogue layout will take over)");
+			document.body.classList.remove("rendering");
 			return;
 		}
 
 		backdrop.innerHTML = "";       // Clear old content
 		backdrop.appendChild(passage); // Physically move the rendered content
+		if (!setup.prefersReducedMotion?.()) {
+			backdrop.scrollTo({ top: 0, behavior: "smooth" });
+		} else {
+			backdrop.scrollTop = 0;
+		}
+
+
+		// Sync sidebar layout class with actual state
+		const sidebar = document.getElementById("custom-sidebar");
+		if (sidebar) {
+			if (sidebar.classList.contains("collapsed")) {
+				document.body.classList.add("sidebar-collapsed");
+			} else {
+				document.body.classList.remove("sidebar-collapsed");
+			}
+		}
+
+		document.body.classList.remove("rendering");
 	}, 0);
 });
-
-
 
 
 // ===============================
@@ -6353,7 +7064,7 @@ $(document).on(':passagedisplay', function () {
 		setup.SidebarUI.updateSummary();
 	}
 });
-/* twine-user-script #18: "05_BackgroundSystem.js" */
+/* twine-user-script #19: "05_BackgroundSystem.js" */
 $(document).on(':passagedisplay', function () {
 	const bgDiv = document.getElementById("background-image");
 
@@ -6370,7 +7081,7 @@ $(document).on(':passagedisplay', function () {
 	// Reset flag for next passage
 	delete State.variables.bgImageSetThisPassage;
 });
-/* twine-user-script #19: "06_ShopSystem.js" */
+/* twine-user-script #20: "06_ShopSystem.js" */
 setup.ShopSystem = {
   activeCategory: "all",
 
@@ -6485,7 +7196,7 @@ setup.ShopSystem = {
     // Return to conversation state here if needed
   }
 };
-/* twine-user-script #20: "08_conversation_minigame.js" */
+/* twine-user-script #21: "08_conversation_minigame.js" */
 // 08_conversation_minigame.js
 
 setup.ConvoGame = {
@@ -6933,7 +7644,7 @@ setup.ConvoGame = {
   },
   
 };
-/* twine-user-script #21: "09_conversation_ui.js" */
+/* twine-user-script #22: "09_conversation_ui.js" */
 // 09_conversation_ui.js
 
 setup.ConvoUI = {
@@ -7059,7 +7770,7 @@ setup.ConvoUI.animateChoices = function(container) {
 
 
 
-/* twine-user-script #22: "10_dialogueSetup.js" */
+/* twine-user-script #23: "10_dialogueSetup.js" */
 // ===============================
 // 📦 Dialogue Layout Macros
 // ===============================
@@ -7092,6 +7803,16 @@ Macro.add("StartDialogueLayout", {
 		};
 
 		tryInjectPassage();
+
+		// Force sidebar layout class sync (compensate margin)
+		const sidebar = document.getElementById("custom-sidebar");
+		if (sidebar) {
+			if (sidebar.classList.contains("collapsed")) {
+				document.body.classList.add("sidebar-collapsed");
+			} else {
+				document.body.classList.remove("sidebar-collapsed");
+			}
+		}
 	}
 });
 
@@ -7346,7 +8067,7 @@ setup.smartChoices = function (list) {
 };
 
 
-/* twine-user-script #23: "11_BodyDescriptorsDB.js" */
+/* twine-user-script #24: "11_BodyDescriptorsDB.js" */
 // dev/js/02_systems/11_BodyDescriptorsDB.js
 // Centralized enum and descriptor logic for body-related features
 
@@ -7422,7 +8143,7 @@ const BodyDescriptors = {
 };
 
 setup.BodyDescriptors = BodyDescriptors;
-/* twine-user-script #24: "12_GlobalTextResolver.js" */
+/* twine-user-script #25: "12_GlobalTextResolver.js" */
 setup.resolveCharacterText = function (text, npc) {
     if (!npc || typeof npc !== "object") return text;
   
@@ -7467,7 +8188,7 @@ setup.resolveCharacterText = function (text, npc) {
     return text;
   };
   
-/* twine-user-script #25: "12_SexScene_Logic.js" */
+/* twine-user-script #26: "12_SexScene_Logic.js" */
 // ===============================
 // 🍑 Initialize Sex Scene State
 // ===============================
@@ -8555,7 +9276,7 @@ setup.npcInclinationShift = function (npcId) {
 
 	npcState.recentActs = []; // Clear tracking
 };
-/* twine-user-script #26: "15_npcSystems.js" */
+/* twine-user-script #27: "15_npcSystems.js" */
 setup.NPCs = [];
 
 setup.generateNPC = function (gender, race, archetypeName, seed) {
@@ -8598,7 +9319,7 @@ setup.filterNPCs = function (criteria = {}) {
         });
     });
 };
-/* twine-user-script #27: "CrownAndCasteLogic.js" */
+/* twine-user-script #28: "CrownAndCasteLogic.js" */
 setup.CrownAndCaste = {
   // ==========================
   // 1. Core Initialization
@@ -10348,7 +11069,7 @@ function getFiveInRowValues(values) {
   }
   return [];
 }
-/* twine-user-script #28: "CrownAndCasteUI.js" */
+/* twine-user-script #29: "CrownAndCasteUI.js" */
 setup.CrownAndCasteUI = {
   chipMode: false,
   
@@ -10971,7 +11692,7 @@ setup.CrownAndCasteUI = {
   }
 
 };
-/* twine-user-script #29: "01_speechMacro.js" */
+/* twine-user-script #30: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -10997,7 +11718,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #30: "02_fogtextMacro.js" */
+/* twine-user-script #31: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -11051,276 +11772,6 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #31: "03_sidebar.js" */
-// dev/js/03_sidebar.js
-
-setup.SidebarUI = {
-	initialize() {
-		console.log("[SidebarUI] Initializing SidebarUI...");
-		const toggleButton = document.getElementById("sidebar-toggle");
-
-		if (!toggleButton) {
-			console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
-			return;
-		}
-
-		console.log("[SidebarUI] Found toggleButton:", toggleButton);
-		toggleButton.addEventListener("click", function() {
-			console.log("[SidebarUI] Collapse button clicked!");
-			setup.SidebarUI.toggleSidebar();
-		});
-
-		setup.SidebarUI.startAutoRefresh();
-		tryLucideIcons();
-	},
-
-	toggleSidebar() {
-		const sidebar = document.getElementById("custom-sidebar");
-		const arrow = document.getElementById("sidebar-arrow");
-		const toggleButton = document.getElementById("sidebar-toggle");
-
-		if (!sidebar) {
-			console.warn("[SidebarUI] Custom sidebar not found during toggleSidebar().");
-			return;
-		}
-
-		sidebar.classList.toggle("collapsed");
-		const isCollapsed = sidebar.classList.contains("collapsed");
-
-		if (arrow) {
-			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
-		}
-
-		if (isCollapsed) {
-			document.body.classList.add("sidebar-collapsed");
-		} else {
-			document.body.classList.remove("sidebar-collapsed");
-		}
-
-		if (toggleButton) {
-			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
-		}
-
-		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
-	},
-
-	updateSidebar() {
-		const player = State.variables.player;
-		const world = State.variables.world;
-		const inventory = State.variables.inventory || [];
-
-		if (!player || !world) {
-			console.warn("[SidebarUI] Player or WorldState missing — cannot update sidebar.");
-			return;
-		}
-
-		// Top Info
-		updateText("sidebar-time", formatWorldTime(world.hour, world.minute, world.is24HourFormat));
-		updateText("sidebar-date", formatWorldDate(world.dayOfYear, world.year));
-		updateText("sidebar-location", world.locationName || "Unknown Location");
-
-		// Weather Icon
-		updateWeatherIcon(world.weather);
-
-		// Gold
-		const goldAmount = findGoldAmount(inventory);
-		updateText("sidebar-gold-amount", goldAmount);
-		updateText("summary-gold", abbreviateGold(goldAmount));
-
-		// Level + XP Bars
-		updateText("summary-level", `Lvl ${player.level}`);
-		updateExpBars(player);
-
-		// Status Bars
-		updateStatusBars(player);
-
-		// Status Icon Coloring
-		updateStatusIcon("summary-health", player.status.health, player.status.maxHealth);
-		updateStatusIcon("summary-fatigue", player.status.fatigue, player.status.maxFatigue, true);
-		updateStatusIcon("summary-composure", player.status.composure, player.status.maxComposure);
-		updateStatusIcon("summary-excitement", player.status.excitement, player.status.maxExcitement);
-
-		// Conditional Effects
-		updateConditionalStatusIcons(player.status);
-	},
-
-	startAutoRefresh() {
-		if (window.setup.SidebarUI._refreshTimer) {
-			clearInterval(window.setup.SidebarUI._refreshTimer);
-		}
-		window.setup.SidebarUI._refreshTimer = setInterval(() => {
-			setup.SidebarUI.updateSidebar();
-		}, 1000);
-	}
-};
-
-/* ====================
-    Utility Functions
-==================== */
-
-// Generic text updater
-function updateText(id, text) {
-	const el = document.getElementById(id);
-	if (el) {
-		el.textContent = text;
-	}
-}
-
-// Weather icon setter
-function updateWeatherIcon(weatherType) {
-	const icon = document.getElementById("sidebar-weather-icon");
-	if (!icon) return;
-
-	const weatherIcons = {
-		"Clear": "sun",
-		"Rain": "cloud-rain",
-		"Storm": "cloud-lightning",
-		"Snow": "cloud-snow",
-		"Fog": "cloud-fog"
-	};
-
-	const iconName = weatherIcons[weatherType] || "sun";
-	icon.setAttribute("data-lucide", iconName);
-
-	if (window.lucide) {
-		lucide.createIcons();
-	}
-}
-
-// Find Gold from Inventory
-function findGoldAmount(inventory) {
-	const goldItem = inventory.find(item => item.key === "gold_coin");
-	return goldItem ? goldItem.amount : 0;
-}
-
-// Abbreviate big gold numbers
-function abbreviateGold(amount) {
-	if (amount >= 1000000) {
-		return (amount / 1000000).toFixed(1) + "M";
-	} else if (amount >= 1000) {
-		return (amount / 1000).toFixed(1) + "K";
-	} else {
-		return amount.toString();
-	}
-}
-
-// Update both large and mini exp bars
-function updateExpBars(player) {
-	const mainFill = document.getElementById("exp-fill");
-	const miniFill = document.getElementById("exp-fill-mini");
-	const percent = Math.min((player.experience / player.experienceToNextLevel) * 100, 100);
-
-	if (mainFill) mainFill.style.width = `${percent}%`;
-	if (miniFill) miniFill.style.width = `${percent}%`;
-
-	updateText("exp-text", `${player.experience}/${player.experienceToNextLevel} XP`);
-}
-
-// Update sidebar status bars
-function updateStatusBars(player) {
-	const healthPercent = (player.status.health / player.status.maxHealth) * 100;
-	const fatiguePercent = (player.status.fatigue / player.status.maxFatigue) * 100;
-	const composurePercent = (player.status.composure / player.status.maxComposure) * 100;
-	const excitementPercent = (player.status.excitement / player.status.maxExcitement) * 100;
-
-	setFillWidth("health-fill", healthPercent);
-	setFillWidth("fatigue-fill", fatiguePercent);
-	setFillWidth("composure-fill", composurePercent);
-	setFillWidth("excitement-fill", excitementPercent);
-}
-
-// Set fill % width
-function setFillWidth(id, percent) {
-	const fill = document.getElementById(id);
-	if (fill) {
-		fill.style.width = `${Math.min(Math.max(percent, 0), 100)}%`;
-	}
-}
-
-// Status Icon Coloring
-function updateStatusIcon(iconId, current, max, inverse = false) {
-	const icon = document.getElementById(iconId);
-	if (!icon) return;
-
-	const ratio = current / max;
-
-	let color = "white";
-	if (inverse) {
-		if (ratio >= 0.75) color = "red";
-		else if (ratio >= 0.5) color = "orange";
-		else color = "green";
-	} else {
-		if (ratio <= 0.25) color = "red";
-		else if (ratio <= 0.5) color = "orange";
-		else color = "green";
-	}
-
-	icon.style.stroke = color;
-}
-
-// Update Conditional Effects
-function updateConditionalStatusIcons(status) {
-	const container = document.getElementById("summary-conditions");
-	if (!container) return;
-
-	container.innerHTML = "";
-
-	const effects = [
-		{ key: "poisoned", icon: "skull" },
-		{ key: "intoxicated", icon: "glass-water" },
-		{ key: "charmed", icon: "heart-handshake" },
-		{ key: "burning", icon: "flame" },
-		{ key: "bleeding", icon: "droplet" },
-		{ key: "stunned", icon: "zap-off" }
-	];
-
-	effects.forEach(effect => {
-		if (status[effect.key]) {
-			const newIcon = document.createElement("i");
-			newIcon.setAttribute("data-lucide", effect.icon);
-			newIcon.style.width = "16px";
-			newIcon.style.height = "16px";
-			container.appendChild(newIcon);
-		}
-	});
-
-	if (window.lucide) {
-		lucide.createIcons();
-	}
-}
-
-// Format World Time
-function formatWorldTime(hour, minute, is24h) {
-	if (is24h) {
-		return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
-	} else {
-		const ampm = hour >= 12 ? "PM" : "AM";
-		const h12 = hour % 12 || 12;
-		return `${h12}:${minute.toString().padStart(2, "0")} ${ampm}`;
-	}
-}
-
-// Format World Date
-function formatWorldDate(dayOfYear, year) {
-	const seasons = ["Rain", "Sun", "Harvest", "Snow"];
-	const seasonLength = 100;
-	const seasonIndex = Math.floor((dayOfYear - 1) / seasonLength);
-	const seasonDay = ((dayOfYear - 1) % seasonLength) + 1;
-	const season = seasons[seasonIndex] || "Unknown";
-
-	return `${seasonDay} of ${season}, ${year} AI`;
-}
-
-// Retry loop for Lucide icons
-function tryLucideIcons() {
-	if (typeof lucide !== "undefined") {
-		lucide.createIcons();
-		console.log("[SidebarUI] Lucide icons rendered successfully!");
-	} else {
-		console.warn("[SidebarUI] Lucide not ready yet — retrying in 250ms...");
-		setTimeout(tryLucideIcons, 250);
-	}
-}
 /* twine-user-script #32: "adda.js" */
 setup.adda_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
@@ -11419,6 +11870,16 @@ setup.bert_Conversation_Options_Phase0 = function () {
 	]);
 };
 /* twine-user-script #35: "brakka.js" */
+setup.brakka_Conversation_Options_Phase0 = function () {
+	setup.smartChoices([
+		{ label: "How are you doing tonight?", target: "Brakka_Howareyoutonight" },
+        { label: "Why 'Silks'?", target: "Brakka_WhySilks", compare: {value: "$calledSilks", op: ">=", against: 3 }, hide: true },
+		{ label: "You look like you’ve seen some fights.", target: "Brakka_FightComment" },
+		{ label: "I just wanted to say hi.", target: "Brakka_HelloAttempt" },
+		{ label: "Enjoy your meal.", target: "Brakka_ExitwithTournyInvite", notVariable: "Read_Phase0_brakka_Brakka_ExitwithTournyInvite", hide: true },
+        { label: "Enjoy your meal.", target: "Brakka_ExitNormally", variable: "Read_Phase0_brakka_Brakka_ExitwithTournyInvite", reuse: 1, hide: true}
+	]);
+};
 /* twine-user-script #36: "darian.js" */
 /**
  * Darian Conversation Setup Functions
@@ -14686,7 +15147,121 @@ She pulls back a layer of cushions and makes space beside her with a lazy, fluid
 [[You step away from the bar.|Scene02_ReturnToParlor]]
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Darian_HowLongHere" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="Brakka_Howareyoutonight" tags="widget" position="725,475" size="100,100">&lt;&lt;widget &quot;Brakka_Howareyoutonight&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;How are you doing tonight?&lt;&lt;/speech&gt;&gt;
+
+Brakka lifts her mug and downs a swig without looking at you.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;I must’ve looked like I was doing pretty damn well for you to walk up that casual.&lt;&lt;/speech&gt;&gt;
+
+She wipes her mouth with the back of her hand and finally gives you a once-over.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Listen &lt;em&gt;Silks&lt;/em&gt;, unless you&#39;ve got business with me, I&#39;d prefer to finish my meal in peace so I can get home before this storm drowns the city.&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
+
+She let&#39;s out a little grunt before taking another swig from her mug, the foaming liquid runs down her chin which she wipes with the back of a greasy hand.
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.brakka_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Brakka_WhySilks" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Brakka_WhySilks&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Why do you keep calling me &quot;Silks&quot;?&lt;&lt;/speech&gt;&gt;
+
+Brakka doesn’t answer at first. She tears another bite from her mutton, chews, and swallows without rushing.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Because you&#39;re soft.&lt;&lt;/speech&gt;&gt;
+
+You blink. She looks at you like that should’ve been the full explanation.
+
+A beat passes. Brakka lets out a slow exhale—half sigh, half surrender—and gestures vaguely in your direction with the bone still in her hand.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;You walk like the ground was paved for you. Like the floorboards were laid so your steps wouldn’t creak.&lt;&lt;/speech&gt;&gt;
+
+She takes a quick bite of her mutton, but doesn&#39;t pause to chew. She continues, muffled, through thick chomps of meat.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;You approach strangers like they owe you the conversation. Everything about you is soft. Your clothes. Your voice. Your hair. Your skin.&lt;&lt;/speech&gt;&gt;
+
+She narrows her eyes, not unkindly—but weighing you.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;You look like someone who’s never had to fight hard for much in her life. Like someone who’s known luxury. Silk sheets. Soft hands. Easy roads.&lt;&lt;/speech&gt;&gt;
+
+She turns her gaze back toward the fire.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Talk to me again when you wear a few scars.&lt;&lt;/speech&gt;&gt;
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.brakka_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Brakka_FightComment" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Brakka_FightComment&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You look like you’ve seen some fights.&lt;&lt;/speech&gt;&gt;
+
+Brakka lets out a low grunt—could be amusement, could be approval. She tears off another bite of meat and speaks with her mouth half full.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Few. Guild sends me where the coin flows. Sometimes that’s escort duty. Sometimes it’s cracking skulls at the edge of the provinces.&lt;&lt;/speech&gt;&gt;
+
+She finally looks at you, eyes sharp but not unkind.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;This city&#39;s soft, &lt;em&gt;Silks&lt;/em&gt;, but the bastards crawling outside it? They know how to bleed.&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
+
+She takes a swig from her mug and wipes her mouth with the back of her wrist.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;If you’re asking whether I’ve earned my scars—yeah. I’ve earned ’em.&lt;&lt;/speech&gt;&gt;
+
+She goes quiet again, shifting her weight against the beam, her focus already drifting back to her meal.
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.brakka_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Brakka_HelloAttempt" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Brakka_HelloAttempt&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just wanted to say hi.&lt;&lt;/speech&gt;&gt;
+
+Brakka doesn’t look up. She just rips another chunk from the mutton bone and chews slowly, deliberately.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;You just did.&lt;&lt;/speech&gt;&gt;
+
+She finally lifts her eyes—just enough to make it feel like a warning.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Now unless you’re here to fight, drink, or pay off a debt, take your manners elsewhere, &lt;em&gt;Silks&lt;/em&gt;.&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
+
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;run setup.brakka_Conversation_Options_Phase0()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Brakka_ExitwithTournyInvite" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Brakka_ExitwithTournyInvite&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Enjoy your meal.&lt;&lt;/speech&gt;&gt;
+
+Brakka grunts—noncommittal, but not dismissive. She downs what’s left in her mug and eyes you over the rim.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;If you’re feeling not-so-soft, come find me during the fair.&lt;&lt;/speech&gt;&gt;
+
+She tosses the bare mutton bone into the fire and cracks her knuckles one-handed.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Guild’s hosting a tournament. I’ll be there. Figured I’d offer you the chance to prove me wrong—or right. Either way, I’ll enjoy the show.&lt;&lt;/speech&gt;&gt;
+
+[[You step away from the hearth and return to the main tavern.|Scene03_TheSpace]]
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Brakka_ExitNormally" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Brakka_ExitNormally&quot;&gt;&gt;
+&lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Enjoy your meal.&lt;&lt;/speech&gt;&gt;
+
+Brakka doesn’t look up—just raises her mug slightly in acknowledgment and takes a slow drink.
+
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Might do, Silks.&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
+
+[[You turn back toward the tavern’s main floor.|Scene03_TheSpace]]
+&lt;&lt;/append&gt;&gt;
+&lt;&lt;run setup.clearConvoChoices()&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Darian_HowLongHere" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Darian_HowLongHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So how long have you worked here?&lt;&lt;/speech&gt;&gt;
 
@@ -14705,7 +15280,7 @@ He looks at you, warm but steady.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Darian_DoYouLikeJob" tags="widget" position="850,475" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Darian_DoYouLikeJob" tags="widget" position="350,600" size="100,100">&lt;&lt;widget &quot;Darian_DoYouLikeJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you actually enjoy this job?&lt;&lt;/speech&gt;&gt;
 
@@ -14726,7 +15301,7 @@ His fingers absentmindedly trace the edge of a nearby glass, thoughtful.
 &lt;&lt;relation &quot;darian&quot; &quot;affection&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="Darian_Bracelet" tags="widget" position="975,475" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Darian_Bracelet" tags="widget" position="475,600" size="100,100">&lt;&lt;widget &quot;Darian_Bracelet&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;That bracelet you&#39;re wearing... where did it come from?&lt;&lt;/speech&gt;&gt;
 
@@ -14748,7 +15323,7 @@ He offers a smile—not flirtatious this time, just sincere.
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="Darian_GetDrink" tags="widget" position="1100,475" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Darian_GetDrink" tags="widget" position="600,600" size="100,100">&lt;&lt;widget &quot;Darian_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think you could help me get a drink?&lt;&lt;/speech&gt;&gt;
 
@@ -14791,7 +15366,7 @@ Darian smiles. Not smug. Just pleased.
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="Darian_Humming" tags="widget" position="1225,475" size="100,100">&lt;&lt;widget &quot;Darian_Humming&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="Darian_Humming" tags="widget" position="725,600" size="100,100">&lt;&lt;widget &quot;Darian_Humming&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;You hum a lot. Were you a musician once?&lt;&lt;/speech&gt;&gt;
 
@@ -14820,7 +15395,7 @@ He doesn&#39;t say more—not here, not yet—but you can tell the story&#39;s s
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Darian_StartMinigame" tags="widget" position="100,600" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="Darian_StartMinigame" tags="widget" position="850,600" size="100,100">&lt;&lt;widget &quot;Darian_StartMinigame&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I just want to get to know you better.&lt;&lt;/speech&gt;&gt;
 
@@ -14835,7 +15410,7 @@ He leans against the bar, arms folded lightly.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;OpenConvoGame &quot;darian&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Darian_GoPrivate" tags="widget" position="225,600" size="100,100">&lt;&lt;widget &quot;Darian_GoPrivate&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Darian_GoPrivate" tags="widget" position="975,600" size="100,100">&lt;&lt;widget &quot;Darian_GoPrivate&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you think we could go somewhere more private?&lt;&lt;/speech&gt;&gt;
 
@@ -14855,7 +15430,7 @@ He steps forward, extending a hand—not dramatic, not performative. Just steady
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Darian_ReturnToParlor" tags="widget" position="350,600" size="100,100">&lt;&lt;widget &quot;Darian_ReturnToParlor&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="Darian_ReturnToParlor" tags="widget" position="1100,600" size="100,100">&lt;&lt;widget &quot;Darian_ReturnToParlor&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I hope you don&#39;t mind, I think I am going to explore the parlor a bit more.&lt;&lt;/speech&gt;&gt;
 
@@ -14870,7 +15445,7 @@ He gives a small bow of the head and gestures subtly back toward the center of t
 [[You walk back to the middle of the parlor.|Scene02_ReturnToParlor]]
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Darian_RoomComment" tags="widget" position="475,600" size="100,100">&lt;&lt;widget &quot;Darian_RoomComment&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="Darian_RoomComment" tags="widget" position="1225,600" size="100,100">&lt;&lt;widget &quot;Darian_RoomComment&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I like your room. Are they all like this?&lt;&lt;/speech&gt;&gt;
 
@@ -14889,7 +15464,7 @@ He laughs softly, then looks at you with just a hint of that stage-smile beneath
 &lt;&lt;relation &quot;darian&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Darian_WhatNow" tags="widget" position="600,600" size="100,100">&lt;&lt;widget &quot;Darian_WhatNow&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Darian_WhatNow" tags="widget" position="100,725" size="100,100">&lt;&lt;widget &quot;Darian_WhatNow&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So... what do we do now?&lt;&lt;/speech&gt;&gt;
 
@@ -14907,7 +15482,7 @@ He shrugs—not indifferent, but understanding.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="Darian_HowsYourNight" tags="widget" position="725,600" size="100,100">&lt;&lt;widget &quot;Darian_HowsYourNight&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="52" name="Darian_HowsYourNight" tags="widget" position="225,725" size="100,100">&lt;&lt;widget &quot;Darian_HowsYourNight&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;So how&#39;s your night been? You know... before I showed up and clearly became the highlight of it.&lt;&lt;/speech&gt;&gt;
 
@@ -14931,7 +15506,7 @@ He exhales gently, like saying that out loud takes some of the weight off.
 &lt;&lt;relation &quot;darian&quot; &quot;affection&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.darian_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="Darian_AskDeeper" tags="widget" position="850,600" size="100,100">&lt;&lt;widget &quot;Darian_AskDeeper&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="53" name="Darian_AskDeeper" tags="widget" position="350,725" size="100,100">&lt;&lt;widget &quot;Darian_AskDeeper&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you mind if I ask you some more personal questions?&lt;&lt;/speech&gt;&gt;
 
@@ -15254,7 +15829,7 @@ He leans forward slightly, eyes steady now—no longer teasing.
     &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
     &lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;
     &lt;&lt;/widget&gt;&gt;
-/* DarianDialogueDuet - End */</tw-passagedata><tw-passagedata pid="48" name="Darian_AskToKiss" tags="widget" position="975,600" size="100,100">&lt;&lt;widget &quot;Darian_AskToKiss&quot;&gt;&gt;
+/* DarianDialogueDuet - End */</tw-passagedata><tw-passagedata pid="54" name="Darian_AskToKiss" tags="widget" position="475,725" size="100,100">&lt;&lt;widget &quot;Darian_AskToKiss&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you mind if I kiss you?&lt;&lt;/speech&gt;&gt;
 
@@ -15286,7 +15861,7 @@ You kiss him again. More passionately.
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;StartSexScene &quot;darian&quot;&gt;&gt;
 &lt;&lt;EndSexScene &quot;Darian_PostSexPhase1&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="Darian_MusicRequest" tags="widget" position="1100,600" size="100,100">&lt;&lt;widget &quot;Darian_MusicRequest&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Darian_MusicRequest" tags="widget" position="600,725" size="100,100">&lt;&lt;widget &quot;Darian_MusicRequest&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;p&gt;You glance around the room, then back at Darian. The question escapes you before you can second-guess it.&lt;/p&gt;
 
@@ -15299,11 +15874,11 @@ For a moment, Darian doesn&#39;t speak. He just watches you. Not guarded—but s
 [[He gives you a warm, welcoming smile.|Darian_MusicMontage]]
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="Dummy_Placeholder_Locked" tags="widget" position="1225,600" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="Dummy_Placeholder_Locked" tags="widget" position="725,725" size="100,100">&lt;&lt;widget &quot;Dummy_Placeholder_Locked&quot;&gt;&gt;
   &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
     &lt;em&gt;This option is currently locked.&lt;/em&gt;
   &lt;&lt;/append&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Harroc_OrderDrink" tags="widget" position="100,725" size="100,100">&lt;&lt;widget &quot;Harroc_OrderDrink&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="Harroc_OrderDrink" tags="widget" position="850,725" size="100,100">&lt;&lt;widget &quot;Harroc_OrderDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Could I get a drink, please?&lt;&lt;/speech&gt;&gt;
@@ -15333,7 +15908,7 @@ For a moment, Darian doesn&#39;t speak. He just watches you. Not guarded—but s
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.harroc_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="52" name="Harroc_RecentEvents" tags="widget" position="225,725" size="100,100">&lt;&lt;widget &quot;Harroc_RecentEvents&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="Harroc_RecentEvents" tags="widget" position="975,725" size="100,100">&lt;&lt;widget &quot;Harroc_RecentEvents&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Has it always been this quiet in here?&lt;&lt;/speech&gt;&gt;
@@ -15359,7 +15934,7 @@ For a moment, Darian doesn&#39;t speak. He just watches you. Not guarded—but s
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.harroc_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="53" name="Harroc_OpenShop" tags="widget" position="350,725" size="100,100">&lt;&lt;widget &quot;Harroc_OpenShop&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="Harroc_OpenShop" tags="widget" position="1100,725" size="100,100">&lt;&lt;widget &quot;Harroc_OpenShop&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you have a food menu, or is it just drinks?&lt;&lt;/speech&gt;&gt;
@@ -15376,7 +15951,7 @@ For a moment, Darian doesn&#39;t speak. He just watches you. Not guarded—but s
 &lt;&lt;run setup.openShop(&quot;harroc&quot;)&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.harroc_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="Harroc_Rumors" tags="widget" position="475,725" size="100,100">&lt;&lt;widget &quot;Harroc_Rumors&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="60" name="Harroc_Rumors" tags="widget" position="1225,725" size="100,100">&lt;&lt;widget &quot;Harroc_Rumors&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Aside from the fair, you heard about anything interesting lately?&lt;&lt;/speech&gt;&gt;
@@ -15411,7 +15986,7 @@ For a moment, Darian doesn&#39;t speak. He just watches you. Not guarded—but s
 &lt;&lt;relation &quot;harroc&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.harroc_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Harroc_Phase0_Goodbye" tags="widget" position="600,725" size="100,100">&lt;&lt;widget &quot;Harroc_Phase0_Goodbye&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Harroc_Phase0_Goodbye" tags="widget" position="100,850" size="100,100">&lt;&lt;widget &quot;Harroc_Phase0_Goodbye&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 
@@ -15425,7 +16000,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="Marie_Howareyoudoing" tags="widget" position="725,725" size="100,100">&lt;&lt;widget &quot;Marie_Howareyoudoing&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="Marie_Howareyoudoing" tags="widget" position="225,850" size="100,100">&lt;&lt;widget &quot;Marie_Howareyoudoing&quot;&gt;&gt;
   &lt;&lt;append #convoBox&gt;&gt;
     &lt;&lt;speech &quot;jaylie&quot;&gt;&gt; I&#39;m Jaylie, by the way.&lt;&lt;/speech&gt;&gt;
     &lt;&lt;know &quot;marie&quot;&gt;&gt;&lt;&lt;speech &quot;marie&quot;&gt;&gt; Marie.&lt;&lt;/speech&gt;&gt;
@@ -15440,7 +16015,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
   &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
   &lt;&lt;set $marieCanApologize = true&gt;&gt;
   &lt;&lt;run setup.marie_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="57" name="Marie_ToughNight" tags="widget" position="850,725" size="100,100">&lt;&lt;widget &quot;Marie_ToughNight&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="Marie_ToughNight" tags="widget" position="350,850" size="100,100">&lt;&lt;widget &quot;Marie_ToughNight&quot;&gt;&gt;
   &lt;&lt;append #convoBox&gt;&gt;
     You try softening your tone, hoping to break through whatever storm is brewing behind her eyes.
 
@@ -15455,7 +16030,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
   &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
   &lt;&lt;set $marieCanApologize = true&gt;&gt;
   &lt;&lt;run setup.marie_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="Marie_SilentTreatment" tags="widget" position="975,725" size="100,100">&lt;&lt;widget &quot;Marie_SilentTreatment&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="Marie_SilentTreatment" tags="widget" position="475,850" size="100,100">&lt;&lt;widget &quot;Marie_SilentTreatment&quot;&gt;&gt;
   &lt;&lt;append #convoBox&gt;&gt;
     You glance at her, then at the space between you both. It stretches like a wall you can&#39;t climb.
 
@@ -15469,7 +16044,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
   &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
   &lt;&lt;set $marieCanApologize = true&gt;&gt;
   &lt;&lt;run setup.marie_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="59" name="Marie_ImSorryIllGo" tags="widget" position="1100,725" size="100,100">&lt;&lt;widget &quot;Marie_ImSorryIllGo&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="Marie_ImSorryIllGo" tags="widget" position="600,850" size="100,100">&lt;&lt;widget &quot;Marie_ImSorryIllGo&quot;&gt;&gt;
   &lt;&lt;append #convoBox&gt;&gt;
     Obviously not getting anywhere, with her you get up to leave.
 
@@ -15495,7 +16070,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
   &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-/* Marie Phase 1 Dialogue Options */</tw-passagedata><tw-passagedata pid="60" name="Marie_WhyThisWork" tags="widget" position="1225,725" size="100,100">&lt;&lt;widget &quot;Marie_WhyThisWork&quot;&gt;&gt;
+/* Marie Phase 1 Dialogue Options */</tw-passagedata><tw-passagedata pid="66" name="Marie_WhyThisWork" tags="widget" position="725,850" size="100,100">&lt;&lt;widget &quot;Marie_WhyThisWork&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Why did you choose this kind of work?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;marie&quot;&gt;&gt;Chose? That&#39;s generous. I chose not to starve. Turns out I&#39;m good at more than surviving, though. I learned how to turn the game in my favor.&lt;&lt;/speech&gt;&gt;
@@ -15503,7 +16078,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;bg &quot;Scene02_LessAngryHost&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="61" name="Marie_HostsOrFriends" tags="widget" position="100,850" size="100,100">&lt;&lt;widget &quot;Marie_HostsOrFriends&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="Marie_HostsOrFriends" tags="widget" position="850,850" size="100,100">&lt;&lt;widget &quot;Marie_HostsOrFriends&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Are the other hosts your friends... or just coworkers?&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;marie&quot;&gt;&gt;Depends on who you ask, probably. Generally though, these are really good people. Some better than others. We definitely fight, step on each other&#39;s toes sometimes maybe. These people are the one&#39;s who pull you out after a long night though. It helps that Mistress Adda is a very good boss.&lt;&lt;/speech&gt;&gt;
@@ -15513,7 +16088,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;relation &quot;marie&quot; &quot;affection&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="62" name="Marie_DoYouLikeItHere" tags="widget" position="225,850" size="100,100">&lt;&lt;widget &quot;DoYouLikeItHere&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="Marie_DoYouLikeItHere" tags="widget" position="975,850" size="100,100">&lt;&lt;widget &quot;DoYouLikeItHere&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you like it here? The Nuzzling Noctail, I mean.&lt;&lt;/speech&gt;&gt;
   &lt;&lt;speech &quot;marie&quot;&gt;&gt;Days like today I don&#39;t, but I have to remember that there are far worse establishments in the city. Worse jobs altogether, really. 
@@ -15525,7 +16100,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;relation &quot;marie&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="Marie_LivedAnywhereElse" tags="widget" position="350,850" size="100,100">&lt;&lt;widget &quot;Marie_LivedAnywhereElse&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="Marie_LivedAnywhereElse" tags="widget" position="1100,850" size="100,100">&lt;&lt;widget &quot;Marie_LivedAnywhereElse&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Have you ever lived or traveled outside the city?&lt;&lt;/speech&gt;&gt;
 
@@ -15558,7 +16133,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;relation &quot;marie&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="Marie_TheFairTomorrow" tags="widget" position="475,850" size="100,100">&lt;&lt;widget &quot;Marie_TheFairTomorrow&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="Marie_TheFairTomorrow" tags="widget" position="1225,850" size="100,100">&lt;&lt;widget &quot;Marie_TheFairTomorrow&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Are you looking forward to the fair tomorrow?&lt;&lt;/speech&gt;&gt;
  
@@ -15596,7 +16171,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;relation &quot;marie&quot; &quot;affection&quot; 8&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="Marie_StartMinigameOne" tags="widget" position="600,850" size="100,100">&lt;&lt;widget &quot;Marie_StartMinigameOne&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="Marie_StartMinigameOne" tags="widget" position="100,975" size="100,100">&lt;&lt;widget &quot;Marie_StartMinigameOne&quot;&gt;&gt;
 
   &lt;&lt;append #convoBox&gt;&gt;
     &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If you don&#39;t mind, I would really like to get to know you better.&lt;&lt;/speech&gt;&gt;
@@ -15610,7 +16185,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;OpenConvoGame &quot;marie&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase1()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="Marie_GoUpstairs" tags="widget" position="725,850" size="100,100">&lt;&lt;widget &quot;Marie_GoUpstairs&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="Marie_GoUpstairs" tags="widget" position="225,975" size="100,100">&lt;&lt;widget &quot;Marie_GoUpstairs&quot;&gt;&gt;
   &lt;&lt;append #convoBox&gt;&gt;
     &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Hey do you by chance—&lt;&lt;/speech&gt;&gt;
 
@@ -15625,7 +16200,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
     [[You enter Marie&#39;s room.|Marie_UpstairsPhase1]]
     &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="67" name="Marie_Phase1Goodbye" tags="widget" position="850,850" size="100,100">&lt;&lt;widget &quot;Marie_Phase1Goodbye&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="Marie_Phase1Goodbye" tags="widget" position="350,975" size="100,100">&lt;&lt;widget &quot;Marie_Phase1Goodbye&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;We can talk more later.&lt;&lt;/speech&gt;&gt;
 
@@ -15636,7 +16211,7 @@ He grunts in acknowledgment, still polishing the same mug with practiced, absent
 &lt;&lt;relation &quot;marie&quot; &quot;affection&quot; 1&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
 
-/* Marie Phase 2 Start */</tw-passagedata><tw-passagedata pid="68" name="Marie_RoomComment" tags="widget" position="975,850" size="100,100">&lt;&lt;widget &quot;Marie_RoomComment&quot;&gt;&gt;
+/* Marie Phase 2 Start */</tw-passagedata><tw-passagedata pid="74" name="Marie_RoomComment" tags="widget" position="475,975" size="100,100">&lt;&lt;widget &quot;Marie_RoomComment&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;I really like your room. Do they all look like this?&lt;&lt;/speech&gt;&gt;
 
@@ -15658,7 +16233,7 @@ She doesn&#39;t press it. But she doesn&#39;t look away either.
 &lt;&lt;relation &quot;marie&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase2()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="Marie_WhatNow" tags="widget" position="1100,850" size="100,100">&lt;&lt;widget &quot;Marie_WhatNow&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="Marie_WhatNow" tags="widget" position="600,975" size="100,100">&lt;&lt;widget &quot;Marie_WhatNow&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;What do you want to do now?&lt;&lt;/speech&gt;&gt;
 
@@ -15680,7 +16255,7 @@ She glances at you, eyes sharp but not unkind.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase2()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="70" name="Marie_TalkAboutIt_Success" tags="widget" position="1225,850" size="100,100">&lt;&lt;widget &quot;Marie_TalkAboutIt_Success&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="Marie_TalkAboutIt_Success" tags="widget" position="725,975" size="100,100">&lt;&lt;widget &quot;Marie_TalkAboutIt_Success&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you want to talk about what happened outside?&lt;&lt;/speech&gt;&gt;
 
@@ -15912,7 +16487,7 @@ She finally looks at you. Really looks at you.
   &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
   &lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;
   &lt;&lt;/widget&gt;&gt;
-/* End of TheFight Branch */</tw-passagedata><tw-passagedata pid="71" name="Marie_TalkAboutIt_Fail" tags="widget" position="100,975" size="100,100">&lt;&lt;widget &quot;Marie_TalkAboutIt_Fail&quot;&gt;&gt;
+/* End of TheFight Branch */</tw-passagedata><tw-passagedata pid="77" name="Marie_TalkAboutIt_Fail" tags="widget" position="850,975" size="100,100">&lt;&lt;widget &quot;Marie_TalkAboutIt_Fail&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you want to talk about what happened outside?&lt;&lt;/speech&gt;&gt;
 
@@ -15930,7 +16505,7 @@ She seems sincere, and you aren&#39;t about to push it any further.
 &lt;&lt;relation &quot;marie&quot; &quot;trust&quot; 1&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.marie_Conversation_Options_Phase2()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="Marie_AskToTouch" tags="widget" position="225,975" size="100,100">&lt;&lt;widget &quot;Marie_AskToTouch&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="Marie_AskToTouch" tags="widget" position="975,975" size="100,100">&lt;&lt;widget &quot;Marie_AskToTouch&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can I touch you?&lt;&lt;/speech&gt;&gt;
 
@@ -15970,7 +16545,7 @@ You don&#39;t hesitate to comply.
 &lt;&lt;StartSexScene &quot;marie&quot;&gt;&gt;
 &lt;&lt;EndSexScene &quot;Marie_PostSexPhase1&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="Marie_LayAndTalk" tags="widget" position="350,975" size="100,100">&lt;&lt;widget &quot;Marie_LayAndTalk&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="Marie_LayAndTalk" tags="widget" position="1100,975" size="100,100">&lt;&lt;widget &quot;Marie_LayAndTalk&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;If it&#39;s alright... I think I&#39;d just like to lay here with you.&lt;&lt;/speech&gt;&gt;
@@ -15989,7 +16564,7 @@ You both laugh, quiet and close.
 
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="Redmarrow_ArmorFlattery" tags="widget" position="475,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_ArmorFlattery&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="Redmarrow_ArmorFlattery" tags="widget" position="1225,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_ArmorFlattery&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 You nod toward his outfit, eyebrows raised.
@@ -16017,7 +16592,7 @@ Your comment was less a compliment and more an observation, but he obviously too
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="75" name="Redmarrow_JobPrompt" tags="widget" position="600,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_JobPrompt&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="Redmarrow_JobPrompt" tags="widget" position="100,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_JobPrompt&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 You tilt your head slightly, taking in the armor, the dagger, the air of self-importance.
@@ -16043,7 +16618,7 @@ He flashes a smile so polished it might as well be part of his armor.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="Redmarrow_NameOrigin" tags="widget" position="725,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_NameOrigin&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="Redmarrow_NameOrigin" tags="widget" position="225,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_NameOrigin&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 You squint slightly, letting your tone ride the edge of teasing.
@@ -16069,7 +16644,7 @@ You get the sense that “truth” is a negotiable concept for Leopold Redmarrow
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="77" name="Redmarrow_BountyQuest" tags="widget" position="850,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_BountyQuest&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="Redmarrow_BountyQuest" tags="widget" position="350,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_BountyQuest&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can anyone take work from the Guild? Or do you have to be invited or something?&lt;&lt;/speech&gt;&gt;
@@ -16098,7 +16673,7 @@ He gestures vaguely, as if the very concept of time is slipping through your fin
 &lt;&lt;set $readyForBoutyQuestion = true&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="78" name="Redmarrow_TheJob" tags="widget" position="975,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_TheJob&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="Redmarrow_TheJob" tags="widget" position="475,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_TheJob&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;About that job you mentioned...&lt;&lt;/speech&gt;&gt;
@@ -16158,7 +16733,7 @@ He smiles—content, apparently, that the conversation is over.
 /*&lt;&lt;set $quests.bounty_cutpurse = { active: true, name: &quot;Tel Varas&quot;, paidRedmarrow: true }&gt;&gt;*/
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="Redmarrow_WhoIsItAgain" tags="widget" position="1100,975" size="100,100">&lt;&lt;widget &quot;Redmarrow_WhoIsItAgain&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="Redmarrow_WhoIsItAgain" tags="widget" position="600,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_WhoIsItAgain&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Can you remind me who the target is again?&lt;&lt;/speech&gt;&gt;
@@ -16176,7 +16751,7 @@ He sips from his glass like he just summarized a real war criminal.
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="80" name="HowFindTelVaras" tags="widget" position="1225,975" size="100,100">&lt;&lt;widget &quot;HowFindTelVaras&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="HowFindTelVaras" tags="widget" position="725,1100" size="100,100">&lt;&lt;widget &quot;HowFindTelVaras&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Any idea where I should start looking for him?&lt;&lt;/speech&gt;&gt;
@@ -16198,7 +16773,7 @@ You imagine he might be stay close to the fairgrounds in King Market square over
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="TelVarasHowMuchPay" tags="widget" position="100,1100" size="100,100">&lt;&lt;widget &quot;TelVarasHowMuchPay&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="TelVarasHowMuchPay" tags="widget" position="850,1100" size="100,100">&lt;&lt;widget &quot;TelVarasHowMuchPay&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;And how much is this job paying again?&lt;&lt;/speech&gt;&gt;
@@ -16220,7 +16795,7 @@ He says it like he&#39;s quoting an invisible rulebook that only he has access t
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="TelVarasAnythingElse" tags="widget" position="225,1100" size="100,100">&lt;&lt;widget &quot;TelVarasAnythingElse&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="TelVarasAnythingElse" tags="widget" position="975,1100" size="100,100">&lt;&lt;widget &quot;TelVarasAnythingElse&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Is there anything else I should know before I go after him?&lt;&lt;/speech&gt;&gt;
@@ -16242,7 +16817,7 @@ He smiles like he&#39;s being helpful, but you can feel the unspoken asterisk ho
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.redmarrow_Conversation_Options_TheFirstBounty()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="Redmarrow_ReturnBountytoPhase0" tags="widget" position="350,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_ReturnBountytoPhase0&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="Redmarrow_ReturnBountytoPhase0" tags="widget" position="1100,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_ReturnBountytoPhase0&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Let&#39;s talk about something else.&lt;&lt;/speech&gt;&gt;
@@ -16255,7 +16830,7 @@ Redmarrow gives a faint nod and adjusts his posture, as if shedding the whole �
 &lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="84" name="Redmarrow_Exit" tags="widget" position="475,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_Exit&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="Redmarrow_Exit" tags="widget" position="1225,1100" size="100,100">&lt;&lt;widget &quot;Redmarrow_Exit&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Enjoy your night.&lt;&lt;/speech&gt;&gt;
@@ -16267,7 +16842,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 
 [[You turn back toward the tavern&#39;s main floor.|Scene03_TheSpace]]
 &lt;&lt;/append&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="85" name="Tesska_GetDrink" tags="widget" position="600,1100" size="100,100">&lt;&lt;widget &quot;Tesska_GetDrink&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Tesska_GetDrink" tags="widget" position="100,1225" size="100,100">&lt;&lt;widget &quot;Tesska_GetDrink&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 	&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Could I get a drink? Nothing fancy. Just... something real.&lt;&lt;/speech&gt;&gt;
 	&lt;&lt;set $tesskaOrderedDrink = true&gt;&gt;
@@ -16284,7 +16859,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="86" name="Tesska_QuietNight" tags="widget" position="725,1100" size="100,100">&lt;&lt;widget &quot;Tesska_QuietNight&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Tesska_QuietNight" tags="widget" position="225,1225" size="100,100">&lt;&lt;widget &quot;Tesska_QuietNight&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
 	&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;It&#39;s kind of quiet in here tonight.&lt;&lt;/speech&gt;&gt;
 	
@@ -16296,7 +16871,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="87" name="Tesska_DoYouWorkNights" tags="widget" position="850,1100" size="100,100">&lt;&lt;widget &quot;Tesska_WorkNights&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="93" name="Tesska_DoYouWorkNights" tags="widget" position="350,1225" size="100,100">&lt;&lt;widget &quot;Tesska_WorkNights&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you always work nights?&lt;&lt;/speech&gt;&gt;
 
@@ -16348,7 +16923,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;run setup.tesska_Conversation_Options_Phase0()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="88" name="Tesska_UnusualCustomers" tags="widget" position="975,1100" size="100,100">&lt;&lt;widget &quot;Tesska_UnusualCustomers&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="94" name="Tesska_UnusualCustomers" tags="widget" position="475,1225" size="100,100">&lt;&lt;widget &quot;Tesska_UnusualCustomers&quot;&gt;&gt;
 &lt;&lt;append &quot;#convoBox&quot;&gt;&gt;
   &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Do you get a lot of unusual customers in here?&lt;&lt;/speech&gt;&gt;
 
@@ -16390,13 +16965,13 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
   She taps her knuckle lightly on the table, gives you a knowing smile, and glides off into the crowd like she owns every beam and brick of the room.
 &lt;&lt;/append&gt;&gt;
 [[Look around the tavern.|ThreeSipsDragon_TheSpace]]
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="89" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
 &lt;&lt;set _npc to setup.generateNPC(&quot;female&quot;, &quot;human&quot;, &quot;Courtesan&quot;)&gt;&gt;
 &lt;&lt;print &quot;Generated NPC: &quot;&gt;&gt;
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
 &lt;&lt;print &quot;Style: &quot; + _npc.style&gt;&gt;
 &lt;&lt;print &quot;Trait: &quot; + _npc.trait + &quot;, Inclination: &quot; + _npc.inclination&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="90" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="91" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="92" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="93" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="94" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="96" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="97" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="98" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="99" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="100" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
   &lt;&lt;print Macro.has(&quot;SidebarUI&quot;)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
@@ -16415,7 +16990,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 			console.log(`🖼️ Background applied on init: ${path}`);
 		}
 	})();
-&gt;&gt;</tw-passagedata><tw-passagedata pid="95" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -16498,8 +17073,8 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 
   &lt;/div&gt;
 
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="96" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="97" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="98" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;&lt;&lt;additem &quot;player&quot; &quot;gold_coin&quot; 100&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="102" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
+* [[Help]]</tw-passagedata><tw-passagedata pid="103" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="104" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;&lt;&lt;additem &quot;player&quot; &quot;gold_coin&quot; 100&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -16513,7 +17088,7 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 [[Wait I am NOT an adult|Underage_Response]]
 
 /*Placeholder */
-[[Skip to Tavern|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="99" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="100" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+[[Skip to Tavern|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="105" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="106" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_AddaGreeting&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -16539,7 +17114,7 @@ You take a moment to catch your breath and find your tongue.
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
 &lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="101" name="Scene02_BrothelBar" tags="" position="100,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="107" name="Scene02_BrothelBar" tags="" position="850,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
 
@@ -16557,7 +17132,7 @@ His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfe
 
 &lt;&lt;speech &quot;bert&quot;&gt;&gt;In that case, the first one&#39;s on the house. Anything in particular you like? Or shall I surprise you?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;bert&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="102" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;bert&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="108" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn&#39;t surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
 
@@ -16580,7 +17155,7 @@ From here, you may:
 [[Approach the half-demon woman.|Scene02_TalkToExotic]]
 [[Approach the male host.|Scene02_TalkToMaleHost]]
 [[Approach the blonde hostest.|Scene02_TalkToAngryHost]]
-[[Approach Adda, the Brothel Mistress.|Scene02_TalkToAdda]]</tw-passagedata><tw-passagedata pid="103" name="Scene02_TalkToAdda" tags="" position="350,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[Approach Adda, the Brothel Mistress.|Scene02_TalkToAdda]]</tw-passagedata><tw-passagedata pid="109" name="Scene02_TalkToAdda" tags="" position="1100,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 Mistress Adda stands with one hand resting lightly on the back of a velvet chair, her other cradling a delicate crystal glass of something deep amber. She is half-illuminated by the glow of a nearby sconce, her dark gown catching the light like polished coal. Her posture is perfect—spine straight, shoulders regal—but there is something soft in her gaze as she watches you approach.
 
@@ -16596,7 +17171,7 @@ She chuckles—a low, warm sound—and gestures to the seat across from her.
 
 You take a seat, and Adda sits next to you, tucking her knees close to yours. Her posture is personal, but not what you would call intimate. The chair is plush beneath you, the fabric warm from the heat of the room. Adda watches you settle with the ease of someone used to holding court.
 
-&lt;&lt;DialogueTree &quot;adda&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="104" name="Scene02_TalkToAngryHost" tags="" position="475,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;adda&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="Scene02_TalkToAngryHost" tags="" position="1225,1350" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You approach the blonde girl, who had thrown the horseshoe at the man outside. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
 
@@ -16606,7 +17181,7 @@ You approach the blonde girl, who had thrown the horseshoe at the man outside. S
 
 You take a seat next to her, your knees pointed away from her, making sure to give her space. She seems to stare at everything in the room but you.
 
-&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You drift toward the velvet chaise, where the blue-skinned woman is laying, drawn more by the stillness around it than the woman herself—at first.
 
@@ -16638,7 +17213,7 @@ She tilts her head and watches you like she&#39;s measuring shadows in candlelig
 &lt;&lt;know &quot;allura&quot;&gt;&gt;
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;You may call me Allura. For now.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="Scene02_TalkToMaleHost" tags="" position="725,1350" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="Scene02_TalkToMaleHost" tags="" position="225,1475" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Good evening, my lady. Looking for someone to share it with?&lt;&lt;/speech&gt;&gt;
@@ -16669,7 +17244,7 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can&#39;t help but smile. There&#39;s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="107" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
 You walk up the few steps, pull on the handle, open the door and step inside.  
@@ -16690,7 +17265,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="108" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="114" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
@@ -16716,7 +17291,7 @@ From here, you may:
 [[Approach the bar and request a drink.|Scene02_BrothelBar]]
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
-[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="109" name="Adda_PostSexPhase1" tags="" position="1100,1350" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Adda_PostSexPhase1&quot;&gt;&gt;
+[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="115" name="Adda_PostSexPhase1" tags="" position="600,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Adda_PostSexPhase1&quot;&gt;&gt;
 
 Adda rises before you&#39;ve even shifted. She moves with quiet finality, gathering her dark blue dress from its heap on the floor and pulling it up her body and onto her arms. The silky material falls against her skin like it never left.
 
@@ -16760,7 +17335,7 @@ It grows. It dances.
 
 It burns.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="110" name="Adda_PrivateScene" tags="" position="1225,1350" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="Adda_PrivateScene" tags="" position="725,1475" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The door to her private chamber closes with a decisive click behind you. The sound echoes in the stillness like a judgment passed. No music, no muffled laughter from the floor below—just the rich silence of a room that doesn&#39;t often welcome guests.
 
@@ -16781,7 +17356,7 @@ She steps closer, slowly—never hurrying, never uncertain. One hand reaches out
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Strip, darling. Slowly. I want to see if you can follow orders... before I give the ones that matter.&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;StartSexScene &quot;adda&quot;&gt;&gt;
-&lt;&lt;EndSexScene &quot;Adda_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="111" name="Allura_GoingUpstairs" tags="" position="100,1475" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;EndSexScene &quot;Adda_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="Allura_GoingUpstairs" tags="" position="850,1475" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 &lt;p&gt;You follow her through the parlor, back towards the entrance, and through the heavy velvet curtain. She leads you all the way to the stairs by one hand. As you get to the bottom of the stairs lightning cracks, and thunder bellows. The entryway is illuminated in flashing light for a moment and the foundation shakes be beneath your feet. Allura pauses on the second step; she pivots, facing the glass door.&lt;/p&gt;
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.&lt;&lt;/speech&gt;&gt;
@@ -16792,7 +17367,7 @@ At the top of the stairs you enter a long, narrow hallway lined with ten or so d
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Welcome to my humble abode, Mon trésor.&lt;&lt;/speech&gt;&gt;
 
-She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="112" name="Allura_JustLay_Route" tags="" position="225,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Allura_JustLay_Route&quot;&gt;&gt;
+She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="118" name="Allura_JustLay_Route" tags="" position="975,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Allura_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -16851,7 +17426,7 @@ She reaches down and turns the handle to the door, pushing it open and gesturing
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="113" name="Allura_PostSexPhase1" tags="" position="350,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Allura_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="119" name="Allura_PostSexPhase1" tags="" position="1100,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Allura_PostSexPhase1&quot;&gt;&gt;
 
 Allura lounges beside you like a goddess painted into silk—one leg draped over yours, her skin glowing with the heat of what just passed. She doesn&#39;t speak right away. She just exists there beside you—smug, sensual, and devastatingly at ease.
 
@@ -16893,7 +17468,7 @@ You move beside her following her gaze.
 
 An orange glow is climbing the darkness—faint, flickering... spreading.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="Allura_UpstairsPhase1" tags="" position="475,1475" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="Allura_UpstairsPhase1" tags="" position="1225,1475" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You aren&#39;t entirely sure what you expected, but her room surprises you in more ways than one.
 
 It&#39;s dimly lit — not from lack of light, but from choice. A cluster of colored glass lanterns hang in the far corner, casting hues of deep amethyst, rose, and sea-green across the velvet drapes that hang like soft walls over real ones. The air smells faintly of sandalwood and something sweeter, darker — like black cherries left to soak in wine.
@@ -16910,7 +17485,7 @@ She turns to face you again, her hands resting on her hips, her silhouette frame
 
 You turn and close the door, the bolt clicks into place and now the two of you feel truly alone. When you&#39;ve turned back around Allura is laid back on the mattress, her arms reached above her head. She is calm. She is vulnerable. You can&#39;t help but feel like she truly wants to be in here with you.
 
-&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="Darian_GoingUpstairs" tags="" position="600,1475" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="Darian_GoingUpstairs" tags="" position="100,1600" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow him out of the parlor and through the heavy velvet-curtained hall, past the lingering music and soft laughter of the parlor. He guides you by the hand the whole way— a proper gentleman&#39;s escort.
 
@@ -16928,7 +17503,7 @@ He catches your glance.
 
 He opens the door without ceremony, stepping aside to let you enter first.
 
-[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="116" name="Darian_MusicMontage" tags="" position="725,1475" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
+[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="122" name="Darian_MusicMontage" tags="" position="225,1600" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
 &lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
@@ -17007,7 +17582,7 @@ He opens the door without ceremony, stepping aside to let you enter first.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="117" name="Darian_PostSexPhase1" tags="" position="850,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Darian_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="123" name="Darian_PostSexPhase1" tags="" position="350,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Darian_PostSexPhase1&quot;&gt;&gt;
 
 Darian lies beside you, one arm behind his head, the other tracing slow, absent lines along your upper arm. His skin is cool, covered in a sweet sheen of sweat. You feel the rise and fall of his breath as it slowly steadies.
 
@@ -17049,7 +17624,7 @@ At first, it looks like lamplight.
 
 But then you realize the truth.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire!|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="Darian_UpstairsPhase1" tags="" position="975,1475" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire!|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="Darian_UpstairsPhase1" tags="" position="475,1600" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You step inside, and the first thing you notice is the quiet.
 
@@ -17069,7 +17644,7 @@ He steps past you and gestures to the bed with a soft smile.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Make yourself comfortable. You&#39;re safe here.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="119" name="Marie_JustLay_Route" tags="" position="1100,1475" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Marie_JustLay_Route&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="Marie_JustLay_Route" tags="" position="600,1600" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Marie_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -17133,7 +17708,7 @@ He steps past you and gestures to the bed with a soft smile.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="120" name="Marie_PostSexPhase1" tags="" position="1225,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Marie_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="126" name="Marie_PostSexPhase1" tags="" position="725,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Marie_PostSexPhase1&quot;&gt;&gt;
 
 Marie lies with her back to you, the candlelight tracing gentle edges across her curves. The bedsheets cling to her hips, one leg stretched long, the other bent in close. She&#39;s quiet. Not withdrawn—just still, like she&#39;s waiting to remember how to breathe.
 
@@ -17173,7 +17748,7 @@ You&#39;re already pulling yourself up, heartbeat tripping over itself.
 
 You cross to the window and draw the curtain back. Down the street, an orange glow is licking upward into the night.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="Marie_UpstairsPhase1" tags="" position="100,1600" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="127" name="Marie_UpstairsPhase1" tags="" position="850,1600" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow Marie through the parlor without a word. She doesn&#39;t take your hand to lead you, but does not go too far in front of you either. She consistently glances over her shoulder to maintain her distance to you. 
 
@@ -17185,7 +17760,7 @@ Marie stops at the third door on the left, near the end. It is decorated with si
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;This one&#39;s me.&lt;&lt;/speech&gt;&gt;
 
-[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="122" name="Marie_UpstairsPhase2" tags="" position="225,1600" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="128" name="Marie_UpstairsPhase2" tags="" position="975,1600" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You aren&#39;t sure what you expected from Marie&#39;s room, but this… this is surprising.
 
@@ -17212,7 +17787,7 @@ She smiles and scoffs; you see blush forming in her cheeks.
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;An artist? No. They are just doodles... But anyway... now that we&#39;re alone... what kind of guest are you planning to be?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="123" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -17248,7 +17823,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="124" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="130" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -17288,7 +17863,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="125" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="131" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -17296,7 +17871,7 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Scene01_2c_HelpHim" tags="" position="725,1600" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="Scene01_2c_HelpHim" tags="" position="225,1725" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt;
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
@@ -17316,7 +17891,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="127" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="133" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King&#39;s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -17327,7 +17902,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="128" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="134" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one&#39;s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -17340,7 +17915,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you&#39;ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="129" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="135" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -17354,12 +17929,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="130" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="136" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="131" name="Scene03_ApproachBountyHunter" tags="" position="100,1725" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="137" name="Scene03_ApproachBountyHunter" tags="" position="850,1725" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
 The man in the corner doesn&#39;t look up as you approach—not at first. He continues dragging a whetstone down the edge of his dagger in slow, practiced strokes. His cloak is pulled back just enough to reveal a polished leather chestplate too clean to have seen real battle. The dark, tailored armor gleams faintly in the firelight, stitched with crimson threading that looks more decorative than durable.
 
 Atop his head sits a wide-brimmed hat—deep gray, too dramatic for this tavern by half—plumed with a long, vividly colored feather that arcs like a banner. Everything about him is curated. Styled. Flashy. From the glint of his rings to the way his boots rest just-so, crossed at the ankle.
@@ -17368,7 +17943,7 @@ Eventually, he speaks—low, smooth, like a man who assumes you came here on pur
 
 &lt;&lt;speech &quot;redmarrow&quot;&gt;&gt;Something I can help you with?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="138" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn&#39;t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -17377,15 +17952,14 @@ You reach the bar and take a seat on a thick, heavy stool. Scooting closer, you 
 
 The barman steps forward and leans heavily onto the bar in front of you, resting his bulk onto hands as wide as battleaxes.
 
-&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="Scene03_Firewatcher" tags="" position="350,1725" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;
-
+&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="139" name="Scene03_Firewatcher" tags="" position="1100,1725" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;set $calledSilks to $calledSilks or 0&gt;&gt;
 As you step toward the hearth, the half-orc woman turns just slightly—enough to clock you, not enough to welcome you.
 
 She sizes you up with a glance, tearing another bite from the mutton before speaking.
 
-&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Your perfume is ruining the taste of my dinner. What do you want, Silks?&lt;&lt;/speech&gt;&gt;
+&lt;&lt;speech &quot;brakka&quot;&gt;&gt;Your perfume is ruining the taste of my dinner. What do you want, Silks?&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;brakka&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="134" name="Scene03_SecludedCorner" tags="" position="475,1725" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;brakka&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="140" name="Scene03_SecludedCorner" tags="" position="1225,1725" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You slip between the tables and claim a worn corner booth by yourself. The wood creaks under your weight, the seat still warm from whoever sat here last. For a moment, you watch the flicker of firelight dance across the floor, the sound of clinking mugs and shouted laughter rolling over you like a tide.
 
 She approaches from the side, hips swaying with purpose and a smirk already playing on her lips.
@@ -17398,7 +17972,7 @@ You smile but don&#39;t have a chance to respond. She rests a hand on the table,
 
 You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
 &lt;&lt;set $tesskaOrderedDrink = false&gt;&gt;
-&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="135" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;EndDialogueLayout&gt;&gt;&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="141" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;EndDialogueLayout&gt;&gt;&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures cluster at thick wooden tables—scarred by knives, stained by drink, and mismatched in shape. The fire’s warmth ripples outward, licking the cracked flagstone floor and painting the rafters above in flickering gold.
 &lt;&lt;/if&gt;&gt;
@@ -17431,7 +18005,7 @@ A heavy fur is draped across her shoulders, its coarse texture concealing her ch
 
 In one hand, she grips a massive leg of mutton. In the other, a heavy metal mug of ale or something equally punishing. At her hip rests a greatsword nearly as tall as she is, the tip of its battered sheath brushing the floor with each subtle shift of her stance.
 
-She tears off a bite of meat with her teeth, then scans the room with eyes that dare someone—anyone—to ruin her meal.
+She tears off a bite of meat with thicker-than-average teeth, then scans the room with eyes that dare someone—anyone—to ruin her meal.
 
 &lt;&lt;set $seenTavernSpace = true&gt;&gt;
 
@@ -17440,7 +18014,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceTable]]
 [[Approach the cloaked man in the corner.|Scene03_ApproachBountyHunter]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="136" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="142" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern&#39;s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -17450,7 +18024,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn&#39;t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="137" name="TestRealm_ConvoMinigame" tags="" position="850,1725" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="143" name="TestRealm_ConvoMinigame" tags="" position="350,1850" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata></tw-storydata>

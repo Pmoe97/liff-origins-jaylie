@@ -8,6 +8,24 @@ if (typeof setup.ItemData === 'undefined') {
 	setup.ItemData = {};
 }
 /* =============================
+=     Weapons - Daggers     =
+============================= */
+setup.ItemData.dagger_silver = {
+  id: "longsword_silver",
+  name: "Silvered Dagger",
+  type: "weapon",
+  subtype: "dagger",
+  tags: ["piercing", "1H", "anti-undead"],
+  material: "Silver",
+  rarity: 1,
+  damage: { piercing:[3,6]},
+  weight: 1.5,
+  value: 450,
+  img: "weapon_dagger_silver.png",
+  description: "A silver-plated longsword favored by monster hunters. Effective against undead."
+};
+
+/* =============================
 =     Weapons - Longswords     =
 ============================= */
 setup.ItemData.test_longsword = {

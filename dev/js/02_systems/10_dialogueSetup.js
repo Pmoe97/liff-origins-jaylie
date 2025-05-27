@@ -30,6 +30,16 @@ Macro.add("StartDialogueLayout", {
 		};
 
 		tryInjectPassage();
+
+		// Force sidebar layout class sync (compensate margin)
+		const sidebar = document.getElementById("custom-sidebar");
+		if (sidebar) {
+			if (sidebar.classList.contains("collapsed")) {
+				document.body.classList.add("sidebar-collapsed");
+			} else {
+				document.body.classList.remove("sidebar-collapsed");
+			}
+		}
 	}
 });
 

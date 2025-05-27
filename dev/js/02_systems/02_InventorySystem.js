@@ -239,4 +239,46 @@ document.addEventListener("DOMContentLoaded", () => {
   if (setup.updateCondensedPaperdoll) setup.updateCondensedPaperdoll();
 });
 
+
+/* =============================== */
+/* Carryweight Logic Implemenation */
+/* =============================== */
+setup.calculateMaxCarryWeight = function () {
+	const strength = State.variables.player?.attributes?.strength || 1;
+	return 30 + (strength * 5); // 30 base + 5 per Strength point
+};
+
+setup.calculateInventoryWeight = function (target = "player") {
+	const inventory = State.variables[`inventory_${target}`];
+	if (!inventory) return 0;
+
+	let totalWeight = 0;
+
+	for (const itemId in inventory) {
+		const item = getItemMetadata(itemId);
+		const amount = inventory[itemId];
+
+		if (item?.weight) {
+			totalWeight += item.weight * amount;
+		}
+	}
+
+	return totalWeight;
+};
+
+setup.updatePlayerCarryWeight = function () {
+	const player = State.variables.player;
+	if (!player) return;
+
+	const currentWeight = setup.calculateInventoryWeight("player");
+	const maxWeight = setup.calculateMaxCarryWeight();
+
+	player.carryWeight = {
+		current: currentWeight,
+		max: maxWeight
+	};
+};
+
+
+
 window.setup = setup;

@@ -785,6 +785,78 @@ setup.initializeCharacters = function () {
 			}
 		},
 
+		brakka: {
+			name: "Brakka",
+			defaultName: "Half-Orc Fighter",
+			known: false,
+			avatar: "images/portrait_brakka.png", // Swap with actual path
+			color: "white",
+			bgColor: "rgba(85, 110, 73, 0.8)",
+
+			trust: 0,
+			affection: 0,
+			rapport: 0.4,
+			tension: 0,
+
+			traits: ["Blunt", "Short-Tempered", "Independent"],
+			inclinations: ["dominance", "violence", "solitude"],
+			motivations: ["Strength", "Respect"],
+			socialStyle: "Rough",
+
+			pronouns: {
+				subject: "she",
+				object: "her",
+				possessive: "her",
+				reflexive: "herself",
+				noun: "woman"
+			},
+
+			body: {
+				height: 73, // 6'1"
+				breastSize: 2, // "modest"
+				buttSize: 2, // "modest"
+				bodyType: 5, // "muscular"
+				lipFullness: 2, // "modest"
+				skinTone: "greenish bronze",
+				muscleTone: 6, // "ripped"
+				hipWidth: 2, // "modest"
+				bodyHair: 2, // "natural"
+				voiceTone: "gravelly",
+				hairColor: "black",
+				hairStyle: "shaved sides, top tied back",
+				hairLength: 2, // "short"
+				eyeColor: "amber"
+			},
+
+			preferences: {
+				sexualActs: {
+					likes: ["Dominate", "Spank_G", "WrestlePlay", "Teasing"],
+					dislikes: ["Cuddling", "Praise_R", "Service"]
+				},
+				bodyTypes: {
+					likes: ["Strong", "Lean", "Fit"],
+					dislikes: ["Delicate", "OverlySoft"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.5,
+						female: 0.5
+					},
+					anatomyPreference: {
+						penisSize: "large",
+						breastSize: "irrelevant"
+					}
+				}
+			},
+
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			}
+		},
+
 	};
 };
   

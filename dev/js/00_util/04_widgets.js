@@ -56,21 +56,49 @@ Macro.add("SidebarUI", {
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
+				<!-- Time & Date -->
 				<span id="summary-time">--:--</span>
+				<span id="summary-date">Loading Date...</span>
+
+				<!-- Weather + Location -->
+				<div id="summary-location-weather" style="display: flex; flex-direction: column; align-items: center;">
+					<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
+					<span id="summary-location">Unknown</span>
+				</div>
+
+				<!-- Gold -->
 				<span id="summary-gold">0</span>
-				<span id="summary-level">Lvl 1</span>
-				<div class="exp-bar-mini">
-					<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
-				</div>
+
+				<!-- Status Icons with Fill Effect -->
 				<div id="summary-status-icons">
-					<i id="summary-health" data-lucide="heart"></i>
-					<i id="summary-fatigue" data-lucide="zap"></i>
-					<i id="summary-composure" data-lucide="brain"></i>
-					<i id="summary-excitement" data-lucide="flame"></i>
+					<div class="summary-icon-wrap" id="summary-health-wrap">
+						<div class="summary-fill" id="summary-health-fill"></div>
+						<i id="summary-health" data-lucide="heart"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-fatigue-wrap">
+						<div class="summary-fill" id="summary-fatigue-fill"></div>
+						<i id="summary-fatigue" data-lucide="zap"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-composure-wrap">
+						<div class="summary-fill" id="summary-composure-fill"></div>
+						<i id="summary-composure" data-lucide="brain"></i>
+					</div>
+					<div class="summary-icon-wrap" id="summary-excitement-wrap">
+						<div class="summary-fill" id="summary-excitement-fill"></div>
+						<i id="summary-excitement" data-lucide="flame"></i>
+					</div>
 				</div>
-				<div id="summary-conditions">
-					<!-- Dynamic icons like poisoned/charmed will inject here -->
+
+				<!-- Level + XP Mini -->
+				<div id="summary-level-exp" style="display: flex; flex-direction: column; align-items: center;">
+					<span id="summary-level">Lvl 1</span>
+					<div class="exp-bar-mini">
+						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
+					</div>
 				</div>
+
+				<!-- Conditions (e.g., poisoned, etc.) -->
+				<div id="summary-conditions"></div>
 			</div>
 
 
@@ -94,25 +122,42 @@ Macro.add("SidebarUI", {
 				<!-- Status Trackers -->
 				<div id="sidebar-status-tracker">
 					<div class="status-bar" id="health-bar">
-						<i data-lucide="heart"></i><span>Health</span>
-						<div class="status-bar-fill" id="health-fill"></div>
+						<i data-lucide="heart"></i>
+						<span>Health</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="health-fill"></div>
+						</div>
+						<span class="bar-value" id="health-value"></span>
 					</div>
 					<div class="status-bar" id="fatigue-bar">
-						<i data-lucide="zap"></i><span>Fatigue</span>
-						<div class="status-bar-fill" id="fatigue-fill"></div>
+						<i data-lucide="zap"></i>
+						<span>Fatigue</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="fatigue-fill"></div>
+						</div>
+						<span class="bar-value" id="fatigue-value"></span>
 					</div>
 					<div class="status-bar" id="composure-bar">
-						<i data-lucide="brain"></i><span>Composure</span>
-						<div class="status-bar-fill" id="composure-fill"></div>
+						<i data-lucide="brain"></i>
+						<span>Composure</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="composure-fill"></div>
+						</div>
+						<span class="bar-value" id="composure-value"></span>
 					</div>
 					<div class="status-bar" id="excitement-bar">
-						<i data-lucide="flame"></i><span>Excitement</span>
-						<div class="status-bar-fill" id="excitement-fill"></div>
+						<i data-lucide="flame"></i>
+						<span>Excitement</span>
+						<div class="status-bar-fill-wrapper">
+							<div class="status-bar-fill" id="excitement-fill"></div>
+						</div>
+						<span class="bar-value" id="excitement-value"></span>
 					</div>
 					<div id="conditional-status-bars"></div>
 				</div>
+				
 
-				<!-- Carry Weight (Hidden unless 85% full) -->
+				<!-- Carry Weight -->
 				<div id="sidebar-carryweight" style="display:none;">
 					<i data-lucide="package"></i> <span id="carryweight-text">Carryweight: 0/100</span>
 					<div class="status-bar-carry">
@@ -129,23 +174,18 @@ Macro.add("SidebarUI", {
 					<span id="exp-text">0/100 XP</span>
 				</div>
 
-				<!-- Buttons injected here -->
+				<!-- Buttons -->
 				<div id="custom-sidebar-buttons">
-					<!-- Character Button -->
 					<div class="button-single">
 						<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
 							<i data-lucide="scroll-text"></i> Character
 						</button>
 					</div>
-
-					<!-- Inventory Button -->
 					<div class="button-single">
 						<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
 							<i data-lucide="backpack"></i> Inventory
 						</button>
 					</div>
-
-					<!-- Journal & People Buttons -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('journal-page')">
 							<i data-lucide="book-open"></i> Journal
@@ -154,8 +194,6 @@ Macro.add("SidebarUI", {
 							<i data-lucide="users"></i> People
 						</button>
 					</div>
-
-					<!-- Stats & Achievements -->
 					<div class="button-pair">
 						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
 							<i data-lucide="brain"></i> Stats
@@ -164,19 +202,30 @@ Macro.add("SidebarUI", {
 							<i data-lucide="star"></i> Achievements
 						</button>
 					</div>
-
-					<!-- Saves & Options -->
 					<div class="button-pair">
 						<button id="btn-saves" class="sidebar-btn"><i data-lucide="save"></i> Saves</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
 					</div>
-				</div> <!-- end #custom-sidebar-buttons -->
-			</div> <!-- end #sidebar-content -->
+				</div>
+			</div>
 		`;
 
-		// AFTER injecting sidebar HTML, safely initialize the SidebarUI
+		// Set bar fill width and value label
+		const s = State.variables.player.status;
+		function updateBar(id, current, max) {
+			const fill = document.getElementById(`${id}-fill`);
+			const value = document.getElementById(`${id}-value`);
+			if (fill) fill.style.width = `${(current / max) * 100}%`;
+			if (value) value.textContent = `${Math.round(current)} / ${Math.round(max)}`;
+		}
+
+		updateBar("health", s.health, s.maxHealth);
+		updateBar("fatigue", s.fatigue, s.maxFatigue);
+		updateBar("composure", s.composure, s.maxComposure);
+		updateBar("excitement", s.excitement, s.maxExcitement);
+
 		if (window.setup?.SidebarUI?.initialize) {
 			console.log("[SidebarUI] Now initializing after Sidebar injection...");
 			setup.SidebarUI.initialize();
@@ -189,6 +238,8 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
+
 
 Macro.add("know", {
 	handler() {

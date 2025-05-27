@@ -1,5 +1,5 @@
 :: Scene02_AddasGreeting {"position":"75,650"}
-<<bg "Scene02_TheBrothelEntry">>
+<<bg "Scene02_AddaGreeting">>
 <<speech "adda">>You will have to forgive me for staring. If I didn't know any better I would have thought royalty had just walked into my humble parlor.<</speech>>
 	
 	She gives you a thoughtful wink.

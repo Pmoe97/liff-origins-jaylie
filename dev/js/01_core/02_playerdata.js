@@ -63,6 +63,12 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
+	// === Inventory & Carry ===
+	carryWeight: {
+		current: 0,
+	},
+
+
 	// === Body Anatomy ===
 	body: {
 		height: 64, // inches
@@ -109,6 +115,11 @@ State.variables.player = {
 		maxBleeding: 50,
 		stunned: false
 	}
+
+	/* ==================== */
+	/* - Player Inventory - */
+	/* ==================== */
+	
 };
 
 console.log("✅ PlayerData loaded successfully.");
