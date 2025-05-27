@@ -714,9 +714,9 @@ setup.initializeCharacters = function () {
 
 		redmarrow: {
 			name: "Leopold Redmarrow",
-			defaultName: "Cloaked Man",
+			defaultName: "Bounty Hunter",
 			known: false,
-			avatar: "images/portrait_leopold.png", // You can swap in your actual filename
+			avatar: "images/portrait_redmarrow.png", // You can swap in your actual filename
 			color: "white",
 			bgColor: "rgba(132, 54, 54, 0.75)",
 

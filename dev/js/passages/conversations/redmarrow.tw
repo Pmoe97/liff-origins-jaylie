@@ -38,7 +38,7 @@ You tilt your head slightly, taking in the armor, the dagger, the air of self-im
 <<speech "jaylie">>So… what do you do, exactly? You look like you're either waiting for a duel or a portrait session.<</speech>>
 
 He chuckles softly, finally setting down his glass.
-<<know>>
+<<know "redmarrow">>
 <<speech "redmarrow">>Both, if I'm lucky. But officially? I'm a licensed bounty contractor—charter-recognized and Guild-backed. Dangerous work, of course, but Leopold Redmarrow does not shy from danger.<</speech>>
 
 He leans forward, resting one elbow on the table with the confidence of a man who knows how to fill space.
@@ -313,7 +313,19 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 
 <<speech "redmarrow">>I intend to. Should fortune favor you, perhaps you'll earn the same.<</speech>>
 
+<<if not $TalkedTo_Redmarrow>>
+  <<set $TalkedTo_Redmarrow = true>>
+  <<set $TavernTalkCount += 1>>
+<</if>>
+
+<<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+  <<set $DiceRatsCalled = true>>
+  [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+<</if>>
 
 [[You turn back toward the tavern's main floor.|Scene03_TheSpace]]
 <</append>>
+<<run setup.clearConvoChoices()>>
 <</widget>>
+
+

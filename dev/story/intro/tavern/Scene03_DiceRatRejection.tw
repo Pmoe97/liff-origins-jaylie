@@ -1,0 +1,24 @@
+:: Scene03_DiceRatRejection
+
+You approach the dice table—a clutter of ale mugs, crumpled betting slips, and three loud mouths with louder laughs. Four players are seated, but it’s clear who’s holding court: a wiry, mean-eyed man with a scar across his chin and a voice like gravel marinated in whiskey. 
+
+He sees you coming before you say a word.
+
+<<speech "sarjan">>Oi, lads—would you look at that? The tavern’s got dessert walkin’ over on two legs.<</speech>>
+
+The other two snicker, elbowing each other.
+
+<<speech "jaylie">>Do you have room for one more?<</speech>>
+
+Sarjan leans back in his chair, boots up on the table like he owns the place.
+
+<<speech "sarjan">>Mmm... tempting. But unless you’re plannin’ to warm my lap or polish me knob while we play, I’d say we’re full up, sweetheart.<</speech>>
+
+The others howl with laughter, slapping the table and nearly spilling their drinks. One of them mimes scooting over, only to wave you off with a wink.
+
+<<speech "sarjan">>Come back when one of these pissants loses all their coin—shouldn’t take long.<</speech>>
+
+You stand there for a beat, the heat of their laughter washing over you. Then you turn and walk away.
+
+
+[[Return to the tavern.|Scene03_TheSpace]]

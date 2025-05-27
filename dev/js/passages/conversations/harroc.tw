@@ -123,15 +123,25 @@
 <<widget "Harroc_Phase0_Goodbye">>
 <<append "#convoBox">>
 
-
-You offer Harroc a small nod. 
+You offer Harroc a small nod.
 
 <<speech "jaylie">>I'll let you get back to it.<</speech>>
 
 He grunts in acknowledgment, still polishing the same mug with practiced, absent motions. The clink of glass and quiet murmur of voices fills the space as you turn away.
 
-[[You walk back towards the main area of the tavern.|Scene03_TheSpace]]
+<<if not $TalkedTo_Harroc>>
+  <<set $TalkedTo_Harroc = true>>
+  <<set $TavernTalkCount += 1>>
+<</if>>
 
+<<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+  <<set $DiceRatsCalled = true>>
+  [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+<</if>>
+
+[[You walk back toward the main area of the tavern.|Scene03_TheSpace]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
+
+

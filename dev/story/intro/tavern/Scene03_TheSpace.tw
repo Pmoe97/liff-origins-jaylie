@@ -1,5 +1,5 @@
 :: Scene03_TheSpace {"position":"475,450"}
-<<EndDialogueLayout>><<bg "threesipsdragon">>
+<<EndDialogueLayout>><<bg "threesipsdragon">><<set $TavernTalkCount to $TavernTalkCount or 0>>
 <<if !$seenTavernSpace>>
 Surrounding the center hearth, more than a dozen figures cluster at thick wooden tables—scarred by knives, stained by drink, and mismatched in shape. The fire’s warmth ripples outward, licking the cracked flagstone floor and painting the rafters above in flickering gold.
 <</if>>
@@ -38,7 +38,7 @@ She tears off a bite of meat with thicker-than-average teeth, then scans the roo
 
 From here, you may:
 [[Approach the bar and speak with the barkeeper.|Scene03_BarkeepDialogue]]
-[[Try your luck joining the dice game.|Scene03_DiceTable]]
+[[Try your luck joining the dice game.|Scene03_DiceRatRejection]]
 [[Approach the cloaked man in the corner.|Scene03_ApproachBountyHunter]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
 [[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]

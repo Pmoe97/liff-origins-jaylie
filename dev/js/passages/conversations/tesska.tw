@@ -106,7 +106,7 @@
 
   She leans a little closer, voice lowered just enough to feel like a secret.
 
-  <<speech "tesska">>But yes. We get our share. Half-orc mercenaries like Drekka over there, who bathe in ale more than water. Quiet types with knives too clean and coin too heavy. Once had a man come in wearing a full suit of armor just to drink milk. Sat for three hours. Didn't say a word. Tipped a whole gold and walked out.<</speech>><<set $characters["drekka"].known = true>>
+  <<speech "tesska">>But yes. We get our share. Half-orc mercenaries like Drekka over there, who bathe in ale more than water. Quiet types with knives too clean and coin too heavy. Once had a man come in wearing a full suit of armor just to drink milk. Sat for three hours. Didn't say a word. Tipped a whole gold and walked out.<</speech>><<know "brakka">>
     
   She pauses as if waiting for your expression—then grins when you meet her eyes.
 
@@ -116,6 +116,7 @@
 <<run setup.tesska_Conversation_Options_Phase0()>>
 <</widget>>
 
+:: Tesska_Exit [widget]
 <<widget "Tesska_Exit">>
 <<append "#convoBox">>
   <<speech "jaylie">>Thanks, Tesska. I think I'll just sit quietly for a bit.<</speech>>
@@ -123,10 +124,24 @@
   <<speech "tesska">>Suit yourself, sweetheart. But if you get bored, I'm just a holler away—as long as I'm not elbow-deep in someone else's bad decisions.<</speech>>
 
   She winks, then turns with a little extra sway in her hips as she walks away, glancing once over her shoulder to make sure you're watching.
+
+  <<if not $TalkedTo_Tesska>>
+    <<set $TalkedTo_Tesska = true>>
+    <<set $TavernTalkCount += 1>>
+  <</if>>
+
+  <<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+    <<set $DiceRatsCalled = true>>
+    [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+  <</if>>
+  [[Look around the tavern.|ThreeSipsDragon_TheSpace]]
 <</append>>
-[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+<<run setup.clearConvoChoices()>>
 <</widget>>
 
+
+
+:: Tesska_ExitDrink [widget]
 <<widget "Tesska_ExitDrink">>
 <<append "#convoBox">>
   <<speech "jaylie">>I think I'm just going to nurse this drink for a while. Thanks again.<</speech>>
@@ -134,6 +149,20 @@
   <<speech "tesska">>Mmh, take your time with it. Good drinks—and good company—are meant to be savored.<</speech>>
 
   She taps her knuckle lightly on the table, gives you a knowing smile, and glides off into the crowd like she owns every beam and brick of the room.
+
+  <<if not $TalkedTo_Tesska>>
+    <<set $TalkedTo_Tesska = true>>
+    <<set $TavernTalkCount += 1>>
+  <</if>>
+
+  <<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+    <<set $DiceRatsCalled = true>>
+    [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+  <</if>>
+
+  [[Look around the tavern.|ThreeSipsDragon_TheSpace]]
 <</append>>
-[[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+<<run setup.clearConvoChoices()>>
 <</widget>>
+
+

@@ -467,138 +467,139 @@ Macro.add("OpenConvoGame", {
 
 
 Macro.add("CrownAndCaste", {
-  handler() {
-    const args = this.args;
-    const buyIn = parseInt(args[0], 10);
-    const npcIds = args.slice(1, 4).filter(id => id && id !== "");
-
-    // Known stake and house rule options
-    const validStakes = ["low", "standard", "high"];
-    const knownHouseRules = ["golden-tax", "split-line", "blessing-of-sixes", "royal-flush"];
-
-    // Remaining arguments after NPCs
-    const remaining = args.slice(4);
-    let stakes = "standard";
-    let houseRules = [];
-    let winPassage = null;
-    let losePassage = null;
-
-    for (const arg of remaining) {
-      if (validStakes.includes(arg)) {
-        stakes = arg;
-      } else if (knownHouseRules.includes(arg)) {
-        houseRules.push(arg);
-      } else if (!winPassage) {
-        winPassage = arg;
-      } else if (!losePassage) {
-        losePassage = arg;
-      }
-    }
-
-    // Default losePassage to winPassage if not supplied
-    if (!losePassage && winPassage) losePassage = winPassage;
-
-    if (isNaN(buyIn)) {
-      return this.error("CrownAndCaste requires a numeric buy-in as the first argument.");
-    }
-
-    const characters = State.variables.characters;
-    const sessionPlayers = ["jaylie"];
-
-    npcIds.forEach(id => {
-      if (id === "ghost") {
-        sessionPlayers.push("ghost");
-      } else if (characters?.[id]) {
-        sessionPlayers.push(id);
-      } else {
-        console.warn(`[CrownAndCaste] Invalid NPC ID: ${id}`);
-      }
-    });
-
-    if (sessionPlayers.length < 2) {
-      return this.error("Crown & Caste requires at least 2 players (including you).");
-    }
-    if (sessionPlayers.length > 4) {
-      sessionPlayers.splice(4);
-    }
-
-    const playerGold = State.variables.inventory_player?.gold_coin || 0;
-    const hasEnoughGold = playerGold >= buyIn;
-
-    const stakesDisplay = stakes === "low" ? "Low Stakes" :
-                          stakes === "high" ? "High Stakes" :
-                          "Standard Stakes";
-
-    const sessionKey = `crown-and-caste-${Date.now()}`;
-    const uniqueId = `start-cnc-${sessionKey}`;
-    const buttonId = `btn-${uniqueId}`;
-    const goldIcon = `<i data-lucide='coins'></i>`;
-
-    const houseRulesDisplay = houseRules.length > 0
-      ? `<div class="house-rules-display">House Rules: ${houseRules.join(", ")}</div>` : "";
-
-    const btnHTML = `
-      <div id="${uniqueId}" class="start-minigame-button-wrapper">
-        <div class="crown-caste-game-info">
-          <h4>Crown & Caste Table</h4>
-          <div class="game-details">
-            <span class="stakes-level">${stakesDisplay}</span>
-            <span class="buy-in">Buy-In: ${buyIn} ${goldIcon}</span>
-            <span class="players">Players: ${sessionPlayers.length}/4</span>
-          </div>
-          ${houseRulesDisplay}
-        </div>
-        <button class="start-minigame-button" id="${buttonId}" ${hasEnoughGold ? "" : "disabled"}>
-          ${hasEnoughGold ? "Join Game" : "Insufficient Gold"}
-        </button>
-        ${!hasEnoughGold ? `<p class='minigame-warning'>(Need ${buyIn}g to join this table)</p>` : ""}
-      </div>
-    `;
-
-    $(this.output).append(btnHTML);
-
-    setTimeout(() => {
-      const buttonEl = document.getElementById(buttonId);
-      if (buttonEl && hasEnoughGold) {
-        buttonEl.addEventListener("click", () => {
-          console.log("[CrownAndCaste] 🟢 Starting game...");
-          console.log(`[CrownAndCaste] Stakes: ${stakes}, Rules: ${houseRules}`);
-          console.log(`[CrownAndCaste] Routes: Win → ${winPassage}, Lose → ${losePassage}`);
-
-          if (State.variables.inventory_player?.gold_coin) {
-            State.variables.inventory_player.gold_coin -= buyIn;
-            console.log(`[CrownAndCaste] Deducted ${buyIn}g. Remaining: ${State.variables.inventory_player.gold_coin}`);
-          }
-
-          // Store all metadata
-          State.temporary.ccBuyIn = buyIn;
-          State.temporary.ccStakes = stakes;
-          State.temporary.ccHouseRules = houseRules;
-          State.temporary.ccWinPassage = winPassage;
-          State.temporary.ccLosePassage = losePassage;
-
-          // Start session
-          setup.CrownAndCaste.initSession(sessionPlayers, stakes, houseRules);
-          setup.CrownAndCaste.startGame();
-          setup.CrownAndCasteUI.renderMinigame();
-
-          // Remove the menu
-          const wrapper = document.getElementById(uniqueId);
-          if (wrapper) {
-            wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-            wrapper.style.opacity = '0';
-            wrapper.style.transform = 'translateY(-10px)';
-            setTimeout(() => wrapper.remove(), 400);
-          }
-
-          if (window.lucide) lucide.createIcons();
-        });
-      } else if (!buttonEl) {
-        console.warn("[CrownAndCaste] ❌ Could not bind start button.");
-      }
-    }, 50);
-  }
-});
+	handler() {
+	  const args = this.args;
+	  const buyIn = parseFloat(args[0]);
+	  const npcIds = args.slice(1, 4).filter(id => id && id !== "");
+  
+	  const validStakes = ["low", "standard", "high"];
+	  const knownHouseRules = ["golden-tax", "split-line", "blessing-of-sixes", "royal-flush"];
+  
+	  // Optional arguments after NPCs
+	  const remaining = args.slice(4);
+	  let stakes = "standard";
+	  let houseRules = [];
+	  let winPassage = null;
+	  let losePassage = null;
+	  let playerFavor = null;
+  
+	  for (const arg of remaining) {
+		const lower = String(arg).toLowerCase();
+		if (validStakes.includes(lower)) {
+		  stakes = lower;
+		} else if (knownHouseRules.includes(lower)) {
+		  houseRules.push(lower);
+		} else if (!isNaN(parseFloat(arg)) && parseFloat(arg) > 1) {
+		  playerFavor = parseFloat(arg);
+		} else if (!winPassage) {
+		  winPassage = arg;
+		} else if (!losePassage) {
+		  losePassage = arg;
+		}
+	  }
+  
+	  if (!losePassage && winPassage) losePassage = winPassage;
+  
+	  if (isNaN(buyIn)) {
+		return this.error("CrownAndCaste requires a numeric buy-in as the first argument.");
+	  }
+  
+	  const characters = State.variables.characters;
+	  const sessionPlayers = ["jaylie"];
+  
+	  npcIds.forEach(id => {
+		if (id === "ghost") {
+		  sessionPlayers.push("ghost");
+		} else if (characters?.[id]) {
+		  sessionPlayers.push(id);
+		} else {
+		  console.warn(`[CrownAndCaste] Invalid NPC ID: ${id}`);
+		}
+	  });
+  
+	  if (sessionPlayers.length < 2) {
+		return this.error("Crown & Caste requires at least 2 players (including you).");
+	  }
+	  if (sessionPlayers.length > 4) {
+		sessionPlayers.splice(4);
+	  }
+  
+	  const playerGold = State.variables.inventory_player?.gold_coin || 0;
+	  const hasEnoughGold = playerGold >= buyIn;
+  
+	  const stakesDisplay = stakes === "low" ? "Low Stakes" :
+							stakes === "high" ? "High Stakes" :
+							"Standard Stakes";
+  
+	  const sessionKey = `crown-and-caste-${Date.now()}`;
+	  const uniqueId = `start-cnc-${sessionKey}`;
+	  const buttonId = `btn-${uniqueId}`;
+	  const goldIcon = `<i data-lucide='coins'></i>`;
+  
+	  const houseRulesDisplay = houseRules.length > 0
+		? `<div class="house-rules-display">House Rules: ${houseRules.join(", ")}</div>` : "";
+  
+	  const btnHTML = `
+		<div id="${uniqueId}" class="start-minigame-button-wrapper">
+		  <div class="crown-caste-game-info">
+			<h4>Crown & Caste Table</h4>
+			<div class="game-details">
+			  <span class="stakes-level">${stakesDisplay}</span>
+			  <span class="buy-in">Buy-In: ${buyIn} ${goldIcon}</span>
+			  <span class="players">Players: ${sessionPlayers.length}/4</span>
+			</div>
+			${houseRulesDisplay}
+		  </div>
+		  <button class="start-minigame-button" id="${buttonId}" ${hasEnoughGold ? "" : "disabled"}>
+			${hasEnoughGold ? "Join Game" : "Insufficient Gold"}
+		  </button>
+		  ${!hasEnoughGold ? `<p class='minigame-warning'>(Need ${buyIn}g to join this table)</p>` : ""}
+		</div>
+	  `;
+  
+	  $(this.output).append(btnHTML);
+  
+	  setTimeout(() => {
+		const buttonEl = document.getElementById(buttonId);
+		if (buttonEl && hasEnoughGold) {
+		  buttonEl.addEventListener("click", () => {
+			console.log("[CrownAndCaste] 🟢 Starting game...");
+			console.log(`[CrownAndCaste] Stakes: ${stakes}, Rules: ${houseRules}`);
+			console.log(`[CrownAndCaste] Routes: Win → ${winPassage}, Lose → ${losePassage}`);
+			if (playerFavor) console.log(`[CrownAndCaste] Player Favor Modifier: ${playerFavor}`);
+  
+			if (State.variables.inventory_player?.gold_coin) {
+			  State.variables.inventory_player.gold_coin -= buyIn;
+			}
+  
+			// Store metadata
+			State.temporary.ccBuyIn = buyIn;
+			State.temporary.ccStakes = stakes;
+			State.temporary.ccHouseRules = houseRules;
+			State.temporary.ccWinPassage = winPassage;
+			State.temporary.ccLosePassage = losePassage;
+			State.temporary.ccPlayerFavor = playerFavor ?? null;
+  
+			setup.CrownAndCaste.initSession(sessionPlayers, stakes, houseRules, playerFavor);
+			setup.CrownAndCaste.startGame();
+			setup.CrownAndCasteUI.renderMinigame();
+  
+			const wrapper = document.getElementById(uniqueId);
+			if (wrapper) {
+			  wrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+			  wrapper.style.opacity = '0';
+			  wrapper.style.transform = 'translateY(-10px)';
+			  setTimeout(() => wrapper.remove(), 400);
+			}
+  
+			if (window.lucide) lucide.createIcons();
+		  });
+		}
+	  }, 50);
+	}
+  });
+  
+  
 
 
 

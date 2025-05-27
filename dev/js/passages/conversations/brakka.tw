@@ -113,6 +113,16 @@ She tosses the bare mutton bone into the fire and cracks her knuckles one-handed
 
 <<speech "brakka">>Guild’s hosting a tournament. I’ll be there. Figured I’d offer you the chance to prove me wrong—or right. Either way, I’ll enjoy the show.<</speech>>
 
+<<if not $TalkedTo_Brakka>>
+  <<set $TalkedTo_Brakka = true>>
+  <<set $TavernTalkCount += 1>>
+<</if>>
+
+<<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+  <<set $DiceRatsCalled = true>>
+  [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+<</if>>
+
 [[You step away from the hearth and return to the main tavern.|Scene03_TheSpace]]
 <</append>>
 <<run setup.clearConvoChoices()>>
@@ -128,7 +138,19 @@ Brakka doesn’t look up—just raises her mug slightly in acknowledgment and ta
 
 <<speech "brakka">>Might do, Silks.<</speech>><<set $calledSilks += 1>>
 
+<<if not $TalkedTo_Brakka>>
+  <<set $TalkedTo_Brakka = true>>
+  <<set $TavernTalkCount += 1>>
+<</if>>
+
+<<if $TavernTalkCount >= 3 and not $DiceRatsCalled>>
+  <<set $DiceRatsCalled = true>>
+  [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
+<</if>>
+
 [[You turn back toward the tavern’s main floor.|Scene03_TheSpace]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
+
+

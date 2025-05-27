@@ -1,0 +1,24 @@
+:: Scene03_SkipDiceGame
+<<bg "tavern-fight-pending">>
+
+You fold your arms and cock your head, giving the man at the table the kind of look normally reserved for roaches in breadboxes.
+
+<<speech "jaylie">>I think I’d rather scrub the floor with my tongue than sit next to you.<</speech>>
+
+The table goes still.
+
+The boisterous man blinks—just once. Then the grin drains from his face like bad beer through a split mug.
+
+<<speech "sarjan">>Oi, what’d you say to me?<</speech>>
+
+His cronies glance at each other, not sure whether to laugh or duck. Sarjan shoves back from the table, rising to full height—narrow, twitchy, all brittle swagger and wounded pride.
+
+<<speech "sarjan">>I was tryin’ to be friendly, you cocky little twat. Should’ve known a mouth like yours came without a brain to slow it down.<</speech>>
+
+You smile, razor-thin.
+
+<<speech "jaylie">>Then I guess we both learned something tonight.<</speech>>
+
+Chairs scrape. A tankard hits the floor. One of the cronies mutters “Shit...” just as Sarjan lunges.
+
+[[The tavern erupts in chaos.|Scene03_DiceFightTrigger]]

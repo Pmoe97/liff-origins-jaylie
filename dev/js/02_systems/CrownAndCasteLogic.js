@@ -6,7 +6,7 @@ setup.CrownAndCaste = {
   initSession(playerIds, stakes = "standard", houseRules = []) {
     const maxPlayers = 4;
     const finalIds = playerIds.slice(0, maxPlayers);
-
+  
     const generatedPlayers = finalIds.map((id, index) => {
       const basePlayer = {
         gold: 15,
@@ -18,7 +18,7 @@ setup.CrownAndCaste = {
         isEliminated: false,
         bet: 0,
       };
-
+  
       if (id === "ghost") {
         return {
           ...basePlayer,
@@ -27,7 +27,7 @@ setup.CrownAndCaste = {
           isPlayer: false,
         };
       }
-
+  
       if (index === 0) {
         return {
           ...basePlayer,
@@ -36,7 +36,7 @@ setup.CrownAndCaste = {
           isGhost: false,
         };
       }
-
+  
       const npc = State.variables.characters?.[id];
       return {
         ...basePlayer,
@@ -46,7 +46,7 @@ setup.CrownAndCaste = {
         npcId: id,
       };
     });
-
+  
     State.temporary.ccSession = {
       players: generatedPlayers,
       dealerIndex: Math.floor(Math.random() * generatedPlayers.length),
@@ -63,11 +63,13 @@ setup.CrownAndCaste = {
       gameComplete: false,
       stakes: stakes,
       chipCost: setup.CrownAndCaste.getChipCost(stakes),
-      houseRules: houseRules
+      houseRules: houseRules,
+      playerFavor: State.temporary.ccPlayerFavor ?? 1.0  // 👈 Inject favor here
     };
-
+  
     console.log("[CrownAndCaste] Session initialized:", State.temporary.ccSession);
   },
+  
   
   hasHouseRule(ruleName) {
     const session = State.temporary.ccSession;
@@ -1516,14 +1518,34 @@ setup.CrownAndCaste = {
   // 8. Helpers
   // ==========================
 
-  rollDie() {
-    const buffer = new Uint8Array(1);
-    window.crypto.getRandomValues(buffer);
-    const raw = buffer[0] / 256;
-    const value = Math.floor(raw * 8) + 1;
-    console.log(`[CrownAndCaste] Rolled die: ${value}`);
-    return value;
-  },
+    rollDie(playerIndex = null) {
+      const buffer = new Uint8Array(1);
+      window.crypto.getRandomValues(buffer);
+      const raw = buffer[0] / 256;
+      const baseValue = Math.floor(raw * 8) + 1;
+    
+      const session = State.temporary.ccSession;
+      let value = baseValue;
+    
+      // 🎲 Apply bias if playerFavor is active
+      if (playerIndex === 0 && session?.playerFavor && session.playerFavor > 1.0) {
+        const bias = session.playerFavor;
+        const biasedRaw = Math.pow(raw, 1 / bias);
+        const biasedValue = Math.floor(biasedRaw * 8) + 1;
+        value = Math.min(8, Math.max(1, biasedValue));
+    
+        console.log(
+          `[CrownAndCaste] Rolled (playerFavor=${bias.toFixed(2)}): ` +
+          `raw=${raw.toFixed(3)} → base=${baseValue}, biasedRaw=${biasedRaw.toFixed(3)} → biased=${biasedValue}, final=${value}`
+        );
+      } else {
+        console.log(`[CrownAndCaste] Rolled die: raw=${raw.toFixed(3)} → ${value}`);
+      }
+    
+      return value;
+    },
+  
+ 
 
   // ✨ Pseudo-rolling animation for dice (flavor feature)
   async rollDieWithAnimation(elementId, finalValue = null) {

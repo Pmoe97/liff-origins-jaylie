@@ -1,0 +1,30 @@
+:: Scene03_DiceIntro
+<<bg "crownandcaste-table">>
+
+You slide into the now-empty chair. The other three players are already grinning like cats who’ve cornered a crippled mouse. Dice clatter between them—worn bone cubes inked with strange symbols and dark smudges that might be blood, or just years of spilled drink.
+
+<<speech "sarjan">>Right then. Pay attention, Red. I’m not explainin’ this twice.<</speech>>
+
+One of the others chuckles. The third just leans in, eyes gleaming.
+
+<<speech "sarjan">>This here's Crown and Caste. Four players, five dice each. Your goal? Lock the best damn set you can before your chips run dry—or before I crush your soul, whichever comes first.<</speech>>
+
+He lifts a dice cup and shakes it once for show. The sound is oddly threatening.
+
+<<speech "sarjan">>We take turns rollin’. Each roll, you can lock in dice—or reroll the rest. But once you lock 'em, they stay. No backsies.<</speech>>
+
+<<speech "dice rat 2">>And you’ve only got three rolls total—unless you burn a Control Chip to cheat fate.<</speech>>
+
+<<speech "dice rat 3">>Or to fuck yourself over more efficiently. Depends how clever you are.<</speech>>
+
+Sarjan flashes a grin like a rusted dagger.
+
+<<speech "sarjan">>Scoring's simple if your brain ain't mush. Certain combos score big—crowns, full casts, matching houses. Highest score wins the round, gets the pot. Lowest score... well, maybe you get to keep your dignity.<</speech>>
+
+<<speech "sarjan">>Lose too many chips, and you're out. Win enough rounds, and maybe I’ll buy you a drink. Maybe.<</speech>>
+
+The dice rattle again. Sarjan slides the pot to the center of the table.
+
+<<speech "sarjan">>Alright, Jaylie. Let's see if you’ve got more than hot air behind that smirk.<</speech>>
+
+<<CrownAndCaste 25 "sarjan" "ghost" "ghost" "PostCAndCWinFightSetup" "PostCAndCLose" 1.25>>

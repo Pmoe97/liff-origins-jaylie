@@ -116,6 +116,7 @@ setup.smartChoice = function (label, target, {
 	compare = null,
 	conditions = null,
 	usedMin = null,
+	hideIf = null,
 	logic = "and",
 	hide = false,
 	reuse = 0,
@@ -135,6 +136,72 @@ setup.smartChoice = function (label, target, {
 		console.groupCollapsed(`[smartChoice] ${label}`);
 		console.log("Target:", target);
 		console.log("Character:", npc, "| Phase:", phase);
+	}
+
+	// Early hide check
+	if (hideIf) {
+		let shouldHide = false;
+
+		const resolve = (val) =>
+			typeof val === "string" && val.startsWith("!") ? !setup._resolvePath(val.slice(1), v) : !!setup._resolvePath(val, v);
+
+		if (hideIf.variable !== undefined) {
+			shouldHide = resolve(hideIf.variable);
+			if (debug) console.log(`hideIf.variable →`, shouldHide);
+		}
+		if (!shouldHide && hideIf.item) {
+			const [id, count] = hideIf.item;
+			const result = (v.inventory?.[id] ?? 0) < count;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.item →`, result);
+		}
+		if (!shouldHide && hideIf.quest) {
+			const [path, min] = hideIf.quest;
+			const val = path.split(".").reduce((o, k) => o?.[k], v.quests ?? {});
+			const result = (val ?? 0) < min;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.quest →`, result);
+		}
+		if (!shouldHide && hideIf.aff) {
+			const [id, min] = hideIf.aff;
+			const result = (chars?.[id]?.affection ?? 0) < min;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.aff →`, result);
+		}
+		if (!shouldHide && hideIf.trust) {
+			const [id, min] = hideIf.trust;
+			const result = (chars?.[id]?.trust ?? 0) < min;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.trust →`, result);
+		}
+		if (!shouldHide && hideIf.rapport) {
+			const [id, min] = hideIf.rapport;
+			const result = (chars?.[id]?.rapport ?? 0) < min;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.rapport →`, result);
+		}
+		if (!shouldHide && hideIf.tension) {
+			const [id, max] = hideIf.tension;
+			const result = (chars?.[id]?.tension ?? 0) > max;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.tension →`, result);
+		}
+		if (!shouldHide && hideIf.cooldown) {
+			const [id, max] = hideIf.cooldown;
+			const result = (chars?.[id]?.cooldown ?? 0) > max;
+			shouldHide = result;
+			if (debug) console.log(`hideIf.cooldown →`, result);
+		}
+		if (!shouldHide && typeof hideIf.conditions === "function") {
+			const result = !!hideIf.conditions(v);
+			shouldHide = result;
+			if (debug) console.log(`hideIf.conditions →`, result);
+		}
+		if (shouldHide) {
+			if (debug) console.log("→ Choice hidden due to hideIf.");
+			console.groupEnd();
+			return null;
+		}
 	}
 
 	// Relationship stats
@@ -258,6 +325,7 @@ setup.smartChoice = function (label, target, {
 };
 
 
+
 // Path resolver (supports nested vars like "$characters.marie.affection")
 setup._resolvePath = function (path, source = State.variables) {
 	return path.split(".").reduce((acc, key) => acc?.[key], source);
@@ -282,6 +350,7 @@ setup.smartChoices = function (list) {
 			compare: opt.compare,
 			conditions: opt.conditions,
 			usedMin: opt.usedMin,
+			hideIf: opt.hideIf, // ✅ pass through hideIf
 			logic: opt.logic ?? "and",
 			hide: opt.hide ?? false,
 			reuse: opt.reuse ?? 0,
@@ -292,5 +361,6 @@ setup.smartChoices = function (list) {
 	}
 	setup.addChoices(final);
 };
+
 
 

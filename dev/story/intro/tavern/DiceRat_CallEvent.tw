@@ -1,0 +1,17 @@
+:: DiceRat_CallEvent
+
+A sharp clatter of dice and shouted curses cuts through the tavern’s usual noise. You turn toward the game table just in time to see one of the players—the only one not laughing—get up in a huff, knocking his chair back hard enough to draw more than a few stares. His face is red, his coin purse lighter, and his pride clearly wounded.
+
+<<speech "sarjan">>Oi, wipe that look off your face, handsome! You still got your boots—should be thankin’ me for lettin' you walk out with those.<</speech>>
+
+The loudest of the trio kicks the empty chair with his boot, sending it spinning. His companions wheeze with laughter, like it’s the best thing they’ve seen all week.
+
+Then his eyes find you across the tavern.
+
+<<speech "sarjan">>Oi! Red! You keen to play? Chair’s warm and luck’s waitin’. Won’t even make you polish me knob. Unless you lose, of course.<</speech>>
+
+The others cackle again, one of them already shuffling the dice in his hands, eager for a new mark—or maybe just new entertainment.
+
+[[Approach the Dice Table.|Scene03_DiceIntro]]
+
+[[Ignore Sarjan and head back to the tavern.|Scene03_SkipDiceGame]]
