@@ -63,7 +63,7 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
-	// === Inventory & Carry ===
+	/* === Carry === */
 	carryWeight: {
 		current: 0,
 	},
@@ -114,12 +114,17 @@ State.variables.player = {
 		bleeding: 0,
 		maxBleeding: 50,
 		stunned: false
-	}
+	},
 
 	/* ==================== */
 	/* - Player Inventory - */
 	/* ==================== */
-	
+
+		/* === Carry === */
+	carryWeight: {
+		current: 0,
+	},
+
 };
 
 console.log("✅ PlayerData loaded successfully.");

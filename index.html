@@ -4664,17 +4664,7 @@ if (
 		});
 	});
 }
-/* twine-user-script #6: "01_initVars.js" */
-State.variables.inventory_player = Object.assign(
-	{},
-	State.variables.player.startingInventory
-);
-
-State.variables.DEBUG = true;
-
-// Tavern state tracking
-State.variables.seenTavernSpace = false;
-/* twine-user-script #7: "02_playerdata.js" */
+/* twine-user-script #6: "01_playerdata.js" */
 State.variables.player = {
 	// === Identity ===
 	name: "Jaylie",
@@ -4740,7 +4730,7 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
-	// === Inventory & Carry ===
+	/* === Carry === */
 	carryWeight: {
 		current: 0,
 	},
@@ -4791,15 +4781,30 @@ State.variables.player = {
 		bleeding: 0,
 		maxBleeding: 50,
 		stunned: false
-	}
+	},
 
 	/* ==================== */
 	/* - Player Inventory - */
 	/* ==================== */
-	
+
+		/* === Carry === */
+	carryWeight: {
+		current: 0,
+	},
+
 };
 
 console.log("✅ PlayerData loaded successfully.");
+/* twine-user-script #7: "02_initVars.js" */
+State.variables.inventory_player = Object.assign(
+	{},
+	State.variables.player.startingInventory
+);
+
+State.variables.DEBUG = true;
+
+// Tavern state tracking
+State.variables.seenTavernSpace = false;
 /* twine-user-script #8: "03_worldstate.js" */
 State.variables.world = {
     // === Time and Calendar ===
