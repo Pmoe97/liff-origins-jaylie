@@ -22,8 +22,9 @@ Macro.add("bg", {
 });
 
 
+
 /* SidebarUI Widget */
-Macro.add("SidebarUI", {
+/* Macro.add("SidebarUI", {
 	handler() {
 		const sidebar = document.getElementById("custom-sidebar");
 
@@ -47,10 +48,11 @@ Macro.add("SidebarUI", {
 		<!-- Top Nav and Collapse -->
 		<div id="sidebar-topbar">
 			<div id="sidebar-nav">
-				<button id="sidebar-nav-back" class="sidebar-nav-btn" onclick="setup.SidebarUI.navBack()">
+				<!-- SugarCube native back/forward buttons -->
+				<button id="history-backward" class="sidebar-nav-btn" title="Go back">
 					<i data-lucide="undo-2"></i>
 				</button>
-				<button id="sidebar-nav-forward" class="sidebar-nav-btn" onclick="setup.SidebarUI.navForward()">
+				<button id="history-forward" class="sidebar-nav-btn" title="Go forward">
 					<i data-lucide="redo-2"></i>
 				</button>
 			</div>
@@ -59,8 +61,7 @@ Macro.add("SidebarUI", {
 			</button>
 		</div>
 
-
-			<!-- Collapsed Summary -->
+		<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
 				<span id="summary-time">--:--</span>
 				<span id="summary-date">Loading Date...</span>
@@ -228,6 +229,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+*/
 
 
 

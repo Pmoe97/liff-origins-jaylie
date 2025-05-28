@@ -18,7 +18,8 @@
 <!-- =============================
 =        Custom Sidebar         =
 ============================= -->
-<div id="custom-sidebar"></div>
+<div id="custom-sidebar" data-passage="SidebarUI"></div>
+
 
 <!-- =============================
 =         Overlay Panel          =

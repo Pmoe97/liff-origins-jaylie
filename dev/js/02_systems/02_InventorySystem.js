@@ -239,6 +239,44 @@ document.addEventListener("DOMContentLoaded", () => {
   if (setup.updateCondensedPaperdoll) setup.updateCondensedPaperdoll();
 });
 
+setup.showInventoryItemDetails = function (itemId) {
+	const item = getItemMetadata(itemId);
+	if (!item) {
+		console.warn(`[InventoryUI] No metadata for item: ${itemId}`);
+		return;
+	}
+
+	// Set image
+	const image = document.getElementById("inventory-item-image");
+	if (image) {
+		image.src = item.image ?? "images/items/default.png";
+		image.alt = item.name ?? "Unknown Item";
+	}
+
+	// Set description
+	document.getElementById("inventory-item-description").textContent =
+		item.description ?? "[No description available]";
+
+	// Set flavor text
+	document.getElementById("inventory-item-flavor").textContent =
+		item.flavorText ?? "";
+
+	// Set enhancements or details
+	document.getElementById("inventory-item-meta").textContent =
+		item.details ?? "[No additional info]";
+};
+
+$(document).on("click", ".inventory-row", function () {
+	const itemId = this.dataset.itemId;
+	if (!itemId) return;
+
+	$(".inventory-row").removeClass("selected");
+	$(this).addClass("selected");
+
+	if (typeof setup.showInventoryItemDetails === "function") {
+		setup.showInventoryItemDetails(itemId);
+	}
+});
 
 /* =============================== */
 /* Carryweight Logic Implemenation */
@@ -278,6 +316,7 @@ setup.updatePlayerCarryWeight = function () {
 		max: maxWeight
 	};
 };
+
 
 
 

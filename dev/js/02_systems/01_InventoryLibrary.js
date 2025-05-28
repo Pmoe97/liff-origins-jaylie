@@ -314,9 +314,9 @@ setup.ItemData.gold_coin = {
 	type: "misc",
 	subtype: "currency",
 	tags: ["currency", "non-negotiable"],
-	weight: 0.01,
+	weight: 0.00,
 	value: 1,
-	img: "default.png",
+	img: "item_currency_gold_coin.png",
 	description: "A single gold coin. Stamped and standardized. Its value never fluctuates.",
 	fixedValue: true
 };

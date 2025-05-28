@@ -193,24 +193,6 @@ setup.SidebarUI = {
 		if (goldSummary) goldSummary.textContent = formattedGold;
 	},
 
-	initialize() {
-		console.log("[SidebarUI] Initializing SidebarUI...");
-		const toggleButton = document.getElementById("sidebar-toggle");
-
-		if (!toggleButton) {
-			console.warn("[SidebarUI] Sidebar toggle button not found during initialize().");
-			return;
-		}
-
-		toggleButton.addEventListener("click", () => {
-			console.log("[SidebarUI] Collapse button clicked!");
-			this.toggleSidebar();
-		});
-
-		this.startAutoRefresh();
-		this.tryLucideIcons();
-	},
-
 	toggleSidebar() {
 		const sidebar = document.getElementById("custom-sidebar");
 		const arrow = document.getElementById("sidebar-arrow");
@@ -249,15 +231,6 @@ setup.SidebarUI = {
 		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
 	},
 
-
-	startAutoRefresh() {
-		if (this._refreshTimer) {
-			clearInterval(this._refreshTimer);
-		}
-		this._refreshTimer = setInterval(() => {
-			this.updateSidebar();
-		}, 1000);
-	},
 
 	updateSidebar() {
 		const player = State.variables.player;
@@ -433,30 +406,45 @@ setup.SidebarUI = {
 	}
 };
 
-  
-  $(document).on(":storyready", () => {
-	const btn = document.getElementById("btn-saves");
-	if (btn) {
-		btn.addEventListener("click", () => {
-			console.log("[DEBUG] Save button clicked.");
-			if (typeof Dialog === "undefined") {
-				console.error("[ERROR] Dialog object is not defined.");
-			} else {
-				console.log("[DEBUG] Dialog.open available:", typeof Dialog.open);
-				Dialog.open("saves");
-			}
-		});
-		if (window.lucide) lucide.createIcons();
-	}
 
-	// Ensure UI system is initialized only after DOM is ready
-	if (typeof UI !== "undefined" && typeof UI.init === "function") {
-		console.log("[DEBUG] Calling UI.init()");
-		UI.init();
+/* Dedicated button handlers */
+  
+$(document).on("click", "#btn-saves", () => {
+	if (typeof UI?.saves === "function") UI.saves();
+});
+
+
+$(document).on("click", "#sidebar-nav-back", () => {
+	console.log("[SidebarUI] Back clicked — invoking Engine.backward()");
+	Engine.backward();
+});
+
+$(document).on("click", "#sidebar-nav-forward", () => {
+	console.log("[SidebarUI] Forward clicked — invoking Engine.forward()");
+	Engine.forward();
+});
+
+$(document).on("click", "#sidebar-toggle", () => {
+	if (typeof setup?.SidebarUI?.toggleSidebar === "function") {
+		setup.SidebarUI.toggleSidebar();
 	} else {
-		console.error("[ERROR] UI.init is not available.");
+		console.warn("[SidebarUI] toggleSidebar() is not defined.");
 	}
 });
+
+$(document).on("click", "#sidebar-options", () => {
+	const UI = SugarCube?.UI;
+	if (typeof UI?.settings === "function") {
+		console.log("[SidebarUI] Opening Settings dialog.");
+		UI.settings();
+	} else {
+		console.warn("[SidebarUI] SugarCube.UI.settings() not available.");
+	}
+});
+
+
+
+
 
 
 
