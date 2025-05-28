@@ -134,7 +134,7 @@
     <<set $DiceRatsCalled = true>>
     [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
   <</if>>
-  [[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+  [[Look around the tavern.|Scene03_TheSpace]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>
@@ -160,7 +160,7 @@
     [[You hear a commotion from the direction of the dice player's table.|DiceRat_CallEvent]]
   <</if>>
 
-  [[Look around the tavern.|ThreeSipsDragon_TheSpace]]
+  [[Look around the tavern.|Scene03_TheSpace]]
 <</append>>
 <<run setup.clearConvoChoices()>>
 <</widget>>

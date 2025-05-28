@@ -1,0 +1,28 @@
+:: PostCAndCLose
+<<bg "crownandcaste-table">>
+
+Sarjan leans back with both arms wide, the clatter of the final dice still echoing as he rakes the pot toward himself with smug, meaty fingers.
+
+<<speech "sarjan">>Better luck next time, sweetheart. If you’re lucky, I’ll even let you polish the pot before I win it again.<</speech>>
+
+The two dice rats hoot like they’ve just witnessed divine comedy. One of them nearly chokes on his drink.
+
+You exhale slowly. You lost, sure — but not by much. And you’ll be damned if Sarjan gets to strut away without at least one bruise to his pride.
+
+<<speech "jaylie">>You know, Sarjan… it’s impressive, really. Takes a special kind of man to win a game of chance and still sound like he’s compensating.<</speech>>
+
+The laughter cuts off like a blade through string.
+
+Sarjan blinks.
+
+<<speech "sarjan">>The fuck you just say to me?<</speech>>
+
+<<speech "jaylie">>Oh, I’m sorry — did I use too many syllables? I meant: you’ve got the dice, but not the stones.<</speech>>
+
+A sharp silence snaps through the table. Even the air feels tense, like the tavern itself is holding its breath.
+
+Sarjan’s jaw tightens. His face goes crimson, mouth twisted in an ugly, wet sneer.
+
+<<speech "sarjan">>That’s it, you little brat—<em>I’ll show you stones!</em><</speech>>
+
+[[He lunges across the table!|TavernFightScene]]

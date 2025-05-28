@@ -1,0 +1,30 @@
+:: PostCAndCWinFightSetup
+<<bg "crownandcaste-table">>
+
+The final die clatters to a stop. A perfect lineup. Your hand barely touches the table before Sarjan slams his fist down, scattering chips and curses alike.
+
+<<speech "jaylie">>Huh. Would you look at that.<</speech>>
+
+You stretch lazily, letting the silence thicken. Then you grin — all teeth and satisfaction — and rake the pot toward your side of the table.
+
+<<speech "jaylie">>Some beginner's luck, huh?.<</speech>>
+
+The dice rats fall silent. One of them lets out a stifled snort that he tries to smother in his drink. The other looks like he just bit his own tongue.
+
+Sarjan’s face twists. His nostrils flare, his knuckles whiten, and for a heartbeat it looks like he’s chewing on nails instead of words.
+
+<<speech "sarjan">>You little—<em>slitch</em>.<</speech>>
+
+He stands so fast his chair topples backwards, hitting the tavern floor with a dull crack.
+
+<<speech "sarjan">>You think you're clever, is that it?!<</speech>>
+
+The air shifts. The nearby chatter dies off. The dice rats scoot back from the table, suddenly very interested in the far corners of the room.
+
+<<speech "jaylie">>What's the matter? Can't take a little loss without flipping the table?<</speech>>
+
+Sarjan’s hand twitches toward his belt — not quite drawing anything, but close enough to set your pulse humming.
+
+<<speech "sarjan">>I’ll show you what losing feels like.<</speech>>
+
+[[He charges you!|TavernFightScene]]

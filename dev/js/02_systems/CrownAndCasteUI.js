@@ -87,12 +87,36 @@ setup.CrownAndCasteUI = {
       });
     }
 
-    // End Game button handler
     const endGameBtn = document.getElementById("end-game-btn");
     if (endGameBtn) {
       endGameBtn.addEventListener("click", () => {
+        try {
+          closeOverlay();
+        } catch (e) {
+          console.warn("closeOverlay() not available:", e);
+        }
+
+        const session = State.temporary;
+        const game = session.ccSession;
+
+        const player = game?.players?.find(p => p.isPlayer);
+        const playerWon = player && player.gold > 0;
+        const exitPassage = playerWon ? session.ccWinPassage : session.ccLosePassage;
+
+        // 💰 Distribute winnings if the player won
+        if (playerWon && typeof State.variables.inventory_player?.gold_coin === "number") {
+          State.variables.inventory_player.gold_coin += game.pot;
+          console.log(`[CrownAndCaste] Player awarded ${game.pot}g from the pot.`);
+        }
+
         setup.CrownAndCasteUI.cleanupTable();
-        Engine.play("ReturnToFair"); // <- Or whatever passage you use
+
+        if (exitPassage) {
+          Engine.play(exitPassage);
+        } else {
+          console.warn("[CrownAndCaste] No valid exit passage found, falling back to default.");
+          Engine.play("ReturnToFair");
+        }
       });
     }
   },
@@ -313,7 +337,9 @@ setup.CrownAndCasteUI = {
 
       die.classList.remove('can-roll', 'can-lock', 'chip-target');
 
-      // Skip if not player's turn or during betting
+      // 🛡 Fix: Guard against undefined players
+      if (!player) return;
+
       if (isBettingPhase || !isPlayerTurn) return;
 
       if (this.chipMode) {
@@ -328,6 +354,7 @@ setup.CrownAndCasteUI = {
         }
       }
     });
+
 
     // Show betting panel only during betting phase and player's turn
     const bettingPanel = document.getElementById('betting-panel');

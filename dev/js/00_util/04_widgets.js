@@ -38,38 +38,37 @@ Macro.add("SidebarUI", {
 			return;
 		}
 
+		// ✅ Fix: Declare nav state flags
+		const canBack = Engine.history?.canUndo?.() ?? false;
+		const canForward = Engine.history?.canRedo?.() ?? false;
+
+
 		sidebar.innerHTML = `
-			<!-- Top Nav and Collapse -->
-			<div id="sidebar-topbar">
-				<div id="sidebar-nav">
-					<button id="sidebar-nav-back" class="sidebar-nav-btn" onclick="setup.navBack()">
-						<i data-lucide="undo-2"></i>
-					</button>
-					<button id="sidebar-nav-forward" class="sidebar-nav-btn" onclick="setup.navForward()">
-						<i data-lucide="redo-2"></i>
-					</button>
-				</div>
-				<button id="sidebar-toggle" type="button" class="sidebar-btn">
-					<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+		<!-- Top Nav and Collapse -->
+		<div id="sidebar-topbar">
+			<div id="sidebar-nav">
+				<button id="sidebar-nav-back" class="sidebar-nav-btn" onclick="setup.SidebarUI.navBack()">
+					<i data-lucide="undo-2"></i>
+				</button>
+				<button id="sidebar-nav-forward" class="sidebar-nav-btn" onclick="setup.SidebarUI.navForward()">
+					<i data-lucide="redo-2"></i>
 				</button>
 			</div>
+			<button id="sidebar-toggle" type="button" class="sidebar-btn">
+				<i id="sidebar-arrow" data-lucide="arrow-left"></i>
+			</button>
+		</div>
+
 
 			<!-- Collapsed Summary -->
 			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
-				<!-- Time & Date -->
 				<span id="summary-time">--:--</span>
 				<span id="summary-date">Loading Date...</span>
-
-				<!-- Weather + Location -->
 				<div id="summary-location-weather" style="display: flex; flex-direction: column; align-items: center;">
 					<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
 					<span id="summary-location">Unknown</span>
 				</div>
-
-				<!-- Gold -->
 				<span id="summary-gold">0</span>
-
-				<!-- Status Icons with Fill Effect -->
 				<div id="summary-status-icons">
 					<div class="summary-icon-wrap" id="summary-health-wrap">
 						<div class="summary-fill" id="summary-health-fill"></div>
@@ -88,23 +87,17 @@ Macro.add("SidebarUI", {
 						<i id="summary-excitement" data-lucide="flame"></i>
 					</div>
 				</div>
-
-				<!-- Level + XP Mini -->
 				<div id="summary-level-exp" style="display: flex; flex-direction: column; align-items: center;">
 					<span id="summary-level">Lvl 1</span>
 					<div class="exp-bar-mini">
 						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
 					</div>
 				</div>
-
-				<!-- Conditions (e.g., poisoned, etc.) -->
 				<div id="summary-conditions"></div>
 			</div>
 
-
 			<!-- Main Scrollable Content -->
 			<div id="sidebar-content">
-				<!-- Top Info -->
 				<div id="sidebar-top-info">
 					<div id="sidebar-datetime">
 						<span id="sidebar-time">--:--</span>
@@ -119,7 +112,6 @@ Macro.add("SidebarUI", {
 					</div>
 				</div>
 
-				<!-- Status Trackers -->
 				<div id="sidebar-status-tracker">
 					<div class="status-bar" id="health-bar">
 						<i data-lucide="heart"></i>
@@ -155,9 +147,7 @@ Macro.add("SidebarUI", {
 					</div>
 					<div id="conditional-status-bars"></div>
 				</div>
-				
 
-				<!-- Carry Weight -->
 				<div id="sidebar-carryweight" style="display:none;">
 					<i data-lucide="package"></i> <span id="carryweight-text">Carryweight: 0/100</span>
 					<div class="status-bar-carry">
@@ -165,7 +155,6 @@ Macro.add("SidebarUI", {
 					</div>
 				</div>
 
-				<!-- Level and Experience -->
 				<div id="sidebar-level-exp">
 					<span id="sidebar-level">Lvl 1</span>
 					<div class="exp-bar">
@@ -174,7 +163,6 @@ Macro.add("SidebarUI", {
 					<span id="exp-text">0/100 XP</span>
 				</div>
 
-				<!-- Buttons -->
 				<div id="custom-sidebar-buttons">
 					<div class="button-single">
 						<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
@@ -203,7 +191,9 @@ Macro.add("SidebarUI", {
 						</button>
 					</div>
 					<div class="button-pair">
-						<button id="btn-saves" class="sidebar-btn"><i data-lucide="save"></i> Saves</button>
+						<button id="btn-saves" class="sidebar-btn">
+							<i data-lucide="save"></i> Saves
+						</button>
 						<button class="sidebar-btn" onclick="UI.options()">
 							<i data-lucide="settings"></i> Options
 						</button>
@@ -238,6 +228,7 @@ Macro.add("SidebarUI", {
 		}
 	}
 });
+
 
 
 
@@ -508,14 +499,19 @@ Macro.add("CrownAndCaste", {
 	  const sessionPlayers = ["jaylie"];
   
 	  npcIds.forEach(id => {
-		if (id === "ghost") {
-		  sessionPlayers.push("ghost");
-		} else if (characters?.[id]) {
-		  sessionPlayers.push(id);
+		const cleanId = id.trim();
+
+		if (characters?.[cleanId]) {
+			// Matches a real character in the characters object
+			sessionPlayers.push(cleanId);
+		} else if (cleanId.toLowerCase() === "ghost") {
+			sessionPlayers.push("ghost");
 		} else {
-		  console.warn(`[CrownAndCaste] Invalid NPC ID: ${id}`);
+			// Allow literal name as a fallback
+			sessionPlayers.push({ name: cleanId });
 		}
-	  });
+		});
+
   
 	  if (sessionPlayers.length < 2) {
 		return this.error("Crown & Caste requires at least 2 players (including you).");
@@ -580,7 +576,7 @@ Macro.add("CrownAndCaste", {
 			State.temporary.ccLosePassage = losePassage;
 			State.temporary.ccPlayerFavor = playerFavor ?? null;
   
-			setup.CrownAndCaste.initSession(sessionPlayers, stakes, houseRules, playerFavor);
+			setup.CrownAndCaste.initSession(sessionPlayers, stakes, houseRules, playerFavor, buyIn);
 			setup.CrownAndCaste.startGame();
 			setup.CrownAndCasteUI.renderMinigame();
   

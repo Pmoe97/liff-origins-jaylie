@@ -857,6 +857,98 @@ setup.initializeCharacters = function () {
 			}
 		},
 
+		sarjan: {
+			name: "Sarjan",
+			defaultName: "Dice Rat Leader",
+			known: false,
+			avatar: "images/portrait_sarjan.png", // Placeholder path
+			color: "white",
+			bgColor: "rgba(80, 40, 20, 0.85)",
+
+			trust: -1,
+			affection: 0,
+			rapport: 0.3,
+			tension: 0.6,
+
+			traits: ["Crass", "Mocking", "Dominant"],
+			inclinations: ["gambling", "taunting", "misogyny"],
+			motivations: ["Control", "Entertainment"],
+			socialStyle: "Brash",
+
+			pronouns: {
+				subject: "he",
+				object: "him",
+				possessive: "his",
+				reflexive: "himself",
+				noun: "man"
+			},
+
+			body: {
+				height: 69, // 5'9"
+				breastSize: null,
+				buttSize: 2, // "modest"
+				bodyType: 3, // "average"
+				lipFullness: 1, // "narrow"
+				skinTone: "sallow tan",
+				muscleTone: 3, // "defined"
+				hipWidth: 2, // "modest"
+				bodyHair: 2, // "natural"
+				voiceTone: "grating",
+				hairColor: "dirty blonde",
+				hairStyle: "greased back",
+				hairLength: 2, // "short"
+				eyeColor: "murky green",
+				penisSize: 5.5
+			},
+
+			preferences: {
+				sexualActs: {
+					likes: ["Dominate", "Oral_R", "FaceSit", "Degrade_G"],
+					dislikes: ["Submit", "Praise_G", "RomanticPlay"]
+				},
+				bodyTypes: {
+					likes: ["Petite", "Curvy", "Busty"],
+					dislikes: ["Muscular", "Androgynous"]
+				},
+				partners: {
+					genderPreference: {
+						male: 0.0,
+						female: 1.0
+					},
+					anatomyPreference: {
+						breastSize: "large",
+						penisSize: null
+					}
+				}
+			},
+
+			status: {
+				excitement: 0,
+				maxExcitement: 100,
+				fatigue: 0,
+				maxFatigue: 100
+			}
+		},
+
+
+		/* Minor characters */
+		diceratone: {
+			name: "Dice Rat 1",
+			defaultName: "Skinny Dice-Rat",
+			known: false,
+			avatar: "images/portrait_diceratone.png", // Placeholder path
+			color: "white",
+			bgColor: "rgba(182, 89, 2, 0.85)",
+		},
+		dicerattwo: {
+			name: "Dice Rat 2",
+			defaultName: "Fat Dice-Rat",
+			known: false,
+			avatar: "images/portrait_dicerattwo.png", // Placeholder path
+			color: "white",
+			bgColor: "rgba(182, 89, 2, 0.85)",
+		},
+
 	};
 };
   

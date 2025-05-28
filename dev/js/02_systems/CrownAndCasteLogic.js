@@ -3,73 +3,86 @@ setup.CrownAndCaste = {
   // 1. Core Initialization
   // ==========================
 
-  initSession(playerIds, stakes = "standard", houseRules = []) {
-    const maxPlayers = 4;
-    const finalIds = playerIds.slice(0, maxPlayers);
-  
-    const generatedPlayers = finalIds.map((id, index) => {
-      const basePlayer = {
-        gold: 15,
-        chips: 3,
-        casteDice: [null, null, null],
-        locks: [false, false, false],
-        combo: null,
-        scoreRank: null,
-        isEliminated: false,
-        bet: 0,
-      };
-  
-      if (id === "ghost") {
-        return {
-          ...basePlayer,
-          name: `Ghost ${index + 1}`,
-          isGhost: true,
-          isPlayer: false,
-        };
-      }
-  
-      if (index === 0) {
-        return {
-          ...basePlayer,
-          name: id,
-          isPlayer: true,
-          isGhost: false,
-        };
-      }
-  
-      const npc = State.variables.characters?.[id];
+initSession(playerIds, stakes = "standard", houseRules = [], playerFavor = 1.0, buyIn = 15) {
+  const maxPlayers = 4;
+  const finalIds = playerIds.slice(0, maxPlayers);
+
+  const generatedPlayers = finalIds.map((id, index) => {
+    const basePlayer = {
+      gold: buyIn,
+      chips: 3,
+      casteDice: [null, null, null],
+      locks: [false, false, false],
+      combo: null,
+      scoreRank: null,
+      isEliminated: false,
+      bet: 0,
+    };
+
+    // 🧍 Player (always first)
+    if (index === 0) {
       return {
         ...basePlayer,
-        name: npc?.name || `Unknown (${id})`,
+        name: typeof id === "string" ? id : "You",
+        isPlayer: true,
         isGhost: false,
-        isPlayer: false,
-        npcId: id,
       };
-    });
-  
-    State.temporary.ccSession = {
-      players: generatedPlayers,
-      dealerIndex: Math.floor(Math.random() * generatedPlayers.length),
-      currentRound: 1,
-      currentPlayerIndex: 0,
-      crownDice: [null, null, null],
-      crownLocks: [false, false, false],
-      crownProtected: false,
-      gameNumber: 1,
-      totalGamesInSession: 0,
-      pot: 0,
-      turnPhase: "betting",
-      gamesSinceChipRefresh: 0,
-      gameComplete: false,
-      stakes: stakes,
-      chipCost: setup.CrownAndCaste.getChipCost(stakes),
-      houseRules: houseRules,
-      playerFavor: State.temporary.ccPlayerFavor ?? 1.0  // 👈 Inject favor here
+    }
+
+    // 👻 Generic Ghost
+    if (id === "ghost") {
+      return {
+        ...basePlayer,
+        name: `Ghost ${index}`,
+        isPlayer: false,
+        isGhost: true,
+      };
+    }
+
+    // 📝 Custom literal name object (e.g., { name: "Stranger" })
+    if (typeof id === "object" && id.name) {
+      return {
+        ...basePlayer,
+        name: id.name,
+        isPlayer: false,
+        isGhost: false,
+        npcId: `custom-${index}`,
+      };
+    }
+
+    // 🧠 Standard character from character list
+    const npc = State.variables.characters?.[id];
+    return {
+      ...basePlayer,
+      name: npc?.name || `Unknown (${id})`,
+      isPlayer: false,
+      isGhost: false,
+      npcId: id,
     };
-  
-    console.log("[CrownAndCaste] Session initialized:", State.temporary.ccSession);
-  },
-  
+  });
+
+  State.temporary.ccSession = {
+    players: generatedPlayers,
+    dealerIndex: Math.floor(Math.random() * generatedPlayers.length),
+    currentRound: 1,
+    currentPlayerIndex: 0,
+    crownDice: [null, null, null],
+    crownLocks: [false, false, false],
+    crownProtected: false,
+    gameNumber: 1,
+    totalGamesInSession: 0,
+    pot: 0,
+    turnPhase: "betting",
+    gamesSinceChipRefresh: 0,
+    gameComplete: false,
+    stakes: stakes,
+    chipCost: setup.CrownAndCaste.getChipCost(stakes),
+    houseRules: houseRules,
+    playerFavor: playerFavor
+  };
+
+  console.log(`[CrownAndCaste] Session initialized with ${generatedPlayers.length} players (Buy-In: ${buyIn}g)`);
+},  
   
   hasHouseRule(ruleName) {
     const session = State.temporary.ccSession;
@@ -94,64 +107,67 @@ setup.CrownAndCaste = {
     }
   },
   
-  startGame() {
-    const session = State.temporary.ccSession;
+startGame() {
+  const session = State.temporary.ccSession;
 
-    if (!session || !session.players) {
-      console.error("[CrownAndCaste] No session found. Call initSession first.");
-      return;
+  if (!session || !session.players) {
+    console.error("[CrownAndCaste] No session found. Call initSession first.");
+    return;
+  }
+
+  session.currentRound = 1;
+  session.currentPlayerIndex = 0;
+  session.pot = 0;
+  session.turnPhase = "rolling";
+  session.crownDice = [null, null, null];
+  session.crownLocks = [false, false, false];
+  session.crownProtected = false;
+  session.turnsTakenThisRound = 0;
+  session.gameComplete = false;
+
+  // 🎯 Determine active (non-eliminated) players
+  const activePlayers = session.players.filter(p => !p.isEliminated);
+  let standardBet = this.getStandardBet(session.stakes);
+
+  // 💰 Double bet if only 2 players remain
+  if (activePlayers.length === 2) {
+    standardBet *= 2;
+    console.log(`[CrownAndCaste] Only 2 players remain — doubling base bet to ${standardBet}g.`);
+  }
+
+  for (const player of session.players) {
+    player.casteDice = [null, null, null];
+    player.locks = [false, false, false];
+    player.combo = null;
+    player.scoreRank = null;
+    player.usedChipThisTurn = false;
+
+    // 💰 Deduct standard bet or go all-in
+    const betAmount = Math.min(player.gold, standardBet);
+    player.bet = betAmount;
+    player.gold -= betAmount;
+    session.pot += betAmount;
+
+    console.log(`[CrownAndCaste] ${player.name} bet ${betAmount}g. Remaining gold: ${player.gold}`);
+  }
+
+  // 🎲 Roll Crown Die 1 to start
+  this.rollCrownDie(0);
+
+  // 🕹 First active (non-eliminated) player goes first
+  for (let i = 0; i < session.players.length; i++) {
+    const p = session.players[i];
+    if (!p.isEliminated) {
+      session.currentPlayerIndex = i;
+      this.rollCasteDice(i);
+      if (!p.isPlayer) this.processNPCTurn(i);
+      break;
     }
+  }
 
-    session.currentRound = 1;
-    session.currentPlayerIndex = 0;
-    session.pot = 0;
-    session.turnPhase = "rolling";
-    session.crownDice = [null, null, null];
-    session.crownLocks = [false, false, false];
-    session.crownProtected = false;
-    session.turnsTakenThisRound = 0;
-    session.gameComplete = false;
+  console.log(`[CrownAndCaste] Game ${session.gameNumber} started. Standard bet applied: ${standardBet}g`);
+},
 
-    const standardBet = this.getStandardBet(session.stakes);
-
-    for (const player of session.players) {
-      player.casteDice = [null, null, null];
-      player.locks = [false, false, false];
-      player.combo = null;
-      player.scoreRank = null;
-      player.usedChipThisTurn = false;
-
-      // 💰 Deduct standard bet or go all-in
-      const betAmount = Math.min(player.gold, standardBet);
-      player.bet = betAmount;
-      player.gold -= betAmount;
-      session.pot += betAmount;
-
-      // ❌ DO NOT eliminate here — wait until game resolution
-      console.log(`[CrownAndCaste] ${player.name} bet ${betAmount}g. Remaining gold: ${player.gold}`);
-
-
-      console.log(`[CrownAndCaste] ${player.name} bet ${betAmount}g. Remaining gold: ${player.gold}`);
-    }
-
-    // Roll Crown Die 1
-    this.rollCrownDie(0);
-
-    // First valid player takes the first turn
-    for (let i = 0; i < session.players.length; i++) {
-      const p = session.players[i];
-      if (!p.isEliminated) {
-        session.currentPlayerIndex = i;
-        this.rollCasteDice(i);
-        if (!p.isPlayer) this.processNPCTurn(i);
-
-
-        break;
-      }
-    }
-
-    console.log(`[CrownAndCaste] Game ${session.gameNumber} started. Standard bet applied: ${standardBet}g`);
-  },
 
 
   startNextGame() {
