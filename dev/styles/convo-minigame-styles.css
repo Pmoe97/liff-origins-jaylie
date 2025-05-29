@@ -494,6 +494,11 @@
   background: #666;
 }
 
+body.tutorial-active {
+  overflow: hidden;
+}
+
+
 /* KEEP THIS AT THE END */
 /* ======================================================
    Responsive Scaling (MOBILE FRIENDLY)
