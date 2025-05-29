@@ -425,9 +425,30 @@ setup.addChoices = function (list) {
 Macro.add("OpenConvoGame", {
 	handler() {
 		const npcId = this.args[0];
+		
+		// Debug logging
+		console.log("[OpenConvoGame] Called with npcId:", npcId);
+		console.log("[OpenConvoGame] State.variables.characters exists:", !!State.variables.characters);
+		console.log("[OpenConvoGame] Available character IDs:", State.variables.characters ? Object.keys(State.variables.characters) : "none");
+		
+		// Check if characters need to be initialized
+		if (!State.variables.characters) {
+			console.warn("[OpenConvoGame] Characters not initialized, attempting to initialize...");
+			if (typeof setup.initializeCharacters === 'function') {
+				State.variables.characters = setup.initializeCharacters();
+				console.log("[OpenConvoGame] Characters initialized successfully");
+			} else {
+				console.error("[OpenConvoGame] setup.initializeCharacters function not found!");
+				return this.error("Character system not properly initialized.");
+			}
+		}
+		
 		const char = State.variables.characters?.[npcId];
-
+		console.log("[OpenConvoGame] Character found:", !!char);
+		
 		if (!npcId || !char) {
+			console.error("[OpenConvoGame] Failed to find character:", npcId);
+			console.error("[OpenConvoGame] Available characters:", Object.keys(State.variables.characters || {}));
 			return this.error("OpenConvoGame requires a valid NPC ID.");
 		}
 

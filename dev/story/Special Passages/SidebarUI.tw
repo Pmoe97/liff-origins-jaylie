@@ -50,6 +50,11 @@
 		</div>
 	</div>
 	<div id="summary-conditions"></div>
+	<div id="summary-bug-report">
+		<button class="sidebar-icon-only" onclick="openOverlay('bug-report-page')" title="Report Bug">
+		<i data-lucide="bug-play"></i>
+		</button>
+	</div>
 </div>
 
 <!-- Main Scrollable Content -->
@@ -153,8 +158,21 @@
 			<button class="sidebar-btn" id="sidebar-options">
                 <i data-lucide="settings"></i> Options
             </button>
+		</div>	
+	</div>
+	<div id="sidebar-support-links">
+		<a href="https://pmoe-97.itch.io/liff-origins-jaylie" target="_blank" title="Visit on Itch.io">
+			<img src="images/itch-icon.png" alt="Itch.io" class="sidebar-support-icon">
+		</a>
+		<a href="https://patreon.com/Pmoe" target="_blank" title="Support on Patreon">
+			<img src="images/patreon-icon.png" alt="Patreon" class="sidebar-support-icon">
+		</a>
+	</div>
 
-		</div>
+	<div id="bug-report-button">
+		<button class="sidebar-btn" onclick="openOverlay('bug-report-page')">
+			<i data-lucide="bug-play"></i> Report Bug
+		</button>
 	</div>
 </div>
 

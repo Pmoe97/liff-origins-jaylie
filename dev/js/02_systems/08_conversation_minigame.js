@@ -2,9 +2,29 @@
 
 setup.ConvoGame = {
   start(npcId) {
+    // Debug logging
+    console.log("[ConvoGame] start() called with npcId:", npcId);
+    console.log("[ConvoGame] State.variables.characters exists:", !!State.variables.characters);
+    console.log("[ConvoGame] Available character IDs:", State.variables.characters ? Object.keys(State.variables.characters) : "none");
+    
+    // Check if characters need to be initialized
+    if (!State.variables.characters) {
+      console.warn("[ConvoGame] Characters not initialized, attempting to initialize...");
+      if (typeof setup.initializeCharacters === 'function') {
+        State.variables.characters = setup.initializeCharacters();
+        console.log("[ConvoGame] Characters initialized successfully");
+      } else {
+        console.error("[ConvoGame] setup.initializeCharacters function not found!");
+        return;
+      }
+    }
+    
     const npc = State.variables.characters[npcId];
+    console.log("[ConvoGame] Character found:", !!npc);
+    
     if (!npc) {
       console.error(`[ConvoGame] Invalid NPC ID: ${npcId}`);
+      console.error("[ConvoGame] Available characters:", Object.keys(State.variables.characters || {}));
       return;
     }
   
@@ -44,25 +64,87 @@ setup.ConvoGame = {
   render() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    if (!npc) return;
+    
+    console.log("[ConvoGame] render() called");
+    console.log("[ConvoGame] convo.npcId:", convo.npcId);
+    console.log("[ConvoGame] npc object:", npc);
+    console.log("[ConvoGame] npc.name:", npc?.name);
+    console.log("[ConvoGame] npc.avatar:", npc?.avatar);
+    
+    if (!npc) {
+      console.error("[ConvoGame] No NPC found in render()");
+      return;
+    }
   
     // Increase difficulty with each checkpoint (every 5 turns)
     convo.promptMod = Math.floor((convo.turn - 1) / 5);
   
     const prompt = setup.getConvoPrompt(npc);
     convo.currentPrompt = prompt;
+    
+    console.log("[ConvoGame] Generated prompt:", prompt);
   
-    document.getElementById("convo-npc-name").textContent = npc.name ?? "???";
-    document.getElementById("convo-npc-prompt").textContent = prompt.text ?? "…";
-  
-    document.getElementById("gain-trust").textContent = convo.trustGained;
-    document.getElementById("gain-affection").textContent = convo.affectionGained;
-    document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
-    document.getElementById("convo-tension").textContent = convo.tension;
-    document.getElementById("convo-max-tension").textContent = convo.maxTension;
-  
-    document.getElementById("convo-avatar").src = npc.avatar || "images/portrait_default.png";
-  
+    const nameEl = document.getElementById("convo-npc-name");
+    console.log("[ConvoGame] nameEl found:", !!nameEl);
+    console.log("[ConvoGame] nameEl current content:", nameEl?.textContent);
+    console.log("[ConvoGame] nameEl element:", nameEl);
+    console.log("[ConvoGame] nameEl parent:", nameEl?.parentElement);
+    console.log("[ConvoGame] nameEl visibility:", nameEl ? window.getComputedStyle(nameEl).display : "N/A");
+    
+    // Check if there are multiple elements with this ID
+    const allNameEls = document.querySelectorAll("#convo-npc-name");
+    console.log("[ConvoGame] Total elements with ID 'convo-npc-name':", allNameEls.length);
+    allNameEls.forEach((el, index) => {
+      console.log(`[ConvoGame] Element ${index}:`, el, "Content:", el.textContent, "Visible:", window.getComputedStyle(el).display !== 'none');
+    });
+    
+    if (nameEl) {
+      console.log("[ConvoGame] Setting name to:", npc.name ?? "???");
+      nameEl.textContent = npc.name ?? "???";
+      console.log("[ConvoGame] nameEl content after setting:", nameEl.textContent);
+      
+      // Check again after a delay to see if something overwrites it
+      setTimeout(() => {
+        console.log("[ConvoGame] nameEl content after 100ms:", nameEl.textContent);
+      }, 100);
+    }
+
+    const promptEl = document.getElementById("convo-npc-prompt");
+    console.log("[ConvoGame] promptEl found:", !!promptEl);
+    console.log("[ConvoGame] promptEl current content:", promptEl?.textContent);
+    if (promptEl) {
+      console.log("[ConvoGame] Setting prompt to:", prompt.text ?? "…");
+      promptEl.textContent = prompt.text ?? "…";
+      console.log("[ConvoGame] promptEl content after setting:", promptEl.textContent);
+      
+      // Check again after a delay to see if something overwrites it
+      setTimeout(() => {
+        console.log("[ConvoGame] promptEl content after 100ms:", promptEl.textContent);
+      }, 100);
+    }
+
+    const trustEl = document.getElementById("gain-trust");
+    if (trustEl) trustEl.textContent = convo.trustGained;
+
+    const affectionEl = document.getElementById("gain-affection");
+    if (affectionEl) affectionEl.textContent = convo.affectionGained;
+
+    const rapportEl = document.getElementById("convo-rapport");
+    if (rapportEl) rapportEl.textContent = convo.rapport.toFixed(1);
+
+    const tensionEl = document.getElementById("convo-tension");
+    if (tensionEl) tensionEl.textContent = convo.tension;
+
+    const maxTensionEl = document.getElementById("convo-max-tension");
+    if (maxTensionEl) maxTensionEl.textContent = convo.maxTension;
+
+    const avatarEl = document.getElementById("convo-avatar");
+    console.log("[ConvoGame] avatarEl found:", !!avatarEl);
+    if (avatarEl) {
+      console.log("[ConvoGame] Setting avatar to:", npc.avatar || "images/portrait_default.png");
+      avatarEl.src = npc.avatar || "images/portrait_default.png";
+    }
+
     this.injectChoices();
   },
   

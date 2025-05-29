@@ -308,7 +308,70 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     transition: background-image 0.4s ease-in-out;
   }
   
-/* twine-user-stylesheet #4: "convo-minigame-styles.css" */
+/* twine-user-stylesheet #4: "bug-report-styles.css" */
+#bug-report-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bug-report-overlay .overlay-window {
+  background: #1e1e1e;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  color: #eee;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+#bug-report-overlay label {
+  display: block;
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+#bug-report-overlay input,
+#bug-report-overlay textarea {
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 0.4em;
+  border-radius: 6px;
+  border: none;
+  background: #2c2c2c;
+  color: #fff;
+  resize: vertical;
+}
+
+#bug-report-overlay .overlay-submit-btn {
+  margin-top: 1.5em;
+  padding: 0.75em 1.25em;
+  border: none;
+  border-radius: 6px;
+  background-color: #3a8edb;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.overlay-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+/* twine-user-stylesheet #5: "convo-minigame-styles.css" */
 /* ======================================================
    Conversation Minigame Overlay Styles (Updated Layout)
 ========================================================= */
@@ -483,6 +546,10 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   justify-content: center;
   gap: 0.5em;
   padding: 1em;
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 0.5em;
 }
 
 @keyframes slideFadeIn {
@@ -810,7 +877,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   .convo-window {
     flex-direction: column;
     height: auto;
-    max-height: 95vh;
+    max-height: none;
   }
 
   .convo-left-bar, .convo-right {
@@ -824,7 +891,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     padding: 0.5em;
   }
 }
-/* twine-user-stylesheet #5: "crown-and-caste-styles.css" */
+/* twine-user-stylesheet #6: "crown-and-caste-styles.css" */
 /* ========================================
    ORIENTATION WARNING OVERLAY
 ======================================== */
@@ -1830,10 +1897,52 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-/* twine-user-stylesheet #6: "dialoguestyles.css" */
+/* twine-user-stylesheet #7: "dialoguestyles.css" */
 /* =============================
 =      Conversation Styles     =
 ============================= */
+
+#text-backdrop.in-dialogue {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#convoLayoutContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 1em;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#convoChoicesPanel {
+  flex: 0 0 30%;
+  max-width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+#convoBoxPanel {
+  flex: 1;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
 
 #convoBox {
   padding: 1em;
@@ -1845,9 +1954,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   font-size: 1rem;
   flex-grow: 1;
   overflow-y: auto;
-  scroll-padding-bottom: 2em;
   overflow-x: hidden;
-  max-width: 80%;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  scroll-padding-bottom: 2em;
 }
 
 #convoChoices {
@@ -1871,41 +1982,8 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 }
 
 /* =============================
-=      Conversation Layout     =
+=     Dialogue Choice Style    =
 ============================= */
-
-/* Let layout container fill full height of visible space */
-#convoLayoutContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  width: 80vw;
-  height: 85vh; /* Fills full screen height */
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-#convoChoicesPanel {
-  flex: 0.75;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 100%;
-  overflow: hidden;
-  gap: 10px;
-}
-
-#convoBoxPanel {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden; /* 👈 Add this! */
-  padding-right: 10px;
-  gap: 10px;
-}
 
 .dialogue-choice {
   color: #9feaff;
@@ -1919,18 +1997,6 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 .dialogue-choice:hover {
   color: #ffffff;
   text-shadow: 1px 1px 3px #00c8ff;
-}
-
-#text-backdrop.in-dialogue #convoLayoutContainer {
-  display: flex;
-}
-
-#text-backdrop.in-dialogue #convoChoicesPanel {
-  width: 30%;
-}
-
-#text-backdrop.in-dialogue #convoBoxPanel {
-  width: 70%;
 }
 
 .dialogue-choice.locked {
@@ -2002,20 +2068,16 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 ============================= */
 
 body.mobile-device #convoBoxPanel {
-  padding-top: 0.5em;
-  padding-bottom: 0.75em;
-  padding-right: 0.5em;
+  padding: 0.5em;
 }
 
 body.mobile-device #convoChoicesPanel {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: 0.5em;
 }
 
 body.mobile-device #convoBox {
   font-size: 0.95rem;
   padding: 0.75em 1em;
-  margin: 0;
   min-height: 6em;
 }
 
@@ -2035,14 +2097,14 @@ body.portrait #convoLayoutContainer {
 
 body.landscape #convoLayoutContainer {
   gap: 20px;
-  height:100vh
+  height: 100vh;
 }
 
 body.reduced-motion * {
   transition: none !important;
   animation: none !important;
 }
-/* twine-user-stylesheet #7: "inventory.css" */
+/* twine-user-stylesheet #8: "inventory.css" */
 /* =============================
 =         Inventory UI         =
 ============================= */
@@ -2385,7 +2447,7 @@ body.reduced-motion * {
     }
   }
   
-/* twine-user-stylesheet #8: "layout.css" */
+/* twine-user-stylesheet #9: "layout.css" */
 /* =============================
 =     Custom Sidebar Layout    =
 ============================= */
@@ -2441,7 +2503,7 @@ body.reduced-motion * {
 	height: 20px;
 	stroke: white;
 }
-/* twine-user-stylesheet #9: "maintext.css" */
+/* twine-user-stylesheet #10: "maintext.css" */
 /* =============================
 =     Main Text Presentation   =
 ============================= */
@@ -2527,8 +2589,8 @@ body:not(.sidebar-collapsed) #text-container {
 #text-backdrop.in-dialogue {
   max-width: 1200px;
   min-height: 500px;
-  padding-bottom: 1%;
-  padding-top: 5%;
+  padding-bottom: 2%;
+  padding-top: 4%;
 }
 
 /* === Text Backdrop Scrollbar Styling === */
@@ -2579,7 +2641,7 @@ body:not(.sidebar-collapsed) #text-container {
 	cursor: pointer;
 	z-index: 10;
 }
-/* twine-user-stylesheet #10: "overlay.css" */
+/* twine-user-stylesheet #11: "overlay.css" */
 /* =============================
 =         Overlay Base         =
 ============================= */
@@ -2634,7 +2696,7 @@ body:not(.sidebar-collapsed) #text-container {
     display: none !important;
 }
 /* Overlay Base - End */
-/* twine-user-stylesheet #11: "paperdoll.css" */
+/* twine-user-stylesheet #12: "paperdoll.css" */
 /* =============================
 =       Paperdoll Layout       =
 ============================= */
@@ -2680,7 +2742,7 @@ body:not(.sidebar-collapsed) #text-container {
   .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
   .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
   
-/* twine-user-stylesheet #12: "sexscene-styles.css" */
+/* twine-user-stylesheet #13: "sexscene-styles.css" */
 /* ==============================
    🌶️ Sex Scene Layout
 ============================== */
@@ -2844,7 +2906,7 @@ button.active-sexact.ongoing::after {
 	flex: 1 1 auto;
 }
 
-/* twine-user-stylesheet #13: "shop-styles.css" */
+/* twine-user-stylesheet #14: "shop-styles.css" */
 /* =============================
    SHOP OVERLAY LAYOUT
 ============================= */
@@ -3004,7 +3066,7 @@ button.active-sexact.ongoing::after {
     background-color: #5d8f4b;
   }
   
-/* twine-user-stylesheet #14: "sidebar.css" */
+/* twine-user-stylesheet #15: "sidebar.css" */
 /* =============================
 =        Sidebar Main         
 ============================= */
@@ -3363,7 +3425,7 @@ button.active-sexact.ongoing::after {
 #summary-gold,
 #summary-level,
 #summary-date {
-	font-size: 0.7em;
+	font-size: 1em;
 	text-align: center;
 	word-break: break-word;
 	line-height: 1.3;
@@ -3556,7 +3618,78 @@ button.active-sexact.ongoing::after {
 	from { filter: drop-shadow(0 0 5px #f44336); }
 	to { filter: drop-shadow(0 0 15px #f44336); }
 }
-/* twine-user-stylesheet #15: "speech.css" */
+
+/* Collapsed Sidebar - Bug Report Icon */
+#summary-bug-report {
+  margin-top: auto; /* Pushes it to the bottom if using flex-column */
+  padding-bottom: 0.5rem;
+}
+
+#summary-bug-report .sidebar-icon-only {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#summary-bug-report .sidebar-icon-only:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Expanded Sidebar - Bug Report Button */
+#bug-report-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10; /* Make sure it's on top of most layers */
+}
+
+#bug-report-button .sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #3a3a3a;
+  color: #ddd;
+  padding: 1.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#bug-report-button .sidebar-btn:hover {
+  background-color: #505050;
+  transform: translateY(-2px);
+}
+
+#sidebar-support-links {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin: 12px 0 0;
+	padding-bottom: 12px;
+}
+
+.sidebar-support-icon {
+	width: 24px;
+	height: 24px;
+	opacity: 0.75;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-support-icon:hover {
+	opacity: 1;
+	transform: scale(1.1);
+}
+/* twine-user-stylesheet #16: "speech.css" */
 /* =============================
 =        Speech Bubbles        =
 ============================= */
@@ -3599,7 +3732,7 @@ button.active-sexact.ongoing::after {
     margin: 0;
     line-height: 1.5;
 }
-/* twine-user-stylesheet #16: "text-effects.css" */
+/* twine-user-stylesheet #17: "text-effects.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -3681,7 +3814,7 @@ button.active-sexact.ongoing::after {
 .montage-fade.fade-start {
 	opacity: 0;
 }
-/* twine-user-stylesheet #17: "themes.css" */
+/* twine-user-stylesheet #18: "themes.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -4370,9 +4503,30 @@ setup.addChoices = function (list) {
 Macro.add("OpenConvoGame", {
 	handler() {
 		const npcId = this.args[0];
+		
+		// Debug logging
+		console.log("[OpenConvoGame] Called with npcId:", npcId);
+		console.log("[OpenConvoGame] State.variables.characters exists:", !!State.variables.characters);
+		console.log("[OpenConvoGame] Available character IDs:", State.variables.characters ? Object.keys(State.variables.characters) : "none");
+		
+		// Check if characters need to be initialized
+		if (!State.variables.characters) {
+			console.warn("[OpenConvoGame] Characters not initialized, attempting to initialize...");
+			if (typeof setup.initializeCharacters === 'function') {
+				State.variables.characters = setup.initializeCharacters();
+				console.log("[OpenConvoGame] Characters initialized successfully");
+			} else {
+				console.error("[OpenConvoGame] setup.initializeCharacters function not found!");
+				return this.error("Character system not properly initialized.");
+			}
+		}
+		
 		const char = State.variables.characters?.[npcId];
-
+		console.log("[OpenConvoGame] Character found:", !!char);
+		
 		if (!npcId || !char) {
+			console.error("[OpenConvoGame] Failed to find character:", npcId);
+			console.error("[OpenConvoGame] Available characters:", Object.keys(State.variables.characters || {}));
 			return this.error("OpenConvoGame requires a valid NPC ID.");
 		}
 
@@ -4786,12 +4940,6 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
-	/* === Carry === */
-	carryWeight: {
-		current: 0,
-	},
-
-
 	// === Body Anatomy ===
 	body: {
 		height: 64, // inches
@@ -4822,7 +4970,7 @@ State.variables.player = {
 		maxFatigue: 100,
 		composure: 100,
 		maxComposure: 100,
-		excitement: 15,
+		excitement: 0,
 		maxExcitement: 100,
 		isCumming: false,
 
@@ -4848,9 +4996,15 @@ State.variables.player = {
 		current: 0,
 	},
 
+	startingInventory: {
+		gold_coin: 100,
+		dagger_silver: 1,
+	}
 };
+/* ==================== */
+/* - Starting Inventory - */
+/* ==================== */
 
-console.log("✅ PlayerData loaded successfully.");
 /* twine-user-script #8: "02_initVars.js" */
 State.variables.inventory_player = Object.assign(
 	{},
@@ -5840,10 +5994,14 @@ setup.initializeCharacters = function () {
 /* twine-user-script #12: "05_sidebarlogic.js" */
 setup.SidebarUI = {
 	update() {
+		const sidebar = document.getElementById("custom-sidebar");
+		const wasCollapsed = sidebar?.classList.contains("collapsed");
+
 		if (!State.variables.player || !State.variables.world) {
 			console.warn("SidebarUI: Player or World data missing.");
 			return;
 		}
+
 		this.updateStatuses();
 		this.updateCarryWeight();
 		this.updateLevelAndExp();
@@ -5852,6 +6010,22 @@ setup.SidebarUI = {
 		this.updateDate();
 		this.updateWeather();
 		this.updateSummaryIcons();
+
+		// Reapply collapsed state after rendering
+		if (wasCollapsed && sidebar) {
+			sidebar.classList.add("collapsed");
+			document.body.classList.add("sidebar-collapsed");
+
+			const summary = document.getElementById("sidebar-summary");
+			const content = document.getElementById("sidebar-content");
+			if (summary) summary.style.display = "flex";
+			if (content) content.style.display = "none";
+
+			const toggleButton = document.getElementById("sidebar-toggle");
+			if (toggleButton) {
+				toggleButton.style.position = "initial";
+			}
+		}
 	},
 
 	updateStatuses() {
@@ -5886,6 +6060,8 @@ setup.SidebarUI = {
 		const carryContainer = document.getElementById("sidebar-carryweight");
 		const carryFill = document.getElementById("carry-fill");
 		const carryText = document.getElementById("carryweight-text");
+
+		if (!weight || !carryContainer || !carryFill || !carryText) return;
 
 		const percent = (weight.current / weight.max) * 100;
 
@@ -5958,7 +6134,7 @@ setup.SidebarUI = {
 		const world = State.variables.world;
 		const icon = document.getElementById("sidebar-weather-icon");
 
-		if (!icon) return;
+		if (!icon || !world) return;
 
 		const weatherIcons = {
 			"Clear": "sun",
@@ -6022,6 +6198,7 @@ setup.SidebarUI = {
 		return inventory["gold_coin"] || 0;
 	},
 
+
 	updateGold() {
 		const gold = this.getGoldAmount();
 		const goldDisplay = document.getElementById("sidebar-gold-amount");
@@ -6048,34 +6225,27 @@ setup.SidebarUI = {
 		sidebar.classList.toggle("collapsed");
 		const isCollapsed = sidebar.classList.contains("collapsed");
 
-		// Set class on <body>
 		document.body.classList.toggle("sidebar-collapsed", isCollapsed);
 
-		// Flip arrow
 		if (arrow) {
 			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
 		}
 
-		// Fix toggle button position
 		if (toggleButton) {
 			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
 		}
 
-		// Show/hide summary vs full content
 		summary.style.display = isCollapsed ? "flex" : "none";
 		content.style.display = isCollapsed ? "none" : "block";
 
-		// Update all sidebar data (including summary icons)
 		this.update();
-
 		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
 	},
-
 
 	updateSidebar() {
 		const player = State.variables.player;
 		const world = State.variables.world;
-		const inventory = State.variables.inventory || [];
+		const inventory = State.variables.inventory_player || {};
 
 		if (!player || !world) {
 			console.warn("[SidebarUI] Player or WorldState missing — cannot update sidebar.");
@@ -6088,8 +6258,8 @@ setup.SidebarUI = {
 
 		this.updateWeatherIcon(world.weather);
 
-		const goldAmount = this.findGoldAmount(inventory);
-		this.updateText("sidebar-gold-amount", goldAmount);
+		const goldAmount = this.getGoldAmount();
+		this.updateText("sidebar-gold-amount", this.abbreviateGold(goldAmount));
 		this.updateText("summary-gold", this.abbreviateGold(goldAmount));
 
 		this.updateText("summary-level", `Lvl ${player.level}`);
@@ -6114,11 +6284,11 @@ setup.SidebarUI = {
 		if (!icon) return;
 
 		const weatherIcons = {
-			"Clear": "sun",
-			"Rain": "cloud-rain",
-			"Storm": "cloud-lightning",
-			"Snow": "cloud-snow",
-			"Fog": "cloud-fog"
+			Clear: "sun",
+			Rain: "cloud-rain",
+			Storm: "cloud-lightning",
+			Snow: "cloud-snow",
+			Fog: "cloud-fog"
 		};
 
 		const iconName = weatherIcons[weatherType] || "sun";
@@ -6129,25 +6299,16 @@ setup.SidebarUI = {
 		}
 	},
 
-	findGoldAmount(inventory) {
-		const goldItem = inventory.find(item => item.key === "gold_coin");
-		return goldItem ? goldItem.amount : 0;
-	},
-
 	abbreviateGold(amount) {
-		if (amount >= 1000000) return (amount / 1000000).toFixed(1) + "M";
-		if (amount >= 1000) return (amount / 1000).toFixed(1) + "K";
+		if (amount >= 1_000_000) return (amount / 1_000_000).toFixed(1) + "M";
+		if (amount >= 1_000) return (amount / 1_000).toFixed(1) + "K";
 		return amount.toString();
 	},
 
 	updateExpBars(player) {
 		const percent = Math.min((player.experience / player.experienceToNextLevel) * 100, 100);
-		const mainFill = document.getElementById("exp-fill");
-		const miniFill = document.getElementById("exp-fill-mini");
-
-		if (mainFill) mainFill.style.width = `${percent}%`;
-		if (miniFill) miniFill.style.width = `${percent}%`;
-
+		this.setFillWidth("exp-fill", percent);
+		this.setFillWidth("exp-fill-mini", percent);
 		this.updateText("exp-text", `${player.experience}/${player.experienceToNextLevel} XP`);
 	},
 
@@ -6173,13 +6334,9 @@ setup.SidebarUI = {
 		let color = "white";
 
 		if (inverse) {
-			if (ratio >= 0.75) color = "red";
-			else if (ratio >= 0.5) color = "orange";
-			else color = "green";
+			color = ratio >= 0.75 ? "red" : ratio >= 0.5 ? "orange" : "green";
 		} else {
-			if (ratio <= 0.25) color = "red";
-			else if (ratio <= 0.5) color = "orange";
-			else color = "green";
+			color = ratio <= 0.25 ? "red" : ratio <= 0.5 ? "orange" : "green";
 		}
 
 		icon.style.stroke = color;
@@ -6231,7 +6388,6 @@ setup.SidebarUI = {
 		const seasonIndex = Math.floor((dayOfYear - 1) / seasonLength);
 		const seasonDay = ((dayOfYear - 1) % seasonLength) + 1;
 		const season = seasons[seasonIndex] || "Unknown";
-
 		return `${seasonDay} of ${season}, ${year} AI`;
 	},
 
@@ -6283,6 +6439,24 @@ $(document).on("click", "#sidebar-options", () => {
 });
 
 
+/* Sidebar Updating with every click and passage change */
+// Update sidebar on every passage load
+$(document).on(":passagedisplay", () => {
+	if (typeof setup?.SidebarUI?.update === "function") {
+		setup.SidebarUI.update();
+	}
+});
+
+// Throttled update on every click (avoids spamming)
+let sidebarUpdateTimeout;
+document.addEventListener("click", () => {
+	clearTimeout(sidebarUpdateTimeout);
+	sidebarUpdateTimeout = setTimeout(() => {
+		if (typeof setup?.SidebarUI?.update === "function") {
+			setup.SidebarUI.update();
+		}
+	}, 50);
+});
 
 
 
@@ -6341,7 +6515,7 @@ if (typeof setup.ItemData === 'undefined') {
 =     Weapons - Daggers     =
 ============================= */
 setup.ItemData.dagger_silver = {
-  id: "longsword_silver",
+  id: "dagger_silver",
   name: "Silvered Dagger",
   type: "weapon",
   subtype: "dagger",
@@ -6888,9 +7062,10 @@ Macro.add("additem", {
 		}
 
 		/* === Sidebar update on run === */
-		if (setup.SidebarUI?.update) {
+		if (setup.SidebarUI?.update && document.getElementById("custom-sidebar")) {
 			setup.SidebarUI.update();
 		}
+
 	}
 });
 
@@ -7362,9 +7537,29 @@ setup.ShopSystem = {
 
 setup.ConvoGame = {
   start(npcId) {
+    // Debug logging
+    console.log("[ConvoGame] start() called with npcId:", npcId);
+    console.log("[ConvoGame] State.variables.characters exists:", !!State.variables.characters);
+    console.log("[ConvoGame] Available character IDs:", State.variables.characters ? Object.keys(State.variables.characters) : "none");
+    
+    // Check if characters need to be initialized
+    if (!State.variables.characters) {
+      console.warn("[ConvoGame] Characters not initialized, attempting to initialize...");
+      if (typeof setup.initializeCharacters === 'function') {
+        State.variables.characters = setup.initializeCharacters();
+        console.log("[ConvoGame] Characters initialized successfully");
+      } else {
+        console.error("[ConvoGame] setup.initializeCharacters function not found!");
+        return;
+      }
+    }
+    
     const npc = State.variables.characters[npcId];
+    console.log("[ConvoGame] Character found:", !!npc);
+    
     if (!npc) {
       console.error(`[ConvoGame] Invalid NPC ID: ${npcId}`);
+      console.error("[ConvoGame] Available characters:", Object.keys(State.variables.characters || {}));
       return;
     }
   
@@ -7404,25 +7599,87 @@ setup.ConvoGame = {
   render() {
     const convo = State.temporary.convo;
     const npc = State.variables.characters[convo.npcId];
-    if (!npc) return;
+    
+    console.log("[ConvoGame] render() called");
+    console.log("[ConvoGame] convo.npcId:", convo.npcId);
+    console.log("[ConvoGame] npc object:", npc);
+    console.log("[ConvoGame] npc.name:", npc?.name);
+    console.log("[ConvoGame] npc.avatar:", npc?.avatar);
+    
+    if (!npc) {
+      console.error("[ConvoGame] No NPC found in render()");
+      return;
+    }
   
     // Increase difficulty with each checkpoint (every 5 turns)
     convo.promptMod = Math.floor((convo.turn - 1) / 5);
   
     const prompt = setup.getConvoPrompt(npc);
     convo.currentPrompt = prompt;
+    
+    console.log("[ConvoGame] Generated prompt:", prompt);
   
-    document.getElementById("convo-npc-name").textContent = npc.name ?? "???";
-    document.getElementById("convo-npc-prompt").textContent = prompt.text ?? "…";
-  
-    document.getElementById("gain-trust").textContent = convo.trustGained;
-    document.getElementById("gain-affection").textContent = convo.affectionGained;
-    document.getElementById("convo-rapport").textContent = convo.rapport.toFixed(1);
-    document.getElementById("convo-tension").textContent = convo.tension;
-    document.getElementById("convo-max-tension").textContent = convo.maxTension;
-  
-    document.getElementById("convo-avatar").src = npc.avatar || "images/portrait_default.png";
-  
+    const nameEl = document.getElementById("convo-npc-name");
+    console.log("[ConvoGame] nameEl found:", !!nameEl);
+    console.log("[ConvoGame] nameEl current content:", nameEl?.textContent);
+    console.log("[ConvoGame] nameEl element:", nameEl);
+    console.log("[ConvoGame] nameEl parent:", nameEl?.parentElement);
+    console.log("[ConvoGame] nameEl visibility:", nameEl ? window.getComputedStyle(nameEl).display : "N/A");
+    
+    // Check if there are multiple elements with this ID
+    const allNameEls = document.querySelectorAll("#convo-npc-name");
+    console.log("[ConvoGame] Total elements with ID 'convo-npc-name':", allNameEls.length);
+    allNameEls.forEach((el, index) => {
+      console.log(`[ConvoGame] Element ${index}:`, el, "Content:", el.textContent, "Visible:", window.getComputedStyle(el).display !== 'none');
+    });
+    
+    if (nameEl) {
+      console.log("[ConvoGame] Setting name to:", npc.name ?? "???");
+      nameEl.textContent = npc.name ?? "???";
+      console.log("[ConvoGame] nameEl content after setting:", nameEl.textContent);
+      
+      // Check again after a delay to see if something overwrites it
+      setTimeout(() => {
+        console.log("[ConvoGame] nameEl content after 100ms:", nameEl.textContent);
+      }, 100);
+    }
+
+    const promptEl = document.getElementById("convo-npc-prompt");
+    console.log("[ConvoGame] promptEl found:", !!promptEl);
+    console.log("[ConvoGame] promptEl current content:", promptEl?.textContent);
+    if (promptEl) {
+      console.log("[ConvoGame] Setting prompt to:", prompt.text ?? "…");
+      promptEl.textContent = prompt.text ?? "…";
+      console.log("[ConvoGame] promptEl content after setting:", promptEl.textContent);
+      
+      // Check again after a delay to see if something overwrites it
+      setTimeout(() => {
+        console.log("[ConvoGame] promptEl content after 100ms:", promptEl.textContent);
+      }, 100);
+    }
+
+    const trustEl = document.getElementById("gain-trust");
+    if (trustEl) trustEl.textContent = convo.trustGained;
+
+    const affectionEl = document.getElementById("gain-affection");
+    if (affectionEl) affectionEl.textContent = convo.affectionGained;
+
+    const rapportEl = document.getElementById("convo-rapport");
+    if (rapportEl) rapportEl.textContent = convo.rapport.toFixed(1);
+
+    const tensionEl = document.getElementById("convo-tension");
+    if (tensionEl) tensionEl.textContent = convo.tension;
+
+    const maxTensionEl = document.getElementById("convo-max-tension");
+    if (maxTensionEl) maxTensionEl.textContent = convo.maxTension;
+
+    const avatarEl = document.getElementById("convo-avatar");
+    console.log("[ConvoGame] avatarEl found:", !!avatarEl);
+    if (avatarEl) {
+      console.log("[ConvoGame] Setting avatar to:", npc.avatar || "images/portrait_default.png");
+      avatarEl.src = npc.avatar || "images/portrait_default.png";
+    }
+
     this.injectChoices();
   },
   
@@ -7811,27 +8068,37 @@ setup.ConvoGame = {
 setup.ConvoUI = {
   renderMinigame(npcId) {
     window.openOverlay("convo-minigame-page");
-  
-    setTimeout(() => {
-      setup.ConvoGame.start(npcId);
-  
-      // Attach End Conversation button logic
+
+    const waitForDOM = () => {
+      // Check for the specific overlay container AND the elements we need
+      const overlayContainer = document.getElementById("conversation-overlay");
+      const nameEl = document.getElementById("convo-npc-name");
       const endButton = document.getElementById("end-button");
-      if (endButton) {
-        endButton.onclick = () => {
-          setup.ConvoGame.exitEarly();
-        };
+      
+      console.log("[ConvoUI] Waiting for DOM - overlay:", !!overlayContainer, "nameEl:", !!nameEl, "endButton:", !!endButton);
+      
+      if (overlayContainer && nameEl && endButton) {
+        console.log("[ConvoUI] DOM ready, starting ConvoGame");
+        
+        // Set up button handlers first
+        endButton.onclick = () => setup.ConvoGame.exitEarly();
+
+        const giftButton = document.getElementById("gift-button");
+        if (giftButton) {
+          giftButton.onclick = () => setup.ConvoUI.giveGiftMenu();
+        }
+        
+        // Start the game
+        setup.ConvoGame.start(npcId);
+
+      } else {
+        requestAnimationFrame(waitForDOM);
       }
-  
-      const giftButton = document.getElementById("gift-button");
-      if (giftButton) {
-        giftButton.onclick = () => {
-          setup.ConvoUI.giveGiftMenu();
-        };
-      }
-  
-    }, 100); // slight delay to ensure overlay body contents have been injected
-  
+    };
+
+    // Add a small delay to ensure the overlay HTML is fully loaded
+    setTimeout(waitForDOM, 50);
+
     if (State.variables.DEBUG || setup.DEBUG) {
       console.log(`[ConvoUI] Minigame started with NPC: ${npcId}`);
     }
@@ -7928,9 +8195,6 @@ setup.ConvoUI.animateChoices = function(container) {
     }, index * 100);
   });
 };
-
-
-
 /* twine-user-script #23: "10_dialogueSetup.js" */
 // ===============================
 // 📦 Dialogue Layout Macros
@@ -17384,6 +17648,11 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 		&lt;/div&gt;
 	&lt;/div&gt;
 	&lt;div id=&quot;summary-conditions&quot;&gt;&lt;/div&gt;
+	&lt;div id=&quot;summary-bug-report&quot;&gt;
+		&lt;button class=&quot;sidebar-icon-only&quot; onclick=&quot;openOverlay(&#39;bug-report-page&#39;)&quot; title=&quot;Report Bug&quot;&gt;
+		&lt;i data-lucide=&quot;bug-play&quot;&gt;&lt;/i&gt;
+		&lt;/button&gt;
+	&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Main Scrollable Content --&gt;
@@ -17487,8 +17756,21 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 			&lt;button class=&quot;sidebar-btn&quot; id=&quot;sidebar-options&quot;&gt;
                 &lt;i data-lucide=&quot;settings&quot;&gt;&lt;/i&gt; Options
             &lt;/button&gt;
+		&lt;/div&gt;	
+	&lt;/div&gt;
+	&lt;div id=&quot;sidebar-support-links&quot;&gt;
+		&lt;a href=&quot;https://pmoe-97.itch.io/liff-origins-jaylie&quot; target=&quot;_blank&quot; title=&quot;Visit on Itch.io&quot;&gt;
+			&lt;img src=&quot;images/itch-icon.png&quot; alt=&quot;Itch.io&quot; class=&quot;sidebar-support-icon&quot;&gt;
+		&lt;/a&gt;
+		&lt;a href=&quot;https://patreon.com/Pmoe&quot; target=&quot;_blank&quot; title=&quot;Support on Patreon&quot;&gt;
+			&lt;img src=&quot;images/patreon-icon.png&quot; alt=&quot;Patreon&quot; class=&quot;sidebar-support-icon&quot;&gt;
+		&lt;/a&gt;
+	&lt;/div&gt;
 
-		&lt;/div&gt;
+	&lt;div id=&quot;bug-report-button&quot;&gt;
+		&lt;button class=&quot;sidebar-btn&quot; onclick=&quot;openOverlay(&#39;bug-report-page&#39;)&quot;&gt;
+			&lt;i data-lucide=&quot;bug-play&quot;&gt;&lt;/i&gt; Report Bug
+		&lt;/button&gt;
 	&lt;/div&gt;
 &lt;/div&gt;
 
@@ -17625,7 +17907,7 @@ if (typeof setup?.SidebarUI?.initialize === &quot;function&quot;) {
   &lt;/div&gt;
 
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="106" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="107" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="108" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;&lt;&lt;ClearSnapshots&gt;&gt;&lt;&lt;additem &quot;player&quot; &quot;gold_coin&quot; 100&gt;&gt;
+* [[Help]]</tw-passagedata><tw-passagedata pid="107" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="108" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -17636,10 +17918,7 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 
 [[Go forth and journey on|StoryStart_Scene01]]
 
-[[Wait I am NOT an adult|Underage_Response]]
-
-/*Placeholder */
-[[Skip to Tavern|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="109" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="110" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_AddaGreeting&quot;&gt;&gt;
+[[Wait I am NOT an adult|Underage_Response]]</tw-passagedata><tw-passagedata pid="109" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="110" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_AddaGreeting&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.

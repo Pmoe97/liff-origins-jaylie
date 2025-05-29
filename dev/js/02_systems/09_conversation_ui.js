@@ -3,27 +3,37 @@
 setup.ConvoUI = {
   renderMinigame(npcId) {
     window.openOverlay("convo-minigame-page");
-  
-    setTimeout(() => {
-      setup.ConvoGame.start(npcId);
-  
-      // Attach End Conversation button logic
+
+    const waitForDOM = () => {
+      // Check for the specific overlay container AND the elements we need
+      const overlayContainer = document.getElementById("conversation-overlay");
+      const nameEl = document.getElementById("convo-npc-name");
       const endButton = document.getElementById("end-button");
-      if (endButton) {
-        endButton.onclick = () => {
-          setup.ConvoGame.exitEarly();
-        };
+      
+      console.log("[ConvoUI] Waiting for DOM - overlay:", !!overlayContainer, "nameEl:", !!nameEl, "endButton:", !!endButton);
+      
+      if (overlayContainer && nameEl && endButton) {
+        console.log("[ConvoUI] DOM ready, starting ConvoGame");
+        
+        // Set up button handlers first
+        endButton.onclick = () => setup.ConvoGame.exitEarly();
+
+        const giftButton = document.getElementById("gift-button");
+        if (giftButton) {
+          giftButton.onclick = () => setup.ConvoUI.giveGiftMenu();
+        }
+        
+        // Start the game
+        setup.ConvoGame.start(npcId);
+
+      } else {
+        requestAnimationFrame(waitForDOM);
       }
-  
-      const giftButton = document.getElementById("gift-button");
-      if (giftButton) {
-        giftButton.onclick = () => {
-          setup.ConvoUI.giveGiftMenu();
-        };
-      }
-  
-    }, 100); // slight delay to ensure overlay body contents have been injected
-  
+    };
+
+    // Add a small delay to ensure the overlay HTML is fully loaded
+    setTimeout(waitForDOM, 50);
+
     if (State.variables.DEBUG || setup.DEBUG) {
       console.log(`[ConvoUI] Minigame started with NPC: ${npcId}`);
     }
@@ -120,6 +130,3 @@ setup.ConvoUI.animateChoices = function(container) {
     }, index * 100);
   });
 };
-
-
-

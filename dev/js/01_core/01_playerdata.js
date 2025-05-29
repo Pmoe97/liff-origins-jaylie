@@ -63,12 +63,6 @@ State.variables.player = {
 		armor: "Simple Clothes"
 	},
 
-	/* === Carry === */
-	carryWeight: {
-		current: 0,
-	},
-
-
 	// === Body Anatomy ===
 	body: {
 		height: 64, // inches
@@ -99,7 +93,7 @@ State.variables.player = {
 		maxFatigue: 100,
 		composure: 100,
 		maxComposure: 100,
-		excitement: 15,
+		excitement: 0,
 		maxExcitement: 100,
 		isCumming: false,
 
@@ -125,6 +119,12 @@ State.variables.player = {
 		current: 0,
 	},
 
+	startingInventory: {
+		gold_coin: 100,
+		dagger_silver: 1,
+	}
 };
+/* ==================== */
+/* - Starting Inventory - */
+/* ==================== */
 
-console.log("✅ PlayerData loaded successfully.");

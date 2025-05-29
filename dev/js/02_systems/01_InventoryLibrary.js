@@ -11,7 +11,7 @@ if (typeof setup.ItemData === 'undefined') {
 =     Weapons - Daggers     =
 ============================= */
 setup.ItemData.dagger_silver = {
-  id: "longsword_silver",
+  id: "dagger_silver",
   name: "Silvered Dagger",
   type: "weapon",
   subtype: "dagger",

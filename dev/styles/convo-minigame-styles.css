@@ -172,6 +172,10 @@
   justify-content: center;
   gap: 0.5em;
   padding: 1em;
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 0.5em;
 }
 
 @keyframes slideFadeIn {
@@ -499,7 +503,7 @@
   .convo-window {
     flex-direction: column;
     height: auto;
-    max-height: 95vh;
+    max-height: none;
   }
 
   .convo-left-bar, .convo-right {

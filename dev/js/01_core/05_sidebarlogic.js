@@ -1,9 +1,13 @@
 setup.SidebarUI = {
 	update() {
+		const sidebar = document.getElementById("custom-sidebar");
+		const wasCollapsed = sidebar?.classList.contains("collapsed");
+
 		if (!State.variables.player || !State.variables.world) {
 			console.warn("SidebarUI: Player or World data missing.");
 			return;
 		}
+
 		this.updateStatuses();
 		this.updateCarryWeight();
 		this.updateLevelAndExp();
@@ -12,6 +16,22 @@ setup.SidebarUI = {
 		this.updateDate();
 		this.updateWeather();
 		this.updateSummaryIcons();
+
+		// Reapply collapsed state after rendering
+		if (wasCollapsed && sidebar) {
+			sidebar.classList.add("collapsed");
+			document.body.classList.add("sidebar-collapsed");
+
+			const summary = document.getElementById("sidebar-summary");
+			const content = document.getElementById("sidebar-content");
+			if (summary) summary.style.display = "flex";
+			if (content) content.style.display = "none";
+
+			const toggleButton = document.getElementById("sidebar-toggle");
+			if (toggleButton) {
+				toggleButton.style.position = "initial";
+			}
+		}
 	},
 
 	updateStatuses() {
@@ -46,6 +66,8 @@ setup.SidebarUI = {
 		const carryContainer = document.getElementById("sidebar-carryweight");
 		const carryFill = document.getElementById("carry-fill");
 		const carryText = document.getElementById("carryweight-text");
+
+		if (!weight || !carryContainer || !carryFill || !carryText) return;
 
 		const percent = (weight.current / weight.max) * 100;
 
@@ -118,7 +140,7 @@ setup.SidebarUI = {
 		const world = State.variables.world;
 		const icon = document.getElementById("sidebar-weather-icon");
 
-		if (!icon) return;
+		if (!icon || !world) return;
 
 		const weatherIcons = {
 			"Clear": "sun",
@@ -182,6 +204,7 @@ setup.SidebarUI = {
 		return inventory["gold_coin"] || 0;
 	},
 
+
 	updateGold() {
 		const gold = this.getGoldAmount();
 		const goldDisplay = document.getElementById("sidebar-gold-amount");
@@ -208,34 +231,27 @@ setup.SidebarUI = {
 		sidebar.classList.toggle("collapsed");
 		const isCollapsed = sidebar.classList.contains("collapsed");
 
-		// Set class on <body>
 		document.body.classList.toggle("sidebar-collapsed", isCollapsed);
 
-		// Flip arrow
 		if (arrow) {
 			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
 		}
 
-		// Fix toggle button position
 		if (toggleButton) {
 			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
 		}
 
-		// Show/hide summary vs full content
 		summary.style.display = isCollapsed ? "flex" : "none";
 		content.style.display = isCollapsed ? "none" : "block";
 
-		// Update all sidebar data (including summary icons)
 		this.update();
-
 		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
 	},
-
 
 	updateSidebar() {
 		const player = State.variables.player;
 		const world = State.variables.world;
-		const inventory = State.variables.inventory || [];
+		const inventory = State.variables.inventory_player || {};
 
 		if (!player || !world) {
 			console.warn("[SidebarUI] Player or WorldState missing — cannot update sidebar.");
@@ -248,8 +264,8 @@ setup.SidebarUI = {
 
 		this.updateWeatherIcon(world.weather);
 
-		const goldAmount = this.findGoldAmount(inventory);
-		this.updateText("sidebar-gold-amount", goldAmount);
+		const goldAmount = this.getGoldAmount();
+		this.updateText("sidebar-gold-amount", this.abbreviateGold(goldAmount));
 		this.updateText("summary-gold", this.abbreviateGold(goldAmount));
 
 		this.updateText("summary-level", `Lvl ${player.level}`);
@@ -274,11 +290,11 @@ setup.SidebarUI = {
 		if (!icon) return;
 
 		const weatherIcons = {
-			"Clear": "sun",
-			"Rain": "cloud-rain",
-			"Storm": "cloud-lightning",
-			"Snow": "cloud-snow",
-			"Fog": "cloud-fog"
+			Clear: "sun",
+			Rain: "cloud-rain",
+			Storm: "cloud-lightning",
+			Snow: "cloud-snow",
+			Fog: "cloud-fog"
 		};
 
 		const iconName = weatherIcons[weatherType] || "sun";
@@ -289,25 +305,16 @@ setup.SidebarUI = {
 		}
 	},
 
-	findGoldAmount(inventory) {
-		const goldItem = inventory.find(item => item.key === "gold_coin");
-		return goldItem ? goldItem.amount : 0;
-	},
-
 	abbreviateGold(amount) {
-		if (amount >= 1000000) return (amount / 1000000).toFixed(1) + "M";
-		if (amount >= 1000) return (amount / 1000).toFixed(1) + "K";
+		if (amount >= 1_000_000) return (amount / 1_000_000).toFixed(1) + "M";
+		if (amount >= 1_000) return (amount / 1_000).toFixed(1) + "K";
 		return amount.toString();
 	},
 
 	updateExpBars(player) {
 		const percent = Math.min((player.experience / player.experienceToNextLevel) * 100, 100);
-		const mainFill = document.getElementById("exp-fill");
-		const miniFill = document.getElementById("exp-fill-mini");
-
-		if (mainFill) mainFill.style.width = `${percent}%`;
-		if (miniFill) miniFill.style.width = `${percent}%`;
-
+		this.setFillWidth("exp-fill", percent);
+		this.setFillWidth("exp-fill-mini", percent);
 		this.updateText("exp-text", `${player.experience}/${player.experienceToNextLevel} XP`);
 	},
 
@@ -333,13 +340,9 @@ setup.SidebarUI = {
 		let color = "white";
 
 		if (inverse) {
-			if (ratio >= 0.75) color = "red";
-			else if (ratio >= 0.5) color = "orange";
-			else color = "green";
+			color = ratio >= 0.75 ? "red" : ratio >= 0.5 ? "orange" : "green";
 		} else {
-			if (ratio <= 0.25) color = "red";
-			else if (ratio <= 0.5) color = "orange";
-			else color = "green";
+			color = ratio <= 0.25 ? "red" : ratio <= 0.5 ? "orange" : "green";
 		}
 
 		icon.style.stroke = color;
@@ -391,7 +394,6 @@ setup.SidebarUI = {
 		const seasonIndex = Math.floor((dayOfYear - 1) / seasonLength);
 		const seasonDay = ((dayOfYear - 1) % seasonLength) + 1;
 		const season = seasons[seasonIndex] || "Unknown";
-
 		return `${seasonDay} of ${season}, ${year} AI`;
 	},
 
@@ -443,6 +445,24 @@ $(document).on("click", "#sidebar-options", () => {
 });
 
 
+/* Sidebar Updating with every click and passage change */
+// Update sidebar on every passage load
+$(document).on(":passagedisplay", () => {
+	if (typeof setup?.SidebarUI?.update === "function") {
+		setup.SidebarUI.update();
+	}
+});
+
+// Throttled update on every click (avoids spamming)
+let sidebarUpdateTimeout;
+document.addEventListener("click", () => {
+	clearTimeout(sidebarUpdateTimeout);
+	sidebarUpdateTimeout = setTimeout(() => {
+		if (typeof setup?.SidebarUI?.update === "function") {
+			setup.SidebarUI.update();
+		}
+	}, 50);
+});
 
 
 

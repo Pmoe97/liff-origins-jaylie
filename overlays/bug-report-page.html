@@ -1,0 +1,63 @@
+<div class="overlay-container" id="bug-report-overlay">
+  <!-- Close Button -->
+  <button class="overlay-close-btn" onclick="closeOverlay()">✖</button>
+
+  <!-- Bug Report Content -->
+  <div class="overlay-window">
+    <h2><i data-lucide="bug-play"></i> Report a Bug</h2>
+    <p>If something broke or acted weird, you can let us know here.</p>
+
+    <form action="https://formspree.io/f/mzzrnyyd" method="POST">
+      <label for="bug-email">Your Email (optional):</label>
+      <input type="email" id="bug-email" name="email" placeholder="your@email.com">
+
+      <label for="bug-desc">Bug Description:</label>
+      <textarea id="bug-desc" name="message" placeholder="What were you doing? What went wrong?" required></textarea>
+
+      <label for="bug-context">Where in the game? (Optional)</label>
+      <input type="text" id="bug-context" name="context" placeholder="e.g., In the tavern after dice game">
+
+      <input type="hidden" name="debugInfo" id="bug-debug-info">
+
+      <p class="bug-disclaimer">
+        <strong>Note:</strong> Submitting a bug report will also include basic information about your device (like screen size, browser type, and platform) to help with troubleshooting. This data is collected solely for development purposes and will never be shared or sold.
+      </p>
+
+      <button type="submit" class="overlay-submit-btn">
+        <i data-lucide="send"></i> Submit Report
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- Safe: Script placed outside the form -->
+<script>
+document.querySelector('#bug-report-overlay form').addEventListener('submit', function () {
+  const player = SugarCube.State.variables.player || {};
+  const status = player.status || {};
+  const gold = SugarCube.State.variables.inventory_player?.gold_coin ?? 0;
+  const currentPassage = SugarCube.State.passage || "Unknown";
+  const now = new Date().toISOString();
+
+  const debugPayload = `
+📍 Current Passage: ${currentPassage}
+🕓 Time: ${now}
+👤 Player:
+- Gold: ${gold}
+- Health: ${status.health}/${status.maxHealth}
+- Fatigue: ${status.fatigue}/${status.maxFatigue}
+- Composure: ${status.composure}/${status.maxComposure}
+- Excitement: ${status.excitement}/${status.maxExcitement}
+
+💻 Device Info:
+- User Agent: ${navigator.userAgent}
+- Platform: ${navigator.platform}
+- Screen: ${window.screen.width}x${window.screen.height}
+- Viewport: ${window.innerWidth}x${window.innerHeight}
+  `.trim();
+
+  document.getElementById("bug-debug-info").value = debugPayload;
+});
+</script>
+

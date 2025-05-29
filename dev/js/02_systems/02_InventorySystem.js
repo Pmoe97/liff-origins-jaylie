@@ -93,9 +93,10 @@ Macro.add("additem", {
 		}
 
 		/* === Sidebar update on run === */
-		if (setup.SidebarUI?.update) {
+		if (setup.SidebarUI?.update && document.getElementById("custom-sidebar")) {
 			setup.SidebarUI.update();
 		}
+
 	}
 });
 
