@@ -1,0 +1,600 @@
+/**
+ * tilemap_improved.css
+ * 
+ * Enhanced styling for the tile-based navigation system.
+ * Provides visual styling for the map grid, tiles, player indicator,
+ * animations, and responsive design elements.
+ * 
+ * Improvements:
+ * - Better performance with CSS containment and will-change
+ * - Enhanced accessibility features
+ * - Improved responsive design
+ * - Better theme support
+ * - Optimized animations
+ * - CSS custom properties for easy customization
+ */
+
+/* ===== CSS CUSTOM PROPERTIES ===== */
+:root {
+    /* Grid settings */
+    --tile-size: 64px;
+    --grid-line-color: rgba(255, 255, 255, 0.1);
+    --grid-line-width: 1px;
+    
+    /* Colors */
+    --map-bg-dark: #1a1a1a;
+    --map-bg-light: #f5f5f5;
+    --grid-bg-dark: #2a2a2a;
+    --grid-bg-light: #ffffff;
+    --border-color-dark: #333;
+    --border-color-light: #ccc;
+    
+    /* Tile colors */
+    --tile-walkable-border: rgba(76, 175, 80, 0.3);
+    --tile-non-walkable-border: rgba(244, 67, 54, 0.3);
+    --tile-interactive-border: rgba(255, 193, 7, 0.5);
+    --tile-interactive-hover: rgba(255, 193, 7, 0.8);
+    
+    /* Player indicator */
+    --player-color-primary: #4a90e2;
+    --player-color-secondary: #2171b5;
+    --player-color-tertiary: #1a5490;
+    --player-border: #ffffff;
+    --player-blocked-color: #e74c3c;
+    
+    /* Animation timings */
+    --movement-duration: 300ms;
+    --transition-duration: 200ms;
+    --pulse-duration: 2s;
+    
+    /* Shadows and effects */
+    --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    --player-glow: 0 0 10px rgba(74, 144, 226, 0.6);
+    --interactive-glow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+/* Light theme overrides */
+.theme-light {
+    --map-bg-dark: var(--map-bg-light);
+    --grid-bg-dark: var(--grid-bg-light);
+    --border-color-dark: var(--border-color-light);
+    --grid-line-color: rgba(0, 0, 0, 0.1);
+    --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== TILE MAP CONTAINER ===== */
+.tile-map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: var(--map-bg-dark);
+    border: 2px solid var(--border-color-dark);
+    border-radius: 8px;
+    box-shadow: var(--map-shadow);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
+    /* Performance optimizations */
+    contain: layout style paint;
+    will-change: contents;
+    
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tile-map-container:focus {
+    outline: 2px solid var(--player-color-primary);
+    outline-offset: -2px;
+}
+
+.tile-map-container:focus-visible {
+    outline: 3px solid var(--player-color-primary);
+    outline-offset: -3px;
+}
+
+/* Loading state */
+.tile-map-container.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.tile-map-container.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--player-color-primary);
+    border-radius: 50%;
+    animation: loadingSpinner 1s linear infinite;
+    z-index: 2000;
+}
+
+@keyframes loadingSpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== TILE GRID ===== */
+.tile-grid {
+    position: relative;
+    margin: auto;
+    background: var(--grid-bg-dark);
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    
+    /* Performance */
+    contain: strict;
+    transform: translateZ(0); /* Force GPU acceleration */
+}
+
+/* Grid lines (when enabled) */
+.tile-grid.show-grid {
+    background-image: 
+        linear-gradient(to right, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width)),
+        linear-gradient(to bottom, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width));
+    background-size: var(--tile-size) var(--tile-size);
+}
+
+/* ===== INDIVIDUAL TILES ===== */
+.tile {
+    position: absolute;
+    border: 1px solid transparent;
+    transition: border-color var(--transition-duration) ease,
+                transform var(--transition-duration) ease,
+                box-shadow var(--transition-duration) ease;
+    cursor: default;
+    box-sizing: border-box;
+    
+    /* Performance */
+    contain: layout style paint;
+    will-change: transform, border-color;
+    backface-visibility: hidden;
+}
+
+/* Viewport culling optimization */
+.tile.tile-culled {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Walkable tiles */
+.tile.walkable {
+    border-color: var(--tile-walkable-border);
+}
+
+/* Non-walkable tiles */
+.tile.non-walkable {
+    border-color: var(--tile-non-walkable-border);
+}
+
+/* Interactive tiles */
+.tile.interactive {
+    cursor: pointer;
+    border-color: var(--tile-interactive-border);
+}
+
+.tile.interactive:hover {
+    border-color: var(--tile-interactive-hover);
+    box-shadow: var(--interactive-glow);
+    transform: scale(1.02);
+    z-index: 10;
+}
+
+.tile.interactive:active {
+    transform: scale(0.98);
+}
+
+/* Tile hover effects */
+.tile:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+/* ===== PLAYER INDICATOR ===== */
+.player-indicator {
+    position: absolute;
+    background: radial-gradient(circle, 
+        var(--player-color-primary) 0%, 
+        var(--player-color-secondary) 70%, 
+        var(--player-color-tertiary) 100%);
+    border: 2px solid var(--player-border);
+    border-radius: 50%;
+    box-shadow: 
+        var(--player-glow),
+        0 0 20px rgba(74, 144, 226, 0.3),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+    animation: playerPulse var(--pulse-duration) infinite ease-in-out;
+    
+    /* Performance */
+    will-change: transform, left, top;
+    contain: layout style paint;
+}
+
+@keyframes playerPulse {
+    0%, 100% {
+        box-shadow: 
+            var(--player-glow),
+            0 0 20px rgba(74, 144, 226, 0.3),
+            inset 0 0 5px rgba(255, 255, 255, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px rgba(74, 144, 226, 0.8),
+            0 0 30px rgba(74, 144, 226, 0.5),
+            inset 0 0 8px rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+    }
+}
+
+/* Player indicator when movement is blocked */
+.player-indicator.movement-blocked {
+    background: radial-gradient(circle, 
+        var(--player-blocked-color) 0%, 
+        #c0392b 70%, 
+        #a93226 100%);
+    animation: blockedShake 0.2s ease-in-out;
+}
+
+@keyframes blockedShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* ===== TILE TYPES ===== */
+
+/* Path tiles */
+.tile[data-tile-type="path"] {
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+/* Grass tiles */
+.tile[data-tile-type="grass"] {
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+/* Water tiles */
+.tile[data-tile-type="water"] {
+    border-color: rgba(33, 150, 243, 0.4);
+}
+
+/* Building tiles */
+.tile[data-tile-type="building"] {
+    border-color: rgba(96, 125, 139, 0.4);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Extra large screens */
+@media (min-width: 1400px) {
+    .tile-map-container {
+        max-width: 900px;
+        max-height: 700px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .tile-map-container {
+        max-width: 800px;
+        max-height: 600px;
+    }
+}
+
+/* Medium screens */
+@media (max-width: 1199px) and (min-width: 768px) {
+    :root {
+        --tile-size: 48px;
+    }
+    
+    .tile-map-container {
+        max-width: 600px;
+        max-height: 450px;
+    }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+    :root {
+        --tile-size: 40px;
+    }
+    
+    .tile-map-container {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 4px;
+        border-width: 1px;
+    }
+    
+    .player-indicator {
+        border-width: 1px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    :root {
+        --tile-size: 32px;
+    }
+    
+    .tile-map-container {
+        max-height: 300px;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --tile-walkable-border: #00ff00;
+        --tile-non-walkable-border: #ff0000;
+        --tile-interactive-border: #ffff00;
+        --player-border: #000000;
+    }
+    
+    .tile-map-container {
+        border-color: #ffffff;
+        background: #000000;
+    }
+    
+    .tile-grid {
+        background: #000000;
+    }
+    
+    .player-indicator {
+        background: #ffffff;
+        box-shadow: none;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --movement-duration: 0ms;
+        --transition-duration: 0ms;
+        --pulse-duration: 0s;
+    }
+    
+    .tile,
+    .player-indicator {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .tile.interactive:hover {
+        transform: none !important;
+    }
+    
+    .tile-map-container {
+        scroll-behavior: auto;
+    }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --map-bg-dark: #0a0a0a;
+        --grid-bg-dark: #1a1a1a;
+        --border-color-dark: #2a2a2a;
+    }
+}
+
+/* ===== MINIMAP INTEGRATION ===== */
+
+.minimap-container .tile-map-container {
+    border: 1px solid #555;
+    border-radius: 4px;
+    background: var(--map-bg-dark);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.minimap-container .tile-grid {
+    transform: scale(0.3);
+    transform-origin: top left;
+}
+
+.minimap-container .player-indicator {
+    border-width: 1px;
+    animation: none;
+}
+
+.minimap-container .tile {
+    border: none;
+    transition: none;
+}
+
+/* ===== OVERLAY INTEGRATION ===== */
+
+.overlay .tile-map-container {
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
+}
+
+/* ===== ANIMATION CLASSES ===== */
+
+.tile-fade-in {
+    animation: tilesFadeIn 0.5s ease-in-out;
+}
+
+@keyframes tilesFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.tile-slide-in {
+    animation: tilesSlideIn 0.3s ease-out;
+}
+
+@keyframes tilesSlideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.tile-map-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.tile-map-fullscreen .tile-map-container {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border: 2px solid var(--player-color-primary);
+}
+
+.tile-map-hidden {
+    display: none;
+}
+
+.tile-map-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+/* ===== DEBUG STYLES ===== */
+
+.debug-mode .tile {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.debug-mode .tile::after {
+    content: attr(data-tile-id);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 8px;
+    font-family: monospace;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1px 3px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.debug-mode .player-indicator::after {
+    content: attr(data-position);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-family: monospace;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+/* ===== FOCUS INDICATORS ===== */
+
+.tile.interactive:focus {
+    outline: 2px solid var(--player-color-primary);
+    outline-offset: 2px;
+}
+
+.tile.interactive:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.tile.interactive:focus-visible {
+    outline: 3px solid var(--player-color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+    .tile-map-container {
+        border: 1px solid #000;
+        background: #fff;
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    
+    .tile-grid {
+        background: #fff;
+    }
+    
+    .tile-grid.show-grid {
+        background-image: 
+            linear-gradient(to right, #ccc 1px, transparent 1px),
+            linear-gradient(to bottom, #ccc 1px, transparent 1px);
+    }
+    
+    .player-indicator {
+        background: #000;
+        border-color: #000;
+        animation: none;
+        box-shadow: none;
+    }
+    
+    .tile {
+        border-color: #ccc !important;
+        transition: none;
+    }
+    
+    .tile.interactive {
+        border-color: #666 !important;
+    }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Disable animations when not visible */
+.tile-map-container:not(:hover) .tile {
+    transition-duration: 0s;
+}
+
+/* Hardware acceleration for frequently animated elements */
+.player-indicator,
+.tile.interactive {
+    transform: translateZ(0);
+}
+
+/* Reduce paint areas */
+.tile {
+    isolation: isolate;
+}

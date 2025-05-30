@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tile Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tile-preview {
+            display: inline-block;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #357abd;
+        }
+        .tile-info {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tile Generator for King's Market</h1>
+        <p>This tool generates placeholder tile images for the tile-based navigation system.</p>
+        
+        <div class="controls">
+            <button onclick="generateAllTiles()">Generate All Tiles</button>
+            <button onclick="downloadAllTiles()">Download All Tiles</button>
+        </div>
+        
+        <div class="tile-info">
+            <strong>Generated Tiles:</strong>
+            <div id="tileList"></div>
+        </div>
+        
+        <div id="tilePreview"></div>
+    </div>
+
+    <script>
+        const tileSize = 64;
+        const tiles = [
+            // Basic terrain
+            { name: 'tile_cobblestone_path.png', color: '#8B7355', pattern: 'cobblestone' },
+            { name: 'tile_cobblestone.png', color: '#9B8365', pattern: 'cobblestone' },
+            { name: 'tile_cobblestone_decorative.png', color: '#AB9375', pattern: 'decorative' },
+            { name: 'tile_cobblestone_entrance.png', color: '#7B6345', pattern: 'entrance' },
+            { name: 'tile_cobblestone_exit.png', color: '#7B6345', pattern: 'exit' },
+            { name: 'tile_grass.png', color: '#4CAF50', pattern: 'grass' },
+            { name: 'tile_grass_flowers.png', color: '#66BB6A', pattern: 'flowers' },
+            { name: 'tile_empty_grass.png', color: '#388E3C', pattern: 'grass' },
+            { name: 'tile_empty_cobblestone.png', color: '#8B7355', pattern: 'cobblestone' },
+            
+            // Structures
+            { name: 'tile_fountain_center.png', color: '#2196F3', pattern: 'fountain' },
+            { name: 'tile_weapon_tent_large.png', color: '#795548', pattern: 'tent' },
+            { name: 'tile_cloth_stall.png', color: '#9C27B0', pattern: 'stall' },
+            { name: 'tile_potion_cart.png', color: '#FF9800', pattern: 'cart' },
+            { name: 'tile_wooden_stage.png', color: '#8D6E63', pattern: 'stage' },
+            { name: 'tile_wooden_stage_performance.png', color: '#A1887F', pattern: 'stage_active' },
+            { name: 'tile_food_vendor.png', color: '#FF5722', pattern: 'vendor' }
+        ];
+
+        function createTile(tileData) {
+            const canvas = document.createElement('canvas');
+            canvas.width = tileSize;
+            canvas.height = tileSize;
+            const ctx = canvas.getContext('2d');
+
+            // Base color
+            ctx.fillStyle = tileData.color;
+            ctx.fillRect(0, 0, tileSize, tileSize);
+
+            // Add pattern based on type
+            switch (tileData.pattern) {
+                case 'cobblestone':
+                    drawCobblestone(ctx);
+                    break;
+                case 'grass':
+                    drawGrass(ctx);
+                    break;
+                case 'flowers':
+                    drawGrass(ctx);
+                    drawFlowers(ctx);
+                    break;
+                case 'fountain':
+                    drawFountain(ctx);
+                    break;
+                case 'tent':
+                    drawTent(ctx);
+                    break;
+                case 'stall':
+                    drawStall(ctx);
+                    break;
+                case 'cart':
+                    drawCart(ctx);
+                    break;
+                case 'stage':
+                    drawStage(ctx);
+                    break;
+                case 'stage_active':
+                    drawStage(ctx);
+                    drawPerformance(ctx);
+                    break;
+                case 'vendor':
+                    drawVendor(ctx);
+                    break;
+                case 'decorative':
+                    drawCobblestone(ctx);
+                    drawDecorative(ctx);
+                    break;
+                case 'entrance':
+                case 'exit':
+                    drawCobblestone(ctx);
+                    drawArrow(ctx, tileData.pattern === 'entrance');
+                    break;
+            }
+
+            // Add border
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(0, 0, tileSize, tileSize);
+
+            return canvas;
+        }
+
+        function drawCobblestone(ctx) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    if ((i + j) % 2 === 0) {
+                        ctx.fillRect(i * 8, j * 8, 8, 8);
+                    }
+                }
+            }
+        }
+
+        function drawGrass(ctx) {
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * tileSize;
+                const y = Math.random() * tileSize;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + Math.random() * 4 - 2, y - Math.random() * 6);
+                ctx.stroke();
+            }
+        }
+
+        function drawFlowers(ctx) {
+            ctx.fillStyle = '#E91E63';
+            for (let i = 0; i < 5; i++) {
+                const x = Math.random() * (tileSize - 4) + 2;
+                const y = Math.random() * (tileSize - 4) + 2;
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawFountain(ctx) {
+            // Fountain base
+            ctx.fillStyle = '#ECEFF1';
+            ctx.beginPath();
+            ctx.arc(tileSize / 2, tileSize / 2, 20, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Water
+            ctx.fillStyle = '#81D4FA';
+            ctx.beginPath();
+            ctx.arc(tileSize / 2, tileSize / 2, 15, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawTent(ctx) {
+            // Tent shape
+            ctx.fillStyle = '#6D4C41';
+            ctx.beginPath();
+            ctx.moveTo(tileSize / 2, 10);
+            ctx.lineTo(10, tileSize - 10);
+            ctx.lineTo(tileSize - 10, tileSize - 10);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Tent pole
+            ctx.strokeStyle = '#3E2723';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(tileSize / 2, 10);
+            ctx.lineTo(tileSize / 2, tileSize - 10);
+            ctx.stroke();
+        }
+
+        function drawStall(ctx) {
+            // Stall roof
+            ctx.fillStyle = '#7B1FA2';
+            ctx.fillRect(8, 8, tileSize - 16, 20);
+            
+            // Support posts
+            ctx.fillStyle = '#4A148C';
+            ctx.fillRect(12, 28, 4, tileSize - 36);
+            ctx.fillRect(tileSize - 16, 28, 4, tileSize - 36);
+        }
+
+        function drawCart(ctx) {
+            // Cart body
+            ctx.fillStyle = '#BF360C';
+            ctx.fillRect(16, 20, tileSize - 32, 24);
+            
+            // Wheels
+            ctx.fillStyle = '#3E2723';
+            ctx.beginPath();
+            ctx.arc(24, 52, 6, 0, Math.PI * 2);
+            ctx.arc(tileSize - 24, 52, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawStage(ctx) {
+            // Stage platform
+            ctx.fillStyle = '#5D4037';
+            ctx.fillRect(8, tileSize - 20, tileSize - 16, 12);
+            
+            // Stage legs
+            ctx.fillStyle = '#3E2723';
+            ctx.fillRect(12, tileSize - 8, 4, 8);
+            ctx.fillRect(tileSize - 16, tileSize - 8, 4, 8);
+        }
+
+        function drawPerformance(ctx) {
+            // Add some sparkles for performance
+            ctx.fillStyle = '#FFD700';
+            for (let i = 0; i < 8; i++) {
+                const x = Math.random() * tileSize;
+                const y = Math.random() * (tileSize / 2);
+                ctx.beginPath();
+                ctx.arc(x, y, 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawVendor(ctx) {
+            // Vendor stand
+            ctx.fillStyle = '#D32F2F';
+            ctx.fillRect(12, 16, tileSize - 24, 32);
+            
+            // Awning
+            ctx.fillStyle = '#B71C1C';
+            ctx.fillRect(8, 12, tileSize - 16, 8);
+        }
+
+        function drawDecorative(ctx) {
+            // Add decorative pattern
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.beginPath();
+            ctx.arc(tileSize / 2, tileSize / 2, 8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawArrow(ctx, isEntrance) {
+            ctx.fillStyle = isEntrance ? '#4CAF50' : '#F44336';
+            ctx.beginPath();
+            if (isEntrance) {
+                // Up arrow for entrance
+                ctx.moveTo(tileSize / 2, 16);
+                ctx.lineTo(tileSize / 2 - 8, 28);
+                ctx.lineTo(tileSize / 2 + 8, 28);
+            } else {
+                // Down arrow for exit
+                ctx.moveTo(tileSize / 2, tileSize - 16);
+                ctx.lineTo(tileSize / 2 - 8, tileSize - 28);
+                ctx.lineTo(tileSize / 2 + 8, tileSize - 28);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function generateAllTiles() {
+            const previewDiv = document.getElementById('tilePreview');
+            const listDiv = document.getElementById('tileList');
+            previewDiv.innerHTML = '';
+            listDiv.innerHTML = '';
+
+            tiles.forEach(tileData => {
+                const canvas = createTile(tileData);
+                canvas.className = 'tile-preview';
+                canvas.title = tileData.name;
+                previewDiv.appendChild(canvas);
+                
+                const listItem = document.createElement('div');
+                listItem.textContent = tileData.name;
+                listDiv.appendChild(listItem);
+            });
+        }
+
+        function downloadAllTiles() {
+            tiles.forEach(tileData => {
+                const canvas = createTile(tileData);
+                const link = document.createElement('a');
+                link.download = tileData.name;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Generate tiles on page load
+        window.onload = function() {
+            generateAllTiles();
+        };
+    </script>
+</body>
+</html>
