@@ -100,7 +100,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 		<div id="init-lacking">Your browser lacks required capabilities. Please upgrade it or switch to another to continue.</div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="108" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
+	<!-- UUID://FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0// --><tw-storydata name="Liff Origins: Jaylie" startnode="109" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="FDA8DE99-1A57-4FDA-BC8F-CD9A1987CDA0" zoom="1" format="SugarCube" format-version="2.30.0" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "Base.css" */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Character Sheet Overlay Base */
@@ -867,6 +867,11 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 .tutorial-content button:hover {
   background: #666;
 }
+
+body.tutorial-active {
+  overflow: hidden;
+}
+
 
 /* KEEP THIS AT THE END */
 /* ======================================================
@@ -3066,7 +3071,239 @@ button.active-sexact.ongoing::after {
     background-color: #5d8f4b;
   }
   
-/* twine-user-stylesheet #15: "sidebar.css" */
+/* twine-user-stylesheet #15: "sidebar-minimap.css" */
+/* =============================
+=         Minimap Styles      
+============================= */
+#sidebar-minimap-container {
+	margin: 12px 8px;
+	background: #1a1a1a;
+	border: 1px solid #333;
+	border-radius: 6px;
+	padding: 8px;
+	position: relative;
+}
+
+.minimap-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+	font-size: 0.8em;
+	font-weight: 600;
+	color: #4a90e2;
+}
+
+.minimap-header i {
+	width: 16px;
+	height: 16px;
+	stroke: #4a90e2;
+}
+
+.minimap-header span {
+	flex: 1;
+}
+
+.minimap-control-btn {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid #555;
+	color: #ccc;
+	padding: 2px 4px;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 11px;
+	transition: background 0.2s ease;
+}
+
+.minimap-control-btn:hover {
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+}
+
+.minimap-control-btn i {
+	width: 12px;
+	height: 12px;
+	stroke: currentColor;
+}
+
+.minimap-display {
+	width: 280px;
+	height: 180px;
+	border: 1px solid #444;
+	border-radius: 4px;
+	overflow: hidden;
+	position: relative;
+	background: #0a0a0a;
+}
+
+.minimap-info {
+	margin-top: 6px;
+	font-size: 0.7em;
+	color: #888;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.minimap-location {
+	color: #4a90e2;
+	font-weight: 600;
+}
+
+.minimap-position {
+	color: #ccc;
+}
+
+/* Mobile floating minimap */
+#mobile-minimap-overlay {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	width: 180px;
+	height: 140px;
+	background: rgba(0, 0, 0, 0.9);
+	border: 1px solid #333;
+	border-radius: 8px;
+	z-index: 1000;
+	padding: 8px;
+	display: none;
+}
+
+#mobile-minimap-overlay .minimap-display {
+	width: 100%;
+	height: 100px;
+}
+
+#mobile-minimap-overlay .minimap-info {
+	font-size: 0.6em;
+	margin-top: 4px;
+}
+
+/* Touch movement controls */
+#mobile-movement-controls {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 120px;
+	height: 120px;
+	z-index: 1001;
+	display: none;
+}
+
+.movement-dpad {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 2px;
+}
+
+.movement-btn {
+	background: rgba(0, 0, 0, 0.8);
+	border: 1px solid #555;
+	color: #fff;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	transition: all 0.2s ease;
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+.movement-btn:active {
+	background: rgba(74, 144, 226, 0.8);
+	transform: scale(0.95);
+}
+
+.movement-btn.north {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.movement-btn.west {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.movement-btn.east {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+.movement-btn.south {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	#sidebar-minimap-container {
+		display: none;
+	}
+	
+	#mobile-minimap-overlay {
+		display: block;
+	}
+	
+	#mobile-movement-controls {
+		display: block;
+	}
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+	#mobile-minimap-overlay {
+		top: 60px;
+		right: 10px;
+		width: 140px;
+		height: 110px;
+	}
+	
+	#mobile-minimap-overlay .minimap-display {
+		height: 80px;
+	}
+	
+	#mobile-movement-controls {
+		bottom: 80px;
+		right: 15px;
+		width: 100px;
+		height: 100px;
+	}
+}
+
+/* Collapsed sidebar adjustments */
+#custom-sidebar.collapsed #sidebar-minimap-container {
+	display: none;
+}
+
+/* Minimap-specific tile styling */
+.minimap-display .tile-map-container {
+	transform: scale(0.4);
+	transform-origin: top left;
+	width: 700px;
+	height: 450px;
+}
+
+.minimap-display .player-indicator {
+	border-width: 1px;
+	animation: none;
+	box-shadow: 0 0 5px rgba(74, 144, 226, 0.8);
+}
+
+.minimap-display .tile {
+	border: none;
+	transition: none;
+}
+
+.minimap-display .tile-grid.show-grid {
+	background-image: none;
+}
+/* twine-user-stylesheet #16: "sidebar.css" */
 /* =============================
 =        Sidebar Main         
 ============================= */
@@ -3090,7 +3327,7 @@ button.active-sexact.ongoing::after {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 16px 10px;
+	padding: 4px 4px;
 	background: #222;
 	border-bottom: 1px solid #444;
 }
@@ -3104,7 +3341,7 @@ button.active-sexact.ongoing::after {
 	background: rgba(255,255,255,0.05);
 	border: 1px solid #555;
 	color: white;
-	padding: 4px 8px;
+	padding: 2px 4px;
 	border-radius: 4px;
 	cursor: pointer;
 	transition: background 0.2s ease;
@@ -3138,33 +3375,44 @@ button.active-sexact.ongoing::after {
 =      Sidebar Top Info       
 ============================= */
 #sidebar-top-info {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	padding: 8px 10px;
-	background: #181818;
-	border-bottom: 1px solid #333;
-	font-size: 0.85em;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px;
+  gap: 4px;
+  background: #181818;
+  border-bottom: 1px solid #333;
+  font-size: 0.8em;
 }
 
-#sidebar-location-weather {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+#sidebar-top-line1,
+#sidebar-top-line2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 2px;
+
 }
 
-#sidebar-datetime {
-	display: flex;
-	flex-direction: column;
-	gap: 2px;
+#sidebar-gold,
+#sidebar-weather {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-#sidebar-gold {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	margin-top: 4px;
+/* Dot separator styling */
+.dot-separator {
+  margin: 0 4px;
+  color: #666;
 }
+
+/* Smaller icons */
+#sidebar-gold i,
+#sidebar-weather-icon {
+  font-size: 16px;
+}
+
 
 /* =============================
 =       Sidebar Buttons       
@@ -3222,10 +3470,10 @@ button.active-sexact.ongoing::after {
 	background: rgba(255,255,255,0.05);
 	color: white;
 	border: 1px solid #888;
-	padding: 6px 10px;
+	padding: 4px 10px;
 	border-radius: 4px;
 	font-family: 'Cinzel', serif;
-	font-size: 0.85em;
+	font-size: 0.75em;
 	font-weight: 700;
 	cursor: pointer;
 	display: flex;
@@ -3240,10 +3488,10 @@ button.active-sexact.ongoing::after {
 	background: rgba(255,255,255,0.05);
 	color: white;
 	border: 1px solid #888;
-	padding: 6px 10px;
+	padding: 4px 10px;
 	border-radius: 4px;
 	font-family: 'Cinzel', serif;
-	font-size: 0.85em;
+	font-size: 0.75em;
 	font-weight: 700;
 	cursor: pointer;
 	display: flex;
@@ -3252,6 +3500,11 @@ button.active-sexact.ongoing::after {
 	text-shadow: 0 0 2px #000;
 	transition: background 0.2s, transform 0.2s;
 
+}
+
+.macro-button svg {
+	width: 16px;
+	height: 15px;
 }
 
 .sidebar-btn:hover {
@@ -3275,7 +3528,7 @@ button.active-sexact.ongoing::after {
 	background: rgba(255,255,255,0.05);
 	border: 1px solid #666;
 	border-radius: 4px;
-	height: 24px;
+	height: 14px;
 	padding: 2px 6px;
 	margin: 6px 10px;
 	position: relative;
@@ -3302,6 +3555,7 @@ button.active-sexact.ongoing::after {
 	color: white;
 	text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); /* Adds contrast glow */
 	cursor: default;
+	padding-top: 2px
 }
 
 
@@ -3689,7 +3943,7 @@ button.active-sexact.ongoing::after {
 	opacity: 1;
 	transform: scale(1.1);
 }
-/* twine-user-stylesheet #16: "speech.css" */
+/* twine-user-stylesheet #17: "speech.css" */
 /* =============================
 =        Speech Bubbles        =
 ============================= */
@@ -3732,7 +3986,7 @@ button.active-sexact.ongoing::after {
     margin: 0;
     line-height: 1.5;
 }
-/* twine-user-stylesheet #17: "text-effects.css" */
+/* twine-user-stylesheet #18: "text-effects.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -3814,7 +4068,7 @@ button.active-sexact.ongoing::after {
 .montage-fade.fade-start {
 	opacity: 0;
 }
-/* twine-user-stylesheet #18: "themes.css" */
+/* twine-user-stylesheet #19: "themes.css" */
 /* =============================
 =         Text Effects         =
 ============================= */
@@ -3872,6 +4126,607 @@ button.active-sexact.ongoing::after {
     50%  { transform: translate(1px, -1px); }
     75%  { transform: translate(-1px, -1px); }
     100% { transform: translate(1px, 1px); }
+}
+/* twine-user-stylesheet #20: "tilemap.css" */
+/**
+ * tilemap_improved.css
+ * 
+ * Enhanced styling for the tile-based navigation system.
+ * Provides visual styling for the map grid, tiles, player indicator,
+ * animations, and responsive design elements.
+ * 
+ * Improvements:
+ * - Better performance with CSS containment and will-change
+ * - Enhanced accessibility features
+ * - Improved responsive design
+ * - Better theme support
+ * - Optimized animations
+ * - CSS custom properties for easy customization
+ */
+
+/* ===== CSS CUSTOM PROPERTIES ===== */
+:root {
+    /* Grid settings */
+    --tile-size: 64px;
+    --grid-line-color: rgba(255, 255, 255, 0.1);
+    --grid-line-width: 1px;
+    
+    /* Colors */
+    --map-bg-dark: #1a1a1a;
+    --map-bg-light: #f5f5f5;
+    --grid-bg-dark: #2a2a2a;
+    --grid-bg-light: #ffffff;
+    --border-color-dark: #333;
+    --border-color-light: #ccc;
+    
+    /* Tile colors */
+    --tile-walkable-border: rgba(76, 175, 80, 0.3);
+    --tile-non-walkable-border: rgba(244, 67, 54, 0.3);
+    --tile-interactive-border: rgba(255, 193, 7, 0.5);
+    --tile-interactive-hover: rgba(255, 193, 7, 0.8);
+    
+    /* Player indicator */
+    --player-color-primary: #4a90e2;
+    --player-color-secondary: #2171b5;
+    --player-color-tertiary: #1a5490;
+    --player-border: #ffffff;
+    --player-blocked-color: #e74c3c;
+    
+    /* Animation timings */
+    --movement-duration: 300ms;
+    --transition-duration: 200ms;
+    --pulse-duration: 2s;
+    
+    /* Shadows and effects */
+    --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    --player-glow: 0 0 10px rgba(74, 144, 226, 0.6);
+    --interactive-glow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+/* Light theme overrides */
+.theme-light {
+    --map-bg-dark: var(--map-bg-light);
+    --grid-bg-dark: var(--grid-bg-light);
+    --border-color-dark: var(--border-color-light);
+    --grid-line-color: rgba(0, 0, 0, 0.1);
+    --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== TILE MAP CONTAINER ===== */
+.tile-map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: var(--map-bg-dark);
+    border: 2px solid var(--border-color-dark);
+    border-radius: 8px;
+    box-shadow: var(--map-shadow);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
+    /* Performance optimizations */
+    contain: layout style paint;
+    will-change: contents;
+    
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tile-map-container:focus {
+    outline: 2px solid var(--player-color-primary);
+    outline-offset: -2px;
+}
+
+.tile-map-container:focus-visible {
+    outline: 3px solid var(--player-color-primary);
+    outline-offset: -3px;
+}
+
+/* Loading state */
+.tile-map-container.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.tile-map-container.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--player-color-primary);
+    border-radius: 50%;
+    animation: loadingSpinner 1s linear infinite;
+    z-index: 2000;
+}
+
+@keyframes loadingSpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== TILE GRID ===== */
+.tile-grid {
+    position: relative;
+    margin: auto;
+    background: var(--grid-bg-dark);
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    
+    /* Performance */
+    contain: strict;
+    transform: translateZ(0); /* Force GPU acceleration */
+}
+
+/* Grid lines (when enabled) */
+.tile-grid.show-grid {
+    background-image: 
+        linear-gradient(to right, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width)),
+        linear-gradient(to bottom, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width));
+    background-size: var(--tile-size) var(--tile-size);
+}
+
+/* ===== INDIVIDUAL TILES ===== */
+.tile {
+    position: absolute;
+    border: 1px solid transparent;
+    transition: border-color var(--transition-duration) ease,
+                transform var(--transition-duration) ease,
+                box-shadow var(--transition-duration) ease;
+    cursor: default;
+    box-sizing: border-box;
+    
+    /* Performance */
+    contain: layout style paint;
+    will-change: transform, border-color;
+    backface-visibility: hidden;
+}
+
+/* Viewport culling optimization */
+.tile.tile-culled {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Walkable tiles */
+.tile.walkable {
+    border-color: var(--tile-walkable-border);
+}
+
+/* Non-walkable tiles */
+.tile.non-walkable {
+    border-color: var(--tile-non-walkable-border);
+}
+
+/* Interactive tiles */
+.tile.interactive {
+    cursor: pointer;
+    border-color: var(--tile-interactive-border);
+}
+
+.tile.interactive:hover {
+    border-color: var(--tile-interactive-hover);
+    box-shadow: var(--interactive-glow);
+    transform: scale(1.02);
+    z-index: 10;
+}
+
+.tile.interactive:active {
+    transform: scale(0.98);
+}
+
+/* Tile hover effects */
+.tile:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+/* ===== PLAYER INDICATOR ===== */
+.player-indicator {
+    position: absolute;
+    background: radial-gradient(circle, 
+        var(--player-color-primary) 0%, 
+        var(--player-color-secondary) 70%, 
+        var(--player-color-tertiary) 100%);
+    border: 2px solid var(--player-border);
+    border-radius: 50%;
+    box-shadow: 
+        var(--player-glow),
+        0 0 20px rgba(74, 144, 226, 0.3),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    z-index: 1000;
+    animation: playerPulse var(--pulse-duration) infinite ease-in-out;
+    
+    /* Performance */
+    will-change: transform, left, top;
+    contain: layout style paint;
+}
+
+@keyframes playerPulse {
+    0%, 100% {
+        box-shadow: 
+            var(--player-glow),
+            0 0 20px rgba(74, 144, 226, 0.3),
+            inset 0 0 5px rgba(255, 255, 255, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px rgba(74, 144, 226, 0.8),
+            0 0 30px rgba(74, 144, 226, 0.5),
+            inset 0 0 8px rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+    }
+}
+
+/* Player indicator when movement is blocked */
+.player-indicator.movement-blocked {
+    background: radial-gradient(circle, 
+        var(--player-blocked-color) 0%, 
+        #c0392b 70%, 
+        #a93226 100%);
+    animation: blockedShake 0.2s ease-in-out;
+}
+
+@keyframes blockedShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* ===== TILE TYPES ===== */
+
+/* Path tiles */
+.tile[data-tile-type="path"] {
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+/* Grass tiles */
+.tile[data-tile-type="grass"] {
+    border-color: rgba(76, 175, 80, 0.4);
+}
+
+/* Water tiles */
+.tile[data-tile-type="water"] {
+    border-color: rgba(33, 150, 243, 0.4);
+}
+
+/* Building tiles */
+.tile[data-tile-type="building"] {
+    border-color: rgba(96, 125, 139, 0.4);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Extra large screens */
+@media (min-width: 1400px) {
+    .tile-map-container {
+        max-width: 900px;
+        max-height: 700px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .tile-map-container {
+        max-width: 800px;
+        max-height: 600px;
+    }
+}
+
+/* Medium screens */
+@media (max-width: 1199px) and (min-width: 768px) {
+    :root {
+        --tile-size: 48px;
+    }
+    
+    .tile-map-container {
+        max-width: 600px;
+        max-height: 450px;
+    }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+    :root {
+        --tile-size: 40px;
+    }
+    
+    .tile-map-container {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 4px;
+        border-width: 1px;
+    }
+    
+    .player-indicator {
+        border-width: 1px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    :root {
+        --tile-size: 32px;
+    }
+    
+    .tile-map-container {
+        max-height: 300px;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --tile-walkable-border: #00ff00;
+        --tile-non-walkable-border: #ff0000;
+        --tile-interactive-border: #ffff00;
+        --player-border: #000000;
+    }
+    
+    .tile-map-container {
+        border-color: #ffffff;
+        background: #000000;
+    }
+    
+    .tile-grid {
+        background: #000000;
+    }
+    
+    .player-indicator {
+        background: #ffffff;
+        box-shadow: none;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --movement-duration: 0ms;
+        --transition-duration: 0ms;
+        --pulse-duration: 0s;
+    }
+    
+    .tile,
+    .player-indicator {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .tile.interactive:hover {
+        transform: none !important;
+    }
+    
+    .tile-map-container {
+        scroll-behavior: auto;
+    }
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --map-bg-dark: #0a0a0a;
+        --grid-bg-dark: #1a1a1a;
+        --border-color-dark: #2a2a2a;
+    }
+}
+
+/* ===== MINIMAP INTEGRATION ===== */
+
+.minimap-container .tile-map-container {
+    border: 1px solid #555;
+    border-radius: 4px;
+    background: var(--map-bg-dark);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.minimap-container .tile-grid {
+    transform: scale(0.3);
+    transform-origin: top left;
+}
+
+.minimap-container .player-indicator {
+    border-width: 1px;
+    animation: none;
+}
+
+.minimap-container .tile {
+    border: none;
+    transition: none;
+}
+
+/* ===== OVERLAY INTEGRATION ===== */
+
+.overlay .tile-map-container {
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
+}
+
+/* ===== ANIMATION CLASSES ===== */
+
+.tile-fade-in {
+    animation: tilesFadeIn 0.5s ease-in-out;
+}
+
+@keyframes tilesFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.tile-slide-in {
+    animation: tilesSlideIn 0.3s ease-out;
+}
+
+@keyframes tilesSlideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.tile-map-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.tile-map-fullscreen .tile-map-container {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border: 2px solid var(--player-color-primary);
+}
+
+.tile-map-hidden {
+    display: none;
+}
+
+.tile-map-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+/* ===== DEBUG STYLES ===== */
+
+.debug-mode .tile {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.debug-mode .tile::after {
+    content: attr(data-tile-id);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 8px;
+    font-family: monospace;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1px 3px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.debug-mode .player-indicator::after {
+    content: attr(data-position);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-family: monospace;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+/* ===== FOCUS INDICATORS ===== */
+
+.tile.interactive:focus {
+    outline: 2px solid var(--player-color-primary);
+    outline-offset: 2px;
+}
+
+.tile.interactive:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.tile.interactive:focus-visible {
+    outline: 3px solid var(--player-color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+    .tile-map-container {
+        border: 1px solid #000;
+        background: #fff;
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    
+    .tile-grid {
+        background: #fff;
+    }
+    
+    .tile-grid.show-grid {
+        background-image: 
+            linear-gradient(to right, #ccc 1px, transparent 1px),
+            linear-gradient(to bottom, #ccc 1px, transparent 1px);
+    }
+    
+    .player-indicator {
+        background: #000;
+        border-color: #000;
+        animation: none;
+        box-shadow: none;
+    }
+    
+    .tile {
+        border-color: #ccc !important;
+        transition: none;
+    }
+    
+    .tile.interactive {
+        border-color: #666 !important;
+    }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Disable animations when not visible */
+.tile-map-container:not(:hover) .tile {
+    transition-duration: 0s;
+}
+
+/* Hardware acceleration for frequently animated elements */
+.player-indicator,
+.tile.interactive {
+    transform: translateZ(0);
+}
+
+/* Reduce paint areas */
+.tile {
+    isolation: isolate;
 }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "00_GlobalDeviceTypeAwareness.js" */
 setup.isMobileDevice = function () {
@@ -12252,7 +13107,2320 @@ setup.CrownAndCasteUI = {
   }
 
 };
-/* twine-user-script #30: "01_speechMacro.js" */
+/* twine-user-script #30: "MinimapIntegration.js" */
+/**
+ * MinimapIntegration.js
+ * 
+ * Integration layer between the minimap system and the sidebar UI.
+ * Handles initialization, updates, and coordination between systems.
+ */
+
+// Extend SidebarUI with minimap functionality
+if (typeof setup !== 'undefined' && setup.SidebarUI) {
+    
+    // Initialize minimap system
+ setup.SidebarUI.initializeMinimap = function() {
+    if (typeof MinimapSystem !== 'undefined') {
+        this.minimapSystem = new MinimapSystem('tile-map-container', {
+            viewSize: 7,
+            gridSize: 16,
+            centerOnPlayer: true,
+            enableMobileControls: true
+        });
+
+        // Connect to navigation system if available
+        if (window.mainNavigationSystem) {
+            this.minimapSystem.setNavigationSystem(window.mainNavigationSystem);
+        }
+
+        // Only load the map if the story has set the map and position
+        if (State.variables.currentMap && State.variables.playerPosition) {
+            this.minimapSystem.loadMap(State.variables.currentMap, State.variables.playerPosition);
+            console.log('[SidebarUI] Minimap loaded with current map and player position');
+        } else {
+            console.log('[SidebarUI] No current map defined — minimap will not auto-load');
+        }
+
+        console.log('[SidebarUI] Minimap system initialized');
+    } else {
+        console.warn('[SidebarUI] MinimapSystem not available');
+    }
+};
+
+
+    // Update minimap when player moves
+    setup.SidebarUI.updateMinimap = function(mapId, playerPosition) {
+        if (this.minimapSystem) {
+            if (mapId && mapId !== this.minimapSystem.currentMapId) {
+                // Map changed, load new map
+                this.minimapSystem.loadMap(mapId, playerPosition);
+            } else if (playerPosition) {
+                // Just update player position
+                this.minimapSystem.updatePlayerPosition(playerPosition.x, playerPosition.y);
+            }
+        }
+    };
+
+    // Refresh minimap dynamic tiles
+    setup.SidebarUI.refreshMinimap = function() {
+        if (this.minimapSystem) {
+            this.minimapSystem.refreshDynamicTiles();
+        }
+    };
+
+    // Enhanced update function that includes minimap
+    const originalUpdate = setup.SidebarUI.update;
+    setup.SidebarUI.update = function() {
+        // Call original update
+        if (originalUpdate) {
+            originalUpdate.call(this);
+        }
+        
+        // Update minimap if player position changed
+        if (this.minimapSystem && State.variables.playerPosition) {
+            const currentMap = State.variables.currentMap;
+            const playerPos = State.variables.playerPosition;
+            this.updateMinimap(currentMap, playerPos);
+        }
+    };
+};
+
+// Global functions for integration with navigation system
+window.updateMinimap = function(mapId, playerPosition) {
+    if (setup.SidebarUI && setup.SidebarUI.updateMinimap) {
+        setup.SidebarUI.updateMinimap(mapId, playerPosition);
+    }
+};
+
+window.refreshMinimap = function() {
+    if (setup.SidebarUI && setup.SidebarUI.refreshMinimap) {
+        setup.SidebarUI.refreshMinimap();
+    }
+};
+
+// Initialize minimap when document is ready
+$(document).ready(function() {
+    // Wait for all systems to load
+    setTimeout(() => {
+        if (setup.SidebarUI && typeof setup.SidebarUI.initializeMinimap === 'function') {
+            setup.SidebarUI.initializeMinimap();
+        }
+    }, 1000);
+});
+
+$(document).on(':storyready', function() {
+    // Integration with TileNavigationSystem
+    if (typeof TileNavigationSystem !== 'undefined') {
+        // Extend TileNavigationSystem to update minimap on movement
+        const originalCompleteMovement = TileNavigationSystem.prototype.completeMovement;
+        TileNavigationSystem.prototype.completeMovement = function(previousPos, newPos, direction) {
+            // Call original method
+            if (originalCompleteMovement) {
+                originalCompleteMovement.call(this, previousPos, newPos, direction);
+            }
+            
+            // Update minimap
+            window.updateMinimap(this.tileMapSystem.currentMap, newPos);
+            
+            // Update State variables for persistence
+            if (State.variables) {
+                State.variables.playerPosition = newPos;
+                State.variables.currentMap = this.tileMapSystem.currentMap;
+            }
+        };
+
+        // Extend map transition handling
+        const originalExecuteMapTransition = TileNavigationSystem.prototype.executeMapTransition;
+        TileNavigationSystem.prototype.executeMapTransition = async function(portal) {
+            // Call original method
+            if (originalExecuteMapTransition) {
+                await originalExecuteMapTransition.call(this, portal);
+            }
+            
+            // Update minimap with new map
+            window.updateMinimap(portal.targetMap, portal.targetPosition);
+            
+            // Update State variables
+            if (State.variables) {
+                State.variables.currentMap = portal.targetMap;
+                State.variables.playerPosition = portal.targetPosition;
+            }
+        };
+    }
+});
+
+
+console.log('MinimapIntegration loaded');
+/* twine-user-script #31: "MinimapSystem.js" */
+/**
+ * MinimapSystem.js
+ * 
+ * A specialized minimap system that extends TileMapSystem functionality
+ * for sidebar and mobile minimap display. Handles local view rendering,
+ * player centering, and responsive mobile controls.
+ */
+
+class MinimapSystem {
+    /**
+     * Initialize the MinimapSystem
+     * @param {string} containerId - DOM element ID where the minimap will be rendered
+     * @param {Object} options - Configuration options
+     */
+    constructor(containerId, options = {}) {
+        this.containerId = containerId;
+        this.container = null;
+        this.tileMapSystem = null;
+        this.navigationSystem = null;
+        
+        // Minimap-specific options
+        this.viewSize = options.viewSize || 7; // 7x7 grid for local view
+        this.gridSize = options.gridSize || 16; // Smaller grid for minimap
+        this.centerOnPlayer = options.centerOnPlayer !== false;
+        this.showFullMap = options.showFullMap || false;
+        this.enableMobileControls = options.enableMobileControls !== false;
+        
+        // State tracking
+        this.currentPlayerPosition = { x: 0, y: 0 };
+        this.currentMapId = null;
+        this.isDestroyed = false;
+        this.mobileControlsActive = false;
+        
+        // Mobile elements
+        this.mobileOverlay = null;
+        this.mobileControls = null;
+        
+        // Initialize the system
+        this.initialize();
+    }
+
+    /**
+     * Initialize the minimap system
+     */
+    initialize() {
+        this.container = document.getElementById(this.containerId);
+        if (!this.container) {
+            console.error(`MinimapSystem: Container element '${this.containerId}' not found`);
+            return;
+        }
+
+        // Create the tile map system for minimap
+        this.tileMapSystem = new TileMapSystem(this.containerId, {
+            gridSize: this.gridSize,
+            showGrid: false,
+            enableAnimations: false,
+            baseTilePath: 'images/tiles/',
+            isMinimap: true,
+            enableViewportCulling: false
+        });
+
+        // Set up mobile responsive behavior
+        this.setupResponsiveHandling();
+        
+        // Set up event listeners
+        this.setupEventListeners();
+
+        console.log('MinimapSystem initialized');
+    }
+
+    /**
+     * Set up responsive handling for mobile/desktop
+     */
+    setupResponsiveHandling() {
+        // Create mobile overlay
+        this.createMobileOverlay();
+        
+        // Create mobile movement controls
+        this.createMobileControls();
+        
+        // Set up resize listener
+        window.addEventListener('resize', () => this.handleResize());
+        this.handleResize(); // Initial check
+    }
+
+    /**
+     * Create mobile minimap overlay
+     */
+    createMobileOverlay() {
+        this.mobileOverlay = document.createElement('div');
+        this.mobileOverlay.id = 'mobile-minimap-overlay';
+        this.mobileOverlay.innerHTML = `
+            <div class="minimap-display" id="mobile-tile-map-container"></div>
+            <div class="minimap-info">
+                <div class="minimap-location">
+                    <span id="mobile-minimap-current-map">Loading...</span>
+                </div>
+                <div class="minimap-position">
+                    <span id="mobile-minimap-player-coords">(0, 0)</span>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(this.mobileOverlay);
+
+        // Create mobile tile map system
+        this.mobileTileMapSystem = new TileMapSystem('mobile-tile-map-container', {
+            gridSize: 12,
+            showGrid: false,
+            enableAnimations: false,
+            baseTilePath: 'images/tiles/',
+            isMinimap: true,
+            enableViewportCulling: false
+        });
+    }
+
+    /**
+     * Create mobile movement controls
+     */
+    createMobileControls() {
+        this.mobileControls = document.createElement('div');
+        this.mobileControls.id = 'mobile-movement-controls';
+        this.mobileControls.innerHTML = `
+            <div class="movement-dpad">
+                <div class="movement-btn north" data-direction="north">↑</div>
+                <div class="movement-btn west" data-direction="west">←</div>
+                <div class="movement-btn east" data-direction="east">→</div>
+                <div class="movement-btn south" data-direction="south">↓</div>
+            </div>
+        `;
+        document.body.appendChild(this.mobileControls);
+
+        // Add touch event listeners
+        this.mobileControls.querySelectorAll('.movement-btn').forEach(btn => {
+            const direction = btn.dataset.direction;
+            
+            // Touch events
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.handleMobileMovement(direction);
+                btn.classList.add('active');
+            });
+            
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                btn.classList.remove('active');
+            });
+            
+            // Mouse events for testing
+            btn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.handleMobileMovement(direction);
+                btn.classList.add('active');
+            });
+            
+            btn.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                btn.classList.remove('active');
+            });
+        });
+    }
+
+    /**
+     * Handle mobile movement input
+     * @param {string} direction - Movement direction
+     */
+    handleMobileMovement(direction) {
+        if (this.navigationSystem && this.navigationSystem.attemptMovement) {
+            this.navigationSystem.attemptMovement(direction);
+        } else if (window.mainNavigationSystem && window.mainNavigationSystem.attemptMovement) {
+            window.mainNavigationSystem.attemptMovement(direction);
+        } else {
+            console.warn('No navigation system available for mobile movement');
+        }
+    }
+
+    /**
+     * Handle window resize
+     */
+    handleResize() {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile && !this.mobileControlsActive) {
+            this.activateMobileMode();
+        } else if (!isMobile && this.mobileControlsActive) {
+            this.deactivateMobileMode();
+        }
+    }
+
+    /**
+     * Activate mobile mode
+     */
+    activateMobileMode() {
+        this.mobileControlsActive = true;
+        
+        // Hide desktop minimap
+        if (this.container) {
+            this.container.style.display = 'none';
+        }
+        
+        // Show mobile overlay and controls
+        if (this.mobileOverlay) {
+            this.mobileOverlay.style.display = 'block';
+        }
+        if (this.mobileControls) {
+            this.mobileControls.style.display = 'block';
+        }
+        
+        // Sync mobile minimap with current state
+        this.syncMobileMinimap();
+    }
+
+    /**
+     * Deactivate mobile mode
+     */
+    deactivateMobileMode() {
+        this.mobileControlsActive = false;
+        
+        // Show desktop minimap
+        if (this.container) {
+            this.container.style.display = 'block';
+        }
+        
+        // Hide mobile overlay and controls
+        if (this.mobileOverlay) {
+            this.mobileOverlay.style.display = 'none';
+        }
+        if (this.mobileControls) {
+            this.mobileControls.style.display = 'none';
+        }
+    }
+
+    /**
+     * Sync mobile minimap with desktop version
+     */
+    syncMobileMinimap() {
+        if (this.mobileTileMapSystem && this.currentMapId) {
+            this.mobileTileMapSystem.loadMap(this.currentMapId, this.currentPlayerPosition);
+            this.updateMobileInfo();
+        }
+    }
+
+    /**
+     * Set up event listeners
+     */
+    setupEventListeners() {
+        // Fullscreen button
+        const fullscreenBtn = document.getElementById('minimap-fullscreen-btn');
+        if (fullscreenBtn) {
+            fullscreenBtn.addEventListener('click', () => this.openFullscreenMap());
+        }
+    }
+
+    /**
+     * Load a map into the minimap
+     * @param {string} mapId - Map identifier
+     * @param {Object} playerPosition - Player position {x, y}
+     */
+    async loadMap(mapId, playerPosition = null) {
+        this.currentMapId = mapId;
+        if (playerPosition) {
+            this.currentPlayerPosition = playerPosition;
+        }
+
+        // Load into desktop minimap
+        if (this.tileMapSystem) {
+            const success = await this.tileMapSystem.loadMap(mapId, playerPosition);
+            if (success) {
+                this.updateMinimapView();
+                this.updateInfo();
+            }
+        }
+
+        // Load into mobile minimap if active
+        if (this.mobileControlsActive && this.mobileTileMapSystem) {
+            await this.mobileTileMapSystem.loadMap(mapId, playerPosition);
+            this.updateMobileInfo();
+        }
+    }
+
+    /**
+     * Update player position
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     */
+    updatePlayerPosition(x, y) {
+        this.currentPlayerPosition = { x, y };
+        
+        // Update desktop minimap
+        if (this.tileMapSystem) {
+            this.tileMapSystem.setPlayerPosition(x, y);
+            if (this.centerOnPlayer) {
+                this.centerMinimapOnPlayer();
+            }
+        }
+        
+        // Update mobile minimap
+        if (this.mobileControlsActive && this.mobileTileMapSystem) {
+            this.mobileTileMapSystem.setPlayerPosition(x, y);
+        }
+        
+        this.updateInfo();
+        this.updateMobileInfo();
+    }
+
+    /**
+     * Center minimap view on player
+     */
+    centerMinimapOnPlayer() {
+        if (!this.centerOnPlayer || !this.tileMapSystem) return;
+        
+        const container = this.tileMapSystem.container;
+        if (!container) return;
+        
+        const { x, y } = this.currentPlayerPosition;
+        const gridSize = this.tileMapSystem.gridSize;
+        
+        // Calculate center position
+        const centerX = x * gridSize - container.clientWidth / 2;
+        const centerY = y * gridSize - container.clientHeight / 2;
+        
+        container.scrollLeft = Math.max(0, centerX);
+        container.scrollTop = Math.max(0, centerY);
+    }
+
+    /**
+     * Update minimap view for local area
+     */
+    updateMinimapView() {
+        if (!this.tileMapSystem || this.showFullMap) return;
+        
+        // For local view, we'll use CSS transform to scale and position
+        const gridContainer = this.tileMapSystem.gridContainer;
+        if (!gridContainer) return;
+        
+        const { x, y } = this.currentPlayerPosition;
+        const gridSize = this.tileMapSystem.gridSize;
+        const viewSize = this.viewSize;
+        
+        // Calculate the area to show (centered on player)
+        const startX = Math.max(0, x - Math.floor(viewSize / 2));
+        const startY = Math.max(0, y - Math.floor(viewSize / 2));
+        
+        // Apply transform to show only the local area
+        const offsetX = -startX * gridSize;
+        const offsetY = -startY * gridSize;
+        
+        gridContainer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0.4)`;
+        gridContainer.style.transformOrigin = 'top left';
+    }
+
+    /**
+     * Update minimap info display
+     */
+    updateInfo() {
+        const mapNameEl = document.getElementById('minimap-current-map');
+        const coordsEl = document.getElementById('minimap-player-coords');
+        
+        if (mapNameEl && this.tileMapSystem && this.tileMapSystem.currentMapData) {
+            mapNameEl.textContent = this.tileMapSystem.currentMapData.name || this.currentMapId;
+        }
+        
+        if (coordsEl) {
+            coordsEl.textContent = `(${this.currentPlayerPosition.x}, ${this.currentPlayerPosition.y})`;
+        }
+    }
+
+    /**
+     * Update mobile minimap info display
+     */
+    updateMobileInfo() {
+        const mapNameEl = document.getElementById('mobile-minimap-current-map');
+        const coordsEl = document.getElementById('mobile-minimap-player-coords');
+        
+        if (mapNameEl && this.mobileTileMapSystem && this.mobileTileMapSystem.currentMapData) {
+            mapNameEl.textContent = this.mobileTileMapSystem.currentMapData.name || this.currentMapId;
+        }
+        
+        if (coordsEl) {
+            coordsEl.textContent = `(${this.currentPlayerPosition.x}, ${this.currentPlayerPosition.y})`;
+        }
+    }
+
+    /**
+     * Open fullscreen map view
+     */
+    openFullscreenMap() {
+        if (!this.tileMapSystem || !this.currentMapId) return;
+        
+        // Create fullscreen overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'tile-map-fullscreen';
+        overlay.innerHTML = `
+            <div id="fullscreen-tile-map" class="tile-map-container"></div>
+            <button class="fullscreen-close-btn" style="position: absolute; top: 20px; right: 20px; z-index: 10000; background: rgba(0,0,0,0.8); color: white; border: 1px solid #555; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Close</button>
+        `;
+        document.body.appendChild(overlay);
+        
+        // Create fullscreen map system
+        const fullscreenMap = new TileMapSystem('fullscreen-tile-map', {
+            gridSize: 64,
+            showGrid: true,
+            enableAnimations: true,
+            baseTilePath: 'images/tiles/'
+        });
+        
+        // Load current map
+        fullscreenMap.loadMap(this.currentMapId, this.currentPlayerPosition);
+        
+        // Close handlers
+        const closeBtn = overlay.querySelector('.fullscreen-close-btn');
+        closeBtn.addEventListener('click', () => {
+            overlay.remove();
+            fullscreenMap.destroy();
+        });
+        
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.remove();
+                fullscreenMap.destroy();
+            }
+        });
+        
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                overlay.remove();
+                fullscreenMap.destroy();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
+    }
+
+    /**
+     * Set navigation system reference
+     * @param {TileNavigationSystem} navigationSystem - Navigation system instance
+     */
+    setNavigationSystem(navigationSystem) {
+        this.navigationSystem = navigationSystem;
+    }
+
+    /**
+     * Refresh dynamic tiles
+     */
+    refreshDynamicTiles() {
+        if (this.tileMapSystem) {
+            this.tileMapSystem.updateDynamicTiles();
+        }
+        if (this.mobileControlsActive && this.mobileTileMapSystem) {
+            this.mobileTileMapSystem.updateDynamicTiles();
+        }
+    }
+
+    /**
+     * Get current map information
+     * @returns {Object} Current map data
+     */
+    getCurrentMapInfo() {
+        if (this.tileMapSystem) {
+            return this.tileMapSystem.getCurrentMapInfo();
+        }
+        return {
+            mapId: this.currentMapId,
+            mapData: null,
+            tiles: []
+        };
+    }
+
+    /**
+     * Destroy the minimap system
+     */
+    destroy() {
+        this.isDestroyed = true;
+        
+        // Remove event listeners
+        window.removeEventListener('resize', this.handleResize);
+        
+        // Destroy tile map systems
+        if (this.tileMapSystem) {
+            this.tileMapSystem.destroy();
+        }
+        if (this.mobileTileMapSystem) {
+            this.mobileTileMapSystem.destroy();
+        }
+        
+        // Remove mobile elements
+        if (this.mobileOverlay) {
+            this.mobileOverlay.remove();
+        }
+        if (this.mobileControls) {
+            this.mobileControls.remove();
+        }
+        
+        console.log('MinimapSystem destroyed');
+    }
+}
+
+// Export for use in other modules
+window.MinimapSystem = MinimapSystem;
+/* twine-user-script #32: "TileMapSystem.js" */
+/**
+ * TileMapSystem.js - Improved Version
+ * 
+ * A comprehensive tile-based navigation system for Twine/SugarCube games.
+ * Handles loading tile maps from JSON, rendering the tile grid, managing dynamic conditions,
+ * and coordinating with the navigation system for player movement.
+ * 
+ * Improvements:
+ * - Memory leak prevention with proper cleanup
+ * - Performance optimizations for large maps
+ * - Better error handling and validation
+ * - Improved modularity and separation of concerns
+ * - Enhanced caching mechanisms
+ * - Safer event execution
+ */
+
+class TileMapSystem {
+    /**
+     * Initialize the TileMapSystem
+     * @param {string} containerId - DOM element ID where the map will be rendered
+     * @param {Object} options - Configuration options
+     */
+    constructor(containerId, options = {}) {
+        this.containerId = containerId;
+        this.container = null;
+        this.currentMap = null;
+        this.currentMapData = null;
+        this.tiles = new Map(); // Map of tile ID to tile data
+        this.tileElements = new Map(); // Map of tile ID to DOM elements
+        this.tileCache = new Map(); // Cache for tile lookups by position
+        this.gridSize = options.gridSize || 64; // Size of each grid cell in pixels
+        this.showGrid = options.showGrid || false;
+        this.enableAnimations = options.enableAnimations !== false;
+        this.baseTilePath = options.baseTilePath || 'images/tiles/';
+        
+        // Performance options
+        this.renderBatchSize = options.renderBatchSize || 50; // Tiles to render per frame
+        this.enableViewportCulling = options.enableViewportCulling !== false;
+        this.viewportPadding = options.viewportPadding || 2; // Grid cells to render outside viewport
+        
+        // Event callbacks
+        this.onMapLoaded = options.onMapLoaded || null;
+        this.onTileEnter = options.onTileEnter || null;
+        this.onTileExit = options.onTileExit || null;
+        this.onTileInteract = options.onTileInteract || null;
+        
+        // Internal state
+        this.ambientEventInterval = null;
+        this.isDestroyed = false;
+        this.loadingPromise = null;
+        this.imagePreloadCache = new Map();
+        
+        // Initialize the system
+        this.initialize();
+    }
+
+    /**
+     * Initialize the tile map system
+     */
+    initialize() {
+        this.container = document.getElementById(this.containerId);
+        if (!this.container) {
+            console.error(`TileMapSystem: Container element '${this.containerId}' not found`);
+            return;
+        }
+
+        // Set up the container
+        this.container.classList.add('tile-map-container');
+        this.container.innerHTML = '';
+        this.container.setAttribute('tabindex', '0'); // For keyboard focus
+
+        // Create the grid container
+        this.gridContainer = document.createElement('div');
+        this.gridContainer.classList.add('tile-grid');
+        this.container.appendChild(this.gridContainer);
+
+        // Set up viewport culling if enabled
+        if (this.enableViewportCulling) {
+            this.setupViewportCulling();
+        }
+
+        // Set up event listeners for ambient events
+        this.setupAmbientEvents();
+
+        console.log('TileMapSystem initialized');
+    }
+
+    /**
+     * Set up viewport culling for performance
+     */
+    setupViewportCulling() {
+        this.viewportObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const tileElement = entry.target;
+                if (entry.isIntersecting) {
+                    tileElement.classList.remove('tile-culled');
+                } else {
+                    tileElement.classList.add('tile-culled');
+                }
+            });
+        }, {
+            root: this.container,
+            rootMargin: `${this.viewportPadding * this.gridSize}px`
+        });
+    }
+
+    /**
+     * Load a map from JSON data
+     * @param {string} mapId - The map identifier
+     * @param {Object} playerPosition - Optional starting position {x, y}
+     * @returns {Promise<boolean>} Success status
+     */
+    async loadMap(mapId, playerPosition = null) {
+        // Prevent concurrent loads
+        if (this.loadingPromise) {
+            await this.loadingPromise;
+        }
+
+        this.loadingPromise = this._loadMapInternal(mapId, playerPosition);
+        const result = await this.loadingPromise;
+        this.loadingPromise = null;
+        return result;
+    }
+
+    /**
+     * Internal map loading logic
+     * @private
+     */
+    async _loadMapInternal(mapId, playerPosition) {
+        try {
+            console.log(`Loading map: ${mapId}`);
+            
+            // Add loading state
+            this.container.classList.add('loading');
+            
+            // Load map data from JSON file
+            const mapData = await this.loadMapData(mapId);
+            if (!mapData) {
+                console.error(`Failed to load map data for: ${mapId}`);
+                return false;
+            }
+
+            // Validate map data
+            if (!this.validateMapData(mapData)) {
+                console.error(`Invalid map data for: ${mapId}`);
+                return false;
+            }
+
+            // Preload tile images
+            await this.preloadTileImages(mapData.tiles);
+
+            this.currentMap = mapId;
+            this.currentMapData = mapData;
+            
+            // Clear existing tiles
+            this.clearMap();
+            
+            // Process and store tile data
+            this.processTileData(mapData.tiles);
+            
+            // Build tile position cache
+            this.buildTileCache();
+            
+            // Render the map
+            await this.renderMap();
+            
+            // Set up player position
+            if (playerPosition) {
+                this.setPlayerPosition(playerPosition.x, playerPosition.y);
+            } else if (mapData.defaultPlayerPosition) {
+                this.setPlayerPosition(mapData.defaultPlayerPosition.x, mapData.defaultPlayerPosition.y);
+            }
+
+            // Remove loading state
+            this.container.classList.remove('loading');
+
+            // Trigger map loaded callback
+            if (this.onMapLoaded) {
+                this.onMapLoaded(mapId, mapData);
+            }
+
+            console.log(`Map '${mapId}' loaded successfully`);
+            return true;
+
+        } catch (error) {
+            console.error(`Error loading map '${mapId}':`, error);
+            this.container.classList.remove('loading');
+            return false;
+        }
+    }
+
+    /**
+     * Validate map data structure
+     * @param {Object} mapData - Map data to validate
+     * @returns {boolean} True if valid
+     */
+    validateMapData(mapData) {
+        if (!mapData || typeof mapData !== 'object') return false;
+        if (!mapData.size || typeof mapData.size.width !== 'number' || typeof mapData.size.height !== 'number') return false;
+        if (!Array.isArray(mapData.tiles)) return false;
+        
+        // Validate each tile
+        for (const tile of mapData.tiles) {
+            if (!tile.id || !tile.position || typeof tile.position.x !== 'number' || typeof tile.position.y !== 'number') {
+                console.error('Invalid tile data:', tile);
+                return false;
+            }
+            if (!tile.size || typeof tile.size.width !== 'number' || typeof tile.size.height !== 'number') {
+                console.error('Invalid tile size:', tile);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Preload tile images for better performance
+     * @param {Array} tiles - Array of tile objects
+     */
+    async preloadTileImages(tiles) {
+        const imageUrls = new Set();
+        
+        // Collect all unique image URLs
+        for (const tile of tiles) {
+            if (tile.image) {
+                imageUrls.add(this.baseTilePath + tile.image);
+            }
+            // Also preload dynamic condition images
+            if (tile.dynamicConditions) {
+                for (const condition of tile.dynamicConditions) {
+                    if (condition.image) {
+                        imageUrls.add(this.baseTilePath + condition.image);
+                    }
+                }
+            }
+        }
+        
+        // Preload all images
+        const preloadPromises = Array.from(imageUrls).map(url => {
+            if (this.imagePreloadCache.has(url)) {
+                return this.imagePreloadCache.get(url);
+            }
+            
+            const promise = new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+                img.src = url;
+            });
+            
+            this.imagePreloadCache.set(url, promise);
+            return promise;
+        });
+        
+        try {
+            await Promise.all(preloadPromises);
+        } catch (error) {
+            console.warn('Some tile images failed to preload:', error);
+        }
+    }
+
+    /**
+     * Load map data from JSON file
+     * @param {string} mapId - The map identifier
+     * @returns {Object|null} Map data or null if failed
+     */
+    async loadMapData(mapId) {
+        try {
+            const response = await fetch(`dev/js/data/maps/${mapId}.json`);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Failed to load map data for '${mapId}':`, error);
+            return null;
+        }
+    }
+
+    /**
+     * Process tile data and apply dynamic conditions
+     * @param {Array} tilesData - Array of tile objects from JSON
+     */
+    processTileData(tilesData) {
+        this.tiles.clear();
+        
+        for (const tileData of tilesData) {
+            // Clone the tile data to avoid modifying the original
+            const tile = JSON.parse(JSON.stringify(tileData));
+            
+            // Apply dynamic conditions
+            this.applyDynamicConditions(tile);
+            
+            // Store the processed tile
+            this.tiles.set(tile.id, tile);
+        }
+    }
+
+    /**
+     * Build tile position cache for fast lookups
+     */
+    buildTileCache() {
+        this.tileCache.clear();
+        
+        for (const [tileId, tile] of this.tiles) {
+            const { position, size } = tile;
+            
+            // Cache all grid positions this tile occupies
+            for (let x = position.x; x < position.x + size.width; x++) {
+                for (let y = position.y; y < position.y + size.height; y++) {
+                    const key = `${x},${y}`;
+                    this.tileCache.set(key, tile);
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply dynamic conditions to a tile based on game state
+     * @param {Object} tile - Tile object to modify
+     */
+    applyDynamicConditions(tile) {
+        if (!tile.dynamicConditions || tile.dynamicConditions.length === 0) {
+            return;
+        }
+
+        for (const condition of tile.dynamicConditions) {
+            if (this.evaluateCondition(condition.condition)) {
+                // Apply the conditional changes
+                if (condition.image !== undefined) tile.image = condition.image;
+                if (condition.walkable !== undefined) tile.walkable = condition.walkable;
+                if (condition.events) tile.events = { ...tile.events, ...condition.events };
+                if (condition.entryPoints) tile.entryPoints = condition.entryPoints;
+                if (condition.exitPoints) tile.exitPoints = condition.exitPoints;
+                
+                // Only apply the first matching condition
+                break;
+            }
+        }
+    }
+
+    /**
+     * Evaluate a condition string using SugarCube's State system
+     * @param {string} conditionStr - Condition to evaluate
+     * @returns {boolean} Result of condition evaluation
+     */
+    evaluateCondition(conditionStr) {
+        if (!conditionStr || typeof conditionStr !== 'string') {
+            return false;
+        }
+        
+        try {
+            // Create a safer evaluation context
+            const State = window.State || {};
+            const evalFunc = new Function('State', `return ${conditionStr}`);
+            return evalFunc(State);
+        } catch (error) {
+            console.warn(`Failed to evaluate condition: ${conditionStr}`, error);
+            return false;
+        }
+    }
+
+    /**
+     * Clear the current map
+     */
+    clearMap() {
+        // Clean up viewport observer
+        if (this.viewportObserver) {
+            this.viewportObserver.disconnect();
+        }
+        
+        // Clear DOM
+        this.gridContainer.innerHTML = '';
+        
+        // Clear data structures
+        this.tileElements.clear();
+        this.tiles.clear();
+        this.tileCache.clear();
+    }
+
+    /**
+     * Render the entire map with batching for performance
+     */
+    async renderMap() {
+        if (!this.currentMapData) {
+            console.error('No map data to render');
+            return;
+        }
+
+        const { width, height } = this.currentMapData.size;
+        
+        // Set up the grid container dimensions
+        this.gridContainer.style.width = `${width * this.gridSize}px`;
+        this.gridContainer.style.height = `${height * this.gridSize}px`;
+        this.gridContainer.style.position = 'relative';
+        
+        // Add grid lines if enabled
+        if (this.showGrid) {
+            this.gridContainer.classList.add('show-grid');
+        } else {
+            this.gridContainer.classList.remove('show-grid');
+        }
+
+        // Render tiles in batches to prevent blocking
+        const tiles = Array.from(this.tiles.values());
+        for (let i = 0; i < tiles.length; i += this.renderBatchSize) {
+            const batch = tiles.slice(i, i + this.renderBatchSize);
+            
+            // Render batch
+            batch.forEach(tile => this.renderTile(tile));
+            
+            // Allow browser to breathe
+            if (i + this.renderBatchSize < tiles.length) {
+                await new Promise(resolve => requestAnimationFrame(resolve));
+            }
+        }
+    }
+
+    /**
+     * Render a single tile
+     * @param {Object} tile - Tile data object
+     */
+    renderTile(tile) {
+        const tileElement = document.createElement('div');
+        tileElement.classList.add('tile');
+        tileElement.id = `tile-${tile.id}`;
+        tileElement.dataset.tileId = tile.id;
+
+        // Position and size the tile
+        const { x, y } = tile.position;
+        const { width, height } = tile.size;
+        
+        tileElement.style.position = 'absolute';
+        tileElement.style.left = `${x * this.gridSize}px`;
+        tileElement.style.top = `${y * this.gridSize}px`;
+        tileElement.style.width = `${width * this.gridSize}px`;
+        tileElement.style.height = `${height * this.gridSize}px`;
+
+        // Set background image
+        if (tile.image) {
+            tileElement.style.backgroundImage = `url('${this.baseTilePath}${tile.image}')`;
+            tileElement.style.backgroundSize = 'cover';
+            tileElement.style.backgroundPosition = 'center';
+            tileElement.style.backgroundRepeat = 'no-repeat';
+        }
+
+        // Add walkability class
+        if (tile.walkable) {
+            tileElement.classList.add('walkable');
+        } else {
+            tileElement.classList.add('non-walkable');
+        }
+
+        // Add interaction capability
+        if (tile.events && tile.events.onInteract) {
+            tileElement.classList.add('interactive');
+            tileElement.setAttribute('aria-label', 'Interactive tile - Press E to interact');
+            tileElement.setAttribute('role', 'button');
+        }
+
+        // Add tile type for styling
+        if (tile.type) {
+            tileElement.dataset.tileType = tile.type;
+        }
+
+        // Store the tile element
+        this.tileElements.set(tile.id, tileElement);
+        this.gridContainer.appendChild(tileElement);
+        
+        // Add to viewport observer if enabled
+        if (this.viewportObserver) {
+            this.viewportObserver.observe(tileElement);
+        }
+    }
+
+    /**
+     * Get tile at specific grid coordinates (with caching)
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     * @returns {Object|null} Tile data or null if no tile found
+     */
+    getTileAt(x, y) {
+        const key = `${x},${y}`;
+        return this.tileCache.get(key) || null;
+    }
+
+    /**
+     * Get tile by ID
+     * @param {string} tileId - Tile identifier
+     * @returns {Object|null} Tile data or null if not found
+     */
+    getTileById(tileId) {
+        return this.tiles.get(tileId) || null;
+    }
+
+    /**
+     * Check if movement is valid from one position to another
+     * @param {number} fromX - Starting X coordinate
+     * @param {number} fromY - Starting Y coordinate
+     * @param {number} toX - Target X coordinate
+     * @param {number} toY - Target Y coordinate
+     * @param {string} direction - Movement direction (north, south, east, west)
+     * @returns {boolean} True if movement is valid
+     */
+    isValidMovement(fromX, fromY, toX, toY, direction) {
+        const fromTile = this.getTileAt(fromX, fromY);
+        const toTile = this.getTileAt(toX, toY);
+
+        // Check if target tile exists and is walkable
+        if (!toTile || !toTile.walkable) {
+            return false;
+        }
+
+        // Check if we can exit from the current tile in this direction
+        if (fromTile && fromTile.exitPoints && fromTile.exitPoints.length > 0 && !fromTile.exitPoints.includes(direction)) {
+            return false;
+        }
+
+        // Check if we can enter the target tile from the opposite direction
+        const oppositeDirection = this.getOppositeDirection(direction);
+        if (toTile.entryPoints && toTile.entryPoints.length > 0 && !toTile.entryPoints.includes(oppositeDirection)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the opposite direction
+     * @param {string} direction - Original direction
+     * @returns {string} Opposite direction
+     */
+    getOppositeDirection(direction) {
+        const opposites = {
+            'north': 'south',
+            'south': 'north',
+            'east': 'west',
+            'west': 'east'
+        };
+        return opposites[direction] || direction;
+    }
+
+    /**
+     * Handle tile entry event
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     * @param {string} direction - Direction of entry
+     */
+    handleTileEntry(x, y, direction) {
+        const tile = this.getTileAt(x, y);
+        if (!tile) return;
+
+        // Execute onEnter event
+        if (tile.events && tile.events.onEnter) {
+            this.executeEvent(tile.events.onEnter, tile);
+        }
+
+        // Check for exit events (portals)
+        if (tile.events && tile.events.onExit) {
+            this.executeEvent(tile.events.onExit, tile);
+        }
+
+        // Trigger callback
+        if (this.onTileEnter) {
+            this.onTileEnter(tile, x, y, direction);
+        }
+    }
+
+    /**
+     * Handle tile interaction
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     */
+    handleTileInteraction(x, y) {
+        const tile = this.getTileAt(x, y);
+        if (!tile) return;
+
+        // Execute onInteract event
+        if (tile.events && tile.events.onInteract) {
+            this.executeEvent(tile.events.onInteract, tile);
+        }
+
+        // Trigger callback
+        if (this.onTileInteract) {
+            this.onTileInteract(tile, x, y);
+        }
+    }
+
+    /**
+     * Execute a tile event safely
+     * @param {string} eventCode - JavaScript code to execute
+     * @param {Object} tile - The tile that triggered the event
+     */
+    executeEvent(eventCode, tile = null) {
+        if (!eventCode || typeof eventCode !== 'string') {
+            console.warn('Invalid event code:', eventCode);
+            return;
+        }
+        
+        try {
+            // Create a safe execution context
+            const context = {
+                showMessage: (msg) => this.showMessage(msg),
+                openShop: (shopId) => this.openShop(shopId),
+                startEvent: (eventId) => this.startEvent(eventId),
+                loadMap: (mapId, position) => this.loadMap(mapId, position),
+                State: window.State || {}, // SugarCube State object
+                tile: tile, // Current tile context
+                system: this // Reference to the system
+            };
+
+            // Execute the event code with the context
+            const func = new Function(...Object.keys(context), eventCode);
+            func(...Object.values(context));
+
+        } catch (error) {
+            console.error('Error executing tile event:', error, '\nEvent code:', eventCode);
+        }
+    }
+
+    /**
+     * Show a message to the player
+     * @param {string} message - Message to display
+     */
+    showMessage(message) {
+        // This should integrate with your game's message system
+        console.log('Tile Message:', message);
+        
+        // Integration with SugarCube
+        if (window.UI && window.UI.alert) {
+            window.UI.alert(message);
+        } else if (window.Dialog && window.Dialog.setup && window.Dialog.open) {
+            window.Dialog.setup('Message', 'tile-message');
+            window.Dialog.wiki(message);
+            window.Dialog.open();
+        } else {
+            // Fallback to native alert
+            alert(message);
+        }
+    }
+
+    /**
+     * Open a shop interface
+     * @param {string} shopId - Shop identifier
+     */
+    openShop(shopId) {
+        console.log('Opening shop:', shopId);
+        // This should integrate with your existing shop system
+        if (window.ShopSystem && window.ShopSystem.openShop) {
+            window.ShopSystem.openShop(shopId);
+        } else {
+            this.showMessage(`Shop "${shopId}" would open here.`);
+        }
+    }
+
+    /**
+     * Start a game event
+     * @param {string} eventId - Event identifier
+     */
+    startEvent(eventId) {
+        console.log('Starting event:', eventId);
+        // This should integrate with your existing event system
+        if (window.Engine && window.Engine.play) {
+            window.Engine.play(eventId);
+        } else {
+            this.showMessage(`Event "${eventId}" would start here.`);
+        }
+    }
+
+    /**
+     * Set player position (for visual indicators)
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     */
+    setPlayerPosition(x, y) {
+        // Remove previous player indicator
+        const previousIndicator = this.container.querySelector('.player-indicator');
+        if (previousIndicator) {
+            previousIndicator.remove();
+        }
+
+        // Create new player indicator
+        const indicator = document.createElement('div');
+        indicator.classList.add('player-indicator');
+        indicator.style.position = 'absolute';
+        indicator.style.left = `${x * this.gridSize + this.gridSize / 4}px`;
+        indicator.style.top = `${y * this.gridSize + this.gridSize / 4}px`;
+        indicator.style.width = `${this.gridSize / 2}px`;
+        indicator.style.height = `${this.gridSize / 2}px`;
+        indicator.style.zIndex = '1000';
+        
+        // Add position data for debugging
+        indicator.dataset.position = `${x},${y}`;
+
+        this.container.appendChild(indicator);
+    }
+
+    /**
+     * Update dynamic tiles based on current game state
+     */
+    updateDynamicTiles() {
+        if (!this.currentMapData) return;
+
+        const updatedTiles = new Set();
+        
+        // Check each tile for condition changes
+        for (const originalTile of this.currentMapData.tiles) {
+            const currentTile = this.tiles.get(originalTile.id);
+            if (!currentTile) continue;
+            
+            // Re-evaluate dynamic conditions
+            const updatedTile = JSON.parse(JSON.stringify(originalTile));
+            this.applyDynamicConditions(updatedTile);
+            
+            // Check if tile has changed
+            if (JSON.stringify(currentTile) !== JSON.stringify(updatedTile)) {
+                updatedTiles.add(updatedTile.id);
+                this.tiles.set(updatedTile.id, updatedTile);
+            }
+        }
+        
+        // Re-render only changed tiles
+        for (const tileId of updatedTiles) {
+            const tile = this.tiles.get(tileId);
+            const existingElement = this.tileElements.get(tileId);
+            
+            if (existingElement) {
+                existingElement.remove();
+                this.tileElements.delete(tileId);
+            }
+            
+            this.renderTile(tile);
+        }
+        
+        // Rebuild cache if tiles changed
+        if (updatedTiles.size > 0) {
+            this.buildTileCache();
+        }
+    }
+
+    /**
+     * Set up ambient events system
+     */
+    setupAmbientEvents() {
+        // Clear any existing interval
+        if (this.ambientEventInterval) {
+            clearInterval(this.ambientEventInterval);
+        }
+        
+        // Check for ambient events periodically
+        this.ambientEventInterval = setInterval(() => {
+            if (!this.isDestroyed) {
+                this.checkAmbientEvents();
+            }
+        }, 10000); // Check every 10 seconds
+    }
+
+    /**
+     * Check and potentially trigger ambient events
+     */
+    checkAmbientEvents() {
+        if (!this.currentMapData || !this.currentMapData.ambientEvents) return;
+
+        for (const ambientEvent of this.currentMapData.ambientEvents) {
+            // Check probability
+            if (Math.random() > ambientEvent.probability) continue;
+
+            // Check conditions
+            let conditionsMet = true;
+            if (ambientEvent.conditions) {
+                for (const condition of ambientEvent.conditions) {
+                    if (!this.evaluateCondition(condition)) {
+                        conditionsMet = false;
+                        break;
+                    }
+                }
+            }
+
+            if (conditionsMet) {
+                this.showMessage(ambientEvent.message);
+                break; // Only trigger one ambient event at a time
+            }
+        }
+    }
+
+    /**
+     * Get current map information
+     * @returns {Object} Current map data
+     */
+    getCurrentMapInfo() {
+        return {
+            mapId: this.currentMap,
+            mapData: this.currentMapData,
+            tiles: Array.from(this.tiles.values())
+        };
+    }
+
+    /**
+     * Toggle grid display
+     */
+    toggleGrid() {
+        this.showGrid = !this.showGrid;
+        if (this.showGrid) {
+            this.gridContainer.classList.add('show-grid');
+        } else {
+            this.gridContainer.classList.remove('show-grid');
+        }
+    }
+
+    /**
+     * Enable debug mode
+     * @param {boolean} enabled - Whether to enable debug mode
+     */
+    setDebugMode(enabled) {
+        if (enabled) {
+            this.container.classList.add('debug-mode');
+        } else {
+            this.container.classList.remove('debug-mode');
+        }
+    }
+
+    /**
+     * Destroy the tile map system and clean up resources
+     */
+    destroy() {
+        this.isDestroyed = true;
+        
+        // Clear ambient event interval
+        if (this.ambientEventInterval) {
+            clearInterval(this.ambientEventInterval);
+            this.ambientEventInterval = null;
+        }
+        
+        // Disconnect viewport observer
+        if (this.viewportObserver) {
+            this.viewportObserver.disconnect();
+            this.viewportObserver = null;
+        }
+        
+        // Clear DOM
+        if (this.container) {
+            this.container.innerHTML = '';
+            this.container.classList.remove('tile-map-container', 'loading', 'debug-mode');
+        }
+        
+        // Clear data structures
+        this.tiles.clear();
+        this.tileElements.clear();
+        this.tileCache.clear();
+        this.imagePreloadCache.clear();
+        
+        // Clear references
+        this.currentMap = null;
+        this.currentMapData = null;
+        this.container = null;
+        this.gridContainer = null;
+        
+        console.log('TileMapSystem destroyed');
+    }
+}
+
+// Export for use in other modules
+window.TileMapSystem = TileMapSystem;
+/* twine-user-script #33: "TileNavigationSystem.js" */
+/**
+ * TileNavigationSystem.js - Improved Version
+ * 
+ * Handles player navigation within the tile-based map system.
+ * Manages WASD movement controls, position tracking, movement validation,
+ * interaction handling, and map transitions.
+ * 
+ * Improvements:
+ * - Better memory management and cleanup
+ * - Debounced movement for smoother controls
+ * - Enhanced error handling
+ * - Improved event listener management
+ * - Better separation of concerns
+ * - Performance optimizations
+ */
+
+class TileNavigationSystem {
+    /**
+     * Initialize the TileNavigationSystem
+     * @param {TileMapSystem} tileMapSystem - Reference to the tile map system
+     * @param {Object} options - Configuration options
+     */
+    constructor(tileMapSystem, options = {}) {
+        if (!tileMapSystem) {
+            throw new Error('TileNavigationSystem requires a TileMapSystem instance');
+        }
+        
+        this.tileMapSystem = tileMapSystem;
+        this.playerPosition = { x: 0, y: 0 };
+        this.isMoving = false;
+        this.movementSpeed = options.movementSpeed || 300; // Animation duration in ms
+        this.enableAnimations = options.enableAnimations !== false;
+        this.debugMode = options.debugMode || false;
+        
+        // Input handling
+        this.keyStates = new Map();
+        this.inputEnabled = true;
+        this.movementCooldown = options.movementCooldown || 50; // Minimum time between moves
+        this.lastMoveTime = 0;
+        this.queuedMovement = null;
+        
+        // Key mappings
+        this.movementKeys = {
+            'KeyW': 'north',
+            'KeyA': 'west', 
+            'KeyS': 'south',
+            'KeyD': 'east',
+            'ArrowUp': 'north',
+            'ArrowLeft': 'west',
+            'ArrowDown': 'south',
+            'ArrowRight': 'east'
+        };
+        this.interactionKeys = new Set(['KeyE', 'Enter', 'Space']);
+        
+        // Event callbacks
+        this.onPositionChange = options.onPositionChange || null;
+        this.onMovementBlocked = options.onMovementBlocked || null;
+        this.onMapTransition = options.onMapTransition || null;
+        this.onInteraction = options.onInteraction || null;
+        
+        // Bound event handlers for proper cleanup
+        this.boundHandleKeyDown = this.handleKeyDown.bind(this);
+        this.boundHandleKeyUp = this.handleKeyUp.bind(this);
+        this.boundHandleKeyPress = this.handleKeyPress.bind(this);
+        this.boundHandleFocus = this.handleFocus.bind(this);
+        
+        // Movement queue for smooth controls
+        this.movementQueue = [];
+        this.processQueueInterval = null;
+        
+        // State tracking
+        this.isDestroyed = false;
+        this.currentAnimationFrame = null;
+        
+        // Initialize the system
+        this.initialize();
+    }
+
+    /**
+     * Initialize the navigation system
+     */
+    initialize() {
+        this.setupEventListeners();
+        this.startMovementQueueProcessor();
+        console.log('TileNavigationSystem initialized');
+    }
+
+    /**
+     * Set up keyboard event listeners
+     */
+    setupEventListeners() {
+        // Keyboard event listeners
+        document.addEventListener('keydown', this.boundHandleKeyDown, { passive: false });
+        document.addEventListener('keyup', this.boundHandleKeyUp, { passive: false });
+        
+        // Prevent default behavior for movement keys
+        document.addEventListener('keydown', this.boundHandleKeyPress, { passive: false });
+
+        // Focus management to ensure key events are captured
+        document.addEventListener('click', this.boundHandleFocus);
+        
+        // Initial focus
+        this.handleFocus();
+    }
+
+    /**
+     * Handle focus management
+     */
+    handleFocus() {
+        if (this.inputEnabled && this.tileMapSystem.container) {
+            this.tileMapSystem.container.focus();
+        }
+    }
+
+    /**
+     * Handle keypress to prevent defaults
+     * @param {KeyboardEvent} event - Keyboard event
+     */
+    handleKeyPress(event) {
+        if (this.movementKeys[event.code] || this.interactionKeys.has(event.code)) {
+            event.preventDefault();
+        }
+    }
+
+    /**
+     * Handle keydown events
+     * @param {KeyboardEvent} event - Keyboard event
+     */
+    handleKeyDown(event) {
+        if (!this.inputEnabled || this.isDestroyed) return;
+
+        const { code } = event;
+        
+        // Prevent key repeat
+        if (this.keyStates.get(code)) return;
+        
+        // Track key state
+        this.keyStates.set(code, true);
+
+        // Handle movement keys
+        if (this.movementKeys[code]) {
+            const direction = this.movementKeys[code];
+            this.queueMovement(direction);
+        }
+
+        // Handle interaction keys
+        if (this.interactionKeys.has(code)) {
+            this.handleInteraction();
+        }
+
+        // Debug commands
+        if (this.debugMode) {
+            this.handleDebugKeys(event);
+        }
+    }
+
+    /**
+     * Handle keyup events
+     * @param {KeyboardEvent} event - Keyboard event
+     */
+    handleKeyUp(event) {
+        const { code } = event;
+        this.keyStates.set(code, false);
+        
+        // Clear queued movement if key released
+        if (this.movementKeys[code] && this.queuedMovement === this.movementKeys[code]) {
+            this.queuedMovement = null;
+        }
+    }
+
+    /**
+     * Queue a movement for processing
+     * @param {string} direction - Movement direction
+     */
+    queueMovement(direction) {
+        // Check cooldown
+        const now = Date.now();
+        if (now - this.lastMoveTime < this.movementCooldown) {
+            this.queuedMovement = direction;
+            return;
+        }
+        
+        // Attempt immediate movement
+        this.attemptMovement(direction);
+    }
+
+    /**
+     * Start the movement queue processor
+     */
+    startMovementQueueProcessor() {
+        this.processQueueInterval = setInterval(() => {
+            if (!this.isDestroyed && this.queuedMovement && !this.isMoving) {
+                const direction = this.queuedMovement;
+                this.queuedMovement = null;
+                this.attemptMovement(direction);
+            }
+        }, 50); // Process queue every 50ms
+    }
+
+    /**
+     * Handle debug key commands
+     * @param {KeyboardEvent} event - Keyboard event
+     */
+    handleDebugKeys(event) {
+        switch (event.code) {
+            case 'KeyG':
+                // Toggle grid display
+                this.tileMapSystem.toggleGrid();
+                console.log('Grid display toggled');
+                break;
+            case 'KeyI':
+                // Show current position info
+                this.showPositionInfo();
+                break;
+            case 'KeyR':
+                // Refresh dynamic tiles
+                this.tileMapSystem.updateDynamicTiles();
+                console.log('Dynamic tiles refreshed');
+                break;
+            case 'KeyD':
+                // Toggle debug mode display
+                this.tileMapSystem.setDebugMode(!this.tileMapSystem.container.classList.contains('debug-mode'));
+                break;
+        }
+    }
+
+    /**
+     * Attempt to move the player in a specific direction
+     * @param {string} direction - Movement direction (north, south, east, west)
+     */
+    attemptMovement(direction) {
+        if (this.isMoving || !this.inputEnabled || this.isDestroyed) return;
+
+        const currentPos = this.playerPosition;
+        const targetPos = this.calculateTargetPosition(currentPos, direction);
+
+        // Check if movement is valid
+        if (!this.isValidMovement(currentPos, targetPos, direction)) {
+            this.handleBlockedMovement(direction, targetPos);
+            return;
+        }
+
+        // Execute the movement
+        this.executeMovement(targetPos, direction);
+        this.lastMoveTime = Date.now();
+    }
+
+    /**
+     * Calculate target position based on current position and direction
+     * @param {Object} currentPos - Current position {x, y}
+     * @param {string} direction - Movement direction
+     * @returns {Object} Target position {x, y}
+     */
+    calculateTargetPosition(currentPos, direction) {
+        const { x, y } = currentPos;
+        
+        switch (direction) {
+            case 'north': return { x, y: y - 1 };
+            case 'south': return { x, y: y + 1 };
+            case 'east': return { x: x + 1, y };
+            case 'west': return { x: x - 1, y };
+            default: return currentPos;
+        }
+    }
+
+    /**
+     * Check if movement is valid
+     * @param {Object} fromPos - Starting position {x, y}
+     * @param {Object} toPos - Target position {x, y}
+     * @param {string} direction - Movement direction
+     * @returns {boolean} True if movement is valid
+     */
+    isValidMovement(fromPos, toPos, direction) {
+        // Check map boundaries
+        if (!this.isWithinMapBounds(toPos)) {
+            return false;
+        }
+
+        // Use tile map system to validate movement
+        return this.tileMapSystem.isValidMovement(
+            fromPos.x, fromPos.y,
+            toPos.x, toPos.y,
+            direction
+        );
+    }
+
+    /**
+     * Check if position is within map boundaries
+     * @param {Object} position - Position to check {x, y}
+     * @returns {boolean} True if within bounds
+     */
+    isWithinMapBounds(position) {
+        const mapData = this.tileMapSystem.currentMapData;
+        if (!mapData) return false;
+
+        const { x, y } = position;
+        const { width, height } = mapData.size;
+
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
+    /**
+     * Execute player movement to target position
+     * @param {Object} targetPos - Target position {x, y}
+     * @param {string} direction - Movement direction
+     */
+    executeMovement(targetPos, direction) {
+        this.isMoving = true;
+        const previousPos = { ...this.playerPosition };
+
+        // Update player position
+        this.playerPosition = targetPos;
+
+        // Handle tile exit events from previous position
+        const previousTile = this.tileMapSystem.getTileAt(previousPos.x, previousPos.y);
+        if (previousTile && previousTile.events && previousTile.events.onExit) {
+            this.tileMapSystem.executeEvent(previousTile.events.onExit, previousTile);
+        }
+
+        // Update visual position
+        if (this.enableAnimations) {
+            this.animateMovement(previousPos, targetPos, () => {
+                this.completeMovement(previousPos, targetPos, direction);
+            });
+        } else {
+            this.tileMapSystem.setPlayerPosition(targetPos.x, targetPos.y);
+            this.completeMovement(previousPos, targetPos, direction);
+        }
+    }
+
+    /**
+     * Animate player movement between positions
+     * @param {Object} fromPos - Starting position {x, y}
+     * @param {Object} toPos - Target position {x, y}
+     * @param {Function} onComplete - Callback when animation completes
+     */
+    animateMovement(fromPos, toPos, onComplete) {
+        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        if (!playerIndicator) {
+            // No visual indicator, just complete immediately
+            onComplete();
+            return;
+        }
+
+        const gridSize = this.tileMapSystem.gridSize;
+        const startX = fromPos.x * gridSize + gridSize / 4;
+        const startY = fromPos.y * gridSize + gridSize / 4;
+        const endX = toPos.x * gridSize + gridSize / 4;
+        const endY = toPos.y * gridSize + gridSize / 4;
+
+        // Cancel any existing animation
+        if (this.currentAnimationFrame) {
+            cancelAnimationFrame(this.currentAnimationFrame);
+        }
+
+        // Animate using requestAnimationFrame for smoother movement
+        const startTime = performance.now();
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / this.movementSpeed, 1);
+            
+            // Easing function for smoother movement
+            const easeProgress = this.easeInOutQuad(progress);
+            
+            const currentX = startX + (endX - startX) * easeProgress;
+            const currentY = startY + (endY - startY) * easeProgress;
+            
+            playerIndicator.style.left = `${currentX}px`;
+            playerIndicator.style.top = `${currentY}px`;
+            
+            if (progress < 1) {
+                this.currentAnimationFrame = requestAnimationFrame(animate);
+            } else {
+                this.currentAnimationFrame = null;
+                onComplete();
+            }
+        };
+        
+        this.currentAnimationFrame = requestAnimationFrame(animate);
+    }
+
+    /**
+     * Easing function for smooth animation
+     * @param {number} t - Progress (0-1)
+     * @returns {number} Eased progress
+     */
+    easeInOutQuad(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    /**
+     * Complete movement and trigger callbacks
+     * @param {Object} previousPos - Previous position {x, y}
+     * @param {Object} newPos - New position {x, y}
+     * @param {string} direction - Movement direction
+     */
+    completeMovement(previousPos, newPos, direction) {
+        this.isMoving = false;
+
+        // Handle tile entry events
+        this.tileMapSystem.handleTileEntry(newPos.x, newPos.y, direction);
+
+        // Trigger position change callback
+        if (this.onPositionChange) {
+            this.onPositionChange(newPos, previousPos, direction);
+        }
+
+        // Check for map transitions
+        this.checkMapTransitions();
+
+        // Check if movement key is still held for continuous movement
+        for (const [key, dir] of Object.entries(this.movementKeys)) {
+            if (this.keyStates.get(key) && dir === direction) {
+                this.queuedMovement = direction;
+                break;
+            }
+        }
+
+        // Debug output
+        if (this.debugMode) {
+            console.log(`Moved ${direction} to (${newPos.x}, ${newPos.y})`);
+        }
+    }
+
+    /**
+     * Handle blocked movement
+     * @param {string} direction - Attempted movement direction
+     * @param {Object} targetPos - Target position that was blocked
+     */
+    handleBlockedMovement(direction, targetPos) {
+        if (this.debugMode) {
+            console.log(`Movement blocked: ${direction} to (${targetPos.x}, ${targetPos.y})`);
+        }
+
+        // Trigger blocked movement callback
+        if (this.onMovementBlocked) {
+            this.onMovementBlocked(direction, targetPos);
+        }
+
+        // Visual feedback for blocked movement
+        this.showBlockedMovementFeedback(direction);
+    }
+
+    /**
+     * Show visual feedback for blocked movement
+     * @param {string} direction - Blocked direction
+     */
+    showBlockedMovementFeedback(direction) {
+        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        if (!playerIndicator) return;
+
+        // Add blocked movement class for visual feedback
+        playerIndicator.classList.add('movement-blocked');
+        
+        // Small shake animation in blocked direction
+        const gridSize = this.tileMapSystem.gridSize;
+        const shakeDistance = 5;
+        const originalLeft = parseFloat(playerIndicator.style.left);
+        const originalTop = parseFloat(playerIndicator.style.top);
+        
+        let offsetX = 0, offsetY = 0;
+        switch (direction) {
+            case 'north': offsetY = -shakeDistance; break;
+            case 'south': offsetY = shakeDistance; break;
+            case 'east': offsetX = shakeDistance; break;
+            case 'west': offsetX = -shakeDistance; break;
+        }
+        
+        // Animate shake
+        playerIndicator.style.transition = 'all 0.1s ease-out';
+        playerIndicator.style.left = `${originalLeft + offsetX}px`;
+        playerIndicator.style.top = `${originalTop + offsetY}px`;
+        
+        setTimeout(() => {
+            playerIndicator.style.left = `${originalLeft}px`;
+            playerIndicator.style.top = `${originalTop}px`;
+            
+            setTimeout(() => {
+                playerIndicator.style.transition = '';
+                playerIndicator.classList.remove('movement-blocked');
+            }, 100);
+        }, 100);
+    }
+
+    /**
+     * Handle interaction with current tile
+     */
+    handleInteraction() {
+        if (this.isMoving || this.isDestroyed) return;
+
+        const { x, y } = this.playerPosition;
+        
+        // Check for interactive tiles in all adjacent positions
+        const positions = [
+            { x, y }, // Current position
+            { x, y: y - 1 }, // North
+            { x: x + 1, y }, // East
+            { x, y: y + 1 }, // South
+            { x: x - 1, y } // West
+        ];
+        
+        let interacted = false;
+        for (const pos of positions) {
+            if (this.isWithinMapBounds(pos)) {
+                const tile = this.tileMapSystem.getTileAt(pos.x, pos.y);
+                if (tile && tile.events && tile.events.onInteract) {
+                    // Handle tile interaction
+                    this.tileMapSystem.handleTileInteraction(pos.x, pos.y);
+                    interacted = true;
+                    break;
+                }
+            }
+        }
+
+        // Trigger interaction callback
+        if (this.onInteraction) {
+            this.onInteraction(x, y, interacted);
+        }
+
+        if (this.debugMode) {
+            console.log(`Interaction at (${x}, ${y}) - ${interacted ? 'Success' : 'No interactive tile found'}`);
+        }
+    }
+
+    /**
+     * Check for map transitions based on current position
+     */
+    checkMapTransitions() {
+        const mapData = this.tileMapSystem.currentMapData;
+        if (!mapData || !mapData.portals) return;
+
+        const currentTile = this.tileMapSystem.getTileAt(this.playerPosition.x, this.playerPosition.y);
+        if (!currentTile) return;
+
+        // Check if current tile triggers a portal
+        for (const portal of mapData.portals) {
+            if (portal.triggerTileId === currentTile.id) {
+                // Check portal conditions
+                if (this.checkPortalConditions(portal)) {
+                    this.executeMapTransition(portal);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if portal conditions are met
+     * @param {Object} portal - Portal data
+     * @returns {boolean} True if conditions are met
+     */
+    checkPortalConditions(portal) {
+        if (!portal.conditions || portal.conditions.length === 0) {
+            return true;
+        }
+
+        for (const condition of portal.conditions) {
+            if (!this.tileMapSystem.evaluateCondition(condition)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Execute map transition
+     * @param {Object} portal - Portal data
+     */
+    async executeMapTransition(portal) {
+        if (this.debugMode) {
+            console.log(`Transitioning to map: ${portal.targetMap}`);
+        }
+
+        // Disable input during transition
+        this.setInputEnabled(false);
+
+        // Trigger transition callback
+        if (this.onMapTransition) {
+            this.onMapTransition(portal);
+        }
+
+        try {
+            // Load the new map
+            const success = await this.tileMapSystem.loadMap(portal.targetMap, portal.targetPosition);
+            
+            if (success) {
+                // Update player position
+                if (portal.targetPosition) {
+                    this.setPosition(portal.targetPosition.x, portal.targetPosition.y, true);
+                }
+            } else {
+                console.error(`Failed to load map: ${portal.targetMap}`);
+            }
+        } catch (error) {
+            console.error(`Error during map transition:`, error);
+        } finally {
+            // Re-enable input
+            this.setInputEnabled(true);
+        }
+    }
+
+    /**
+     * Set player position
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     * @param {boolean} updateVisual - Whether to update visual position
+     */
+    setPosition(x, y, updateVisual = true) {
+        const previousPos = { ...this.playerPosition };
+        this.playerPosition = { x, y };
+        
+        if (updateVisual) {
+            this.tileMapSystem.setPlayerPosition(x, y);
+        }
+
+        // Trigger position change callback
+        if (this.onPositionChange) {
+            this.onPositionChange({ x, y }, previousPos, null);
+        }
+    }
+
+    /**
+     * Get current player position
+     * @returns {Object} Current position {x, y}
+     */
+    getPosition() {
+        return { ...this.playerPosition };
+    }
+
+    /**
+     * Enable or disable input handling
+     * @param {boolean} enabled - Whether input should be enabled
+     */
+    setInputEnabled(enabled) {
+        this.inputEnabled = enabled;
+        
+        // Clear key states when disabling
+        if (!enabled) {
+            this.keyStates.clear();
+            this.queuedMovement = null;
+        }
+        
+        if (this.debugMode) {
+            console.log('Input', enabled ? 'enabled' : 'disabled');
+        }
+    }
+
+    /**
+     * Check if player is currently moving
+     * @returns {boolean} True if moving
+     */
+    isPlayerMoving() {
+        return this.isMoving;
+    }
+
+    /**
+     * Force stop current movement
+     */
+    stopMovement() {
+        this.isMoving = false;
+        this.queuedMovement = null;
+        
+        // Cancel animation
+        if (this.currentAnimationFrame) {
+            cancelAnimationFrame(this.currentAnimationFrame);
+            this.currentAnimationFrame = null;
+        }
+        
+        // Remove any transition animations
+        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        if (playerIndicator) {
+            playerIndicator.style.transition = '';
+        }
+    }
+
+    /**
+     * Show current position information (debug)
+     */
+    showPositionInfo() {
+        const { x, y } = this.playerPosition;
+        const currentTile = this.tileMapSystem.getTileAt(x, y);
+        
+        console.group('Position Info');
+        console.log(`Position: (${x}, ${y})`);
+        console.log('Current Tile:', currentTile);
+        console.log('Map:', this.tileMapSystem.currentMap);
+        console.log('Valid Directions:', this.getValidDirections());
+        console.log('Key States:', Array.from(this.keyStates.entries()));
+        console.groupEnd();
+    }
+
+    /**
+     * Get movement direction from two positions
+     * @param {Object} fromPos - Starting position {x, y}
+     * @param {Object} toPos - Target position {x, y}
+     * @returns {string|null} Direction or null if not adjacent
+     */
+    getMovementDirection(fromPos, toPos) {
+        const dx = toPos.x - fromPos.x;
+        const dy = toPos.y - fromPos.y;
+
+        if (Math.abs(dx) + Math.abs(dy) !== 1) {
+            return null; // Not adjacent
+        }
+
+        if (dx === 1) return 'east';
+        if (dx === -1) return 'west';
+        if (dy === 1) return 'south';
+        if (dy === -1) return 'north';
+
+        return null;
+    }
+
+    /**
+     * Teleport player to specific position (no movement validation)
+     * @param {number} x - Grid X coordinate
+     * @param {number} y - Grid Y coordinate
+     */
+    teleport(x, y) {
+        const previousPos = { ...this.playerPosition };
+        this.playerPosition = { x, y };
+        
+        // Stop any ongoing movement
+        this.stopMovement();
+        
+        // Update visual position immediately
+        this.tileMapSystem.setPlayerPosition(x, y);
+        
+        // Handle tile entry
+        this.tileMapSystem.handleTileEntry(x, y, null);
+        
+        // Trigger callbacks
+        if (this.onPositionChange) {
+            this.onPositionChange({ x, y }, previousPos, 'teleport');
+        }
+
+        if (this.debugMode) {
+            console.log(`Teleported to (${x}, ${y})`);
+        }
+    }
+
+    /**
+     * Get valid movement directions from current position
+     * @returns {Array} Array of valid direction strings
+     */
+    getValidDirections() {
+        const validDirections = [];
+        const currentPos = this.playerPosition;
+
+        for (const direction of ['north', 'south', 'east', 'west']) {
+            const targetPos = this.calculateTargetPosition(currentPos, direction);
+            if (this.isValidMovement(currentPos, targetPos, direction)) {
+                validDirections.push(direction);
+            }
+        }
+
+        return validDirections;
+    }
+
+    /**
+     * Set debug mode
+     * @param {boolean} enabled - Whether to enable debug mode
+     */
+    setDebugMode(enabled) {
+        this.debugMode = enabled;
+        this.tileMapSystem.setDebugMode(enabled);
+    }
+
+    /**
+     * Destroy the navigation system
+     */
+    destroy() {
+        this.isDestroyed = true;
+        
+        // Stop movement processing
+        if (this.processQueueInterval) {
+            clearInterval(this.processQueueInterval);
+            this.processQueueInterval = null;
+        }
+        
+        // Cancel any ongoing animations
+        if (this.currentAnimationFrame) {
+            cancelAnimationFrame(this.currentAnimationFrame);
+            this.currentAnimationFrame = null;
+        }
+        
+        // Remove event listeners
+        document.removeEventListener('keydown', this.boundHandleKeyDown);
+        document.removeEventListener('keyup', this.boundHandleKeyUp);
+        document.removeEventListener('keydown', this.boundHandleKeyPress);
+        document.removeEventListener('click', this.boundHandleFocus);
+        
+        // Reset state
+        this.keyStates.clear();
+        this.isMoving = false;
+        this.inputEnabled = false;
+        this.queuedMovement = null;
+        
+        console.log('TileNavigationSystem destroyed');
+    }
+}
+
+// Export for use in other modules
+window.TileNavigationSystem = TileNavigationSystem;
+/* twine-user-script #34: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -12278,7 +15446,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #31: "02_fogtextMacro.js" */
+/* twine-user-script #35: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -12332,7 +15500,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #32: "adda.js" */
+/* twine-user-script #36: "adda.js" */
 setup.adda_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "This place... it's yours?", target: "Adda_ThisPlaceIsYours" },
@@ -12358,7 +15526,7 @@ setup.adda_Conversation_Options_NoctailOrigin = function () {
 		{ label: "Let's talk about something else.", target: "Adda_Origin_Exit", reuse: 1 }
 	]);
 };
-/* twine-user-script #33: "allura.js" */
+/* twine-user-script #37: "allura.js" */
 setup.allura_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{label: "Were you watching me?", target: "Allura_Watching" },
@@ -12419,7 +15587,7 @@ setup.allura_Conversation_Options_alluraBackstory = function () {
 	]);
 };
 
-/* twine-user-script #34: "bert.js" */
+/* twine-user-script #38: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "What's on the menu?", target: "Bert_OpenShop", reuse: 1 },
@@ -12429,7 +15597,7 @@ setup.bert_Conversation_Options_Phase0 = function () {
 		{ label: "Nevermind.", target: "Bert_ReturnToParlor", reuse: 1 }
 	]);
 };
-/* twine-user-script #35: "brakka.js" */
+/* twine-user-script #39: "brakka.js" */
 setup.brakka_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "How are you doing tonight?", target: "Brakka_Howareyoutonight" },
@@ -12440,7 +15608,7 @@ setup.brakka_Conversation_Options_Phase0 = function () {
         { label: "Enjoy your meal.", target: "Brakka_ExitNormally", variable: "Read_Phase0_brakka_Brakka_ExitwithTournyInvite", reuse: 1, hide: true}
 	]);
 };
-/* twine-user-script #36: "darian.js" */
+/* twine-user-script #40: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -12563,8 +15731,8 @@ setup.darian_Conversation_Options_DarianDialogueDuet = function () {
 	]);
 };
 
-/* twine-user-script #37: "eristan.js" */
-/* twine-user-script #38: "harroc.js" */
+/* twine-user-script #41: "eristan.js" */
+/* twine-user-script #42: "harroc.js" */
  setup.harroc_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "Could I get a drink, please?", target: "Harroc_OrderDrink" },
@@ -12574,8 +15742,8 @@ setup.darian_Conversation_Options_DarianDialogueDuet = function () {
 		{ label: "I'll let you get back to it.", target: "Harroc_Phase0_Goodbye", reuse: 1 }
 	]);
 };
-/* twine-user-script #39: "kallot.js" */
-/* twine-user-script #40: "marie.js" */
+/* twine-user-script #43: "kallot.js" */
+/* twine-user-script #44: "marie.js" */
 setup.marie_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "How are you doing?", target: "Marie_Howareyoudoing" },
@@ -12684,7 +15852,7 @@ setup.marie_Conversation_Options_TheFight = function () {
 		}
 	]);
 };
-/* twine-user-script #41: "redmarrow.js" */
+/* twine-user-script #45: "redmarrow.js" */
 setup.redmarrow_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "You always dress this sharp?", target: "Redmarrow_ArmorFlattery" },
@@ -12727,7 +15895,7 @@ setup.redmarrow_Conversation_Options_TheFirstBounty = function () {
 }, 0);
 
 };
-/* twine-user-script #42: "tesska.js" */
+/* twine-user-script #46: "tesska.js" */
 // =======================
 // Tesska Phase 0 Trigger Function
 // =======================
@@ -12755,7 +15923,7 @@ setup.tesska_Conversation_Options_Phase0 = function () {
 		},
 	]);
 };
-/* twine-user-script #43: "02_DeclarativeDialogueSystem.js" */
+/* twine-user-script #47: "02_DeclarativeDialogueSystem.js" */
 // ===============================
 // Declarative Dialogue Detection System
 // ===============================
@@ -12818,7 +15986,7 @@ setup.startDialogueLayout = function () {
 		</div>
 	`;
 };
-/* twine-user-script #44: "SaveAPI.js" */
+/* twine-user-script #48: "SaveAPI.js" */
 window.SaveAPI = window.SaveAPI || {};
 
 SaveAPI.nativeSaveMenu = function () {
@@ -12838,7 +16006,7 @@ SaveAPI.nativeSaveMenu = function () {
 		alert("Could not open save menu.");
 	}
 };
-/* twine-user-script #45: "999_main.js" */
+/* twine-user-script #49: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -12862,7 +16030,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #46: "SexScene_Acts.js" */
+/* twine-user-script #50: "SexScene_Acts.js" */
 setup.SexualActsDB = {
 	Oral_Penis_G_Tease: {
 		label: "Tease Their Cock With Your Mouth",
@@ -13150,7 +16318,7 @@ setup.SexualActsDB = {
 
 
 };
-/* twine-user-script #47: "SexScene_Responses.js" */
+/* twine-user-script #51: "SexScene_Responses.js" */
 setup.SexSceneResponses = {
 	Oral_Penis_G_Tease: {
 		start: ["You brush your lips over their shaft, teasing with warm breath."],
@@ -13307,7 +16475,7 @@ setup.SexSceneResponses = {
 
 
 };
-/* twine-user-script #48: "convo_prompts.js" */
+/* twine-user-script #52: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -13489,7 +16657,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #49: "convo_tropes.js" */
+/* twine-user-script #53: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -13927,7 +17095,7 @@ setup.ConvoTropesByTier = {
     }
   ]
 };
-/* twine-user-script #50: "inclinations.js" */
+/* twine-user-script #54: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -14035,7 +17203,7 @@ setup.Inclinations = {
   }
 
 };
-/* twine-user-script #51: "motivations.js" */
+/* twine-user-script #55: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -14123,7 +17291,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #52: "npc_archetypes.js" */
+/* twine-user-script #56: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -14153,7 +17321,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #53: "npc_names.js" */
+/* twine-user-script #57: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -14168,7 +17336,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #54: "personality_traits.js" */
+/* twine-user-script #58: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -14230,7 +17398,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #55: "social_styles.js" */
+/* twine-user-script #59: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -14303,7 +17471,7 @@ setup.SocialStyles = {
     }
   };
   
-/* twine-user-script #56: "DataAuditor.js" */
+/* twine-user-script #60: "DataAuditor.js" */
 setup.DataAuditor = {
     listUniqueValues(objectArray, property) {
       const values = objectArray.flatMap(item => {
@@ -14423,7 +17591,7 @@ void audit.prompts.themes();
 ===========================================================
 */
 
-/* twine-user-script #57: "random-event.js" */
+/* twine-user-script #61: "random-event.js" */
 // repository: https://github.com/TweePower/twee-sugarcube-random-events
 
 const debugLevel = 3; // max debug level
@@ -17598,7 +20766,55 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
 &lt;&lt;print &quot;Style: &quot; + _npc.style&gt;&gt;
 &lt;&lt;print &quot;Trait: &quot; + _npc.trait + &quot;, Inclination: &quot; + _npc.inclination&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="SidebarUI" tags="nobr" position="1100,1225" size="100,100">&lt;!-- Top Nav and Collapse --&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="MiniMap" tags="special" position="1100,1225" size="100,100">&lt;!-- 
+MiniMap.tw - Twine Special Passage for Enhanced Minimap System
+This passage initializes the new MinimapSystem and provides integration hooks.
+--&gt;
+
+&lt;script&gt;
+// Initialize minimap system when this passage is processed
+$(document).ready(function() {
+    // Wait for all systems to be loaded
+    setTimeout(() =&gt; {
+        if (typeof MinimapSystem !== &#39;undefined&#39; &amp;&amp; setup.SidebarUI) {
+            // Initialize minimap if not already done
+            if (!setup.SidebarUI.minimapSystem) {
+                setup.SidebarUI.initializeMinimap();
+            }
+        } else {
+            console.warn(&#39;[MiniMap] Required systems not available&#39;);
+        }
+    }, 500);
+});
+
+// Global minimap update functions for backward compatibility
+window.updateMinimapLegacy = function(mapId, position) {
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.updateMinimap) {
+        setup.SidebarUI.updateMinimap(mapId, position);
+    }
+};
+
+window.refreshMinimapLegacy = function() {
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.refreshMinimap) {
+        setup.SidebarUI.refreshMinimap();
+    }
+};
+
+// Integration with existing navigation events
+$(document).on(&#39;:passagedisplay&#39;, function() {
+    // Update minimap when passages change
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.minimapSystem) {
+        const currentMap = State.variables.currentMap;
+        const playerPos = State.variables.playerPosition;
+        
+        if (currentMap &amp;&amp; playerPos) {
+            setup.SidebarUI.updateMinimap(currentMap, playerPos);
+        }
+    }
+});
+
+console.log(&#39;[MiniMap] Enhanced minimap system integration loaded&#39;);
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="100" name="SidebarUI" tags="nobr" position="1225,1225" size="100,100">&lt;!-- Top Nav and Collapse --&gt;
 &lt;div id=&quot;sidebar-topbar&quot;&gt;
 	&lt;div id=&quot;sidebar-nav&quot;&gt;
 		&lt;button id=&quot;sidebar-nav-back&quot; class=&quot;sidebar-nav-btn&quot; title=&quot;Go back&quot;&gt;
@@ -17658,18 +20874,24 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;!-- Main Scrollable Content --&gt;
 &lt;div id=&quot;sidebar-content&quot;&gt;
 	&lt;div id=&quot;sidebar-top-info&quot;&gt;
-		&lt;div id=&quot;sidebar-datetime&quot;&gt;
-			&lt;span id=&quot;sidebar-time&quot;&gt;--:--&lt;/span&gt;
-			&lt;span id=&quot;sidebar-date&quot;&gt;Loading Date...&lt;/span&gt;
-		&lt;/div&gt;
-		&lt;div id=&quot;sidebar-location-weather&quot;&gt;
+		&lt;div id=&quot;sidebar-top-line1&quot;&gt;
+			&lt;span id=&quot;sidebar-time&quot;&gt;6:00&lt;/span&gt;
+			&lt;span class=&quot;dot-separator&quot;&gt;•&lt;/span&gt;
+			&lt;span id=&quot;sidebar-date&quot;&gt;1 Rain, 12219 AI&lt;/span&gt;
+			&lt;span class=&quot;dot-separator&quot;&gt;•&lt;/span&gt;
 			&lt;span id=&quot;sidebar-location&quot;&gt;Unknown Location&lt;/span&gt;
+		&lt;/div&gt;
+		&lt;div id=&quot;sidebar-top-line2&quot;&gt;
+			&lt;span id=&quot;sidebar-gold&quot;&gt;
+				&lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt;
+				&lt;span id=&quot;sidebar-gold-amount&quot;&gt;100&lt;/span&gt;g
+			&lt;/span&gt;
+		&lt;span class=&quot;dot-separator&quot;&gt;•&lt;/span&gt;
+		&lt;span id=&quot;sidebar-weather&quot;&gt;
 			&lt;i id=&quot;sidebar-weather-icon&quot; data-lucide=&quot;sun&quot; title=&quot;Clear Skies&quot;&gt;&lt;/i&gt;
-		&lt;/div&gt;
-		&lt;div id=&quot;sidebar-gold&quot;&gt;
-			&lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt; &lt;span id=&quot;sidebar-gold-amount&quot;&gt;0&lt;/span&gt;
-		&lt;/div&gt;
+		&lt;/span&gt;
 	&lt;/div&gt;
+&lt;/div&gt;
 
 	&lt;div id=&quot;sidebar-status-tracker&quot;&gt;
 		&lt;div class=&quot;status-bar&quot; id=&quot;health-bar&quot;&gt;
@@ -17720,6 +20942,26 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 			&lt;div class=&quot;exp-bar-fill&quot; id=&quot;exp-fill&quot;&gt;&lt;/div&gt;
 		&lt;/div&gt;
 		&lt;span id=&quot;exp-text&quot;&gt;0/100 XP&lt;/span&gt;
+	&lt;/div&gt;
+
+	&lt;!-- Minimap Section --&gt;
+	&lt;div id=&quot;sidebar-minimap-container&quot;&gt;
+		&lt;div class=&quot;minimap-header&quot;&gt;
+			&lt;i data-lucide=&quot;map&quot;&gt;&lt;/i&gt;
+			&lt;span&gt;Local Map&lt;/span&gt;
+			&lt;button id=&quot;minimap-fullscreen-btn&quot; class=&quot;minimap-control-btn&quot; title=&quot;View Full Map&quot;&gt;
+				&lt;i data-lucide=&quot;maximize-2&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+		&lt;/div&gt;
+		&lt;div id=&quot;tile-map-container&quot; class=&quot;minimap-display&quot;&gt;&lt;/div&gt;
+		&lt;div class=&quot;minimap-info&quot;&gt;
+			&lt;div class=&quot;minimap-location&quot;&gt;
+				&lt;span id=&quot;minimap-current-map&quot;&gt;Loading...&lt;/span&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;minimap-position&quot;&gt;
+				Pos: &lt;span id=&quot;minimap-player-coords&quot;&gt;(0, 0)&lt;/span&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
 	&lt;/div&gt;
 
 	&lt;div id=&quot;custom-sidebar-buttons&quot;&gt;
@@ -17803,7 +21045,7 @@ if (typeof setup?.SidebarUI?.initialize === &quot;function&quot;) {
 		console.warn(&quot;[SidebarUI] Lucide failed to initialize after timeout.&quot;);
 	}
 })();
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="100" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="101" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="102" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="103" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="104" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="101" name="StoryAuthor" tags="" position="100,0" size="100,100">Pmoe</tw-passagedata><tw-passagedata pid="102" name="StoryAuthorInfo" tags="" position="200,0" size="100,100">Copyright © 2025 Parker Lee Christiansen. All Rights Reserved.</tw-passagedata><tw-passagedata pid="103" name="StoryBanner" tags="" position="300,0" size="100,100">&lt;b&gt;Liff Origins&lt;/b&gt; — Jaylie</tw-passagedata><tw-passagedata pid="104" name="StoryDisplay" tags="startup nobr" position="500,0" size="100,100">&lt;!-- No longer used for sidebar logic --&gt;</tw-passagedata><tw-passagedata pid="105" name="StoryInit" tags="" position="600,0" size="100,100">&lt;&lt;if $DEBUG is true&gt;&gt;
   &lt;&lt;print Macro.has(&quot;SidebarUI&quot;)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
@@ -17822,7 +21064,7 @@ if (typeof setup?.SidebarUI?.initialize === &quot;function&quot;) {
 			console.log(`🖼️ Background applied on init: ${path}`);
 		}
 	})();
-&gt;&gt;</tw-passagedata><tw-passagedata pid="105" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&gt;&gt;</tw-passagedata><tw-passagedata pid="106" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -17906,8 +21148,8 @@ if (typeof setup?.SidebarUI?.initialize === &quot;function&quot;) {
 
   &lt;/div&gt;
 
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="106" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
-* [[Help]]</tw-passagedata><tw-passagedata pid="107" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="108" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="107" name="StoryMenu" tags="" position="800,0" size="100,100">* [[Credits]]
+* [[Help]]</tw-passagedata><tw-passagedata pid="108" name="StorySubtitle" tags="" position="900,0" size="100,100">A Liff Story.</tw-passagedata><tw-passagedata pid="109" name="Start" tags="" position="175,125" size="100,100">&lt;&lt;bg &quot;default&quot;&gt;&gt;
 # Introduction
 
 Hello there and welcome to Liff Origins: Jaylie. This is my first game-development project and an introduction to the World of Liff, a fantasy world all my own where this small prequel and my planned future project, Adventures of Liff,  will take place.
@@ -17918,7 +21160,7 @@ This story will contain elements of an &#39;&#39;ADULT/MATURE&#39;&#39; nature. 
 
 [[Go forth and journey on|StoryStart_Scene01]]
 
-[[Wait I am NOT an adult|Underage_Response]]</tw-passagedata><tw-passagedata pid="109" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="110" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_AddaGreeting&quot;&gt;&gt;
+[[Wait I am NOT an adult|Underage_Response]]</tw-passagedata><tw-passagedata pid="110" name="Underage_Response" tags="" position="275,150" size="100,100">&#39;&#39;Get out of here!&#39;&#39;</tw-passagedata><tw-passagedata pid="111" name="Scene02_AddasGreeting" tags="" position="75,650" size="100,100">&lt;&lt;bg &quot;Scene02_AddaGreeting&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;You will have to forgive me for staring. If I didn&#39;t know any better I would have thought royalty had just walked into my humble parlor.&lt;&lt;/speech&gt;&gt;
 	
 	She gives you a thoughtful wink.
@@ -17944,7 +21186,7 @@ You take a moment to catch your breath and find your tongue.
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;
 &lt;em&gt;Birthday!?&lt;/em&gt; But of course! Why don&#39;t you follow me into the parlor. Let&#39;s get you comfortable. There&#39;s a bar if you want something to drink, but any of my talented hosts will be happy to assist you.&lt;&lt;/speech&gt;&gt;
 
-&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="111" name="Scene02_BrothelBar" tags="" position="100,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;p&gt;You follow Mistress Adda through a set of velvet red curtains and [[into the parlor|TheBrothelParlorOverview]].&lt;/p&gt;</tw-passagedata><tw-passagedata pid="112" name="Scene02_BrothelBar" tags="" position="225,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelParlor&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You make your way across the plush floor toward the bar, the air thick with perfume and low conversation. The man behind the counter is a picture of precision — tall, thin, immaculately dressed in a crimson waistcoat. His dark hair is slicked back without a single strand out of place, and the thick, hemispherical mustache above his lip gives him the appearance of someone who might scowl by default… if he ever showed enough expression to scowl.
 
@@ -17962,7 +21204,7 @@ His voice is calm. Clipped. Not unfriendly — just focused. Every word is perfe
 
 &lt;&lt;speech &quot;bert&quot;&gt;&gt;In that case, the first one&#39;s on the house. Anything in particular you like? Or shall I surprise you?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;bert&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="112" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;bert&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="113" name="Scene02_ReturnToParlor" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The familiar blend of perfume, wine, and something unplaceably warm hits you again as you step back into the middle of the parlor. The scent doesn&#39;t surprise you this time—it, but welcomes you, like returning to a book left open mid-page.
 
@@ -17985,7 +21227,7 @@ From here, you may:
 [[Approach the half-demon woman.|Scene02_TalkToExotic]]
 [[Approach the male host.|Scene02_TalkToMaleHost]]
 [[Approach the blonde hostest.|Scene02_TalkToAngryHost]]
-[[Approach Adda, the Brothel Mistress.|Scene02_TalkToAdda]]</tw-passagedata><tw-passagedata pid="113" name="Scene02_TalkToAdda" tags="" position="350,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[Approach Adda, the Brothel Mistress.|Scene02_TalkToAdda]]</tw-passagedata><tw-passagedata pid="114" name="Scene02_TalkToAdda" tags="" position="475,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAdda&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 Mistress Adda stands with one hand resting lightly on the back of a velvet chair, her other cradling a delicate crystal glass of something deep amber. She is half-illuminated by the glow of a nearby sconce, her dark gown catching the light like polished coal. Her posture is perfect—spine straight, shoulders regal—but there is something soft in her gaze as she watches you approach.
 
@@ -18001,7 +21243,7 @@ She chuckles—a low, warm sound—and gestures to the seat across from her.
 
 You take a seat, and Adda sits next to you, tucking her knees close to yours. Her posture is personal, but not what you would call intimate. The chair is plush beneath you, the fabric warm from the heat of the room. Adda watches you settle with the ease of someone used to holding court.
 
-&lt;&lt;DialogueTree &quot;adda&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="114" name="Scene02_TalkToAngryHost" tags="" position="475,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;adda&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="Scene02_TalkToAngryHost" tags="" position="600,1475" size="100,100">&lt;&lt;bg &quot;Scene02_TalkToAngryHost&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You approach the blonde girl, who had thrown the horseshoe at the man outside. She turns half a face towards you as you sit on the couch next to her. Her face is soft, but she is obviously annoyed.
 
@@ -18011,7 +21253,7 @@ You approach the blonde girl, who had thrown the horseshoe at the man outside. S
 
 You take a seat next to her, your knees pointed away from her, making sure to give her space. She seems to stare at everything in the room but you.
 
-&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="115" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="Scene02_TalkToExotic" tags="" position="25,900" size="100,100">&lt;&lt;bg &quot;parlorallura&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You drift toward the velvet chaise, where the blue-skinned woman is laying, drawn more by the stillness around it than the woman herself—at first.
 
@@ -18043,7 +21285,7 @@ She tilts her head and watches you like she&#39;s measuring shadows in candlelig
 &lt;&lt;know &quot;allura&quot;&gt;&gt;
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;You may call me Allura. For now.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="116" name="Scene02_TalkToMaleHost" tags="" position="725,1475" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="Scene02_TalkToMaleHost" tags="" position="850,1475" size="100,100">&lt;&lt;bg &quot;parlordarian&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You find him standing near one of the larger couches, laughing gently with a pair of guests as he pours wine into their cups. His presence is easy—casual, but not careless. Confident, but never imposing. He thanks them with a soft smile and turns just in time to catch your approach.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Good evening, my lady. Looking for someone to share it with?&lt;&lt;/speech&gt;&gt;
@@ -18074,7 +21316,7 @@ He freezes slightly, just for a second. His sudden expression draws a chortle fr
 
 You can&#39;t help but smile. There&#39;s something very real about him—beneath the smooth edges and trained elegance, a softness that feels rare in a place like this.
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="117" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="118" name="Scene02_TheBrothelEntry" tags="" position="75,550" size="100,100">&lt;&lt;bg &quot;Scene02_TheBrothelEntry&quot;&gt;&gt;
 
 You walk up to the steps of the brothel and look up at the dark and heavy door. On either side of it are frosted glass windows which bathe you in a diffused orange glow of the warm fire-light within.  
 You walk up the few steps, pull on the handle, open the door and step inside.  
@@ -18095,7 +21337,7 @@ The madam from before walks around the corner of the wall from an area of the ma
 	&lt;p&gt;She unclasps your cloak and draws back your hood, revealing your face and hair. The warmth of the room brushes your cheeks. Her smile softens.&lt;/p&gt;
     &lt;&lt;speech &quot;adda&quot;&gt;&gt; &lt;em&gt;Ahhh.&lt;/em&gt; What have we [[here?|Scene02_AddasGreeting]] &lt;&lt;/speech&gt;&gt;
   &lt;&lt;/replace&gt;&gt;
-&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="118" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;/link&gt;&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="119" name="TheBrothelParlorOverview" tags="" position="75,775" size="100,100">&lt;&lt;bg &quot;parloroverview&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Please, Jaylie. Make yourself comfortable. Drink if you wish. Speak with whoever calls to you. No pressure. No expectations. Just enjoy yourself.&lt;&lt;/speech&gt;&gt;
 The scent hits you first — a blend of perfume, wine, and something warmer, deeper. Not quite sweat. Not quite incense. Something in between.
@@ -18121,7 +21363,7 @@ From here, you may:
 [[Approach the bar and request a drink.|Scene02_BrothelBar]]
 [[Speak to the exotic half-demon woman.|Scene02_TalkToExotic]]
 [[Strike up a conversation with the male host.|Scene02_TalkToMaleHost]]
-[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="119" name="Adda_PostSexPhase1" tags="" position="1100,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Adda_PostSexPhase1&quot;&gt;&gt;
+[[Follow the upset host and try to speak with her.|Scene02_TalkToAngryHost]]</tw-passagedata><tw-passagedata pid="120" name="Adda_PostSexPhase1" tags="" position="1225,1475" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Adda_PostSexPhase1&quot;&gt;&gt;
 
 Adda rises before you&#39;ve even shifted. She moves with quiet finality, gathering her dark blue dress from its heap on the floor and pulling it up her body and onto her arms. The silky material falls against her skin like it never left.
 
@@ -18165,7 +21407,7 @@ It grows. It dances.
 
 It burns.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="120" name="Adda_PrivateScene" tags="" position="1225,1475" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="Adda_PrivateScene" tags="" position="100,1600" size="100,100">&lt;&lt;bg &quot;Adda_PrivateScene&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 The door to her private chamber closes with a decisive click behind you. The sound echoes in the stillness like a judgment passed. No music, no muffled laughter from the floor below—just the rich silence of a room that doesn&#39;t often welcome guests.
 
@@ -18186,7 +21428,7 @@ She steps closer, slowly—never hurrying, never uncertain. One hand reaches out
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;Strip, darling. Slowly. I want to see if you can follow orders... before I give the ones that matter.&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;StartSexScene &quot;adda&quot;&gt;&gt;
-&lt;&lt;EndSexScene &quot;Adda_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="121" name="Allura_GoingUpstairs" tags="" position="100,1600" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;EndSexScene &quot;Adda_PostSexPhase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="122" name="Allura_GoingUpstairs" tags="" position="225,1600" size="100,100">&lt;&lt;bg &quot;Allura_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 &lt;p&gt;You follow her through the parlor, back towards the entrance, and through the heavy velvet curtain. She leads you all the way to the stairs by one hand. As you get to the bottom of the stairs lightning cracks, and thunder bellows. The entryway is illuminated in flashing light for a moment and the foundation shakes be beneath your feet. Allura pauses on the second step; she pivots, facing the glass door.&lt;/p&gt;
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Certainly, I hope this storm breaks before morning. Would be a shame for it to ruin the fair.&lt;&lt;/speech&gt;&gt;
@@ -18197,7 +21439,7 @@ At the top of the stairs you enter a long, narrow hallway lined with ten or so d
 
 &lt;&lt;speech &quot;allura&quot;&gt;&gt;Welcome to my humble abode, Mon trésor.&lt;&lt;/speech&gt;&gt;
 
-She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="122" name="Allura_JustLay_Route" tags="" position="225,1600" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Allura_JustLay_Route&quot;&gt;&gt;
+She reaches down and turns the handle to the door, pushing it open and gesturing with her arm for you to [[step inside.|Allura_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="123" name="Allura_JustLay_Route" tags="" position="350,1600" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Allura_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -18256,7 +21498,7 @@ She reaches down and turns the handle to the door, pushing it open and gesturing
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="123" name="Allura_PostSexPhase1" tags="" position="350,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Allura_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="124" name="Allura_PostSexPhase1" tags="" position="475,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Allura_PostSexPhase1&quot;&gt;&gt;
 
 Allura lounges beside you like a goddess painted into silk—one leg draped over yours, her skin glowing with the heat of what just passed. She doesn&#39;t speak right away. She just exists there beside you—smug, sensual, and devastatingly at ease.
 
@@ -18298,7 +21540,7 @@ You move beside her following her gaze.
 
 An orange glow is climbing the darkness—faint, flickering... spreading.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="124" name="Allura_UpstairsPhase1" tags="" position="475,1600" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="Allura_UpstairsPhase1" tags="" position="600,1600" size="100,100">&lt;&lt;bg &quot;Allura_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You aren&#39;t entirely sure what you expected, but her room surprises you in more ways than one.
 
 It&#39;s dimly lit — not from lack of light, but from choice. A cluster of colored glass lanterns hang in the far corner, casting hues of deep amethyst, rose, and sea-green across the velvet drapes that hang like soft walls over real ones. The air smells faintly of sandalwood and something sweeter, darker — like black cherries left to soak in wine.
@@ -18315,7 +21557,7 @@ She turns to face you again, her hands resting on her hips, her silhouette frame
 
 You turn and close the door, the bolt clicks into place and now the two of you feel truly alone. When you&#39;ve turned back around Allura is laid back on the mattress, her arms reached above her head. She is calm. She is vulnerable. You can&#39;t help but feel like she truly wants to be in here with you.
 
-&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="125" name="Darian_GoingUpstairs" tags="" position="600,1600" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;allura&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="126" name="Darian_GoingUpstairs" tags="" position="725,1600" size="100,100">&lt;&lt;bg &quot;Darian_GoingUpstairs&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow him out of the parlor and through the heavy velvet-curtained hall, past the lingering music and soft laughter of the parlor. He guides you by the hand the whole way— a proper gentleman&#39;s escort.
 
@@ -18333,7 +21575,7 @@ He catches your glance.
 
 He opens the door without ceremony, stepping aside to let you enter first.
 
-[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="126" name="Darian_MusicMontage" tags="" position="725,1600" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
+[[You step into his room.|Darian_UpstairsPhase1]]</tw-passagedata><tw-passagedata pid="127" name="Darian_MusicMontage" tags="" position="850,1600" size="100,100">&lt;&lt;bg &quot;DarianMusicMontage&quot;&gt;&gt;
 &lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
@@ -18412,7 +21654,7 @@ He opens the door without ceremony, stepping aside to let you enter first.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="127" name="Darian_PostSexPhase1" tags="" position="850,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Darian_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="128" name="Darian_PostSexPhase1" tags="" position="975,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Darian_PostSexPhase1&quot;&gt;&gt;
 
 Darian lies beside you, one arm behind his head, the other tracing slow, absent lines along your upper arm. His skin is cool, covered in a sweet sheen of sweat. You feel the rise and fall of his breath as it slowly steadies.
 
@@ -18454,7 +21696,7 @@ At first, it looks like lamplight.
 
 But then you realize the truth.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire!|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="128" name="Darian_UpstairsPhase1" tags="" position="975,1600" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire!|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="Darian_UpstairsPhase1" tags="" position="1100,1600" size="100,100">&lt;&lt;bg &quot;Darian_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You step inside, and the first thing you notice is the quiet.
 
@@ -18474,7 +21716,7 @@ He steps past you and gestures to the bed with a soft smile.
 
 &lt;&lt;speech &quot;darian&quot;&gt;&gt;Make yourself comfortable. You&#39;re safe here.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="129" name="Marie_JustLay_Route" tags="" position="1100,1600" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Marie_JustLay_Route&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase1&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="130" name="Marie_JustLay_Route" tags="" position="1225,1600" size="100,100">&lt;&lt;set $currentPhase = &quot;None&quot;&gt;&gt;&lt;&lt;bg &quot;Marie_JustLay_Route&quot;&gt;&gt;
 &lt;&lt;EndDialogueLayout&gt;&gt;
 
 &lt;div id=&quot;montage&quot;&gt;
@@ -18538,7 +21780,7 @@ He steps past you and gestures to the bed with a soft smile.
 	&lt;&lt;/link&gt;&gt;
 &lt;/span&gt;
 
-&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="130" name="Marie_PostSexPhase1" tags="" position="1225,1600" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Marie_PostSexPhase1&quot;&gt;&gt;
+&lt;div id=&quot;finalLink&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="131" name="Marie_PostSexPhase1" tags="" position="100,1725" size="100,100">&lt;&lt;EndSexSceneLayout&gt;&gt;&lt;&lt;bg &quot;Marie_PostSexPhase1&quot;&gt;&gt;
 
 Marie lies with her back to you, the candlelight tracing gentle edges across her curves. The bedsheets cling to her hips, one leg stretched long, the other bent in close. She&#39;s quiet. Not withdrawn—just still, like she&#39;s waiting to remember how to breathe.
 
@@ -18578,7 +21820,7 @@ You&#39;re already pulling yourself up, heartbeat tripping over itself.
 
 You cross to the window and draw the curtain back. Down the street, an orange glow is licking upward into the night.
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="131" name="Marie_UpstairsPhase1" tags="" position="100,1725" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[...Fire.|Universal_FireEvent_Start]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="132" name="Marie_UpstairsPhase1" tags="" position="225,1725" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase1&quot;&gt;&gt;&lt;&lt;EndDialogueLayout&gt;&gt;
 
 You follow Marie through the parlor without a word. She doesn&#39;t take your hand to lead you, but does not go too far in front of you either. She consistently glances over her shoulder to maintain her distance to you. 
 
@@ -18590,7 +21832,7 @@ Marie stops at the third door on the left, near the end. It is decorated with si
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;This one&#39;s me.&lt;&lt;/speech&gt;&gt;
 
-[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="132" name="Marie_UpstairsPhase2" tags="" position="225,1725" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+[[You approached the doorway and take a step inside.|Marie_UpstairsPhase2]]</tw-passagedata><tw-passagedata pid="133" name="Marie_UpstairsPhase2" tags="" position="350,1725" size="100,100">&lt;&lt;bg &quot;Marie_UpstairsPhase2&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 
 You aren&#39;t sure what you expected from Marie&#39;s room, but this… this is surprising.
 
@@ -18617,7 +21859,7 @@ She smiles and scoffs; you see blush forming in her cheeks.
 
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;An artist? No. They are just doodles... But anyway... now that we&#39;re alone... what kind of guest are you planning to be?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="133" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;marie&quot; &quot;Phase2&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="134" name="Scene01_2a_TheBrothelFront" tags="" position="75,350" size="100,100">&lt;&lt;bg &quot;Scene01_2a_TheBrothelFront&quot;&gt;&gt;
 &lt;&lt;speech &quot;adda&quot;&gt;&gt;	
 &quot;You &lt;em&gt;lowlife bastard&lt;/em&gt;! Show your face here again I will have you killed, you worm. Trust me every other establishment in the city will hear of you too. You&#39;re lucky I don&#39;t have you lashed in the square.&quot;
 &lt;&lt;/speech&gt;&gt;
@@ -18653,7 +21895,7 @@ The scene quickly dissipates as the rest of the brothel girls make their way bac
 
 [[Forget him. They might have drinks in there.|Scene02_TheBrothelEntry]]
 
-[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="134" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
+[[That place seems like trouble. I should head to the tavern.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="135" name="Scene01_2b_TheBrothelFront" tags="" position="75,450" size="100,100">&lt;&lt;bg &quot;Scene01_2b_TheBrothelFront&quot;&gt;&gt;
 Soaking in rain and now shadowed by darkness, you approach the man. Your heels click quietly on the cobblestone as you draw near. Without so much as a crouch you look upon his immobile form, examining him.
 
 	The man is human, that much is obvious. He has dark hair, which in its drenched state mixed with the darkness of the fallen night, you cannot tell if it&#39;s brown or black. He has a rather chiselled look and were it not for the performance you just witnessed from him, you might&#39;ve even considered him attractive.
@@ -18693,7 +21935,7 @@ Do you &lt;&lt;link &quot;take it&quot;&gt;&gt;
 &lt;/div&gt;
 
 &lt;div id=&quot;horseshoe-result&quot;&gt;&lt;/div&gt;
-&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="135" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
+&lt;div id=&quot;horseshoe-followup&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="136" name="Scene01_2b_ToTheTavern" tags="" position="225,300" size="100,100">&lt;&lt;bg &quot;Scene01_2b_ToTheTavern&quot;&gt;&gt;
 &lt;&lt;if $watchedhsthrow&gt;&gt;
 &lt;p&gt;Thinking it is better to not insert yourself where it is not your business, you turn away from the commotion and continue down Kings Street towards the [[tavern|Scene01_2c_ToTheTavern]].&lt;/p&gt;
 &lt;&lt;else&gt;&gt;
@@ -18701,7 +21943,7 @@ Certainly whatever that is about is none of your business. As you turn your head
 &lt;&lt;speech &quot;marie&quot;&gt;&gt;&lt;span class=&quot;faintvoice&quot;&gt;&quot;Bitch, is it? &lt;em&gt;BITCH?!&lt;/em&gt;&quot;&lt;/span&gt; /*Fog text macro/ roll perception to hear this through the rain while walking away, needs correcting in its current state */&lt;&lt;/speech&gt;&gt;
 
 &lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;[[I would hate to be that guy right now.|Scene01_2c_ToTheTavern]]&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
-&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="136" name="Scene01_2c_HelpHim" tags="" position="725,1725" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="137" name="Scene01_2c_HelpHim" tags="" position="850,1725" size="100,100">&lt;&lt;bg &quot;Scene01_2c_HelpHim&quot;&gt;&gt;
 &lt;&lt;set $helpedkallot = true&gt;&gt;
 Falling harder now, the rain continues to pour mercilessly upon the bloodied man. Pools of water mixed with a deep crimson fill the divots of his closed eyes. 
 
@@ -18721,7 +21963,7 @@ His eyes instantly droop again and once more consciousness escapes him.
 You finish your knot and then stand. Without bringing him to an infirmary and ruining your own night, you suppose this is the best you can do. It is certainly more than he probably deserves. 
 
 I really should get going to the [[tavern.|Scene01_2b_ToTheTavern]]
-All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="137" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
+All this dragging men in the rain has the [[brothel|Scene02_TheBrothelEntry]] looking great.</tw-passagedata><tw-passagedata pid="138" name="Scene01_2c_ToTheTavern" tags="" position="475,150" size="100,100">&lt;&lt;bg &quot;Scene01_2c_ToTheTavern&quot;&gt;&gt;
 Before long you step beneath the tall, ornately carved stone archway that marks the edge of King&#39;s Market Square, and the world opens wide before you.
 The square, paved in a mosaic of dark, glistening cobblestone, stretches out like a dull mirror beneath the gray, cloud-choked sky. Rain pools in the dips between stones, reflecting the warm lantern-light bleeding from shuttered shopfronts and upper-floor windows. The buildings that encircle the square are tall, sturdy things—crafted of dark stone, carved cornices, and slate roofs slick with rain. Their angles stand proud and immovable, like sentinels bearing witness to centuries of trade, betrayal, and proclamation.
 But now, in the wake of the sudden Spring storm, the square lies mostly deserted. Only a few figures hurry through the mist, cloaks pulled tight, heads bowed against the water and wind.
@@ -18732,7 +21974,7 @@ His voice carries despite the rain, crisp and too-clear. He points at passersby 
 You keep your distance as best you can, adjusting your path to give him a wide berth. But his head snaps toward you the moment you step into the open.
 His eyes lock with yours.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt;  &lt;em&gt;You.&lt;/em&gt; &lt;em&gt;You.&lt;/em&gt; &lt;&lt;/speech&gt;&gt;
-[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="138" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
+[[You freeze.|Scene01_2d_TheCrier]]</tw-passagedata><tw-passagedata pid="139" name="Scene01_2d_TheCrier" tags="" position="475,250" size="100,100">&lt;&lt;bg &quot;Scene01_2d_TheCrier&quot;&gt;&gt;
 The man&#39;s gaze is intense. His large, pitted eyes open up something in you and you feel unable to break free of him.
 &lt;&lt;speech &quot;eristan&quot;&gt;&gt; The &lt;em&gt;Kind one&#39;s echo&lt;/em&gt;. The &lt;em&gt;shackled flame&lt;/em&gt;... The &lt;em&gt;storm that walks&lt;/em&gt;. &lt;&lt;/speech&gt;&gt;
 The man climbs down from his box, stepping from beneath the imaginary shelter of his canopy and into the rain. A hard wind blows against him as he quickly approaches you, what is left of his scrappy white hair flowing freely around the form of his face. You feel stuck in place.
@@ -18745,7 +21987,7 @@ At a loss for words you just begin to walk away, unable to pull your eyes from t
 You move away from him quickly, your boots tapping sharply on stone as you cross the rain-streaked square. Finally, you peel your eyes away from his form and toward the far side of the square, where the tavern waits—a squat, inviting shape glowing with amber warmth. The laughter and clatter of its patrons drift just loud enough to break through the rain and invite you closer.
 Still… you feel the weight of his words pressing against your back, long after you&#39;ve turned away.
 
-After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="139" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
+After a moment you step up to the door and step inside the [[Three Sips Dragon.|Scene03_ThreeSipsDragon_Entry]]</tw-passagedata><tw-passagedata pid="140" name="Scene01_1" tags="" position="75,250" size="100,100">&lt;&lt;bg &quot;Scene01_1&quot;&gt;&gt;
 You continue walking, your cloak flowing in the wet air behind you. You reach up and pull the hood of your cloak further over your ears and hair. It&#39;s times like these that your lineage can be an annoyance. The prolific dark maroon of your hair is a trait that you shared with your mother, Queen Ralmorra the Kind.
 
 	If the queen&#39;s reputation were to be believed, your mother was closer to being a saint than anyone whom you&#39;d ever met in your life. She was a pinnacle of good in the Kingdom, and often spent her days among the people, using her training as a doctor from her life before becoming royalty to personally take care of her subjects. This was something your father often talked about in a tone that started sweet on his tongue, but always turned sour in his mouth; the memory of Ralmora&#39;s passing weighing on his very soul.
@@ -18759,12 +22001,12 @@ You assume she is the Mistress of the establishment.
 
 [[Stop and pay attention to the commotion.|Scene01_2a_TheBrothelFront]]
 
-[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="140" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
+[[That&#39;s none of my business. I have places to be.|Scene01_2b_ToTheTavern]]</tw-passagedata><tw-passagedata pid="141" name="StoryStart_Scene01" tags="" position="75,150" size="100,100">&lt;&lt;bg &quot;StoryStart_Scene01&quot;&gt;&gt;
 Rain falls on the cobblestone streets all around you. The end of the day for the city is apparent, made obvious in the sounds of shops being shuttered and family dinners muffled by foggy glass. You suppose now would be the moment the oranges and purples of the sky would begin melting into the blackness of moonless night, however the sudden rain clouds clog the sky above.
 
 You are one of few people left on the street. Most others find themselves covering their heads as they frantically secure their wares, or usher their families and children through the doors of their house in an attempt to escape the sudden Spring shower. You, however, are not the least bothered. The rain could never be an issue to you. After all you have a mission, a goal in mind. 
 
-	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="141" name="DiceRat_CallEvent" tags="" position="100,1850" size="100,100">A sharp clatter of dice and shouted curses cuts through the tavern’s usual noise. You turn toward the game table just in time to see one of the players—the only one not laughing—get up in a huff, knocking his chair back hard enough to draw more than a few stares. His face is red, his coin purse lighter, and his pride clearly wounded.
+	You need a [[drink|Scene01_1]].</tw-passagedata><tw-passagedata pid="142" name="DiceRat_CallEvent" tags="" position="225,1850" size="100,100">A sharp clatter of dice and shouted curses cuts through the tavern’s usual noise. You turn toward the game table just in time to see one of the players—the only one not laughing—get up in a huff, knocking his chair back hard enough to draw more than a few stares. His face is red, his coin purse lighter, and his pride clearly wounded.
 
 &lt;&lt;speech &quot;sarjan&quot;&gt;&gt;Oi, wipe that look off your face, handsome! You still got your boots—should be thankin’ me for lettin&#39; you walk out with those.&lt;&lt;/speech&gt;&gt;
 
@@ -18778,7 +22020,7 @@ The others cackle again, one of them already shuffling the dice in his hands, ea
 
 [[Approach the Dice Table.|Scene03_DiceIntro]]
 
-[[Ignore Sarjan and head back to the tavern.|Scene03_SkipDiceGame]]</tw-passagedata><tw-passagedata pid="142" name="PostCAndCLose" tags="" position="225,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
+[[Ignore Sarjan and head back to the tavern.|Scene03_SkipDiceGame]]</tw-passagedata><tw-passagedata pid="143" name="PostCAndCLose" tags="" position="350,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
 
 Sarjan leans back with both arms wide, the clatter of the final dice still echoing as he rakes the pot toward himself with smug, meaty fingers.
 
@@ -18804,7 +22046,7 @@ Sarjan’s jaw tightens. His face goes crimson, mouth twisted in an ugly, wet sn
 
 &lt;&lt;speech &quot;sarjan&quot;&gt;&gt;That’s it, you little brat—&lt;em&gt;I’ll show you stones!&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
 
-[[He lunges across the table!|TavernFightScene]]</tw-passagedata><tw-passagedata pid="143" name="PostCAndCWinFightSetup" tags="" position="350,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
+[[He lunges across the table!|TavernFightScene]]</tw-passagedata><tw-passagedata pid="144" name="PostCAndCWinFightSetup" tags="" position="475,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
 
 The final die clatters to a stop. A perfect lineup. Your hand barely touches the table before Sarjan slams his fist down, scattering chips and curses alike.
 
@@ -18832,7 +22074,7 @@ Sarjan’s hand twitches toward his belt — not quite drawing anything, but clo
 
 &lt;&lt;speech &quot;sarjan&quot;&gt;&gt;I’ll show you what losing feels like.&lt;&lt;/speech&gt;&gt;
 
-[[He charges you!|TavernFightScene]]</tw-passagedata><tw-passagedata pid="144" name="Scene03_ApproachBountyHunter" tags="" position="475,1850" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
+[[He charges you!|TavernFightScene]]</tw-passagedata><tw-passagedata pid="145" name="Scene03_ApproachBountyHunter" tags="" position="600,1850" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;bg &quot;Scene03_ApproachBountyHunter&quot;&gt;&gt;
 The man in the corner doesn&#39;t look up as you approach—not at first. He continues dragging a whetstone down the edge of his dagger in slow, practiced strokes. His cloak is pulled back just enough to reveal a polished leather chestplate too clean to have seen real battle. The dark, tailored armor gleams faintly in the firelight, stitched with crimson threading that looks more decorative than durable.
 
 Atop his head sits a wide-brimmed hat—deep gray, too dramatic for this tavern by half—plumed with a long, vividly colored feather that arcs like a banner. Everything about him is curated. Styled. Flashy. From the glint of his rings to the way his boots rest just-so, crossed at the ankle.
@@ -18841,7 +22083,7 @@ Eventually, he speaks—low, smooth, like a man who assumes you came here on pur
 
 &lt;&lt;speech &quot;redmarrow&quot;&gt;&gt;Something I can help you with?&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="145" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;redmarrow&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="146" name="Scene03_BarkeepDialogue" tags="" position="375,600" size="100,100">&lt;&lt;bg &quot;threesipsdragon_bar&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You decide to approach the bar and finally get your drink. As you approach, movement in the rafters catches your attention. You turn your gaze upward.
 
 An orange-spotted noctail, which you hadn&#39;t noticed before, extends its rear into the air, pulling itself into a long, satisfying stretch. You watch for a moment as the feline finishes stretching and effortlessly bounds across the width of the room to a rafter on the opposite side, nearly thirty feet away. Despite the commonality of noctails in the city, their grace always amazes you.
@@ -18850,7 +22092,7 @@ You reach the bar and take a seat on a thick, heavy stool. Scooting closer, you 
 
 The barman steps forward and leans heavily onto the bar in front of you, resting his bulk onto hands as wide as battleaxes.
 
-&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="146" name="Scene03_DiceIntro" tags="" position="725,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;harroc&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="147" name="Scene03_DiceIntro" tags="" position="850,1850" size="100,100">&lt;&lt;bg &quot;crownandcaste-table&quot;&gt;&gt;
 
 You slide into the now-empty chair. The other three players are already grinning like cats who’ve cornered a crippled mouse. Dice clatter between them—worn bone cubes inked with strange symbols and dark smudges that might be blood, or just years of spilled drink.
 
@@ -18884,7 +22126,7 @@ The dice rattle again. Sarjan slides the pot to the center of the table.
 
 &lt;&lt;speech &quot;sarjan&quot;&gt;&gt;Alright, Jaylie. Let&#39;s see if you’ve got more than hot air behind that smirk.&lt;&lt;/speech&gt;&gt;
 
-&lt;&lt;CrownAndCaste 15 &quot;Dice Rat 1&quot; &quot;sarjan&quot; &quot;Dice Rat 2&quot; &quot;PostCAndCWinFightSetup&quot; &quot;PostCAndCLose&quot; 2.5&gt;&gt;</tw-passagedata><tw-passagedata pid="147" name="Scene03_DiceRatRejection" tags="" position="850,1850" size="100,100">You approach the dice table—a clutter of ale mugs, crumpled betting slips, and three loud mouths with louder laughs. Four players are seated, but it’s clear who’s holding court: a wiry, mean-eyed man with a scar across his chin and a voice like gravel marinated in whiskey. 
+&lt;&lt;CrownAndCaste 15 &quot;Dice Rat 1&quot; &quot;sarjan&quot; &quot;Dice Rat 2&quot; &quot;PostCAndCWinFightSetup&quot; &quot;PostCAndCLose&quot; 2.5&gt;&gt;</tw-passagedata><tw-passagedata pid="148" name="Scene03_DiceRatRejection" tags="" position="975,1850" size="100,100">You approach the dice table—a clutter of ale mugs, crumpled betting slips, and three loud mouths with louder laughs. Four players are seated, but it’s clear who’s holding court: a wiry, mean-eyed man with a scar across his chin and a voice like gravel marinated in whiskey. 
 
 He sees you coming before you say a word.
 
@@ -18905,14 +22147,14 @@ The others howl with laughter, slapping the table and nearly spilling their drin
 You stand there for a beat, the heat of their laughter washing over you. Then you turn and walk away.
 
 
-[[Return to the tavern.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="148" name="Scene03_Firewatcher" tags="" position="975,1850" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;set $calledSilks to $calledSilks or 0&gt;&gt;
+[[Return to the tavern.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="149" name="Scene03_Firewatcher" tags="" position="1100,1850" size="100,100">&lt;&lt;StartDialogueLayout&gt;&gt;&lt;&lt;set $calledSilks to $calledSilks or 0&gt;&gt;
 As you step toward the hearth, the half-orc woman turns just slightly—enough to clock you, not enough to welcome you.
 
 She sizes you up with a glance, tearing another bite from the mutton before speaking.
 
 &lt;&lt;speech &quot;brakka&quot;&gt;&gt;Your perfume is ruining the taste of my dinner. What do you want, Silks?&lt;&lt;/speech&gt;&gt;&lt;&lt;set $calledSilks += 1&gt;&gt;
 
-&lt;&lt;DialogueTree &quot;brakka&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="149" name="Scene03_SecludedCorner" tags="" position="1100,1850" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
+&lt;&lt;DialogueTree &quot;brakka&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="150" name="Scene03_SecludedCorner" tags="" position="1225,1850" size="100,100">&lt;&lt;bg &quot;Scene03_SecludedCorner&quot;&gt;&gt;&lt;&lt;StartDialogueLayout&gt;&gt;
 You slip between the tables and claim a worn corner booth by yourself. The wood creaks under your weight, the seat still warm from whoever sat here last. For a moment, you watch the flicker of firelight dance across the floor, the sound of clinking mugs and shouted laughter rolling over you like a tide.
 
 She approaches from the side, hips swaying with purpose and a smirk already playing on her lips.
@@ -18925,7 +22167,7 @@ You smile but don&#39;t have a chance to respond. She rests a hand on the table,
 
 You glance up to meet her gaze—bright, mischievous, and utterly unbothered.
 &lt;&lt;set $tesskaOrderedDrink = false&gt;&gt;
-&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="150" name="Scene03_SkipDiceGame" tags="" position="1225,1850" size="100,100">&lt;&lt;bg &quot;tavern-fight-pending&quot;&gt;&gt;
+&lt;&lt;DialogueTree &quot;tesska&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="151" name="Scene03_SkipDiceGame" tags="" position="100,1975" size="100,100">&lt;&lt;bg &quot;tavern-fight-pending&quot;&gt;&gt;
 
 You fold your arms and cock your head, giving the man at the table the kind of look normally reserved for roaches in breadboxes.
 
@@ -18947,7 +22189,7 @@ You smile, razor-thin.
 
 Chairs scrape. A tankard hits the floor. One of the cronies mutters “Shit...” just as Sarjan lunges.
 
-[[The tavern erupts in chaos.|TavernFightScene]]</tw-passagedata><tw-passagedata pid="151" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;EndDialogueLayout&gt;&gt;&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;&lt;&lt;set $TavernTalkCount to $TavernTalkCount or 0&gt;&gt;
+[[The tavern erupts in chaos.|TavernFightScene]]</tw-passagedata><tw-passagedata pid="152" name="Scene03_TheSpace" tags="" position="475,450" size="100,100">&lt;&lt;EndDialogueLayout&gt;&gt;&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;&lt;&lt;set $TavernTalkCount to $TavernTalkCount or 0&gt;&gt;
 &lt;&lt;if !$seenTavernSpace&gt;&gt;
 Surrounding the center hearth, more than a dozen figures cluster at thick wooden tables—scarred by knives, stained by drink, and mismatched in shape. The fire’s warmth ripples outward, licking the cracked flagstone floor and painting the rafters above in flickering gold.
 &lt;&lt;/if&gt;&gt;
@@ -18989,7 +22231,7 @@ From here, you may:
 [[Try your luck joining the dice game.|Scene03_DiceRatRejection]]
 [[Approach the cloaked man in the corner.|Scene03_ApproachBountyHunter]]
 [[Observe the half-orc woman.|Scene03_Firewatcher]]
-[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="152" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
+[[Find an unoccupied corner and sit alone.|Scene03_SecludedCorner]]</tw-passagedata><tw-passagedata pid="153" name="Scene03_ThreeSipsDragon_Entry" tags="" position="475,350" size="100,100">&lt;&lt;bg &quot;threesipsdragon&quot;&gt;&gt;
 You pull open the heavy oaken door and step inside. The wind whips at the precipice behind you but the warmth of the hearth greets you like the warm hug of a fellow, you instinctively lower your hood, water spilling down off of it.
 Inside the Three Sips Dragon /* Thinking about having inline words you can hover over or click on to show little lore boxes like Alt-Text, entering a passage with one of these words will also add that information to the codex like a living and growing lore-book */, the air is thick with smoke, laughter, and the scent of hearth-brewed ale. Lanterns swing slightly overhead, their flickering light dancing across polished wood beams and walls darkened with age and spilled stories. The tavern&#39;s heart—a great firepit sunk into the floor—crackles merrily near the center of the room, casting long shadows that play on the faces of patrons scattered throughout.
 A few eyes drift toward you, but none linger. Bastion is full of cloaked figures in rain-soaked hoods. No one spares much mind for another.
@@ -18999,7 +22241,7 @@ Someone near the hearth waves a half-eaten leg of something at you without even 
 Heeding his words, you reach behind you and close the door, and just like that you are absorbed into the room.
 To your right, the bar stretches across the far wall, worn smooth by time and elbows. Behind it, a man, tall and thick as a tree trunk, polishes a glass that doesn&#39;t seem to need polishing. His head is a shining dome, rich with wrinkled skin, his face, nestled atop a thick dark beard, is etched with long years and longer nights, but his eyes—piercing and pale blue—fix on you the moment you lower your hood.
 He does little to acknowledge your existence aside from a half-hearted glance, barely longer than a blink.
-[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="153" name="TavernLightningScene" tags="" position="350,1975" size="100,100">A flash.
+[[You look around at the rest of the room.|Scene03_TheSpace]]</tw-passagedata><tw-passagedata pid="154" name="TavernLightningScene" tags="" position="475,1975" size="100,100">A flash.
 White, searing, god-sent.
 
 It splits the sky—and the tavern—down the spine. The thunder follows instantly, as if the world itself forgot to blink.
@@ -19034,7 +22276,7 @@ You quickly walk up next to her, matching your gaze with her&#39;s.
 Far down the street, you see a flickering orange glow. At first, it seems like lantern light. Then it brightens—flares—and the realization hits like a punch to the gut.
 
 
-&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire—|FireConvergence]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="154" name="TavernFightScene" tags="" position="475,1975" size="100,100">The table explodes as Sarjan shoves it aside, dice, coins, and drinks scatter like startled birds. He lunges—red-faced, snarling, swinging for your head.
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;[[Fire—|FireConvergence]]&lt;&lt;/speech&gt;&gt;</tw-passagedata><tw-passagedata pid="155" name="TavernFightScene" tags="" position="600,1975" size="100,100">The table explodes as Sarjan shoves it aside, dice, coins, and drinks scatter like startled birds. He lunges—red-faced, snarling, swinging for your head.
 
 He doesn’t get close.
 
@@ -19070,7 +22312,7 @@ Tesska stands you back up properly. Harroc moves back to his spot behind the bar
 
 
 
-[[Suddenly your surrounding melt in a bright flash—|TavernLightningScene]]</tw-passagedata><tw-passagedata pid="155" name="TestRealm_ConvoMinigame" tags="" position="600,1975" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
+[[Suddenly your surrounding melt in a bright flash—|TavernLightningScene]]</tw-passagedata><tw-passagedata pid="156" name="TestRealm_ConvoMinigame" tags="" position="725,1975" size="100,100">&lt;div id=&quot;convoBox&quot;&gt;&lt;/div&gt;
 &lt;div id=&quot;convoChoices&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;DialogueTree &quot;darian&quot; &quot;Phase0&quot;&gt;&gt;</tw-passagedata></tw-storydata>

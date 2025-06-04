@@ -60,18 +60,24 @@
 <!-- Main Scrollable Content -->
 <div id="sidebar-content">
 	<div id="sidebar-top-info">
-		<div id="sidebar-datetime">
-			<span id="sidebar-time">--:--</span>
-			<span id="sidebar-date">Loading Date...</span>
-		</div>
-		<div id="sidebar-location-weather">
+		<div id="sidebar-top-line1">
+			<span id="sidebar-time">6:00</span>
+			<span class="dot-separator">•</span>
+			<span id="sidebar-date">1 Rain, 12219 AI</span>
+			<span class="dot-separator">•</span>
 			<span id="sidebar-location">Unknown Location</span>
+		</div>
+		<div id="sidebar-top-line2">
+			<span id="sidebar-gold">
+				<i data-lucide="coins"></i>
+				<span id="sidebar-gold-amount">100</span>g
+			</span>
+		<span class="dot-separator">•</span>
+		<span id="sidebar-weather">
 			<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
-		</div>
-		<div id="sidebar-gold">
-			<i data-lucide="coins"></i> <span id="sidebar-gold-amount">0</span>
-		</div>
+		</span>
 	</div>
+</div>
 
 	<div id="sidebar-status-tracker">
 		<div class="status-bar" id="health-bar">
@@ -122,6 +128,26 @@
 			<div class="exp-bar-fill" id="exp-fill"></div>
 		</div>
 		<span id="exp-text">0/100 XP</span>
+	</div>
+
+	<!-- Minimap Section -->
+	<div id="sidebar-minimap-container">
+		<div class="minimap-header">
+			<i data-lucide="map"></i>
+			<span>Local Map</span>
+			<button id="minimap-fullscreen-btn" class="minimap-control-btn" title="View Full Map">
+				<i data-lucide="maximize-2"></i>
+			</button>
+		</div>
+		<div id="tile-map-container" class="minimap-display"></div>
+		<div class="minimap-info">
+			<div class="minimap-location">
+				<span id="minimap-current-map">Loading...</span>
+			</div>
+			<div class="minimap-position">
+				Pos: <span id="minimap-player-coords">(0, 0)</span>
+			</div>
+		</div>
 	</div>
 
 	<div id="custom-sidebar-buttons">
@@ -206,4 +232,3 @@ if (typeof setup?.SidebarUI?.initialize === "function") {
 	}
 })();
 <</script>>
-

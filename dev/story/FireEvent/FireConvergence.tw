@@ -1,1 +1,41 @@
 :: FireConvergence
+
+You run as fast as your feet can carry you, boots slapping against the drenched cobblestones, each step sending up cold sprays of rainwater. The storm howls overhead, a constant, deafening roar of wind and thunder. By the time you reach the source of the blaze, you are soaked to the skin, your breath sawing in and out of your chest—but none of it matters once you see what lies ahead.
+
+A building—large, old, familiar—stands wreathed in fire, the night around it lit with a sickly orange glare. Thick black smoke coils up into the rain-choked sky, carrying with it the stench of burning wood, scorched cloth, and something darker—something that makes your stomach twist. A massive, jagged scorch mark scars the front facade where the lightning bolt struck, its edges still glowing faintly, like the wound is too fresh to scab over.
+
+Flames rage from shattered windows and splintered beams, licking out into the storm like hungry tongues. Beneath the crackle and roar of the fire, you hear the building groaning—wooden supports bending and breaking with sharp, splintering sounds as the structure slowly loses its battle against the flames.
+
+Stumbling out into the street are a handful of women, their conservative nightgowns plastered to their bodies, clinging and translucent from the relentless rain. Soot streaks their faces and arms, mingling with the ash that sticks to wet skin. In their arms, clutching at hems and hands, is a herd of children—small, shivering forms, wide-eyed with terror. The women move frantically, gathering them in, counting, searching.
+
+<<speech "jaylie">><em>Gods...</em><</speech>>
+
+The realization strikes you like a blow to the chest. The building, this burning monolith of dread, is an <strong>Orphanage</strong>.
+
+You force your legs forward, heart hammering against your ribs as you approach the women—priestesses, you realize now, of the Order of Palms.
+
+<<speech "jaylie">>My name is Jaylie. Is everyone alright? Did everyone get out okay?<</speech>>
+
+One of the women—young, her hair plastered to her skull, face slick with rain and soot—barely acknowledges you. Her eyes dart feverishly from child to child, lips moving soundlessly as she ticks off names in her head. And then—her face freezes. Horror blooms across her features like a spreading stain.
+
+She whirls toward an older priestess, a broad-shouldered woman whose sodden gray hair hangs in ropes down her back.
+
+<<speech "priestess_anna">>Priestess Rema! Where's Zan? I don't see Zan—he must not have been in bed!<</speech>><<know "priestess_rema">>
+
+The older woman repeats the scan, her mouth tightening as the grim calculation settles in. She shakes her head slowly, as if trying to deny the truth even as it forms.
+
+<<speech "priestess_rema">>Oh gods, Anna. He's still inside!<</speech>><<know "priestess_anna">>
+
+You speak again, louder this time, cutting through the crackle of the fire and the hammering of rain.
+
+<<speech "jaylie">>Tell me where to look for him!<</speech>>
+
+A voice stirs in the back of your mind, cold and rational, asking a simple, harrowing question: <strong>*What are you doing?*</strong>
+
+But already your body is moving, your breath coming faster—not with fear, but with grim determination.
+
+<<speech "priestess_anna">>Zan likes to wander at night. He could have gone to the kitchens, the restroom, the library—I don't know! But the fire— You can't!<</speech>>
+
+You barely hear her protest. Logic, caution, fear—all of it burns away under a rising tide of purpose. Your fingers clench into fists at your sides. Your feet find the ground. Your lungs fill with smoke-tinged air.
+
+Without another word, you step toward the inferno.

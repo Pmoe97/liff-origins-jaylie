@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimap System Demo</title>
+    
+    <!-- Load CSS files -->
+    <link rel="stylesheet" href="dev/styles/sidebar.css">
+    <link rel="stylesheet" href="dev/styles/sidebar-minimap.css">
+    <link rel="stylesheet" href="dev/styles/tilemap.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            display: flex;
+            height: 100vh;
+        }
+        
+        #main-content {
+            flex: 1;
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        #custom-sidebar {
+            width: 300px;
+            background: #111;
+            border-right: 2px solid #333;
+            overflow-y: auto;
+        }
+        
+        .demo-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #222;
+            border-radius: 8px;
+        }
+        
+        .demo-controls h3 {
+            margin-top: 0;
+            color: #4a90e2;
+        }
+        
+        .demo-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .demo-btn:hover {
+            background: #357abd;
+        }
+        
+        #status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        /* Mock State object for testing */
+        .mock-state {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="custom-sidebar">
+        <!-- Sidebar content similar to SidebarUI.tw -->
+        <div id="sidebar-topbar">
+            <div id="sidebar-nav">
+                <button id="sidebar-nav-back" class="sidebar-nav-btn" title="Go back">
+                    <i data-lucide="undo-2"></i>
+                </button>
+                <button id="sidebar-nav-forward" class="sidebar-nav-btn" title="Go forward">
+                    <i data-lucide="redo-2"></i>
+                </button>
+            </div>
+            <button id="sidebar-toggle" type="button" class="sidebar-btn">
+                <i id="sidebar-arrow" data-lucide="arrow-left"></i>
+            </button>
+        </div>
+
+        <div id="sidebar-content">
+            <div id="sidebar-top-info">
+                <div id="sidebar-top-line1">
+                    <span id="sidebar-time">6:00</span>
+                    <span class="dot-separator">•</span>
+                    <span id="sidebar-date">1 Rain, 12219 AI</span>
+                    <span class="dot-separator">•</span>
+                    <span id="sidebar-location">King's Market</span>
+                </div>
+                <div id="sidebar-top-line2">
+                    <span id="sidebar-gold">
+                        <i data-lucide="coins"></i>
+                        <span id="sidebar-gold-amount">100</span>g
+                    </span>
+                    <span class="dot-separator">•</span>
+                    <span id="sidebar-weather">
+                        <i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Minimap Section -->
+            <div id="sidebar-minimap-container">
+                <div class="minimap-header">
+                    <i data-lucide="map"></i>
+                    <span>Local Map</span>
+                    <button id="minimap-fullscreen-btn" class="minimap-control-btn" title="View Full Map">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+                <div id="tile-map-container" class="minimap-display"></div>
+                <div class="minimap-info">
+                    <div class="minimap-location">
+                        <span id="minimap-current-map">Loading...</span>
+                    </div>
+                    <div class="minimap-position">
+                        Pos: <span id="minimap-player-coords">(0, 0)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-controls">
+                <h3>Demo Controls</h3>
+                <button class="demo-btn" onclick="movePlayer('north')">Move North</button>
+                <button class="demo-btn" onclick="movePlayer('south')">Move South</button>
+                <button class="demo-btn" onclick="movePlayer('east')">Move East</button>
+                <button class="demo-btn" onclick="movePlayer('west')">Move West</button>
+                <br>
+                <button class="demo-btn" onclick="toggleMobileMode()">Toggle Mobile Mode</button>
+                <button class="demo-btn" onclick="refreshMinimap()">Refresh Minimap</button>
+            </div>
+
+            <div id="status">
+                Status: Initializing...
+            </div>
+
+            <div class="mock-state">
+                <h4>Mock Game State</h4>
+                <div>Current Map: <span id="current-map-display">kings_market_day1</span></div>
+                <div>Player Position: <span id="player-pos-display">(3, 6)</span></div>
+                <div>Screen Width: <span id="screen-width">-</span>px</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <h1>Minimap System Demo</h1>
+        <p>This demo showcases the integrated minimap system with:</p>
+        <ul>
+            <li>Desktop sidebar minimap (280px wide, local 7x7 view)</li>
+            <li>Mobile floating overlay with touch controls</li>
+            <li>Responsive design that switches at 768px width</li>
+            <li>Player-centered view with live updates</li>
+            <li>Fullscreen map view</li>
+            <li>Map transition support</li>
+        </ul>
+        
+        <h2>Features Demonstrated</h2>
+        <ul>
+            <li><strong>Local View:</strong> Shows only nearby tiles around the player</li>
+            <li><strong>Player Centering:</strong> Map automatically centers on player position</li>
+            <li><strong>Mobile Controls:</strong> Touch-friendly D-pad for movement</li>
+            <li><strong>Responsive Design:</strong> Automatically switches between desktop and mobile layouts</li>
+            <li><strong>Live Updates:</strong> Minimap updates in real-time as player moves</li>
+        </ul>
+
+        <h2>Controls</h2>
+        <ul>
+            <li><strong>Desktop:</strong> Use the demo buttons or WASD keys</li>
+            <li><strong>Mobile:</strong> Use the floating D-pad controls</li>
+            <li><strong>Fullscreen:</strong> Click the maximize button in the minimap header</li>
+        </ul>
+
+        <p>Resize your browser window to see the responsive behavior in action!</p>
+    </div>
+
+    <!-- Load JavaScript files -->
+    <script src="dev/js/02_systems/TileMapSystem.js"></script>
+    <script src="dev/js/02_systems/TileNavigationSystem.js"></script>
+    <script src="dev/js/02_systems/MinimapSystem.js"></script>
+
+    <script>
+        // Mock State object for testing
+        window.State = {
+            variables: {
+                currentMap: 'kings_market_day1',
+                playerPosition: { x: 3, y: 6 },
+                player: {
+                    status: {
+                        health: 100,
+                        maxHealth: 100,
+                        fatigue: 20,
+                        maxFatigue: 100,
+                        composure: 80,
+                        maxComposure: 100,
+                        excitement: 30,
+                        maxExcitement: 100
+                    }
+                }
+            }
+        };
+
+        // Mock setup object
+        window.setup = {
+            SidebarUI: {
+                update: function() {
+                    console.log('SidebarUI.update called');
+                }
+            }
+        };
+
+        let minimapSystem;
+        let navigationSystem;
+        let currentPosition = { x: 3, y: 6 };
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = 'Status: ' + message;
+        }
+
+        function updateDisplays() {
+            document.getElementById('current-map-display').textContent = State.variables.currentMap;
+            document.getElementById('player-pos-display').textContent = `(${currentPosition.x}, ${currentPosition.y})`;
+            document.getElementById('screen-width').textContent = window.innerWidth;
+        }
+
+        function movePlayer(direction) {
+            const directions = {
+                north: { x: 0, y: -1 },
+                south: { x: 0, y: 1 },
+                east: { x: 1, y: 0 },
+                west: { x: -1, y: 0 }
+            };
+
+            const delta = directions[direction];
+            if (delta) {
+                const newPos = {
+                    x: Math.max(0, Math.min(6, currentPosition.x + delta.x)),
+                    y: Math.max(0, Math.min(6, currentPosition.y + delta.y))
+                };
+
+                if (newPos.x !== currentPosition.x || newPos.y !== currentPosition.y) {
+                    currentPosition = newPos;
+                    State.variables.playerPosition = currentPosition;
+                    
+                    if (minimapSystem) {
+                        minimapSystem.updatePlayerPosition(currentPosition.x, currentPosition.y);
+                    }
+                    
+                    updateStatus(`Moved ${direction} to (${currentPosition.x}, ${currentPosition.y})`);
+                    updateDisplays();
+                } else {
+                    updateStatus(`Cannot move ${direction} - blocked`);
+                }
+            }
+        }
+
+        function toggleMobileMode() {
+            const currentWidth = window.innerWidth;
+            const newWidth = currentWidth > 768 ? 600 : 1200;
+            
+            // Simulate window resize
+            Object.defineProperty(window, 'innerWidth', {
+                writable: true,
+                configurable: true,
+                value: newWidth
+            });
+            
+            window.dispatchEvent(new Event('resize'));
+            updateDisplays();
+            updateStatus(`Simulated resize to ${newWidth}px`);
+        }
+
+        function refreshMinimap() {
+            if (minimapSystem) {
+                minimapSystem.refreshDynamicTiles();
+                updateStatus('Minimap refreshed');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Initializing systems...');
+            
+            // Initialize Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Initialize minimap system
+            setTimeout(() => {
+                try {
+                    minimapSystem = new MinimapSystem('tile-map-container', {
+                        viewSize: 7,
+                        gridSize: 16,
+                        centerOnPlayer: true,
+                        enableMobileControls: true
+                    });
+
+                    // Load the demo map
+                    minimapSystem.loadMap('kings_market_day1', currentPosition)
+                        .then(() => {
+                            updateStatus('Minimap system initialized successfully');
+                            updateDisplays();
+                        })
+                        .catch(error => {
+                            updateStatus('Error loading map: ' + error.message);
+                            console.error('Map loading error:', error);
+                        });
+
+                } catch (error) {
+                    updateStatus('Error initializing minimap: ' + error.message);
+                    console.error('Initialization error:', error);
+                }
+            }, 500);
+
+            // Update screen width on resize
+            window.addEventListener('resize', updateDisplays);
+            updateDisplays();
+
+            // Keyboard controls
+            document.addEventListener('keydown', function(e) {
+                const keyMap = {
+                    'KeyW': 'north',
+                    'KeyS': 'south',
+                    'KeyA': 'west',
+                    'KeyD': 'east',
+                    'ArrowUp': 'north',
+                    'ArrowDown': 'south',
+                    'ArrowLeft': 'west',
+                    'ArrowRight': 'east'
+                };
+
+                const direction = keyMap[e.code];
+                if (direction) {
+                    e.preventDefault();
+                    movePlayer(direction);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

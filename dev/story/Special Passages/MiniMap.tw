@@ -1,276 +1,50 @@
 :: MiniMap [special]
 <!-- 
-MiniMap.tw - Twine Special Passage for Tile-Based Navigation System
-This passage provides the HTML layout for the minimap system that will be injected into the sidebar.
+MiniMap.tw - Twine Special Passage for Enhanced Minimap System
+This passage initializes the new MinimapSystem and provides integration hooks.
 -->
 
-<div id="minimap-section" class="sidebar-section">
-    <h3 class="sidebar-header">
-        <i class="icon-map"></i> Map
-    </h3>
-    
-    <div class="minimap-container">
-        <div id="tile-minimap" class="tile-map-container">
-            <!-- Tile map will be rendered here -->
-        </div>
-        
-        <div class="map-info">
-            <div class="current-location">
-                <strong id="current-map-name">Loading...</strong>
-            </div>
-            <div class="position-display">
-                Position: <span id="player-coordinates">(0, 0)</span>
-            </div>
-        </div>
-        
-        <div class="map-controls">
-            <button id="fullscreen-map-btn" class="map-control-btn" title="View Full Map">
-                <i class="icon-expand"></i>
-            </button>
-            <button id="center-map-btn" class="map-control-btn" title="Center on Player">
-                <i class="icon-target"></i>
-            </button>
-            <button id="toggle-grid-btn" class="map-control-btn" title="Toggle Grid">
-                <i class="icon-grid"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<style>
-/* Minimap-specific styles */
-#minimap-section {
-    margin-bottom: 20px;
-}
-
-.minimap-container {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 4px;
-    padding: 10px;
-    position: relative;
-}
-
-#tile-minimap {
-    width: 100%;
-    height: 150px;
-    border: 1px solid #444;
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-}
-
-.map-info {
-    margin: 8px 0;
-    font-size: 12px;
-    color: #ccc;
-}
-
-.current-location {
-    font-weight: bold;
-    color: #4a90e2;
-    margin-bottom: 4px;
-}
-
-.position-display {
-    color: #888;
-}
-
-.map-controls {
-    display: flex;
-    gap: 5px;
-    margin-top: 8px;
-}
-
-.map-control-btn {
-    background: #333;
-    border: 1px solid #555;
-    color: #ccc;
-    padding: 4px 8px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 11px;
-    flex: 1;
-    text-align: center;
-}
-
-.map-control-btn:hover {
-    background: #444;
-    border-color: #666;
-    color: #fff;
-}
-
-.map-control-btn:active {
-    background: #222;
-}
-
-.map-control-btn.active {
-    background: #4a90e2;
-    border-color: #4a90e2;
-    color: #fff;
-}
-
-/* Responsive adjustments for minimap */
-@media (max-width: 768px) {
-    #tile-minimap {
-        height: 120px;
-    }
-    
-    .map-controls {
-        flex-wrap: wrap;
-    }
-    
-    .map-control-btn {
-        font-size: 10px;
-        padding: 3px 6px;
-    }
-}
-</style>
-
 <script>
-// Initialize minimap when this passage is loaded
+// Initialize minimap system when this passage is processed
 $(document).ready(function() {
-    if (typeof window.TileMapSystem !== 'undefined' && typeof window.TileNavigationSystem !== 'undefined') {
-        initializeMinimap();
-    } else {
-        console.warn('Tile map systems not loaded. Minimap will not be available.');
+    // Wait for all systems to be loaded
+    setTimeout(() => {
+        if (typeof MinimapSystem !== 'undefined' && setup.SidebarUI) {
+            // Initialize minimap if not already done
+            if (!setup.SidebarUI.minimapSystem) {
+                setup.SidebarUI.initializeMinimap();
+            }
+        } else {
+            console.warn('[MiniMap] Required systems not available');
+        }
+    }, 500);
+});
+
+// Global minimap update functions for backward compatibility
+window.updateMinimapLegacy = function(mapId, position) {
+    if (setup.SidebarUI && setup.SidebarUI.updateMinimap) {
+        setup.SidebarUI.updateMinimap(mapId, position);
+    }
+};
+
+window.refreshMinimapLegacy = function() {
+    if (setup.SidebarUI && setup.SidebarUI.refreshMinimap) {
+        setup.SidebarUI.refreshMinimap();
+    }
+};
+
+// Integration with existing navigation events
+$(document).on(':passagedisplay', function() {
+    // Update minimap when passages change
+    if (setup.SidebarUI && setup.SidebarUI.minimapSystem) {
+        const currentMap = State.variables.currentMap;
+        const playerPos = State.variables.playerPosition;
+        
+        if (currentMap && playerPos) {
+            setup.SidebarUI.updateMinimap(currentMap, playerPos);
+        }
     }
 });
 
-function initializeMinimap() {
-    // Create minimap instance
-    window.miniMapSystem = new TileMapSystem('tile-minimap', {
-        gridSize: 16, // Smaller grid for minimap
-        showGrid: false,
-        enableAnimations: false,
-        baseTilePath: 'images/tiles/'
-    });
-    
-    // Set up minimap controls
-    setupMinimapControls();
-    
-    // Load initial map if available
-    if (State.variables.currentMap) {
-        loadMinimapFromState();
-    }
-}
-
-function setupMinimapControls() {
-    // Fullscreen map button
-    $('#fullscreen-map-btn').on('click', function() {
-        openFullscreenMap();
-    });
-    
-    // Center map button
-    $('#center-map-btn').on('click', function() {
-        if (window.mainNavigationSystem) {
-            const pos = window.mainNavigationSystem.getPosition();
-            centerMinimapOnPosition(pos.x, pos.y);
-        }
-    });
-    
-    // Toggle grid button
-    $('#toggle-grid-btn').on('click', function() {
-        if (window.miniMapSystem) {
-            window.miniMapSystem.showGrid = !window.miniMapSystem.showGrid;
-            window.miniMapSystem.renderMap();
-            $(this).toggleClass('active', window.miniMapSystem.showGrid);
-        }
-    });
-}
-
-function loadMinimapFromState() {
-    const mapId = State.variables.currentMap || 'kings_market_day1';
-    const playerPos = State.variables.playerPosition || { x: 3, y: 6 };
-    
-    window.miniMapSystem.loadMap(mapId, playerPos).then(success => {
-        if (success) {
-            updateMinimapInfo();
-        }
-    });
-}
-
-function updateMinimapInfo() {
-    const mapData = window.miniMapSystem.getCurrentMapInfo();
-    if (mapData.mapData) {
-        $('#current-map-name').text(mapData.mapData.name || mapData.mapId);
-    }
-    
-    if (window.mainNavigationSystem) {
-        const pos = window.mainNavigationSystem.getPosition();
-        $('#player-coordinates').text(`(${pos.x}, ${pos.y})`);
-    }
-}
-
-function centerMinimapOnPosition(x, y) {
-    // Center the minimap view on the specified position
-    const container = $('#tile-minimap');
-    const gridSize = window.miniMapSystem.gridSize;
-    const centerX = x * gridSize - container.width() / 2;
-    const centerY = y * gridSize - container.height() / 2;
-    
-    container.scrollLeft(centerX);
-    container.scrollTop(centerY);
-}
-
-function openFullscreenMap() {
-    // Create fullscreen overlay
-    const overlay = $('<div class="tile-map-fullscreen"></div>');
-    const container = $('<div id="fullscreen-tile-map" class="tile-map-container"></div>');
-    
-    overlay.append(container);
-    $('body').append(overlay);
-    
-    // Create fullscreen map system
-    const fullscreenMap = new TileMapSystem('fullscreen-tile-map', {
-        gridSize: 64,
-        showGrid: true,
-        enableAnimations: true,
-        baseTilePath: 'images/tiles/'
-    });
-    
-    // Load current map
-    const currentMapId = window.miniMapSystem.currentMap;
-    const playerPos = window.mainNavigationSystem ? window.mainNavigationSystem.getPosition() : { x: 0, y: 0 };
-    
-    fullscreenMap.loadMap(currentMapId, playerPos);
-    
-    // Close on click outside or escape key
-    overlay.on('click', function(e) {
-        if (e.target === overlay[0]) {
-            closeFullscreenMap();
-        }
-    });
-    
-    $(document).on('keydown.fullscreenMap', function(e) {
-        if (e.key === 'Escape') {
-            closeFullscreenMap();
-        }
-    });
-    
-    function closeFullscreenMap() {
-        overlay.remove();
-        $(document).off('keydown.fullscreenMap');
-        fullscreenMap.destroy();
-    }
-}
-
-// Global functions for integration with main navigation system
-window.updateMinimap = function(mapId, playerPosition) {
-    if (window.miniMapSystem) {
-        if (mapId !== window.miniMapSystem.currentMap) {
-            window.miniMapSystem.loadMap(mapId, playerPosition);
-        } else {
-            window.miniMapSystem.setPlayerPosition(playerPosition.x, playerPosition.y);
-        }
-        updateMinimapInfo();
-    }
-};
-
-window.refreshMinimap = function() {
-    if (window.miniMapSystem) {
-        window.miniMapSystem.updateDynamicTiles();
-        updateMinimapInfo();
-    }
-};
+console.log('[MiniMap] Enhanced minimap system integration loaded');
 </script>
