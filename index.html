@@ -4129,46 +4129,51 @@ button.active-sexact.ongoing::after {
 }
 /* twine-user-stylesheet #20: "tilemap.css" */
 /**
- * tilemap_improved.css
+ * nodemap.css - Node Network Version
  * 
- * Enhanced styling for the tile-based navigation system.
- * Provides visual styling for the map grid, tiles, player indicator,
+ * Enhanced styling for the node-based navigation system.
+ * Provides visual styling for spaced nodes, connection lines, player indicator,
  * animations, and responsive design elements.
  * 
- * Improvements:
- * - Better performance with CSS containment and will-change
- * - Enhanced accessibility features
- * - Improved responsive design
- * - Better theme support
- * - Optimized animations
- * - CSS custom properties for easy customization
+ * Features:
+ * - Node-based layout instead of grid tiles
+ * - SVG connection lines between nodes
+ * - Different node types and connection styles
+ * - Metro/subway map aesthetic
+ * - Clean, scalable design
  */
 
 /* ===== CSS CUSTOM PROPERTIES ===== */
 :root {
-    /* Grid settings */
-    --tile-size: 64px;
-    --grid-line-color: rgba(255, 255, 255, 0.1);
-    --grid-line-width: 1px;
+    /* Node settings */
+    --node-size: 60px;
+    --node-spacing: 120px;
+    --connection-width: 3px;
     
     /* Colors */
     --map-bg-dark: #1a1a1a;
     --map-bg-light: #f5f5f5;
-    --grid-bg-dark: #2a2a2a;
-    --grid-bg-light: #ffffff;
     --border-color-dark: #333;
     --border-color-light: #ccc;
     
-    /* Tile colors */
-    --tile-walkable-border: rgba(76, 175, 80, 0.3);
-    --tile-non-walkable-border: rgba(244, 67, 54, 0.3);
-    --tile-interactive-border: rgba(255, 193, 7, 0.5);
-    --tile-interactive-hover: rgba(255, 193, 7, 0.8);
+    /* Node colors */
+    --node-default: #4a90e2;
+    --node-locked: #95a5a6;
+    --node-special: #e74c3c;
+    --node-shop: #f39c12;
+    --node-exit: #27ae60;
+    --node-border: #ffffff;
+    --node-hover: rgba(255, 255, 255, 0.2);
+    
+    /* Connection colors */
+    --connection-normal: #ffffff;
+    --connection-secret: #9b59b6;
+    --connection-locked: #95a5a6;
+    --connection-oneway: #e67e22;
     
     /* Player indicator */
     --player-color-primary: #4a90e2;
     --player-color-secondary: #2171b5;
-    --player-color-tertiary: #1a5490;
     --player-border: #ffffff;
     --player-blocked-color: #e74c3c;
     
@@ -4179,21 +4184,21 @@ button.active-sexact.ongoing::after {
     
     /* Shadows and effects */
     --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-    --player-glow: 0 0 10px rgba(74, 144, 226, 0.6);
-    --interactive-glow: 0 0 10px rgba(255, 193, 7, 0.3);
+    --node-glow: 0 0 10px rgba(74, 144, 226, 0.6);
+    --connection-glow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 /* Light theme overrides */
 .theme-light {
     --map-bg-dark: var(--map-bg-light);
-    --grid-bg-dark: var(--grid-bg-light);
     --border-color-dark: var(--border-color-light);
-    --grid-line-color: rgba(0, 0, 0, 0.1);
     --map-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+    --connection-normal: #333333;
+    --node-border: #333333;
 }
 
-/* ===== TILE MAP CONTAINER ===== */
-.tile-map-container {
+/* ===== NODE MAP CONTAINER ===== */
+.node-map-container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -4216,24 +4221,24 @@ button.active-sexact.ongoing::after {
     -webkit-overflow-scrolling: touch;
 }
 
-.tile-map-container:focus {
+.node-map-container:focus {
     outline: 2px solid var(--player-color-primary);
     outline-offset: -2px;
 }
 
-.tile-map-container:focus-visible {
+.node-map-container:focus-visible {
     outline: 3px solid var(--player-color-primary);
     outline-offset: -3px;
 }
 
 /* Loading state */
-.tile-map-container.loading {
+.node-map-container.loading {
     opacity: 0.7;
     pointer-events: none;
     position: relative;
 }
 
-.tile-map-container.loading::after {
+.node-map-container.loading::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -4253,95 +4258,186 @@ button.active-sexact.ongoing::after {
     100% { transform: rotate(360deg); }
 }
 
-/* ===== TILE GRID ===== */
-.tile-grid {
+/* ===== NODE MAP ===== */
+.node-map {
     position: relative;
     margin: auto;
-    background: var(--grid-bg-dark);
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+    min-width: 100%;
+    min-height: 100%;
     
     /* Performance */
     contain: strict;
     transform: translateZ(0); /* Force GPU acceleration */
 }
 
-/* Grid lines (when enabled) */
-.tile-grid.show-grid {
-    background-image: 
-        linear-gradient(to right, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width)),
-        linear-gradient(to bottom, var(--grid-line-color) var(--grid-line-width), transparent var(--grid-line-width));
-    background-size: var(--tile-size) var(--tile-size);
+/* ===== CONNECTION LAYER (SVG) ===== */
+.connection-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* ===== INDIVIDUAL TILES ===== */
-.tile {
+/* Connection lines */
+.connection {
+    stroke: var(--connection-normal);
+    stroke-width: var(--connection-width);
+    fill: none;
+    transition: stroke var(--transition-duration) ease,
+                stroke-width var(--transition-duration) ease;
+    filter: drop-shadow(var(--connection-glow));
+}
+
+.connection-normal {
+    stroke: var(--connection-normal);
+}
+
+.connection-secret {
+    stroke: var(--connection-secret);
+    stroke-dasharray: 8 4;
+    opacity: 0.8;
+}
+
+.connection-locked {
+    stroke: var(--connection-locked);
+    opacity: 0.5;
+}
+
+.connection-oneway {
+    stroke: var(--connection-oneway);
+}
+
+/* Arrow markers for one-way connections */
+.connection-layer defs marker {
+    fill: var(--connection-oneway);
+}
+
+/* ===== NODES CONTAINER ===== */
+.nodes-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== INDIVIDUAL NODES ===== */
+.node {
     position: absolute;
-    border: 1px solid transparent;
-    transition: border-color var(--transition-duration) ease,
-                transform var(--transition-duration) ease,
-                box-shadow var(--transition-duration) ease;
-    cursor: default;
-    box-sizing: border-box;
+    width: var(--node-size);
+    height: var(--node-size);
+    border-radius: 50%;
+    border: 3px solid var(--node-border);
+    cursor: pointer;
+    transition: transform var(--transition-duration) ease,
+                box-shadow var(--transition-duration) ease,
+                background-color var(--transition-duration) ease;
     
     /* Performance */
     contain: layout style paint;
-    will-change: transform, border-color;
+    will-change: transform, box-shadow;
     backface-visibility: hidden;
+    
+    /* Flexbox for centering content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Default styling */
+    background: var(--node-default);
+    box-shadow: var(--node-glow);
 }
 
-/* Viewport culling optimization */
-.tile.tile-culled {
-    visibility: hidden;
+/* Node content */
+.node-content {
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--node-border);
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     pointer-events: none;
+    max-width: calc(var(--node-size) - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-/* Walkable tiles */
-.tile.walkable {
-    border-color: var(--tile-walkable-border);
+/* Node types */
+.node-default {
+    background: var(--node-default);
 }
 
-/* Non-walkable tiles */
-.tile.non-walkable {
-    border-color: var(--tile-non-walkable-border);
+.node-locked {
+    background: var(--node-locked);
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
-/* Interactive tiles */
-.tile.interactive {
+.node-special {
+    background: var(--node-special);
+    animation: specialPulse var(--pulse-duration) infinite ease-in-out;
+}
+
+.node-shop {
+    background: var(--node-shop);
+}
+
+.node-exit {
+    background: var(--node-exit);
+}
+
+/* Node states */
+.node.walkable:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        var(--node-glow),
+        0 0 20px rgba(74, 144, 226, 0.8),
+        inset 0 0 10px var(--node-hover);
+}
+
+.node.non-walkable {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.node.interactive {
     cursor: pointer;
-    border-color: var(--tile-interactive-border);
 }
 
-.tile.interactive:hover {
-    border-color: var(--tile-interactive-hover);
-    box-shadow: var(--interactive-glow);
-    transform: scale(1.02);
-    z-index: 10;
+.node.interactive:hover {
+    transform: scale(1.15);
 }
 
-.tile.interactive:active {
-    transform: scale(0.98);
+.node.interactive:active {
+    transform: scale(1.05);
 }
 
-/* Tile hover effects */
-.tile:hover {
-    border-color: rgba(255, 255, 255, 0.5);
-    z-index: 10;
+/* Special node animations */
+@keyframes specialPulse {
+    0%, 100% {
+        box-shadow: var(--node-glow);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px rgba(231, 76, 60, 0.8),
+            0 0 30px rgba(231, 76, 60, 0.5);
+        transform: scale(1.05);
+    }
 }
 
 /* ===== PLAYER INDICATOR ===== */
 .player-indicator {
     position: absolute;
+    width: 20px;
+    height: 20px;
     background: radial-gradient(circle, 
         var(--player-color-primary) 0%, 
         var(--player-color-secondary) 70%, 
-        var(--player-color-tertiary) 100%);
+        #1a5490 100%);
     border: 2px solid var(--player-border);
     border-radius: 50%;
     box-shadow: 
-        var(--player-glow),
-        0 0 20px rgba(74, 144, 226, 0.3),
+        0 0 10px rgba(74, 144, 226, 0.8),
+        0 0 20px rgba(74, 144, 226, 0.4),
         inset 0 0 5px rgba(255, 255, 255, 0.3);
     z-index: 1000;
     animation: playerPulse var(--pulse-duration) infinite ease-in-out;
@@ -4354,17 +4450,17 @@ button.active-sexact.ongoing::after {
 @keyframes playerPulse {
     0%, 100% {
         box-shadow: 
-            var(--player-glow),
-            0 0 20px rgba(74, 144, 226, 0.3),
+            0 0 10px rgba(74, 144, 226, 0.8),
+            0 0 20px rgba(74, 144, 226, 0.4),
             inset 0 0 5px rgba(255, 255, 255, 0.3);
         transform: scale(1);
     }
     50% {
         box-shadow: 
-            0 0 15px rgba(74, 144, 226, 0.8),
-            0 0 30px rgba(74, 144, 226, 0.5),
+            0 0 15px rgba(74, 144, 226, 1),
+            0 0 30px rgba(74, 144, 226, 0.6),
             inset 0 0 8px rgba(255, 255, 255, 0.5);
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
 }
 
@@ -4379,37 +4475,15 @@ button.active-sexact.ongoing::after {
 
 @keyframes blockedShake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-2px); }
-    75% { transform: translateX(2px); }
-}
-
-/* ===== TILE TYPES ===== */
-
-/* Path tiles */
-.tile[data-tile-type="path"] {
-    border-color: rgba(139, 69, 19, 0.4);
-}
-
-/* Grass tiles */
-.tile[data-tile-type="grass"] {
-    border-color: rgba(76, 175, 80, 0.4);
-}
-
-/* Water tiles */
-.tile[data-tile-type="water"] {
-    border-color: rgba(33, 150, 243, 0.4);
-}
-
-/* Building tiles */
-.tile[data-tile-type="building"] {
-    border-color: rgba(96, 125, 139, 0.4);
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Extra large screens */
 @media (min-width: 1400px) {
-    .tile-map-container {
+    .node-map-container {
         max-width: 900px;
         max-height: 700px;
     }
@@ -4417,7 +4491,7 @@ button.active-sexact.ongoing::after {
 
 /* Large screens */
 @media (min-width: 1200px) and (max-width: 1399px) {
-    .tile-map-container {
+    .node-map-container {
         max-width: 800px;
         max-height: 600px;
     }
@@ -4426,29 +4500,46 @@ button.active-sexact.ongoing::after {
 /* Medium screens */
 @media (max-width: 1199px) and (min-width: 768px) {
     :root {
-        --tile-size: 48px;
+        --node-size: 48px;
+        --node-spacing: 96px;
     }
     
-    .tile-map-container {
+    .node-map-container {
         max-width: 600px;
         max-height: 450px;
+    }
+    
+    .node-content {
+        font-size: 8px;
     }
 }
 
 /* Small screens */
 @media (max-width: 767px) {
     :root {
-        --tile-size: 40px;
+        --node-size: 40px;
+        --node-spacing: 80px;
+        --connection-width: 2px;
     }
     
-    .tile-map-container {
+    .node-map-container {
         max-width: 100%;
         max-height: 400px;
         border-radius: 4px;
         border-width: 1px;
     }
     
+    .node {
+        border-width: 2px;
+    }
+    
+    .node-content {
+        font-size: 7px;
+    }
+    
     .player-indicator {
+        width: 16px;
+        height: 16px;
         border-width: 1px;
     }
 }
@@ -4456,11 +4547,16 @@ button.active-sexact.ongoing::after {
 /* Extra small screens */
 @media (max-width: 480px) {
     :root {
-        --tile-size: 32px;
+        --node-size: 32px;
+        --node-spacing: 64px;
     }
     
-    .tile-map-container {
+    .node-map-container {
         max-height: 300px;
+    }
+    
+    .node-content {
+        font-size: 6px;
     }
 }
 
@@ -4469,23 +4565,23 @@ button.active-sexact.ongoing::after {
 /* High contrast mode */
 @media (prefers-contrast: high) {
     :root {
-        --tile-walkable-border: #00ff00;
-        --tile-non-walkable-border: #ff0000;
-        --tile-interactive-border: #ffff00;
-        --player-border: #000000;
+        --node-default: #0066ff;
+        --node-locked: #666666;
+        --node-special: #ff0000;
+        --node-shop: #ff9900;
+        --node-exit: #00cc00;
+        --node-border: #000000;
+        --connection-normal: #ffffff;
     }
     
-    .tile-map-container {
+    .node-map-container {
         border-color: #ffffff;
-        background: #000000;
-    }
-    
-    .tile-grid {
         background: #000000;
     }
     
     .player-indicator {
         background: #ffffff;
+        border-color: #000000;
         box-shadow: none;
     }
 }
@@ -4498,17 +4594,18 @@ button.active-sexact.ongoing::after {
         --pulse-duration: 0s;
     }
     
-    .tile,
-    .player-indicator {
+    .node,
+    .player-indicator,
+    .connection {
         transition: none !important;
         animation: none !important;
     }
     
-    .tile.interactive:hover {
+    .node:hover {
         transform: none !important;
     }
     
-    .tile-map-container {
+    .node-map-container {
         scroll-behavior: auto;
     }
 }
@@ -4517,14 +4614,13 @@ button.active-sexact.ongoing::after {
 @media (prefers-color-scheme: dark) {
     :root {
         --map-bg-dark: #0a0a0a;
-        --grid-bg-dark: #1a1a1a;
         --border-color-dark: #2a2a2a;
     }
 }
 
 /* ===== MINIMAP INTEGRATION ===== */
 
-.minimap-container .tile-map-container {
+.minimap-container .node-map-container {
     border: 1px solid #555;
     border-radius: 4px;
     background: var(--map-bg-dark);
@@ -4533,7 +4629,7 @@ button.active-sexact.ongoing::after {
     max-height: 200px;
 }
 
-.minimap-container .tile-grid {
+.minimap-container .node-map {
     transform: scale(0.3);
     transform-origin: top left;
 }
@@ -4543,14 +4639,23 @@ button.active-sexact.ongoing::after {
     animation: none;
 }
 
-.minimap-container .tile {
-    border: none;
+.minimap-container .node {
+    border-width: 1px;
     transition: none;
+}
+
+.minimap-container .node-content {
+    display: none; /* Hide text in minimap */
+}
+
+.minimap-container .connection {
+    stroke-width: 1px;
+    filter: none;
 }
 
 /* ===== OVERLAY INTEGRATION ===== */
 
-.overlay .tile-map-container {
+.overlay .node-map-container {
     width: 100%;
     height: 400px;
     margin: 20px 0;
@@ -4558,14 +4663,14 @@ button.active-sexact.ongoing::after {
 
 /* ===== ANIMATION CLASSES ===== */
 
-.tile-fade-in {
-    animation: tilesFadeIn 0.5s ease-in-out;
+.nodes-fade-in {
+    animation: nodesFadeIn 0.5s ease-in-out;
 }
 
-@keyframes tilesFadeIn {
+@keyframes nodesFadeIn {
     from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.8);
     }
     to {
         opacity: 1;
@@ -4573,24 +4678,24 @@ button.active-sexact.ongoing::after {
     }
 }
 
-.tile-slide-in {
-    animation: tilesSlideIn 0.3s ease-out;
+.connections-draw-in {
+    animation: connectionsDrawIn 0.8s ease-out;
 }
 
-@keyframes tilesSlideIn {
+@keyframes connectionsDrawIn {
     from {
-        transform: translateY(-20px);
-        opacity: 0;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
     }
     to {
-        transform: translateY(0);
-        opacity: 1;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
     }
 }
 
 /* ===== UTILITY CLASSES ===== */
 
-.tile-map-fullscreen {
+.node-map-fullscreen {
     position: fixed;
     top: 0;
     left: 0;
@@ -4604,7 +4709,7 @@ button.active-sexact.ongoing::after {
     padding: 20px;
 }
 
-.tile-map-fullscreen .tile-map-container {
+.node-map-fullscreen .node-map-container {
     max-width: 90vw;
     max-height: 90vh;
     width: auto;
@@ -4612,11 +4717,11 @@ button.active-sexact.ongoing::after {
     border: 2px solid var(--player-color-primary);
 }
 
-.tile-map-hidden {
+.node-map-hidden {
     display: none;
 }
 
-.tile-map-disabled {
+.node-map-disabled {
     pointer-events: none;
     opacity: 0.5;
     filter: grayscale(100%);
@@ -4624,35 +4729,33 @@ button.active-sexact.ongoing::after {
 
 /* ===== DEBUG STYLES ===== */
 
-.debug-mode .tile {
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-.debug-mode .tile::after {
-    content: attr(data-tile-id);
+.debug-mode .node::after {
+    content: attr(data-node-id);
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 8px;
     font-family: monospace;
     color: #ffffff;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 1px 3px;
-    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
     pointer-events: none;
     z-index: 1;
 }
 
 .debug-mode .player-indicator::after {
-    content: attr(data-position);
+    content: attr(data-node-id);
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 10px;
+    font-size: 8px;
     font-family: monospace;
     color: #ffffff;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.9);
     padding: 2px 4px;
     border-radius: 3px;
     white-space: nowrap;
@@ -4660,16 +4763,16 @@ button.active-sexact.ongoing::after {
 
 /* ===== FOCUS INDICATORS ===== */
 
-.tile.interactive:focus {
+.node:focus {
     outline: 2px solid var(--player-color-primary);
     outline-offset: 2px;
 }
 
-.tile.interactive:focus:not(:focus-visible) {
+.node:focus:not(:focus-visible) {
     outline: none;
 }
 
-.tile.interactive:focus-visible {
+.node:focus-visible {
     outline: 3px solid var(--player-color-primary);
     outline-offset: 2px;
 }
@@ -4677,21 +4780,33 @@ button.active-sexact.ongoing::after {
 /* ===== PRINT STYLES ===== */
 
 @media print {
-    .tile-map-container {
+    .node-map-container {
         border: 1px solid #000;
         background: #fff;
         box-shadow: none;
         page-break-inside: avoid;
     }
     
-    .tile-grid {
+    .node-map {
         background: #fff;
     }
     
-    .tile-grid.show-grid {
-        background-image: 
-            linear-gradient(to right, #ccc 1px, transparent 1px),
-            linear-gradient(to bottom, #ccc 1px, transparent 1px);
+    .connection {
+        stroke: #000 !important;
+        filter: none;
+    }
+    
+    .node {
+        border-color: #000 !important;
+        background: #fff !important;
+        color: #000 !important;
+        animation: none;
+        box-shadow: none;
+    }
+    
+    .node-content {
+        color: #000 !important;
+        text-shadow: none;
     }
     
     .player-indicator {
@@ -4700,33 +4815,42 @@ button.active-sexact.ongoing::after {
         animation: none;
         box-shadow: none;
     }
-    
-    .tile {
-        border-color: #ccc !important;
-        transition: none;
-    }
-    
-    .tile.interactive {
-        border-color: #666 !important;
-    }
 }
 
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
 
 /* Disable animations when not visible */
-.tile-map-container:not(:hover) .tile {
+.node-map-container:not(:hover) .node {
     transition-duration: 0s;
 }
 
 /* Hardware acceleration for frequently animated elements */
 .player-indicator,
-.tile.interactive {
+.node.interactive {
     transform: translateZ(0);
 }
 
 /* Reduce paint areas */
-.tile {
+.node {
     isolation: isolate;
+}
+
+/* ===== BACKWARD COMPATIBILITY ===== */
+
+/* Support for legacy tile-map classes */
+.tile-map-container {
+    /* Redirect to node-map-container styles */
+    @extend .node-map-container;
+}
+
+.tile-grid {
+    /* Redirect to node-map styles */
+    @extend .node-map;
+}
+
+.tile {
+    /* Redirect to node styles */
+    @extend .node;
 }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">/* twine-user-script #1: "00_GlobalDeviceTypeAwareness.js" */
 setup.isMobileDevice = function () {
@@ -13107,7 +13231,923 @@ setup.CrownAndCasteUI = {
   }
 
 };
-/* twine-user-script #30: "MinimapIntegration.js" */
+/* twine-user-script #30: "FireConvergenceSystem.js" */
+/**
+ * FireConvergenceSystem.js - Advanced Fire Rescue Event System
+ * 
+ * A comprehensive stress test implementation for the NodeMapSystem that creates
+ * a dynamic, randomized orphanage fire rescue scenario with complex mechanics:
+ * - Breath management system
+ * - Dynamic fire progression
+ * - Structural collapse mechanics
+ * - Item and child randomization
+ * - Multiple escape routes
+ * - Real-time minimap updates
+ * 
+ * This system pushes the node network to its limits with time-based progression,
+ * conditional node changes, and complex state management.
+ */
+
+class FireConvergenceSystem {
+    constructor() {
+        this.isActive = false;
+        this.gameState = null;
+        this.nodeMapSystem = null;
+        this.navigationSystem = null;
+        this.updateInterval = null;
+        this.ambientEventInterval = null;
+        
+        // Game mechanics configuration
+        this.config = {
+            breathDecayRate: 2, // Breath lost per second
+            fireSpreadRate: 1.5, // Fire intensity increase rate
+            structuralDecayRate: 0.5, // Structure damage per second
+            updateFrequency: 1000, // Update every 1 second
+            ambientEventFrequency: 5000, // Check for ambient events every 5 seconds
+            maxBreath: 100,
+            criticalBreath: 20,
+            collapseThreshold: 20
+        };
+        
+        // Child data for randomization
+        this.childrenData = {
+            zan: { name: "Zan", age: 8, description: "A curious boy who loves to explore" },
+            mira: { name: "Mira", age: 6, description: "A quiet girl who stays close to the infirmary" },
+            tom: { name: "Tom", age: 10, description: "An older boy who helps with chores" },
+            sara: { name: "Sara", age: 7, description: "A bookish girl who loves the library" }
+        };
+        
+        // Item effects and descriptions
+        this.itemData = {
+            wet_cloth: {
+                name: "Wet Cloth",
+                description: "A damp cloth that can help filter smoke",
+                effect: "Reduces breath cost by 1 in smoky areas",
+                onUse: () => this.gameState.hasWetCloth = true
+            },
+            key_ring: {
+                name: "Key Ring",
+                description: "A ring of keys that can unlock doors",
+                effect: "Unlocks locked doors and closets",
+                onUse: () => this.gameState.hasKeys = true
+            },
+            rope: {
+                name: "Rope",
+                description: "A sturdy rope for climbing",
+                effect: "Enables window escape route",
+                onUse: () => this.gameState.hasRope = true
+            },
+            healing_potion: {
+                name: "Healing Potion",
+                description: "A small vial of healing liquid",
+                effect: "Restores 20 breath points",
+                onUse: () => this.restoreBreath(20)
+            },
+            lantern: {
+                name: "Lantern",
+                description: "A bright lantern to see through smoke",
+                effect: "Improves visibility in dark areas",
+                onUse: () => this.gameState.hasLantern = true
+            }
+        };
+        
+        // Bind methods for event handling
+        this.handleRoomEntry = this.handleRoomEntry.bind(this);
+        this.handleRoomInteraction = this.handleRoomInteraction.bind(this);
+        this.handleAlternateExit = this.handleAlternateExit.bind(this);
+        this.handleWindowEscape = this.handleWindowEscape.bind(this);
+        this.discoverAlternateExit = this.discoverAlternateExit.bind(this);
+        this.showMessage = this.showMessage.bind(this);
+        
+        // Make methods globally available for node events
+        window.FireConvergence = {
+            handleRoomEntry: this.handleRoomEntry,
+            handleRoomInteraction: this.handleRoomInteraction,
+            handleAlternateExit: this.handleAlternateExit,
+            handleWindowEscape: this.handleWindowEscape,
+            discoverAlternateExit: this.discoverAlternateExit,
+            showMessage: this.showMessage,
+            increaseFireIntensity: () => this.increaseFireIntensity(),
+            damageStructure: (amount) => this.damageStructure(amount),
+            giveChildHint: () => this.giveChildHint(),
+            increaseBreathCost: (amount) => this.increaseBreathCost(amount)
+        };
+    }
+
+    /**
+     * Initialize the FireConvergence event
+     * @param {NodeMapSystem} nodeMapSystem - The node map system instance
+     * @param {NodeNavigationSystem} navigationSystem - The navigation system instance
+     */
+    async initialize(nodeMapSystem, navigationSystem) {
+        this.nodeMapSystem = nodeMapSystem;
+        this.navigationSystem = navigationSystem;
+        
+        console.log('Initializing FireConvergence event...');
+        
+        // Initialize game state
+        this.initializeGameState();
+        
+        // Load the orphanage map
+        const success = await this.nodeMapSystem.loadMap('fire_convergence_orphanage');
+        if (!success) {
+            console.error('Failed to load FireConvergence map');
+            return false;
+        }
+        
+        // Randomize the scenario
+        this.randomizeScenario();
+        
+        // Start the event systems
+        this.startEventSystems();
+        
+        // Set up UI
+        this.setupUI();
+        
+        this.isActive = true;
+        console.log('FireConvergence event initialized successfully');
+        
+        // Show initial message
+        this.showMessage("The orphanage is burning! You must find and rescue the children before it's too late. Use WASD to move and E to interact with rooms.");
+        
+        return true;
+    }
+
+    /**
+     * Initialize the game state
+     */
+    initializeGameState() {
+        this.gameState = {
+            breath: this.config.maxBreath,
+            foundChildren: [],
+            rescuedChildren: [],
+            structuralIntegrity: 100,
+            fireIntensity: 1,
+            timeElapsed: 0,
+            hasWetCloth: false,
+            hasLantern: false,
+            hasKeys: false,
+            hasRope: false,
+            alternateExitsFound: [],
+            itemsFound: [],
+            roomsSearched: [],
+            startTime: Date.now()
+        };
+        
+        // Store in SugarCube state for condition evaluation
+        if (window.State && window.State.variables) {
+            window.State.variables.fireConvergence = this.gameState;
+        }
+    }
+
+    /**
+     * Randomize the scenario layout, items, and children
+     */
+    randomizeScenario() {
+        console.log('Randomizing FireConvergence scenario...');
+        
+        const mapData = this.nodeMapSystem.currentMapData;
+        if (!mapData || !mapData.dynamicGeneration) return;
+        
+        const generation = mapData.dynamicGeneration;
+        
+        // Generate random seed if not provided
+        if (!generation.randomSeed) {
+            generation.randomSeed = Math.floor(Math.random() * 1000000);
+        }
+        
+        // Use seeded random for consistent randomization
+        this.random = this.createSeededRandom(generation.randomSeed);
+        
+        // Randomize item spawns
+        this.randomizeItems(generation.itemSpawns);
+        
+        // Randomize child locations
+        this.randomizeChildren(generation.childLocations);
+        
+        // Apply initial fire progression
+        this.applyInitialFire(generation.fireProgression);
+        
+        console.log(`Scenario randomized with seed: ${generation.randomSeed}`);
+    }
+
+    /**
+     * Create a seeded random number generator
+     * @param {number} seed - Random seed
+     * @returns {Function} Seeded random function
+     */
+    createSeededRandom(seed) {
+        let state = seed;
+        return function() {
+            state = (state * 1664525 + 1013904223) % 4294967296;
+            return state / 4294967296;
+        };
+    }
+
+    /**
+     * Randomize item spawns based on probabilities
+     * @param {Object} itemSpawns - Item spawn configuration
+     */
+    randomizeItems(itemSpawns) {
+        for (const [itemId, config] of Object.entries(itemSpawns)) {
+            if (this.random() < config.probability) {
+                // Choose a random room from possible rooms
+                const roomId = config.rooms[Math.floor(this.random() * config.rooms.length)];
+                
+                // Add item to room metadata
+                const node = this.nodeMapSystem.getNodeById(roomId);
+                if (node && node.metadata) {
+                    if (!node.metadata.spawnedItems) {
+                        node.metadata.spawnedItems = [];
+                    }
+                    node.metadata.spawnedItems.push(itemId);
+                }
+                
+                console.log(`Spawned ${itemId} in ${roomId}`);
+            }
+        }
+    }
+
+    /**
+     * Randomize child locations based on probabilities
+     * @param {Object} childLocations - Child location configuration
+     */
+    randomizeChildren(childLocations) {
+        for (const [childId, config] of Object.entries(childLocations)) {
+            if (this.random() < config.probability) {
+                // Choose a random room from possible rooms
+                const roomId = config.possibleRooms[Math.floor(this.random() * config.possibleRooms.length)];
+                
+                // Add child to room metadata
+                const node = this.nodeMapSystem.getNodeById(roomId);
+                if (node && node.metadata) {
+                    if (!node.metadata.spawnedChildren) {
+                        node.metadata.spawnedChildren = [];
+                    }
+                    node.metadata.spawnedChildren.push(childId);
+                }
+                
+                console.log(`Placed ${childId} in ${roomId}`);
+            }
+        }
+    }
+
+    /**
+     * Apply initial fire progression
+     * @param {Object} fireProgression - Fire progression configuration
+     */
+    applyInitialFire(fireProgression) {
+        for (const nodeId of fireProgression.initialFire) {
+            const node = this.nodeMapSystem.getNodeById(nodeId);
+            if (node && node.metadata) {
+                node.metadata.fireIntensity = Math.max(node.metadata.fireIntensity || 0, 2);
+                node.metadata.breathCost = Math.max(node.metadata.breathCost || 0, 3);
+            }
+        }
+    }
+
+    /**
+     * Start the event systems (timers, updates, etc.)
+     */
+    startEventSystems() {
+        // Main game update loop
+        this.updateInterval = setInterval(() => {
+            this.updateGameState();
+        }, this.config.updateFrequency);
+        
+        // Ambient events
+        this.ambientEventInterval = setInterval(() => {
+            this.processAmbientEvents();
+        }, this.config.ambientEventFrequency);
+    }
+
+    /**
+     * Update the game state (breath, fire, structure)
+     */
+    updateGameState() {
+        if (!this.isActive) return;
+        
+        this.gameState.timeElapsed = Date.now() - this.gameState.startTime;
+        
+        // Update breath
+        this.updateBreath();
+        
+        // Update fire progression
+        this.updateFireProgression();
+        
+        // Update structural integrity
+        this.updateStructuralIntegrity();
+        
+        // Update UI
+        this.updateUI();
+        
+        // Check win/lose conditions
+        this.checkGameConditions();
+        
+        // Update dynamic nodes
+        this.nodeMapSystem.updateDynamicNodes();
+    }
+
+    /**
+     * Update breath system
+     */
+    updateBreath() {
+        const currentNodeId = this.navigationSystem.getPosition();
+        const currentNode = this.nodeMapSystem.getNodeById(currentNodeId);
+        
+        if (currentNode && currentNode.metadata) {
+            let breathCost = currentNode.metadata.breathCost || 0;
+            
+            // Apply wet cloth bonus
+            if (this.gameState.hasWetCloth && breathCost > 0) {
+                breathCost = Math.max(0, breathCost - 1);
+            }
+            
+            // Apply breath decay
+            this.gameState.breath -= (this.config.breathDecayRate + breathCost) * (this.config.updateFrequency / 1000);
+            this.gameState.breath = Math.max(0, this.gameState.breath);
+        }
+    }
+
+    /**
+     * Update fire progression
+     */
+    updateFireProgression() {
+        // Increase global fire intensity over time
+        this.gameState.fireIntensity += this.config.fireSpreadRate * (this.config.updateFrequency / 1000) * 0.1;
+        
+        // Spread fire to connected nodes
+        for (const node of this.nodeMapSystem.nodes.values()) {
+            if (node.metadata && node.metadata.fireIntensity > 0) {
+                // Spread to connected nodes
+                for (const connectionId of Object.keys(node.connections)) {
+                    const connectedNode = this.nodeMapSystem.getNodeById(connectionId);
+                    if (connectedNode && connectedNode.metadata) {
+                        const currentFire = connectedNode.metadata.fireIntensity || 0;
+                        const spreadAmount = 0.1 * (this.config.updateFrequency / 1000);
+                        connectedNode.metadata.fireIntensity = Math.min(3, currentFire + spreadAmount);
+                        
+                        // Increase breath cost with fire
+                        if (connectedNode.metadata.fireIntensity > 0) {
+                            connectedNode.metadata.breathCost = Math.max(
+                                connectedNode.metadata.breathCost || 0,
+                                Math.floor(connectedNode.metadata.fireIntensity)
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Update structural integrity
+     */
+    updateStructuralIntegrity() {
+        // Decrease structural integrity based on fire intensity
+        let totalFireDamage = 0;
+        for (const node of this.nodeMapSystem.nodes.values()) {
+            if (node.metadata && node.metadata.fireIntensity > 0) {
+                totalFireDamage += node.metadata.fireIntensity;
+            }
+        }
+        
+        const damageRate = totalFireDamage * this.config.structuralDecayRate * (this.config.updateFrequency / 1000);
+        this.gameState.structuralIntegrity -= damageRate;
+        this.gameState.structuralIntegrity = Math.max(0, this.gameState.structuralIntegrity);
+    }
+
+    /**
+     * Process ambient events
+     */
+    processAmbientEvents() {
+        const mapData = this.nodeMapSystem.currentMapData;
+        if (!mapData || !mapData.ambientEvents) return;
+        
+        for (const event of mapData.ambientEvents) {
+            // Check probability
+            if (Math.random() > event.probability) continue;
+            
+            // Check conditions
+            if (event.conditions && event.conditions.length > 0) {
+                let conditionsMet = true;
+                for (const condition of event.conditions) {
+                    if (!this.nodeMapSystem.evaluateCondition(condition)) {
+                        conditionsMet = false;
+                        break;
+                    }
+                }
+                if (!conditionsMet) continue;
+            }
+            
+            // Check cooldown
+            const now = Date.now();
+            const lastTriggered = event.lastTriggered || 0;
+            if (now - lastTriggered < event.cooldown) continue;
+            
+            // Trigger event
+            this.showMessage(event.message);
+            event.lastTriggered = now;
+            
+            // Execute effect
+            if (event.effect) {
+                try {
+                    eval(event.effect);
+                } catch (error) {
+                    console.error('Error executing ambient event effect:', error);
+                }
+            }
+        }
+    }
+
+    /**
+     * Handle room entry
+     * @param {string} roomId - Room ID
+     */
+    handleRoomEntry(roomId) {
+        const node = this.nodeMapSystem.getNodeById(roomId);
+        if (!node) return;
+        
+        // Apply breath cost for entering room
+        if (node.metadata && node.metadata.breathCost) {
+            let breathCost = node.metadata.breathCost;
+            
+            // Apply wet cloth bonus
+            if (this.gameState.hasWetCloth && breathCost > 0) {
+                breathCost = Math.max(0, breathCost - 1);
+            }
+            
+            this.gameState.breath -= breathCost;
+            this.gameState.breath = Math.max(0, this.gameState.breath);
+        }
+        
+        // Show room description
+        if (node.metadata && node.metadata.description) {
+            this.showMessage(node.metadata.description);
+        }
+        
+        // Check for automatic discoveries
+        this.checkRoomDiscoveries(roomId);
+    }
+
+    /**
+     * Handle room interaction (searching)
+     * @param {string} roomId - Room ID
+     */
+    handleRoomInteraction(roomId) {
+        const node = this.nodeMapSystem.getNodeById(roomId);
+        if (!node || !node.metadata) return;
+        
+        // Check if room is searchable
+        if (!node.metadata.searchable) {
+            this.showMessage("There's nothing to search here.");
+            return;
+        }
+        
+        // Check if already searched
+        if (this.gameState.roomsSearched.includes(roomId)) {
+            this.showMessage("You've already searched this room thoroughly.");
+            return;
+        }
+        
+        // Mark as searched
+        this.gameState.roomsSearched.push(roomId);
+        
+        // Search for items
+        this.searchForItems(roomId, node);
+        
+        // Search for children
+        this.searchForChildren(roomId, node);
+    }
+
+    /**
+     * Search for items in a room
+     * @param {string} roomId - Room ID
+     * @param {Object} node - Node data
+     */
+    searchForItems(roomId, node) {
+        const spawnedItems = node.metadata.spawnedItems || [];
+        
+        if (spawnedItems.length > 0) {
+            for (const itemId of spawnedItems) {
+                if (!this.gameState.itemsFound.includes(itemId)) {
+                    this.gameState.itemsFound.push(itemId);
+                    const itemData = this.itemData[itemId];
+                    
+                    if (itemData) {
+                        this.showMessage(`You found: ${itemData.name}! ${itemData.description}`);
+                        
+                        // Apply item effect
+                        if (itemData.onUse) {
+                            itemData.onUse();
+                        }
+                    }
+                }
+            }
+        } else {
+            this.showMessage("You search the room but find nothing useful.");
+        }
+    }
+
+    /**
+     * Search for children in a room
+     * @param {string} roomId - Room ID
+     * @param {Object} node - Node data
+     */
+    searchForChildren(roomId, node) {
+        const spawnedChildren = node.metadata.spawnedChildren || [];
+        
+        for (const childId of spawnedChildren) {
+            if (!this.gameState.foundChildren.includes(childId)) {
+                this.gameState.foundChildren.push(childId);
+                const childData = this.childrenData[childId];
+                
+                if (childData) {
+                    this.showMessage(`You found ${childData.name}! ${childData.description}. You quickly guide them to safety.`);
+                    
+                    // Add to rescued children
+                    this.gameState.rescuedChildren.push(childId);
+                }
+            }
+        }
+    }
+
+    /**
+     * Check for automatic room discoveries
+     * @param {string} roomId - Room ID
+     */
+    checkRoomDiscoveries(roomId) {
+        const node = this.nodeMapSystem.getNodeById(roomId);
+        if (!node || !node.metadata) return;
+        
+        // Special room effects
+        if (node.metadata.hasWater && this.gameState.breath < this.config.maxBreath) {
+            this.showMessage("You splash water on your face and take a moment to breathe cleaner air.");
+            this.restoreBreath(10);
+        }
+    }
+
+    /**
+     * Handle alternate exit discovery
+     * @param {string} exitId - Exit ID
+     */
+    discoverAlternateExit(exitId) {
+        if (!this.gameState.alternateExitsFound.includes(exitId)) {
+            this.gameState.alternateExitsFound.push(exitId);
+            this.showMessage("You've discovered an alternate escape route! This could be crucial if the main entrance becomes blocked.");
+            
+            // Update node connections
+            this.nodeMapSystem.updateDynamicNodes();
+        }
+    }
+
+    /**
+     * Handle alternate exit usage
+     * @param {string} exitId - Exit ID
+     */
+    handleAlternateExit(exitId) {
+        if (this.gameState.rescuedChildren.length === 0) {
+            this.showMessage("You can't leave without rescuing at least one child!");
+            return;
+        }
+        
+        this.completeEvent('alternate_exit', exitId);
+    }
+
+    /**
+     * Handle window escape
+     * @param {string} windowId - Window ID
+     */
+    handleWindowEscape(windowId) {
+        if (!this.gameState.hasRope) {
+            this.showMessage("The window is too high to jump from safely. You need rope to escape this way.");
+            return;
+        }
+        
+        if (this.gameState.rescuedChildren.length === 0) {
+            this.showMessage("You can't leave without rescuing at least one child!");
+            return;
+        }
+        
+        this.completeEvent('window_escape', windowId);
+    }
+
+    /**
+     * Restore breath points
+     * @param {number} amount - Amount to restore
+     */
+    restoreBreath(amount) {
+        this.gameState.breath = Math.min(this.config.maxBreath, this.gameState.breath + amount);
+        this.showMessage(`You feel refreshed! Breath restored by ${amount} points.`);
+    }
+
+    /**
+     * Increase fire intensity
+     */
+    increaseFireIntensity() {
+        this.gameState.fireIntensity += 0.5;
+    }
+
+    /**
+     * Damage structure
+     * @param {number} amount - Damage amount
+     */
+    damageStructure(amount) {
+        this.gameState.structuralIntegrity -= amount;
+        this.gameState.structuralIntegrity = Math.max(0, this.gameState.structuralIntegrity);
+    }
+
+    /**
+     * Give hint about child location
+     */
+    giveChildHint() {
+        const unfoundChildren = Object.keys(this.childrenData).filter(
+            childId => !this.gameState.foundChildren.includes(childId)
+        );
+        
+        if (unfoundChildren.length > 0) {
+            const childId = unfoundChildren[Math.floor(Math.random() * unfoundChildren.length)];
+            const childData = this.childrenData[childId];
+            
+            // Find where this child is located
+            for (const node of this.nodeMapSystem.nodes.values()) {
+                if (node.metadata && node.metadata.spawnedChildren && 
+                    node.metadata.spawnedChildren.includes(childId)) {
+                    this.showMessage(`You hear ${childData.name}'s voice coming from the ${node.name}!`);
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * Increase breath cost
+     * @param {number} amount - Amount to increase
+     */
+    increaseBreathCost(amount) {
+        // This affects the current room's breath cost temporarily
+        const currentNodeId = this.navigationSystem.getPosition();
+        const currentNode = this.nodeMapSystem.getNodeById(currentNodeId);
+        
+        if (currentNode && currentNode.metadata) {
+            currentNode.metadata.breathCost = (currentNode.metadata.breathCost || 0) + amount;
+        }
+    }
+
+    /**
+     * Check game win/lose conditions
+     */
+    checkGameConditions() {
+        // Lose condition: breath depleted
+        if (this.gameState.breath <= 0) {
+            this.endEvent('breath_depleted');
+            return;
+        }
+        
+        // Lose condition: structural collapse
+        if (this.gameState.structuralIntegrity <= this.config.collapseThreshold) {
+            this.endEvent('structural_collapse');
+            return;
+        }
+        
+        // Win condition: all children rescued and at exit
+        const totalChildren = Object.keys(this.childrenData).length;
+        if (this.gameState.rescuedChildren.length === totalChildren) {
+            const currentNodeId = this.navigationSystem.getPosition();
+            const currentNode = this.nodeMapSystem.getNodeById(currentNodeId);
+            
+            if (currentNode && currentNode.metadata && currentNode.metadata.isExit) {
+                this.completeEvent('all_children_saved', currentNodeId);
+            }
+        }
+    }
+
+    /**
+     * Complete the event successfully
+     * @param {string} method - Completion method
+     * @param {string} location - Completion location
+     */
+    completeEvent(method, location) {
+        this.isActive = false;
+        
+        // Stop update systems
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
+        }
+        if (this.ambientEventInterval) {
+            clearInterval(this.ambientEventInterval);
+            this.ambientEventInterval = null;
+        }
+        
+        // Calculate score
+        const score = this.calculateScore();
+        
+        // Show completion message
+        let message = `FireConvergence Event Complete!\n\n`;
+        message += `Children Rescued: ${this.gameState.rescuedChildren.length}/${Object.keys(this.childrenData).length}\n`;
+        message += `Time Elapsed: ${Math.floor(this.gameState.timeElapsed / 1000)} seconds\n`;
+        message += `Breath Remaining: ${Math.floor(this.gameState.breath)}/${this.config.maxBreath}\n`;
+        message += `Structural Integrity: ${Math.floor(this.gameState.structuralIntegrity)}%\n`;
+        message += `Escape Method: ${method}\n`;
+        message += `Final Score: ${score}\n\n`;
+        
+        if (this.gameState.rescuedChildren.length === Object.keys(this.childrenData).length) {
+            message += "Perfect rescue! You saved all the children!";
+        } else {
+            message += "You escaped, but some children are still missing...";
+        }
+        
+        this.showMessage(message);
+        
+        console.log('FireConvergence event completed:', {
+            method,
+            location,
+            score,
+            gameState: this.gameState
+        });
+    }
+
+    /**
+     * End the event (failure)
+     * @param {string} reason - Failure reason
+     */
+    endEvent(reason) {
+        this.isActive = false;
+        
+        // Stop update systems
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
+        }
+        if (this.ambientEventInterval) {
+            clearInterval(this.ambientEventInterval);
+            this.ambientEventInterval = null;
+        }
+        
+        let message = `FireConvergence Event Failed!\n\n`;
+        
+        switch (reason) {
+            case 'breath_depleted':
+                message += "You've run out of breath and collapsed from smoke inhalation!";
+                break;
+            case 'structural_collapse':
+                message += "The building has collapsed! You were trapped inside!";
+                break;
+            default:
+                message += `Event ended: ${reason}`;
+        }
+        
+        message += `\n\nChildren Rescued: ${this.gameState.rescuedChildren.length}/${Object.keys(this.childrenData).length}`;
+        message += `\nTime Survived: ${Math.floor(this.gameState.timeElapsed / 1000)} seconds`;
+        
+        this.showMessage(message);
+        
+        console.log('FireConvergence event failed:', {
+            reason,
+            gameState: this.gameState
+        });
+    }
+
+    /**
+     * Calculate final score
+     * @returns {number} Final score
+     */
+    calculateScore() {
+        let score = 0;
+        
+        // Base score for children rescued
+        score += this.gameState.rescuedChildren.length * 1000;
+        
+        // Bonus for saving all children
+        if (this.gameState.rescuedChildren.length === Object.keys(this.childrenData).length) {
+            score += 2000;
+        }
+        
+        // Time bonus (faster is better)
+        const timeBonus = Math.max(0, 600 - Math.floor(this.gameState.timeElapsed / 1000)) * 10;
+        score += timeBonus;
+        
+        // Breath bonus
+        score += Math.floor(this.gameState.breath) * 5;
+        
+        // Structural integrity bonus
+        score += Math.floor(this.gameState.structuralIntegrity) * 10;
+        
+        // Item collection bonus
+        score += this.gameState.itemsFound.length * 100;
+        
+        return score;
+    }
+
+    /**
+     * Set up UI elements
+     */
+    setupUI() {
+        // Create UI container
+        const uiContainer = document.createElement('div');
+        uiContainer.id = 'fire-convergence-ui';
+        uiContainer.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            z-index: 1000;
+            min-width: 200px;
+            border: 2px solid #ff4500;
+        `;
+        
+        document.body.appendChild(uiContainer);
+        this.uiContainer = uiContainer;
+        
+        this.updateUI();
+    }
+
+    /**
+     * Update UI display
+     */
+    updateUI() {
+        if (!this.uiContainer) return;
+        
+        const breathColor = this.gameState.breath > this.config.criticalBreath ? '#00ff00' : '#ff0000';
+        const structureColor = this.gameState.structuralIntegrity > 50 ? '#00ff00' : 
+                              this.gameState.structuralIntegrity > 25 ? '#ffff00' : '#ff0000';
+        
+        this.uiContainer.innerHTML = `
+            <div style="color: #ff4500; font-weight: bold; margin-bottom: 10px;">🔥 FIRE CONVERGENCE 🔥</div>
+            <div style="color: ${breathColor};">Breath: ${Math.floor(this.gameState.breath)}/${this.config.maxBreath}</div>
+            <div style="color: ${structureColor};">Structure: ${Math.floor(this.gameState.structuralIntegrity)}%</div>
+            <div>Fire Level: ${Math.floor(this.gameState.fireIntensity * 10) / 10}</div>
+            <div>Time: ${Math.floor(this.gameState.timeElapsed / 1000)}s</div>
+            <div>Children: ${this.gameState.rescuedChildren.length}/${Object.keys(this.childrenData).length}</div>
+            <div style="margin-top: 10px; font-size: 12px;">
+                ${this.gameState.hasWetCloth ? '🧽 Wet Cloth ' : ''}
+                ${this.gameState.hasKeys ? '🗝️ Keys ' : ''}
+                ${this.gameState.hasRope ? '🪢 Rope ' : ''}
+                ${this.gameState.hasLantern ? '🏮 Lantern ' : ''}
+            </div>
+        `;
+    }
+
+    /**
+     * Show message to player
+     * @param {string} message - Message to display
+     */
+    showMessage(message) {
+        console.log('FireConvergence Message:', message);
+        
+        // Integration with SugarCube
+        if (window.UI && window.UI.alert) {
+            window.UI.alert(message);
+        } else if (window.Dialog && window.Dialog.setup && window.Dialog.open) {
+            window.Dialog.setup('FireConvergence', 'fire-convergence-message');
+            window.Dialog.wiki(message);
+            window.Dialog.open();
+        } else {
+            // Fallback to native alert
+            alert(message);
+        }
+    }
+
+    /**
+     * Destroy the system and clean up
+     */
+    destroy() {
+        this.isActive = false;
+        
+        // Stop update systems
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
+        }
+        if (this.ambientEventInterval) {
+            clearInterval(this.ambientEventInterval);
+            this.ambientEventInterval = null;
+        }
+        
+        // Remove UI
+        if (this.uiContainer) {
+            this.uiContainer.remove();
+            this.uiContainer = null;
+        }
+        
+        // Clear global references
+        if (window.FireConvergence) {
+            delete window.FireConvergence;
+        }
+        
+        console.log('FireConvergenceSystem destroyed');
+    }
+}
+
+// Export for use in other modules
+window.FireConvergenceSystem = FireConvergenceSystem;
+/* twine-user-script #31: "MinimapIntegration.js" */
 /**
  * MinimapIntegration.js
  * 
@@ -13251,7 +14291,7 @@ $(document).on(':storyready', function() {
 
 
 console.log('MinimapIntegration loaded');
-/* twine-user-script #31: "MinimapSystem.js" */
+/* twine-user-script #32: "MinimapSystem.js" */
 /**
  * MinimapSystem.js
  * 
@@ -13749,26 +14789,25 @@ class MinimapSystem {
 
 // Export for use in other modules
 window.MinimapSystem = MinimapSystem;
-/* twine-user-script #32: "TileMapSystem.js" */
+/* twine-user-script #33: "TileMapSystem.js" */
 /**
- * TileMapSystem.js - Improved Version
+ * NodeMapSystem.js - Node Network Version
  * 
- * A comprehensive tile-based navigation system for Twine/SugarCube games.
- * Handles loading tile maps from JSON, rendering the tile grid, managing dynamic conditions,
- * and coordinating with the navigation system for player movement.
+ * A node-based navigation system for Twine/SugarCube games.
+ * Transforms the previous grid-based tile system into a clean node network
+ * with spaced nodes connected by visible paths, similar to a metro map layout.
  * 
- * Improvements:
- * - Memory leak prevention with proper cleanup
- * - Performance optimizations for large maps
- * - Better error handling and validation
- * - Improved modularity and separation of concerns
- * - Enhanced caching mechanisms
- * - Safer event execution
+ * Features:
+ * - Spaced nodes instead of touching grid tiles
+ * - Visual connection lines between nodes
+ * - Support for different connection types (normal, one-way, secret)
+ * - Dynamic node conditions and states
+ * - Clean, scalable architecture
  */
 
-class TileMapSystem {
+class NodeMapSystem {
     /**
-     * Initialize the TileMapSystem
+     * Initialize the NodeMapSystem
      * @param {string} containerId - DOM element ID where the map will be rendered
      * @param {Object} options - Configuration options
      */
@@ -13777,89 +14816,91 @@ class TileMapSystem {
         this.container = null;
         this.currentMap = null;
         this.currentMapData = null;
-        this.tiles = new Map(); // Map of tile ID to tile data
-        this.tileElements = new Map(); // Map of tile ID to DOM elements
-        this.tileCache = new Map(); // Cache for tile lookups by position
-        this.gridSize = options.gridSize || 64; // Size of each grid cell in pixels
+        this.nodes = new Map(); // Map of node ID to node data
+        this.nodeElements = new Map(); // Map of node ID to DOM elements
+        this.connectionElements = new Map(); // Map of connection ID to DOM elements
+        
+        // Node layout settings
+        this.nodeSize = options.nodeSize || 60; // Size of each node in pixels
+        this.nodeSpacing = options.nodeSpacing || 120; // Space between nodes
+        this.connectionWidth = options.connectionWidth || 3; // Width of connection lines
         this.showGrid = options.showGrid || false;
         this.enableAnimations = options.enableAnimations !== false;
-        this.baseTilePath = options.baseTilePath || 'images/tiles/';
         
-        // Performance options
-        this.renderBatchSize = options.renderBatchSize || 50; // Tiles to render per frame
-        this.enableViewportCulling = options.enableViewportCulling !== false;
-        this.viewportPadding = options.viewportPadding || 2; // Grid cells to render outside viewport
+        // Visual settings
+        this.nodeColors = {
+            default: '#4a90e2',
+            locked: '#95a5a6',
+            special: '#e74c3c',
+            shop: '#f39c12',
+            exit: '#27ae60'
+        };
+        
+        this.connectionColors = {
+            normal: '#ffffff',
+            secret: '#9b59b6',
+            locked: '#95a5a6',
+            oneway: '#e67e22'
+        };
         
         // Event callbacks
         this.onMapLoaded = options.onMapLoaded || null;
-        this.onTileEnter = options.onTileEnter || null;
-        this.onTileExit = options.onTileExit || null;
-        this.onTileInteract = options.onTileInteract || null;
+        this.onNodeEnter = options.onNodeEnter || null;
+        this.onNodeExit = options.onNodeExit || null;
+        this.onNodeInteract = options.onNodeInteract || null;
         
         // Internal state
-        this.ambientEventInterval = null;
         this.isDestroyed = false;
         this.loadingPromise = null;
-        this.imagePreloadCache = new Map();
         
         // Initialize the system
         this.initialize();
     }
 
     /**
-     * Initialize the tile map system
+     * Initialize the node map system
      */
     initialize() {
         this.container = document.getElementById(this.containerId);
         if (!this.container) {
-            console.error(`TileMapSystem: Container element '${this.containerId}' not found`);
+            console.error(`NodeMapSystem: Container element '${this.containerId}' not found`);
             return;
         }
 
         // Set up the container
-        this.container.classList.add('tile-map-container');
+        this.container.classList.add('node-map-container');
         this.container.innerHTML = '';
         this.container.setAttribute('tabindex', '0'); // For keyboard focus
 
-        // Create the grid container
-        this.gridContainer = document.createElement('div');
-        this.gridContainer.classList.add('tile-grid');
-        this.container.appendChild(this.gridContainer);
+        // Create the map container
+        this.mapContainer = document.createElement('div');
+        this.mapContainer.classList.add('node-map');
+        this.container.appendChild(this.mapContainer);
 
-        // Set up viewport culling if enabled
-        if (this.enableViewportCulling) {
-            this.setupViewportCulling();
-        }
+        // Create SVG for connections
+        this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        this.svg.classList.add('connection-layer');
+        this.svg.style.position = 'absolute';
+        this.svg.style.top = '0';
+        this.svg.style.left = '0';
+        this.svg.style.pointerEvents = 'none';
+        this.svg.style.zIndex = '1';
+        this.mapContainer.appendChild(this.svg);
 
-        // Set up event listeners for ambient events
-        this.setupAmbientEvents();
+        // Create nodes container
+        this.nodesContainer = document.createElement('div');
+        this.nodesContainer.classList.add('nodes-container');
+        this.nodesContainer.style.position = 'relative';
+        this.nodesContainer.style.zIndex = '2';
+        this.mapContainer.appendChild(this.nodesContainer);
 
-        console.log('TileMapSystem initialized');
-    }
-
-    /**
-     * Set up viewport culling for performance
-     */
-    setupViewportCulling() {
-        this.viewportObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const tileElement = entry.target;
-                if (entry.isIntersecting) {
-                    tileElement.classList.remove('tile-culled');
-                } else {
-                    tileElement.classList.add('tile-culled');
-                }
-            });
-        }, {
-            root: this.container,
-            rootMargin: `${this.viewportPadding * this.gridSize}px`
-        });
+        console.log('NodeMapSystem initialized');
     }
 
     /**
      * Load a map from JSON data
      * @param {string} mapId - The map identifier
-     * @param {Object} playerPosition - Optional starting position {x, y}
+     * @param {Object} playerPosition - Optional starting position {nodeId}
      * @returns {Promise<boolean>} Success status
      */
     async loadMap(mapId, playerPosition = null) {
@@ -13880,7 +14921,7 @@ class TileMapSystem {
      */
     async _loadMapInternal(mapId, playerPosition) {
         try {
-            console.log(`Loading map: ${mapId}`);
+            console.log(`Loading node map: ${mapId}`);
             
             // Add loading state
             this.container.classList.add('loading');
@@ -13892,35 +14933,32 @@ class TileMapSystem {
                 return false;
             }
 
-            // Validate map data
-            if (!this.validateMapData(mapData)) {
-                console.error(`Invalid map data for: ${mapId}`);
+            // Convert legacy tile data to node data if needed
+            const nodeData = this.convertToNodeData(mapData);
+
+            // Validate node data
+            if (!this.validateNodeData(nodeData)) {
+                console.error(`Invalid node data for: ${mapId}`);
                 return false;
             }
 
-            // Preload tile images
-            await this.preloadTileImages(mapData.tiles);
-
             this.currentMap = mapId;
-            this.currentMapData = mapData;
+            this.currentMapData = nodeData;
             
-            // Clear existing tiles
+            // Clear existing map
             this.clearMap();
             
-            // Process and store tile data
-            this.processTileData(mapData.tiles);
-            
-            // Build tile position cache
-            this.buildTileCache();
+            // Process and store node data
+            this.processNodeData(nodeData.nodes);
             
             // Render the map
             await this.renderMap();
             
             // Set up player position
-            if (playerPosition) {
-                this.setPlayerPosition(playerPosition.x, playerPosition.y);
-            } else if (mapData.defaultPlayerPosition) {
-                this.setPlayerPosition(mapData.defaultPlayerPosition.x, mapData.defaultPlayerPosition.y);
+            if (playerPosition && playerPosition.nodeId) {
+                this.setPlayerPosition(playerPosition.nodeId);
+            } else if (nodeData.defaultPlayerNode) {
+                this.setPlayerPosition(nodeData.defaultPlayerNode);
             }
 
             // Remove loading state
@@ -13928,88 +14966,241 @@ class TileMapSystem {
 
             // Trigger map loaded callback
             if (this.onMapLoaded) {
-                this.onMapLoaded(mapId, mapData);
+                this.onMapLoaded(mapId, nodeData);
             }
 
-            console.log(`Map '${mapId}' loaded successfully`);
+            console.log(`Node map '${mapId}' loaded successfully`);
             return true;
 
         } catch (error) {
-            console.error(`Error loading map '${mapId}':`, error);
+            console.error(`Error loading node map '${mapId}':`, error);
             this.container.classList.remove('loading');
             return false;
         }
     }
 
     /**
-     * Validate map data structure
-     * @param {Object} mapData - Map data to validate
+     * Convert legacy tile-based map data to node-based data
+     * @param {Object} mapData - Legacy map data
+     * @returns {Object} Node-based map data
+     */
+    convertToNodeData(mapData) {
+        // If already in node format, return as-is
+        if (mapData.nodes) {
+            return mapData;
+        }
+
+        // Convert from legacy tile format
+        const nodeData = {
+            mapId: mapData.mapId,
+            name: mapData.name,
+            description: mapData.description,
+            version: mapData.version,
+            defaultPlayerNode: null,
+            nodes: [],
+            metadata: mapData.metadata || {}
+        };
+
+        // Convert significant tiles to nodes
+        const significantTiles = mapData.tiles.filter(tile => 
+            tile.events || 
+            tile.metadata?.landmark || 
+            tile.metadata?.shopId || 
+            tile.metadata?.portal ||
+            tile.id.includes('entrance') ||
+            tile.id.includes('exit') ||
+            tile.id.includes('vendor') ||
+            tile.id.includes('center')
+        );
+
+        // Create nodes from significant tiles
+        significantTiles.forEach((tile, index) => {
+            const node = {
+                id: tile.id,
+                name: tile.metadata?.description || tile.id.replace(/_/g, ' '),
+                position: this.calculateNodePosition(tile.position, index, significantTiles.length),
+                type: this.determineNodeType(tile),
+                walkable: tile.walkable !== false,
+                connections: {},
+                events: tile.events || {},
+                metadata: tile.metadata || {},
+                conditions: tile.dynamicConditions || []
+            };
+
+            nodeData.nodes.push(node);
+        });
+
+        // Set default player node
+        if (mapData.defaultPlayerPosition) {
+            const startTile = mapData.tiles.find(tile => 
+                tile.position.x === mapData.defaultPlayerPosition.x && 
+                tile.position.y === mapData.defaultPlayerPosition.y
+            );
+            if (startTile) {
+                nodeData.defaultPlayerNode = startTile.id;
+            } else {
+                // Find closest significant tile
+                const closestNode = this.findClosestNode(mapData.defaultPlayerPosition, nodeData.nodes);
+                nodeData.defaultPlayerNode = closestNode?.id || nodeData.nodes[0]?.id;
+            }
+        } else {
+            nodeData.defaultPlayerNode = nodeData.nodes[0]?.id;
+        }
+
+        // Generate connections between nodes
+        this.generateNodeConnections(nodeData.nodes, mapData);
+
+        return nodeData;
+    }
+
+    /**
+     * Calculate visual position for a node
+     * @param {Object} originalPos - Original tile position
+     * @param {number} index - Node index
+     * @param {number} total - Total number of nodes
+     * @returns {Object} Visual position {x, y}
+     */
+    calculateNodePosition(originalPos, index, total) {
+        // Create a more organic layout instead of strict grid
+        const cols = Math.ceil(Math.sqrt(total));
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        
+        // Add some variation to make it less grid-like
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+        
+        return {
+            x: col * this.nodeSpacing + offsetX + 100,
+            y: row * this.nodeSpacing + offsetY + 100
+        };
+    }
+
+    /**
+     * Determine node type based on tile data
+     * @param {Object} tile - Tile data
+     * @returns {string} Node type
+     */
+    determineNodeType(tile) {
+        if (tile.metadata?.shopId) return 'shop';
+        if (tile.metadata?.portal) return 'exit';
+        if (tile.metadata?.landmark) return 'special';
+        if (!tile.walkable) return 'locked';
+        return 'default';
+    }
+
+    /**
+     * Find the closest node to a position
+     * @param {Object} position - Target position {x, y}
+     * @param {Array} nodes - Array of nodes
+     * @returns {Object|null} Closest node
+     */
+    findClosestNode(position, nodes) {
+        let closest = null;
+        let minDistance = Infinity;
+
+        for (const node of nodes) {
+            const distance = Math.sqrt(
+                Math.pow(position.x - node.position.x, 2) + 
+                Math.pow(position.y - node.position.y, 2)
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+                closest = node;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Generate connections between nodes
+     * @param {Array} nodes - Array of nodes
+     * @param {Object} originalMapData - Original map data for reference
+     */
+    generateNodeConnections(nodes, originalMapData) {
+        // Create connections based on logical relationships
+        for (let i = 0; i < nodes.length; i++) {
+            const nodeA = nodes[i];
+            
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeB = nodes[j];
+                
+                // Determine if nodes should be connected
+                if (this.shouldNodesConnect(nodeA, nodeB, originalMapData)) {
+                    const connectionType = this.determineConnectionType(nodeA, nodeB);
+                    
+                    // Add bidirectional connection by default
+                    nodeA.connections[nodeB.id] = {
+                        target: nodeB.id,
+                        type: connectionType,
+                        bidirectional: true
+                    };
+                    
+                    nodeB.connections[nodeA.id] = {
+                        target: nodeA.id,
+                        type: connectionType,
+                        bidirectional: true
+                    };
+                }
+            }
+        }
+    }
+
+    /**
+     * Determine if two nodes should be connected
+     * @param {Object} nodeA - First node
+     * @param {Object} nodeB - Second node
+     * @param {Object} mapData - Original map data
+     * @returns {boolean} True if nodes should connect
+     */
+    shouldNodesConnect(nodeA, nodeB, mapData) {
+        // Connect if nodes are close to each other
+        const distance = Math.sqrt(
+            Math.pow(nodeA.position.x - nodeB.position.x, 2) + 
+            Math.pow(nodeA.position.y - nodeB.position.y, 2)
+        );
+        
+        // Connect nodes that are reasonably close
+        return distance < this.nodeSpacing * 2;
+    }
+
+    /**
+     * Determine connection type between nodes
+     * @param {Object} nodeA - First node
+     * @param {Object} nodeB - Second node
+     * @returns {string} Connection type
+     */
+    determineConnectionType(nodeA, nodeB) {
+        // Special connections for certain node types
+        if (nodeA.type === 'shop' || nodeB.type === 'shop') {
+            return 'normal';
+        }
+        if (nodeA.type === 'exit' || nodeB.type === 'exit') {
+            return 'normal';
+        }
+        
+        return 'normal';
+    }
+
+    /**
+     * Validate node data structure
+     * @param {Object} nodeData - Node data to validate
      * @returns {boolean} True if valid
      */
-    validateMapData(mapData) {
-        if (!mapData || typeof mapData !== 'object') return false;
-        if (!mapData.size || typeof mapData.size.width !== 'number' || typeof mapData.size.height !== 'number') return false;
-        if (!Array.isArray(mapData.tiles)) return false;
+    validateNodeData(nodeData) {
+        if (!nodeData || typeof nodeData !== 'object') return false;
+        if (!Array.isArray(nodeData.nodes)) return false;
         
-        // Validate each tile
-        for (const tile of mapData.tiles) {
-            if (!tile.id || !tile.position || typeof tile.position.x !== 'number' || typeof tile.position.y !== 'number') {
-                console.error('Invalid tile data:', tile);
-                return false;
-            }
-            if (!tile.size || typeof tile.size.width !== 'number' || typeof tile.size.height !== 'number') {
-                console.error('Invalid tile size:', tile);
+        // Validate each node
+        for (const node of nodeData.nodes) {
+            if (!node.id || !node.position || typeof node.position.x !== 'number' || typeof node.position.y !== 'number') {
+                console.error('Invalid node data:', node);
                 return false;
             }
         }
         
         return true;
-    }
-
-    /**
-     * Preload tile images for better performance
-     * @param {Array} tiles - Array of tile objects
-     */
-    async preloadTileImages(tiles) {
-        const imageUrls = new Set();
-        
-        // Collect all unique image URLs
-        for (const tile of tiles) {
-            if (tile.image) {
-                imageUrls.add(this.baseTilePath + tile.image);
-            }
-            // Also preload dynamic condition images
-            if (tile.dynamicConditions) {
-                for (const condition of tile.dynamicConditions) {
-                    if (condition.image) {
-                        imageUrls.add(this.baseTilePath + condition.image);
-                    }
-                }
-            }
-        }
-        
-        // Preload all images
-        const preloadPromises = Array.from(imageUrls).map(url => {
-            if (this.imagePreloadCache.has(url)) {
-                return this.imagePreloadCache.get(url);
-            }
-            
-            const promise = new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-                img.src = url;
-            });
-            
-            this.imagePreloadCache.set(url, promise);
-            return promise;
-        });
-        
-        try {
-            await Promise.all(preloadPromises);
-        } catch (error) {
-            console.warn('Some tile images failed to preload:', error);
-        }
     }
 
     /**
@@ -14031,60 +15222,40 @@ class TileMapSystem {
     }
 
     /**
-     * Process tile data and apply dynamic conditions
-     * @param {Array} tilesData - Array of tile objects from JSON
+     * Process node data and apply dynamic conditions
+     * @param {Array} nodesData - Array of node objects
      */
-    processTileData(tilesData) {
-        this.tiles.clear();
+    processNodeData(nodesData) {
+        this.nodes.clear();
         
-        for (const tileData of tilesData) {
-            // Clone the tile data to avoid modifying the original
-            const tile = JSON.parse(JSON.stringify(tileData));
+        for (const nodeData of nodesData) {
+            // Clone the node data to avoid modifying the original
+            const node = JSON.parse(JSON.stringify(nodeData));
             
             // Apply dynamic conditions
-            this.applyDynamicConditions(tile);
+            this.applyDynamicConditions(node);
             
-            // Store the processed tile
-            this.tiles.set(tile.id, tile);
+            // Store the processed node
+            this.nodes.set(node.id, node);
         }
     }
 
     /**
-     * Build tile position cache for fast lookups
+     * Apply dynamic conditions to a node based on game state
+     * @param {Object} node - Node object to modify
      */
-    buildTileCache() {
-        this.tileCache.clear();
-        
-        for (const [tileId, tile] of this.tiles) {
-            const { position, size } = tile;
-            
-            // Cache all grid positions this tile occupies
-            for (let x = position.x; x < position.x + size.width; x++) {
-                for (let y = position.y; y < position.y + size.height; y++) {
-                    const key = `${x},${y}`;
-                    this.tileCache.set(key, tile);
-                }
-            }
-        }
-    }
-
-    /**
-     * Apply dynamic conditions to a tile based on game state
-     * @param {Object} tile - Tile object to modify
-     */
-    applyDynamicConditions(tile) {
-        if (!tile.dynamicConditions || tile.dynamicConditions.length === 0) {
+    applyDynamicConditions(node) {
+        if (!node.conditions || node.conditions.length === 0) {
             return;
         }
 
-        for (const condition of tile.dynamicConditions) {
+        for (const condition of node.conditions) {
             if (this.evaluateCondition(condition.condition)) {
                 // Apply the conditional changes
-                if (condition.image !== undefined) tile.image = condition.image;
-                if (condition.walkable !== undefined) tile.walkable = condition.walkable;
-                if (condition.events) tile.events = { ...tile.events, ...condition.events };
-                if (condition.entryPoints) tile.entryPoints = condition.entryPoints;
-                if (condition.exitPoints) tile.exitPoints = condition.exitPoints;
+                if (condition.walkable !== undefined) node.walkable = condition.walkable;
+                if (condition.type !== undefined) node.type = condition.type;
+                if (condition.events) node.events = { ...node.events, ...condition.events };
+                if (condition.connections) node.connections = { ...node.connections, ...condition.connections };
                 
                 // Only apply the first matching condition
                 break;
@@ -14117,22 +15288,18 @@ class TileMapSystem {
      * Clear the current map
      */
     clearMap() {
-        // Clean up viewport observer
-        if (this.viewportObserver) {
-            this.viewportObserver.disconnect();
-        }
-        
         // Clear DOM
-        this.gridContainer.innerHTML = '';
+        this.svg.innerHTML = '';
+        this.nodesContainer.innerHTML = '';
         
         // Clear data structures
-        this.tileElements.clear();
-        this.tiles.clear();
-        this.tileCache.clear();
+        this.nodeElements.clear();
+        this.connectionElements.clear();
+        this.nodes.clear();
     }
 
     /**
-     * Render the entire map with batching for performance
+     * Render the entire map
      */
     async renderMap() {
         if (!this.currentMapData) {
@@ -14140,138 +15307,180 @@ class TileMapSystem {
             return;
         }
 
-        const { width, height } = this.currentMapData.size;
+        // Calculate map bounds
+        const bounds = this.calculateMapBounds();
         
-        // Set up the grid container dimensions
-        this.gridContainer.style.width = `${width * this.gridSize}px`;
-        this.gridContainer.style.height = `${height * this.gridSize}px`;
-        this.gridContainer.style.position = 'relative';
-        
-        // Add grid lines if enabled
-        if (this.showGrid) {
-            this.gridContainer.classList.add('show-grid');
-        } else {
-            this.gridContainer.classList.remove('show-grid');
-        }
+        // Set up container dimensions
+        this.mapContainer.style.width = `${bounds.width}px`;
+        this.mapContainer.style.height = `${bounds.height}px`;
+        this.svg.setAttribute('width', bounds.width);
+        this.svg.setAttribute('height', bounds.height);
 
-        // Render tiles in batches to prevent blocking
-        const tiles = Array.from(this.tiles.values());
-        for (let i = 0; i < tiles.length; i += this.renderBatchSize) {
-            const batch = tiles.slice(i, i + this.renderBatchSize);
-            
-            // Render batch
-            batch.forEach(tile => this.renderTile(tile));
-            
-            // Allow browser to breathe
-            if (i + this.renderBatchSize < tiles.length) {
-                await new Promise(resolve => requestAnimationFrame(resolve));
+        // Render connections first (so they appear behind nodes)
+        this.renderConnections();
+        
+        // Render nodes
+        this.renderNodes();
+    }
+
+    /**
+     * Calculate the bounds of the map
+     * @returns {Object} Bounds {width, height, minX, minY, maxX, maxY}
+     */
+    calculateMapBounds() {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        
+        for (const node of this.nodes.values()) {
+            minX = Math.min(minX, node.position.x);
+            minY = Math.min(minY, node.position.y);
+            maxX = Math.max(maxX, node.position.x);
+            maxY = Math.max(maxY, node.position.y);
+        }
+        
+        // Add padding
+        const padding = this.nodeSize * 2;
+        return {
+            width: maxX - minX + padding * 2,
+            height: maxY - minY + padding * 2,
+            minX: minX - padding,
+            minY: minY - padding,
+            maxX: maxX + padding,
+            maxY: maxY + padding
+        };
+    }
+
+    /**
+     * Render all connections between nodes
+     */
+    renderConnections() {
+        const processedConnections = new Set();
+        
+        for (const node of this.nodes.values()) {
+            for (const [targetId, connection] of Object.entries(node.connections)) {
+                const connectionId = [node.id, targetId].sort().join('-');
+                
+                // Skip if already processed (for bidirectional connections)
+                if (processedConnections.has(connectionId)) continue;
+                processedConnections.add(connectionId);
+                
+                const targetNode = this.nodes.get(targetId);
+                if (!targetNode) continue;
+                
+                this.renderConnection(node, targetNode, connection);
             }
         }
     }
 
     /**
-     * Render a single tile
-     * @param {Object} tile - Tile data object
+     * Render a connection between two nodes
+     * @param {Object} fromNode - Source node
+     * @param {Object} toNode - Target node
+     * @param {Object} connection - Connection data
      */
-    renderTile(tile) {
-        const tileElement = document.createElement('div');
-        tileElement.classList.add('tile');
-        tileElement.id = `tile-${tile.id}`;
-        tileElement.dataset.tileId = tile.id;
-
-        // Position and size the tile
-        const { x, y } = tile.position;
-        const { width, height } = tile.size;
+    renderConnection(fromNode, toNode, connection) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         
-        tileElement.style.position = 'absolute';
-        tileElement.style.left = `${x * this.gridSize}px`;
-        tileElement.style.top = `${y * this.gridSize}px`;
-        tileElement.style.width = `${width * this.gridSize}px`;
-        tileElement.style.height = `${height * this.gridSize}px`;
-
-        // Set background image
-        if (tile.image) {
-            tileElement.style.backgroundImage = `url('${this.baseTilePath}${tile.image}')`;
-            tileElement.style.backgroundSize = 'cover';
-            tileElement.style.backgroundPosition = 'center';
-            tileElement.style.backgroundRepeat = 'no-repeat';
+        line.setAttribute('x1', fromNode.position.x);
+        line.setAttribute('y1', fromNode.position.y);
+        line.setAttribute('x2', toNode.position.x);
+        line.setAttribute('y2', toNode.position.y);
+        line.setAttribute('stroke', this.connectionColors[connection.type] || this.connectionColors.normal);
+        line.setAttribute('stroke-width', this.connectionWidth);
+        line.classList.add('connection', `connection-${connection.type}`);
+        
+        // Add dashed style for secret connections
+        if (connection.type === 'secret') {
+            line.setAttribute('stroke-dasharray', '5,5');
         }
+        
+        // Add arrow for one-way connections
+        if (connection.type === 'oneway' && !connection.bidirectional) {
+            line.setAttribute('marker-end', 'url(#arrowhead)');
+        }
+        
+        this.svg.appendChild(line);
+        
+        const connectionId = [fromNode.id, toNode.id].sort().join('-');
+        this.connectionElements.set(connectionId, line);
+    }
+
+    /**
+     * Render all nodes
+     */
+    renderNodes() {
+        for (const node of this.nodes.values()) {
+            this.renderNode(node);
+        }
+    }
+
+    /**
+     * Render a single node
+     * @param {Object} node - Node data object
+     */
+    renderNode(node) {
+        const nodeElement = document.createElement('div');
+        nodeElement.classList.add('node', `node-${node.type}`);
+        nodeElement.id = `node-${node.id}`;
+        nodeElement.dataset.nodeId = node.id;
+
+        // Position and size the node
+        nodeElement.style.position = 'absolute';
+        nodeElement.style.left = `${node.position.x - this.nodeSize / 2}px`;
+        nodeElement.style.top = `${node.position.y - this.nodeSize / 2}px`;
+        nodeElement.style.width = `${this.nodeSize}px`;
+        nodeElement.style.height = `${this.nodeSize}px`;
+
+        // Add node content
+        const nodeContent = document.createElement('div');
+        nodeContent.classList.add('node-content');
+        nodeContent.textContent = node.name || node.id;
+        nodeElement.appendChild(nodeContent);
 
         // Add walkability class
-        if (tile.walkable) {
-            tileElement.classList.add('walkable');
+        if (node.walkable) {
+            nodeElement.classList.add('walkable');
         } else {
-            tileElement.classList.add('non-walkable');
+            nodeElement.classList.add('non-walkable');
         }
 
         // Add interaction capability
-        if (tile.events && tile.events.onInteract) {
-            tileElement.classList.add('interactive');
-            tileElement.setAttribute('aria-label', 'Interactive tile - Press E to interact');
-            tileElement.setAttribute('role', 'button');
+        if (node.events && node.events.onInteract) {
+            nodeElement.classList.add('interactive');
+            nodeElement.setAttribute('aria-label', 'Interactive node - Press E to interact');
+            nodeElement.setAttribute('role', 'button');
         }
 
-        // Add tile type for styling
-        if (tile.type) {
-            tileElement.dataset.tileType = tile.type;
-        }
-
-        // Store the tile element
-        this.tileElements.set(tile.id, tileElement);
-        this.gridContainer.appendChild(tileElement);
-        
-        // Add to viewport observer if enabled
-        if (this.viewportObserver) {
-            this.viewportObserver.observe(tileElement);
-        }
+        // Store the node element
+        this.nodeElements.set(node.id, nodeElement);
+        this.nodesContainer.appendChild(nodeElement);
     }
 
     /**
-     * Get tile at specific grid coordinates (with caching)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
-     * @returns {Object|null} Tile data or null if no tile found
+     * Get node by ID
+     * @param {string} nodeId - Node identifier
+     * @returns {Object|null} Node data or null if not found
      */
-    getTileAt(x, y) {
-        const key = `${x},${y}`;
-        return this.tileCache.get(key) || null;
+    getNodeById(nodeId) {
+        return this.nodes.get(nodeId) || null;
     }
 
     /**
-     * Get tile by ID
-     * @param {string} tileId - Tile identifier
-     * @returns {Object|null} Tile data or null if not found
-     */
-    getTileById(tileId) {
-        return this.tiles.get(tileId) || null;
-    }
-
-    /**
-     * Check if movement is valid from one position to another
-     * @param {number} fromX - Starting X coordinate
-     * @param {number} fromY - Starting Y coordinate
-     * @param {number} toX - Target X coordinate
-     * @param {number} toY - Target Y coordinate
-     * @param {string} direction - Movement direction (north, south, east, west)
+     * Check if movement is valid from one node to another
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
      * @returns {boolean} True if movement is valid
      */
-    isValidMovement(fromX, fromY, toX, toY, direction) {
-        const fromTile = this.getTileAt(fromX, fromY);
-        const toTile = this.getTileAt(toX, toY);
+    isValidMovement(fromNodeId, toNodeId) {
+        const fromNode = this.getNodeById(fromNodeId);
+        const toNode = this.getNodeById(toNodeId);
 
-        // Check if target tile exists and is walkable
-        if (!toTile || !toTile.walkable) {
+        // Check if target node exists and is walkable
+        if (!toNode || !toNode.walkable) {
             return false;
         }
 
-        // Check if we can exit from the current tile in this direction
-        if (fromTile && fromTile.exitPoints && fromTile.exitPoints.length > 0 && !fromTile.exitPoints.includes(direction)) {
-            return false;
-        }
-
-        // Check if we can enter the target tile from the opposite direction
-        const oppositeDirection = this.getOppositeDirection(direction);
-        if (toTile.entryPoints && toTile.entryPoints.length > 0 && !toTile.entryPoints.includes(oppositeDirection)) {
+        // Check if there's a connection between the nodes
+        if (!fromNode || !fromNode.connections[toNodeId]) {
             return false;
         }
 
@@ -14279,72 +15488,64 @@ class TileMapSystem {
     }
 
     /**
-     * Get the opposite direction
-     * @param {string} direction - Original direction
-     * @returns {string} Opposite direction
+     * Get connected nodes from a given node
+     * @param {string} nodeId - Node ID
+     * @returns {Array} Array of connected node IDs
      */
-    getOppositeDirection(direction) {
-        const opposites = {
-            'north': 'south',
-            'south': 'north',
-            'east': 'west',
-            'west': 'east'
-        };
-        return opposites[direction] || direction;
+    getConnectedNodes(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return [];
+        
+        return Object.keys(node.connections).filter(targetId => {
+            const targetNode = this.getNodeById(targetId);
+            return targetNode && targetNode.walkable;
+        });
     }
 
     /**
-     * Handle tile entry event
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
-     * @param {string} direction - Direction of entry
+     * Handle node entry event
+     * @param {string} nodeId - Node ID
      */
-    handleTileEntry(x, y, direction) {
-        const tile = this.getTileAt(x, y);
-        if (!tile) return;
+    handleNodeEntry(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
 
         // Execute onEnter event
-        if (tile.events && tile.events.onEnter) {
-            this.executeEvent(tile.events.onEnter, tile);
-        }
-
-        // Check for exit events (portals)
-        if (tile.events && tile.events.onExit) {
-            this.executeEvent(tile.events.onExit, tile);
+        if (node.events && node.events.onEnter) {
+            this.executeEvent(node.events.onEnter, node);
         }
 
         // Trigger callback
-        if (this.onTileEnter) {
-            this.onTileEnter(tile, x, y, direction);
+        if (this.onNodeEnter) {
+            this.onNodeEnter(node, nodeId);
         }
     }
 
     /**
-     * Handle tile interaction
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * Handle node interaction
+     * @param {string} nodeId - Node ID
      */
-    handleTileInteraction(x, y) {
-        const tile = this.getTileAt(x, y);
-        if (!tile) return;
+    handleNodeInteraction(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
 
         // Execute onInteract event
-        if (tile.events && tile.events.onInteract) {
-            this.executeEvent(tile.events.onInteract, tile);
+        if (node.events && node.events.onInteract) {
+            this.executeEvent(node.events.onInteract, node);
         }
 
         // Trigger callback
-        if (this.onTileInteract) {
-            this.onTileInteract(tile, x, y);
+        if (this.onNodeInteract) {
+            this.onNodeInteract(node, nodeId);
         }
     }
 
     /**
-     * Execute a tile event safely
+     * Execute a node event safely
      * @param {string} eventCode - JavaScript code to execute
-     * @param {Object} tile - The tile that triggered the event
+     * @param {Object} node - The node that triggered the event
      */
-    executeEvent(eventCode, tile = null) {
+    executeEvent(eventCode, node = null) {
         if (!eventCode || typeof eventCode !== 'string') {
             console.warn('Invalid event code:', eventCode);
             return;
@@ -14358,7 +15559,7 @@ class TileMapSystem {
                 startEvent: (eventId) => this.startEvent(eventId),
                 loadMap: (mapId, position) => this.loadMap(mapId, position),
                 State: window.State || {}, // SugarCube State object
-                tile: tile, // Current tile context
+                node: node, // Current node context
                 system: this // Reference to the system
             };
 
@@ -14367,7 +15568,7 @@ class TileMapSystem {
             func(...Object.values(context));
 
         } catch (error) {
-            console.error('Error executing tile event:', error, '\nEvent code:', eventCode);
+            console.error('Error executing node event:', error, '\nEvent code:', eventCode);
         }
     }
 
@@ -14376,14 +15577,13 @@ class TileMapSystem {
      * @param {string} message - Message to display
      */
     showMessage(message) {
-        // This should integrate with your game's message system
-        console.log('Tile Message:', message);
+        console.log('Node Message:', message);
         
         // Integration with SugarCube
         if (window.UI && window.UI.alert) {
             window.UI.alert(message);
         } else if (window.Dialog && window.Dialog.setup && window.Dialog.open) {
-            window.Dialog.setup('Message', 'tile-message');
+            window.Dialog.setup('Message', 'node-message');
             window.Dialog.wiki(message);
             window.Dialog.open();
         } else {
@@ -14398,7 +15598,6 @@ class TileMapSystem {
      */
     openShop(shopId) {
         console.log('Opening shop:', shopId);
-        // This should integrate with your existing shop system
         if (window.ShopSystem && window.ShopSystem.openShop) {
             window.ShopSystem.openShop(shopId);
         } else {
@@ -14412,7 +15611,6 @@ class TileMapSystem {
      */
     startEvent(eventId) {
         console.log('Starting event:', eventId);
-        // This should integrate with your existing event system
         if (window.Engine && window.Engine.play) {
             window.Engine.play(eventId);
         } else {
@@ -14422,117 +15620,69 @@ class TileMapSystem {
 
     /**
      * Set player position (for visual indicators)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * @param {string} nodeId - Node ID
      */
-    setPlayerPosition(x, y) {
+    setPlayerPosition(nodeId) {
         // Remove previous player indicator
         const previousIndicator = this.container.querySelector('.player-indicator');
         if (previousIndicator) {
             previousIndicator.remove();
         }
 
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
+
         // Create new player indicator
         const indicator = document.createElement('div');
         indicator.classList.add('player-indicator');
         indicator.style.position = 'absolute';
-        indicator.style.left = `${x * this.gridSize + this.gridSize / 4}px`;
-        indicator.style.top = `${y * this.gridSize + this.gridSize / 4}px`;
-        indicator.style.width = `${this.gridSize / 2}px`;
-        indicator.style.height = `${this.gridSize / 2}px`;
+        indicator.style.left = `${node.position.x - 10}px`;
+        indicator.style.top = `${node.position.y - 10}px`;
+        indicator.style.width = '20px';
+        indicator.style.height = '20px';
         indicator.style.zIndex = '1000';
         
         // Add position data for debugging
-        indicator.dataset.position = `${x},${y}`;
+        indicator.dataset.nodeId = nodeId;
 
-        this.container.appendChild(indicator);
+        this.nodesContainer.appendChild(indicator);
     }
 
     /**
-     * Update dynamic tiles based on current game state
+     * Update dynamic nodes based on current game state
      */
-    updateDynamicTiles() {
+    updateDynamicNodes() {
         if (!this.currentMapData) return;
 
-        const updatedTiles = new Set();
+        const updatedNodes = new Set();
         
-        // Check each tile for condition changes
-        for (const originalTile of this.currentMapData.tiles) {
-            const currentTile = this.tiles.get(originalTile.id);
-            if (!currentTile) continue;
+        // Check each node for condition changes
+        for (const originalNode of this.currentMapData.nodes) {
+            const currentNode = this.nodes.get(originalNode.id);
+            if (!currentNode) continue;
             
             // Re-evaluate dynamic conditions
-            const updatedTile = JSON.parse(JSON.stringify(originalTile));
-            this.applyDynamicConditions(updatedTile);
+            const updatedNode = JSON.parse(JSON.stringify(originalNode));
+            this.applyDynamicConditions(updatedNode);
             
-            // Check if tile has changed
-            if (JSON.stringify(currentTile) !== JSON.stringify(updatedTile)) {
-                updatedTiles.add(updatedTile.id);
-                this.tiles.set(updatedTile.id, updatedTile);
+            // Check if node has changed
+            if (JSON.stringify(currentNode) !== JSON.stringify(updatedNode)) {
+                updatedNodes.add(updatedNode.id);
+                this.nodes.set(updatedNode.id, updatedNode);
             }
         }
         
-        // Re-render only changed tiles
-        for (const tileId of updatedTiles) {
-            const tile = this.tiles.get(tileId);
-            const existingElement = this.tileElements.get(tileId);
+        // Re-render only changed nodes
+        for (const nodeId of updatedNodes) {
+            const node = this.nodes.get(nodeId);
+            const existingElement = this.nodeElements.get(nodeId);
             
             if (existingElement) {
                 existingElement.remove();
-                this.tileElements.delete(tileId);
+                this.nodeElements.delete(nodeId);
             }
             
-            this.renderTile(tile);
-        }
-        
-        // Rebuild cache if tiles changed
-        if (updatedTiles.size > 0) {
-            this.buildTileCache();
-        }
-    }
-
-    /**
-     * Set up ambient events system
-     */
-    setupAmbientEvents() {
-        // Clear any existing interval
-        if (this.ambientEventInterval) {
-            clearInterval(this.ambientEventInterval);
-        }
-        
-        // Check for ambient events periodically
-        this.ambientEventInterval = setInterval(() => {
-            if (!this.isDestroyed) {
-                this.checkAmbientEvents();
-            }
-        }, 10000); // Check every 10 seconds
-    }
-
-    /**
-     * Check and potentially trigger ambient events
-     */
-    checkAmbientEvents() {
-        if (!this.currentMapData || !this.currentMapData.ambientEvents) return;
-
-        for (const ambientEvent of this.currentMapData.ambientEvents) {
-            // Check probability
-            if (Math.random() > ambientEvent.probability) continue;
-
-            // Check conditions
-            let conditionsMet = true;
-            if (ambientEvent.conditions) {
-                for (const condition of ambientEvent.conditions) {
-                    if (!this.evaluateCondition(condition)) {
-                        conditionsMet = false;
-                        break;
-                    }
-                }
-            }
-
-            if (conditionsMet) {
-                this.showMessage(ambientEvent.message);
-                break; // Only trigger one ambient event at a time
-            }
+            this.renderNode(node);
         }
     }
 
@@ -14544,106 +15694,70 @@ class TileMapSystem {
         return {
             mapId: this.currentMap,
             mapData: this.currentMapData,
-            tiles: Array.from(this.tiles.values())
+            nodes: Array.from(this.nodes.values())
         };
     }
 
     /**
-     * Toggle grid display
-     */
-    toggleGrid() {
-        this.showGrid = !this.showGrid;
-        if (this.showGrid) {
-            this.gridContainer.classList.add('show-grid');
-        } else {
-            this.gridContainer.classList.remove('show-grid');
-        }
-    }
-
-    /**
-     * Enable debug mode
-     * @param {boolean} enabled - Whether to enable debug mode
-     */
-    setDebugMode(enabled) {
-        if (enabled) {
-            this.container.classList.add('debug-mode');
-        } else {
-            this.container.classList.remove('debug-mode');
-        }
-    }
-
-    /**
-     * Destroy the tile map system and clean up resources
+     * Destroy the node map system and clean up resources
      */
     destroy() {
         this.isDestroyed = true;
         
-        // Clear ambient event interval
-        if (this.ambientEventInterval) {
-            clearInterval(this.ambientEventInterval);
-            this.ambientEventInterval = null;
-        }
-        
-        // Disconnect viewport observer
-        if (this.viewportObserver) {
-            this.viewportObserver.disconnect();
-            this.viewportObserver = null;
-        }
-        
         // Clear DOM
         if (this.container) {
             this.container.innerHTML = '';
-            this.container.classList.remove('tile-map-container', 'loading', 'debug-mode');
+            this.container.classList.remove('node-map-container', 'loading');
         }
         
         // Clear data structures
-        this.tiles.clear();
-        this.tileElements.clear();
-        this.tileCache.clear();
-        this.imagePreloadCache.clear();
+        this.nodes.clear();
+        this.nodeElements.clear();
+        this.connectionElements.clear();
         
         // Clear references
         this.currentMap = null;
         this.currentMapData = null;
         this.container = null;
-        this.gridContainer = null;
-        
-        console.log('TileMapSystem destroyed');
+        this.mapContainer = null;
+        this.svg = null;
+        this.nodesContainer = null;
+
+        console.log('NodeMapSystem destroyed');
     }
 }
 
 // Export for use in other modules
-window.TileMapSystem = TileMapSystem;
-/* twine-user-script #33: "TileNavigationSystem.js" */
+window.NodeMapSystem = NodeMapSystem;
+/* twine-user-script #34: "TileNavigationSystem.js" */
 /**
- * TileNavigationSystem.js - Improved Version
+ * NodeNavigationSystem.js - Node Network Version
  * 
- * Handles player navigation within the tile-based map system.
+ * Handles player navigation within the node-based map system.
  * Manages WASD movement controls, position tracking, movement validation,
- * interaction handling, and map transitions.
+ * interaction handling, and map transitions between connected nodes.
  * 
- * Improvements:
- * - Better memory management and cleanup
- * - Debounced movement for smoother controls
- * - Enhanced error handling
- * - Improved event listener management
- * - Better separation of concerns
- * - Performance optimizations
+ * Features:
+ * - Node-to-node movement based on connections
+ * - Visual movement indicators and animations
+ * - Connection-based validation instead of grid neighbors
+ * - Support for different connection types
+ * - Click/tap navigation support
  */
 
-class TileNavigationSystem {
+class NodeNavigationSystem {
     /**
-     * Initialize the TileNavigationSystem
-     * @param {TileMapSystem} tileMapSystem - Reference to the tile map system
+     * Initialize the NodeNavigationSystem
+     * @param {NodeMapSystem} nodeMapSystem - Reference to the node map system
      * @param {Object} options - Configuration options
      */
-    constructor(tileMapSystem, options = {}) {
-        if (!tileMapSystem) {
-            throw new Error('TileNavigationSystem requires a TileMapSystem instance');
+    constructor(nodeMapSystem, options = {}) {
+        if (!nodeMapSystem) {
+            throw new Error('NodeNavigationSystem requires a NodeMapSystem instance');
         }
         
-        this.tileMapSystem = tileMapSystem;
-        this.playerPosition = { x: 0, y: 0 };
+        this.nodeMapSystem = nodeMapSystem;
+        this.currentNodeId = null;
         this.isMoving = false;
         this.movementSpeed = options.movementSpeed || 300; // Animation duration in ms
         this.enableAnimations = options.enableAnimations !== false;
@@ -14652,11 +15766,11 @@ class TileNavigationSystem {
         // Input handling
         this.keyStates = new Map();
         this.inputEnabled = true;
-        this.movementCooldown = options.movementCooldown || 50; // Minimum time between moves
+        this.movementCooldown = options.movementCooldown || 200; // Minimum time between moves
         this.lastMoveTime = 0;
         this.queuedMovement = null;
         
-        // Key mappings
+        // Key mappings for directional movement
         this.movementKeys = {
             'KeyW': 'north',
             'KeyA': 'west', 
@@ -14680,6 +15794,7 @@ class TileNavigationSystem {
         this.boundHandleKeyUp = this.handleKeyUp.bind(this);
         this.boundHandleKeyPress = this.handleKeyPress.bind(this);
         this.boundHandleFocus = this.handleFocus.bind(this);
+        this.boundHandleNodeClick = this.handleNodeClick.bind(this);
         
         // Movement queue for smooth controls
         this.movementQueue = [];
@@ -14699,11 +15814,11 @@ class TileNavigationSystem {
     initialize() {
         this.setupEventListeners();
         this.startMovementQueueProcessor();
-        console.log('TileNavigationSystem initialized');
+        console.log('NodeNavigationSystem initialized');
     }
 
     /**
-     * Set up keyboard event listeners
+     * Set up keyboard and mouse event listeners
      */
     setupEventListeners() {
         // Keyboard event listeners
@@ -14716,16 +15831,50 @@ class TileNavigationSystem {
         // Focus management to ensure key events are captured
         document.addEventListener('click', this.boundHandleFocus);
         
+        // Node click handlers for mouse/touch navigation
+        this.setupNodeClickHandlers();
+        
         // Initial focus
         this.handleFocus();
+    }
+
+    /**
+     * Set up click handlers for nodes
+     */
+    setupNodeClickHandlers() {
+        // Use event delegation for better performance
+        if (this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.addEventListener('click', this.boundHandleNodeClick);
+        }
+    }
+
+    /**
+     * Handle node click events
+     * @param {Event} event - Click event
+     */
+    handleNodeClick(event) {
+        if (!this.inputEnabled || this.isMoving || this.isDestroyed) return;
+
+        const nodeElement = event.target.closest('.node');
+        if (!nodeElement) return;
+
+        const targetNodeId = nodeElement.dataset.nodeId;
+        if (!targetNodeId || targetNodeId === this.currentNodeId) return;
+
+        // Check if the clicked node is connected to current node
+        if (this.isValidMovement(this.currentNodeId, targetNodeId)) {
+            this.moveToNode(targetNodeId);
+        } else {
+            this.handleBlockedMovement('click', targetNodeId);
+        }
     }
 
     /**
      * Handle focus management
      */
     handleFocus() {
-        if (this.inputEnabled && this.tileMapSystem.container) {
-            this.tileMapSystem.container.focus();
+        if (this.inputEnabled && this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.focus();
         }
     }
 
@@ -14820,23 +15969,18 @@ class TileNavigationSystem {
      */
     handleDebugKeys(event) {
         switch (event.code) {
-            case 'KeyG':
-                // Toggle grid display
-                this.tileMapSystem.toggleGrid();
-                console.log('Grid display toggled');
-                break;
             case 'KeyI':
                 // Show current position info
                 this.showPositionInfo();
                 break;
             case 'KeyR':
-                // Refresh dynamic tiles
-                this.tileMapSystem.updateDynamicTiles();
-                console.log('Dynamic tiles refreshed');
+                // Refresh dynamic nodes
+                this.nodeMapSystem.updateDynamicNodes();
+                console.log('Dynamic nodes refreshed');
                 break;
-            case 'KeyD':
-                // Toggle debug mode display
-                this.tileMapSystem.setDebugMode(!this.tileMapSystem.container.classList.contains('debug-mode'));
+            case 'KeyC':
+                // Show connections from current node
+                this.showConnectionInfo();
                 break;
         }
     }
@@ -14846,124 +15990,147 @@ class TileNavigationSystem {
      * @param {string} direction - Movement direction (north, south, east, west)
      */
     attemptMovement(direction) {
-        if (this.isMoving || !this.inputEnabled || this.isDestroyed) return;
+        if (this.isMoving || !this.inputEnabled || this.isDestroyed || !this.currentNodeId) return;
 
-        const currentPos = this.playerPosition;
-        const targetPos = this.calculateTargetPosition(currentPos, direction);
-
-        // Check if movement is valid
-        if (!this.isValidMovement(currentPos, targetPos, direction)) {
-            this.handleBlockedMovement(direction, targetPos);
+        // Find the best connected node in the given direction
+        const targetNodeId = this.findNodeInDirection(direction);
+        
+        if (!targetNodeId) {
+            this.handleBlockedMovement(direction, null);
             return;
         }
 
         // Execute the movement
-        this.executeMovement(targetPos, direction);
+        this.moveToNode(targetNodeId);
         this.lastMoveTime = Date.now();
     }
 
     /**
-     * Calculate target position based on current position and direction
-     * @param {Object} currentPos - Current position {x, y}
+     * Find the best connected node in a given direction
      * @param {string} direction - Movement direction
-     * @returns {Object} Target position {x, y}
+     * @returns {string|null} Target node ID or null if none found
      */
-    calculateTargetPosition(currentPos, direction) {
-        const { x, y } = currentPos;
-        
-        switch (direction) {
-            case 'north': return { x, y: y - 1 };
-            case 'south': return { x, y: y + 1 };
-            case 'east': return { x: x + 1, y };
-            case 'west': return { x: x - 1, y };
-            default: return currentPos;
+    findNodeInDirection(direction) {
+        if (!this.currentNodeId) return null;
+
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        if (!currentNode) return null;
+
+        const connectedNodeIds = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
+        if (connectedNodeIds.length === 0) return null;
+
+        // Get current node position
+        const currentPos = currentNode.position;
+        let bestNode = null;
+        let bestScore = -Infinity;
+
+        // Find the node that best matches the direction
+        for (const nodeId of connectedNodeIds) {
+            const node = this.nodeMapSystem.getNodeById(nodeId);
+            if (!node) continue;
+
+            const nodePos = node.position;
+            const dx = nodePos.x - currentPos.x;
+            const dy = nodePos.y - currentPos.y;
+
+            // Calculate direction score based on movement direction
+            let score = 0;
+            switch (direction) {
+                case 'north':
+                    score = -dy + Math.abs(dx) * -0.5; // Prefer upward movement, penalize horizontal
+                    break;
+                case 'south':
+                    score = dy + Math.abs(dx) * -0.5; // Prefer downward movement
+                    break;
+                case 'east':
+                    score = dx + Math.abs(dy) * -0.5; // Prefer rightward movement
+                    break;
+                case 'west':
+                    score = -dx + Math.abs(dy) * -0.5; // Prefer leftward movement
+                    break;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestNode = nodeId;
+            }
         }
+
+        // Only return a node if it's actually in the right direction
+        return bestScore > 0 ? bestNode : null;
     }
 
     /**
-     * Check if movement is valid
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
-     * @param {string} direction - Movement direction
-     * @returns {boolean} True if movement is valid
+     * Move to a specific node
+     * @param {string} targetNodeId - Target node ID
      */
-    isValidMovement(fromPos, toPos, direction) {
-        // Check map boundaries
-        if (!this.isWithinMapBounds(toPos)) {
-            return false;
+    moveToNode(targetNodeId) {
+        if (this.isMoving || !this.inputEnabled || this.isDestroyed) return;
+
+        // Validate movement
+        if (!this.isValidMovement(this.currentNodeId, targetNodeId)) {
+            this.handleBlockedMovement('direct', targetNodeId);
+            return;
         }
 
-        // Use tile map system to validate movement
-        return this.tileMapSystem.isValidMovement(
-            fromPos.x, fromPos.y,
-            toPos.x, toPos.y,
-            direction
-        );
-    }
-
-    /**
-     * Check if position is within map boundaries
-     * @param {Object} position - Position to check {x, y}
-     * @returns {boolean} True if within bounds
-     */
-    isWithinMapBounds(position) {
-        const mapData = this.tileMapSystem.currentMapData;
-        if (!mapData) return false;
-
-        const { x, y } = position;
-        const { width, height } = mapData.size;
-
-        return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
-    /**
-     * Execute player movement to target position
-     * @param {Object} targetPos - Target position {x, y}
-     * @param {string} direction - Movement direction
-     */
-    executeMovement(targetPos, direction) {
         this.isMoving = true;
-        const previousPos = { ...this.playerPosition };
+        const previousNodeId = this.currentNodeId;
 
-        // Update player position
-        this.playerPosition = targetPos;
-
-        // Handle tile exit events from previous position
-        const previousTile = this.tileMapSystem.getTileAt(previousPos.x, previousPos.y);
-        if (previousTile && previousTile.events && previousTile.events.onExit) {
-            this.tileMapSystem.executeEvent(previousTile.events.onExit, previousTile);
+        // Handle node exit events from previous node
+        if (previousNodeId) {
+            this.nodeMapSystem.handleNodeEntry(targetNodeId);
         }
+
+        // Update current node
+        this.currentNodeId = targetNodeId;
 
         // Update visual position
         if (this.enableAnimations) {
-            this.animateMovement(previousPos, targetPos, () => {
-                this.completeMovement(previousPos, targetPos, direction);
+            this.animateMovement(previousNodeId, targetNodeId, () => {
+                this.completeMovement(previousNodeId, targetNodeId);
             });
         } else {
-            this.tileMapSystem.setPlayerPosition(targetPos.x, targetPos.y);
-            this.completeMovement(previousPos, targetPos, direction);
+            this.nodeMapSystem.setPlayerPosition(targetNodeId);
+            this.completeMovement(previousNodeId, targetNodeId);
         }
     }
 
     /**
-     * Animate player movement between positions
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
+     * Check if movement is valid from one node to another
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
+     * @returns {boolean} True if movement is valid
+     */
+    isValidMovement(fromNodeId, toNodeId) {
+        return this.nodeMapSystem.isValidMovement(fromNodeId, toNodeId);
+    }
+
+    /**
+     * Animate player movement between nodes
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
      * @param {Function} onComplete - Callback when animation completes
      */
-    animateMovement(fromPos, toPos, onComplete) {
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+    animateMovement(fromNodeId, toNodeId, onComplete) {
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (!playerIndicator) {
             // No visual indicator, just complete immediately
             onComplete();
             return;
         }
 
-        const gridSize = this.tileMapSystem.gridSize;
-        const startX = fromPos.x * gridSize + gridSize / 4;
-        const startY = fromPos.y * gridSize + gridSize / 4;
-        const endX = toPos.x * gridSize + gridSize / 4;
-        const endY = toPos.y * gridSize + gridSize / 4;
+        const fromNode = this.nodeMapSystem.getNodeById(fromNodeId);
+        const toNode = this.nodeMapSystem.getNodeById(toNodeId);
+        
+        if (!fromNode || !toNode) {
+            onComplete();
+            return;
+        }
+
+        const startX = fromNode.position.x - 10;
+        const startY = fromNode.position.y - 10;
+        const endX = toNode.position.x - 10;
+        const endY = toNode.position.y - 10;
 
         // Cancel any existing animation
         if (this.currentAnimationFrame) {
@@ -15007,51 +16174,42 @@ class TileNavigationSystem {
 
     /**
      * Complete movement and trigger callbacks
-     * @param {Object} previousPos - Previous position {x, y}
-     * @param {Object} newPos - New position {x, y}
-     * @param {string} direction - Movement direction
+     * @param {string} previousNodeId - Previous node ID
+     * @param {string} newNodeId - New node ID
      */
-    completeMovement(previousPos, newPos, direction) {
+    completeMovement(previousNodeId, newNodeId) {
         this.isMoving = false;
 
-        // Handle tile entry events
-        this.tileMapSystem.handleTileEntry(newPos.x, newPos.y, direction);
+        // Handle node entry events
+        this.nodeMapSystem.handleNodeEntry(newNodeId);
 
         // Trigger position change callback
         if (this.onPositionChange) {
-            this.onPositionChange(newPos, previousPos, direction);
+            this.onPositionChange(newNodeId, previousNodeId);
         }
 
         // Check for map transitions
         this.checkMapTransitions();
 
-        // Check if movement key is still held for continuous movement
-        for (const [key, dir] of Object.entries(this.movementKeys)) {
-            if (this.keyStates.get(key) && dir === direction) {
-                this.queuedMovement = direction;
-                break;
-            }
-        }
-
         // Debug output
         if (this.debugMode) {
-            console.log(`Moved ${direction} to (${newPos.x}, ${newPos.y})`);
+            console.log(`Moved from ${previousNodeId} to ${newNodeId}`);
         }
     }
 
     /**
      * Handle blocked movement
-     * @param {string} direction - Attempted movement direction
-     * @param {Object} targetPos - Target position that was blocked
+     * @param {string} direction - Attempted movement direction or type
+     * @param {string} targetNodeId - Target node that was blocked
      */
-    handleBlockedMovement(direction, targetPos) {
+    handleBlockedMovement(direction, targetNodeId) {
         if (this.debugMode) {
-            console.log(`Movement blocked: ${direction} to (${targetPos.x}, ${targetPos.y})`);
+            console.log(`Movement blocked: ${direction} to ${targetNodeId}`);
         }
 
         // Trigger blocked movement callback
         if (this.onMovementBlocked) {
-            this.onMovementBlocked(direction, targetPos);
+            this.onMovementBlocked(direction, targetNodeId);
         }
 
         // Visual feedback for blocked movement
@@ -15063,95 +16221,65 @@ class TileNavigationSystem {
      * @param {string} direction - Blocked direction
      */
     showBlockedMovementFeedback(direction) {
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (!playerIndicator) return;
 
         // Add blocked movement class for visual feedback
         playerIndicator.classList.add('movement-blocked');
         
-        // Small shake animation in blocked direction
-        const gridSize = this.tileMapSystem.gridSize;
-        const shakeDistance = 5;
-        const originalLeft = parseFloat(playerIndicator.style.left);
-        const originalTop = parseFloat(playerIndicator.style.top);
-        
-        let offsetX = 0, offsetY = 0;
-        switch (direction) {
-            case 'north': offsetY = -shakeDistance; break;
-            case 'south': offsetY = shakeDistance; break;
-            case 'east': offsetX = shakeDistance; break;
-            case 'west': offsetX = -shakeDistance; break;
-        }
+        // Small shake animation
+        const originalTransform = playerIndicator.style.transform || '';
         
         // Animate shake
-        playerIndicator.style.transition = 'all 0.1s ease-out';
-        playerIndicator.style.left = `${originalLeft + offsetX}px`;
-        playerIndicator.style.top = `${originalTop + offsetY}px`;
+        playerIndicator.style.transition = 'transform 0.1s ease-out';
+        playerIndicator.style.transform = `${originalTransform} translateX(-3px)`;
         
         setTimeout(() => {
-            playerIndicator.style.left = `${originalLeft}px`;
-            playerIndicator.style.top = `${originalTop}px`;
+            playerIndicator.style.transform = `${originalTransform} translateX(3px)`;
             
             setTimeout(() => {
-                playerIndicator.style.transition = '';
-                playerIndicator.classList.remove('movement-blocked');
-            }, 100);
-        }, 100);
+                playerIndicator.style.transform = originalTransform;
+                
+                setTimeout(() => {
+                    playerIndicator.style.transition = '';
+                    playerIndicator.classList.remove('movement-blocked');
+                }, 100);
+            }, 50);
+        }, 50);
     }
 
     /**
-     * Handle interaction with current tile
+     * Handle interaction with current node
      */
     handleInteraction() {
-        if (this.isMoving || this.isDestroyed) return;
+        if (this.isMoving || this.isDestroyed || !this.currentNodeId) return;
 
-        const { x, y } = this.playerPosition;
-        
-        // Check for interactive tiles in all adjacent positions
-        const positions = [
-            { x, y }, // Current position
-            { x, y: y - 1 }, // North
-            { x: x + 1, y }, // East
-            { x, y: y + 1 }, // South
-            { x: x - 1, y } // West
-        ];
-        
-        let interacted = false;
-        for (const pos of positions) {
-            if (this.isWithinMapBounds(pos)) {
-                const tile = this.tileMapSystem.getTileAt(pos.x, pos.y);
-                if (tile && tile.events && tile.events.onInteract) {
-                    // Handle tile interaction
-                    this.tileMapSystem.handleTileInteraction(pos.x, pos.y);
-                    interacted = true;
-                    break;
-                }
-            }
-        }
+        // Handle current node interaction
+        this.nodeMapSystem.handleNodeInteraction(this.currentNodeId);
 
         // Trigger interaction callback
         if (this.onInteraction) {
-            this.onInteraction(x, y, interacted);
+            this.onInteraction(this.currentNodeId, true);
         }
 
         if (this.debugMode) {
-            console.log(`Interaction at (${x}, ${y}) - ${interacted ? 'Success' : 'No interactive tile found'}`);
+            console.log(`Interaction at node: ${this.currentNodeId}`);
         }
     }
 
     /**
-     * Check for map transitions based on current position
+     * Check for map transitions based on current node
      */
     checkMapTransitions() {
-        const mapData = this.tileMapSystem.currentMapData;
+        const mapData = this.nodeMapSystem.currentMapData;
         if (!mapData || !mapData.portals) return;
 
-        const currentTile = this.tileMapSystem.getTileAt(this.playerPosition.x, this.playerPosition.y);
-        if (!currentTile) return;
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        if (!currentNode) return;
 
-        // Check if current tile triggers a portal
+        // Check if current node triggers a portal
         for (const portal of mapData.portals) {
-            if (portal.triggerTileId === currentTile.id) {
+            if (portal.triggerNodeId === currentNode.id) {
                 // Check portal conditions
                 if (this.checkPortalConditions(portal)) {
                     this.executeMapTransition(portal);
@@ -15172,7 +16300,7 @@ class TileNavigationSystem {
         }
 
         for (const condition of portal.conditions) {
-            if (!this.tileMapSystem.evaluateCondition(condition)) {
+            if (!this.nodeMapSystem.evaluateCondition(condition)) {
                 return false;
             }
         }
@@ -15199,12 +16327,12 @@ class TileNavigationSystem {
 
         try {
             // Load the new map
-            const success = await this.tileMapSystem.loadMap(portal.targetMap, portal.targetPosition);
+            const success = await this.nodeMapSystem.loadMap(portal.targetMap, { nodeId: portal.targetNodeId });
             
             if (success) {
                 // Update player position
-                if (portal.targetPosition) {
-                    this.setPosition(portal.targetPosition.x, portal.targetPosition.y, true);
+                if (portal.targetNodeId) {
+                    this.setPosition(portal.targetNodeId, true);
                 }
             } else {
                 console.error(`Failed to load map: ${portal.targetMap}`);
@@ -15219,30 +16347,29 @@ class TileNavigationSystem {
 
     /**
      * Set player position
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * @param {string} nodeId - Node ID
      * @param {boolean} updateVisual - Whether to update visual position
      */
-    setPosition(x, y, updateVisual = true) {
-        const previousPos = { ...this.playerPosition };
-        this.playerPosition = { x, y };
+    setPosition(nodeId, updateVisual = true) {
+        const previousNodeId = this.currentNodeId;
+        this.currentNodeId = nodeId;
         
         if (updateVisual) {
-            this.tileMapSystem.setPlayerPosition(x, y);
+            this.nodeMapSystem.setPlayerPosition(nodeId);
         }
 
         // Trigger position change callback
         if (this.onPositionChange) {
-            this.onPositionChange({ x, y }, previousPos, null);
+            this.onPositionChange(nodeId, previousNodeId);
         }
     }
 
     /**
      * Get current player position
-     * @returns {Object} Current position {x, y}
+     * @returns {string} Current node ID
      */
     getPosition() {
-        return { ...this.playerPosition };
+        return this.currentNodeId;
     }
 
     /**
@@ -15285,7 +16412,7 @@ class TileNavigationSystem {
         }
         
         // Remove any transition animations
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (playerIndicator) {
             playerIndicator.style.transition = '';
         }
@@ -15295,79 +16422,74 @@ class TileNavigationSystem {
      * Show current position information (debug)
      */
     showPositionInfo() {
-        const { x, y } = this.playerPosition;
-        const currentTile = this.tileMapSystem.getTileAt(x, y);
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        const connectedNodes = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
         
         console.group('Position Info');
-        console.log(`Position: (${x}, ${y})`);
-        console.log('Current Tile:', currentTile);
-        console.log('Map:', this.tileMapSystem.currentMap);
-        console.log('Valid Directions:', this.getValidDirections());
+        console.log(`Current Node: ${this.currentNodeId}`);
+        console.log('Node Data:', currentNode);
+        console.log('Connected Nodes:', connectedNodes);
+        console.log('Map:', this.nodeMapSystem.currentMap);
         console.log('Key States:', Array.from(this.keyStates.entries()));
         console.groupEnd();
     }
 
     /**
-     * Get movement direction from two positions
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
-     * @returns {string|null} Direction or null if not adjacent
+     * Show connection information (debug)
      */
-    getMovementDirection(fromPos, toPos) {
-        const dx = toPos.x - fromPos.x;
-        const dy = toPos.y - fromPos.y;
-
-        if (Math.abs(dx) + Math.abs(dy) !== 1) {
-            return null; // Not adjacent
+    showConnectionInfo() {
+        if (!this.currentNodeId) {
+            console.log('No current node');
+            return;
         }
 
-        if (dx === 1) return 'east';
-        if (dx === -1) return 'west';
-        if (dy === 1) return 'south';
-        if (dy === -1) return 'north';
-
-        return null;
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        const connectedNodes = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
+        
+        console.group('Connection Info');
+        console.log(`Current Node: ${this.currentNodeId}`);
+        console.log('Connections:', currentNode?.connections || {});
+        console.log('Valid Connected Nodes:', connectedNodes);
+        console.groupEnd();
     }
 
     /**
-     * Teleport player to specific position (no movement validation)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * Teleport player to specific node (no movement validation)
+     * @param {string} nodeId - Node ID
      */
-    teleport(x, y) {
-        const previousPos = { ...this.playerPosition };
-        this.playerPosition = { x, y };
+    teleport(nodeId) {
+        const previousNodeId = this.currentNodeId;
+        this.currentNodeId = nodeId;
         
         // Stop any ongoing movement
         this.stopMovement();
         
         // Update visual position immediately
-        this.tileMapSystem.setPlayerPosition(x, y);
+        this.nodeMapSystem.setPlayerPosition(nodeId);
         
-        // Handle tile entry
-        this.tileMapSystem.handleTileEntry(x, y, null);
+        // Handle node entry
+        this.nodeMapSystem.handleNodeEntry(nodeId);
         
         // Trigger callbacks
         if (this.onPositionChange) {
-            this.onPositionChange({ x, y }, previousPos, 'teleport');
+            this.onPositionChange(nodeId, previousNodeId);
         }
 
         if (this.debugMode) {
-            console.log(`Teleported to (${x}, ${y})`);
+            console.log(`Teleported to node: ${nodeId}`);
         }
     }
 
     /**
-     * Get valid movement directions from current position
+     * Get valid movement directions from current node
      * @returns {Array} Array of valid direction strings
      */
     getValidDirections() {
         const validDirections = [];
-        const currentPos = this.playerPosition;
-
+        
         for (const direction of ['north', 'south', 'east', 'west']) {
-            const targetPos = this.calculateTargetPosition(currentPos, direction);
-            if (this.isValidMovement(currentPos, targetPos, direction)) {
+            const targetNodeId = this.findNodeInDirection(direction);
+            if (targetNodeId) {
                 validDirections.push(direction);
             }
         }
@@ -15381,7 +16503,6 @@ class TileNavigationSystem {
      */
     setDebugMode(enabled) {
         this.debugMode = enabled;
-        this.tileMapSystem.setDebugMode(enabled);
     }
 
     /**
@@ -15408,19 +16529,26 @@ class TileNavigationSystem {
         document.removeEventListener('keydown', this.boundHandleKeyPress);
         document.removeEventListener('click', this.boundHandleFocus);
         
+        if (this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.removeEventListener('click', this.boundHandleNodeClick);
+        }
+        
         // Reset state
         this.keyStates.clear();
         this.isMoving = false;
         this.inputEnabled = false;
         this.queuedMovement = null;
+        this.currentNodeId = null;
         
-        console.log('TileNavigationSystem destroyed');
+        console.log('NodeNavigationSystem destroyed');
     }
 }
 
 // Export for use in other modules
-window.TileNavigationSystem = TileNavigationSystem;
-/* twine-user-script #34: "01_speechMacro.js" */
+window.NodeNavigationSystem = NodeNavigationSystem;
+// Maintain backward compatibility
+window.TileNavigationSystem = NodeNavigationSystem;
+/* twine-user-script #35: "01_speechMacro.js" */
 Macro.add('speech', {
 	tags: null,
 	handler: function () {
@@ -15446,7 +16574,7 @@ Macro.add('speech', {
 		$(this.output).wiki(output.trim());
 	}
 });
-/* twine-user-script #35: "02_fogtextMacro.js" */
+/* twine-user-script #36: "02_fogtextMacro.js" */
 Macro.add("fogtext", {
 	tags: null,
 	handler: function () {
@@ -15500,7 +16628,7 @@ Macro.add("fogtext", {
 		$(this.output).wiki(html);
 	}
 });
-/* twine-user-script #36: "adda.js" */
+/* twine-user-script #37: "adda.js" */
 setup.adda_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "This place... it's yours?", target: "Adda_ThisPlaceIsYours" },
@@ -15526,7 +16654,7 @@ setup.adda_Conversation_Options_NoctailOrigin = function () {
 		{ label: "Let's talk about something else.", target: "Adda_Origin_Exit", reuse: 1 }
 	]);
 };
-/* twine-user-script #37: "allura.js" */
+/* twine-user-script #38: "allura.js" */
 setup.allura_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{label: "Were you watching me?", target: "Allura_Watching" },
@@ -15587,7 +16715,7 @@ setup.allura_Conversation_Options_alluraBackstory = function () {
 	]);
 };
 
-/* twine-user-script #38: "bert.js" */
+/* twine-user-script #39: "bert.js" */
 setup.bert_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "What's on the menu?", target: "Bert_OpenShop", reuse: 1 },
@@ -15597,7 +16725,7 @@ setup.bert_Conversation_Options_Phase0 = function () {
 		{ label: "Nevermind.", target: "Bert_ReturnToParlor", reuse: 1 }
 	]);
 };
-/* twine-user-script #39: "brakka.js" */
+/* twine-user-script #40: "brakka.js" */
 setup.brakka_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "How are you doing tonight?", target: "Brakka_Howareyoutonight" },
@@ -15608,7 +16736,7 @@ setup.brakka_Conversation_Options_Phase0 = function () {
         { label: "Enjoy your meal.", target: "Brakka_ExitNormally", variable: "Read_Phase0_brakka_Brakka_ExitwithTournyInvite", reuse: 1, hide: true}
 	]);
 };
-/* twine-user-script #40: "darian.js" */
+/* twine-user-script #41: "darian.js" */
 /**
  * Darian Conversation Setup Functions
  * Phase-based choice logic matching the .tw widget definitions.
@@ -15731,8 +16859,8 @@ setup.darian_Conversation_Options_DarianDialogueDuet = function () {
 	]);
 };
 
-/* twine-user-script #41: "eristan.js" */
-/* twine-user-script #42: "harroc.js" */
+/* twine-user-script #42: "eristan.js" */
+/* twine-user-script #43: "harroc.js" */
  setup.harroc_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "Could I get a drink, please?", target: "Harroc_OrderDrink" },
@@ -15742,8 +16870,8 @@ setup.darian_Conversation_Options_DarianDialogueDuet = function () {
 		{ label: "I'll let you get back to it.", target: "Harroc_Phase0_Goodbye", reuse: 1 }
 	]);
 };
-/* twine-user-script #43: "kallot.js" */
-/* twine-user-script #44: "marie.js" */
+/* twine-user-script #44: "kallot.js" */
+/* twine-user-script #45: "marie.js" */
 setup.marie_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "How are you doing?", target: "Marie_Howareyoudoing" },
@@ -15852,7 +16980,7 @@ setup.marie_Conversation_Options_TheFight = function () {
 		}
 	]);
 };
-/* twine-user-script #45: "redmarrow.js" */
+/* twine-user-script #46: "redmarrow.js" */
 setup.redmarrow_Conversation_Options_Phase0 = function () {
 	setup.smartChoices([
 		{ label: "You always dress this sharp?", target: "Redmarrow_ArmorFlattery" },
@@ -15895,7 +17023,7 @@ setup.redmarrow_Conversation_Options_TheFirstBounty = function () {
 }, 0);
 
 };
-/* twine-user-script #46: "tesska.js" */
+/* twine-user-script #47: "tesska.js" */
 // =======================
 // Tesska Phase 0 Trigger Function
 // =======================
@@ -15923,7 +17051,7 @@ setup.tesska_Conversation_Options_Phase0 = function () {
 		},
 	]);
 };
-/* twine-user-script #47: "02_DeclarativeDialogueSystem.js" */
+/* twine-user-script #48: "02_DeclarativeDialogueSystem.js" */
 // ===============================
 // Declarative Dialogue Detection System
 // ===============================
@@ -15986,7 +17114,7 @@ setup.startDialogueLayout = function () {
 		</div>
 	`;
 };
-/* twine-user-script #48: "SaveAPI.js" */
+/* twine-user-script #49: "SaveAPI.js" */
 window.SaveAPI = window.SaveAPI || {};
 
 SaveAPI.nativeSaveMenu = function () {
@@ -16006,7 +17134,7 @@ SaveAPI.nativeSaveMenu = function () {
 		alert("Could not open save menu.");
 	}
 };
-/* twine-user-script #49: "999_main.js" */
+/* twine-user-script #50: "999_main.js" */
 console.log("🔥 999_main.js loaded!");
 // Basic setup
 if (typeof setup === 'undefined') {
@@ -16030,7 +17158,7 @@ $(document).on(':passagestart', function () {
 		console.error("❌ setup.loadItemData is NOT defined yet.");
 	}
 });
-/* twine-user-script #50: "SexScene_Acts.js" */
+/* twine-user-script #51: "SexScene_Acts.js" */
 setup.SexualActsDB = {
 	Oral_Penis_G_Tease: {
 		label: "Tease Their Cock With Your Mouth",
@@ -16318,7 +17446,7 @@ setup.SexualActsDB = {
 
 
 };
-/* twine-user-script #51: "SexScene_Responses.js" */
+/* twine-user-script #52: "SexScene_Responses.js" */
 setup.SexSceneResponses = {
 	Oral_Penis_G_Tease: {
 		start: ["You brush your lips over their shaft, teasing with warm breath."],
@@ -16475,7 +17603,7 @@ setup.SexSceneResponses = {
 
 
 };
-/* twine-user-script #52: "convo_prompts.js" */
+/* twine-user-script #53: "convo_prompts.js" */
 /* ======================================================
    Conversation Prompt Library
    ------------------------------------------------------
@@ -16657,7 +17785,7 @@ setup.ConvoPromptTracker = {
     }
   };
   
-/* twine-user-script #53: "convo_tropes.js" */
+/* twine-user-script #54: "convo_tropes.js" */
 /* ======================================================
    Relationship Conversation Minigame Core System
    ------------------------------------------------------
@@ -17095,7 +18223,7 @@ setup.ConvoTropesByTier = {
     }
   ]
 };
-/* twine-user-script #54: "inclinations.js" */
+/* twine-user-script #55: "inclinations.js" */
 /* ======================================================
    Inclination Library (Sexual Preferences / Kinks)
    ------------------------------------------------------
@@ -17203,7 +18331,7 @@ setup.Inclinations = {
   }
 
 };
-/* twine-user-script #55: "motivations.js" */
+/* twine-user-script #56: "motivations.js" */
 /* ======================================================
    Motivation Library (Internal Drives / Narrative Goals)
    ------------------------------------------------------
@@ -17291,7 +18419,7 @@ setup.Motivations = {
     }
   };
   
-/* twine-user-script #56: "npc_archetypes.js" */
+/* twine-user-script #57: "npc_archetypes.js" */
 setup.Archetypes = {
     "Warden": {
         tags: ["Guard", "Loyal", "Stoic"],
@@ -17321,7 +18449,7 @@ setup.Archetypes = {
         styles: ["Cloaked", "Ragged", "Unnatural"]
     }
 };
-/* twine-user-script #57: "npc_names.js" */
+/* twine-user-script #58: "npc_names.js" */
 setup.NamePools = {
     human: {
         male: ["Joren", "Thalen", "Bryce", "Damas"],
@@ -17336,7 +18464,7 @@ setup.NamePools = {
         female: ["Lilitha", "Zaria", "Nyx"]
     }
 };
-/* twine-user-script #58: "personality_traits.js" */
+/* twine-user-script #59: "personality_traits.js" */
 /* ======================================================
    Personality Trait Library (Core Behavioral / Emotional Traits)
    --------------------------------------------------------------
@@ -17398,7 +18526,7 @@ setup.PersonalityTraits = {
     merchant: { tags: ["social"] }
   };
   
-/* twine-user-script #59: "social_styles.js" */
+/* twine-user-script #60: "social_styles.js" */
 /* ======================================================
    Social Style Library (Tone, Mannerisms, Social Presence)
    ------------------------------------------------------
@@ -17471,7 +18599,7 @@ setup.SocialStyles = {
     }
   };
   
-/* twine-user-script #60: "DataAuditor.js" */
+/* twine-user-script #61: "DataAuditor.js" */
 setup.DataAuditor = {
     listUniqueValues(objectArray, property) {
       const values = objectArray.flatMap(item => {
@@ -17591,7 +18719,7 @@ void audit.prompts.themes();
 ===========================================================
 */
 
-/* twine-user-script #61: "random-event.js" */
+/* twine-user-script #62: "random-event.js" */
 // repository: https://github.com/TweePower/twee-sugarcube-random-events
 
 const debugLevel = 3; // max debug level
@@ -20760,26 +21888,64 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
   [[Look around the tavern.|Scene03_TheSpace]]
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="FireConvergence" tags="" position="850,1225" size="100,100"></tw-passagedata><tw-passagedata pid="98" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="FireConvergence" tags="" position="850,1225" size="100,100">You run as fast as your feet can carry you, boots slapping against the drenched cobblestones, each step sending up cold sprays of rainwater. The storm howls overhead, a constant, deafening roar of wind and thunder. By the time you reach the source of the blaze, you are soaked to the skin, your breath sawing in and out of your chest—but none of it matters once you see what lies ahead.
+
+A building—large, old, familiar—stands wreathed in fire, the night around it lit with a sickly orange glare. Thick black smoke coils up into the rain-choked sky, carrying with it the stench of burning wood, scorched cloth, and something darker—something that makes your stomach twist. A massive, jagged scorch mark scars the front facade where the lightning bolt struck, its edges still glowing faintly, like the wound is too fresh to scab over.
+
+Flames rage from shattered windows and splintered beams, licking out into the storm like hungry tongues. Beneath the crackle and roar of the fire, you hear the building groaning—wooden supports bending and breaking with sharp, splintering sounds as the structure slowly loses its battle against the flames.
+
+Stumbling out into the street are a handful of women, their conservative nightgowns plastered to their bodies, clinging and translucent from the relentless rain. Soot streaks their faces and arms, mingling with the ash that sticks to wet skin. In their arms, clutching at hems and hands, is a herd of children—small, shivering forms, wide-eyed with terror. The women move frantically, gathering them in, counting, searching.
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;&lt;em&gt;Gods...&lt;/em&gt;&lt;&lt;/speech&gt;&gt;
+
+The realization strikes you like a blow to the chest. The building, this burning monolith of dread, is an &lt;strong&gt;Orphanage&lt;/strong&gt;.
+
+You force your legs forward, heart hammering against your ribs as you approach the women—priestesses, you realize now, of the Order of Palms.
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;My name is Jaylie. Is everyone alright? Did everyone get out okay?&lt;&lt;/speech&gt;&gt;
+
+One of the women—young, her hair plastered to her skull, face slick with rain and soot—barely acknowledges you. Her eyes dart feverishly from child to child, lips moving soundlessly as she ticks off names in her head. And then—her face freezes. Horror blooms across her features like a spreading stain.
+
+She whirls toward an older priestess, a broad-shouldered woman whose sodden gray hair hangs in ropes down her back.
+
+&lt;&lt;speech &quot;priestess_anna&quot;&gt;&gt;Priestess Rema! Where&#39;s Zan? I don&#39;t see Zan—he must not have been in bed!&lt;&lt;/speech&gt;&gt;&lt;&lt;know &quot;priestess_rema&quot;&gt;&gt;
+
+The older woman repeats the scan, her mouth tightening as the grim calculation settles in. She shakes her head slowly, as if trying to deny the truth even as it forms.
+
+&lt;&lt;speech &quot;priestess_rema&quot;&gt;&gt;Oh gods, Anna. He&#39;s still inside!&lt;&lt;/speech&gt;&gt;&lt;&lt;know &quot;priestess_anna&quot;&gt;&gt;
+
+You speak again, louder this time, cutting through the crackle of the fire and the hammering of rain.
+
+&lt;&lt;speech &quot;jaylie&quot;&gt;&gt;Tell me where to look for him!&lt;&lt;/speech&gt;&gt;
+
+A voice stirs in the back of your mind, cold and rational, asking a simple, harrowing question: &lt;strong&gt;*What are you doing?*&lt;/strong&gt;
+
+But already your body is moving, your breath coming faster—not with fear, but with grim determination.
+
+&lt;&lt;speech &quot;priestess_anna&quot;&gt;&gt;Zan likes to wander at night. He could have gone to the kitchens, the restroom, the library—I don&#39;t know! But the fire— You can&#39;t!&lt;&lt;/speech&gt;&gt;
+
+You barely hear her protest. Logic, caution, fear—all of it burns away under a rising tide of purpose. Your fingers clench into fists at your sides. Your feet find the ground. Your lungs fill with smoke-tinged air.
+
+Without another word, you step toward the inferno.</tw-passagedata><tw-passagedata pid="98" name="NPCGenerator" tags="widget" position="1675,350" size="100,100">&lt;&lt;widget &quot;GenerateNPC&quot;&gt;&gt;
 &lt;&lt;set _npc to setup.generateNPC(&quot;female&quot;, &quot;human&quot;, &quot;Courtesan&quot;)&gt;&gt;
 &lt;&lt;print &quot;Generated NPC: &quot;&gt;&gt;
 &lt;&lt;print _npc.name&gt;&gt; the &lt;&lt;_npc.archetype&gt;&gt; (&lt;&lt;_npc.race&gt;&gt;)
 &lt;&lt;print &quot;Style: &quot; + _npc.style&gt;&gt;
 &lt;&lt;print &quot;Trait: &quot; + _npc.trait + &quot;, Inclination: &quot; + _npc.inclination&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="99" name="MiniMap" tags="special" position="1100,1225" size="100,100">&lt;!-- 
-MiniMap.tw - Twine Special Passage for Enhanced Minimap System
-This passage initializes the new MinimapSystem and provides integration hooks.
+MiniMap.tw - Twine Special Passage for Enhanced Node Network System
+This passage initializes the new NodeMapSystem and provides integration hooks.
 --&gt;
 
 &lt;script&gt;
-// Initialize minimap system when this passage is processed
+// Initialize node map system when this passage is processed
 $(document).ready(function() {
     // Wait for all systems to be loaded
     setTimeout(() =&gt; {
-        if (typeof MinimapSystem !== &#39;undefined&#39; &amp;&amp; setup.SidebarUI) {
-            // Initialize minimap if not already done
-            if (!setup.SidebarUI.minimapSystem) {
-                setup.SidebarUI.initializeMinimap();
+        if (typeof NodeMapSystem !== &#39;undefined&#39; &amp;&amp; setup.SidebarUI) {
+            // Initialize node map if not already done
+            if (!setup.SidebarUI.nodeMapSystem) {
+                setup.SidebarUI.initializeNodeMap();
             }
         } else {
             console.warn(&#39;[MiniMap] Required systems not available&#39;);
@@ -20787,33 +21953,141 @@ $(document).ready(function() {
     }, 500);
 });
 
-// Global minimap update functions for backward compatibility
+// Global node map update functions for backward compatibility
 window.updateMinimapLegacy = function(mapId, position) {
-    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.updateMinimap) {
-        setup.SidebarUI.updateMinimap(mapId, position);
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.updateNodeMap) {
+        setup.SidebarUI.updateNodeMap(mapId, position);
     }
 };
 
 window.refreshMinimapLegacy = function() {
-    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.refreshMinimap) {
-        setup.SidebarUI.refreshMinimap();
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.refreshNodeMap) {
+        setup.SidebarUI.refreshNodeMap();
+    }
+};
+
+// New node-based functions
+window.updateNodeMap = function(mapId, nodeId) {
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.updateNodeMap) {
+        setup.SidebarUI.updateNodeMap(mapId, { nodeId: nodeId });
+    }
+};
+
+window.refreshNodeMap = function() {
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.refreshNodeMap) {
+        setup.SidebarUI.refreshNodeMap();
+    }
+};
+
+window.setPlayerNode = function(nodeId) {
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem) {
+        setup.SidebarUI.nodeMapSystem.setPlayerPosition(nodeId);
     }
 };
 
 // Integration with existing navigation events
 $(document).on(&#39;:passagedisplay&#39;, function() {
-    // Update minimap when passages change
-    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.minimapSystem) {
+    // Update node map when passages change
+    if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem) {
         const currentMap = State.variables.currentMap;
-        const playerPos = State.variables.playerPosition;
+        const playerNode = State.variables.playerNode || State.variables.currentNode;
         
-        if (currentMap &amp;&amp; playerPos) {
-            setup.SidebarUI.updateMinimap(currentMap, playerPos);
+        if (currentMap &amp;&amp; playerNode) {
+            setup.SidebarUI.updateNodeMap(currentMap, { nodeId: playerNode });
         }
     }
 });
 
-console.log(&#39;[MiniMap] Enhanced minimap system integration loaded&#39;);
+// Helper functions for node navigation
+window.NodeMapHelpers = {
+    // Move player to a specific node
+    moveToNode: function(nodeId) {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeNavigationSystem) {
+            setup.SidebarUI.nodeNavigationSystem.teleport(nodeId);
+            State.variables.playerNode = nodeId;
+            State.variables.currentNode = nodeId;
+        }
+    },
+    
+    // Get current player node
+    getCurrentNode: function() {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeNavigationSystem) {
+            return setup.SidebarUI.nodeNavigationSystem.getPosition();
+        }
+        return State.variables.playerNode || State.variables.currentNode;
+    },
+    
+    // Get connected nodes from current position
+    getConnectedNodes: function() {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem &amp;&amp; setup.SidebarUI.nodeNavigationSystem) {
+            const currentNode = setup.SidebarUI.nodeNavigationSystem.getPosition();
+            return setup.SidebarUI.nodeMapSystem.getConnectedNodes(currentNode);
+        }
+        return [];
+    },
+    
+    // Check if movement to a node is valid
+    canMoveTo: function(nodeId) {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem &amp;&amp; setup.SidebarUI.nodeNavigationSystem) {
+            const currentNode = setup.SidebarUI.nodeNavigationSystem.getPosition();
+            return setup.SidebarUI.nodeMapSystem.isValidMovement(currentNode, nodeId);
+        }
+        return false;
+    },
+    
+    // Load a new map
+    loadMap: function(mapId, startNodeId) {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem) {
+            const position = startNodeId ? { nodeId: startNodeId } : null;
+            return setup.SidebarUI.nodeMapSystem.loadMap(mapId, position);
+        }
+        return Promise.resolve(false);
+    },
+    
+    // Get current map info
+    getCurrentMapInfo: function() {
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem) {
+            return setup.SidebarUI.nodeMapSystem.getCurrentMapInfo();
+        }
+        return null;
+    }
+};
+
+// Macro integration for Twine passages
+window.NodeMapMacros = {
+    // Set current node (for use in passages)
+    setNode: function(nodeId) {
+        State.variables.playerNode = nodeId;
+        State.variables.currentNode = nodeId;
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeNavigationSystem) {
+            setup.SidebarUI.nodeNavigationSystem.setPosition(nodeId, true);
+        }
+    },
+    
+    // Load map and set position (for use in passages)
+    loadMapAndSetNode: function(mapId, nodeId) {
+        State.variables.currentMap = mapId;
+        State.variables.playerNode = nodeId;
+        State.variables.currentNode = nodeId;
+        
+        if (setup.SidebarUI &amp;&amp; setup.SidebarUI.nodeMapSystem) {
+            setup.SidebarUI.nodeMapSystem.loadMap(mapId, { nodeId: nodeId });
+        }
+    },
+    
+    // Check if player is at a specific node
+    isAtNode: function(nodeId) {
+        const currentNode = State.variables.playerNode || State.variables.currentNode;
+        return currentNode === nodeId;
+    },
+    
+    // Check if player can access a node
+    canAccessNode: function(nodeId) {
+        return NodeMapHelpers.canMoveTo(nodeId);
+    }
+};
+
+console.log(&#39;[MiniMap] Enhanced node network system integration loaded&#39;);
 &lt;/script&gt;</tw-passagedata><tw-passagedata pid="100" name="SidebarUI" tags="nobr" position="1225,1225" size="100,100">&lt;!-- Top Nav and Collapse --&gt;
 &lt;div id=&quot;sidebar-topbar&quot;&gt;
 	&lt;div id=&quot;sidebar-nav&quot;&gt;

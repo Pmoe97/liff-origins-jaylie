@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireConvergence - Node System Stress Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 69, 0, 0.1);
+            border-radius: 10px;
+            border: 2px solid #ff4500;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #ff4500;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .demo-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .controls-panel {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            height: fit-content;
+        }
+
+        .controls-panel h3 {
+            margin-top: 0;
+            color: #ff4500;
+            border-bottom: 2px solid #ff4500;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .control-group button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            background: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .control-group button:hover {
+            background: #ff6500;
+        }
+
+        .control-group button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #666;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .map-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            border: 2px solid #ff4500;
+            position: relative;
+            min-height: 600px;
+        }
+
+        .status-panel {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            height: fit-content;
+        }
+
+        .status-panel h3 {
+            margin-top: 0;
+            color: #ff4500;
+            border-bottom: 2px solid #ff4500;
+            padding-bottom: 10px;
+        }
+
+        .status-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .status-item strong {
+            color: #ff4500;
+        }
+
+        .instructions {
+            background: rgba(0, 100, 200, 0.1);
+            border: 1px solid #0066cc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h4 {
+            margin-top: 0;
+            color: #66ccff;
+        }
+
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        .stress-test-info {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid #ffa500;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stress-test-info h4 {
+            margin-top: 0;
+            color: #ffa500;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #ff4500;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #ff6666;
+        }
+
+        /* Node map specific styles */
+        .node-map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: auto;
+            background: radial-gradient(circle at center, #2a1a1a 0%, #1a1a1a 100%);
+        }
+
+        .node {
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .node-default {
+            background: #4a90e2;
+            border-color: #357abd;
+            color: white;
+        }
+
+        .node-entrance {
+            background: #27ae60;
+            border-color: #1e8449;
+            color: white;
+        }
+
+        .node-exit {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+
+        .node-room {
+            background: #9b59b6;
+            border-color: #8e44ad;
+            color: white;
+        }
+
+        .node-hallway {
+            background: #34495e;
+            border-color: #2c3e50;
+            color: white;
+        }
+
+        .node-stairs {
+            background: #f39c12;
+            border-color: #e67e22;
+            color: white;
+        }
+
+        .node-shop {
+            background: #f39c12;
+            border-color: #d68910;
+            color: white;
+        }
+
+        .node-special {
+            background: #e74c3c;
+            border-color: #cb4335;
+            color: white;
+        }
+
+        .node-locked {
+            background: #95a5a6;
+            border-color: #7f8c8d;
+            color: #2c3e50;
+        }
+
+        .node-collapsed {
+            background: #2c3e50;
+            border-color: #1b2631;
+            color: #7f8c8d;
+            opacity: 0.5;
+        }
+
+        .node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .connection {
+            stroke-width: 3;
+            opacity: 0.8;
+        }
+
+        .connection-normal {
+            stroke: #ffffff;
+        }
+
+        .connection-secret {
+            stroke: #9b59b6;
+            stroke-dasharray: 5,5;
+        }
+
+        .connection-locked {
+            stroke: #95a5a6;
+        }
+
+        .connection-oneway {
+            stroke: #e67e22;
+        }
+
+        .player-indicator {
+            background: radial-gradient(circle, #ffff00 0%, #ff6600 100%);
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffff00;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px #ffff00; }
+            50% { box-shadow: 0 0 30px #ff6600; }
+            100% { box-shadow: 0 0 20px #ffff00; }
+        }
+
+        .fire-effect {
+            animation: fire-flicker 1s infinite alternate;
+        }
+
+        @keyframes fire-flicker {
+            0% { 
+                background: #ff4500;
+                box-shadow: 0 0 20px #ff4500;
+            }
+            100% { 
+                background: #ff6500;
+                box-shadow: 0 0 30px #ff6500;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔥 FireConvergence 🔥</h1>
+        <p>Advanced Node Network System Stress Test - Orphanage Fire Rescue</p>
+    </div>
+
+    <div class="demo-container">
+        <div class="controls-panel">
+            <h3>🎮 Controls</h3>
+            
+            <div class="instructions">
+                <h4>How to Play</h4>
+                <ul>
+                    <li><strong>WASD</strong> - Move between connected nodes</li>
+                    <li><strong>E</strong> - Interact/Search rooms</li>
+                    <li><strong>Click</strong> - Move to connected nodes</li>
+                </ul>
+            </div>
+
+            <div class="stress-test-info">
+                <h4>Stress Test Features</h4>
+                <ul>
+                    <li>Dynamic randomization</li>
+                    <li>Real-time fire progression</li>
+                    <li>Breath management system</li>
+                    <li>Structural collapse mechanics</li>
+                    <li>Multiple escape routes</li>
+                    <li>Complex condition evaluation</li>
+                </ul>
+            </div>
+
+            <div class="control-group">
+                <button id="startEvent" onclick="startFireConvergence()">🔥 Start FireConvergence</button>
+                <button id="stopEvent" onclick="stopFireConvergence()" disabled>⏹️ Stop Event</button>
+                <button id="resetDemo" onclick="resetDemo()">🔄 Reset Demo</button>
+            </div>
+
+            <div class="control-group">
+                <label>Random Seed (optional):</label>
+                <input type="number" id="randomSeed" placeholder="Leave empty for random">
+            </div>
+
+            <div class="control-group">
+                <label>Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy (Slower fire spread)</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="hard">Hard (Faster fire spread)</option>
+                    <option value="extreme">Extreme (Very fast)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <button onclick="toggleDebugMode()">🐛 Toggle Debug Mode</button>
+                <button onclick="showSystemInfo()">ℹ️ System Info</button>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div id="nodeMapContainer" class="loading">
+                Loading Node Network System...
+            </div>
+        </div>
+
+        <div class="status-panel">
+            <h3>📊 Event Status</h3>
+            
+            <div class="status-item">
+                <strong>System Status:</strong>
+                <div id="systemStatus">Initializing...</div>
+            </div>
+
+            <div class="status-item">
+                <strong>Event State:</strong>
+                <div id="eventState">Not Started</div>
+            </div>
+
+            <div class="status-item">
+                <strong>Performance:</strong>
+                <div id="performanceInfo">
+                    <div>Nodes: <span id="nodeCount">0</span></div>
+                    <div>Connections: <span id="connectionCount">0</span></div>
+                    <div>Update Rate: <span id="updateRate">0</span> Hz</div>
+                </div>
+            </div>
+
+            <div class="status-item">
+                <strong>Stress Test Metrics:</strong>
+                <div id="stressMetrics">
+                    <div>Dynamic Updates: <span id="dynamicUpdates">0</span></div>
+                    <div>Condition Checks: <span id="conditionChecks">0</span></div>
+                    <div>Event Triggers: <span id="eventTriggers">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the node system files -->
+    <script src="dev/js/02_systems/TileMapSystem.js"></script>
+    <script src="dev/js/02_systems/TileNavigationSystem.js"></script>
+    <script src="dev/js/02_systems/FireConvergenceSystem.js"></script>
+
+    <script>
+        // Global system instances
+        let nodeMapSystem = null;
+        let navigationSystem = null;
+        let fireConvergenceSystem = null;
+        let debugMode = false;
+        let performanceMonitor = null;
+
+        // Performance tracking
+        let performanceStats = {
+            dynamicUpdates: 0,
+            conditionChecks: 0,
+            eventTriggers: 0,
+            lastUpdateTime: Date.now(),
+            updateCount: 0
+        };
+
+        // Mock SugarCube State for condition evaluation
+        window.State = {
+            variables: {
+                fireConvergence: null
+            }
+        };
+
+        // Initialize the demo
+        async function initializeDemo() {
+            try {
+                updateStatus('systemStatus', 'Initializing Node Map System...');
+                
+                // Initialize the node map system
+                nodeMapSystem = new NodeMapSystem('nodeMapContainer', {
+                    nodeSize: 60,
+                    nodeSpacing: 120,
+                    enableAnimations: true,
+                    showGrid: false
+                });
+
+                // Initialize the navigation system
+                navigationSystem = new NodeNavigationSystem(nodeMapSystem, {
+                    enableAnimations: true,
+                    debugMode: debugMode,
+                    onPositionChange: (newNodeId, previousNodeId) => {
+                        updatePerformanceStats();
+                        if (debugMode) {
+                            console.log(`Position changed: ${previousNodeId} -> ${newNodeId}`);
+                        }
+                    }
+                });
+
+                // Initialize the FireConvergence system
+                fireConvergenceSystem = new FireConvergenceSystem();
+
+                // Load initial demo map
+                await loadDemoMap();
+
+                updateStatus('systemStatus', 'Ready');
+                updateStatus('eventState', 'Ready to Start');
+
+                // Start performance monitoring
+                startPerformanceMonitoring();
+
+                console.log('FireConvergence demo initialized successfully');
+
+            } catch (error) {
+                console.error('Failed to initialize demo:', error);
+                updateStatus('systemStatus', `Error: ${error.message}`);
+                showError('Failed to initialize the demo. Check console for details.');
+            }
+        }
+
+        // Load demo map
+        async function loadDemoMap() {
+            try {
+                // Load the grid test map to show proper square grid layout
+                const success = await nodeMapSystem.loadMap('grid_test_map');
+                if (success) {
+                    updateMapInfo();
+                    updateStatus('systemStatus', 'Grid test map loaded');
+                } else {
+                    throw new Error('Failed to load grid test map');
+                }
+            } catch (error) {
+                console.error('Error loading grid test map:', error);
+                // Create a simple fallback map
+                createFallbackMap();
+            }
+        }
+
+        // Create a simple fallback map for demo
+        function createFallbackMap() {
+            const fallbackMapData = {
+                mapId: 'demo_fallback',
+                name: 'Demo Fallback Map',
+                description: 'A simple map for demonstration',
+                version: '1.0.0',
+                defaultPlayerNode: 'center',
+                nodes: [
+                    {
+                        id: 'center',
+                        name: 'Center',
+                        position: { x: 300, y: 300 },
+                        type: 'default',
+                        walkable: true,
+                        connections: {
+                            'north': { target: 'north', type: 'normal', bidirectional: true },
+                            'south': { target: 'south', type: 'normal', bidirectional: true },
+                            'east': { target: 'east', type: 'normal', bidirectional: true },
+                            'west': { target: 'west', type: 'normal', bidirectional: true }
+                        },
+                        events: {},
+                        metadata: { description: 'Center of the demo map' },
+                        conditions: []
+                    },
+                    {
+                        id: 'north',
+                        name: 'North',
+                        position: { x: 300, y: 200 },
+                        type: 'default',
+                        walkable: true,
+                        connections: {
+                            'center': { target: 'center', type: 'normal', bidirectional: true }
+                        },
+                        events: {},
+                        metadata: { description: 'Northern area' },
+                        conditions: []
+                    },
+                    {
+                        id: 'south',
+                        name: 'South',
+                        position: { x: 300, y: 400 },
+                        type: 'default',
+                        walkable: true,
+                        connections: {
+                            'center': { target: 'center', type: 'normal', bidirectional: true }
+                        },
+                        events: {},
+                        metadata: { description: 'Southern area' },
+                        conditions: []
+                    },
+                    {
+                        id: 'east',
+                        name: 'East',
+                        position: { x: 400, y: 300 },
+                        type: 'default',
+                        walkable: true,
+                        connections: {
+                            'center': { target: 'center', type: 'normal', bidirectional: true }
+                        },
+                        events: {},
+                        metadata: { description: 'Eastern area' },
+                        conditions: []
+                    },
+                    {
+                        id: 'west',
+                        name: 'West',
+                        position: { x: 200, y: 300 },
+                        type: 'default',
+                        walkable: true,
+                        connections: {
+                            'center': { target: 'center', type: 'normal', bidirectional: true }
+                        },
+                        events: {},
+                        metadata: { description: 'Western area' },
+                        conditions: []
+                    }
+                ]
+            };
+
+            // Manually set the map data
+            nodeMapSystem.currentMapData = fallbackMapData;
+            nodeMapSystem.processNodeData(fallbackMapData.nodes);
+            nodeMapSystem.renderMap();
+            nodeMapSystem.setPlayerPosition('center');
+            navigationSystem.setPosition('center');
+
+            updateMapInfo();
+            updateStatus('systemStatus', 'Fallback map loaded');
+        }
+
+        // Start FireConvergence event
+        async function startFireConvergence() {
+            try {
+                updateStatus('eventState', 'Starting FireConvergence...');
+                
+                // Get configuration
+                const seed = document.getElementById('randomSeed').value;
+                const difficulty = document.getElementById('difficulty').value;
+                
+                // Apply difficulty settings
+                applyDifficultySettings(difficulty);
+                
+                // Set random seed if provided
+                if (seed) {
+                    // This would be used by the FireConvergence system
+                    console.log(`Using random seed: ${seed}`);
+                }
+
+                // Initialize the FireConvergence event
+                const success = await fireConvergenceSystem.initialize(nodeMapSystem, navigationSystem);
+                
+                if (success) {
+                    updateStatus('eventState', 'FireConvergence Active');
+                    document.getElementById('startEvent').disabled = true;
+                    document.getElementById('stopEvent').disabled = false;
+                    
+                    // Start enhanced performance monitoring
+                    startStressTestMonitoring();
+                } else {
+                    throw new Error('Failed to initialize FireConvergence event');
+                }
+
+            } catch (error) {
+                console.error('Failed to start FireConvergence:', error);
+                updateStatus('eventState', `Error: ${error.message}`);
+                showError('Failed to start FireConvergence event. Check console for details.');
+            }
+        }
+
+        // Stop FireConvergence event
+        function stopFireConvergence() {
+            try {
+                if (fireConvergenceSystem) {
+                    fireConvergenceSystem.destroy();
+                }
+                
+                updateStatus('eventState', 'Event Stopped');
+                document.getElementById('startEvent').disabled = false;
+                document.getElementById('stopEvent').disabled = true;
+                
+                // Stop stress test monitoring
+                stopStressTestMonitoring();
+                
+            } catch (error) {
+                console.error('Error stopping FireConvergence:', error);
+            }
+        }
+
+        // Apply difficulty settings
+        function applyDifficultySettings(difficulty) {
+            if (!fireConvergenceSystem) return;
+            
+            const config = fireConvergenceSystem.config;
+            
+            switch (difficulty) {
+                case 'easy':
+                    config.breathDecayRate = 1;
+                    config.fireSpreadRate = 1;
+                    config.structuralDecayRate = 0.3;
+                    break;
+                case 'normal':
+                    config.breathDecayRate = 2;
+                    config.fireSpreadRate = 1.5;
+                    config.structuralDecayRate = 0.5;
+                    break;
+                case 'hard':
+                    config.breathDecayRate = 3;
+                    config.fireSpreadRate = 2;
+                    config.structuralDecayRate = 0.8;
+                    break;
+                case 'extreme':
+                    config.breathDecayRate = 4;
+                    config.fireSpreadRate = 3;
+                    config.structuralDecayRate = 1.2;
+                    break;
+            }
+        }
+
+        // Reset demo
+        async function resetDemo() {
+            try {
+                // Stop any active events
+                stopFireConvergence();
+                
+                // Reset systems
+                if (navigationSystem) {
+                    navigationSystem.destroy();
+                }
+                if (nodeMapSystem) {
+                    nodeMapSystem.destroy();
+                }
+                
+                // Clear container
+                document.getElementById('nodeMapContainer').innerHTML = '<div class="loading">Resetting...</div>';
+                
+                // Reinitialize
+                await initializeDemo();
+                
+            } catch (error) {
+                console.error('Error resetting demo:', error);
+                showError('Failed to reset demo. Please refresh the page.');
+            }
+        }
+
+        // Toggle debug mode
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            
+            if (navigationSystem) {
+                navigationSystem.setDebugMode(debugMode);
+            }
+            
+            updateStatus('systemStatus', debugMode ? 'Debug Mode ON' : 'Debug Mode OFF');
+            
+            setTimeout(() => {
+                updateStatus('systemStatus', 'Ready');
+            }, 2000);
+        }
+
+        // Show system information
+        function showSystemInfo() {
+            const info = {
+                nodeMapSystem: !!nodeMapSystem,
+                navigationSystem: !!navigationSystem,
+                fireConvergenceSystem: !!fireConvergenceSystem,
+                currentMap: nodeMapSystem?.currentMap || 'None',
+                nodeCount: nodeMapSystem?.nodes?.size || 0,
+                debugMode: debugMode,
+                performanceStats: performanceStats
+            };
+            
+            console.log('System Information:', info);
+            alert('System information logged to console. Press F12 to view.');
+        }
+
+        // Update status display
+        function updateStatus(elementId, text) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = text;
+            }
+        }
+
+        // Update map information
+        function updateMapInfo() {
+            if (nodeMapSystem) {
+                const nodeCount = nodeMapSystem.nodes ? nodeMapSystem.nodes.size : 0;
+                let connectionCount = 0;
+                
+                if (nodeMapSystem.nodes) {
+                    for (const node of nodeMapSystem.nodes.values()) {
+                        connectionCount += Object.keys(node.connections || {}).length;
+                    }
+                }
+                
+                updateStatus('nodeCount', nodeCount);
+                updateStatus('connectionCount', connectionCount);
+            }
+        }
+
+        // Start performance monitoring
+        function startPerformanceMonitoring() {
+            performanceMonitor = setInterval(() => {
+                updatePerformanceDisplay();
+            }, 1000);
+        }
+
+        // Start stress test monitoring
+        function startStressTestMonitoring() {
+            // Enhanced monitoring for stress test
+            setInterval(() => {
+                updateStressTestMetrics();
+            }, 500);
+        }
+
+        // Stop stress test monitoring
+        function stopStressTestMonitoring() {
+            // Reset metrics
+            performanceStats.dynamicUpdates = 0;
+            performanceStats.conditionChecks = 0;
+            performanceStats.eventTriggers = 0;
+            updateStressTestMetrics();
+        }
+
+        // Update performance display
+        function updatePerformanceDisplay() {
+            const now = Date.now();
+            const timeDiff = now - performanceStats.lastUpdateTime;
+            const updateRate = performanceStats.updateCount / (timeDiff / 1000);
+            
+            updateStatus('updateRate', Math.round(updateRate * 10) / 10);
+            
+            performanceStats.lastUpdateTime = now;
+            performanceStats.updateCount = 0;
+        }
+
+        // Update stress test metrics
+        function updateStressTestMetrics() {
+            updateStatus('dynamicUpdates', performanceStats.dynamicUpdates);
+            updateStatus('conditionChecks', performanceStats.conditionChecks);
+            updateStatus('eventTriggers', performanceStats.eventTriggers);
+        }
+
+        // Update performance stats
+        function updatePerformanceStats() {
+            performanceStats.updateCount++;
+            performanceStats.dynamicUpdates++;
+        }
+
+        // Show error message
+        function showError(message) {
+            const container = document.getElementById('nodeMapContainer');
+            container.innerHTML = `<div class="error"><strong>Error:</strong> ${message}</div>`;
+        }
+
+        // Initialize demo when page loads
+        window.addEventListener('load', initializeDemo);
+
+        // Handle page unload
+        window.addEventListener('beforeunload', () => {
+            if (performanceMonitor) {
+                clearInterval(performanceMonitor);
+            }
+            stopFireConvergence();
+        });
+    </script>
+</body>
+</html>

@@ -1,18 +1,18 @@
 :: MiniMap [special]
 <!-- 
-MiniMap.tw - Twine Special Passage for Enhanced Minimap System
-This passage initializes the new MinimapSystem and provides integration hooks.
+MiniMap.tw - Twine Special Passage for Enhanced Node Network System
+This passage initializes the new NodeMapSystem and provides integration hooks.
 -->
 
 <script>
-// Initialize minimap system when this passage is processed
+// Initialize node map system when this passage is processed
 $(document).ready(function() {
     // Wait for all systems to be loaded
     setTimeout(() => {
-        if (typeof MinimapSystem !== 'undefined' && setup.SidebarUI) {
-            // Initialize minimap if not already done
-            if (!setup.SidebarUI.minimapSystem) {
-                setup.SidebarUI.initializeMinimap();
+        if (typeof NodeMapSystem !== 'undefined' && setup.SidebarUI) {
+            // Initialize node map if not already done
+            if (!setup.SidebarUI.nodeMapSystem) {
+                setup.SidebarUI.initializeNodeMap();
             }
         } else {
             console.warn('[MiniMap] Required systems not available');
@@ -20,31 +20,139 @@ $(document).ready(function() {
     }, 500);
 });
 
-// Global minimap update functions for backward compatibility
+// Global node map update functions for backward compatibility
 window.updateMinimapLegacy = function(mapId, position) {
-    if (setup.SidebarUI && setup.SidebarUI.updateMinimap) {
-        setup.SidebarUI.updateMinimap(mapId, position);
+    if (setup.SidebarUI && setup.SidebarUI.updateNodeMap) {
+        setup.SidebarUI.updateNodeMap(mapId, position);
     }
 };
 
 window.refreshMinimapLegacy = function() {
-    if (setup.SidebarUI && setup.SidebarUI.refreshMinimap) {
-        setup.SidebarUI.refreshMinimap();
+    if (setup.SidebarUI && setup.SidebarUI.refreshNodeMap) {
+        setup.SidebarUI.refreshNodeMap();
+    }
+};
+
+// New node-based functions
+window.updateNodeMap = function(mapId, nodeId) {
+    if (setup.SidebarUI && setup.SidebarUI.updateNodeMap) {
+        setup.SidebarUI.updateNodeMap(mapId, { nodeId: nodeId });
+    }
+};
+
+window.refreshNodeMap = function() {
+    if (setup.SidebarUI && setup.SidebarUI.refreshNodeMap) {
+        setup.SidebarUI.refreshNodeMap();
+    }
+};
+
+window.setPlayerNode = function(nodeId) {
+    if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem) {
+        setup.SidebarUI.nodeMapSystem.setPlayerPosition(nodeId);
     }
 };
 
 // Integration with existing navigation events
 $(document).on(':passagedisplay', function() {
-    // Update minimap when passages change
-    if (setup.SidebarUI && setup.SidebarUI.minimapSystem) {
+    // Update node map when passages change
+    if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem) {
         const currentMap = State.variables.currentMap;
-        const playerPos = State.variables.playerPosition;
+        const playerNode = State.variables.playerNode || State.variables.currentNode;
         
-        if (currentMap && playerPos) {
-            setup.SidebarUI.updateMinimap(currentMap, playerPos);
+        if (currentMap && playerNode) {
+            setup.SidebarUI.updateNodeMap(currentMap, { nodeId: playerNode });
         }
     }
 });
 
-console.log('[MiniMap] Enhanced minimap system integration loaded');
+// Helper functions for node navigation
+window.NodeMapHelpers = {
+    // Move player to a specific node
+    moveToNode: function(nodeId) {
+        if (setup.SidebarUI && setup.SidebarUI.nodeNavigationSystem) {
+            setup.SidebarUI.nodeNavigationSystem.teleport(nodeId);
+            State.variables.playerNode = nodeId;
+            State.variables.currentNode = nodeId;
+        }
+    },
+    
+    // Get current player node
+    getCurrentNode: function() {
+        if (setup.SidebarUI && setup.SidebarUI.nodeNavigationSystem) {
+            return setup.SidebarUI.nodeNavigationSystem.getPosition();
+        }
+        return State.variables.playerNode || State.variables.currentNode;
+    },
+    
+    // Get connected nodes from current position
+    getConnectedNodes: function() {
+        if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem && setup.SidebarUI.nodeNavigationSystem) {
+            const currentNode = setup.SidebarUI.nodeNavigationSystem.getPosition();
+            return setup.SidebarUI.nodeMapSystem.getConnectedNodes(currentNode);
+        }
+        return [];
+    },
+    
+    // Check if movement to a node is valid
+    canMoveTo: function(nodeId) {
+        if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem && setup.SidebarUI.nodeNavigationSystem) {
+            const currentNode = setup.SidebarUI.nodeNavigationSystem.getPosition();
+            return setup.SidebarUI.nodeMapSystem.isValidMovement(currentNode, nodeId);
+        }
+        return false;
+    },
+    
+    // Load a new map
+    loadMap: function(mapId, startNodeId) {
+        if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem) {
+            const position = startNodeId ? { nodeId: startNodeId } : null;
+            return setup.SidebarUI.nodeMapSystem.loadMap(mapId, position);
+        }
+        return Promise.resolve(false);
+    },
+    
+    // Get current map info
+    getCurrentMapInfo: function() {
+        if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem) {
+            return setup.SidebarUI.nodeMapSystem.getCurrentMapInfo();
+        }
+        return null;
+    }
+};
+
+// Macro integration for Twine passages
+window.NodeMapMacros = {
+    // Set current node (for use in passages)
+    setNode: function(nodeId) {
+        State.variables.playerNode = nodeId;
+        State.variables.currentNode = nodeId;
+        if (setup.SidebarUI && setup.SidebarUI.nodeNavigationSystem) {
+            setup.SidebarUI.nodeNavigationSystem.setPosition(nodeId, true);
+        }
+    },
+    
+    // Load map and set position (for use in passages)
+    loadMapAndSetNode: function(mapId, nodeId) {
+        State.variables.currentMap = mapId;
+        State.variables.playerNode = nodeId;
+        State.variables.currentNode = nodeId;
+        
+        if (setup.SidebarUI && setup.SidebarUI.nodeMapSystem) {
+            setup.SidebarUI.nodeMapSystem.loadMap(mapId, { nodeId: nodeId });
+        }
+    },
+    
+    // Check if player is at a specific node
+    isAtNode: function(nodeId) {
+        const currentNode = State.variables.playerNode || State.variables.currentNode;
+        return currentNode === nodeId;
+    },
+    
+    // Check if player can access a node
+    canAccessNode: function(nodeId) {
+        return NodeMapHelpers.canMoveTo(nodeId);
+    }
+};
+
+console.log('[MiniMap] Enhanced node network system integration loaded');
 </script>

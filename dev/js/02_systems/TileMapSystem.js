@@ -1,22 +1,21 @@
 /**
- * TileMapSystem.js - Improved Version
+ * NodeMapSystem.js - Node Network Version
  * 
- * A comprehensive tile-based navigation system for Twine/SugarCube games.
- * Handles loading tile maps from JSON, rendering the tile grid, managing dynamic conditions,
- * and coordinating with the navigation system for player movement.
+ * A node-based navigation system for Twine/SugarCube games.
+ * Transforms the previous grid-based tile system into a clean node network
+ * with spaced nodes connected by visible paths, similar to a metro map layout.
  * 
- * Improvements:
- * - Memory leak prevention with proper cleanup
- * - Performance optimizations for large maps
- * - Better error handling and validation
- * - Improved modularity and separation of concerns
- * - Enhanced caching mechanisms
- * - Safer event execution
+ * Features:
+ * - Spaced nodes instead of touching grid tiles
+ * - Visual connection lines between nodes
+ * - Support for different connection types (normal, one-way, secret)
+ * - Dynamic node conditions and states
+ * - Clean, scalable architecture
  */
 
-class TileMapSystem {
+class NodeMapSystem {
     /**
-     * Initialize the TileMapSystem
+     * Initialize the NodeMapSystem
      * @param {string} containerId - DOM element ID where the map will be rendered
      * @param {Object} options - Configuration options
      */
@@ -25,89 +24,91 @@ class TileMapSystem {
         this.container = null;
         this.currentMap = null;
         this.currentMapData = null;
-        this.tiles = new Map(); // Map of tile ID to tile data
-        this.tileElements = new Map(); // Map of tile ID to DOM elements
-        this.tileCache = new Map(); // Cache for tile lookups by position
-        this.gridSize = options.gridSize || 64; // Size of each grid cell in pixels
+        this.nodes = new Map(); // Map of node ID to node data
+        this.nodeElements = new Map(); // Map of node ID to DOM elements
+        this.connectionElements = new Map(); // Map of connection ID to DOM elements
+        
+        // Node layout settings
+        this.nodeSize = options.nodeSize || 60; // Size of each node in pixels
+        this.nodeSpacing = options.nodeSpacing || 120; // Space between nodes
+        this.connectionWidth = options.connectionWidth || 3; // Width of connection lines
         this.showGrid = options.showGrid || false;
         this.enableAnimations = options.enableAnimations !== false;
-        this.baseTilePath = options.baseTilePath || 'images/tiles/';
         
-        // Performance options
-        this.renderBatchSize = options.renderBatchSize || 50; // Tiles to render per frame
-        this.enableViewportCulling = options.enableViewportCulling !== false;
-        this.viewportPadding = options.viewportPadding || 2; // Grid cells to render outside viewport
+        // Visual settings
+        this.nodeColors = {
+            default: '#4a90e2',
+            locked: '#95a5a6',
+            special: '#e74c3c',
+            shop: '#f39c12',
+            exit: '#27ae60'
+        };
+        
+        this.connectionColors = {
+            normal: '#ffffff',
+            secret: '#9b59b6',
+            locked: '#95a5a6',
+            oneway: '#e67e22'
+        };
         
         // Event callbacks
         this.onMapLoaded = options.onMapLoaded || null;
-        this.onTileEnter = options.onTileEnter || null;
-        this.onTileExit = options.onTileExit || null;
-        this.onTileInteract = options.onTileInteract || null;
+        this.onNodeEnter = options.onNodeEnter || null;
+        this.onNodeExit = options.onNodeExit || null;
+        this.onNodeInteract = options.onNodeInteract || null;
         
         // Internal state
-        this.ambientEventInterval = null;
         this.isDestroyed = false;
         this.loadingPromise = null;
-        this.imagePreloadCache = new Map();
         
         // Initialize the system
         this.initialize();
     }
 
     /**
-     * Initialize the tile map system
+     * Initialize the node map system
      */
     initialize() {
         this.container = document.getElementById(this.containerId);
         if (!this.container) {
-            console.error(`TileMapSystem: Container element '${this.containerId}' not found`);
+            console.error(`NodeMapSystem: Container element '${this.containerId}' not found`);
             return;
         }
 
         // Set up the container
-        this.container.classList.add('tile-map-container');
+        this.container.classList.add('node-map-container');
         this.container.innerHTML = '';
         this.container.setAttribute('tabindex', '0'); // For keyboard focus
 
-        // Create the grid container
-        this.gridContainer = document.createElement('div');
-        this.gridContainer.classList.add('tile-grid');
-        this.container.appendChild(this.gridContainer);
+        // Create the map container
+        this.mapContainer = document.createElement('div');
+        this.mapContainer.classList.add('node-map');
+        this.container.appendChild(this.mapContainer);
 
-        // Set up viewport culling if enabled
-        if (this.enableViewportCulling) {
-            this.setupViewportCulling();
-        }
+        // Create SVG for connections
+        this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        this.svg.classList.add('connection-layer');
+        this.svg.style.position = 'absolute';
+        this.svg.style.top = '0';
+        this.svg.style.left = '0';
+        this.svg.style.pointerEvents = 'none';
+        this.svg.style.zIndex = '1';
+        this.mapContainer.appendChild(this.svg);
 
-        // Set up event listeners for ambient events
-        this.setupAmbientEvents();
+        // Create nodes container
+        this.nodesContainer = document.createElement('div');
+        this.nodesContainer.classList.add('nodes-container');
+        this.nodesContainer.style.position = 'relative';
+        this.nodesContainer.style.zIndex = '2';
+        this.mapContainer.appendChild(this.nodesContainer);
 
-        console.log('TileMapSystem initialized');
-    }
-
-    /**
-     * Set up viewport culling for performance
-     */
-    setupViewportCulling() {
-        this.viewportObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const tileElement = entry.target;
-                if (entry.isIntersecting) {
-                    tileElement.classList.remove('tile-culled');
-                } else {
-                    tileElement.classList.add('tile-culled');
-                }
-            });
-        }, {
-            root: this.container,
-            rootMargin: `${this.viewportPadding * this.gridSize}px`
-        });
+        console.log('NodeMapSystem initialized');
     }
 
     /**
      * Load a map from JSON data
      * @param {string} mapId - The map identifier
-     * @param {Object} playerPosition - Optional starting position {x, y}
+     * @param {Object} playerPosition - Optional starting position {nodeId}
      * @returns {Promise<boolean>} Success status
      */
     async loadMap(mapId, playerPosition = null) {
@@ -128,7 +129,7 @@ class TileMapSystem {
      */
     async _loadMapInternal(mapId, playerPosition) {
         try {
-            console.log(`Loading map: ${mapId}`);
+            console.log(`Loading node map: ${mapId}`);
             
             // Add loading state
             this.container.classList.add('loading');
@@ -140,35 +141,32 @@ class TileMapSystem {
                 return false;
             }
 
-            // Validate map data
-            if (!this.validateMapData(mapData)) {
-                console.error(`Invalid map data for: ${mapId}`);
+            // Convert legacy tile data to node data if needed
+            const nodeData = this.convertToNodeData(mapData);
+
+            // Validate node data
+            if (!this.validateNodeData(nodeData)) {
+                console.error(`Invalid node data for: ${mapId}`);
                 return false;
             }
 
-            // Preload tile images
-            await this.preloadTileImages(mapData.tiles);
-
             this.currentMap = mapId;
-            this.currentMapData = mapData;
+            this.currentMapData = nodeData;
             
-            // Clear existing tiles
+            // Clear existing map
             this.clearMap();
             
-            // Process and store tile data
-            this.processTileData(mapData.tiles);
-            
-            // Build tile position cache
-            this.buildTileCache();
+            // Process and store node data
+            this.processNodeData(nodeData.nodes);
             
             // Render the map
             await this.renderMap();
             
             // Set up player position
-            if (playerPosition) {
-                this.setPlayerPosition(playerPosition.x, playerPosition.y);
-            } else if (mapData.defaultPlayerPosition) {
-                this.setPlayerPosition(mapData.defaultPlayerPosition.x, mapData.defaultPlayerPosition.y);
+            if (playerPosition && playerPosition.nodeId) {
+                this.setPlayerPosition(playerPosition.nodeId);
+            } else if (nodeData.defaultPlayerNode) {
+                this.setPlayerPosition(nodeData.defaultPlayerNode);
             }
 
             // Remove loading state
@@ -176,88 +174,246 @@ class TileMapSystem {
 
             // Trigger map loaded callback
             if (this.onMapLoaded) {
-                this.onMapLoaded(mapId, mapData);
+                this.onMapLoaded(mapId, nodeData);
             }
 
-            console.log(`Map '${mapId}' loaded successfully`);
+            console.log(`Node map '${mapId}' loaded successfully`);
             return true;
 
         } catch (error) {
-            console.error(`Error loading map '${mapId}':`, error);
+            console.error(`Error loading node map '${mapId}':`, error);
             this.container.classList.remove('loading');
             return false;
         }
     }
 
     /**
-     * Validate map data structure
-     * @param {Object} mapData - Map data to validate
+     * Convert legacy tile-based map data to node-based data
+     * @param {Object} mapData - Legacy map data
+     * @returns {Object} Node-based map data
+     */
+    convertToNodeData(mapData) {
+        // If already in node format, return as-is
+        if (mapData.nodes) {
+            return mapData;
+        }
+
+        // Convert from legacy tile format
+        const nodeData = {
+            mapId: mapData.mapId,
+            name: mapData.name,
+            description: mapData.description,
+            version: mapData.version,
+            defaultPlayerNode: null,
+            nodes: [],
+            metadata: mapData.metadata || {}
+        };
+
+        // Convert significant tiles to nodes
+        const significantTiles = mapData.tiles.filter(tile => 
+            tile.events || 
+            tile.metadata?.landmark || 
+            tile.metadata?.shopId || 
+            tile.metadata?.portal ||
+            tile.id.includes('entrance') ||
+            tile.id.includes('exit') ||
+            tile.id.includes('vendor') ||
+            tile.id.includes('center')
+        );
+
+        // Create nodes from significant tiles
+        significantTiles.forEach((tile, index) => {
+            const node = {
+                id: tile.id,
+                name: tile.metadata?.description || tile.id.replace(/_/g, ' '),
+                position: this.calculateNodePosition(tile.position, index, significantTiles.length),
+                type: this.determineNodeType(tile),
+                walkable: tile.walkable !== false,
+                connections: {},
+                events: tile.events || {},
+                metadata: tile.metadata || {},
+                conditions: tile.dynamicConditions || []
+            };
+
+            nodeData.nodes.push(node);
+        });
+
+        // Set default player node
+        if (mapData.defaultPlayerPosition) {
+            const startTile = mapData.tiles.find(tile => 
+                tile.position.x === mapData.defaultPlayerPosition.x && 
+                tile.position.y === mapData.defaultPlayerPosition.y
+            );
+            if (startTile) {
+                nodeData.defaultPlayerNode = startTile.id;
+            } else {
+                // Find closest significant tile
+                const closestNode = this.findClosestNode(mapData.defaultPlayerPosition, nodeData.nodes);
+                nodeData.defaultPlayerNode = closestNode?.id || nodeData.nodes[0]?.id;
+            }
+        } else {
+            nodeData.defaultPlayerNode = nodeData.nodes[0]?.id;
+        }
+
+        // Generate connections between nodes
+        this.generateNodeConnections(nodeData.nodes, mapData);
+
+        return nodeData;
+    }
+
+    /**
+     * Calculate visual position for a node
+     * @param {Object} originalPos - Original tile position
+     * @param {number} index - Node index
+     * @param {number} total - Total number of nodes
+     * @returns {Object} Visual position {x, y}
+     */
+    calculateNodePosition(originalPos, index, total) {
+        // Use original position if available, otherwise create strict grid
+        if (originalPos && typeof originalPos.x === 'number' && typeof originalPos.y === 'number') {
+            // Convert original coordinates to grid-aligned positions
+            return {
+                x: originalPos.x * this.nodeSpacing + this.nodeSpacing,
+                y: originalPos.y * this.nodeSpacing + this.nodeSpacing
+            };
+        }
+        
+        // Fallback: create strict grid layout
+        const cols = Math.ceil(Math.sqrt(total));
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        
+        return {
+            x: col * this.nodeSpacing + this.nodeSpacing,
+            y: row * this.nodeSpacing + this.nodeSpacing
+        };
+    }
+
+    /**
+     * Determine node type based on tile data
+     * @param {Object} tile - Tile data
+     * @returns {string} Node type
+     */
+    determineNodeType(tile) {
+        if (tile.metadata?.shopId) return 'shop';
+        if (tile.metadata?.portal) return 'exit';
+        if (tile.metadata?.landmark) return 'special';
+        if (!tile.walkable) return 'locked';
+        return 'default';
+    }
+
+    /**
+     * Find the closest node to a position
+     * @param {Object} position - Target position {x, y}
+     * @param {Array} nodes - Array of nodes
+     * @returns {Object|null} Closest node
+     */
+    findClosestNode(position, nodes) {
+        let closest = null;
+        let minDistance = Infinity;
+
+        for (const node of nodes) {
+            const distance = Math.sqrt(
+                Math.pow(position.x - node.position.x, 2) + 
+                Math.pow(position.y - node.position.y, 2)
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+                closest = node;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Generate connections between nodes
+     * @param {Array} nodes - Array of nodes
+     * @param {Object} originalMapData - Original map data for reference
+     */
+    generateNodeConnections(nodes, originalMapData) {
+        // Create connections based on logical relationships
+        for (let i = 0; i < nodes.length; i++) {
+            const nodeA = nodes[i];
+            
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeB = nodes[j];
+                
+                // Determine if nodes should be connected
+                if (this.shouldNodesConnect(nodeA, nodeB, originalMapData)) {
+                    const connectionType = this.determineConnectionType(nodeA, nodeB);
+                    
+                    // Add bidirectional connection by default
+                    nodeA.connections[nodeB.id] = {
+                        target: nodeB.id,
+                        type: connectionType,
+                        bidirectional: true
+                    };
+                    
+                    nodeB.connections[nodeA.id] = {
+                        target: nodeA.id,
+                        type: connectionType,
+                        bidirectional: true
+                    };
+                }
+            }
+        }
+    }
+
+    /**
+     * Determine if two nodes should be connected
+     * @param {Object} nodeA - First node
+     * @param {Object} nodeB - Second node
+     * @param {Object} mapData - Original map data
+     * @returns {boolean} True if nodes should connect
+     */
+    shouldNodesConnect(nodeA, nodeB, mapData) {
+        // Connect if nodes are close to each other
+        const distance = Math.sqrt(
+            Math.pow(nodeA.position.x - nodeB.position.x, 2) + 
+            Math.pow(nodeA.position.y - nodeB.position.y, 2)
+        );
+        
+        // Connect nodes that are reasonably close
+        return distance < this.nodeSpacing * 2;
+    }
+
+    /**
+     * Determine connection type between nodes
+     * @param {Object} nodeA - First node
+     * @param {Object} nodeB - Second node
+     * @returns {string} Connection type
+     */
+    determineConnectionType(nodeA, nodeB) {
+        // Special connections for certain node types
+        if (nodeA.type === 'shop' || nodeB.type === 'shop') {
+            return 'normal';
+        }
+        if (nodeA.type === 'exit' || nodeB.type === 'exit') {
+            return 'normal';
+        }
+        
+        return 'normal';
+    }
+
+    /**
+     * Validate node data structure
+     * @param {Object} nodeData - Node data to validate
      * @returns {boolean} True if valid
      */
-    validateMapData(mapData) {
-        if (!mapData || typeof mapData !== 'object') return false;
-        if (!mapData.size || typeof mapData.size.width !== 'number' || typeof mapData.size.height !== 'number') return false;
-        if (!Array.isArray(mapData.tiles)) return false;
+    validateNodeData(nodeData) {
+        if (!nodeData || typeof nodeData !== 'object') return false;
+        if (!Array.isArray(nodeData.nodes)) return false;
         
-        // Validate each tile
-        for (const tile of mapData.tiles) {
-            if (!tile.id || !tile.position || typeof tile.position.x !== 'number' || typeof tile.position.y !== 'number') {
-                console.error('Invalid tile data:', tile);
-                return false;
-            }
-            if (!tile.size || typeof tile.size.width !== 'number' || typeof tile.size.height !== 'number') {
-                console.error('Invalid tile size:', tile);
+        // Validate each node
+        for (const node of nodeData.nodes) {
+            if (!node.id || !node.position || typeof node.position.x !== 'number' || typeof node.position.y !== 'number') {
+                console.error('Invalid node data:', node);
                 return false;
             }
         }
         
         return true;
-    }
-
-    /**
-     * Preload tile images for better performance
-     * @param {Array} tiles - Array of tile objects
-     */
-    async preloadTileImages(tiles) {
-        const imageUrls = new Set();
-        
-        // Collect all unique image URLs
-        for (const tile of tiles) {
-            if (tile.image) {
-                imageUrls.add(this.baseTilePath + tile.image);
-            }
-            // Also preload dynamic condition images
-            if (tile.dynamicConditions) {
-                for (const condition of tile.dynamicConditions) {
-                    if (condition.image) {
-                        imageUrls.add(this.baseTilePath + condition.image);
-                    }
-                }
-            }
-        }
-        
-        // Preload all images
-        const preloadPromises = Array.from(imageUrls).map(url => {
-            if (this.imagePreloadCache.has(url)) {
-                return this.imagePreloadCache.get(url);
-            }
-            
-            const promise = new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-                img.src = url;
-            });
-            
-            this.imagePreloadCache.set(url, promise);
-            return promise;
-        });
-        
-        try {
-            await Promise.all(preloadPromises);
-        } catch (error) {
-            console.warn('Some tile images failed to preload:', error);
-        }
     }
 
     /**
@@ -279,60 +435,40 @@ class TileMapSystem {
     }
 
     /**
-     * Process tile data and apply dynamic conditions
-     * @param {Array} tilesData - Array of tile objects from JSON
+     * Process node data and apply dynamic conditions
+     * @param {Array} nodesData - Array of node objects
      */
-    processTileData(tilesData) {
-        this.tiles.clear();
+    processNodeData(nodesData) {
+        this.nodes.clear();
         
-        for (const tileData of tilesData) {
-            // Clone the tile data to avoid modifying the original
-            const tile = JSON.parse(JSON.stringify(tileData));
+        for (const nodeData of nodesData) {
+            // Clone the node data to avoid modifying the original
+            const node = JSON.parse(JSON.stringify(nodeData));
             
             // Apply dynamic conditions
-            this.applyDynamicConditions(tile);
+            this.applyDynamicConditions(node);
             
-            // Store the processed tile
-            this.tiles.set(tile.id, tile);
+            // Store the processed node
+            this.nodes.set(node.id, node);
         }
     }
 
     /**
-     * Build tile position cache for fast lookups
+     * Apply dynamic conditions to a node based on game state
+     * @param {Object} node - Node object to modify
      */
-    buildTileCache() {
-        this.tileCache.clear();
-        
-        for (const [tileId, tile] of this.tiles) {
-            const { position, size } = tile;
-            
-            // Cache all grid positions this tile occupies
-            for (let x = position.x; x < position.x + size.width; x++) {
-                for (let y = position.y; y < position.y + size.height; y++) {
-                    const key = `${x},${y}`;
-                    this.tileCache.set(key, tile);
-                }
-            }
-        }
-    }
-
-    /**
-     * Apply dynamic conditions to a tile based on game state
-     * @param {Object} tile - Tile object to modify
-     */
-    applyDynamicConditions(tile) {
-        if (!tile.dynamicConditions || tile.dynamicConditions.length === 0) {
+    applyDynamicConditions(node) {
+        if (!node.conditions || node.conditions.length === 0) {
             return;
         }
 
-        for (const condition of tile.dynamicConditions) {
+        for (const condition of node.conditions) {
             if (this.evaluateCondition(condition.condition)) {
                 // Apply the conditional changes
-                if (condition.image !== undefined) tile.image = condition.image;
-                if (condition.walkable !== undefined) tile.walkable = condition.walkable;
-                if (condition.events) tile.events = { ...tile.events, ...condition.events };
-                if (condition.entryPoints) tile.entryPoints = condition.entryPoints;
-                if (condition.exitPoints) tile.exitPoints = condition.exitPoints;
+                if (condition.walkable !== undefined) node.walkable = condition.walkable;
+                if (condition.type !== undefined) node.type = condition.type;
+                if (condition.events) node.events = { ...node.events, ...condition.events };
+                if (condition.connections) node.connections = { ...node.connections, ...condition.connections };
                 
                 // Only apply the first matching condition
                 break;
@@ -365,22 +501,18 @@ class TileMapSystem {
      * Clear the current map
      */
     clearMap() {
-        // Clean up viewport observer
-        if (this.viewportObserver) {
-            this.viewportObserver.disconnect();
-        }
-        
         // Clear DOM
-        this.gridContainer.innerHTML = '';
+        this.svg.innerHTML = '';
+        this.nodesContainer.innerHTML = '';
         
         // Clear data structures
-        this.tileElements.clear();
-        this.tiles.clear();
-        this.tileCache.clear();
+        this.nodeElements.clear();
+        this.connectionElements.clear();
+        this.nodes.clear();
     }
 
     /**
-     * Render the entire map with batching for performance
+     * Render the entire map
      */
     async renderMap() {
         if (!this.currentMapData) {
@@ -388,138 +520,180 @@ class TileMapSystem {
             return;
         }
 
-        const { width, height } = this.currentMapData.size;
+        // Calculate map bounds
+        const bounds = this.calculateMapBounds();
         
-        // Set up the grid container dimensions
-        this.gridContainer.style.width = `${width * this.gridSize}px`;
-        this.gridContainer.style.height = `${height * this.gridSize}px`;
-        this.gridContainer.style.position = 'relative';
-        
-        // Add grid lines if enabled
-        if (this.showGrid) {
-            this.gridContainer.classList.add('show-grid');
-        } else {
-            this.gridContainer.classList.remove('show-grid');
-        }
+        // Set up container dimensions
+        this.mapContainer.style.width = `${bounds.width}px`;
+        this.mapContainer.style.height = `${bounds.height}px`;
+        this.svg.setAttribute('width', bounds.width);
+        this.svg.setAttribute('height', bounds.height);
 
-        // Render tiles in batches to prevent blocking
-        const tiles = Array.from(this.tiles.values());
-        for (let i = 0; i < tiles.length; i += this.renderBatchSize) {
-            const batch = tiles.slice(i, i + this.renderBatchSize);
-            
-            // Render batch
-            batch.forEach(tile => this.renderTile(tile));
-            
-            // Allow browser to breathe
-            if (i + this.renderBatchSize < tiles.length) {
-                await new Promise(resolve => requestAnimationFrame(resolve));
+        // Render connections first (so they appear behind nodes)
+        this.renderConnections();
+        
+        // Render nodes
+        this.renderNodes();
+    }
+
+    /**
+     * Calculate the bounds of the map
+     * @returns {Object} Bounds {width, height, minX, minY, maxX, maxY}
+     */
+    calculateMapBounds() {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        
+        for (const node of this.nodes.values()) {
+            minX = Math.min(minX, node.position.x);
+            minY = Math.min(minY, node.position.y);
+            maxX = Math.max(maxX, node.position.x);
+            maxY = Math.max(maxY, node.position.y);
+        }
+        
+        // Add padding
+        const padding = this.nodeSize * 2;
+        return {
+            width: maxX - minX + padding * 2,
+            height: maxY - minY + padding * 2,
+            minX: minX - padding,
+            minY: minY - padding,
+            maxX: maxX + padding,
+            maxY: maxY + padding
+        };
+    }
+
+    /**
+     * Render all connections between nodes
+     */
+    renderConnections() {
+        const processedConnections = new Set();
+        
+        for (const node of this.nodes.values()) {
+            for (const [targetId, connection] of Object.entries(node.connections)) {
+                const connectionId = [node.id, targetId].sort().join('-');
+                
+                // Skip if already processed (for bidirectional connections)
+                if (processedConnections.has(connectionId)) continue;
+                processedConnections.add(connectionId);
+                
+                const targetNode = this.nodes.get(targetId);
+                if (!targetNode) continue;
+                
+                this.renderConnection(node, targetNode, connection);
             }
         }
     }
 
     /**
-     * Render a single tile
-     * @param {Object} tile - Tile data object
+     * Render a connection between two nodes
+     * @param {Object} fromNode - Source node
+     * @param {Object} toNode - Target node
+     * @param {Object} connection - Connection data
      */
-    renderTile(tile) {
-        const tileElement = document.createElement('div');
-        tileElement.classList.add('tile');
-        tileElement.id = `tile-${tile.id}`;
-        tileElement.dataset.tileId = tile.id;
-
-        // Position and size the tile
-        const { x, y } = tile.position;
-        const { width, height } = tile.size;
+    renderConnection(fromNode, toNode, connection) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         
-        tileElement.style.position = 'absolute';
-        tileElement.style.left = `${x * this.gridSize}px`;
-        tileElement.style.top = `${y * this.gridSize}px`;
-        tileElement.style.width = `${width * this.gridSize}px`;
-        tileElement.style.height = `${height * this.gridSize}px`;
-
-        // Set background image
-        if (tile.image) {
-            tileElement.style.backgroundImage = `url('${this.baseTilePath}${tile.image}')`;
-            tileElement.style.backgroundSize = 'cover';
-            tileElement.style.backgroundPosition = 'center';
-            tileElement.style.backgroundRepeat = 'no-repeat';
+        line.setAttribute('x1', fromNode.position.x);
+        line.setAttribute('y1', fromNode.position.y);
+        line.setAttribute('x2', toNode.position.x);
+        line.setAttribute('y2', toNode.position.y);
+        line.setAttribute('stroke', this.connectionColors[connection.type] || this.connectionColors.normal);
+        line.setAttribute('stroke-width', this.connectionWidth);
+        line.classList.add('connection', `connection-${connection.type}`);
+        
+        // Add dashed style for secret connections
+        if (connection.type === 'secret') {
+            line.setAttribute('stroke-dasharray', '5,5');
         }
+        
+        // Add arrow for one-way connections
+        if (connection.type === 'oneway' && !connection.bidirectional) {
+            line.setAttribute('marker-end', 'url(#arrowhead)');
+        }
+        
+        this.svg.appendChild(line);
+        
+        const connectionId = [fromNode.id, toNode.id].sort().join('-');
+        this.connectionElements.set(connectionId, line);
+    }
+
+    /**
+     * Render all nodes
+     */
+    renderNodes() {
+        for (const node of this.nodes.values()) {
+            this.renderNode(node);
+        }
+    }
+
+    /**
+     * Render a single node
+     * @param {Object} node - Node data object
+     */
+    renderNode(node) {
+        const nodeElement = document.createElement('div');
+        nodeElement.classList.add('node', `node-${node.type}`);
+        nodeElement.id = `node-${node.id}`;
+        nodeElement.dataset.nodeId = node.id;
+
+        // Position and size the node
+        nodeElement.style.position = 'absolute';
+        nodeElement.style.left = `${node.position.x - this.nodeSize / 2}px`;
+        nodeElement.style.top = `${node.position.y - this.nodeSize / 2}px`;
+        nodeElement.style.width = `${this.nodeSize}px`;
+        nodeElement.style.height = `${this.nodeSize}px`;
+
+        // Add node content
+        const nodeContent = document.createElement('div');
+        nodeContent.classList.add('node-content');
+        nodeContent.textContent = node.name || node.id;
+        nodeElement.appendChild(nodeContent);
 
         // Add walkability class
-        if (tile.walkable) {
-            tileElement.classList.add('walkable');
+        if (node.walkable) {
+            nodeElement.classList.add('walkable');
         } else {
-            tileElement.classList.add('non-walkable');
+            nodeElement.classList.add('non-walkable');
         }
 
         // Add interaction capability
-        if (tile.events && tile.events.onInteract) {
-            tileElement.classList.add('interactive');
-            tileElement.setAttribute('aria-label', 'Interactive tile - Press E to interact');
-            tileElement.setAttribute('role', 'button');
+        if (node.events && node.events.onInteract) {
+            nodeElement.classList.add('interactive');
+            nodeElement.setAttribute('aria-label', 'Interactive node - Press E to interact');
+            nodeElement.setAttribute('role', 'button');
         }
 
-        // Add tile type for styling
-        if (tile.type) {
-            tileElement.dataset.tileType = tile.type;
-        }
-
-        // Store the tile element
-        this.tileElements.set(tile.id, tileElement);
-        this.gridContainer.appendChild(tileElement);
-        
-        // Add to viewport observer if enabled
-        if (this.viewportObserver) {
-            this.viewportObserver.observe(tileElement);
-        }
+        // Store the node element
+        this.nodeElements.set(node.id, nodeElement);
+        this.nodesContainer.appendChild(nodeElement);
     }
 
     /**
-     * Get tile at specific grid coordinates (with caching)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
-     * @returns {Object|null} Tile data or null if no tile found
+     * Get node by ID
+     * @param {string} nodeId - Node identifier
+     * @returns {Object|null} Node data or null if not found
      */
-    getTileAt(x, y) {
-        const key = `${x},${y}`;
-        return this.tileCache.get(key) || null;
+    getNodeById(nodeId) {
+        return this.nodes.get(nodeId) || null;
     }
 
     /**
-     * Get tile by ID
-     * @param {string} tileId - Tile identifier
-     * @returns {Object|null} Tile data or null if not found
-     */
-    getTileById(tileId) {
-        return this.tiles.get(tileId) || null;
-    }
-
-    /**
-     * Check if movement is valid from one position to another
-     * @param {number} fromX - Starting X coordinate
-     * @param {number} fromY - Starting Y coordinate
-     * @param {number} toX - Target X coordinate
-     * @param {number} toY - Target Y coordinate
-     * @param {string} direction - Movement direction (north, south, east, west)
+     * Check if movement is valid from one node to another
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
      * @returns {boolean} True if movement is valid
      */
-    isValidMovement(fromX, fromY, toX, toY, direction) {
-        const fromTile = this.getTileAt(fromX, fromY);
-        const toTile = this.getTileAt(toX, toY);
+    isValidMovement(fromNodeId, toNodeId) {
+        const fromNode = this.getNodeById(fromNodeId);
+        const toNode = this.getNodeById(toNodeId);
 
-        // Check if target tile exists and is walkable
-        if (!toTile || !toTile.walkable) {
+        // Check if target node exists and is walkable
+        if (!toNode || !toNode.walkable) {
             return false;
         }
 
-        // Check if we can exit from the current tile in this direction
-        if (fromTile && fromTile.exitPoints && fromTile.exitPoints.length > 0 && !fromTile.exitPoints.includes(direction)) {
-            return false;
-        }
-
-        // Check if we can enter the target tile from the opposite direction
-        const oppositeDirection = this.getOppositeDirection(direction);
-        if (toTile.entryPoints && toTile.entryPoints.length > 0 && !toTile.entryPoints.includes(oppositeDirection)) {
+        // Check if there's a connection between the nodes
+        if (!fromNode || !fromNode.connections[toNodeId]) {
             return false;
         }
 
@@ -527,72 +701,64 @@ class TileMapSystem {
     }
 
     /**
-     * Get the opposite direction
-     * @param {string} direction - Original direction
-     * @returns {string} Opposite direction
+     * Get connected nodes from a given node
+     * @param {string} nodeId - Node ID
+     * @returns {Array} Array of connected node IDs
      */
-    getOppositeDirection(direction) {
-        const opposites = {
-            'north': 'south',
-            'south': 'north',
-            'east': 'west',
-            'west': 'east'
-        };
-        return opposites[direction] || direction;
+    getConnectedNodes(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return [];
+        
+        return Object.keys(node.connections).filter(targetId => {
+            const targetNode = this.getNodeById(targetId);
+            return targetNode && targetNode.walkable;
+        });
     }
 
     /**
-     * Handle tile entry event
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
-     * @param {string} direction - Direction of entry
+     * Handle node entry event
+     * @param {string} nodeId - Node ID
      */
-    handleTileEntry(x, y, direction) {
-        const tile = this.getTileAt(x, y);
-        if (!tile) return;
+    handleNodeEntry(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
 
         // Execute onEnter event
-        if (tile.events && tile.events.onEnter) {
-            this.executeEvent(tile.events.onEnter, tile);
-        }
-
-        // Check for exit events (portals)
-        if (tile.events && tile.events.onExit) {
-            this.executeEvent(tile.events.onExit, tile);
+        if (node.events && node.events.onEnter) {
+            this.executeEvent(node.events.onEnter, node);
         }
 
         // Trigger callback
-        if (this.onTileEnter) {
-            this.onTileEnter(tile, x, y, direction);
+        if (this.onNodeEnter) {
+            this.onNodeEnter(node, nodeId);
         }
     }
 
     /**
-     * Handle tile interaction
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * Handle node interaction
+     * @param {string} nodeId - Node ID
      */
-    handleTileInteraction(x, y) {
-        const tile = this.getTileAt(x, y);
-        if (!tile) return;
+    handleNodeInteraction(nodeId) {
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
 
         // Execute onInteract event
-        if (tile.events && tile.events.onInteract) {
-            this.executeEvent(tile.events.onInteract, tile);
+        if (node.events && node.events.onInteract) {
+            this.executeEvent(node.events.onInteract, node);
         }
 
         // Trigger callback
-        if (this.onTileInteract) {
-            this.onTileInteract(tile, x, y);
+        if (this.onNodeInteract) {
+            this.onNodeInteract(node, nodeId);
         }
     }
 
     /**
-     * Execute a tile event safely
+     * Execute a node event safely
      * @param {string} eventCode - JavaScript code to execute
-     * @param {Object} tile - The tile that triggered the event
+     * @param {Object} node - The node that triggered the event
      */
-    executeEvent(eventCode, tile = null) {
+    executeEvent(eventCode, node = null) {
         if (!eventCode || typeof eventCode !== 'string') {
             console.warn('Invalid event code:', eventCode);
             return;
@@ -606,7 +772,7 @@ class TileMapSystem {
                 startEvent: (eventId) => this.startEvent(eventId),
                 loadMap: (mapId, position) => this.loadMap(mapId, position),
                 State: window.State || {}, // SugarCube State object
-                tile: tile, // Current tile context
+                node: node, // Current node context
                 system: this // Reference to the system
             };
 
@@ -615,7 +781,7 @@ class TileMapSystem {
             func(...Object.values(context));
 
         } catch (error) {
-            console.error('Error executing tile event:', error, '\nEvent code:', eventCode);
+            console.error('Error executing node event:', error, '\nEvent code:', eventCode);
         }
     }
 
@@ -624,14 +790,13 @@ class TileMapSystem {
      * @param {string} message - Message to display
      */
     showMessage(message) {
-        // This should integrate with your game's message system
-        console.log('Tile Message:', message);
+        console.log('Node Message:', message);
         
         // Integration with SugarCube
         if (window.UI && window.UI.alert) {
             window.UI.alert(message);
         } else if (window.Dialog && window.Dialog.setup && window.Dialog.open) {
-            window.Dialog.setup('Message', 'tile-message');
+            window.Dialog.setup('Message', 'node-message');
             window.Dialog.wiki(message);
             window.Dialog.open();
         } else {
@@ -646,7 +811,6 @@ class TileMapSystem {
      */
     openShop(shopId) {
         console.log('Opening shop:', shopId);
-        // This should integrate with your existing shop system
         if (window.ShopSystem && window.ShopSystem.openShop) {
             window.ShopSystem.openShop(shopId);
         } else {
@@ -660,7 +824,6 @@ class TileMapSystem {
      */
     startEvent(eventId) {
         console.log('Starting event:', eventId);
-        // This should integrate with your existing event system
         if (window.Engine && window.Engine.play) {
             window.Engine.play(eventId);
         } else {
@@ -670,117 +833,69 @@ class TileMapSystem {
 
     /**
      * Set player position (for visual indicators)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * @param {string} nodeId - Node ID
      */
-    setPlayerPosition(x, y) {
+    setPlayerPosition(nodeId) {
         // Remove previous player indicator
         const previousIndicator = this.container.querySelector('.player-indicator');
         if (previousIndicator) {
             previousIndicator.remove();
         }
 
+        const node = this.getNodeById(nodeId);
+        if (!node) return;
+
         // Create new player indicator
         const indicator = document.createElement('div');
         indicator.classList.add('player-indicator');
         indicator.style.position = 'absolute';
-        indicator.style.left = `${x * this.gridSize + this.gridSize / 4}px`;
-        indicator.style.top = `${y * this.gridSize + this.gridSize / 4}px`;
-        indicator.style.width = `${this.gridSize / 2}px`;
-        indicator.style.height = `${this.gridSize / 2}px`;
+        indicator.style.left = `${node.position.x - 10}px`;
+        indicator.style.top = `${node.position.y - 10}px`;
+        indicator.style.width = '20px';
+        indicator.style.height = '20px';
         indicator.style.zIndex = '1000';
         
         // Add position data for debugging
-        indicator.dataset.position = `${x},${y}`;
+        indicator.dataset.nodeId = nodeId;
 
-        this.container.appendChild(indicator);
+        this.nodesContainer.appendChild(indicator);
     }
 
     /**
-     * Update dynamic tiles based on current game state
+     * Update dynamic nodes based on current game state
      */
-    updateDynamicTiles() {
+    updateDynamicNodes() {
         if (!this.currentMapData) return;
 
-        const updatedTiles = new Set();
+        const updatedNodes = new Set();
         
-        // Check each tile for condition changes
-        for (const originalTile of this.currentMapData.tiles) {
-            const currentTile = this.tiles.get(originalTile.id);
-            if (!currentTile) continue;
+        // Check each node for condition changes
+        for (const originalNode of this.currentMapData.nodes) {
+            const currentNode = this.nodes.get(originalNode.id);
+            if (!currentNode) continue;
             
             // Re-evaluate dynamic conditions
-            const updatedTile = JSON.parse(JSON.stringify(originalTile));
-            this.applyDynamicConditions(updatedTile);
+            const updatedNode = JSON.parse(JSON.stringify(originalNode));
+            this.applyDynamicConditions(updatedNode);
             
-            // Check if tile has changed
-            if (JSON.stringify(currentTile) !== JSON.stringify(updatedTile)) {
-                updatedTiles.add(updatedTile.id);
-                this.tiles.set(updatedTile.id, updatedTile);
+            // Check if node has changed
+            if (JSON.stringify(currentNode) !== JSON.stringify(updatedNode)) {
+                updatedNodes.add(updatedNode.id);
+                this.nodes.set(updatedNode.id, updatedNode);
             }
         }
         
-        // Re-render only changed tiles
-        for (const tileId of updatedTiles) {
-            const tile = this.tiles.get(tileId);
-            const existingElement = this.tileElements.get(tileId);
+        // Re-render only changed nodes
+        for (const nodeId of updatedNodes) {
+            const node = this.nodes.get(nodeId);
+            const existingElement = this.nodeElements.get(nodeId);
             
             if (existingElement) {
                 existingElement.remove();
-                this.tileElements.delete(tileId);
+                this.nodeElements.delete(nodeId);
             }
             
-            this.renderTile(tile);
-        }
-        
-        // Rebuild cache if tiles changed
-        if (updatedTiles.size > 0) {
-            this.buildTileCache();
-        }
-    }
-
-    /**
-     * Set up ambient events system
-     */
-    setupAmbientEvents() {
-        // Clear any existing interval
-        if (this.ambientEventInterval) {
-            clearInterval(this.ambientEventInterval);
-        }
-        
-        // Check for ambient events periodically
-        this.ambientEventInterval = setInterval(() => {
-            if (!this.isDestroyed) {
-                this.checkAmbientEvents();
-            }
-        }, 10000); // Check every 10 seconds
-    }
-
-    /**
-     * Check and potentially trigger ambient events
-     */
-    checkAmbientEvents() {
-        if (!this.currentMapData || !this.currentMapData.ambientEvents) return;
-
-        for (const ambientEvent of this.currentMapData.ambientEvents) {
-            // Check probability
-            if (Math.random() > ambientEvent.probability) continue;
-
-            // Check conditions
-            let conditionsMet = true;
-            if (ambientEvent.conditions) {
-                for (const condition of ambientEvent.conditions) {
-                    if (!this.evaluateCondition(condition)) {
-                        conditionsMet = false;
-                        break;
-                    }
-                }
-            }
-
-            if (conditionsMet) {
-                this.showMessage(ambientEvent.message);
-                break; // Only trigger one ambient event at a time
-            }
+            this.renderNode(node);
         }
     }
 
@@ -792,73 +907,38 @@ class TileMapSystem {
         return {
             mapId: this.currentMap,
             mapData: this.currentMapData,
-            tiles: Array.from(this.tiles.values())
+            nodes: Array.from(this.nodes.values())
         };
     }
 
     /**
-     * Toggle grid display
-     */
-    toggleGrid() {
-        this.showGrid = !this.showGrid;
-        if (this.showGrid) {
-            this.gridContainer.classList.add('show-grid');
-        } else {
-            this.gridContainer.classList.remove('show-grid');
-        }
-    }
-
-    /**
-     * Enable debug mode
-     * @param {boolean} enabled - Whether to enable debug mode
-     */
-    setDebugMode(enabled) {
-        if (enabled) {
-            this.container.classList.add('debug-mode');
-        } else {
-            this.container.classList.remove('debug-mode');
-        }
-    }
-
-    /**
-     * Destroy the tile map system and clean up resources
+     * Destroy the node map system and clean up resources
      */
     destroy() {
         this.isDestroyed = true;
         
-        // Clear ambient event interval
-        if (this.ambientEventInterval) {
-            clearInterval(this.ambientEventInterval);
-            this.ambientEventInterval = null;
-        }
-        
-        // Disconnect viewport observer
-        if (this.viewportObserver) {
-            this.viewportObserver.disconnect();
-            this.viewportObserver = null;
-        }
-        
         // Clear DOM
         if (this.container) {
             this.container.innerHTML = '';
-            this.container.classList.remove('tile-map-container', 'loading', 'debug-mode');
+            this.container.classList.remove('node-map-container', 'loading');
         }
         
         // Clear data structures
-        this.tiles.clear();
-        this.tileElements.clear();
-        this.tileCache.clear();
-        this.imagePreloadCache.clear();
+        this.nodes.clear();
+        this.nodeElements.clear();
+        this.connectionElements.clear();
         
         // Clear references
         this.currentMap = null;
         this.currentMapData = null;
         this.container = null;
-        this.gridContainer = null;
-        
-        console.log('TileMapSystem destroyed');
+        this.mapContainer = null;
+        this.svg = null;
+        this.nodesContainer = null;
+
+        console.log('NodeMapSystem destroyed');
     }
 }
 
 // Export for use in other modules
-window.TileMapSystem = TileMapSystem;
+window.NodeMapSystem = NodeMapSystem;

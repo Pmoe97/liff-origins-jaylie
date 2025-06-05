@@ -1,32 +1,31 @@
 /**
- * TileNavigationSystem.js - Improved Version
+ * NodeNavigationSystem.js - Node Network Version
  * 
- * Handles player navigation within the tile-based map system.
+ * Handles player navigation within the node-based map system.
  * Manages WASD movement controls, position tracking, movement validation,
- * interaction handling, and map transitions.
+ * interaction handling, and map transitions between connected nodes.
  * 
- * Improvements:
- * - Better memory management and cleanup
- * - Debounced movement for smoother controls
- * - Enhanced error handling
- * - Improved event listener management
- * - Better separation of concerns
- * - Performance optimizations
+ * Features:
+ * - Node-to-node movement based on connections
+ * - Visual movement indicators and animations
+ * - Connection-based validation instead of grid neighbors
+ * - Support for different connection types
+ * - Click/tap navigation support
  */
 
-class TileNavigationSystem {
+class NodeNavigationSystem {
     /**
-     * Initialize the TileNavigationSystem
-     * @param {TileMapSystem} tileMapSystem - Reference to the tile map system
+     * Initialize the NodeNavigationSystem
+     * @param {NodeMapSystem} nodeMapSystem - Reference to the node map system
      * @param {Object} options - Configuration options
      */
-    constructor(tileMapSystem, options = {}) {
-        if (!tileMapSystem) {
-            throw new Error('TileNavigationSystem requires a TileMapSystem instance');
+    constructor(nodeMapSystem, options = {}) {
+        if (!nodeMapSystem) {
+            throw new Error('NodeNavigationSystem requires a NodeMapSystem instance');
         }
         
-        this.tileMapSystem = tileMapSystem;
-        this.playerPosition = { x: 0, y: 0 };
+        this.nodeMapSystem = nodeMapSystem;
+        this.currentNodeId = null;
         this.isMoving = false;
         this.movementSpeed = options.movementSpeed || 300; // Animation duration in ms
         this.enableAnimations = options.enableAnimations !== false;
@@ -35,11 +34,11 @@ class TileNavigationSystem {
         // Input handling
         this.keyStates = new Map();
         this.inputEnabled = true;
-        this.movementCooldown = options.movementCooldown || 50; // Minimum time between moves
+        this.movementCooldown = options.movementCooldown || 200; // Minimum time between moves
         this.lastMoveTime = 0;
         this.queuedMovement = null;
         
-        // Key mappings
+        // Key mappings for directional movement
         this.movementKeys = {
             'KeyW': 'north',
             'KeyA': 'west', 
@@ -63,6 +62,7 @@ class TileNavigationSystem {
         this.boundHandleKeyUp = this.handleKeyUp.bind(this);
         this.boundHandleKeyPress = this.handleKeyPress.bind(this);
         this.boundHandleFocus = this.handleFocus.bind(this);
+        this.boundHandleNodeClick = this.handleNodeClick.bind(this);
         
         // Movement queue for smooth controls
         this.movementQueue = [];
@@ -82,11 +82,11 @@ class TileNavigationSystem {
     initialize() {
         this.setupEventListeners();
         this.startMovementQueueProcessor();
-        console.log('TileNavigationSystem initialized');
+        console.log('NodeNavigationSystem initialized');
     }
 
     /**
-     * Set up keyboard event listeners
+     * Set up keyboard and mouse event listeners
      */
     setupEventListeners() {
         // Keyboard event listeners
@@ -99,16 +99,50 @@ class TileNavigationSystem {
         // Focus management to ensure key events are captured
         document.addEventListener('click', this.boundHandleFocus);
         
+        // Node click handlers for mouse/touch navigation
+        this.setupNodeClickHandlers();
+        
         // Initial focus
         this.handleFocus();
+    }
+
+    /**
+     * Set up click handlers for nodes
+     */
+    setupNodeClickHandlers() {
+        // Use event delegation for better performance
+        if (this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.addEventListener('click', this.boundHandleNodeClick);
+        }
+    }
+
+    /**
+     * Handle node click events
+     * @param {Event} event - Click event
+     */
+    handleNodeClick(event) {
+        if (!this.inputEnabled || this.isMoving || this.isDestroyed) return;
+
+        const nodeElement = event.target.closest('.node');
+        if (!nodeElement) return;
+
+        const targetNodeId = nodeElement.dataset.nodeId;
+        if (!targetNodeId || targetNodeId === this.currentNodeId) return;
+
+        // Check if the clicked node is connected to current node
+        if (this.isValidMovement(this.currentNodeId, targetNodeId)) {
+            this.moveToNode(targetNodeId);
+        } else {
+            this.handleBlockedMovement('click', targetNodeId);
+        }
     }
 
     /**
      * Handle focus management
      */
     handleFocus() {
-        if (this.inputEnabled && this.tileMapSystem.container) {
-            this.tileMapSystem.container.focus();
+        if (this.inputEnabled && this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.focus();
         }
     }
 
@@ -203,23 +237,18 @@ class TileNavigationSystem {
      */
     handleDebugKeys(event) {
         switch (event.code) {
-            case 'KeyG':
-                // Toggle grid display
-                this.tileMapSystem.toggleGrid();
-                console.log('Grid display toggled');
-                break;
             case 'KeyI':
                 // Show current position info
                 this.showPositionInfo();
                 break;
             case 'KeyR':
-                // Refresh dynamic tiles
-                this.tileMapSystem.updateDynamicTiles();
-                console.log('Dynamic tiles refreshed');
+                // Refresh dynamic nodes
+                this.nodeMapSystem.updateDynamicNodes();
+                console.log('Dynamic nodes refreshed');
                 break;
-            case 'KeyD':
-                // Toggle debug mode display
-                this.tileMapSystem.setDebugMode(!this.tileMapSystem.container.classList.contains('debug-mode'));
+            case 'KeyC':
+                // Show connections from current node
+                this.showConnectionInfo();
                 break;
         }
     }
@@ -229,124 +258,147 @@ class TileNavigationSystem {
      * @param {string} direction - Movement direction (north, south, east, west)
      */
     attemptMovement(direction) {
-        if (this.isMoving || !this.inputEnabled || this.isDestroyed) return;
+        if (this.isMoving || !this.inputEnabled || this.isDestroyed || !this.currentNodeId) return;
 
-        const currentPos = this.playerPosition;
-        const targetPos = this.calculateTargetPosition(currentPos, direction);
-
-        // Check if movement is valid
-        if (!this.isValidMovement(currentPos, targetPos, direction)) {
-            this.handleBlockedMovement(direction, targetPos);
+        // Find the best connected node in the given direction
+        const targetNodeId = this.findNodeInDirection(direction);
+        
+        if (!targetNodeId) {
+            this.handleBlockedMovement(direction, null);
             return;
         }
 
         // Execute the movement
-        this.executeMovement(targetPos, direction);
+        this.moveToNode(targetNodeId);
         this.lastMoveTime = Date.now();
     }
 
     /**
-     * Calculate target position based on current position and direction
-     * @param {Object} currentPos - Current position {x, y}
+     * Find the best connected node in a given direction
      * @param {string} direction - Movement direction
-     * @returns {Object} Target position {x, y}
+     * @returns {string|null} Target node ID or null if none found
      */
-    calculateTargetPosition(currentPos, direction) {
-        const { x, y } = currentPos;
-        
-        switch (direction) {
-            case 'north': return { x, y: y - 1 };
-            case 'south': return { x, y: y + 1 };
-            case 'east': return { x: x + 1, y };
-            case 'west': return { x: x - 1, y };
-            default: return currentPos;
+    findNodeInDirection(direction) {
+        if (!this.currentNodeId) return null;
+
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        if (!currentNode) return null;
+
+        const connectedNodeIds = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
+        if (connectedNodeIds.length === 0) return null;
+
+        // Get current node position
+        const currentPos = currentNode.position;
+        let bestNode = null;
+        let bestScore = -Infinity;
+
+        // Find the node that best matches the direction
+        for (const nodeId of connectedNodeIds) {
+            const node = this.nodeMapSystem.getNodeById(nodeId);
+            if (!node) continue;
+
+            const nodePos = node.position;
+            const dx = nodePos.x - currentPos.x;
+            const dy = nodePos.y - currentPos.y;
+
+            // Calculate direction score based on movement direction
+            let score = 0;
+            switch (direction) {
+                case 'north':
+                    score = -dy + Math.abs(dx) * -0.5; // Prefer upward movement, penalize horizontal
+                    break;
+                case 'south':
+                    score = dy + Math.abs(dx) * -0.5; // Prefer downward movement
+                    break;
+                case 'east':
+                    score = dx + Math.abs(dy) * -0.5; // Prefer rightward movement
+                    break;
+                case 'west':
+                    score = -dx + Math.abs(dy) * -0.5; // Prefer leftward movement
+                    break;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestNode = nodeId;
+            }
         }
+
+        // Only return a node if it's actually in the right direction
+        return bestScore > 0 ? bestNode : null;
     }
 
     /**
-     * Check if movement is valid
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
-     * @param {string} direction - Movement direction
-     * @returns {boolean} True if movement is valid
+     * Move to a specific node
+     * @param {string} targetNodeId - Target node ID
      */
-    isValidMovement(fromPos, toPos, direction) {
-        // Check map boundaries
-        if (!this.isWithinMapBounds(toPos)) {
-            return false;
+    moveToNode(targetNodeId) {
+        if (this.isMoving || !this.inputEnabled || this.isDestroyed) return;
+
+        // Validate movement
+        if (!this.isValidMovement(this.currentNodeId, targetNodeId)) {
+            this.handleBlockedMovement('direct', targetNodeId);
+            return;
         }
 
-        // Use tile map system to validate movement
-        return this.tileMapSystem.isValidMovement(
-            fromPos.x, fromPos.y,
-            toPos.x, toPos.y,
-            direction
-        );
-    }
-
-    /**
-     * Check if position is within map boundaries
-     * @param {Object} position - Position to check {x, y}
-     * @returns {boolean} True if within bounds
-     */
-    isWithinMapBounds(position) {
-        const mapData = this.tileMapSystem.currentMapData;
-        if (!mapData) return false;
-
-        const { x, y } = position;
-        const { width, height } = mapData.size;
-
-        return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
-    /**
-     * Execute player movement to target position
-     * @param {Object} targetPos - Target position {x, y}
-     * @param {string} direction - Movement direction
-     */
-    executeMovement(targetPos, direction) {
         this.isMoving = true;
-        const previousPos = { ...this.playerPosition };
+        const previousNodeId = this.currentNodeId;
 
-        // Update player position
-        this.playerPosition = targetPos;
-
-        // Handle tile exit events from previous position
-        const previousTile = this.tileMapSystem.getTileAt(previousPos.x, previousPos.y);
-        if (previousTile && previousTile.events && previousTile.events.onExit) {
-            this.tileMapSystem.executeEvent(previousTile.events.onExit, previousTile);
+        // Handle node exit events from previous node
+        if (previousNodeId) {
+            this.nodeMapSystem.handleNodeEntry(targetNodeId);
         }
+
+        // Update current node
+        this.currentNodeId = targetNodeId;
 
         // Update visual position
         if (this.enableAnimations) {
-            this.animateMovement(previousPos, targetPos, () => {
-                this.completeMovement(previousPos, targetPos, direction);
+            this.animateMovement(previousNodeId, targetNodeId, () => {
+                this.completeMovement(previousNodeId, targetNodeId);
             });
         } else {
-            this.tileMapSystem.setPlayerPosition(targetPos.x, targetPos.y);
-            this.completeMovement(previousPos, targetPos, direction);
+            this.nodeMapSystem.setPlayerPosition(targetNodeId);
+            this.completeMovement(previousNodeId, targetNodeId);
         }
     }
 
     /**
-     * Animate player movement between positions
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
+     * Check if movement is valid from one node to another
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
+     * @returns {boolean} True if movement is valid
+     */
+    isValidMovement(fromNodeId, toNodeId) {
+        return this.nodeMapSystem.isValidMovement(fromNodeId, toNodeId);
+    }
+
+    /**
+     * Animate player movement between nodes
+     * @param {string} fromNodeId - Starting node ID
+     * @param {string} toNodeId - Target node ID
      * @param {Function} onComplete - Callback when animation completes
      */
-    animateMovement(fromPos, toPos, onComplete) {
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+    animateMovement(fromNodeId, toNodeId, onComplete) {
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (!playerIndicator) {
             // No visual indicator, just complete immediately
             onComplete();
             return;
         }
 
-        const gridSize = this.tileMapSystem.gridSize;
-        const startX = fromPos.x * gridSize + gridSize / 4;
-        const startY = fromPos.y * gridSize + gridSize / 4;
-        const endX = toPos.x * gridSize + gridSize / 4;
-        const endY = toPos.y * gridSize + gridSize / 4;
+        const fromNode = this.nodeMapSystem.getNodeById(fromNodeId);
+        const toNode = this.nodeMapSystem.getNodeById(toNodeId);
+        
+        if (!fromNode || !toNode) {
+            onComplete();
+            return;
+        }
+
+        const startX = fromNode.position.x - 10;
+        const startY = fromNode.position.y - 10;
+        const endX = toNode.position.x - 10;
+        const endY = toNode.position.y - 10;
 
         // Cancel any existing animation
         if (this.currentAnimationFrame) {
@@ -390,51 +442,42 @@ class TileNavigationSystem {
 
     /**
      * Complete movement and trigger callbacks
-     * @param {Object} previousPos - Previous position {x, y}
-     * @param {Object} newPos - New position {x, y}
-     * @param {string} direction - Movement direction
+     * @param {string} previousNodeId - Previous node ID
+     * @param {string} newNodeId - New node ID
      */
-    completeMovement(previousPos, newPos, direction) {
+    completeMovement(previousNodeId, newNodeId) {
         this.isMoving = false;
 
-        // Handle tile entry events
-        this.tileMapSystem.handleTileEntry(newPos.x, newPos.y, direction);
+        // Handle node entry events
+        this.nodeMapSystem.handleNodeEntry(newNodeId);
 
         // Trigger position change callback
         if (this.onPositionChange) {
-            this.onPositionChange(newPos, previousPos, direction);
+            this.onPositionChange(newNodeId, previousNodeId);
         }
 
         // Check for map transitions
         this.checkMapTransitions();
 
-        // Check if movement key is still held for continuous movement
-        for (const [key, dir] of Object.entries(this.movementKeys)) {
-            if (this.keyStates.get(key) && dir === direction) {
-                this.queuedMovement = direction;
-                break;
-            }
-        }
-
         // Debug output
         if (this.debugMode) {
-            console.log(`Moved ${direction} to (${newPos.x}, ${newPos.y})`);
+            console.log(`Moved from ${previousNodeId} to ${newNodeId}`);
         }
     }
 
     /**
      * Handle blocked movement
-     * @param {string} direction - Attempted movement direction
-     * @param {Object} targetPos - Target position that was blocked
+     * @param {string} direction - Attempted movement direction or type
+     * @param {string} targetNodeId - Target node that was blocked
      */
-    handleBlockedMovement(direction, targetPos) {
+    handleBlockedMovement(direction, targetNodeId) {
         if (this.debugMode) {
-            console.log(`Movement blocked: ${direction} to (${targetPos.x}, ${targetPos.y})`);
+            console.log(`Movement blocked: ${direction} to ${targetNodeId}`);
         }
 
         // Trigger blocked movement callback
         if (this.onMovementBlocked) {
-            this.onMovementBlocked(direction, targetPos);
+            this.onMovementBlocked(direction, targetNodeId);
         }
 
         // Visual feedback for blocked movement
@@ -446,95 +489,65 @@ class TileNavigationSystem {
      * @param {string} direction - Blocked direction
      */
     showBlockedMovementFeedback(direction) {
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (!playerIndicator) return;
 
         // Add blocked movement class for visual feedback
         playerIndicator.classList.add('movement-blocked');
         
-        // Small shake animation in blocked direction
-        const gridSize = this.tileMapSystem.gridSize;
-        const shakeDistance = 5;
-        const originalLeft = parseFloat(playerIndicator.style.left);
-        const originalTop = parseFloat(playerIndicator.style.top);
-        
-        let offsetX = 0, offsetY = 0;
-        switch (direction) {
-            case 'north': offsetY = -shakeDistance; break;
-            case 'south': offsetY = shakeDistance; break;
-            case 'east': offsetX = shakeDistance; break;
-            case 'west': offsetX = -shakeDistance; break;
-        }
+        // Small shake animation
+        const originalTransform = playerIndicator.style.transform || '';
         
         // Animate shake
-        playerIndicator.style.transition = 'all 0.1s ease-out';
-        playerIndicator.style.left = `${originalLeft + offsetX}px`;
-        playerIndicator.style.top = `${originalTop + offsetY}px`;
+        playerIndicator.style.transition = 'transform 0.1s ease-out';
+        playerIndicator.style.transform = `${originalTransform} translateX(-3px)`;
         
         setTimeout(() => {
-            playerIndicator.style.left = `${originalLeft}px`;
-            playerIndicator.style.top = `${originalTop}px`;
+            playerIndicator.style.transform = `${originalTransform} translateX(3px)`;
             
             setTimeout(() => {
-                playerIndicator.style.transition = '';
-                playerIndicator.classList.remove('movement-blocked');
-            }, 100);
-        }, 100);
+                playerIndicator.style.transform = originalTransform;
+                
+                setTimeout(() => {
+                    playerIndicator.style.transition = '';
+                    playerIndicator.classList.remove('movement-blocked');
+                }, 100);
+            }, 50);
+        }, 50);
     }
 
     /**
-     * Handle interaction with current tile
+     * Handle interaction with current node
      */
     handleInteraction() {
-        if (this.isMoving || this.isDestroyed) return;
+        if (this.isMoving || this.isDestroyed || !this.currentNodeId) return;
 
-        const { x, y } = this.playerPosition;
-        
-        // Check for interactive tiles in all adjacent positions
-        const positions = [
-            { x, y }, // Current position
-            { x, y: y - 1 }, // North
-            { x: x + 1, y }, // East
-            { x, y: y + 1 }, // South
-            { x: x - 1, y } // West
-        ];
-        
-        let interacted = false;
-        for (const pos of positions) {
-            if (this.isWithinMapBounds(pos)) {
-                const tile = this.tileMapSystem.getTileAt(pos.x, pos.y);
-                if (tile && tile.events && tile.events.onInteract) {
-                    // Handle tile interaction
-                    this.tileMapSystem.handleTileInteraction(pos.x, pos.y);
-                    interacted = true;
-                    break;
-                }
-            }
-        }
+        // Handle current node interaction
+        this.nodeMapSystem.handleNodeInteraction(this.currentNodeId);
 
         // Trigger interaction callback
         if (this.onInteraction) {
-            this.onInteraction(x, y, interacted);
+            this.onInteraction(this.currentNodeId, true);
         }
 
         if (this.debugMode) {
-            console.log(`Interaction at (${x}, ${y}) - ${interacted ? 'Success' : 'No interactive tile found'}`);
+            console.log(`Interaction at node: ${this.currentNodeId}`);
         }
     }
 
     /**
-     * Check for map transitions based on current position
+     * Check for map transitions based on current node
      */
     checkMapTransitions() {
-        const mapData = this.tileMapSystem.currentMapData;
+        const mapData = this.nodeMapSystem.currentMapData;
         if (!mapData || !mapData.portals) return;
 
-        const currentTile = this.tileMapSystem.getTileAt(this.playerPosition.x, this.playerPosition.y);
-        if (!currentTile) return;
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        if (!currentNode) return;
 
-        // Check if current tile triggers a portal
+        // Check if current node triggers a portal
         for (const portal of mapData.portals) {
-            if (portal.triggerTileId === currentTile.id) {
+            if (portal.triggerNodeId === currentNode.id) {
                 // Check portal conditions
                 if (this.checkPortalConditions(portal)) {
                     this.executeMapTransition(portal);
@@ -555,7 +568,7 @@ class TileNavigationSystem {
         }
 
         for (const condition of portal.conditions) {
-            if (!this.tileMapSystem.evaluateCondition(condition)) {
+            if (!this.nodeMapSystem.evaluateCondition(condition)) {
                 return false;
             }
         }
@@ -582,12 +595,12 @@ class TileNavigationSystem {
 
         try {
             // Load the new map
-            const success = await this.tileMapSystem.loadMap(portal.targetMap, portal.targetPosition);
+            const success = await this.nodeMapSystem.loadMap(portal.targetMap, { nodeId: portal.targetNodeId });
             
             if (success) {
                 // Update player position
-                if (portal.targetPosition) {
-                    this.setPosition(portal.targetPosition.x, portal.targetPosition.y, true);
+                if (portal.targetNodeId) {
+                    this.setPosition(portal.targetNodeId, true);
                 }
             } else {
                 console.error(`Failed to load map: ${portal.targetMap}`);
@@ -602,30 +615,29 @@ class TileNavigationSystem {
 
     /**
      * Set player position
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * @param {string} nodeId - Node ID
      * @param {boolean} updateVisual - Whether to update visual position
      */
-    setPosition(x, y, updateVisual = true) {
-        const previousPos = { ...this.playerPosition };
-        this.playerPosition = { x, y };
+    setPosition(nodeId, updateVisual = true) {
+        const previousNodeId = this.currentNodeId;
+        this.currentNodeId = nodeId;
         
         if (updateVisual) {
-            this.tileMapSystem.setPlayerPosition(x, y);
+            this.nodeMapSystem.setPlayerPosition(nodeId);
         }
 
         // Trigger position change callback
         if (this.onPositionChange) {
-            this.onPositionChange({ x, y }, previousPos, null);
+            this.onPositionChange(nodeId, previousNodeId);
         }
     }
 
     /**
      * Get current player position
-     * @returns {Object} Current position {x, y}
+     * @returns {string} Current node ID
      */
     getPosition() {
-        return { ...this.playerPosition };
+        return this.currentNodeId;
     }
 
     /**
@@ -668,7 +680,7 @@ class TileNavigationSystem {
         }
         
         // Remove any transition animations
-        const playerIndicator = this.tileMapSystem.container.querySelector('.player-indicator');
+        const playerIndicator = this.nodeMapSystem.container.querySelector('.player-indicator');
         if (playerIndicator) {
             playerIndicator.style.transition = '';
         }
@@ -678,79 +690,74 @@ class TileNavigationSystem {
      * Show current position information (debug)
      */
     showPositionInfo() {
-        const { x, y } = this.playerPosition;
-        const currentTile = this.tileMapSystem.getTileAt(x, y);
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        const connectedNodes = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
         
         console.group('Position Info');
-        console.log(`Position: (${x}, ${y})`);
-        console.log('Current Tile:', currentTile);
-        console.log('Map:', this.tileMapSystem.currentMap);
-        console.log('Valid Directions:', this.getValidDirections());
+        console.log(`Current Node: ${this.currentNodeId}`);
+        console.log('Node Data:', currentNode);
+        console.log('Connected Nodes:', connectedNodes);
+        console.log('Map:', this.nodeMapSystem.currentMap);
         console.log('Key States:', Array.from(this.keyStates.entries()));
         console.groupEnd();
     }
 
     /**
-     * Get movement direction from two positions
-     * @param {Object} fromPos - Starting position {x, y}
-     * @param {Object} toPos - Target position {x, y}
-     * @returns {string|null} Direction or null if not adjacent
+     * Show connection information (debug)
      */
-    getMovementDirection(fromPos, toPos) {
-        const dx = toPos.x - fromPos.x;
-        const dy = toPos.y - fromPos.y;
-
-        if (Math.abs(dx) + Math.abs(dy) !== 1) {
-            return null; // Not adjacent
+    showConnectionInfo() {
+        if (!this.currentNodeId) {
+            console.log('No current node');
+            return;
         }
 
-        if (dx === 1) return 'east';
-        if (dx === -1) return 'west';
-        if (dy === 1) return 'south';
-        if (dy === -1) return 'north';
-
-        return null;
+        const currentNode = this.nodeMapSystem.getNodeById(this.currentNodeId);
+        const connectedNodes = this.nodeMapSystem.getConnectedNodes(this.currentNodeId);
+        
+        console.group('Connection Info');
+        console.log(`Current Node: ${this.currentNodeId}`);
+        console.log('Connections:', currentNode?.connections || {});
+        console.log('Valid Connected Nodes:', connectedNodes);
+        console.groupEnd();
     }
 
     /**
-     * Teleport player to specific position (no movement validation)
-     * @param {number} x - Grid X coordinate
-     * @param {number} y - Grid Y coordinate
+     * Teleport player to specific node (no movement validation)
+     * @param {string} nodeId - Node ID
      */
-    teleport(x, y) {
-        const previousPos = { ...this.playerPosition };
-        this.playerPosition = { x, y };
+    teleport(nodeId) {
+        const previousNodeId = this.currentNodeId;
+        this.currentNodeId = nodeId;
         
         // Stop any ongoing movement
         this.stopMovement();
         
         // Update visual position immediately
-        this.tileMapSystem.setPlayerPosition(x, y);
+        this.nodeMapSystem.setPlayerPosition(nodeId);
         
-        // Handle tile entry
-        this.tileMapSystem.handleTileEntry(x, y, null);
+        // Handle node entry
+        this.nodeMapSystem.handleNodeEntry(nodeId);
         
         // Trigger callbacks
         if (this.onPositionChange) {
-            this.onPositionChange({ x, y }, previousPos, 'teleport');
+            this.onPositionChange(nodeId, previousNodeId);
         }
 
         if (this.debugMode) {
-            console.log(`Teleported to (${x}, ${y})`);
+            console.log(`Teleported to node: ${nodeId}`);
         }
     }
 
     /**
-     * Get valid movement directions from current position
+     * Get valid movement directions from current node
      * @returns {Array} Array of valid direction strings
      */
     getValidDirections() {
         const validDirections = [];
-        const currentPos = this.playerPosition;
-
+        
         for (const direction of ['north', 'south', 'east', 'west']) {
-            const targetPos = this.calculateTargetPosition(currentPos, direction);
-            if (this.isValidMovement(currentPos, targetPos, direction)) {
+            const targetNodeId = this.findNodeInDirection(direction);
+            if (targetNodeId) {
                 validDirections.push(direction);
             }
         }
@@ -764,7 +771,6 @@ class TileNavigationSystem {
      */
     setDebugMode(enabled) {
         this.debugMode = enabled;
-        this.tileMapSystem.setDebugMode(enabled);
     }
 
     /**
@@ -791,15 +797,22 @@ class TileNavigationSystem {
         document.removeEventListener('keydown', this.boundHandleKeyPress);
         document.removeEventListener('click', this.boundHandleFocus);
         
+        if (this.nodeMapSystem.container) {
+            this.nodeMapSystem.container.removeEventListener('click', this.boundHandleNodeClick);
+        }
+        
         // Reset state
         this.keyStates.clear();
         this.isMoving = false;
         this.inputEnabled = false;
         this.queuedMovement = null;
+        this.currentNodeId = null;
         
-        console.log('TileNavigationSystem destroyed');
+        console.log('NodeNavigationSystem destroyed');
     }
 }
 
 // Export for use in other modules
-window.TileNavigationSystem = TileNavigationSystem;
+window.NodeNavigationSystem = NodeNavigationSystem;
+// Maintain backward compatibility
+window.TileNavigationSystem = NodeNavigationSystem;
