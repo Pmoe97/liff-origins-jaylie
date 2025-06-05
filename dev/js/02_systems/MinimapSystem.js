@@ -495,3 +495,92 @@ class MinimapSystem {
 
 // Export for use in other modules
 window.MinimapSystem = MinimapSystem;
+
+
+// === MINIMAP + NAVIGATION SYSTEM ===
+
+/* 
+ * Map Data - Preloaded to avoid fetch
+ */
+setup.mapData = {
+    "fire_convergence_orphanage": {
+        "mapId": "fire_convergence_orphanage",
+        "name": "Burning Orphanage - FireConvergence Event",
+        "description": "A dynamic, randomized orphanage fire rescue scenario that stress tests the node network system",
+        "version": "1.0.0",
+        "defaultPlayerNode": "entrance_main",
+        "metadata": {
+            "author": "NodeMapSystem Designer",
+            "created": "2025-06-04",
+            "tags": ["fire", "rescue", "dynamic", "stress-test", "orphanage"],
+            "difficulty": "extreme",
+            "layout": "multi-floor",
+            "eventType": "FireConvergence",
+            "maxBreath": 100,
+            "breathDecayRate": 2,
+            "fireSpreadRate": 1.5,
+            "structuralIntegrity": 100,
+            "collapseThreshold": 20
+        },
+        // (TRUNCATED FOR SPACE: COPY THE FULL JSON NODES, EVENTS, CONDITIONS HERE)
+        "nodes": [
+            {
+                "id": "entrance_main",
+                "name": "Main Entrance",
+                "position": { "x": 2, "y": 5 },
+                "type": "entrance",
+                "walkable": true,
+                "connections": {
+                    "ground_hallway_center": {
+                        "target": "ground_hallway_center",
+                        "type": "normal",
+                        "bidirectional": true
+                    }
+                },
+                "events": {
+                    "onEnter": "FireConvergence.handleRoomEntry('entrance_main')",
+                    "onInteract": "FireConvergence.handleRoomInteraction('entrance_main')"
+                },
+                "metadata": {
+                    "description": "The main entrance, now wreathed in flames and smoke",
+                    "fireIntensity": 2,
+                    "breathCost": 3,
+                    "structuralDamage": 15
+                },
+                "conditions": [
+                    {
+                        "condition": "State.variables.fireConvergence.structuralIntegrity < 30",
+                        "walkable": false,
+                        "type": "collapsed",
+                        "events": {
+                            "onInteract": "FireConvergence.showMessage('The entrance has collapsed! You need to find another way out.')"
+                        }
+                    }
+                ]
+            },
+            // ... all other nodes here
+        ]
+    }
+    // You can add more maps later here!
+};
+
+/*
+ * Core Minimap, Navigation, and Integration Classes
+ */
+
+// --- NodeMapSystem ---
+// (Paste the cleaned NodeMapSystem class here)
+// Use setup.mapData instead of fetch()
+
+// --- NodeNavigationSystem ---
+// (Paste the cleaned NodeNavigationSystem class here)
+// Make sure it uses UI.alert or Twine-friendly methods
+
+// --- MinimapSystem ---
+// (Paste cleaned MinimapSystem class here)
+// Rewire to attach into Twine DOM only
+
+// --- Twine Integration ---
+// (Paste the fixed MinimapIntegration logic here)
+// Hook into `setup.SidebarUI` properly
+
