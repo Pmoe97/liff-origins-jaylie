@@ -751,7 +751,7 @@ startGame() {
 
     if (!session || !player || player.isEliminated) {
       console.warn("[CrownAndCaste] Cannot evaluate combos: invalid session or player.");
-      return { name: "High Dice", usedDice: [], rank: 0 };
+      return { name: "High Dice", usedDice: [], rank: 0, comboValues: [], highCard: 0 };
     }
 
     const fullDiceSet = player.casteDice.concat(session.crownDice);
@@ -759,7 +759,7 @@ startGame() {
 
     if (!result || !result.name) {
       console.warn("[CrownAndCaste] Invalid combo evaluation result. Defaulting to High Dice.");
-      return { name: "High Dice", usedDice: [], rank: 0 };
+      return { name: "High Dice", usedDice: [], rank: 0, comboValues: [], highCard: 0 };
     }
 
     // 🟣 House Rule: Royal Flush enforcement
@@ -770,12 +770,113 @@ startGame() {
       const usesOnlyCrownDice = result.usedDice.every(i => i >= 3);
       if (!usesOnlyCrownDice) {
         console.log("[CrownAndCaste] Royal Flush rule active — straight invalidated.");
-        return { name: "High Dice", usedDice: [], rank: 0 };
+        return { name: "High Dice", usedDice: [], rank: 0, comboValues: [], highCard: 0 };
       }
     }
 
-    return result;
-  },  
+    // Enhanced combo evaluation with detailed values for tie-breaking
+    const enhancedResult = this.enhanceComboDetails(result, fullDiceSet);
+    return enhancedResult;
+  },
+
+  enhanceComboDetails(baseResult, fullDiceSet) {
+    const counts = {};
+    fullDiceSet.forEach(die => {
+      if (die !== null) {
+        counts[die] = (counts[die] || 0) + 1;
+      }
+    });
+
+    let comboValues = [];
+    let highCard = 0;
+    const sortedDice = fullDiceSet.filter(d => d !== null).sort((a, b) => b - a);
+
+    switch (baseResult.name) {
+      case "Imperial Crown":
+      case "Fivefold Glory":
+        // For 5+ of a kind, the value is the repeated number
+        const fiveKindValue = Object.keys(counts).find(k => counts[k] >= 5);
+        comboValues = [parseInt(fiveKindValue)];
+        break;
+
+      case "Courtly Quad":
+      case "Courtesan's Quad":
+        // Four of a kind + pair or four of a kind alone
+        const fourKind = Object.keys(counts).find(k => counts[k] === 4);
+        const pair = Object.keys(counts).find(k => counts[k] === 2);
+        comboValues = [parseInt(fourKind)];
+        if (pair) comboValues.push(parseInt(pair));
+        break;
+
+      case "Royal Spread":
+        // Two triplets
+        const triplets = Object.keys(counts).filter(k => counts[k] === 3).map(k => parseInt(k)).sort((a, b) => b - a);
+        comboValues = triplets;
+        break;
+
+      case "Tri-Crown":
+        // Triplet + pair
+        const triplet = Object.keys(counts).find(k => counts[k] === 3);
+        const triPair = Object.keys(counts).find(k => counts[k] === 2);
+        comboValues = [parseInt(triplet), parseInt(triPair)];
+        break;
+
+      case "Triplet":
+        // Three of a kind
+        const trip = Object.keys(counts).find(k => counts[k] === 3);
+        comboValues = [parseInt(trip)];
+        // Add kickers (remaining highest cards)
+        const kickers = sortedDice.filter(d => d !== parseInt(trip)).slice(0, 3);
+        comboValues = comboValues.concat(kickers);
+        break;
+
+      case "Dual Pairs":
+        // Two pairs
+        const pairs = Object.keys(counts).filter(k => counts[k] === 2).map(k => parseInt(k)).sort((a, b) => b - a);
+        comboValues = pairs;
+        // Add kicker
+        const dualKicker = sortedDice.find(d => !pairs.includes(d));
+        if (dualKicker) comboValues.push(dualKicker);
+        break;
+
+      case "Single Pair":
+        // One pair
+        const singlePair = Object.keys(counts).find(k => counts[k] === 2);
+        comboValues = [parseInt(singlePair)];
+        // Add kickers
+        const singleKickers = sortedDice.filter(d => d !== parseInt(singlePair)).slice(0, 4);
+        comboValues = comboValues.concat(singleKickers);
+        break;
+
+      case "Octline":
+      case "Split Line":
+      case "Line of Five Paired":
+      case "Line of Five Unpaired":
+        // Straights - highest card in the straight
+        comboValues = [Math.max(...sortedDice)];
+        break;
+
+      case "Jester's Court":
+        // Three pairs - list all pair values
+        const allPairs = Object.keys(counts).filter(k => counts[k] === 2).map(k => parseInt(k)).sort((a, b) => b - a);
+        comboValues = allPairs;
+        break;
+
+      default:
+        // High card
+        comboValues = sortedDice.slice(0, 6); // All dice as tiebreakers
+        break;
+    }
+
+    highCard = sortedDice[0] || 0;
+
+    return {
+      ...baseResult,
+      comboValues,
+      highCard,
+      allDice: sortedDice
+    };
+  },
 
   rankCombo(name) {
     if (!name || typeof name !== "string") {
@@ -801,53 +902,73 @@ startGame() {
       player: session.players[i],
     }));
 
-    // 1. Compare full combo values (e.g., [7, 3] beats [6, 5])
-    const sortComboValues = player => {
-      const dice = player.casteDice.concat(session.crownDice);
-      const counts = {};
-      for (let die of dice) counts[die] = (counts[die] || 0) + 1;
+    console.log(`[CrownAndCaste] Breaking tie between ${candidates.length} players with same combo rank`);
 
-      const values = Object.entries(counts)
-        .filter(([_, c]) => c >= 2)
-        .map(([v]) => parseInt(v))
-        .sort((a, b) => b - a); // Descending
-
-      return values;
-    };
-
+    // 1. Compare combo values directly (e.g., pair of 8s beats pair of 7s)
     candidates.sort((a, b) => {
-      const aVals = sortComboValues(a.player);
-      const bVals = sortComboValues(b.player);
-      for (let i = 0; i < Math.max(aVals.length, bVals.length); i++) {
-        if ((aVals[i] || 0) > (bVals[i] || 0)) return -1;
-        if ((aVals[i] || 0) < (bVals[i] || 0)) return 1;
+      const aCombo = a.player.combo;
+      const bCombo = b.player.combo;
+      
+      // Compare each combo value in order
+      const maxLength = Math.max(aCombo.comboValues?.length || 0, bCombo.comboValues?.length || 0);
+      for (let i = 0; i < maxLength; i++) {
+        const aVal = aCombo.comboValues?.[i] || 0;
+        const bVal = bCombo.comboValues?.[i] || 0;
+        if (aVal > bVal) return -1;
+        if (aVal < bVal) return 1;
       }
-      return 0; // Still tied
+      return 0; // Still tied on combo values
     });
 
-    const bestComboScore = sortComboValues(candidates[0].player).join(",");
-    const tiedByCombo = candidates.filter(c =>
-      sortComboValues(c.player).join(",") === bestComboScore
-    );
+    // Check if first candidate wins on combo values
+    const winner = candidates[0];
+    const stillTied = candidates.filter(c => {
+      const winnerVals = winner.player.combo.comboValues || [];
+      const candidateVals = c.player.combo.comboValues || [];
+      const maxLen = Math.max(winnerVals.length, candidateVals.length);
+      
+      for (let i = 0; i < maxLen; i++) {
+        if ((winnerVals[i] || 0) !== (candidateVals[i] || 0)) {
+          return false;
+        }
+      }
+      return true;
+    });
 
-    if (tiedByCombo.length === 1) return tiedByCombo[0].index;
+    if (stillTied.length === 1) {
+      console.log(`[CrownAndCaste] Tie broken by combo values: ${winner.player.name} wins with ${winner.player.combo.comboValues}`);
+      return winner.index;
+    }
 
-    // 2. Most Caste Dice used in the combo
-    const maxCasteUsed = Math.max(...tiedByCombo.map(c =>
-      c.player.combo.usedDice.filter(i => i < 3).length
+    console.log(`[CrownAndCaste] Still tied after combo values, ${stillTied.length} players remain`);
+
+    // 2. Most Caste Dice used in the combo (prefer using your own dice)
+    const maxCasteUsed = Math.max(...stillTied.map(c =>
+      c.player.combo.usedDice?.filter(i => i < 3).length || 0
     ));
-    const tiedByCaste = tiedByCombo.filter(c =>
-      c.player.combo.usedDice.filter(i => i < 3).length === maxCasteUsed
+    const tiedByCaste = stillTied.filter(c =>
+      (c.player.combo.usedDice?.filter(i => i < 3).length || 0) === maxCasteUsed
     );
-    if (tiedByCaste.length === 1) return tiedByCaste[0].index;
+    
+    if (tiedByCaste.length === 1) {
+      console.log(`[CrownAndCaste] Tie broken by caste dice usage: ${tiedByCaste[0].player.name} wins (used ${maxCasteUsed} caste dice)`);
+      return tiedByCaste[0].index;
+    }
 
-    // 3. Highest sum of unused dice
+    console.log(`[CrownAndCaste] Still tied after caste dice check, ${tiedByCaste.length} players remain`);
+
+    // 3. Highest sum of unused dice (kicker comparison)
     const tiedByUnused = [];
     let highestUnusedSum = -1;
+    
     for (const c of tiedByCaste) {
       const fullDice = c.player.casteDice.concat(session.crownDice);
-      const unused = fullDice.filter((_, i) => !c.player.combo.usedDice.includes(i));
+      const usedIndices = c.player.combo.usedDice || [];
+      const unused = fullDice.filter((die, i) => !usedIndices.includes(i) && die !== null);
       const total = unused.reduce((sum, val) => sum + val, 0);
+      
+      console.log(`[CrownAndCaste] ${c.player.name} unused dice sum: ${total} (dice: ${unused})`);
+      
       if (total > highestUnusedSum) {
         highestUnusedSum = total;
         tiedByUnused.length = 0;
@@ -856,15 +977,25 @@ startGame() {
         tiedByUnused.push(c);
       }
     }
-    if (tiedByUnused.length === 1) return tiedByUnused[0].index;
+    
+    if (tiedByUnused.length === 1) {
+      console.log(`[CrownAndCaste] Tie broken by unused dice sum: ${tiedByUnused[0].player.name} wins (${highestUnusedSum})`);
+      return tiedByUnused[0].index;
+    }
+
+    console.log(`[CrownAndCaste] Still tied after unused dice, ${tiedByUnused.length} players remain - using sudden death`);
 
     // 4. Sudden-death roll
-    const rolled = tiedByUnused.map(f => ({
-      index: f.index,
+    const rolled = tiedByUnused.map(c => ({
+      index: c.index,
+      name: c.player.name,
       roll: this.rollDie() + this.rollDie() + this.rollDie()
     }));
+    
     rolled.sort((a, b) => b.roll - a.roll);
-    console.log(`[CrownAndCaste] Tie-break resolved by sudden-death roll: ${rolled[0].roll}`);
+    console.log(`[CrownAndCaste] Sudden death rolls: ${rolled.map(r => `${r.name}: ${r.roll}`).join(', ')}`);
+    console.log(`[CrownAndCaste] Tie broken by sudden-death roll: ${rolled[0].name} wins with ${rolled[0].roll}`);
+    
     return rolled[0].index;
   },
 

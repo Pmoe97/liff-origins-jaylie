@@ -152,12 +152,17 @@ button.active-sexact.ongoing::after {
 #sexSceneFooterButtons {
 	display: flex;
 	justify-content: space-between;
-	gap: 16em;
+	gap: 1rem;
 	margin-top: 2em;
+}
+
+@media (min-width: 768px) {
+	#sexSceneFooterButtons {
+		gap: 2rem;
+	}
 }
 
 #sexSceneContinueButton,
 #sexSceneEndButton {
 	flex: 1 1 auto;
 }
-

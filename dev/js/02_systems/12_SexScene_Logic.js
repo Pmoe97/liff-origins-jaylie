@@ -200,7 +200,22 @@ setup.renderSexSceneActions = function () {
 
 	const playerState = State.variables.sexScenePlayerState;
 	const playerChar = State.variables.player;
-	const playerSkills = playerChar.skills || {};
+	// Fix: Properly access skills from primarySkills and secondarySkills
+	const playerSkills = {};
+	
+	// Merge primary skills
+	if (playerChar.primarySkills) {
+		Object.entries(playerChar.primarySkills).forEach(([skill, data]) => {
+			playerSkills[skill] = data.value || 0;
+		});
+	}
+	
+	// Merge secondary skills  
+	if (playerChar.secondarySkills) {
+		Object.entries(playerChar.secondarySkills).forEach(([skill, data]) => {
+			playerSkills[skill] = data.value || 0;
+		});
+	}
 	const partnerId = Object.keys(State.variables.sexScenePartnerStates ?? {})[0];
 	const partnerState = State.variables.sexScenePartnerStates?.[partnerId];
 	const partnerChar = State.variables.characters?.[partnerId];
@@ -231,7 +246,7 @@ setup.renderSexSceneActions = function () {
 		}
 	}
 
-// === Filter and group valid actions
+	// === Filter and group valid actions
 	for (const [label, act] of Object.entries(setup.SexualActsDB)) {
 		if (act.giver !== "player" || !Array.isArray(act.subjectParts)) continue;
 
@@ -267,12 +282,15 @@ setup.renderSexSceneActions = function () {
 			([skill, min]) => (playerSkills[skill] ?? 0) >= min
 		)) continue;
 
-		// === Hand actions
+		// === Hand actions - improved logic
 		const isHandAction = act.subjectParts.includes("hand");
 		if (isHandAction) {
 			hands.forEach(hand => {
 				const handState = playerState.parts?.[hand];
 				if (!handState || handState.bound || handState.disabled) return;
+
+				// Check if partner has required parts
+				if (act.objectParts && !act.objectParts.every(part => partnerState.parts?.[part])) return;
 
 				let visible = true;
 				if (act.stageGroup) {
@@ -287,12 +305,15 @@ setup.renderSexSceneActions = function () {
 			continue;
 		}
 
-		// === Non-hand actions
+		// === Non-hand actions - improved validation
 		const allPartsValid = act.subjectParts.every(part => {
 			const state = playerState.parts?.[part];
 			return state && !state.bound && !state.disabled;
 		});
 		if (!allPartsValid) continue;
+
+		// Check if partner has required parts
+		if (act.objectParts && !act.objectParts.every(part => partnerState.parts?.[part])) continue;
 
 		let visible = true;
 		if (act.stageGroup) {
@@ -308,30 +329,36 @@ setup.renderSexSceneActions = function () {
 
 
 
-	// Render UI groups
+	// Render UI groups (only show groups that have the body part or have actions)
 	for (const [part, actions] of Object.entries(groupedActions)) {
+		// Skip empty groups for body parts the player doesn't have
+		const hasBodyPart = playerState.parts?.[part];
+		if (!hasBodyPart && actions.length === 0) continue;
+
 		const $group = document.createElement("div");
 		$group.classList.add("sexscene-group");
 		$group.innerHTML = `<h3>${part.toUpperCase()}</h3>`;
 
-		// REST button
-		const restLabel = `__REST_${part}`;
-		const isRestPending = pending.some(p => p.label === restLabel);
-		const isRestOngoing = ongoing.every(p =>
-			(p.assignedHand ?? null) !== part &&
-			!setup.SexualActsDB[p.label]?.subjectParts?.includes(part)
-		);
+		// Only show REST button if the player has this body part
+		if (hasBodyPart) {
+			const restLabel = `__REST_${part}`;
+			const isRestPending = pending.some(p => p.label === restLabel);
+			const isRestOngoing = ongoing.every(p =>
+				(p.assignedHand ?? null) !== part &&
+				!setup.SexualActsDB[p.label]?.subjectParts?.includes(part)
+			);
 
-		const $rest = document.createElement("button");
-		$rest.textContent = "Rest";
-		$rest.classList.add("rest-button");
-		if (isRestPending) {
-			$rest.classList.add("active-sexact", "pending");
-		} else if (isRestOngoing) {
-			$rest.classList.add("active-sexact", "ongoing");
+			const $rest = document.createElement("button");
+			$rest.textContent = "Rest";
+			$rest.classList.add("rest-button");
+			if (isRestPending) {
+				$rest.classList.add("active-sexact", "pending");
+			} else if (isRestOngoing) {
+				$rest.classList.add("active-sexact", "ongoing");
+			}
+			$rest.onclick = () => setup.toggleRestAction(part);
+			$group.appendChild($rest);
 		}
-		$rest.onclick = () => setup.toggleRestAction(part);
-		$group.appendChild($rest);
 
 		actions.forEach(entry => {
 			const $btn = document.createElement("button");
@@ -572,6 +599,9 @@ setup.handleSexSceneContinue = function () {
 			playerStatus.isCumming = false;
 			playerClimaxResolved = true;
 
+			// Clear filtered orgasm options
+			State.variables.sexSceneFilteredOrgasmOptions = [];
+
 			// ✅ Force delayed render refresh after orgasm resolution
 			setTimeout(() => {
 				if (document.getElementById("sexSceneActionsBox")) {
@@ -659,8 +689,25 @@ setup.handleSexSceneContinue = function () {
 			if (act.objectParts?.some(p => !partnerState.parts?.[p])) return false;
 
 			if (act.skillsRequired) {
+				// Fix: Use the same skill merging logic as in renderSexSceneActions
+				const playerSkills = {};
+				
+				// Merge primary skills
+				if (State.variables.player.primarySkills) {
+					Object.entries(State.variables.player.primarySkills).forEach(([skill, data]) => {
+						playerSkills[skill] = data.value || 0;
+					});
+				}
+				
+				// Merge secondary skills  
+				if (State.variables.player.secondarySkills) {
+					Object.entries(State.variables.player.secondarySkills).forEach(([skill, data]) => {
+						playerSkills[skill] = data.value || 0;
+					});
+				}
+				
 				for (const [skill, min] of Object.entries(act.skillsRequired)) {
-					if ((State.variables.player.skills?.[skill] ?? 0) < min) return false;
+					if ((playerSkills[skill] ?? 0) < min) return false;
 				}
 			}
 
@@ -707,7 +754,7 @@ setup.handleSexSceneContinue = function () {
 setup.triggerOrgasm = function (charId) {
 	const isPlayer = charId === "player";
 	const char = isPlayer ? State.variables.player : State.variables.characters?.[charId];
-	const state = isPlayer ? State.variables.sexScenePlayerState : State.variables.sexSceneNPCStates?.[charId];
+	const state = isPlayer ? State.variables.sexScenePlayerState : State.variables.sexScenePartnerStates?.[charId];
 
 	if (!char || !state) {
 		console.warn(`[Orgasm] ❌ Could not resolve character or state for '${charId}'.`);
@@ -799,7 +846,7 @@ setup.autoResolveVaginalOrgasm = function () {
 
 
 setup.displayNPCOrgasmFeedback = function (npcId) {
-	const state = State.variables.sexSceneNPCStates?.[npcId];
+	const state = State.variables.sexScenePartnerStates?.[npcId];
 	const lastAct = state?.lastReceivedAction ?? null;
 	const npc = State.variables.characters?.[npcId];
 	const feedbackBox = document.getElementById("sexSceneFeedbackBox");

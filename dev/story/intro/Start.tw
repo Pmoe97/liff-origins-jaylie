@@ -11,3 +11,7 @@ This story will contain elements of an ''ADULT/MATURE'' nature. Content like thi
 [[Go forth and journey on|StoryStart_Scene01]]
 
 [[Wait I am NOT an adult|Underage_Response]]
+
+
+/* Placeholder - Remove before packaging for release */ 
+<<CrownAndCaste 15 "Dice Rat 1" "sarjan" "Dice Rat 2" "PostCAndCWinFightSetup" "PostCAndCLose" 2.5>>

@@ -432,15 +432,55 @@ setup.CrownAndCasteUI = {
     }, 1000 + Math.random() * 1500); // 1-2.5 second delay for realism
   },
 
-  showFeedback(message) {
+  showFeedback(message, duration = 2000, type = 'info') {
     const feedback = document.getElementById('action-feedback');
     if (feedback) {
       feedback.textContent = message;
-      feedback.classList.add('show');
+      feedback.className = `show feedback-${type}`;
       
       setTimeout(() => {
         feedback.classList.remove('show');
-      }, 2000);
+        feedback.className = '';
+      }, duration);
+    }
+  },
+
+  showCurrentHandStrength() {
+    const session = State.temporary.ccSession;
+    const player = session.players[0]; // Player is always index 0
+    
+    if (!player || player.casteDice.some(d => d === null)) {
+      return; // Don't show if dice aren't rolled yet
+    }
+
+    const combo = setup.CrownAndCaste.evaluateCombos(player);
+    const comboDetails = this.formatComboDetails(combo);
+    const strengthMessage = comboDetails ? 
+      `Current hand: ${combo.name} (${comboDetails})` : 
+      `Current hand: ${combo.name}`;
+    
+    this.showFeedback(strengthMessage, 3000, 'info');
+  },
+
+  announceRoundStart(roundNumber) {
+    const roundMessages = {
+      1: "Round 1: Roll your Caste Dice!",
+      2: "Round 2: Crown Die 2 revealed!",
+      3: "Round 3: Final Crown Die revealed!"
+    };
+    
+    this.showFeedback(roundMessages[roundNumber] || `Round ${roundNumber} begins!`, 2500, 'round');
+  },
+
+  announcePhaseChange(phase) {
+    const phaseMessages = {
+      "betting": "Place your bets!",
+      "rolling": "Rolling phase begins!",
+      "final": "Final round - all dice locked!"
+    };
+    
+    if (phaseMessages[phase]) {
+      this.showFeedback(phaseMessages[phase], 2000, 'phase');
     }
   },
 
@@ -562,8 +602,28 @@ setup.CrownAndCasteUI = {
     const session = State.temporary.ccSession;
     const winner = session.players[winnerIndex];
 
-    const resultMessage = `${winner.name} wins the game and takes ${session.pot}g!`;
-    setup.CrownAndCasteUI.showFeedback(resultMessage);
+    // Create detailed result message with combo information
+    const winnerCombo = winner.combo;
+    let resultMessage = `🎉 ${winner.name} wins with ${winnerCombo.name}!`;
+    
+    // Add combo details if available
+    if (winnerCombo.comboValues && winnerCombo.comboValues.length > 0) {
+      const comboDetails = this.formatComboDetails(winnerCombo);
+      resultMessage += `\n${comboDetails}`;
+    }
+    
+    resultMessage += `\nTakes the pot: ${session.pot}g`;
+
+    // Show all players' final hands for comparison
+    console.log("[CrownAndCaste] Final Results:");
+    session.players.forEach((p, i) => {
+      const combo = p.combo;
+      const diceStr = p.casteDice.concat(session.crownDice).join(', ');
+      console.log(`${p.name}: ${combo.name} (${diceStr}) - Rank ${p.scoreRank}`);
+    });
+
+    // Display the result prominently
+    this.showGameResultModal(winner, resultMessage);
 
     const nextPanel = document.getElementById("next-game-panel");
     const endPanel = document.getElementById("end-game-panel");
@@ -584,6 +644,70 @@ setup.CrownAndCasteUI = {
 
     // 💡 Freeze interaction visuals
     setup.CrownAndCasteUI.disableBoard();
+  },
+
+  formatComboDetails(combo) {
+    const name = combo.name;
+    const values = combo.comboValues || [];
+    
+    switch (name) {
+      case "Single Pair":
+        return `Pair of ${values[0]}s`;
+      case "Dual Pairs":
+        return `Pairs of ${values[0]}s and ${values[1]}s`;
+      case "Triplet":
+        return `Three ${values[0]}s`;
+      case "Tri-Crown":
+        return `Three ${values[0]}s with pair of ${values[1]}s`;
+      case "Courtesan's Quad":
+      case "Courtly Quad":
+        return `Four ${values[0]}s` + (values[1] ? ` with pair of ${values[1]}s` : '');
+      case "Jester's Court":
+        return `Three pairs: ${values.join(', ')}`;
+      case "Royal Spread":
+        return `Two triplets: ${values[0]}s and ${values[1]}s`;
+      case "Fivefold Glory":
+        return `Five ${values[0]}s`;
+      case "Imperial Crown":
+        return `Six ${values[0]}s`;
+      case "Octline":
+      case "Split Line":
+      case "Line of Five Paired":
+      case "Line of Five Unpaired":
+        return `Straight to ${values[0]}`;
+      default:
+        return values.length > 0 ? `High: ${values[0]}` : '';
+    }
+  },
+
+  showGameResultModal(winner, message) {
+    // Create or update result modal
+    let modal = document.getElementById('game-result-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'game-result-modal';
+      modal.className = 'game-result-modal';
+      document.getElementById('crown-caste-frame').appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="result-content">
+        <div class="result-header">Game Complete!</div>
+        <div class="result-message">${message.replace(/\n/g, '<br>')}</div>
+        <button class="result-close-btn" onclick="this.parentElement.parentElement.style.display='none'">
+          Continue
+        </button>
+      </div>
+    `;
+
+    modal.style.display = 'flex';
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      if (modal && modal.style.display !== 'none') {
+        modal.style.display = 'none';
+      }
+    }, 5000);
   },
 
 
