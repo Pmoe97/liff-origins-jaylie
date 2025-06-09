@@ -1,2 +1,159 @@
-<!-- Add this to the top right of each overlay panel -->
-<button class="overlay-close-btn" onclick="closeOverlay()">X</button>
+<!-- People Overlay - RGNPC Management Interface -->
+<div class="overlay-header">
+    <h2 id="people-title">People (0)</h2>
+    <button class="overlay-close-btn" onclick="closeOverlay()">×</button>
+</div>
+
+<div class="overlay-content people-content">
+    <!-- Location Info -->
+    <div class="location-info">
+        <div class="location-name" id="current-location-name">Unknown Location</div>
+        <div class="location-population" id="location-population">Population: 0</div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="people-filters">
+        <div class="filter-group">
+            <label for="relationship-filter">Show:</label>
+            <select id="relationship-filter">
+                <option value="all">All People</option>
+                <option value="known">Known People</option>
+                <option value="unknown">Unknown People</option>
+                <option value="friendly">Friendly</option>
+                <option value="hostile">Hostile</option>
+                <option value="romantic">Romantic Interest</option>
+                <option value="trusted">Trusted</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="archetype-filter">Type:</label>
+            <select id="archetype-filter">
+                <option value="all">All Types</option>
+                <option value="Warden">Guards</option>
+                <option value="Merchant">Merchants</option>
+                <option value="Artisan">Artisans</option>
+                <option value="Scholar">Scholars</option>
+                <option value="Courtesan">Courtesans</option>
+                <option value="Bard">Bards</option>
+                <option value="Healer">Healers</option>
+                <option value="Priest">Priests</option>
+                <option value="Noble">Nobles</option>
+                <option value="Thief">Thieves</option>
+                <option value="Laborer">Laborers</option>
+                <option value="Farmer">Farmers</option>
+                <option value="Innkeeper">Innkeepers</option>
+                <option value="Hunter">Hunters</option>
+                <option value="Witchling">Witchlings</option>
+                <option value="Outcast">Outcasts</option>
+                <option value="Wanderer">Wanderers</option>
+            </select>
+        </div>
+
+        <button id="refresh-people" class="btn-secondary" title="Refresh the people list">
+            <span style="margin-right: 0.25rem;">↻</span> Refresh
+        </button>
+    </div>
+
+    <!-- People List -->
+    <div class="people-list" id="people-list">
+        <!-- People will be populated here by JavaScript -->
+    </div>
+
+    <!-- Selected Person Details -->
+    <div class="person-details" id="person-details" style="display: none;">
+        <div class="person-header">
+            <img class="person-avatar" id="person-avatar" src="images/portrait_default.png" alt="Portrait">
+            <div class="person-info">
+                <h3 class="person-name">
+                    <span id="person-name">Unknown Person</span>
+                    <span id="person-pronouns" class="pronouns"></span>
+                </h3>
+                <div class="person-description" id="person-description">A mysterious individual.</div>
+            </div>
+        </div>
+
+        <!-- Relationship Meters -->
+        <div class="relationship-section" id="relationship-section">
+            <h4>Relationship</h4>
+            <div class="relationship-meters">
+                <div class="meter-row">
+                    <span class="meter-label">Trust:</span>
+                    <div class="meter-bar">
+                        <div class="meter-fill trust-meter" id="trust-meter"></div>
+                    </div>
+                    <span class="meter-value" id="trust-value">0</span>
+                </div>
+                <div class="meter-row">
+                    <span class="meter-label">Affection:</span>
+                    <div class="meter-bar">
+                        <div class="meter-fill affection-meter" id="affection-meter"></div>
+                    </div>
+                    <span class="meter-value" id="affection-value">0</span>
+                </div>
+                <div class="meter-row">
+                    <span class="meter-label">Rapport:</span>
+                    <div class="meter-bar">
+                        <div class="meter-fill rapport-meter" id="rapport-meter"></div>
+                    </div>
+                    <span class="meter-value" id="rapport-value">0</span>
+                </div>
+                <div class="meter-row">
+                    <span class="meter-label">Tension:</span>
+                    <div class="meter-bar">
+                        <div class="meter-fill tension-meter" id="tension-meter"></div>
+                    </div>
+                    <span class="meter-value" id="tension-value">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Known Information -->
+        <div class="known-info" id="known-info">
+            <h4>What You Know</h4>
+            <div class="info-grid">
+                <div class="info-item" id="occupation-info" style="display: none;">
+                    <strong>Occupation:</strong> <span id="occupation-text"></span>
+                </div>
+                <div class="info-item" id="traits-info" style="display: none;">
+                    <strong>Personality:</strong> <span id="traits-text"></span>
+                </div>
+                <div class="info-item" id="motivations-info" style="display: none;">
+                    <strong>Motivations:</strong> <span id="motivations-text"></span>
+                </div>
+                <div class="info-item" id="schedule-info" style="display: none;">
+                    <strong>Current Activity:</strong> <span id="schedule-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="person-actions">
+            <button class="btn-primary" id="talk-btn" onclick="talkToPerson()">Talk</button>
+            <button class="btn-secondary" id="observe-btn" onclick="observePerson()">Observe</button>
+            <button class="btn-secondary" id="pickpocket-btn" onclick="attemptPickpocket()" style="display: none;">Pickpocket</button>
+            <button class="btn-danger" id="attack-btn" onclick="attackPerson()" style="display: none;">Attack</button>
+        </div>
+
+        <!-- Debug Info (only shown in debug mode) -->
+        <div class="debug-info" id="debug-info" style="display: none;">
+            <h4>Debug Info</h4>
+            <div class="debug-details">
+                <div><strong>RGNPC ID:</strong> <span id="debug-id"></span></div>
+                <div><strong>Race:</strong> <span id="debug-race"></span></div>
+                <div><strong>Archetype:</strong> <span id="debug-archetype"></span></div>
+                <div><strong>Age:</strong> <span id="debug-age"></span></div>
+                <div><strong>Created:</strong> <span id="debug-created"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+        <div class="empty-icon">👥</div>
+        <h3>No People Here</h3>
+        <p>This location appears to be empty. Try visiting a different area or check back later.</p>
+        <p class="empty-state-hint">People may be elsewhere based on the time of day and their schedules.</p>
+        <button class="btn-primary" onclick="generateTestPeople()" style="display: none;">Generate Test People</button>
+    </div>
+</div>

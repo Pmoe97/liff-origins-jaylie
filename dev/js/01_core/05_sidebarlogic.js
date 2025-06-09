@@ -1,7 +1,7 @@
 setup.SidebarUI = {
 	update() {
 		const sidebar = document.getElementById("custom-sidebar");
-		const wasCollapsed = sidebar?.classList.contains("collapsed");
+		const wasCollapsed = State.variables.sidebarCollapsed;
 
 		if (!State.variables.player || !State.variables.world) {
 			console.warn("SidebarUI: Player or World data missing.");
@@ -33,6 +33,7 @@ setup.SidebarUI = {
 			}
 		}
 	},
+
 
 	updateStatuses() {
 		const status = State.variables.player.status;
@@ -231,6 +232,9 @@ setup.SidebarUI = {
 		sidebar.classList.toggle("collapsed");
 		const isCollapsed = sidebar.classList.contains("collapsed");
 
+		// SAVE collapsed state in State.variables
+		State.variables.sidebarCollapsed = isCollapsed;
+
 		document.body.classList.toggle("sidebar-collapsed", isCollapsed);
 
 		if (arrow) {
@@ -247,6 +251,7 @@ setup.SidebarUI = {
 		this.update();
 		console.log(`[SidebarUI] Sidebar is now ${isCollapsed ? "collapsed" : "expanded"}.`);
 	},
+
 
 	updateSidebar() {
 		const player = State.variables.player;

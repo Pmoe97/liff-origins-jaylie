@@ -21,217 +21,54 @@ Macro.add("bg", {
 	}
 });
 
+Macro.add('loadmap', {
+    handler() {
+        if (this.args.length === 0) {
+            return this.error('No map ID specified.');
+        }
 
+        const mapId = this.args[0];
+        const startX = this.args[1] ? parseInt(this.args[1], 10) : null;
+        const startY = this.args[2] ? parseInt(this.args[2], 10) : null;
 
-/* SidebarUI Widget */
-/* Macro.add("SidebarUI", {
-	handler() {
-		const sidebar = document.getElementById("custom-sidebar");
+        // Validate start positions if provided
+        if ((startX !== null && isNaN(startX)) || (startY !== null && isNaN(startY))) {
+            return this.error('Invalid starting position coordinates.');
+        }
 
-		if (!sidebar) {
-			console.warn("SidebarUI: #custom-sidebar not found.");
-			return;
-		}
+        // Safety check: Make sure MapSystem is loaded
+        if (typeof MapSystem === 'undefined' || typeof MapSystem.setCurrentMap !== 'function') {
+            return this.error('MapSystem is not available.');
+        }
 
-		// Check if already injected to avoid duplicates
-		if (document.getElementById("sidebar-topbar")) {
-			console.log("SidebarUI: Already injected.");
-			return;
-		}
-
-		// ✅ Fix: Declare nav state flags
-		const canBack = Engine.history?.canUndo?.() ?? false;
-		const canForward = Engine.history?.canRedo?.() ?? false;
-
-
-		sidebar.innerHTML = `
-		<!-- Top Nav and Collapse -->
-		<div id="sidebar-topbar">
-			<div id="sidebar-nav">
-				<!-- SugarCube native back/forward buttons -->
-				<button id="history-backward" class="sidebar-nav-btn" title="Go back">
-					<i data-lucide="undo-2"></i>
-				</button>
-				<button id="history-forward" class="sidebar-nav-btn" title="Go forward">
-					<i data-lucide="redo-2"></i>
-				</button>
-			</div>
-			<button id="sidebar-toggle" type="button" class="sidebar-btn">
-				<i id="sidebar-arrow" data-lucide="arrow-left"></i>
-			</button>
-		</div>
-
-		<!-- Collapsed Summary -->
-			<div id="sidebar-summary" style="display: none; flex-direction: column; align-items: center; gap: 8px;">
-				<span id="summary-time">--:--</span>
-				<span id="summary-date">Loading Date...</span>
-				<div id="summary-location-weather" style="display: flex; flex-direction: column; align-items: center;">
-					<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
-					<span id="summary-location">Unknown</span>
-				</div>
-				<span id="summary-gold">0</span>
-				<div id="summary-status-icons">
-					<div class="summary-icon-wrap" id="summary-health-wrap">
-						<div class="summary-fill" id="summary-health-fill"></div>
-						<i id="summary-health" data-lucide="heart"></i>
-					</div>
-					<div class="summary-icon-wrap" id="summary-fatigue-wrap">
-						<div class="summary-fill" id="summary-fatigue-fill"></div>
-						<i id="summary-fatigue" data-lucide="zap"></i>
-					</div>
-					<div class="summary-icon-wrap" id="summary-composure-wrap">
-						<div class="summary-fill" id="summary-composure-fill"></div>
-						<i id="summary-composure" data-lucide="brain"></i>
-					</div>
-					<div class="summary-icon-wrap" id="summary-excitement-wrap">
-						<div class="summary-fill" id="summary-excitement-fill"></div>
-						<i id="summary-excitement" data-lucide="flame"></i>
-					</div>
-				</div>
-				<div id="summary-level-exp" style="display: flex; flex-direction: column; align-items: center;">
-					<span id="summary-level">Lvl 1</span>
-					<div class="exp-bar-mini">
-						<div class="exp-bar-fill-mini" id="exp-fill-mini"></div>
-					</div>
-				</div>
-				<div id="summary-conditions"></div>
-			</div>
-
-			<!-- Main Scrollable Content -->
-			<div id="sidebar-content">
-				<div id="sidebar-top-info">
-					<div id="sidebar-datetime">
-						<span id="sidebar-time">--:--</span>
-						<span id="sidebar-date">Loading Date...</span>
-					</div>
-					<div id="sidebar-location-weather">
-						<span id="sidebar-location">Unknown Location</span>
-						<i id="sidebar-weather-icon" data-lucide="sun" title="Clear Skies"></i>
-					</div>
-					<div id="sidebar-gold">
-						<i data-lucide="coins"></i> <span id="sidebar-gold-amount">0</span>
-					</div>
-				</div>
-
-				<div id="sidebar-status-tracker">
-					<div class="status-bar" id="health-bar">
-						<i data-lucide="heart"></i>
-						<span>Health</span>
-						<div class="status-bar-fill-wrapper">
-							<div class="status-bar-fill" id="health-fill"></div>
-						</div>
-						<span class="bar-value" id="health-value"></span>
-					</div>
-					<div class="status-bar" id="fatigue-bar">
-						<i data-lucide="zap"></i>
-						<span>Fatigue</span>
-						<div class="status-bar-fill-wrapper">
-							<div class="status-bar-fill" id="fatigue-fill"></div>
-						</div>
-						<span class="bar-value" id="fatigue-value"></span>
-					</div>
-					<div class="status-bar" id="composure-bar">
-						<i data-lucide="brain"></i>
-						<span>Composure</span>
-						<div class="status-bar-fill-wrapper">
-							<div class="status-bar-fill" id="composure-fill"></div>
-						</div>
-						<span class="bar-value" id="composure-value"></span>
-					</div>
-					<div class="status-bar" id="excitement-bar">
-						<i data-lucide="flame"></i>
-						<span>Excitement</span>
-						<div class="status-bar-fill-wrapper">
-							<div class="status-bar-fill" id="excitement-fill"></div>
-						</div>
-						<span class="bar-value" id="excitement-value"></span>
-					</div>
-					<div id="conditional-status-bars"></div>
-				</div>
-
-				<div id="sidebar-carryweight" style="display:none;">
-					<i data-lucide="package"></i> <span id="carryweight-text">Carryweight: 0/100</span>
-					<div class="status-bar-carry">
-						<div class="carry-bar-fill" id="carry-fill"></div>
-					</div>
-				</div>
-
-				<div id="sidebar-level-exp">
-					<span id="sidebar-level">Lvl 1</span>
-					<div class="exp-bar">
-						<div class="exp-bar-fill" id="exp-fill"></div>
-					</div>
-					<span id="exp-text">0/100 XP</span>
-				</div>
-
-				<div id="custom-sidebar-buttons">
-					<div class="button-single">
-						<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
-							<i data-lucide="scroll-text"></i> Character
-						</button>
-					</div>
-					<div class="button-single">
-						<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
-							<i data-lucide="backpack"></i> Inventory
-						</button>
-					</div>
-					<div class="button-pair">
-						<button class="sidebar-btn" onclick="openOverlay('journal-page')">
-							<i data-lucide="book-open"></i> Journal
-						</button>
-						<button class="sidebar-btn" onclick="openOverlay('people-page')">
-							<i data-lucide="users"></i> People
-						</button>
-					</div>
-					<div class="button-pair">
-						<button class="sidebar-btn" onclick="openOverlay('stats-page')">
-							<i data-lucide="brain"></i> Stats
-						</button>
-						<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
-							<i data-lucide="star"></i> Achievements
-						</button>
-					</div>
-					<div class="button-pair">
-						<button id="btn-saves" class="sidebar-btn">
-							<i data-lucide="save"></i> Saves
-						</button>
-						<button class="sidebar-btn" onclick="UI.options()">
-							<i data-lucide="settings"></i> Options
-						</button>
-					</div>
-				</div>
-			</div>
-		`;
-
-		// Set bar fill width and value label
-		const s = State.variables.player.status;
-		function updateBar(id, current, max) {
-			const fill = document.getElementById(`${id}-fill`);
-			const value = document.getElementById(`${id}-value`);
-			if (fill) fill.style.width = `${(current / max) * 100}%`;
-			if (value) value.textContent = `${Math.round(current)} / ${Math.round(max)}`;
-		}
-
-		updateBar("health", s.health, s.maxHealth);
-		updateBar("fatigue", s.fatigue, s.maxFatigue);
-		updateBar("composure", s.composure, s.maxComposure);
-		updateBar("excitement", s.excitement, s.maxExcitement);
-
-		if (window.setup?.SidebarUI?.initialize) {
-			console.log("[SidebarUI] Now initializing after Sidebar injection...");
-			setup.SidebarUI.initialize();
-		}
-
-		if (window.lucide) {
-			lucide.createIcons();
-		} else {
-			console.warn("Lucide not available at sidebar load time.");
-		}
-	}
+        // Async IIFE to handle the map loading
+        (async () => {
+            try {
+                if (startX !== null && startY !== null) {
+                    await MapSystem.setCurrentMap(mapId, { x: startX, y: startY });
+                } else {
+                    await MapSystem.setCurrentMap(mapId);
+                }
+                console.log(`[loadmap] Successfully loaded map: ${mapId}`);
+            } catch (e) {
+                console.error(`[loadmap] Failed to load map: ${mapId}`, e);
+                UI.alert(`Failed to load map: ${mapId}`);
+            }
+        })();
+    }
 });
-*/
 
 
+Macro.add('unloadmap', {
+    handler() {
+        if (typeof MapSystem === 'undefined' || typeof MapSystem.clearCurrentMap !== 'function') {
+            return this.error('MapSystem is not available.');
+        }
+
+        MapSystem.clearCurrentMap();
+        console.log('[unloadmap] Map cleared.');
+    }
+});
 
 
 Macro.add("know", {

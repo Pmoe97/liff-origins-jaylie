@@ -1,2 +1,169 @@
-<!-- Add this to the top right of each overlay panel -->
-<button class="overlay-close-btn" onclick="closeOverlay()">X</button>
+<!-- Journal Overlay -->
+<div class="journal-overlay">
+  <!-- Close Button -->
+  <button class="journal-close-btn" onclick="closeOverlay()">✖</button>
+
+  <!-- Journal Header -->
+  <div class="journal-header">
+    <h2><i data-lucide="book-open"></i> Journal</h2>
+  </div>
+
+  <!-- Journal Tabs -->
+  <div class="journal-tabs">
+    <button class="journal-tab active" data-tab="quests" onclick="switchJournalTab('quests')">
+      <i data-lucide="scroll-text"></i>
+      <span>Quests</span>
+    </button>
+    <button class="journal-tab" data-tab="relationships" onclick="switchJournalTab('relationships')">
+      <i data-lucide="heart"></i>
+      <span>Relationships</span>
+    </button>
+    <button class="journal-tab" data-tab="map" onclick="switchJournalTab('map')">
+      <i data-lucide="map"></i>
+      <span>Map</span>
+    </button>
+    <button class="journal-tab" data-tab="codex" onclick="switchJournalTab('codex')">
+      <i data-lucide="library"></i>
+      <span>Codex</span>
+    </button>
+  </div>
+
+  <!-- Journal Content -->
+  <div class="journal-content">
+    
+    <!-- Quests Tab -->
+    <div class="journal-tab-content active" id="journal-quests">
+      <div class="quest-section">
+        <h3>Active Quests</h3>
+        <div class="quest-list" id="active-quests">
+          <div class="quest-item">
+            <div class="quest-title">Welcome to Liff Origins</div>
+            <div class="quest-description">Explore the world and learn the basics of the game.</div>
+            <div class="quest-objectives">
+              <div class="objective completed">✓ Start your journey</div>
+              <div class="objective">Visit the Three Sips Dragon Tavern</div>
+              <div class="objective">Meet the locals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quest-section">
+        <h3>Completed Quests</h3>
+        <div class="quest-list" id="completed-quests">
+          <div class="quest-item completed">
+            <div class="quest-title">Tutorial Complete</div>
+            <div class="quest-description">You've learned the basics!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Relationships Tab -->
+    <div class="journal-tab-content" id="journal-relationships">
+      <div class="relationship-section">
+        <h3>Known Characters</h3>
+        <div class="relationship-list" id="known-characters">
+          <div class="relationship-item">
+            <div class="character-portrait">
+              <img src="images/portrait_default.png" alt="Character">
+            </div>
+            <div class="character-info">
+              <div class="character-name">Mysterious Stranger</div>
+              <div class="character-relationship">Neutral</div>
+              <div class="character-notes">Met at the beginning of your journey.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Tab -->
+    <div class="journal-tab-content" id="journal-map">
+      <div class="map-section">
+        <div class="map-header">
+          <h3 id="map-title">Current Area</h3>
+          <div class="map-controls">
+            <button class="map-control-btn" onclick="MapSystem.updateFullMapDisplay()" title="Refresh Map">
+              <i data-lucide="refresh-cw"></i>
+            </button>
+            <button class="map-control-btn" onclick="toggleMapGrid()" title="Toggle Grid">
+              <i data-lucide="grid-3x3"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="map-container" id="full-map-container">
+          <div class="map-placeholder">
+            <i data-lucide="map"></i>
+            <p>No map loaded</p>
+            <p>Use <code>MapSystem.setCurrentMap('example-map')</code> to load a map</p>
+          </div>
+        </div>
+
+        <div class="map-legend">
+          <h4>Legend</h4>
+          <div class="legend-items">
+            <div class="legend-item">
+              <i data-lucide="user" class="legend-icon player"></i>
+              <span>Your Location</span>
+            </div>
+            <div class="legend-item">
+              <i data-lucide="beer" class="legend-icon tavern"></i>
+              <span>Tavern</span>
+            </div>
+            <div class="legend-item">
+              <i data-lucide="flask-conical" class="legend-icon shop"></i>
+              <span>Shop</span>
+            </div>
+            <div class="legend-item">
+              <i data-lucide="bed-double" class="legend-icon brothel"></i>
+              <span>Brothel</span>
+            </div>
+            <div class="legend-item">
+              <i data-lucide="door-open" class="legend-icon gate"></i>
+              <span>Gate/Exit</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-transition bidirectional"></div>
+              <span>Two-way Path</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-transition oneway"></div>
+              <span>One-way Path</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Codex Tab -->
+    <div class="journal-tab-content" id="journal-codex">
+      <div class="codex-section">
+        <h3>World Knowledge</h3>
+        <div class="codex-categories">
+          <div class="codex-category">
+            <h4>Locations</h4>
+            <div class="codex-entries">
+              <div class="codex-entry">
+                <div class="entry-title">King's Street District</div>
+                <div class="entry-description">The main thoroughfare of the city, bustling with merchants and travelers.</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="codex-category">
+            <h4>People</h4>
+            <div class="codex-entries">
+              <div class="codex-entry">
+                <div class="entry-title">Local Inhabitants</div>
+                <div class="entry-description">Various merchants, travelers, and residents populate the district.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

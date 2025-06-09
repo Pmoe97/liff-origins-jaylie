@@ -56,10 +56,6 @@ setup.SocialStyles = {
       tags: ["reserved", "emotionless"],
       notes: "Rarely shows emotion even under stress, speaks flatly."
     },
-    theatrical: {
-      tags: ["dramatic", "flamboyant"],
-      notes: "Big emotions, expressive voice, sometimes over-the-top."
-    },
     scholarly: {
       tags: ["academic", "precise"],
       notes: "Careful wording, references theory or history, avoids slang."
@@ -69,4 +65,3 @@ setup.SocialStyles = {
       notes: "May flatter or provoke to gain an edge, reads people quickly."
     }
   };
-  

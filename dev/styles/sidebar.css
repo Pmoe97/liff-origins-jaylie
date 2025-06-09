@@ -594,8 +594,6 @@
 /* Expanded Sidebar - Bug Report Button */
 #bug-report-button {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
   z-index: 10; /* Make sure it's on top of most layers */
 }
 

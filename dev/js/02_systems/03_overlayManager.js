@@ -15,6 +15,15 @@ window.openOverlay = function (source) {
 	}
 
 	document.getElementById("overlay-panel").classList.remove("overlay-hidden");
+	
+	// Block map movement when overlay is open
+	if (window.MapSystem) {
+		MapSystem.setMovementBlocked(true);
+	}
+	
+	// Trigger overlay open event
+	$(document).trigger(':overlayopen', [source]);
+	
 	renderLucideIconsSafely?.();
 };
 
@@ -24,6 +33,11 @@ window.closeOverlay = function () {
 	if (!panel) return;
 	panel.classList.add("overlay-hidden");
 	document.getElementById("overlay-body").innerHTML = "";
+	
+	// Unblock map movement when overlay is closed
+	if (window.MapSystem) {
+		MapSystem.setMovementBlocked(false);
+	}
 };
 
 setup.loadOverlayHTML = async function (overlayId, filename) {
