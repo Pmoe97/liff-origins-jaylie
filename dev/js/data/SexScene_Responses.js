@@ -1883,5 +1883,226 @@ setup.SexSceneResponses = {
 			"They gently move your foot away, preferring more traditional stimulation."
 		],
 		climax: ["They scream with pleasure as your toes drive them over the edge."]
+	},
+
+	Anal_G_Tease: {
+			start: ["You rub the tip of your cock against their entrance, teasing them."],
+			Neutral: [
+					"You circle their hole slowly, making them squirm for more.",
+					"Your teasing strokes keep them on edge, eager for penetration."
+			],
+			Liked: [
+					"They push back against you with a needy whine.",
+					"The light touches make them beg for you to go deeper."
+			],
+			Disliked: [
+					"They tense up nervously, clearly unsure about anal.",
+					"Your teasing doesn't seem to excite them much."
+			],
+			climax: ["They shiver with anticipation, desperate for you to enter."]
+	},
+
+	Anal_G_Penetrate: {
+			start: ["You press forward slowly until you're buried in their ass."],
+			Neutral: [
+					"You thrust carefully, letting them adjust to your size.",
+					"Your steady rhythm draws soft moans from them."
+			],
+			Liked: [
+					"They groan as you sink deeper with each thrust.",
+					"They meet your hips eagerly, loving the fullness."
+			],
+			Disliked: [
+					"They flinch in discomfort, asking you to slow down.",
+					"You feel their body resisting the penetration." 
+			],
+			climax: ["You drive deep as they cry out, shaking with pleasure."]
+	},
+
+	Anal_G_Pound: {
+			start: ["You slam into their ass with powerful thrusts."],
+			Neutral: [
+					"Your hips smack loudly against them with each motion.",
+					"You keep a relentless pace that leaves them gasping."
+			],
+			Liked: [
+					"They moan shamelessly as you pound them harder.",
+					"They clutch the sheets, overwhelmed by the rough pace."
+			],
+			Disliked: [
+					"They cry out in pain, trying to pull away from you.",
+					"The intensity seems too much for them to handle." 
+			],
+			climax: ["You push them over the edge as you hammer deep inside."]
+	},
+
+	Vaginal_G_Tease: {
+			start: ["You rub your cock along their slick folds without entering."],
+			Neutral: [
+					"You slide just the tip in before pulling back teasingly.",
+					"Your slow strokes keep them aching for more." 
+			],
+			Liked: [
+					"They whimper for you to hurry up and fuck them.",
+					"Their hips chase after you with desperate need." 
+			],
+			Disliked: [
+					"They sigh in frustration at the continued teasing.",
+					"Your hesitation seems to dampen their mood." 
+			],
+			climax: ["Their body trembles, craving the penetration you deny."]
+	},
+
+	Vaginal_G_Penetrate: {
+			start: ["You ease your cock inside their waiting pussy."],
+			Neutral: [
+					"You build a smooth rhythm, feeling them grow wetter around you.",
+					"Their breath comes faster as you fill them completely." 
+			],
+			Liked: [
+					"They moan your name and rock against your thrusts.",
+					"Their legs wrap around you, urging you deeper." 
+			],
+			Disliked: [
+					"They seem tense, the penetration not quite comfortable.",
+					"You sense hesitation in their movements." 
+			],
+			climax: ["They gasp as you thrust deep, pleasure cresting quickly."]
+	},
+
+	Vaginal_G_Pound: {
+			start: ["You drive into their pussy with hard, fast strokes."],
+			Neutral: [
+					"Your relentless pace makes wet slaps echo in the room.",
+					"You grip their hips to pound them without mercy." 
+			],
+			Liked: [
+					"They scream in ecstasy as you fuck them brutally hard.",
+					"Their whole body shakes from the force of your thrusts." 
+			],
+			Disliked: [
+					"They wince with each rough thrust, trying to pull away.",
+					"The pace overwhelms them and pleasure quickly fades." 
+			],
+			climax: ["You keep pounding until they come undone beneath you."]
+	},
+
+	Bondage_G: {
+			start: ["You bind their wrists securely."],
+			Neutral: [
+					"The restraints dig in just enough to remind them who's in control.",
+					"You tug on the bindings to test their hold." 
+			],
+			Liked: [
+					"They shiver in excitement at being helpless for you.",
+					"A moan escapes them as the restraints tighten." 
+			],
+			Disliked: [
+					"They struggle anxiously against the bonds.",
+					"The restraints seem to make them uneasy." 
+			],
+			climax: ["They breathe raggedly, submitting completely to your control."]
+	},
+
+	Gag_G: {
+			start: ["You slip a gag between their lips."],
+			Neutral: [
+					"Their muffled noises grow softer as you secure it.",
+					"You watch them test the gag with hesitant sounds." 
+			],
+			Liked: [
+					"They moan around the gag, eyes shining with arousal.",
+					"Their struggles only seem to turn them on more." 
+			],
+			Disliked: [
+					"They shake their head, clearly not enjoying the gag.",
+					"Tears form as they attempt to speak around it." 
+			],
+			climax: ["Their muffled cries grow frantic as pleasure overtakes them."]
+	},
+
+	Blindfold_G: {
+			start: ["You cover their eyes with a soft blindfold."],
+			Neutral: [
+					"They breathe faster, unsure of what you'll do next.",
+					"You brush your fingers over their skin to heighten their anticipation." 
+			],
+			Liked: [
+					"They tremble with excitement at the loss of sight.",
+					"Every touch makes them gasp, the blindfold amplifying each sensation." 
+			],
+			Disliked: [
+					"They frown uneasily, clearly disliking the darkness.",
+					"Their body stays tense, not relaxing into it." 
+			],
+			climax: ["They shudder, overwhelmed by the sensations they can't predict."]
+	},
+
+	Toys_Use: {
+			start: ["You press the toy against their body, switching it on."],
+			Neutral: [
+					"You move the toy slowly, letting them get used to the sensation.",
+					"Their breath hitches as you explore sensitive spots." 
+			],
+			Liked: [
+					"They moan loudly, pushing toward the buzzing toy.",
+					"The toy has them writhing in moments." 
+			],
+			Disliked: [
+					"They squirm away, clearly not enjoying the toy's feel.",
+					"The vibration seems too intense for them." 
+			],
+			climax: ["The toy drives them quickly toward a shuddering release."]
+	},
+
+	WaxPlay_G: {
+			start: ["You drip hot wax onto their skin."],
+			Neutral: [
+					"Small droplets leave red marks that cool quickly.",
+					"They gasp softly with each drop of wax." 
+			],
+			Liked: [
+					"They moan at the sting and arch toward the next drop.",
+					"The sharp sensation clearly excites them." 
+			],
+			Disliked: [
+					"They hiss in pain and try to pull away from the wax.",
+					"Their expression shows they're not enjoying this." 
+			],
+			climax: ["The mixture of heat and pain leaves them shuddering with desire."]
+	},
+
+	Degrade_G: {
+			start: ["You let cruel words spill from your lips."],
+			Neutral: [
+					"You insult them in a low voice, gauging their reaction.",
+					"Your degrading comments cut into the moment." 
+			],
+			Liked: [
+					"They whimper at every harsh word, clearly aroused.",
+					"Being called names only seems to turn them on." 
+			],
+			Disliked: [
+					"They flinch as your insults hit too close to home.",
+					"The degradation wipes the arousal from their eyes." 
+			],
+			climax: ["Your filthy words push them over the edge."]
+	},
+
+	Edge_G: {
+			start: ["You slow your movements just as they're about to climax."],
+			Neutral: [
+					"You keep them hovering on the brink of orgasm.",
+					"Your careful control leaves them panting for release." 
+			],
+			Liked: [
+					"They whine desperately as you deny them again and again.",
+					"The constant edging has them trembling uncontrollably." 
+			],
+			Disliked: [
+					"Frustration overtakes their pleasure as you keep stopping.",
+					"They beg you to finish them, unable to handle the tease." 
+			],
+			climax: ["When you finally allow it, they explode with overwhelming relief."]
 	}
 };
