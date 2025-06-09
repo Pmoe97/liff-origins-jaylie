@@ -3,62 +3,39 @@
 ## Player Actions Missing Responses
 
 ### Breast Actions
-- `Boobjob_G_Tease`
-- `Boobjob_G`
+None
 
 ### Feet Actions
-- `Footjob_Penis_G_Tease`
-- `Footjob_Penis_G`
-- `Footjob_Vagina_G_Tease`
-- `Footjob_Vagina_G`
+None
 
 ### Bondage & Toys
-- `Bondage_G`
-- `Gag_G`
-- `Blindfold_G`
-- `Toys_Use`
-- `WaxPlay_G`
+None
 
 ### Verbal Actions
-- `Degrade_G`
+None
 
 ### Scene Control
-- `Edge_G`
+None
 
-### Orgasm Actions (All Missing)
-- `Player_Cum_Anal_Inside`
-- `Player_Cum_Vaginal_Inside`
-- `Player_Cum_On_Face`
-- `Player_Cum_On_Body`
-- `Player_Cum_In_Mouth`
+### Orgasm Actions
+None
 
 ## NPC Actions Missing Responses
 
 ### NPC Oral Actions
-- `Oral_Penis_NPC_Tease`
-- `Oral_Penis_NPC_Suck`
-- `Oral_Vagina_NPC`
-- `FaceSit_NPC`
+None
 
 ### NPC Manual Actions
-- `Handjob_Penis_NPC_Tease`
-- `Handjob_Penis_NPC`
-- `Fingering_Vagina_NPC`
-- `Handjob_Clit_NPC`
-- `BreastPlay_NPC`
+- `NipplePlay_NPC`
 
 ### NPC Penetration Actions
-- `Anal_NPC_Penetrate`
-- `Vaginal_NPC_Penetrate`
+None
 
 ### NPC Power Actions
-- `Dominate_NPC`
-- `Spank_NPC`
-- `HairPulling_NPC`
+None
 
 ### NPC Verbal Actions
-- `DirtyTalk_NPC`
-- `Praise_NPC`
+None
 
 ## Response Key Mismatches
 

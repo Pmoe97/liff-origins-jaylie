@@ -5,7 +5,7 @@ This report analyzes the correspondence between acts defined in `SexScene_Acts.j
 
 ## Analysis Results
 
-### ✅ Acts with Matching Responses (54 total)
+### ✅ Acts with Matching Responses (79 total)
 The following acts have corresponding response entries:
 
 #### Oral Actions
@@ -16,6 +16,14 @@ The following acts have corresponding response entries:
 - Oral_Vagina_G ✓
 - Oral_Anal_G ✓
 - FaceSit_G ✓
+
+#### Penetration Actions
+- Anal_G_Tease ✓
+- Anal_G_Penetrate ✓
+- Anal_G_Pound ✓
+- Vaginal_G_Tease ✓
+- Vaginal_G_Penetrate ✓
+- Vaginal_G_Pound ✓
 
 #### Manual Actions
 - Handjob_Penis_G_Tease ✓
@@ -28,6 +36,13 @@ The following acts have corresponding response entries:
 - BreastPlay_G ✓
 - NipplePlay_G ✓
 
+#### Bondage & Toys
+- Bondage_G ✓
+- Gag_G ✓
+- Blindfold_G ✓
+- Toys_Use ✓
+- WaxPlay_G ✓
+
 #### Power Actions
 - Dominate ✓
 - Submit ✓
@@ -38,10 +53,14 @@ The following acts have corresponding response entries:
 #### Verbal Actions
 - DirtyTalk_G ✓
 - Praise_G ✓
+- Degrade_G ✓
 
 #### Emotional Actions
 - Kissing ✓
 - Cuddling ✓
+
+#### Scene Control
+- Edge_G ✓
 
 #### Orgasm Actions
 - Player_Cum_Anal_Inside ✓
@@ -78,83 +97,44 @@ The following acts have corresponding response entries:
 - Footjob_Vagina_G_Tease ✓
 - Footjob_Vagina_G ✓
 
-### ❌ Acts WITHOUT Corresponding Responses (17 total)
-The following acts are defined but have NO response entries:
+#### Receiving Actions
+- Oral_Vagina_R ✓
+- Oral_Penis_R ✓
+- Deepthroat_R ✓
+- Handjob_Penis_R ✓
+- Handjob_Clit_R ✓
+- Fingering_Vagina_R ✓
+- Fingering_Anal_R ✓
+- BreastPlay_R ✓
+- NipplePlay_R ✓
+- FaceSit_R ✓
+- Spank_R ✓
 
-#### Penetration Actions (Missing)
-1. **Anal_G_Tease** - "Tease Their Asshole With Your Cock"
-2. **Anal_G_Penetrate** - "Penetrate Their Ass"
-3. **Anal_G_Pound** - "Pound Their Ass"
-4. **Vaginal_G_Tease** - "Tease Their Pussy With Your Cock"
-5. **Vaginal_G_Penetrate** - "Penetrate Their Pussy"
-6. **Vaginal_G_Pound** - "Pound Their Pussy"
-
-#### Bondage & Toys (Missing)
-7. **Bondage_G** - "Bind Them"
-8. **Gag_G** - "Gag Them"
-9. **Blindfold_G** - "Blindfold Them"
-10. **Toys_Use** - "Use a Toy on Them"
-11. **WaxPlay_G** - "Drip Wax on Them"
-
-#### Verbal Actions (Missing)
-12. **Degrade_G** - "Degrade Them"
-
-#### Scene Control (Missing)
-13. **Edge_G** - "Edge Them"
-
-#### Orgasm Actions (Missing)
-14. **Orgasm_Penis_Internal** - Generic internal orgasm (referenced in responses but not in acts)
-15. **Orgasm_Penis_External** - Generic external orgasm (referenced in responses but not in acts)
-16. **Orgasm_Vagina_Solo** - Solo vagina orgasm (referenced in responses but not in acts)
+### ❌ Acts WITHOUT Corresponding Responses (1 total)
+The following act is defined but has NO response entry:
 
 #### NPC Actions (Missing)
-17. **NipplePlay_NPC** - NPC nipple play action (referenced in responses but not in acts)
+1. **NipplePlay_NPC** - NPC nipple play action
 
-### 🔄 Response Entries WITHOUT Corresponding Acts (7 total)
-The following response entries exist but have no corresponding act:
-
-1. **Orgasm_Penis_Internal** - Has responses but no act definition
-2. **Orgasm_Penis_External** - Has responses but no act definition
-3. **Orgasm_Vagina_Solo** - Has responses but no act definition
-4. **Oral_Vagina_R** - Receiving oral on vagina (responses exist, no act)
-5. **Oral_Penis_R** - Receiving oral on penis (responses exist, no act)
-6. **Deepthroat_R** - Receiving deepthroat (responses exist, no act)
-7. **Handjob_Penis_R** - Receiving handjob on penis (responses exist, no act)
-8. **Handjob_Clit_R** - Receiving clit stimulation (responses exist, no act)
-9. **Fingering_Vagina_R** - Receiving vaginal fingering (responses exist, no act)
-10. **Fingering_Anal_R** - Receiving anal fingering (responses exist, no act)
-11. **BreastPlay_R** - Receiving breast play (responses exist, no act)
-12. **NipplePlay_R** - Receiving nipple play (responses exist, no act)
-13. **FaceSit_R** - Receiving face sitting (responses exist, no act)
-14. **Spank_R** - Receiving spanking (responses exist, no act)
+### 🔄 Response Entries WITHOUT Corresponding Acts (0 total)
+All response entries correspond to defined acts.
 
 ### 📊 Statistics
-- Total Acts Defined: 71
-- Total Response Entries: 68
-- Acts with Responses: 54 (76%)
-- Acts Missing Responses: 17 (24%)
-- Responses without Acts: 14 (21%)
+- Total Acts Defined: 80
+- Total Response Entries: 79
+- Acts with Responses: 79 (99%)
+- Acts Missing Responses: 1 (1%)
+- Responses without Acts: 0 (0%)
 
 ### 🔍 Key Findings
 
-1. **Major Gap: Penetration Actions** - All 6 player-initiated penetration acts (anal and vaginal) have NO responses defined.
-
-2. **Major Gap: Bondage & Toys** - All 5 bondage/toy acts have NO responses defined.
-
-3. **Receiving Actions Pattern** - Many "_R" suffixed responses exist without corresponding acts, suggesting these might be handled differently in the system.
-
-4. **Orgasm Actions Mismatch** - Several orgasm response entries exist without act definitions, possibly indicating these are triggered differently.
-
-5. **NPC Actions** - Most NPC actions have proper responses, but NipplePlay_NPC is referenced in responses without an act definition.
+1. All penetration, bondage, toy, verbal, and orgasm acts now have matching responses.
+2. All "_R" receiving actions correspond with act definitions.
+3. Only one act is missing a response entry: **NipplePlay_NPC**.
 
 ### 💡 Recommendations
 
-1. **Priority 1**: Add responses for all penetration actions (6 acts)
-2. **Priority 2**: Add responses for bondage & toy actions (5 acts)
-3. **Priority 3**: Add responses for Degrade_G and Edge_G
-4. **Priority 4**: Investigate the "_R" responses pattern and determine if acts are needed
-5. **Priority 5**: Resolve orgasm action mismatches
-6. **Priority 6**: Add NipplePlay_NPC act definition or remove its responses
+1. **Priority 1**: Add responses for **NipplePlay_NPC**.
 
 ### 📝 Implementation Notes
 
