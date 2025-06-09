@@ -370,7 +370,6 @@ setup.SexSceneResponses = {
 			"Their body tenses, then softens as you begin to move with careful rhythm.",
 			"You curl your finger slowly inside them, letting them adjust to the intrusion.",
 			"Your free hand rests on their hip while your other hand works them open with deliberate care.",
-			"You test the tension with your hand at their neck—just enough pressure to make them aware of it."
 		],
 		Liked: [
 			"They moan shamelessly, pushing back into your touch.",
