@@ -526,7 +526,7 @@ setup.initializeCharacters = function () {
 				buttSize: 3,
 				anus: true,
 				clitoris: true,
-				penisSize: 4
+				
 			},
 
 			preferences: {

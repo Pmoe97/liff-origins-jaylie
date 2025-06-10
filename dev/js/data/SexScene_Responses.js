@@ -1535,6 +1535,13 @@ setup.SexSceneResponses = {
 		climax: ["You scream with pleasure as the orgasm rips through you, your body completely out of control."]
 	},
 
+	NipplePlay_NPC: {
+		start: ["They reach towards your chest and begin to twirl their fingers around the sensitive flesh of your nipple."],
+		/* Placeholder - Add more stuff here, lazy. */
+
+
+	},
+
 	FaceSit_NPC: {
 		start: ["They climb over you, lowering their body with careful control."],
 		Neutral: [
