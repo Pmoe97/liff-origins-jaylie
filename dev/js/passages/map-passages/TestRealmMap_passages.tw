@@ -1,0 +1,38 @@
+:: MapSystem_TestRealm
+<<loadmap "TestRealmMap">>
+
+You enter the test room entry way? Do you wish to travel back to the Start Menu?
+
+
+
+[[Yes|Start]]
+
+:: TestRealmCenterArea
+You walk into the center of the test realm. To the west is the test realm shop.
+To the east is the test realm dialogue room.
+To the north is the test realm observatory.
+To the south is the test realm entryway.
+
+:: TestRealmShop
+You enter the shop. There is nothing here.... yet.
+
+Wait what's wrong with that southern wall?
+
+:: TestRealmObservatory
+You enter the test realm observatory. From up here you can see a lot of nothingness..... Wow for a realm of infinite possibilities this place is boring.
+
+To the south is the test realm center.
+
+:: TestRealmDialogueRoom
+<<StartDialogueLayout>>
+
+You enter the dialogue room.
+
+Looks like Allura is here
+
+<<DialogueTree "allura" "phase0">>
+
+:: TestRealmMap_MapData
+<!-- Map data for TestRealmMap -->
+<!-- This passage contains the map configuration -->
+
