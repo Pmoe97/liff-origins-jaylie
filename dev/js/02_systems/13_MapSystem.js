@@ -81,6 +81,8 @@ window.MapSystem = {
         // Set position
         if (position) {
             this.currentPosition = { ...position };
+        } else if (mapData.defaultStart) {
+            this.currentPosition = { ...mapData.defaultStart };
         } else if (mapData.playerStartPosition) {
             this.currentPosition = { ...mapData.playerStartPosition };
         } else {
@@ -167,7 +169,12 @@ window.MapSystem = {
     getNodeAt(x, y) {
         if (!this.currentMap) return null;
         
-        return this.currentMap.nodes.find(node => node.x === x && node.y === y);
+        // Handle both x,y and column,row formats
+        return this.currentMap.nodes.find(node => {
+            const nodeX = node.x !== undefined ? node.x : node.column;
+            const nodeY = node.y !== undefined ? node.y : node.row;
+            return nodeX === x && nodeY === y;
+        });
     },
     
     /**
@@ -562,10 +569,10 @@ window.MapSystem = {
         const { x: playerX, y: playerY } = this.currentPosition;
         
         // Calculate visible area (3x3 around player for minimap)
-        const minX = Math.max(1, playerX - 1);
-        const maxX = Math.min(width, playerX + 1);
-        const minY = Math.max(1, playerY - 1);
-        const maxY = Math.min(height, playerY + 1);
+        const minX = Math.max(0, playerX - 1);
+        const maxX = Math.min(width - 1, playerX + 1);
+        const minY = Math.max(0, playerY - 1);
+        const maxY = Math.min(height - 1, playerY + 1);
         
         let html = '<div class="tile-grid minimap-grid">';
         
@@ -715,10 +722,10 @@ window.MapSystem = {
         const { width, height } = this.currentMap.gridSize;
         const { x: playerX, y: playerY } = this.currentPosition;
         
-        let html = '<div class="tile-grid full-map-grid">';
+        let html = `<div class="tile-grid full-map-grid" style="grid-template-columns: repeat(${width}, 40px); grid-template-rows: repeat(${height}, 40px);">`;
         
-        for (let y = 1; y <= height; y++) {
-            for (let x = 1; x <= width; x++) {
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
                 const node = this.getNodeAt(x, y);
                 const isPlayer = (x === playerX && y === playerY);
                 const isRevealed = this.isTileRevealed(this.currentMap.mapId, x, y);
@@ -1051,4 +1058,13 @@ $(document).on(':passagedisplay', () => {
         MapSystem.updateMinimapDisplay();
         MapSystem.updateLocationInfo();
     }
+});
+
+// Update full map when journal map tab is opened
+$(document).on('click', '[data-tab="map"]', () => {
+    setTimeout(() => {
+        if (MapSystem.currentMap) {
+            MapSystem.updateFullMapDisplay();
+        }
+    }, 100);
 });
