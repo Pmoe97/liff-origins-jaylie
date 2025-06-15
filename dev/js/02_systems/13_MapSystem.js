@@ -199,6 +199,12 @@ window.MapSystem = {
         if (transition.type === "none") {
             return false;
         }
+
+        if (transition.type === "bidirectional") {
+            // Bidirectional always allowed if conditions pass
+            return this.checkTransitionConditions(transition.conditions);
+        }
+
         
         if (transition.type === "secret") {
             // Secret transitions are hidden until unlocked

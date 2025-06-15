@@ -12671,6 +12671,12 @@ window.MapSystem = {
         if (transition.type === "none") {
             return false;
         }
+
+        if (transition.type === "bidirectional") {
+            // Bidirectional always allowed if conditions pass
+            return this.checkTransitionConditions(transition.conditions);
+        }
+
         
         if (transition.type === "secret") {
             // Secret transitions are hidden until unlocked
@@ -26519,7 +26525,7 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
 &lt;&lt;/append&gt;&gt;
 &lt;&lt;run setup.clearConvoChoices()&gt;&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="97" name="center" tags="" position="850,1225" size="100,100">the center node &lt;&lt;loadmap &quot;test-map&quot;&gt;&gt;&gt;&gt;</tw-passagedata><tw-passagedata pid="98" name="bottom" tags="" position="975,1225" size="100,100">The bottom node. Can&#39;t go back up.</tw-passagedata><tw-passagedata pid="99" name="bottom-right" tags="" position="1100,1225" size="100,100">&lt;!-- Auto-generated passage for Test --&gt;
-&lt;!-- Add your passage content here --&gt;</tw-passagedata><tw-passagedata pid="100" name="right" tags="" position="1225,1225" size="100,100">The right passage. Can&#39;t go right.</tw-passagedata><tw-passagedata pid="101" name="top-right" tags="" position="100,1350" size="100,100">The top right passage.</tw-passagedata><tw-passagedata pid="102" name="top" tags="" position="225,1350" size="100,100">The top node.
+&lt;!-- Add your passage content here --&gt;</tw-passagedata><tw-passagedata pid="100" name="right" tags="" position="1225,1225" size="100,100">The right passage. Can&#39;t go back left.</tw-passagedata><tw-passagedata pid="101" name="top-right" tags="" position="100,1350" size="100,100">The top right passage.</tw-passagedata><tw-passagedata pid="102" name="top" tags="" position="225,1350" size="100,100">The top node.
 
  * DING *&lt;&lt;set $VisitedNorth = true&gt;&gt;
 

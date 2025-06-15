@@ -36,13 +36,18 @@
         },
         "east": {
           "type": "one-way",
-          "direction": "east",
-          "conditions": []
+          "conditions": [],
+          "direction": "east"
         },
         "south": {
           "type": "one-way",
-          "direction": "south",
-          "conditions": []
+          "conditions": [],
+          "direction": "south"
+        },
+        "north": {
+          "type": "one-way",
+          "conditions": [],
+          "direction": "south"
         }
       }
     },
@@ -56,7 +61,17 @@
       "tags": [],
       "style": {},
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "north": {
+          "type": "one-way",
+          "conditions": [],
+          "direction": "south"
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 3,
@@ -89,7 +104,21 @@
       "tags": [],
       "style": {},
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "west": {
+          "type": "one-way",
+          "conditions": [],
+          "direction": "east"
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 3,
@@ -123,9 +152,14 @@
       "style": {},
       "conditions": [],
       "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "one-way",
-          "conditions": []
+          "conditions": [],
+          "direction": "south"
         }
       }
     },
@@ -139,23 +173,24 @@
       "tags": [],
       "style": {},
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "east": {
+          "type": "locked",
+          "conditions": [
+            {
+              "action": "changeIf",
+              "type": "variable",
+              "name": "VisitedTop",
+              "operator": "==",
+              "value": "true",
+              "changeTarget": "bidirectional"
+            }
+          ]
+        }
+      }
     }
   ],
-  "passageTexts": {
-    "2,1": {
-      "main": "<<set $VisitedTop = true>>",
-      "conditions": {}
-    },
-    "2,2": {
-      "main": "<<loadmap \"test-map\">>",
-      "conditions": {}
-    }
-  },
-  "projectTagLibrary": [
-    "entry-default"
-  ],
-  "entryPointRegistry": {
-    "entry-default": "2,2"
-  }
+  "passageTexts": {},
+  "projectTagLibrary": [],
+  "entryPointRegistry": {}
 }

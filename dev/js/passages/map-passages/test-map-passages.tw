@@ -9,7 +9,7 @@ The bottom node. Can't go back up.
 <!-- Add your passage content here -->
 
 :: right
-The right passage. Can't go right.
+The right passage. Can't go back left.
 
 :: top-right
 The top right passage.
