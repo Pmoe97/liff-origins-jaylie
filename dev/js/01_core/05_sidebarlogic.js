@@ -456,7 +456,13 @@ $(document).on(":passagedisplay", () => {
 	if (typeof setup?.SidebarUI?.update === "function") {
 		setup.SidebarUI.update();
 	}
+
+	// Re-render the minimap after the sidebar refresh wipes DOM
+	if (MapSystem?.currentMap) {
+		MapSystem.updateMinimapDisplay();
+	}
 });
+
 
 // Throttled update on every click (avoids spamming)
 let sidebarUpdateTimeout;
