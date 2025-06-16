@@ -2939,7 +2939,7 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  width: calc(100vw - 260px);
+  width: calc(100vw - 300px);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -3382,15 +3382,16 @@ body:not(.sidebar-collapsed) #text-container {
   height: 100%;
 }
 
-/* Minimap grid - compact 3x3 layout */
+/* Minimap grid - supports dynamic sizing */
 .minimap-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 0fr);
-    gap: 6px;
-    padding: 8px;
-    width: 50px;
-    height: 50px;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  justify-content: center;
+  align-content: center;
+  grid-auto-flow: row;
+  max-width: 100%;
+  overflow: auto;
 }
 
 /* Full map grid - dynamic based on map size */
@@ -12662,47 +12663,39 @@ window.MapSystem = {
         if (!this.currentMap || this.movementBlocked) {
             return false;
         }
-        
+
         const currentNode = this.getNodeAt(this.currentPosition.x, this.currentPosition.y);
         if (!currentNode) {
             return false;
         }
-        
+
         const transition = currentNode.transitions[direction];
         if (!transition) {
             return false;
         }
-        
-        // Check transition type
-        if (transition.type === "none") {
+
+        // ✅ Dynamically evaluate transition type
+        const effectiveType = this.getEffectiveTransitionType(transition);
+
+        // 🔒 None or locked transitions are blocked
+        if (effectiveType === "none" || effectiveType === "locked") {
             return false;
         }
 
-        if (transition.type === "bidirectional") {
-            // Bidirectional always allowed if conditions pass
-            return this.checkTransitionConditions(transition.conditions);
+        // 🕵️ Secret transitions only work if revealed
+        if (effectiveType === "secret" && !this.isTransitionRevealed(currentNode, direction)) {
+            return false;
         }
 
-        
-        if (transition.type === "secret") {
-            // Secret transitions are hidden until unlocked
-            if (!this.isTransitionRevealed(currentNode, direction)) {
-                return false;
-            }
-        }
-        
-        if (transition.type === "one-way" && transition.direction !== direction) {
+        // 🔁 One-way transitions only work if direction matches
+        if (effectiveType === "one-way" && transition.direction !== direction) {
             return false;
         }
-        
-        // Check if transition is currently locked by conditions
-        if (this.isTransitionLocked(transition)) {
-            return false;
-        }
-        
-        // Check conditions
+
+        // ✅ Finally, check if any conditions are unmet
         return this.checkTransitionConditions(transition.conditions);
     },
+
     
     /**
      * Check if a transition is currently locked by its conditions
@@ -12781,6 +12774,20 @@ window.MapSystem = {
         
         return true;
     },
+
+    parseConditionValue(rawValue) {
+        if (rawValue === true || rawValue === false) return rawValue;
+        if (typeof rawValue === 'number') return rawValue;
+        if (typeof rawValue !== 'string') return rawValue;
+
+        const trimmed = rawValue.trim();
+        if (trimmed === "true") return true;
+        if (trimmed === "false") return false;
+        if (!isNaN(trimmed)) return Number(trimmed);
+
+        return trimmed;
+    },
+
     
     /**
      * Evaluate a single condition
@@ -12788,47 +12795,42 @@ window.MapSystem = {
     evaluateCondition(condition) {
         const player = State.variables.player;
         const inventory = State.variables.inventory_player || {};
-        
-        // Handle both old and new condition formats
+
         const conditionType = condition.type;
         const operator = condition.operator || "==";
         let targetValue, actualValue;
-        
+
         switch (conditionType) {
-            case "variable":
-                // New format: condition.name contains the variable path
-                // Old format: condition.variable contains the variable path
+            case "variable": {
                 const variablePath = condition.name || condition.variable;
                 actualValue = this.getNestedValue(State.variables, variablePath);
-                targetValue = condition.value;
+                targetValue = this.parseConditionValue(condition.value);
                 break;
-                
-            case "item":
-                // New format: condition.name contains the item name
-                // Old format: condition.item contains the item name
+            }
+
+            case "item": {
                 const itemName = condition.name || condition.item;
                 actualValue = inventory[itemName] || 0;
-                targetValue = condition.value || true; // Default to checking if item exists
+                targetValue = this.parseConditionValue(condition.value || true);
                 break;
-                
-            case "quest":
-                // New format: condition.name contains the quest name
-                // Old format: condition.quest contains the quest name
+            }
+
+            case "quest": {
                 const questName = condition.name || condition.quest;
-                // Implement quest condition checking based on your quest system
-                // For now, assume quests are stored in State.variables.quests
                 const quests = State.variables.quests || {};
                 actualValue = quests[questName] || false;
-                targetValue = condition.value || true; // Default to checking if quest is completed
+                targetValue = this.parseConditionValue(condition.value || true);
                 break;
-                
+            }
+
             default:
                 console.warn(`[MapSystem] Unknown condition type: ${conditionType}`);
                 return true;
         }
-        
+
         return this.compareValues(actualValue, operator, targetValue);
     },
+
     
     /**
      * Get nested object value by dot notation
@@ -13066,9 +13068,23 @@ window.MapSystem = {
             lucide.createIcons();
         }
 
+        // 🧭 Center the player tile in the minimap view
+        const playerTile = container.querySelector('.player-tile');
+        if (playerTile) {
+            const scrollLeft = playerTile.offsetLeft - (container.clientWidth / 2) + (playerTile.clientWidth / 2);
+            const scrollTop = playerTile.offsetTop - (container.clientHeight / 2) + (playerTile.clientHeight / 2);
+
+            container.scrollLeft = scrollLeft;
+            container.scrollTop = scrollTop;
+
+
+            console.log("[MapSystem] Minimap auto-scrolled to center on player.");
+        } else {
+            console.warn("[MapSystem] Player tile not found in minimap.");
+        }
+
         console.log("[MapSystem] Minimap updated successfully.");
     },
-
     
     /**
      * Generate minimap HTML with enhanced styling support
@@ -13085,17 +13101,12 @@ window.MapSystem = {
             const height = typeof gridSize.height === 'number' ? gridSize.height : 5;
             const { x: playerX, y: playerY } = this.currentPosition;
 
-            const minX = Math.max(1, playerX - 1);
-            const maxX = Math.min(width, playerX + 1);
-            const minY = Math.max(1, playerY - 1);
-            const maxY = Math.min(height, playerY + 1);
+            console.log(`[MapSystem] Rendering full minimap: ${width}x${height} on map "${this.currentMap.mapId || '[no id]'}"`);
 
-            console.log(`[MapSystem] Minimap range: X(${minX}-${maxX}) Y(${minY}-${maxY}) on map "${this.currentMap.mapId || '[no id]'}"`);
+            let html = `<div class="tile-grid minimap-grid" style="grid-template-columns: repeat(${width}, 1fr);">`;
 
-            let html = '<div class="tile-grid minimap-grid">';
-
-            for (let y = minY; y <= maxY; y++) {
-                for (let x = minX; x <= maxX; x++) {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
                     const node = this.getNodeAt(x, y);
                     const isPlayer = (x === playerX && y === playerY);
                     const isRevealed = this.isTileRevealed(this.currentMap.mapId, x, y);
@@ -13176,6 +13187,7 @@ window.MapSystem = {
             return '<div class="tile-grid minimap-grid"><div class="tile minimap-tile tile-error">❌</div></div>';
         }
     },
+
 
     
     /**
@@ -13579,6 +13591,7 @@ window.MapSystem = {
         
         return availableEntries;
     }
+
 };
 
 // Initialize when DOM is ready

@@ -27,9 +27,9 @@
             {
               "action": "changeIf",
               "type": "variable",
-              "name": "VisitedTop",
+              "name": "VisitedNorth",
               "operator": "==",
-              "value": "true",
+              "value": true,
               "changeTarget": "bidirectional"
             }
           ]
@@ -180,9 +180,9 @@
             {
               "action": "changeIf",
               "type": "variable",
-              "name": "VisitedTop",
+              "name": "VisitedNorth",
               "operator": "==",
-              "value": "true",
+              "value": true,
               "changeTarget": "bidirectional"
             }
           ]
