@@ -1,0 +1,1051 @@
+{
+  "mapId": "orphanage_fire",
+  "name": "Orphanage Fire",
+  "gridSize": {
+    "width": 10,
+    "height": 10
+  },
+  "defaultStart": {
+    "x": 5,
+    "y": 8
+  },
+  "nodes": [
+    {
+      "column": 5,
+      "row": 8,
+      "name": "Orphanage Front Entrance",
+      "passage": "OrphanageFrontEntrance",
+      "icon": "door-open",
+      "fogOfWar": false,
+      "tags": [
+        "safe",
+        "entry-default"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 7,
+      "name": "Orphanage Entryway",
+      "passage": "OrphanageEntryway",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 7,
+      "name": "Orphanage Entry Office",
+      "passage": "OrphanageEntryOffice",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 6,
+      "name": "Orphanage Main Hall 1",
+      "passage": "OrphanageMainHall1",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 6,
+      "name": "Orphanage Hall (4,6)",
+      "passage": "OrphanageHall4-6",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 3,
+      "row": 6,
+      "name": "Orphanage Hall (3,6)",
+      "passage": "OrphanageHall3-6",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 3,
+      "row": 5,
+      "name": "Orphanage Hall (3,5)",
+      "passage": "OrphanageHall3-5",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 3,
+      "row": 4,
+      "name": "Orphanage Hall (3,4)",
+      "passage": "OrphanageHall3-4",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 4,
+      "name": "Orphanage Main Hall 3",
+      "passage": "OrphanageMainHall3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 6,
+      "row": 6,
+      "name": "Orphanage Hall (6,6)",
+      "passage": "OrphanageHall6-6",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 6,
+      "name": "Orphanage Hall (7,6)",
+      "passage": "OrphanageHall7-6",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 7,
+      "name": "Orphanage Mess Hall",
+      "passage": "OrphanageMessHall",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 6,
+      "row": 7,
+      "name": "Orphanage Kitchen",
+      "passage": "OrphanageKitchen",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 4,
+      "name": "Orphanage Chapel North",
+      "passage": "OrphanageChapelNorth",
+      "icon": "scale",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "chapel"
+      ],
+      "style": {
+        "primaryColor": "#9581bb",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 3,
+      "row": 3,
+      "name": "Orphanage Hall (3,3)",
+      "passage": "OrphanageHall3-3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 3,
+      "name": "Orphanage Hall (4,3)",
+      "passage": "OrphanageHall4-3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 3,
+      "name": "Orphanage Main Hall 4",
+      "passage": "OrphanageMainHall4",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 6,
+      "name": "Orphanage Hall (8,6)",
+      "passage": "OrphanageHall8-6",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 5,
+      "name": "Orphanage Hall (8,5)",
+      "passage": "OrphanageHall8-5",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 4,
+      "name": "Orphanage Hall (8,4)",
+      "passage": "OrphanageHall8-4",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 3,
+      "name": "Orpahanage Hall (8,3)",
+      "passage": "OrphanageHall8-3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 3,
+      "name": "Orphanage Hall (7,3)",
+      "passage": "OrphanageHall7-3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 6,
+      "row": 3,
+      "name": "Orphanage Hall (6,3)",
+      "passage": "OrphanageHall6-3",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 5,
+      "name": "Orphanage Chapel South",
+      "passage": "OrphanageChapelSouth",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "chapel"
+      ],
+      "style": {
+        "primaryColor": "#9581bb",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 2,
+      "row": 6,
+      "name": "Orphanage First Floor Washroom",
+      "passage": "OrphanageFirstFloorWashroom",
+      "icon": "toilet",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "washroom"
+      ],
+      "style": {
+        "primaryColor": "#17a2b8",
+        "secondaryColor": "#17a2b8",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 2,
+      "row": 5,
+      "name": "Orphanage Utility Storage",
+      "passage": "OrphanageUtilityStorage",
+      "icon": "axe",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "storage"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 2,
+      "row": 3,
+      "name": "Orphanage Library North",
+      "passage": "OrphanageLibraryNorth",
+      "icon": "book-open",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "library"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 2,
+      "row": 4,
+      "name": "Orphanage Library South",
+      "passage": "OrphanageLibrarySouth",
+      "icon": "book-open",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "library"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 2,
+      "name": "Orphanage Main Stairwell 1F",
+      "passage": "OrphanageMainStairwell1F",
+      "icon": "arrow-down-up",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "stairway"
+      ],
+      "style": {
+        "primaryColor": "#bb5757",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 3,
+      "row": 2,
+      "name": "Orphanage Classroom 1 West",
+      "passage": "OrphanageClassroom1West",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "classroom"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 4,
+      "row": 2,
+      "name": "Orphanage Classroom 1 East",
+      "passage": "OrphanageClassroom1East",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "classroom"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 5,
+      "row": 5,
+      "name": "Orphanage Main Hall 2",
+      "passage": "OrphanageMainHall2",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
+      "style": {
+        "primaryColor": "#c8c8c8",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 6,
+      "row": 2,
+      "name": "Orphanage Playroom",
+      "passage": "OrphanagePlayroom",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [],
+      "style": {
+        "primaryColor": "#ffffff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 6,
+      "row": 4,
+      "name": "Orphanage Classroom 2 West",
+      "passage": "OrphanageClassroom2West",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "classroom"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 4,
+      "name": "Orphanage Classroom 2 East",
+      "passage": "OrphanageClassroom2East",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "classroom"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 2,
+      "name": "Orphanage Greenhouse",
+      "passage": "OrphanageGreenhouse",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "greenhouse"
+      ],
+      "style": {
+        "primaryColor": "#4ed093",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 6,
+      "row": 5,
+      "name": "Orphanage Head Arbiter's Office",
+      "passage": "OrphanageHeadArbiterOfficeWest",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 5,
+      "name": "Orphanage Service Stairwell 1F",
+      "passage": "OrphanageServiceStairwell1F",
+      "icon": "",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#bb5757",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    }
+  ]
+}

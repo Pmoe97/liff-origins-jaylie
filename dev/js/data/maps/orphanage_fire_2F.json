@@ -1,0 +1,239 @@
+{
+  "mapId": "orphanage_fire_2F",
+  "name": "Orphanage Fire - Second Floor",
+  "gridSize": {
+    "width": 10,
+    "height": 10
+  },
+  "defaultStart": {
+    "x": 8,
+    "y": 2
+  },
+  "nodes": [
+    {
+      "column": 8,
+      "row": 2,
+      "name": "Greenhouse Roof",
+      "passage": "GreenHouseRoof",
+      "icon": "leaf",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "exterior",
+        "exit"
+      ],
+      "style": {
+        "primaryColor": "#4ed093",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "south": {
+          "type": "locked",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 3,
+      "name": "Arbiter's Dorm (8,3)",
+      "passage": "Girl'sDorm8-3",
+      "icon": "users",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "arbiter-dorm"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "locked",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 4,
+      "name": "Arbiter's Dorm (8,4)",
+      "passage": "ArbitersDorm8-4",
+      "icon": "users",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 3,
+      "name": "Arbiter's Dorm (7,3)",
+      "passage": "ArbitersDorm7-3",
+      "icon": "users",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "arbiter-dorm"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 4,
+      "name": "Arbiter's Dorm (7,4)",
+      "passage": "ArbitersDorm7-4",
+      "icon": "users",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "arbiter-dorm",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 7,
+      "row": 6,
+      "name": "Orphanage InfirmaryWest",
+      "passage": "OrphanageInfirmaryWest",
+      "icon": "heart-pulse",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {
+        "west": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
+    },
+    {
+      "column": 8,
+      "row": 6,
+      "name": "Orphanage Infirmary East",
+      "passage": "OrphanageInfirmaryEast",
+      "icon": "heart-pulse",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event"
+      ],
+      "style": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 7,
+      "row": 5,
+      "name": "Orphanage Service Stairwell 2F",
+      "passage": "OrphanageServiceStairwell2F",
+      "icon": "arrow-down-up",
+      "fogOfWar": false,
+      "tags": [
+        "stairway",
+        "orphanage-event",
+        "interior"
+      ],
+      "style": {
+        "primaryColor": "#bb5757",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    },
+    {
+      "column": 5,
+      "row": 2,
+      "name": "Orphanage Main Stairwell 2F",
+      "passage": "OrphanageMainStairwell2F",
+      "icon": "arrow-down-up",
+      "fogOfWar": false,
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "stairway"
+      ],
+      "style": {
+        "primaryColor": "#bb5757",
+        "secondaryColor": "#6c757d",
+        "pattern": "none"
+      },
+      "conditions": [],
+      "transitions": {}
+    }
+  ]
+}
