@@ -38,7 +38,43 @@ window.MapSystem = {
         // Set up minimap fullscreen button
         this.setupMinimapControls();
         
+        // IMPORTANT: Restore map state after refresh
+        await this.restoreMapState();
+        
         console.log("[MapSystem] Initialized successfully");
+    },
+
+    async restoreMapState() {
+        const mapState = State.variables.player.mapState;
+        
+        if (mapState && mapState.currentMapId) {
+            console.log(`[MapSystem] Restoring map state: ${mapState.currentMapId} at (${mapState.position.x}, ${mapState.position.y})`);
+            
+            // Load the map data
+            const mapData = await this.loadMap(mapState.currentMapId);
+            if (!mapData) {
+                console.error(`[MapSystem] Failed to restore map: ${mapState.currentMapId}`);
+                return false;
+            }
+            
+            this.currentMap = mapData;
+            this.currentPosition = { ...mapState.position };
+            
+            // Restore fog of war state
+            if (mapData.fogOfWar && mapState.revealedTiles[mapState.currentMapId]) {
+                const key = mapState.currentMapId;
+                this.revealedTiles.set(key, new Set(mapState.revealedTiles[mapState.currentMapId]));
+            }
+            
+            // Update displays
+            this.updateMinimapDisplay();
+            this.updateLocationInfo();
+            
+            console.log(`[MapSystem] Map state restored successfully`);
+            return true;
+        }
+        
+        return false;
     },
     
     /**
@@ -69,7 +105,7 @@ window.MapSystem = {
     /**
      * Set the current map and player position
      */
-    async setCurrentMap(mapId, position = null) {
+    async setCurrentMap(mapId, position = null, entryPoint = null) {
         const mapData = await this.loadMap(mapId);
         if (!mapData) {
             console.error(`[MapSystem] Failed to set current map: ${mapId}`);
@@ -77,6 +113,17 @@ window.MapSystem = {
         }
         
         this.currentMap = mapData;
+        
+        // Handle entry points
+        if (entryPoint && mapData.entryPointRegistry) {
+            // Create entry point registry if it exists
+            this.entryPointRegistry = new Map(Object.entries(mapData.entryPointRegistry));
+            const entryPosition = this.getEntryPointPosition(entryPoint);
+            if (entryPosition) {
+                position = entryPosition;
+                console.log(`[MapSystem] Using entry point ${entryPoint} at position (${position.x}, ${position.y})`);
+            }
+        }
         
         // Set position
         if (position) {
@@ -89,13 +136,36 @@ window.MapSystem = {
             this.currentPosition = { x: 1, y: 1 };
         }
         
-        // Update player state
+        // IMPORTANT: Save all map state to player variables for persistence
         State.variables.player.mapState.currentMapId = mapId;
         State.variables.player.mapState.position = { ...this.currentPosition };
+        
+        // Store additional map metadata if needed
+        if (!State.variables.player.mapState.metadata) {
+            State.variables.player.mapState.metadata = {};
+        }
+        State.variables.player.mapState.metadata[mapId] = {
+            name: mapData.name,
+            lastVisited: Date.now()
+        };
         
         // Initialize fog of war if enabled
         if (mapData.fogOfWar) {
             this.initializeFogOfWar(mapId);
+        }
+        
+        // Initialize project tag library and entry points from map data
+        if (mapData.projectTagLibrary) {
+            this.projectTagLibrary = new Set(mapData.projectTagLibrary);
+        }
+        
+        if (mapData.entryPointRegistry) {
+            this.entryPointRegistry = new Map(Object.entries(mapData.entryPointRegistry));
+        }
+        
+        // Initialize passage texts if included
+        if (mapData.passageTexts) {
+            this.passageTexts = new Map(Object.entries(mapData.passageTexts));
         }
         
         // Update displays
@@ -589,22 +659,8 @@ window.MapSystem = {
             lucide.createIcons();
         }
 
-        // 🧭 Center the player tile in the minimap view
-        const playerTile = container.querySelector('.player-tile');
-        if (playerTile) {
-            const scrollLeft = playerTile.offsetLeft - (container.clientWidth / 2) + (playerTile.clientWidth / 2);
-            const scrollTop = playerTile.offsetTop - (container.clientHeight / 2) + (playerTile.clientHeight / 2);
-
-            container.scrollLeft = scrollLeft;
-            container.scrollTop = scrollTop;
-
-
-            console.log("[MapSystem] Minimap auto-scrolled to center on player.");
-        } else {
-            console.warn("[MapSystem] Player tile not found in minimap.");
-        }
-
-        console.log("[MapSystem] Minimap updated successfully.");
+        // No scrolling needed - player is always centered by design
+        console.log("[MapSystem] Minimap updated successfully with player centered.");
     },
     
     /**
@@ -617,26 +673,53 @@ window.MapSystem = {
                 return '';
             }
 
-            const gridSize = this.currentMap.gridSize || { width: 5, height: 5 };
-            const width = typeof gridSize.width === 'number' ? gridSize.width : 5;
-            const height = typeof gridSize.height === 'number' ? gridSize.height : 5;
             const { x: playerX, y: playerY } = this.currentPosition;
+            
+            // Define viewport size (e.g., 5x5 grid with player at center)
+            const viewportSize = 5; // Must be odd number to center player
+            const halfViewport = Math.floor(viewportSize / 2);
+            
+            console.log(`[MapSystem] Rendering minimap viewport: ${viewportSize}x${viewportSize} centered on player at (${playerX}, ${playerY})`);
 
-            console.log(`[MapSystem] Rendering full minimap: ${width}x${height} on map "${this.currentMap.mapId || '[no id]'}"`);
+            // Calculate viewport bounds
+            const startX = playerX - halfViewport;
+            const startY = playerY - halfViewport;
 
-            let html = `<div class="tile-grid minimap-grid" style="grid-template-columns: repeat(${width}, 1fr);">`;
+            // Debug: Log the viewport bounds and expected player position
+            console.log(`[MapSystem] Viewport bounds: X[${startX} to ${startX + viewportSize - 1}], Y[${startY} to ${startY + viewportSize - 1}]`);
+            console.log(`[MapSystem] Player (${playerX}, ${playerY}) should appear at grid position (${halfViewport}, ${halfViewport})`);
 
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    const node = this.getNodeAt(x, y);
-                    const isPlayer = (x === playerX && y === playerY);
-                    const isRevealed = this.isTileRevealed(this.currentMap.mapId, x, y);
+            let html = `<div class="tile-grid minimap-grid" style="grid-template-columns: repeat(${viewportSize}, 1fr); grid-template-rows: repeat(${viewportSize}, 1fr);">`;
+
+            // Generate tiles in correct order for CSS grid (row by row, left to right)
+            for (let row = 0; row < viewportSize; row++) {
+                for (let col = 0; col < viewportSize; col++) {
+                    // Calculate actual map coordinates
+                    const viewX = startX + col;
+                    const viewY = startY + row;
+                    
+                    // Check if this is the player position
+                    const isPlayer = (viewX === playerX && viewY === playerY);
+                    
+                    // Debug: Log when we find the player
+                    if (isPlayer) {
+                        console.log(`[MapSystem] Found player at grid position (${col}, ${row}) - map coords (${viewX}, ${viewY})`);
+                    }
+                    
+                    // Check if coordinates are within map bounds
+                    const isOutOfBounds = viewX < 0 || viewX >= this.currentMap.gridSize.width || 
+                                        viewY < 0 || viewY >= this.currentMap.gridSize.height;
+                    
+                    const node = isOutOfBounds ? null : this.getNodeAt(viewX, viewY);
+                    const isRevealed = isOutOfBounds ? false : this.isTileRevealed(this.currentMap.mapId, viewX, viewY);
 
                     let tileClass = 'tile minimap-tile';
                     let tileContent = '';
                     let tileStyle = '';
 
-                    if (!isRevealed && this.currentMap.fogOfWar) {
+                    if (isOutOfBounds) {
+                        tileClass += ' tile-out-of-bounds';
+                    } else if (!isRevealed && this.currentMap.fogOfWar) {
                         tileClass += ' tile-hidden';
                     } else if (node) {
                         tileClass += ' tile-node';
@@ -648,7 +731,7 @@ window.MapSystem = {
                                     tileClass += ` node-pattern-${node.style.pattern}`;
                                 }
                             } catch (styleError) {
-                                console.warn(`[MapSystem] Style error on node (${x},${y}):`, styleError);
+                                console.warn(`[MapSystem] Style error on node (${viewX},${viewY}):`, styleError);
                             }
                         }
 
@@ -661,7 +744,7 @@ window.MapSystem = {
                                     tileClass += ` tag-${tag.replace(/[^a-zA-Z0-9-]/g, '-')}`;
                                 });
                             } catch (tagError) {
-                                console.warn(`[MapSystem] Tag error on node (${x},${y}):`, tagError);
+                                console.warn(`[MapSystem] Tag error on node (${viewX},${viewY}):`, tagError);
                             }
                         }
 
@@ -675,7 +758,7 @@ window.MapSystem = {
                                     tileContent = `<i data-lucide="${effectiveNode.icon}" class="tile-icon"></i>`;
                                 }
                             } catch (iconError) {
-                                console.warn(`[MapSystem] Icon error on node (${x},${y}):`, iconError);
+                                console.warn(`[MapSystem] Icon error on node (${viewX},${viewY}):`, iconError);
                             }
                         }
 
@@ -689,18 +772,21 @@ window.MapSystem = {
                                     }
                                 });
                             } catch (transitionError) {
-                                console.warn(`[MapSystem] Transition error on node (${x},${y}):`, transitionError);
+                                console.warn(`[MapSystem] Transition error on node (${viewX},${viewY}):`, transitionError);
                             }
                         }
                     } else {
                         tileClass += ' tile-empty';
                     }
 
-                    html += `<div class="${tileClass}" data-x="${x}" data-y="${y}" style="${tileStyle}">${tileContent}</div>`;
+                    // Add debugging attributes
+                    const debugAttrs = `data-x="${viewX}" data-y="${viewY}" data-grid-pos="${col},${row}"${isPlayer ? ' data-is-player="true"' : ''}`;
+                    html += `<div class="${tileClass}" ${debugAttrs} style="${tileStyle}">${tileContent}</div>`;
                 }
             }
 
             html += '</div>';
+            
             return html;
 
         } catch (e) {
@@ -708,8 +794,6 @@ window.MapSystem = {
             return '<div class="tile-grid minimap-grid"><div class="tile minimap-tile tile-error">❌</div></div>';
         }
     },
-
-
     
     /**
      * Update minimap info display
@@ -1115,13 +1199,20 @@ window.MapSystem = {
 
 };
 
+
 // Initialize when DOM is ready
 $(document).ready(() => {
     MapSystem.init();
 });
 
 // Update map display on passage changes
-$(document).on(':passagedisplay', () => {
+$(document).on(':passagedisplay', async () => {
+    // If we have map state but no current map loaded (e.g., after refresh)
+    if (!MapSystem.currentMap && State.variables.player?.mapState?.currentMapId) {
+        console.log("[MapSystem] Detected missing map after passage display, attempting restore...");
+        await MapSystem.restoreMapState();
+    }
+
     if (MapSystem.currentMap) {
         MapSystem.updateMinimapDisplay();
         MapSystem.updateLocationInfo();
