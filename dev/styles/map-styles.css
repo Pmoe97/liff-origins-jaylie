@@ -602,150 +602,223 @@
 =         Connection Lines      
 ============================= */
 
+/* Connection container - ensures lines stay below nodes */
+.map-connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1; /* Below nodes which will be z-index: 2 */
+}
+
 /* Base connection line styling */
-.tile::before,
-.tile::after {
-  content: '';
+.connection-line {
   position: absolute;
   background: #4a90e2;
   opacity: 0.8;
-  z-index: -1;
-  border-radius: 1px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
-/* North/South connections - vertical lines */
-.tile.has-north::before {
-  top: -30px;
+/* Direction-specific connection styling */
+.connection-line.north,
+.connection-line.south {
+  width: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 30px;
-  background: linear-gradient(to bottom, #4a90e2, rgba(74, 144, 226, 0.8));
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(74, 144, 226, 0.4) 15%, 
+    #4a90e2 50%, 
+    rgba(74, 144, 226, 0.4) 85%, 
+    transparent 100%
+  );
 }
 
-.tile.has-south::after {
+.connection-line.east,
+.connection-line.west {
+  height: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(74, 144, 226, 0.4) 15%, 
+    #4a90e2 50%, 
+    rgba(74, 144, 226, 0.4) 85%, 
+    transparent 100%
+  );
+}
+
+/* Position adjustments for each direction */
+.connection-line.north {
+  top: -20px;
+  height: 20px;
+}
+
+.connection-line.south {
+  bottom: -20px;
+  height: 20px;
+}
+
+.connection-line.east {
+  right: -20px;
+  width: 20px;
+}
+
+.connection-line.west {
+  left: -20px;
+  width: 20px;
+}
+
+/* One-way connection styling */
+.connection-line.oneway {
+  background: #ff6b35;
+  opacity: 0.9;
+}
+
+.connection-line.oneway.north,
+.connection-line.oneway.south {
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(255, 107, 53, 0.4) 15%, 
+    #ff6b35 50%, 
+    rgba(255, 107, 53, 0.4) 85%, 
+    transparent 100%
+  );
+}
+
+.connection-line.oneway.east,
+.connection-line.oneway.west {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 107, 53, 0.4) 15%, 
+    #ff6b35 50%, 
+    rgba(255, 107, 53, 0.4) 85%, 
+    transparent 100%
+  );
+}
+
+/* Restricted connection styling - dashed */
+.connection-line.restricted {
+  background: none;
+  opacity: 0.7;
+}
+
+.connection-line.restricted::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    #ff4444 0px,
+    #ff4444 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.connection-line.restricted.north::before,
+.connection-line.restricted.south::before {
+  background-image: repeating-linear-gradient(
+    0deg,
+    #ff4444 0px,
+    #ff4444 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.connection-line.restricted.east::before,
+.connection-line.restricted.west::before {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #ff4444 0px,
+    #ff4444 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* Secret connection styling - subtle */
+.connection-line.secret {
+  opacity: 0.3;
+  background: #666;
+}
+
+/* Locked connection styling */
+.connection-line.locked {
+  background: #808080;
+  opacity: 0.5;
+}
+
+/* Special connection styling */
+.connection-line.special {
+  background: #ffd700;
+  opacity: 0.9;
+  box-shadow: 
+    0 0 4px rgba(255, 215, 0, 0.6),
+    0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Minimap specific adjustments */
+.minimap-grid .connection-line.north,
+.minimap-grid .connection-line.south {
+  width: 2px;
+}
+
+.minimap-grid .connection-line.east,
+.minimap-grid .connection-line.west {
+  height: 2px;
+}
+
+.minimap-grid .connection-line.north {
+  top: -12px;
+  height: 12px;
+}
+
+.minimap-grid .connection-line.south {
+  bottom: -12px;
+  height: 12px;
+}
+
+.minimap-grid .connection-line.east {
+  right: -12px;
+  width: 12px;
+}
+
+.minimap-grid .connection-line.west {
+  left: -12px;
+  width: 12px;
+}
+
+/* Full map specific adjustments */
+.full-map-grid .connection-line.north {
+  top: -30px;
+  height: 30px;
+}
+
+.full-map-grid .connection-line.south {
   bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
   height: 30px;
-  background: linear-gradient(to top, #4a90e2, rgba(74, 144, 226, 0.8));
 }
 
-/* East/West connections - horizontal lines */
-.tile.has-east {
-  position: relative;
-}
-
-.tile.has-east::after {
-  content: '';
-  position: absolute;
+.full-map-grid .connection-line.east {
   right: -30px;
-  top: 50%;
-  transform: translateY(-50%);
   width: 30px;
-  height: 4px;
-  background: linear-gradient(to right, rgba(74, 144, 226, 0.8), #4a90e2);
-  z-index: -1;
-  border-radius: 1px;
 }
 
-.tile.has-west {
+.full-map-grid .connection-line.west {
+  left: -30px;
+  width: 30px;
+}
+
+/* Ensure tiles are above connections */
+.tile {
   position: relative;
-}
-
-.tile.has-west::before {
-  content: '';
-  position: absolute;
-  left: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 4px;
-  background: linear-gradient(to left, rgba(74, 144, 226, 0.8), #4a90e2);
-  z-index: -1;
-  border-radius: 1px;
-}
-
-/* Handle nodes with both north and west connections */
-.tile.has-north.has-west::before {
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 30px;
-  background: linear-gradient(to bottom, #4a90e2, rgba(74, 144, 226, 0.8));
-}
-
-.tile.has-north.has-west::after {
-  content: '';
-  position: absolute;
-  left: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 4px;
-  background: linear-gradient(to left, rgba(74, 144, 226, 0.8), #4a90e2);
-  z-index: -1;
-  border-radius: 1px;
-}
-
-/* One-way transition styling - different colors */
-.tile.oneway-north::before {
-  background: linear-gradient(to bottom, #ff6b35, rgba(255, 107, 53, 0.8));
-}
-
-.tile.oneway-south::after {
-  background: linear-gradient(to top, #ff6b35, rgba(255, 107, 53, 0.8));
-}
-
-.tile.oneway-east::after {
-  background: linear-gradient(to right, rgba(255, 107, 53, 0.8), #ff6b35);
-}
-
-.tile.oneway-west::before {
-  background: linear-gradient(to left, rgba(255, 107, 53, 0.8), #ff6b35);
-}
-
-/* Dashed lines for restricted transitions */
-.tile.restricted-north::before {
-  background: repeating-linear-gradient(
-    to bottom,
-    #ff4444,
-    #ff4444 4px,
-    transparent 4px,
-    transparent 8px
-  );
-}
-
-.tile.restricted-south::after {
-  background: repeating-linear-gradient(
-    to top,
-    #ff4444,
-    #ff4444 4px,
-    transparent 4px,
-    transparent 8px
-  );
-}
-
-.tile.restricted-east::after {
-  background: repeating-linear-gradient(
-    to right,
-    #ff4444,
-    #ff4444 4px,
-    transparent 4px,
-    transparent 8px
-  );
-}
-
-.tile.restricted-west::before {
-  background: repeating-linear-gradient(
-    to left,
-    #ff4444,
-    #ff4444 4px,
-    transparent 4px,
-    transparent 8px
-  );
+  z-index: 2; /* Above connection lines */
 }
 
 /* =============================
@@ -829,6 +902,9 @@
 .minimap-display .tile-grid {
   gap: 12px;
   padding: 12px;
+  align-content: baseline;
+  margin-top: -45px;
+
 }
 
 .minimap-display .player-indicator {

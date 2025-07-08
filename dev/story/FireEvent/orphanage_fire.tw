@@ -1,71 +1,133 @@
 :: OrphanageFireStart
-You stand in front of the Orphanage of Palms.  <<loadmap "orphanage_fire_1F">>
+You stand before the burning Orphanage, the flames licking hungrily at the night sky, smoke billowing out in thick, choking clouds. The rain does little to quell the inferno, and the heat radiates from the building, even through the downpour. You can hear the crackling of wood and the occasional crash of a collapsing beam.
 
-The building has a pillar of black smoke melding with the night sky above. Despite the heavy rain, the upper floor of the building is engulfed in flames. <div>
-</div><div>The front door to orphanage stands open, swinging in the gusty winds of the storm. Wisps of dark smoke creep out from the top of the door frame, carried away by the wind.
-
-Somewhere inside.... A young boy is all on his own.</div>
+The fire seems to originate from the second floor, right side of the building. Lighting having cracked through the roof and stone facade igniting the wooden beams. Smoke seems to have filled the building as it pours out of the front doors like a dark, oily fog. Behind you, the priestesses and children huddle together, their faces pale and eyes wide with fear.
 
 :: OrphanageEntryway
+<<ambientFlavorTags>>
+
+You stand inside the Orphanage's entryway, the air thick with smoke and the acrid smell of burning wood. The rain outside is a distant roar, muffled by the walls around you. Ahead and to the right you can see a glow of flames licking through the thick air.
+
+Immediately to your left is reception type area with a desk covered in random papers. A few shelves line the walls. You believe it to be some sort of reception office.
+
+:: OrphanageEntryOffice
+<<ambientFlavorTags>>
+Several shelves line the walls of this small, open office, filled with various papers, books, and a few personal items. The desk is cluttered with more papers, some of which curl at the edges from the heat of the smoke. A candlestick sits on the desk, its candle flickers dimly casting dancing shadows along the walls. The main entryway is connected to this space.
 
 :: OrphanageMainHall1
+<<ambientFlavorTags>>
 
+You stand in an intersection of the main hall, two halls going to your left and right, and the entryway behind you. To your right, through the thick smoke you can see a faint glow of fire; from here you cannot make it out, but something seems to be blocking the hallway. Between you and the fire is a door with a placard you cannot read from here. 
+
+To your left a hallways extends before bending in another direction. A door stands slightly ajar at the bend of the hall. 
+
+Directly ahead of you the main hall extends a good ways, though you cannot make out anything at its end through the thick haze.
 :: OrphanageHall4-6
+<<ambientFlavorTags>>
 
+Behind you is the intersection of the main hall. Ahead a door stands ajar, and this hallway turns to the right.
 :: OrphanageHall3-6
+<<ambientFlavorTags>>
+
+You stand at the bend of the hall. Right next to you a door stands ajar, dark inside. The hallway extends into the depth of the building, several doors linging the walls on either side.
 
 :: OrphanageHall3-5
+<<ambientFlavorTags>>
 
+To your left is a simple door with no label or placard, perhaps a storage closet or utility room. This hallway extends further into the building, with a couple doors lining the walls on either side.
 :: OrphanageHall3-4
+<<ambientFlavorTags>>
+
+You stand in a dark and hazy hallway of the Orphanage. Several doors line the walls of this hall. One of those immediately to your right is tall and grand, adorned with stained glass panels through which you can very vaguely see the shapes of what appears to be a chapel. The door is ajar, and you can see flickering light from within.
 
 :: OrphanageMainHall3
+<<ambientFlavorTags>>
+
+You stand in the main hall of the orphanage. To your left, a tall, ornate door sits partially ajar, its stained glass panels catching the flicker of flame from within. Through the colored panes, you can just make out the soft shapes of pews and a raised altar — the chapel. Behind you, the hall stretches back toward the front entryway. Ahead, partially obscured by smoke, a grand bifurcated staircase rises toward the second floor. It splits at a central landing, then curves left and right in a sweeping switchback. Wide wooden steps and polished railings give it a rather regal presence even despite the present chaos. 
 
 :: OrphanageHall6-6
+<<ambientFlavorTags>>
+
+Immediately next to you is a door with a placard that reads "Head Arbiter". Through the thick haze you can see that an ignited portion of the second floor has collapsed, totally blocking the hallway ahead. Flames lick from the collapsed section threatening to spread further. To the west is the main hall which leads everywhere else in the building including the entryway where you came in.
 
 :: OrphanageHall7-6
+<<ambientFlavorTags>>
 
-:: OrphanageChapelNorth
+The smoke, thick and black here is nothing to laugh at. The collapsed section of the second floor has created a barrier that blocks the hallway ahead. Flames lick from the debris, threatening to spread further. You feel the heat on your face, singeing your hair and clothes. You should not be here any longer than you have to be.
+
+:: OrphanageChapel
+<<ambientFlavorTags>>
+
+
 
 :: OrphanageHall3-3
+<<ambientFlavorTags>>
 
 :: OrphanageHall4-3
+<<ambientFlavorTags>>
 
 :: OrphanageMainHall4
+<<ambientFlavorTags>>
 
 :: OrphanageHall8-6
+<<ambientFlavorTags>>
 
 :: OrphanageHall8-5
+<<ambientFlavorTags>>
 
 :: OrphanageHall8-4
+<<ambientFlavorTags>>
 
 :: OrphanageHall8-3
+<<ambientFlavorTags>>
 
 :: OrphanageHall7-3
+<<ambientFlavorTags>>
 
 :: OrphanageHall6-3
+<<ambientFlavorTags>>
 
 :: OrphanageChapelSouth
+<<ambientFlavorTags>>
 
 :: OrphanageFirstFloorWashroom
+<<ambientFlavorTags>>
 
 :: OrphanageUtilityStorage
+<<ambientFlavorTags>>
 
 :: OrphanageLibraryNorth
+<<ambientFlavorTags>>
+
+:: OrphanageLibrarySouth
+<<ambientFlavorTags>>
 
 :: OrphanageMainStairwell1F
+<<ambientFlavorTags>>
+
+:: OrphanageClassroom1West
+<<ambientFlavorTags>>
 
 :: OrphanageClassroom1East
+<<ambientFlavorTags>>
 
 :: OrphanageMainHall2
+<<ambientFlavorTags>>
 
 :: OrphanagePlayroom
-
-:: OrphanageGreenhouse
-
-:: OrphanageHeadArbiterOfficeWest
-
-:: OrphanageServiceStairwell1F
+<<ambientFlavorTags>>
 
 :: OrphanageKitchen
+<<ambientFlavorTags>>
 
 :: OrphanageMessHall
+<<ambientFlavorTags>>
+
+:: OrphanageGreenhouse
+<<ambientFlavorTags>>
+
+:: OrphanageHeadArbiterOfficeWest
+<<ambientFlavorTags>>
+
+:: OrphanageServiceStairwell1F
+<<ambientFlavorTags>>

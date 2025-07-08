@@ -1,5 +1,5 @@
 {
-  "mapId": "orphanage_fire_1F",
+  "mapId": "orphanage_fire",
   "name": "Orphanage Fire",
   "gridSize": {
     "width": 10,
@@ -13,9 +13,9 @@
     {
       "column": 5,
       "row": 8,
-      "name": "Orphanage Front Entrance",
-      "passage": "OrphanageFrontEntrance",
-      "icon": "door-open",
+      "name": "Orphanage Outside-Front",
+      "passage": "OrphanageFireStart",
+      "icon": "",
       "fogOfWar": false,
       "tags": [
         "safe",
@@ -39,9 +39,13 @@
       "row": 7,
       "name": "Orphanage Entryway",
       "passage": "OrphanageEntryway",
-      "icon": "",
+      "icon": "door-open",
       "fogOfWar": false,
-      "tags": [],
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
       "style": {
         "primaryColor": "#007bff",
         "secondaryColor": "#6c757d",
@@ -49,15 +53,15 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "bidirectional",
           "conditions": []
         },
         "west": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "north": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -94,7 +98,12 @@
       "passage": "OrphanageMainHall1",
       "icon": "",
       "fogOfWar": false,
-      "tags": [],
+      "tags": [
+        "orphanage-event",
+        "interior",
+        "hallway",
+        "smoke1"
+      ],
       "style": {
         "primaryColor": "#c8c8c8",
         "secondaryColor": "#6c757d",
@@ -102,15 +111,19 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "bidirectional",
           "conditions": []
         },
-        "west": {
+        "east": {
           "type": "bidirectional",
           "conditions": []
         },
-        "east": {
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -126,7 +139,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -155,7 +169,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -164,11 +179,15 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "east": {
           "type": "bidirectional",
           "conditions": []
         },
-        "north": {
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -184,7 +203,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -193,15 +213,15 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "bidirectional",
           "conditions": []
         },
         "west": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "north": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -217,7 +237,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -226,15 +247,15 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "bidirectional",
           "conditions": []
         },
         "east": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "north": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -250,7 +271,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -259,6 +281,14 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "west": {
           "type": "bidirectional",
           "conditions": []
@@ -275,7 +305,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -284,7 +315,7 @@
       },
       "conditions": [],
       "transitions": {
-        "west": {
+        "north": {
           "type": "bidirectional",
           "conditions": []
         },
@@ -292,7 +323,7 @@
           "type": "bidirectional",
           "conditions": []
         },
-        "north": {
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -308,7 +339,9 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke2",
+        "fire1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -320,71 +353,14 @@
         "west": {
           "type": "bidirectional",
           "conditions": []
-        },
-        "south": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "north": {
-          "type": "bidirectional",
-          "conditions": []
-        }
-      }
-    },
-    {
-      "column": 7,
-      "row": 7,
-      "name": "Orphanage Mess Hall",
-      "passage": "OrphanageMessHall",
-      "icon": "",
-      "fogOfWar": false,
-      "tags": [],
-      "style": {
-        "primaryColor": "#007bff",
-        "secondaryColor": "#6c757d",
-        "pattern": "none"
-      },
-      "conditions": [],
-      "transitions": {
-        "north": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "west": {
-          "type": "bidirectional",
-          "conditions": []
-        }
-      }
-    },
-    {
-      "column": 6,
-      "row": 7,
-      "name": "Orphanage Kitchen",
-      "passage": "OrphanageKitchen",
-      "icon": "",
-      "fogOfWar": false,
-      "tags": [
-        "orphanage-event",
-        "interior"
-      ],
-      "style": {
-        "primaryColor": "#007bff",
-        "secondaryColor": "#6c757d",
-        "pattern": "none"
-      },
-      "conditions": [],
-      "transitions": {
-        "east": {
-          "type": "bidirectional",
-          "conditions": []
         }
       }
     },
     {
       "column": 4,
       "row": 4,
-      "name": "Orphanage Chapel North",
-      "passage": "OrphanageChapelNorth",
+      "name": "Orphanage Chapel",
+      "passage": "OrphanageChapel",
       "icon": "scale",
       "fogOfWar": false,
       "tags": [
@@ -399,15 +375,11 @@
       },
       "conditions": [],
       "transitions": {
-        "west": {
-          "type": "bidirectional",
-          "conditions": []
-        },
         "east": {
           "type": "bidirectional",
           "conditions": []
         },
-        "south": {
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -423,7 +395,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -436,11 +409,11 @@
           "type": "bidirectional",
           "conditions": []
         },
-        "west": {
+        "east": {
           "type": "bidirectional",
           "conditions": []
         },
-        "east": {
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -456,7 +429,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -465,15 +439,15 @@
       },
       "conditions": [],
       "transitions": {
-        "west": {
-          "type": "bidirectional",
-          "conditions": []
-        },
         "north": {
           "type": "bidirectional",
           "conditions": []
         },
         "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -489,7 +463,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -498,11 +473,19 @@
       },
       "conditions": [],
       "transitions": {
-        "west": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
           "type": "bidirectional",
           "conditions": []
         },
         "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -543,7 +526,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -552,11 +536,11 @@
       },
       "conditions": [],
       "transitions": {
-        "south": {
+        "north": {
           "type": "bidirectional",
           "conditions": []
         },
-        "north": {
+        "south": {
           "type": "bidirectional",
           "conditions": []
         },
@@ -573,7 +557,12 @@
       "passage": "OrphanageHall8-4",
       "icon": "",
       "fogOfWar": false,
-      "tags": [],
+      "tags": [
+        "smoke1",
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
       "style": {
         "primaryColor": "#c8c8c8",
         "secondaryColor": "#6c757d",
@@ -581,11 +570,11 @@
       },
       "conditions": [],
       "transitions": {
-        "south": {
+        "north": {
           "type": "bidirectional",
           "conditions": []
         },
-        "north": {
+        "south": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -598,7 +587,12 @@
       "passage": "OrphanageHall8-3",
       "icon": "",
       "fogOfWar": false,
-      "tags": [],
+      "tags": [
+        "smoke1",
+        "orphanage-event",
+        "interior",
+        "hallway"
+      ],
       "style": {
         "primaryColor": "#c8c8c8",
         "secondaryColor": "#6c757d",
@@ -606,6 +600,10 @@
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "south": {
           "type": "bidirectional",
           "conditions": []
@@ -626,7 +624,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -635,6 +634,10 @@
       },
       "conditions": [],
       "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "east": {
           "type": "bidirectional",
           "conditions": []
@@ -655,7 +658,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -664,14 +668,6 @@
       },
       "conditions": [],
       "transitions": {
-        "west": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "east": {
-          "type": "bidirectional",
-          "conditions": []
-        },
         "north": {
           "type": "bidirectional",
           "conditions": []
@@ -679,29 +675,12 @@
         "south": {
           "type": "bidirectional",
           "conditions": []
-        }
-      }
-    },
-    {
-      "column": 4,
-      "row": 5,
-      "name": "Orphanage Chapel South",
-      "passage": "OrphanageChapelSouth",
-      "icon": "",
-      "fogOfWar": false,
-      "tags": [
-        "orphanage-event",
-        "interior",
-        "chapel"
-      ],
-      "style": {
-        "primaryColor": "#9581bb",
-        "secondaryColor": "#6c757d",
-        "pattern": "none"
-      },
-      "conditions": [],
-      "transitions": {
-        "north": {
+        },
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -725,7 +704,12 @@
         "pattern": "none"
       },
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "east": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 2,
@@ -771,11 +755,11 @@
       },
       "conditions": [],
       "transitions": {
-        "east": {
+        "south": {
           "type": "bidirectional",
           "conditions": []
         },
-        "south": {
+        "east": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -824,7 +808,12 @@
         "pattern": "none"
       },
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 3,
@@ -890,7 +879,8 @@
       "tags": [
         "orphanage-event",
         "interior",
-        "hallway"
+        "hallway",
+        "smoke1"
       ],
       "style": {
         "primaryColor": "#c8c8c8",
@@ -898,7 +888,16 @@
         "pattern": "none"
       },
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 6,
@@ -924,17 +923,17 @@
     {
       "column": 6,
       "row": 4,
-      "name": "Orphanage Classroom 2 West",
-      "passage": "OrphanageClassroom2West",
-      "icon": "",
+      "name": "Orphanage Kitchen",
+      "passage": "OrphanageKitchen",
+      "icon": "archive",
       "fogOfWar": false,
       "tags": [
         "orphanage-event",
         "interior",
-        "classroom"
+        "kitchen"
       ],
       "style": {
-        "primaryColor": "#007bff",
+        "primaryColor": "#82addb",
         "secondaryColor": "#6c757d",
         "pattern": "none"
       },
@@ -953,22 +952,26 @@
     {
       "column": 7,
       "row": 4,
-      "name": "Orphanage Classroom 2 East",
-      "passage": "OrphanageClassroom2East",
-      "icon": "",
+      "name": "Orphanage Mess Hall",
+      "passage": "OrphanageMessHall",
+      "icon": "hand-platter",
       "fogOfWar": false,
       "tags": [
         "orphanage-event",
         "interior",
-        "classroom"
+        "mess-hall"
       ],
       "style": {
-        "primaryColor": "#007bff",
+        "primaryColor": "#77a7db",
         "secondaryColor": "#6c757d",
         "pattern": "none"
       },
       "conditions": [],
       "transitions": {
+        "north": {
+          "type": "bidirectional",
+          "conditions": []
+        },
         "west": {
           "type": "bidirectional",
           "conditions": []
@@ -993,7 +996,12 @@
         "pattern": "none"
       },
       "conditions": [],
-      "transitions": {}
+      "transitions": {
+        "south": {
+          "type": "bidirectional",
+          "conditions": []
+        }
+      }
     },
     {
       "column": 6,
@@ -1038,10 +1046,6 @@
       "conditions": [],
       "transitions": {
         "east": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "south": {
           "type": "bidirectional",
           "conditions": []
         }

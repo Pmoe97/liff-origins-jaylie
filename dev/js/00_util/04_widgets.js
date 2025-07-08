@@ -83,6 +83,258 @@ Macro.add("know", {
 });
 
 
+/* *******************************************************************
+<<ambientFlavorTags>> - Default: show flavor for all node tags (1 line, priority, no repeats)
+<<ambientFlavorTags 3>> - Show up to 3 lines from node tags
+<<ambientFlavorTags 2 "repeats">> - Allow repeated text
+<<ambientFlavorTags "include:smoke1,smoke2">> - Only include specific tags
+<<ambientFlavorTags "include:time">> - Include time-based flavor (special keyword)
+<<ambientFlavorTags "include:weather">> - Include weather-based flavor (special keyword)
+<<ambientFlavorTags "include:node,time">> - Include node tags + time flavor
+<<ambientFlavorTags "force:rain">> - Force showing rain tags (for testing)
+************************************************************************ */
+Macro.add("ambientFlavorTags", {
+	tags: null,
+	handler() {
+		// Parse arguments
+		const args = this.args;
+		const options = {
+			maxLines: 1,           // Default to 1 line
+			allowRepeats: false,   // Filter duplicates by default
+			priorityMode: true,    // Use tag priority by default
+			includeTags: [],       // Optional tag inclusion list
+			includeSpecial: [],    // Special keywords like 'time', 'weather'
+			forceTag: null         // Force a specific tag (for testing)
+		};
+		
+		// Parse optional arguments
+		for (let i = 0; i < args.length; i++) {
+			if (typeof args[i] === 'number') {
+				options.maxLines = args[i];
+			} else if (typeof args[i] === 'string') {
+				const arg = args[i].toLowerCase();
+				if (arg === 'repeats') options.allowRepeats = true;
+				else if (arg === 'nopriority') options.priorityMode = false;
+				else if (arg.startsWith('include:')) {
+					const includes = arg.substring(8).split(',').map(t => t.trim());
+					// Separate special keywords from regular tags
+					const specialKeywords = ['time', 'weather', 'season', 'node'];
+					includes.forEach(inc => {
+						if (specialKeywords.includes(inc)) {
+							options.includeSpecial.push(inc);
+						} else {
+							options.includeTags.push(inc);
+						}
+					});
+				} else if (arg.startsWith('force:')) {
+					options.forceTag = arg.substring(6).trim();
+				}
+			}
+		}
+		
+		// Collect tags to process
+		let tags = [];
+		
+		// Handle forced tag
+		if (options.forceTag) {
+			tags = [options.forceTag];
+		} else {
+			// Add node tags if no specific includes or if 'node' is included
+			if (options.includeTags.length === 0 || options.includeSpecial.includes('node')) {
+				const mapState = State.variables.player?.mapState;
+				if (mapState && mapState.currentMapId && mapState.position) {
+					const pos = mapState.position;
+					const node = MapSystem.getNodeAt(pos.x, pos.y);
+					if (node && node.tags && Array.isArray(node.tags)) {
+						tags = [...node.tags];
+					}
+				}
+			}
+			
+			// Add specific included tags
+			if (options.includeTags.length > 0) {
+				// If specific tags requested, only use those (unless 'node' was also specified)
+				if (!options.includeSpecial.includes('node')) {
+					tags = options.includeTags;
+				} else {
+					// Filter node tags to only included ones
+					tags = tags.filter(tag => options.includeTags.includes(tag));
+				}
+			}
+			
+			// Add special dynamic tags based on keywords
+			if (options.includeSpecial.includes('time')) {
+				const hour = new Date().getHours();
+				const timeTag = (hour >= 6 && hour < 12) ? 'morning' :
+							   (hour >= 12 && hour < 17) ? 'afternoon' :
+							   (hour >= 17 && hour < 20) ? 'evening' : 'night';
+				tags.push(timeTag);
+			}
+			
+			if (options.includeSpecial.includes('weather')) {
+				const weather = State.variables.world?.weather || 'clear';
+				tags.push(weather);
+			}
+			
+			if (options.includeSpecial.includes('season')) {
+				const season = State.variables.world?.season || 'spring';
+				tags.push(season);
+			}
+		}
+		
+		// Remove duplicate tags
+		tags = [...new Set(tags)];
+		
+		// Sort by priority if enabled
+		if (options.priorityMode && window.ambientFlavorTags?._priority) {
+			const priorities = window.ambientFlavorTags._priority;
+			tags.sort((a, b) => {
+				const priorityA = priorities[a] || priorities.default || 0;
+				const priorityB = priorities[b] || priorities.default || 0;
+				return priorityB - priorityA; // Higher priority first
+			});
+		}
+		
+		// Collect eligible entries
+		const eligibleEntries = [];
+		const usedTexts = new Set(); // Track used texts to avoid repeats
+		
+		for (const tag of tags) {
+			const entries = window.ambientFlavorTags?.[tag];
+			if (!entries || !Array.isArray(entries)) continue;
+			
+			for (const entry of entries) {
+				// Handle both string and object entries
+				const entryObj = typeof entry === 'string' ? { text: entry, weight: 1 } : entry;
+				
+				// Check conditions if any
+				if (entryObj.conditions && !this.evaluateConditions(entryObj.conditions)) {
+					continue;
+				}
+				
+				// Skip if already used and repeats not allowed
+				if (!options.allowRepeats && usedTexts.has(entryObj.text)) {
+					continue;
+				}
+				
+				eligibleEntries.push({
+					text: entryObj.text,
+					weight: entryObj.weight || 1,
+					tag: tag
+				});
+				
+				// If priority mode, we might want to stop after finding entries for highest priority tag
+				if (options.priorityMode && eligibleEntries.length >= options.maxLines) {
+					break;
+				}
+			}
+			
+			if (options.priorityMode && eligibleEntries.length >= options.maxLines) {
+				break;
+			}
+		}
+		
+		// Select entries based on weight
+		const selectedEntries = [];
+		const availableEntries = [...eligibleEntries];
+		
+		for (let i = 0; i < options.maxLines && availableEntries.length > 0; i++) {
+			const entry = this.selectWeightedEntry(availableEntries);
+			if (entry) {
+				selectedEntries.push(entry);
+				usedTexts.add(entry.text);
+				
+				// Remove selected entry from available pool
+				const index = availableEntries.indexOf(entry);
+				if (index > -1) {
+					availableEntries.splice(index, 1);
+				}
+			}
+		}
+		
+		// Output the selected entries
+		if (selectedEntries.length > 0) {
+			const lines = selectedEntries.map(entry => 
+				`<p class="ambient-line ambient-${entry.tag}"><em>${entry.text}</em></p>`
+			);
+			this.output.append(lines.join("\n"));
+		}
+	},
+	
+	// Helper method to evaluate conditions
+	evaluateConditions(conditions) {
+		if (!conditions || !Array.isArray(conditions)) return true;
+		
+		for (const condition of conditions) {
+			if (!this.evaluateSingleCondition(condition)) {
+				return false;
+			}
+		}
+		return true;
+	},
+	
+	// Helper method to evaluate a single condition
+	evaluateSingleCondition(condition) {
+		const { type, name, value, operator = "==" } = condition;
+		
+		switch (type) {
+			case "variable": {
+				const actualValue = this.getNestedValue(State.variables, name);
+				return this.compareValues(actualValue, operator, value);
+			}
+			case "time": {
+				const hour = new Date().getHours();
+				const timeOfDay = hour >= 6 && hour < 18 ? "day" : "night";
+				return this.compareValues(timeOfDay, operator, value);
+			}
+			case "weather": {
+				const weather = State.variables.world?.weather || "clear";
+				return this.compareValues(weather, operator, value);
+			}
+			default:
+				return true;
+		}
+	},
+	
+	// Helper to get nested object values
+	getNestedValue(obj, path) {
+		return path.split('.').reduce((current, key) => {
+			return current && current[key] !== undefined ? current[key] : undefined;
+		}, obj);
+	},
+	
+	// Helper to compare values
+	compareValues(a, operator, b) {
+		switch (operator) {
+			case "==": return a == b;
+			case "!=": return a != b;
+			case ">=": return a >= b;
+			case "<=": return a <= b;
+			case ">": return a > b;
+			case "<": return a < b;
+			default: return false;
+		}
+	},
+	
+	// Helper to select weighted entry
+	selectWeightedEntry(entries) {
+		if (!entries || entries.length === 0) return null;
+		
+		const totalWeight = entries.reduce((sum, entry) => sum + (entry.weight || 1), 0);
+		let random = Math.random() * totalWeight;
+		
+		for (const entry of entries) {
+			random -= (entry.weight || 1);
+			if (random <= 0) {
+				return entry;
+			}
+		}
+		
+		return entries[0]; // Fallback
+	}
+});
+
+
 /* Dialogue Choice Button */
 Macro.add("dialogueChoice", {
 	skipArgs: false,
