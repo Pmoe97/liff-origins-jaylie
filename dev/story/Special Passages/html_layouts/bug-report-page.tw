@@ -1,3 +1,4 @@
+:: BugReportPage[nobr]
 <div class="overlay-container" id="bug-report-overlay">
   <!-- Close Button -->
   <button class="overlay-close-btn" onclick="closeOverlay()">✖</button>

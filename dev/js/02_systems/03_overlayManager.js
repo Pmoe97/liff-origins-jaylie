@@ -1,20 +1,27 @@
 window.openOverlay = function (source) {
 	const body = document.getElementById("overlay-body");
-	if (!body) return;
-
-	body.innerHTML = "";
-
-	const normalized = source.toLowerCase();
-
-	// Force file-based overlays for naming conventions like -page or -sheet
-	if (normalized.endsWith(".html") || normalized.includes("-page") || normalized.includes("-sheet")) {
-		const filename = normalized.endsWith(".html") ? normalized : `${normalized}.html`;
-		setup.loadOverlayHTML("overlay-body", filename);
-	} else {
-		new Wikifier(body, `<<include [[${source}]]>>`);
+	if (!body) {
+		console.warn("❌ Could not find overlay-body element");
+		return;
 	}
 
-	document.getElementById("overlay-panel").classList.remove("overlay-hidden");
+	// Clear previous content
+	body.innerHTML = "";
+
+	// Use Wikifier to render the Twine passage
+	try {
+		new Wikifier(body, `<<include [[${source}]]>>`);
+	} catch (err) {
+		console.error(`❌ Error rendering overlay passage '${source}':`, err);
+		body.innerHTML = `<div class="error-message">Could not load overlay: ${source}</div>`;
+		return;
+	}
+
+	// Show the overlay panel
+	const panel = document.getElementById("overlay-panel");
+	if (panel) {
+		panel.classList.remove("overlay-hidden");
+	}
 	
 	// Block map movement when overlay is open
 	if (window.MapSystem) {
@@ -24,37 +31,81 @@ window.openOverlay = function (source) {
 	// Trigger overlay open event
 	$(document).trigger(':overlayopen', [source]);
 	
-	renderLucideIconsSafely?.();
+	// Re-render Lucide icons if available
+	if (window.renderLucideIconsSafely) {
+		renderLucideIconsSafely();
+	} else if (window.lucide) {
+		lucide.createIcons();
+	}
+	
+	console.log(`✅ Overlay opened: ${source}`);
 };
-
 
 window.closeOverlay = function () {
 	const panel = document.getElementById("overlay-panel");
-	if (!panel) return;
+	if (!panel) {
+		console.warn("❌ Could not find overlay-panel element");
+		return;
+	}
+	
+	// Hide the overlay
 	panel.classList.add("overlay-hidden");
-	document.getElementById("overlay-body").innerHTML = "";
+	
+	// Clear the content
+	const body = document.getElementById("overlay-body");
+	if (body) {
+		body.innerHTML = "";
+	}
 	
 	// Unblock map movement when overlay is closed
 	if (window.MapSystem) {
 		MapSystem.setMovementBlocked(false);
 	}
+	
+	// Trigger overlay close event
+	$(document).trigger(':overlayclose');
+	
+	console.log("✅ Overlay closed");
 };
 
-setup.loadOverlayHTML = async function (overlayId, filename) {
-	const container = document.getElementById(overlayId);
-	if (!container) {
-		console.warn(`❌ Could not find element #${overlayId}`);
-		return;
-	}
+// Helper function to check if an overlay is currently open
+window.isOverlayOpen = function () {
+	const panel = document.getElementById("overlay-panel");
+	return panel && !panel.classList.contains("overlay-hidden");
+};
 
-	try {
-		const response = await fetch(`overlays/${filename}`);
-		const html = await response.text();
-		container.innerHTML = html;
+// Helper function to get current overlay content
+window.getOverlayContent = function () {
+	const body = document.getElementById("overlay-body");
+	return body ? body.innerHTML : null;
+};
 
-		// Re-run Lucide icon rendering if needed
-		if (window.lucide) lucide.createIcons();
-	} catch (err) {
-		console.error(`❌ Error loading overlay file '${filename}':`, err);
+// Initialize overlay system
+$(document).ready(function () {
+	// Ensure overlay panel exists
+	if (!document.getElementById("overlay-panel")) {
+		console.warn("⚠️ Overlay panel not found in DOM. Make sure StoryInterface includes overlay-panel structure.");
 	}
+	
+	// Close overlay on Escape key
+	$(document).on("keydown", function (e) {
+		if (e.key === "Escape" && isOverlayOpen()) {
+			closeOverlay();
+		}
+	});
+	
+	// Optional: Close overlay when clicking outside (if you have a backdrop)
+	$(document).on("click", "#overlay-backdrop", function () {
+		closeOverlay();
+	});
+	
+	console.log("✅ Overlay manager initialized");
+});
+
+// Deprecated function - kept for backwards compatibility
+setup.loadOverlayHTML = function (overlayId, filename) {
+	console.warn("⚠️ setup.loadOverlayHTML is deprecated. Use openOverlay() with Twine passage names instead.");
+	// Attempt to convert filename to passage name
+	const passageName = filename.replace(".html", "").replace(/-/g, " ");
+	openOverlay(passageName);
 };

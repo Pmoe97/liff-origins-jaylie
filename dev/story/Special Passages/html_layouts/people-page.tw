@@ -1,3 +1,4 @@
+:: PeoplePage [nobr]
 <!-- People Overlay - RGNPC Management Interface -->
 <div class="overlay-header">
     <h2 id="people-title">People (0)</h2>

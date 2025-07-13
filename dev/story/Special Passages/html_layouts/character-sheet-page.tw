@@ -1,0 +1,666 @@
+:: CharacterSheetPage [nobr]
+<!-- Modern Character Sheet -->
+<div class="overlay-header">
+    <h2>Character</h2>
+    <button class="overlay-close-btn" onclick="closeOverlay()">×</button>
+</div>
+
+<!-- Tab Navigation -->
+<div class="character-tabs">
+    <button class="tab-button active" onclick="switchCharacterTab('status')">Status & Equipment</button>
+    <button class="tab-button" onclick="switchCharacterTab('skills')">Attributes & Skills</button>
+    <button class="tab-button" onclick="switchCharacterTab('appearance')">Appearance</button>
+</div>
+
+<div class="overlay-content">
+    <div class="character-sheet-container">
+        <!-- Hero Section (Always Visible) -->
+        <section class="hero-section">
+            <div class="character-avatar">
+                <img src="images/silhouette_placeholder.png" alt="Character Portrait" id="char-portrait">
+                <div class="level-badge" id="char-level-badge">1</div>
+            </div>
+            
+            <div class="character-info">
+                <h1 id="char-name">Jaylie</h1>
+                <div class="character-details">
+                    <span class="detail-item"><span id="char-race">Human</span> <span id="char-gender">Female</span></span>
+                    <span class="detail-item">Age: <span id="char-age">18</span></span>
+                    <span class="detail-item">Born: <span id="char-dob">15th of Rain, 12219 AI</span></span>
+                </div>
+            </div>
+            
+            <div class="xp-container">
+                <div class="xp-label">Experience Progress</div>
+                <div class="xp-bar">
+                    <div class="xp-fill" id="char-xp-fill" style="width: 0%"></div>
+                    <div class="xp-text" id="char-xp-text">0 / 100</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Status Tab -->
+            <div id="status-tab" class="tab-panel active">
+                <div class="main-content">
+                    <!-- Status Card -->
+                    <section class="card">
+                        <h2>Vitals & Status</h2>
+                        <div class="status-grid">
+                            <div class="status-item status-health">
+                                <div class="status-header">
+                                    <span class="status-name">Health</span>
+                                    <span class="status-value" id="status-health-text">100/100</span>
+                                </div>
+                                <div class="status-bar">
+                                    <div class="status-fill" id="status-health-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="status-item status-fatigue">
+                                <div class="status-header">
+                                    <span class="status-name">Fatigue</span>
+                                    <span class="status-value" id="status-fatigue-text">25/100</span>
+                                </div>
+                                <div class="status-bar">
+                                    <div class="status-fill" id="status-fatigue-fill" style="width: 25%"></div>
+                                </div>
+                            </div>
+                            <div class="status-item status-composure">
+                                <div class="status-header">
+                                    <span class="status-name">Composure</span>
+                                    <span class="status-value" id="status-composure-text">100/100</span>
+                                </div>
+                                <div class="status-bar">
+                                    <div class="status-fill" id="status-composure-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="status-item status-excitement">
+                                <div class="status-header">
+                                    <span class="status-name">Excitement</span>
+                                    <span class="status-value" id="status-excitement-text">0/100</span>
+                                </div>
+                                <div class="status-bar">
+                                    <div class="status-fill" id="status-excitement-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conditions-list" id="char-conditions">
+                            <!-- Dynamically populated conditions -->
+                        </div>
+                    </section>
+
+                    <!-- Equipment Card -->
+                    <section class="card">
+                        <h2>Equipment</h2>
+                        <div class="equipment-grid">
+                            <div class="equipment-slot" data-slot="weaponMain">
+                                <span class="slot-label">Main Hand</span>
+                                <span class="slot-item" id="equip-weaponMain">Fists</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="weaponOffhand">
+                                <span class="slot-label">Off Hand</span>
+                                <span class="slot-item" id="equip-weaponOffhand">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="armorChest">
+                                <span class="slot-label">Chest</span>
+                                <span class="slot-item" id="equip-armorChest">Simple Clothes</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="gloves">
+                                <span class="slot-label">Gloves</span>
+                                <span class="slot-item" id="equip-gloves">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="armorLegs">
+                                <span class="slot-label">Legs</span>
+                                <span class="slot-item" id="equip-armorLegs">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="armorShoes">
+                                <span class="slot-label">Shoes</span>
+                                <span class="slot-item" id="equip-armorShoes">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryFace">
+                                <span class="slot-label">Face</span>
+                                <span class="slot-item" id="equip-accessoryFace">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryNeck">
+                                <span class="slot-label">Neck</span>
+                                <span class="slot-item" id="equip-accessoryNeck">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryBack">
+                                <span class="slot-label">Back</span>
+                                <span class="slot-item" id="equip-accessoryBack">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryRing1">
+                                <span class="slot-label">Ring 1</span>
+                                <span class="slot-item" id="equip-accessoryRing1">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryRing2">
+                                <span class="slot-label">Ring 2</span>
+                                <span class="slot-item" id="equip-accessoryRing2">None</span>
+                            </div>
+                            <div class="equipment-slot" data-slot="accessoryRing3">
+                                <span class="slot-label">Ring 3</span>
+                                <span class="slot-item" id="equip-accessoryRing3">None</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Carry Weight Card -->
+                    <section class="card full-width">
+                        <h2>Inventory Capacity</h2>
+                        <div class="carry-weight-container">
+                            <div class="carry-weight-bar">
+                                <div class="carry-weight-fill" id="carry-weight-fill" style="width: 0%"></div>
+                                <div class="carry-weight-text" id="carry-weight-text">0 / 45 lbs</div>
+                            </div>
+                            <div class="carry-weight-note">Carrying capacity based on Strength attribute</div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Skills Tab -->
+            <div id="skills-tab" class="tab-panel">
+                <div class="main-content">
+                    <!-- Attributes Card -->
+                    <section class="card">
+                        <h2>Attributes</h2>
+                        <div class="attributes-grid" id="char-attributes-grid">
+                            <div class="attribute-item" data-attr="strength" title="Physical power and carry weight. Base: 3">
+                                <span class="attribute-value" id="attr-strength">3</span>
+                                <span class="attribute-name">strength</span>
+                            </div>
+                            <div class="attribute-item" data-attr="agility" title="Speed, reflexes, and max fatigue. Base: 3">
+                                <span class="attribute-value" id="attr-agility">3</span>
+                                <span class="attribute-name">agility</span>
+                            </div>
+                            <div class="attribute-item" data-attr="toughness" title="Max health and damage resistance. Base: 3">
+                                <span class="attribute-value" id="attr-toughness">3</span>
+                                <span class="attribute-name">toughness</span>
+                            </div>
+                            <div class="attribute-item" data-attr="charisma" title="Social influence and persuasion. Base: 3">
+                                <span class="attribute-value" id="attr-charisma">3</span>
+                                <span class="attribute-name">charisma</span>
+                            </div>
+                            <div class="attribute-item" data-attr="intelligence" title="Magical power and skill learning. Base: 3">
+                                <span class="attribute-value" id="attr-intelligence">3</span>
+                                <span class="attribute-name">intelligence</span>
+                            </div>
+                            <div class="attribute-item" data-attr="insight" title="Perception and composure. Base: 3">
+                                <span class="attribute-value" id="attr-insight">3</span>
+                                <span class="attribute-name">insight</span>
+                            </div>
+                        </div>
+                        <div class="attributes-note">Attributes can be raised through leveling up. Each provides bonuses to related skills.</div>
+                    </section>
+
+                    <!-- Skills Card -->
+                    <section class="card">
+                        <h2>Skills</h2>
+                        <div class="skills-container">
+                            <div class="skill-category">
+                                <h3>Primary Skills</h3>
+                                <div class="skill-category-note">Receive bonuses from attributes (attribute value ÷ 2)</div>
+                                <div id="char-skills-primary">
+                                    <!-- Athletics (Strength) -->
+                                    <div class="skill-item-extended" data-skill="athletics">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Athletics <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Acrobatics (Agility) -->
+                                    <div class="skill-item-extended" data-skill="acrobatics">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Acrobatics <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Sleight of Hand (Agility) -->
+                                    <div class="skill-item-extended" data-skill="sleightOfHand">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Sleight Of Hand <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Stealth (Agility) -->
+                                    <div class="skill-item-extended" data-skill="stealth">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Stealth <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Fortitude (Toughness) -->
+                                    <div class="skill-item-extended" data-skill="fortitude">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Fortitude <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Willpower (Toughness) -->
+                                    <div class="skill-item-extended" data-skill="willpower">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Willpower <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Deception (Charisma) -->
+                                    <div class="skill-item-extended" data-skill="deception">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Deception <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Intimidation (Charisma) -->
+                                    <div class="skill-item-extended" data-skill="intimidation">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Intimidation <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Performance (Charisma) -->
+                                    <div class="skill-item-extended" data-skill="performance">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Performance <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Persuasion (Charisma) -->
+                                    <div class="skill-item-extended" data-skill="persuasion">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Persuasion <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Magic (Intelligence) -->
+                                    <div class="skill-item-extended" data-skill="magic">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Magic <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Investigation (Intelligence) -->
+                                    <div class="skill-item-extended" data-skill="investigation">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Investigation <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Religion (Intelligence) -->
+                                    <div class="skill-item-extended" data-skill="religion">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Religion <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- History (Intelligence) -->
+                                    <div class="skill-item-extended" data-skill="history">
+                                        <div class="skill-header">
+                                            <span class="skill-name">History <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Perception (Insight) -->
+                                    <div class="skill-item-extended" data-skill="perception">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Perception <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Survival (Insight) -->
+                                    <div class="skill-item-extended" data-skill="survival">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Survival <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Medicine (Insight) -->
+                                    <div class="skill-item-extended" data-skill="medicine">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Medicine <span class="skill-bonus"></span></span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h3>Secondary Skills</h3>
+                                <div class="skill-category-note">Improved through practice and training only</div>
+                                <div id="char-skills-secondary">
+                                    <div class="skill-category-label">General:</div>
+                                    <!-- Riding -->
+                                    <div class="skill-item-extended" data-skill="riding">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Riding</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Dancing -->
+                                    <div class="skill-item-extended" data-skill="dancing">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Dancing</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Swimming -->
+                                    <div class="skill-item-extended" data-skill="swimming">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Swimming</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Cleaning -->
+                                    <div class="skill-item-extended" data-skill="cleaning">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Cleaning</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Disguise -->
+                                    <div class="skill-item-extended" data-skill="disguise">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Disguise</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="skill-category-label">Sexual:</div>
+                                    <!-- Hands -->
+                                    <div class="skill-item-extended" data-skill="hands">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Hands</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Mouth -->
+                                    <div class="skill-item-extended" data-skill="mouth">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Mouth</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Breasts -->
+                                    <div class="skill-item-extended" data-skill="breasts">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Breasts</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Vagina -->
+                                    <div class="skill-item-extended" data-skill="vagina">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Vagina</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                    <!-- Anus -->
+                                    <div class="skill-item-extended" data-skill="anus">
+                                        <div class="skill-header">
+                                            <span class="skill-name">Anus</span>
+                                            <div class="skill-level"></div>
+                                        </div>
+                                        <div class="skill-progress">
+                                            <div class="skill-xp-bar">
+                                                <div class="skill-xp-fill"></div>
+                                            </div>
+                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Appearance Tab -->
+            <div id="appearance-tab" class="tab-panel">
+                <div class="main-content">
+                    <!-- Body Measurements Card -->
+                    <section class="card">
+                        <h2>Physical Characteristics</h2>
+                        <div class="appearance-grid">
+                            <div class="appearance-item">
+                                <span class="appearance-label">Height</span>
+                                <span class="appearance-value" id="appear-height">5'4"</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Body Type</span>
+                                <span class="appearance-value" id="appear-bodyType">Average</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Muscle Tone</span>
+                                <span class="appearance-value" id="appear-muscleTone">Fit</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Skin Tone</span>
+                                <span class="appearance-value" id="appear-skinTone">Fair</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Breast Size</span>
+                                <span class="appearance-value" id="appear-breastSize">Modest</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Butt Size</span>
+                                <span class="appearance-value" id="appear-buttSize">Modest</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Hip Width</span>
+                                <span class="appearance-value" id="appear-hipWidth">Wide</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Body Hair</span>
+                                <span class="appearance-value" id="appear-bodyHair">Light</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Facial Features Card -->
+                    <section class="card">
+                        <h2>Facial Features</h2>
+                        <div class="appearance-grid">
+                            <div class="appearance-item">
+                                <span class="appearance-label">Hair Color</span>
+                                <span class="appearance-value" id="appear-hairColor">Auburn</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Hair Style</span>
+                                <span class="appearance-value" id="appear-hairStyle">Wavy</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Hair Length</span>
+                                <span class="appearance-value" id="appear-hairLength">Mid-back</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Eye Color</span>
+                                <span class="appearance-value" id="appear-eyeColor">Hazel Green</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Lip Fullness</span>
+                                <span class="appearance-value" id="appear-lipFullness">Modest</span>
+                            </div>
+                            <div class="appearance-item">
+                                <span class="appearance-label">Voice Tone</span>
+                                <span class="appearance-value" id="appear-voiceTone">Gentle</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Functional Anatomy Card -->
+                    <section class="card full-width">
+                        <h2>Functional Anatomy</h2>
+                        <div class="anatomy-list" id="functional-anatomy">
+                            <!-- Dynamically populated based on true values -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize character sheet when overlay loads
+setTimeout(() => {
+    if (typeof initializeCharacterSheet === 'function') {
+        initializeCharacterSheet();
+    }
+}, 100);
+</script>
+

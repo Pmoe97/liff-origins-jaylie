@@ -2,6 +2,20 @@
 =         Inventory UI         =
 ============================= */
 
+/* CSS Variables for theming */
+:root {
+    --inv-bg-primary: #1a1a1a;
+    --inv-bg-secondary: #2a2a2a;
+    --inv-bg-tertiary: #333;
+    --inv-border-color: #555;
+    --inv-border-accent: #a18348;
+    --inv-text-primary: #eee;
+    --inv-text-secondary: #ccc;
+    --inv-text-muted: #999;
+    --inv-hover-bg: #3a3a3a;
+    --inv-selected-bg: #4a4a4a;
+}
+
 /* Fullscreen dark overlay */
 .inventory-overlay {
     position: fixed;
@@ -9,334 +23,490 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(26, 26, 26, 0.95);
+    background-color: rgba(0, 0, 0, 0.95);
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
 }
 
 /* Inner window panel */
 .inventory-window {
-    width: 98vw;
-    height: 92vh;
-    background-color: #1a1a1a;
-    border: 1px solid #a18348;
-    border-radius: 10px;
-    padding: 20px;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    max-height: 900px;
+    background-color: var(--inv-bg-primary);
+    border: 2px solid var(--inv-border-accent);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    position: relative;
 }
 
-/* Top-level flex layout */
-.inventory-flex {
-    flex: 1;
+/* Header bar */
+.inventory-header {
     display: flex;
-    flex-direction: row;
-    gap: 15px;
-    overflow: hidden;
-}
-
-/* Left / Right panel widths */
-.inventory-left-panel {
-    flex: 3 1 0%;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.inventory-content-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    overflow-y: auto;
-}
-
-/* Scrollbar styling (Chrome, Edge, Safari) */
-.inventory-content-wrapper::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-.inventory-content-wrapper::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 4px;
-}
-.inventory-content-wrapper::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-/* Firefox scrollbar */
-.inventory-content-wrapper {
-    scrollbar-width: thin;
-    scrollbar-color: #555 transparent;
-}
-
-.inventory-list-container {
-    flex: 1.1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.inventory-right-panel {
-    flex: 1 1 100px;
-    max-width: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: var(--inv-bg-secondary);
+    border-bottom: 1px solid var(--inv-border-color);
 }
 
-/* Divider */
-.inventory-divider {
-    width: 2px;
-    background-color: #555;
+.inventory-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--inv-text-primary);
 }
 
 /* Close button */
 .inventory-close-btn {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 1.4em;
     background: none;
     border: none;
-    color: #eee;
+    color: var(--inv-text-primary);
+    font-size: 1.5rem;
     cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
 }
 .inventory-close-btn:hover {
     color: #f88;
 }
 
+/* Main content area */
+.inventory-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Left panel - Item list */
+.inventory-left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-right: 1px solid var(--inv-border-color);
+}
+
 /* Tabs */
 .inventory-tabs {
     display: flex;
-    gap: 6px;
+    gap: 2px;
+    padding: 0.5rem;
+    background-color: var(--inv-bg-secondary);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
-.inventory-tabs button {
-    background-color: #333;
-    color: #eee;
-    border: 1px solid #555;
+
+.inv-tab {
+    background-color: var(--inv-bg-tertiary);
+    color: var(--inv-text-secondary);
+    border: 1px solid var(--inv-border-color);
     border-radius: 4px;
-    padding: 8px;
-    font-size: 1.2em;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 0.25rem;
     cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
-.inventory-tabs button:hover {
-    background-color: #555;
+
+.inv-tab:hover {
+    background-color: var(--inv-hover-bg);
+    color: var(--inv-text-primary);
 }
-.inventory-tabs .lucide {
-    width: 20px;
-    height: 20px;
+
+.inv-tab.active {
+    background-color: var(--inv-border-accent);
+    color: #fff;
+}
+
+.inv-tab .lucide {
+    width: 18px;
+    height: 18px;
+}
+
+/* Weight bar */
+.inventory-weight-bar {
+    padding: 0.5rem;
+    background-color: var(--inv-bg-secondary);
+    border-bottom: 1px solid var(--inv-border-color);
+}
+
+.weight-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--inv-text-secondary);
+}
+
+.weight-bar {
+    height: 8px;
+    background-color: var(--inv-bg-tertiary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.weight-bar-fill {
+    height: 100%;
+    background-color: #4a7c59;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+.weight-bar-fill.heavy {
+    background-color: #d4a574;
+}
+
+.weight-bar-fill.overweight {
+    background-color: #c94c4c;
+}
+
+/* Inventory table container */
+.inventory-list-container {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--inv-bg-secondary);
 }
 
 /* Inventory table */
-.inventory-list {
-    background-color: #2a2a2a;
-    border: 1px solid #555;
-    border-radius: 5px;
-    overflow-y: auto;
-    flex: 1;
-}
-
 #inventory-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-#inventory-table th,
-#inventory-table td {
-    text-align: center;
-    padding: 6px;
-    font-size: 0.85em;
-    border-bottom: 1px solid #444;
-    color: #ddd;
+#inventory-table th {
+    position: sticky;
+    top: 0;
+    background-color: var(--inv-bg-tertiary);
+    color: var(--inv-text-primary);
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--inv-border-color);
+    z-index: 10;
 }
 
-/* Clickable inventory rows */
+#inventory-table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+    color: var(--inv-text-secondary);
+    border-bottom: 1px solid rgba(85, 85, 85, 0.3);
+}
+
+/* Make quantity column right-aligned */
+#inventory-table th:last-child,
+#inventory-table td:last-child {
+    text-align: right;
+    padding-right: 1rem;
+}
+
 .inventory-row {
-	cursor: pointer;
-	position: relative; /* Required for z-index to apply */
-	z-index: 10;
-	transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+    transition: background-color 0.15s;
 }
 
 .inventory-row:hover {
-	background-color: #3a3a3a;
+    background-color: var(--inv-hover-bg);
 }
 
 .inventory-row.selected {
-	background-color: #555;
+    background-color: var(--inv-selected-bg);
 }
 
+.empty-message {
+    text-align: center;
+    padding: 2rem !important;
+    color: var(--inv-text-muted);
+    font-style: italic;
+}
 
-/* Selected item info */
-.inventory-details {
-    flex: 1;
-    min-width: 250px;
-    max-height: 100%;
-    background-color: #1f1f1f;
-    border: 1px solid #555;
-    border-radius: 5px;
-    padding: 10px;
+/* Damage type badges */
+.damage-type {
+    display: inline-block;
+    padding: 0.1rem 0.3rem;
+    margin: 0 0.1rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.damage-slashing { background-color: #8b4513; color: #fff; }
+.damage-piercing { background-color: #4682b4; color: #fff; }
+.damage-blunt { background-color: #696969; color: #fff; }
+.damage-fire { background-color: #dc143c; color: #fff; }
+.damage-ice { background-color: #00ced1; color: #fff; }
+.damage-lightning { background-color: #ffd700; color: #000; }
+
+/* Stat effect badges */
+.stat-effect {
+    display: inline-block;
+    padding: 0.1rem 0.3rem;
+    margin: 0 0.1rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.stat-health { background-color: #dc143c; color: #fff; }
+.stat-energy { background-color: #1e90ff; color: #fff; }
+.stat-stamina { background-color: #228b22; color: #fff; }
+
+/* Right panel - Details & Equipment */
+.inventory-right-panel {
+    width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    background-color: var(--inv-bg-secondary);
+}
+
+/* Item details section */
+.inventory-details {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.item-preview {
+    text-align: center;
 }
 
 #inventory-item-image {
     width: 100%;
-    max-height: 200px;
+    max-width: 250px;
+    height: 250px;
     object-fit: contain;
-    background-color: #333;
-    border: 1px solid #666;
-}
-.inventory-description,
-.inventory-flavor,
-.inventory-info {
-    font-size: 0.85em;
-    color: #ccc;
+    background-color: var(--inv-bg-tertiary);
+    border: 1px solid var(--inv-border-color);
+    border-radius: 4px;
+    margin: 0 auto;
 }
 
-/* Button grid */
-.inventory-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: space-between;
-}
-.inventory-buttons button {
-    flex: 1 0 calc(33% - 10px);
-    font-size: 0.8em;
-    padding: 6px;
-    border: none;
-    border-radius: 5px;
-    background-color: #444;
-    color: #fff;
-    cursor: pointer;
-}
-.inventory-buttons button:hover {
-    background-color: #666;
+#inventory-item-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--inv-text-primary);
+    margin-top: 0.75rem;
 }
 
-/* =============================
-=       Paperdoll Layout       =
-============================= */
-
-.paperdoll-layout {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-  }
-  
-  /* Main silhouette */
-  .paperdoll {
-    position: relative;
-    width: 200px;
-    min-width: 200px;
-    height: 400px;
-    background-image: url('images/paperdoll_generic_silhouette.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid #555;
-    border-radius: 5px;
-    flex-shrink: 0;
-  }
-  
-  /* Slot base */
-  .paperdoll-slot {
-    width: 48px;
-    height: 48px;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    line-height: 1;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #888;
-    color: #fff;
-    font-size: 0.7em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    pointer-events: none;
-  }
-  
-  /* Position silhouette slots absolutely */
-  .paperdoll .paperdoll-slot {
-    position: absolute;
-  }
-  
-  /* Paperdoll slot positions */
-  .paperdoll-slot[data-slot="head"]     { top: 8%;   left: 50%; transform: translateX(-50%); }
-  .paperdoll-slot[data-slot="chest"]    { top: 25%;  left: 50%; transform: translateX(-50%); }
-  .paperdoll-slot[data-slot="gloveL"]   { top: 28%;  left: 8%; }
-  .paperdoll-slot[data-slot="gloveR"]   { top: 28%;  right: 8%; }
-  .paperdoll-slot[data-slot="main"]     { top: 45%;  left: 4%; }
-  .paperdoll-slot[data-slot="sec"]      { top: 45%;  right: 4%; }
-  .paperdoll-slot[data-slot="pants"]    { top: 60%;  left: 50%; transform: translateX(-50%); }
-  .paperdoll-slot[data-slot="feet"]     { top: 78%;  left: 50%; transform: translateX(-50%); }
-  
-  /* Right-hand column */
-  .paperdoll-right-column {
+.item-info {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    justify-content: flex-start;
-    flex-shrink: 0;
-  }
-  
-  .paperdoll-right-column .paperdoll-slot {
-    position: static;
-    width: 48px;
-    height: 48px;
-    font-size: 0.75em;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #888;
-    color: #fff;
-    border-radius: 5px;
+    gap: 1rem;
+}
+
+#inventory-item-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--inv-text-secondary);
+}
+
+#inventory-item-meta {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.item-stat {
+    font-size: 0.9rem;
+    color: var(--inv-text-secondary);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(85, 85, 85, 0.3);
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
-  
-  /* =============================
-  =    Condensed Paperdoll Mode  =
-  ============================= */
-  
-  .paperdoll-condensed {
-    display: none;
-  }
-  
-  /* Switch to condensed view earlier */
-@media (max-width: 950px) {
-    .paperdoll-layout {
-      display: none;
+}
+
+.item-stat:last-child {
+    border-bottom: none;
+}
+
+/* Action buttons */
+.inventory-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background-color: var(--inv-bg-primary);
+    border-top: 1px solid var(--inv-border-color);
+}
+
+.inventory-buttons button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--inv-border-color);
+    border-radius: 4px;
+    background-color: var(--inv-bg-tertiary);
+    color: var(--inv-text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.inventory-buttons button:hover:not(:disabled) {
+    background-color: var(--inv-hover-bg);
+    border-color: var(--inv-border-accent);
+}
+
+.inventory-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.inventory-buttons button.primary {
+    background-color: var(--inv-border-accent);
+    color: #fff;
+}
+
+.inventory-buttons button.primary:hover:not(:disabled) {
+    background-color: #b89758;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--inv-border-color);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+    background-color: var(--inv-bg-secondary);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .inventory-window {
+        max-width: 100%;
+        max-height: 100%;
+        border: none;
+        border-radius: 0;
     }
-  
-    .paperdoll-condensed {
-        display: block;
-        max-height: none;
-        overflow-y: visible;
-        padding: 1em;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 0.5em;
-        font-size: 0.9em;
-        line-height: 1.5em;
+    
+    .inventory-content {
+        flex-direction: column;
+    }
+    
+    .inventory-left-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--inv-border-color);
+        max-height: 50vh;
+    }
+    
+    .inventory-right-panel {
         width: 100%;
+        flex: 1;
     }
-  
-    .paperdoll-condensed div {
-      margin-bottom: 0.5em;
+    
+    .inventory-details {
+        padding: 1rem;
     }
-  }
-  
+    
+    #inventory-item-image {
+        max-width: 180px;
+        height: 180px;
+    }
+    
+    .inventory-tabs {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .inv-tab {
+        padding: 0.5rem;
+        font-size: 0;
+    }
+    
+    .inv-tab .lucide {
+        width: 24px;
+        height: 24px;
+        margin: 0;
+    }
+    
+    .inv-tab.active::after {
+        content: attr(data-tab);
+        font-size: 0.7rem;
+        margin-left: 0.25rem;
+    }
+    
+    #inventory-table th,
+    #inventory-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Hide some columns on mobile */
+    #inventory-table th:nth-child(3),
+    #inventory-table td:nth-child(3),
+    #inventory-table th:nth-child(4),
+    #inventory-table td:nth-child(4) {
+        display: none;
+    }
+    
+    .inventory-buttons {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .inventory-right-panel {
+        width: 350px;
+    }
+    
+    .inv-tab {
+        padding: 0.5rem;
+    }
+    
+    .inv-tab span {
+        display: none;
+    }
+
+    
+    #inventory-table th,
+    #inventory-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Hide some columns on mobile */
+    #inventory-table th:nth-child(3),
+    #inventory-table td:nth-child(3),
+    #inventory-table th:nth-child(4),
+    #inventory-table td:nth-child(4) {
+        display: none;
+    }
+    
+    .inventory-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .paperdoll-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .inventory-right-panel {
+        width: 320px;
+    }
+    
+    .inv-tab {
+        padding: 0.5rem;
+    }
+    
+    .inv-tab span {
+        display: none;
+    }
+}

@@ -1,4 +1,3 @@
-
 /* Utility: Find item metadata from unified pool */
 function getItemMetadata(id) {
 	debugLog(`📦 getItemMetadata() called with id: '${id}'`);
@@ -21,12 +20,13 @@ window.getItemMetadata = getItemMetadata;
 
 /* Inventory Column Templates */
 setup.inventoryHeaders = {
-	all: ["Item Name", "Type", "Weight", "Value", "Amount"],
-	weapons: ["Item Name", "Subtype", "Damage", "Weight", "Value", "Amount"],
-	armor: ["Item Name", "Slot", "Armor Value", "Armor Class", "Weight", "Value", "Amount"],
-	consumable: ["Item Name", "Consumable Type", "Affected Stats", "Stat Amounts", "Weight", "Value", "Amount"],
-	quest: ["Item Name", "Subtype", "Weight", "Value", "Amount"],
-	misc: ["Item Name", "Subtype", "Weight", "Value", "Amount"]
+	all: ["Item", "Type", "Weight", "Value", "Qty"],  // Shortened headers for mobile
+	weapons: ["Item", "Type", "Damage", "Weight", "Value", "Qty"],
+	armor: ["Item", "Slot", "Defense", "Weight", "Value", "Qty"],
+	consumable: ["Item", "Type", "Effects", "Weight", "Value", "Qty"],
+	quest: ["Item", "Type", "Weight", "Value", "Qty"],
+	misc: ["Item", "Type", "Weight", "Value", "Qty"],
+	literature: ["Item", "Type", "Weight", "Value", "Qty"]
 };
 
 /* Highlight Active Inventory Tab */
@@ -40,13 +40,17 @@ setup.selectInventoryTab = function(category) {
 
 /* Format Helpers */
 setup.renderDamageIcons = function(damage) {
-	if (!damage) return "";
-	return Object.entries(damage).map(([type, val]) => `|${type}| ${val}`).join(" ");
+	if (!damage) return "—";
+	return Object.entries(damage)
+		.map(([type, val]) => `<span class="damage-type damage-${type}" title="${type}">${val}</span>`)
+		.join(" ");
 };
 
-setup.renderStatEffects = function(effects) {
-	if (!effects) return "";
-	return Object.entries(effects).map(([stat, val]) => `|${stat}| ${val}`).join(" ");
+setup.renderStatEffects = function(stats) {
+	if (!stats) return "—";
+	return Object.entries(stats)
+		.map(([stat, val]) => `<span class="stat-effect stat-${stat}" title="${stat}">${val > 0 ? '+' : ''}${val}</span>`)
+		.join(" ");
 };
 
 /* Macro: Add or Subtract Items from Inventory */
@@ -102,26 +106,100 @@ Macro.add("additem", {
 
 
 /* Drop Button Logic - Start */
-function dropCustomAmount() {
-	const amount = prompt("How many do you want to drop?");
-	const parsed = parseInt(amount);
-	if (!isNaN(parsed) && parsed > 0) {
-		console.log(`🗑️ Would drop ${parsed} item(s) — placeholder logic`);
-		// TODO: Hook into additem with negative value
-	} else {
-		alert("Invalid number.");
+function dropItem(itemId, amount) {
+	const inventory = State.variables.inventory_player;
+	const currentAmount = inventory[itemId] || 0;
+	
+	if (amount === "all") {
+		amount = currentAmount;
+	} else if (amount === "custom") {
+		const input = prompt(`How many do you want to drop? (Max: ${currentAmount})`);
+		amount = parseInt(input);
+		if (isNaN(amount) || amount <= 0 || amount > currentAmount) {
+			alert("Invalid amount.");
+			return;
+		}
+	}
+	
+	// Use the additem macro with negative amount
+	$(document).wiki(`<<additem "player" "${itemId}" -${amount}>>`);
+	
+	// Refresh the inventory display
+	setup.renderInventory("player", State.temporary.currentInventoryTab || "all");
+	
+	// Update carry weight
+	setup.updatePlayerCarryWeight();
+	
+	// Clear selection if item was removed
+	if (!State.variables.inventory_player[itemId]) {
+		setup.clearInventorySelection();
 	}
 }
-/* Drop Button Logic - End */
+window.dropItem = dropItem;
+
+/* Equip Item Function */
+setup.equipItem = function(itemId, slot) {
+	const item = getItemMetadata(itemId);
+	if (!item) return;
+	
+	const equipped = State.variables.equipped || {};
+	const inventory = State.variables.inventory_player;
+	
+	// Determine appropriate slot if not specified
+	if (!slot) {
+		if (item.type === "weapon") {
+			slot = "main";
+		} else if (item.type === "armor") {
+			slot = item.slot || item.subtype;
+		} else {
+			console.warn("Cannot equip item type:", item.type);
+			return;
+		}
+	}
+	
+	// Unequip current item in slot
+	if (equipped[slot]) {
+		const unequippedId = equipped[slot].id;
+		$(document).wiki(`<<additem "player" "${unequippedId}" 1>>`);
+	}
+	
+	// Equip new item
+	equipped[slot] = {
+		id: item.id,
+		name: item.name,
+		type: item.type
+	};
+	
+	// Remove from inventory
+	$(document).wiki(`<<additem "player" "${itemId}" -1>>`);
+	
+	State.variables.equipped = equipped;
+	
+	// Update displays
+	setup.renderInventory("player", State.temporary.currentInventoryTab || "all");
+};
+
+/* Clear inventory selection */
+setup.clearInventorySelection = function() {
+	$(".inventory-row").removeClass("selected");
+	$("#inventory-item-image").attr("src", "images/items/default.png");
+	$("#inventory-item-name").text("Select an item");
+	$("#inventory-item-description").text("[Select an item to view details]");
+	$("#inventory-item-meta").text("");
+	$(".inventory-buttons button").prop("disabled", true);
+};
 
 /* Renderer: Inventory Display */
 setup.renderInventory = function (target = "player", category = "all") {
 	debugLog(`🧾 renderInventory() for '${target}' — Category: '${category}'`);
+	
+	// Store current category
+	State.temporary.currentInventoryTab = category;
 
 	const inventory = State.variables[`inventory_${target}`];
 	if (!inventory) {
 		console.warn(`⚠️ No inventory found for '${target}'`);
-		return `<tr><td colspan="6"><em>Inventory is empty.</em></td></tr>`;
+		return;
 	}
 
 	const tableBody = document.getElementById("inventory-list");
@@ -131,6 +209,11 @@ setup.renderInventory = function (target = "player", category = "all") {
 		console.warn("⚠️ Table structure not found.");
 		return;
 	}
+
+	// Update active tab
+	document.querySelectorAll(".inv-tab").forEach(btn => {
+		btn.classList.toggle("active", btn.dataset.tab === category);
+	});
 
 	// Reset table head
 	tableHead.innerHTML = "";
@@ -145,13 +228,47 @@ setup.renderInventory = function (target = "player", category = "all") {
 	tableBody.innerHTML = "";
 	let itemsShown = 0;
 
-	for (const itemId in inventory) {
+	// Sort items by name for consistent display
+	const sortedItems = Object.keys(inventory).sort((a, b) => {
+		const itemA = getItemMetadata(a);
+		const itemB = getItemMetadata(b);
+		return (itemA?.name || a).localeCompare(itemB?.name || b);
+	});
+
+	for (const itemId of sortedItems) {
 		const quantity = inventory[itemId];
 		const item = getItemMetadata(itemId);
 		if (!item) continue;
 
-		if (category !== "all" && item.type !== category && item.subtype !== category) {
-			continue;
+		// Handle category filtering with singular/plural matching
+		if (category !== "all") {
+			let itemMatchesCategory = false;
+			
+			// Check for exact match first
+			if (item.type === category) {
+				itemMatchesCategory = true;
+			}
+			// Handle singular/plural cases
+			else if (category === "weapons" && item.type === "weapon") {
+				itemMatchesCategory = true;
+			}
+			else if (category === "armor" && item.type === "armor") {
+				itemMatchesCategory = true;
+			}
+			else if (category === "consumable" && item.type === "consumable") {
+				itemMatchesCategory = true;
+			}
+			else if (category === "literature" && item.type === "literature") {
+				itemMatchesCategory = true;
+			}
+			else if (category === "quest" && item.type === "quest") {
+				itemMatchesCategory = true;
+			}
+			else if (category === "misc" && item.type === "misc") {
+				itemMatchesCategory = true;
+			}
+			
+			if (!itemMatchesCategory) continue;
 		}
 
 		const tr = document.createElement("tr");
@@ -159,58 +276,91 @@ setup.renderInventory = function (target = "player", category = "all") {
 		tr.dataset.itemId = item.id;
 
 		// Row content per category
-		let rowHTML = "";
+		let cells = [];
 
 		switch (category) {
 			case "weapons":
-				rowHTML += `<td>${item.name}</td>`;
-				rowHTML += `<td>${item.subtype || ""}</td>`;
-				rowHTML += `<td>${setup.renderDamageIcons(item.damage)}</td>`;
-				rowHTML += `<td>${item.weight}</td>`;
-				rowHTML += `<td>${item.value}</td>`;
-				rowHTML += `<td>x${quantity}</td>`;
+				cells = [
+					item.name,
+					item.subtype || "—",
+					setup.renderDamageIcons(item.damage),
+					item.weight || 0,
+					item.value || 0,
+					`×${quantity}`
+				];
 				break;
 
 			case "armor":
-				rowHTML += `<td>${item.name}</td>`;
-				rowHTML += `<td>${item.slot || "—"}</td>`;
-				rowHTML += `<td>${setup.renderDamageIcons(item.armor || {})}</td>`;
-				rowHTML += `<td>${item.armorClass || "Unarmored"}</td>`;
-				rowHTML += `<td>${item.weight}</td>`;
-				rowHTML += `<td>${item.value}</td>`;
-				rowHTML += `<td>x${quantity}</td>`;
+				cells = [
+					item.name,
+					item.slot || item.subtype || "—",
+					setup.renderDamageIcons(item.resist || item.armor),
+					item.weight || 0,
+					item.value || 0,
+					`×${quantity}`
+				];
 				break;
 
 			case "consumable":
-				rowHTML += `<td>${item.name}</td>`;
-				rowHTML += `<td>${item.subtype || ""}</td>`;
-				rowHTML += `<td>${setup.renderStatEffects(item.effects)}</td>`;
-				rowHTML += `<td>${setup.renderStatEffects(item.effects)}</td>`;
-				rowHTML += `<td>${item.weight}</td>`;
-				rowHTML += `<td>${item.value}</td>`;
-				rowHTML += `<td>x${quantity}</td>`;
+				cells = [
+					item.name,
+					item.subtype || "—",
+					setup.renderStatEffects(item.stats || item.effects),
+					item.weight || 0,
+					item.value || 0,
+					`×${quantity}`
+				];
 				break;
 
 			default:
-				rowHTML += `<td>${item.name}</td>`;
-				rowHTML += `<td>${item.subtype || item.type}</td>`;
-				rowHTML += `<td>${item.weight}</td>`;
-				rowHTML += `<td>${item.value}</td>`;
-				rowHTML += `<td>x${quantity}</td>`;
+				cells = [
+					item.name,
+					item.subtype || item.type,
+					item.weight || 0,
+					item.value || 0,
+					`×${quantity}`
+				];
 				break;
 		}
 
-		tr.innerHTML = rowHTML;
+		cells.forEach(content => {
+			const td = document.createElement("td");
+			td.innerHTML = content;
+			tr.appendChild(td);
+		});
+
 		tableBody.appendChild(tr);
 		itemsShown++;
 	}
 
 	if (itemsShown === 0) {
-		tableBody.innerHTML = `<tr><td colspan="${headers.length}"><em>No items in this category.</em></td></tr>`;
+		tableBody.innerHTML = `<tr><td colspan="${headers.length}" class="empty-message"><em>No items in this category.</em></td></tr>`;
+	}
+
+	// Update weight display
+	setup.updateWeightDisplay();
+};
+
+/* Update weight display */
+setup.updateWeightDisplay = function() {
+	const current = setup.calculateInventoryWeight("player");
+	const max = setup.calculateMaxCarryWeight();
+	const percent = (current / max) * 100;
+	
+	const weightText = document.getElementById("weight-text");
+	const weightBar = document.getElementById("weight-bar-fill");
+	
+	if (weightText) {
+		weightText.textContent = `${current.toFixed(1)} / ${max} kg`;
+	}
+	
+	if (weightBar) {
+		weightBar.style.width = `${Math.min(percent, 100)}%`;
+		weightBar.classList.toggle("overweight", percent > 100);
+		weightBar.classList.toggle("heavy", percent > 75 && percent <= 100);
 	}
 };
 
-/* Condensed Paperdoll Support */
 setup.updateCondensedPaperdoll = function () {
   const equipped = State.variables.equipped || {};
 
@@ -250,21 +400,70 @@ setup.showInventoryItemDetails = function (itemId) {
 	// Set image
 	const image = document.getElementById("inventory-item-image");
 	if (image) {
-		image.src = item.image ?? "images/items/default.png";
-		image.alt = item.name ?? "Unknown Item";
+		image.src = item.img ? `images/items/${item.img}` : "images/items/default.png";
+		image.alt = item.name || "Unknown Item";
 	}
+
+	// Set name
+	document.getElementById("inventory-item-name").textContent = item.name || "Unknown Item";
 
 	// Set description
 	document.getElementById("inventory-item-description").textContent =
-		item.description ?? "[No description available]";
+		item.description || "[No description available]";
 
-	// Set flavor text
-	document.getElementById("inventory-item-flavor").textContent =
-		item.flavorText ?? "";
+	// Set stats/details
+	const metaEl = document.getElementById("inventory-item-meta");
+	let metaHTML = [];
+	
+	if (item.damage) {
+		metaHTML.push(`<div class="item-stat">Damage: ${setup.renderDamageIcons(item.damage)}</div>`);
+	}
+	if (item.resist || item.armor) {
+		metaHTML.push(`<div class="item-stat">Defense: ${setup.renderDamageIcons(item.resist || item.armor)}</div>`);
+	}
+	if (item.stats || item.effects) {
+		metaHTML.push(`<div class="item-stat">Effects: ${setup.renderStatEffects(item.stats || item.effects)}</div>`);
+	}
+	if (item.material) {
+		metaHTML.push(`<div class="item-stat">Material: ${item.material}</div>`);
+	}
+	if (item.tags && item.tags.length) {
+		const tagStr = item.tags.filter(t => t !== "devOnly").join(", ");
+		if (tagStr) metaHTML.push(`<div class="item-stat">Properties: ${tagStr}</div>`);
+	}
+	
+	metaEl.innerHTML = metaHTML.join("");
 
-	// Set enhancements or details
-	document.getElementById("inventory-item-meta").textContent =
-		item.details ?? "[No additional info]";
+	// Enable/disable buttons based on item type
+	const buttons = document.querySelectorAll(".inventory-buttons button");
+	buttons.forEach(btn => btn.disabled = false);
+	
+	// Update button visibility based on item type
+	const equipBtn = document.getElementById("btn-equip");
+	const equipPrimaryBtn = document.getElementById("btn-equip-primary");
+	const equipSecondaryBtn = document.getElementById("btn-equip-secondary");
+	const useBtn = document.getElementById("btn-use");
+	const readBtn = document.getElementById("btn-read");
+	
+	// Hide all special buttons first
+	[equipBtn, equipPrimaryBtn, equipSecondaryBtn, useBtn, readBtn].forEach(btn => {
+		if (btn) btn.style.display = "none";
+	});
+	
+	// Show relevant buttons based on item type
+	if (item.type === "weapon") {
+		if (equipPrimaryBtn) equipPrimaryBtn.style.display = "block";
+		if (equipSecondaryBtn) equipSecondaryBtn.style.display = "block";
+	} else if (item.type === "armor") {
+		if (equipBtn) equipBtn.style.display = "block";
+	} else if (item.type === "consumable") {
+		if (useBtn) useBtn.style.display = "block";
+	} else if (item.type === "literature") {
+		if (readBtn) readBtn.style.display = "block";
+	}
+	
+	// Store current item for button actions
+	State.temporary.selectedInventoryItem = itemId;
 };
 
 $(document).on("click", ".inventory-row", function () {
@@ -317,8 +516,5 @@ setup.updatePlayerCarryWeight = function () {
 		max: maxWeight
 	};
 };
-
-
-
 
 window.setup = setup;

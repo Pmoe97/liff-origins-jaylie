@@ -1,0 +1,157 @@
+:: InventoryPage [nobr]
+<!-- Inventory Overlay -->
+<div class="inventory-overlay">
+  <div class="inventory-window">
+    
+    <!-- Header -->
+    <div class="inventory-header">
+      <h2 class="inventory-title">Inventory</h2>
+      <button class="inventory-close-btn" onclick="closeOverlay()">✖</button>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="inventory-content">
+      
+      <!-- Left Panel - Item List -->
+      <div class="inventory-left-panel">
+        
+        <!-- Category Tabs -->
+        <div class="inventory-tabs">
+          <button class="inv-tab active" data-tab="all" onclick="setup.selectInventoryTab('all')">
+            <i data-lucide="backpack"></i>
+            <span>All</span>
+          </button>
+          <button class="inv-tab" data-tab="weapons" onclick="setup.selectInventoryTab('weapons')">
+            <i data-lucide="sword"></i>
+            <span>Weapons</span>
+          </button>
+          <button class="inv-tab" data-tab="armor" onclick="setup.selectInventoryTab('armor')">
+            <i data-lucide="shield"></i>
+            <span>Armor</span>
+          </button>
+          <button class="inv-tab" data-tab="consumable" onclick="setup.selectInventoryTab('consumable')">
+            <i data-lucide="flask-round"></i>
+            <span>Consumables</span>
+          </button>
+          <button class="inv-tab" data-tab="literature" onclick="setup.selectInventoryTab('literature')">
+            <i data-lucide="book-open"></i>
+            <span>Books</span>
+          </button>
+          <button class="inv-tab" data-tab="quest" onclick="setup.selectInventoryTab('quest')">
+            <i data-lucide="scroll"></i>
+            <span>Quest</span>
+          </button>
+          <button class="inv-tab" data-tab="misc" onclick="setup.selectInventoryTab('misc')">
+            <i data-lucide="package"></i>
+            <span>Misc</span>
+          </button>
+        </div>
+        
+        <!-- Weight Bar -->
+        <div class="inventory-weight-bar">
+          <div class="weight-info">
+            <span>Carry Weight</span>
+            <span id="weight-text">0 / 100 kg</span>
+          </div>
+          <div class="weight-bar">
+            <div id="weight-bar-fill" class="weight-bar-fill"></div>
+          </div>
+        </div>
+        
+        <!-- Item List -->
+        <div class="inventory-list-container">
+          <table id="inventory-table">
+            <thead>
+              <tr>
+                <!-- Headers populated by JS -->
+              </tr>
+            </thead>
+            <tbody id="inventory-list">
+              <!-- Rows populated by JS -->
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+      
+      <!-- Right Panel - Details -->
+      <div class="inventory-right-panel">
+        
+        <!-- Item Details -->
+        <div class="inventory-details">
+          <div class="item-preview">
+            <img id="inventory-item-image" src="images/items/default.png" alt="Select an item">
+            <div id="inventory-item-name">Select an item</div>
+          </div>
+          
+          <div class="item-info">
+            <div id="inventory-item-description">[Select an item to view its description]</div>
+            <div id="inventory-item-meta"></div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="inventory-buttons">
+          <button id="btn-equip" onclick="setup.equipItem(State.temporary.selectedInventoryItem)" style="display:none;">Equip</button>
+          <button id="btn-equip-primary" onclick="setup.equipItem(State.temporary.selectedInventoryItem, 'main')" style="display:none;">Equip Main Hand</button>
+          <button id="btn-equip-secondary" onclick="setup.equipItem(State.temporary.selectedInventoryItem, 'sec')" style="display:none;">Equip Off Hand</button>
+          <button id="btn-use" onclick="alert('Use functionality not implemented yet')" style="display:none;">Use</button>
+          <button id="btn-read" onclick="alert('Read functionality not implemented yet')" style="display:none;">Read</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 1)">Drop 1</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'all')">Drop All</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'custom')">Drop...</button>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize inventory when overlay opens
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+    
+    // Render initial inventory
+    if (typeof setup.renderInventory === "function") {
+      setup.renderInventory("player", "all");
+    }
+    
+    // Clear any previous selection
+    if (typeof setup.clearInventorySelection === "function") {
+      setup.clearInventorySelection();
+    }
+  });
+</script>
+</div>
+
+<script>
+  // Initialize inventory when overlay opens
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+    
+    // Render initial inventory
+    if (typeof setup.renderInventory === "function") {
+      setup.renderInventory("player", "all");
+    }
+    
+    // Update equipment display
+    if (typeof setup.updatePaperdollDisplay === "function") {
+      setup.updatePaperdollDisplay();
+    }
+    
+    // Clear any previous selection
+    if (typeof setup.clearInventorySelection === "function") {
+      setup.clearInventorySelection();
+    }
+  });
+</script>
+  });
+</script>

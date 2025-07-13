@@ -1,5 +1,4 @@
 :: SidebarUI [nobr]
-
 <!-- Top Nav and Collapse -->
 <div id="sidebar-topbar">
 	<div id="sidebar-nav">
@@ -51,7 +50,7 @@
 	</div>
 	<div id="summary-conditions"></div>
 	<div id="summary-bug-report">
-		<button class="sidebar-icon-only" onclick="openOverlay('bug-report-page')" title="Report Bug">
+		<button class="sidebar-icon-only" onclick="openOverlay('BugReportPage')" title="Report Bug">
 		<i data-lucide="bug-play"></i>
 		</button>
 	</div>
@@ -152,28 +151,28 @@
 
 	<div id="custom-sidebar-buttons">
 		<div class="button-single">
-			<button class="sidebar-btn" onclick="openOverlay('character-sheet')">
+			<button class="sidebar-btn" onclick="openOverlay('CharacterSheetPage')">
 				<i data-lucide="scroll-text"></i> Character
 			</button>
 		</div>
 		<div class="button-single">
-			<button class="sidebar-btn" onclick="openOverlay('inventory-page')">
+			<button class="sidebar-btn" onclick="openOverlay('InventoryPage')">
 				<i data-lucide="backpack"></i> Inventory
 			</button>
 		</div>
 		<div class="button-pair">
-			<button class="sidebar-btn" onclick="openOverlay('journal-page')">
+			<button class="sidebar-btn" onclick="openOverlay('JournalPage')">
 				<i data-lucide="book-open"></i> Journal
 			</button>
-			<button class="sidebar-btn" onclick="openOverlay('people-page')">
+			<button class="sidebar-btn" onclick="openOverlay('PeoplePage')">
 				<i data-lucide="users"></i> People
 			</button>
 		</div>
 		<div class="button-pair">
-			<button class="sidebar-btn" onclick="openOverlay('stats-page')">
+			<button class="sidebar-btn" onclick="openOverlay('StatsPage')">
 				<i data-lucide="brain"></i> Stats
 			</button>
-			<button class="sidebar-btn" onclick="openOverlay('achievements-page')">
+			<button class="sidebar-btn" onclick="openOverlay('AchievementsPage')">
 				<i data-lucide="star"></i> Achievements
 			</button>
 		</div>
@@ -181,7 +180,7 @@
 			<<button '<i data-lucide="save"></i> Saves'>>
 				<<run UI.saves()>>
 			<</button>>
-			<button class="sidebar-btn" id="sidebar-options">
+			<button class="sidebar-btn" id="sidebar-options" onclick="openOverlay('OptionsPage')">
                 <i data-lucide="settings"></i> Options
             </button>
 		</div>	
@@ -196,7 +195,7 @@
 	</div>
 
 	<div id="bug-report-button">
-		<button class="sidebar-btn" onclick="openOverlay('bug-report-page')">
+		<button class="sidebar-btn" onclick="openOverlay('BugReportPage')">
 			<i data-lucide="bug-play"></i> Report Bug
 		</button>
 	</div>

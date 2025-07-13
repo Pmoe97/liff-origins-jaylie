@@ -10,6 +10,20 @@
 
 <<run State.variables.characters = setup.initializeCharacters()>>
 
+<<include "CharacterSheetPage">>
+<<include "InventoryPage">>
+<<include "PeoplePage">>
+<<include "StatsPage">>
+<<include "ShopOverlayPage">>
+<<include "CrownAndCastePage">>
+<<include "JournalPage">>
+<<include "OptionsPage">>
+<<include "BugReportPage">>
+<<include "AchievementsPage">>
+<<include "ConversationMinigamePage">>
+
+
+
 <<run
 	(() => {
 		const path = State.variables.bgImage;

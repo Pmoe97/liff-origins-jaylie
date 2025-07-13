@@ -1,3 +1,4 @@
+:: CrownAndCastePage [nobr]
 <!-- Crown & Caste Game Overlay (injected via overlayManager into #overlay-body) -->
 <!-- Orientation Warning Overlay -->
 <div id="orientation-warning" style="display: none;">

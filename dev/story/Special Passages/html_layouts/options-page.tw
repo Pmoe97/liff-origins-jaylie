@@ -1,2 +1,3 @@
+:: OptionsPage [nobr]
 <!-- Add this to the top right of each overlay panel -->
 <button class="overlay-close-btn" onclick="closeOverlay()">X</button>

@@ -18,11 +18,11 @@ setup.ItemData.dagger_silver = {
   tags: ["piercing", "1H", "anti-undead"],
   material: "Silver",
   rarity: 1,
-  damage: { piercing:[3,6]},
+  damage: { piercing: 5 },  // Changed from array to single value for consistency
   weight: 1.5,
   value: 450,
-  img: "weapon_dagger_silver.png",
-  description: "A silver-plated longsword favored by monster hunters. Effective against undead."
+  img: "item_weapon_dagger_silver.png",
+  description: "A silver-plated dagger favored by monster hunters. Effective against undead."  // Fixed description
 };
 
 /* =============================
