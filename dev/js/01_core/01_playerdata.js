@@ -1,15 +1,15 @@
 State.variables.player = {
 	// === Identity ===
 	name: "Jaylie",
-	age: 18, //calculated from date of birth
+	age: 25, //calculated from date of birth
 	dob: "15th of Rain, 12219 AI ",
 	race: "Human",
-	gender: "Female",
+	gender: "Female-ish",
 
 	// === Leveling ===
 	level: 1, //max level 100
-	experience: 69, //max experience scales with level
-	experienceToNextLevel: 100,
+	experience: 0, //max experience scales with level
+	experienceToNextLevel: 15,
 
 	// === Attributes (Perk-based) === //max value 50. Attributes are raised through leveling up. The player will recieve a certain number of attribute points each level, which can be assigned to any attribute. Attributes are used to calculate bonuses for primary skills, and also determine the player's maximum health, fatigue, composure, and carry weight.
 	// Base attributes are set to 3, which is the average value. Attributes can be raised through leveling up, training, and certain perks.
@@ -21,6 +21,9 @@ State.variables.player = {
 		intelligence: 3,
 		insight: 3
 	},
+	
+	// Unspent attribute points from leveling
+	attributePoints: 0,
 
 	// === Primary Skills (Earn XP individually, XP max scales with level) === //max level value 100. Primary Skills recieve bonuses from attributes = appropriate attribute / 2
 	primarySkills: {
@@ -45,30 +48,57 @@ State.variables.player = {
 
 	// === Secondary Skills (Earn XP individually) === //max level value 100. Secondary Skills do not recieve bonuses from attributes, but can be improved through practice, use, repetition and training. Secondary skills are divided into two categories: "General" and "Sexual". General skills are useful in a variety of situations, while sexual skills are used in intimate encounters.
 	secondarySkills: {
-		riding: { value: 100, xp: 0 },
-		dancing: { value: 100, xp: 0 },
-		swimming: { value: 100, xp: 0 },
-		cleaning: { value: 100, xp: 0 },
-		disguise: { value: 100, xp: 0 },
-		hands: { value: 100, xp: 0 },
-		mouth: { value: 100, xp: 0 },
-		breasts: { value: 100, xp: 0 },
-		vagina: { value: 100, xp: 0 },
-		anus: { value: 100, xp: 0 }
+		riding: { value: 0, xp: 0 },
+		dancing: { value: 0, xp: 0 },
+		swimming: { value: 0, xp: 0 },
+		cleaning: { value: 0, xp: 0 },
+		disguise: { value: 0, xp: 0 },
+		hands: { value: 0, xp: 0 },
+		mouth: { value: 0, xp: 0 },
+		breasts: { value: 0, xp: 0 },
+		vagina: { value: 0, xp: 0 },
+		anus: { value: 0, xp: 0 }
+	},
+
+	// === Combat Skills (Earn XP individually) === //max level value 100. Combat skills improve through use in combat
+	combatSkills: {
+		// Weapon skills
+		swords: { value: 0, xp: 0 },
+		polearms: { value: 0, xp: 0 },
+		blunt: { value: 0, xp: 0 },
+		axes: { value: 0, xp: 0 },
+		daggers: { value: 0, xp: 0 },
+		unarmed: { value: 5, xp: 0 }, // Start with some unarmed skill
+		bows: { value: 0, xp: 0 },
+		thrown: { value: 0, xp: 0 },
+		
+		// Armor skills
+		unarmored: { value: 5, xp: 0 }, // Start with some unarmored skill
+		lightArmor: { value: 0, xp: 0 },
+		mediumArmor: { value: 0, xp: 0 },
+		heavyArmor: { value: 0, xp: 0 }
+	},
+
+	// === Combat Statistics ===
+	combatStats: {
+		kills: 0,
+		wins: 0,
+		losses: 0,
+		maxDamage: 0
 	},
 
 	// === Equipment === // This section is supposed to reference the items equipped by the player in the inventory system.
 	equipment: {
 		weaponMain: "Fists",
 		weaponOffhand: "None",
-		armorChest: "Simple Clothes",
+		armorChest: "tunic_fine",
 		gloves: "None", //There are two glove slots in the inventory page, but both of them are used for the same item.
-		armorLegs: "None",
-		armorShoes: "None",
+		armorLegs: "leather_pants",
+		armorShoes: "leather_boots",
 
 		accessoryFace: "None",
 		accessoryNeck: "None",
-		accessoryBack: "None", // this is more shoulders, for capes and cloaks as of righting this, I am contemplated adding an additional slot for backpacks.
+		accessoryBack: "cloak_hooded", // this is more shoulders, for capes and cloaks as of righting this, I am contemplated adding an additional slot for backpacks.
 		accessoryRing1: "None",
 		accessoryRing2: "None",
 		accessoryRing3: "None",

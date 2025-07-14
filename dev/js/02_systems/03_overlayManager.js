@@ -22,24 +22,45 @@ window.openOverlay = function (source) {
 	if (panel) {
 		panel.classList.remove("overlay-hidden");
 	}
-	
+
 	// Block map movement when overlay is open
 	if (window.MapSystem) {
 		MapSystem.setMovementBlocked(true);
 	}
-	
+
 	// Trigger overlay open event
 	$(document).trigger(':overlayopen', [source]);
-	
+
 	// Re-render Lucide icons if available
 	if (window.renderLucideIconsSafely) {
 		renderLucideIconsSafely();
 	} else if (window.lucide) {
 		lucide.createIcons();
 	}
-	
+
+	// Wait until DOM is ready and State is available
+	if (source === "CharacterSheetPage") {
+		let retries = 20;
+		const waitForReady = () => {
+			if (typeof State !== 'undefined' &&
+				State.variables?.player &&
+				typeof updateCharacterSheet === 'function' &&
+				document.getElementById("char-name")
+			) {
+				updateCharacterSheet(State.variables.player);
+				console.log("📜 Character sheet updated via overlay hook");
+			} else if (retries-- > 0) {
+				setTimeout(waitForReady, 100);
+			} else {
+				console.warn("⏰ Character sheet update failed after timeout");
+			}
+		};
+		waitForReady();
+	}
+
 	console.log(`✅ Overlay opened: ${source}`);
 };
+
 
 window.closeOverlay = function () {
 	const panel = document.getElementById("overlay-panel");

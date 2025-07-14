@@ -137,6 +137,93 @@ function dropItem(itemId, amount) {
 }
 window.dropItem = dropItem;
 
+/* Map weapon subtypes to combat skills */
+const weaponSkillMap = {
+    // Swords
+    'shortsword': 'swords',
+    'longsword': 'swords',
+    'greatsword': 'swords',
+    'claymore': 'swords',
+    'saber': 'swords',
+    'scimitar': 'swords',
+    'katana': 'swords',
+    
+    // Polearms
+    'spear': 'polearms',
+    'halberd': 'polearms',
+    'glaive': 'polearms',
+    'trident': 'polearms',
+    'naginata': 'polearms',
+    
+    // Blunt
+    'club': 'blunt',
+    'mace': 'blunt',
+    'hammer': 'blunt',
+    'warhammer': 'blunt',
+    'maul': 'blunt',
+    'flail': 'blunt',
+    
+    // Axes
+    'handaxe': 'axes',
+    'battleaxe': 'axes',
+    'greataxe': 'axes',
+    
+    // Daggers
+    'dagger': 'daggers',
+    'knife': 'daggers',
+    'stiletto': 'daggers',
+    'punchdagger': 'daggers',
+    
+    // Unarmed
+    'fist': 'unarmed',
+    'knuckles': 'unarmed',
+    'claws': 'unarmed',
+    
+    // Ranged
+    'shortbow': 'bows',
+    'longbow': 'bows',
+    'crossbow': 'bows',
+    'recurvebow': 'bows',
+    
+    // Thrown
+    'javelin': 'thrown',
+    'throwingknife': 'thrown',
+    'chakram': 'thrown',
+    'boomerang': 'thrown'
+};
+
+/* Map armor types to combat skills */
+const armorSkillMap = {
+    // Light armor materials/types
+    'leather': 'lightArmor',
+    'studded': 'lightArmor',
+    'hide': 'lightArmor',
+    'padded': 'lightArmor',
+    'brigandine': 'lightArmor',
+    'gambeson': 'lightArmor',
+    
+    // Medium armor
+    'chainmail': 'mediumArmor',
+    'hauberk': 'mediumArmor',
+    'scale': 'mediumArmor',
+    'lamellar': 'mediumArmor',
+    'reinforced': 'mediumArmor',
+    'partialplate': 'mediumArmor',
+    'bone': 'mediumArmor',
+    'chitin': 'mediumArmor',
+    
+    // Heavy armor
+    'plate': 'heavyArmor',
+    'banded': 'heavyArmor',
+    'fullplate': 'heavyArmor',
+    
+    // Clothing (unarmored)
+    'cloth': 'unarmored',
+    'robe': 'unarmored',
+    'tunic': 'unarmored',
+    'cloak': 'unarmored'
+};
+
 /* Equip Item Function */
 setup.equipItem = function(itemId, slot) {
 	const item = getItemMetadata(itemId);
@@ -167,13 +254,27 @@ setup.equipItem = function(itemId, slot) {
 	equipped[slot] = {
 		id: item.id,
 		name: item.name,
-		type: item.type
+		type: item.type,
+		subtype: item.subtype // Store subtype for skill detection
 	};
 	
 	// Remove from inventory
 	$(document).wiki(`<<additem "player" "${itemId}" -1>>`);
 	
 	State.variables.equipped = equipped;
+	
+	// Grant passive XP for equipping weapons/armor
+	if (item.type === "weapon" && weaponSkillMap[item.subtype]) {
+		const skill = weaponSkillMap[item.subtype];
+		if (setup.LevelingSystem) {
+			setup.LevelingSystem.addSkillXP('combat', skill, 1);
+		}
+	} else if (item.type === "armor" && item.material) {
+		const skill = armorSkillMap[item.material.toLowerCase()] || 'unarmored';
+		if (setup.LevelingSystem) {
+			setup.LevelingSystem.addSkillXP('combat', skill, 1);
+		}
+	}
 	
 	// Update displays
 	setup.renderInventory("player", State.temporary.currentInventoryTab || "all");

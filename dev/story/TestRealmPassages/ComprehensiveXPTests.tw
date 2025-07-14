@@ -1,0 +1,323 @@
+:: ComprehensiveXPTests
+# Comprehensive XP & Leveling Tests
+
+<div class="test-controls">
+
+## Quick Stats
+<div id="quick-stats">**Character Level:** $player.level | **XP:** $player.experience / $player.experienceToNextLevel | **Attribute Points:** $player.attributePoints</div>
+
+## Character XP Tests
+<div class="test-section">
+### Direct XP Gain
+<<button "Add 10 XP">>
+    <<run addCharacterXP(10)>>
+    <<run refreshCharacterSheet()>>
+    <<replace "#test-log">>Added 10 character XP<</replace>>
+    <<replace "#quick-stats">>**Character Level:** $player.level | **XP:** $player.experience / $player.experienceToNextLevel | **Attribute Points:** $player.attributePoints<</replace>>
+<</button>>
+<<button "Add 100 XP">>
+    <<run addCharacterXP(100)>>
+    <<run refreshCharacterSheet()>>
+    <<replace "#test-log">>Added 100 character XP<</replace>>
+    <<replace "#quick-stats">>**Character Level:** $player.level | **XP:** $player.experience / $player.experienceToNextLevel | **Attribute Points:** $player.attributePoints<</replace>>
+<</button>>
+<<button "Add 1000 XP">>
+    <<run addCharacterXP(1000)>>
+    <<run refreshCharacterSheet()>>
+    <<replace "#test-log">>Added 1000 character XP<</replace>>
+    <<replace "#quick-stats">>**Character Level:** $player.level | **XP:** $player.experience / $player.experienceToNextLevel | **Attribute Points:** $player.attributePoints<</replace>>
+<</button>>
+
+### Quest Rewards
+<<button "Complete Minor Quest">>
+    <<run addCharacterXP(XP_REWARDS.quest.minor)>>
+    <<replace "#test-log">>Completed minor quest: +50 XP<</replace>>
+<</button>>
+<<button "Complete Major Quest">>
+    <<run addCharacterXP(XP_REWARDS.quest.major)>>
+    <<replace "#test-log">>Completed major quest: +200 XP<</replace>>
+<</button>>
+<<button "Complete Main Quest">>
+    <<run addCharacterXP(XP_REWARDS.quest.main)>>
+    <<replace "#test-log">>Completed main quest: +500 XP<</replace>>
+<</button>>
+</div>
+
+## Combat Skill Tests
+<div class="test-section">
+### Weapon Skills
+<<button "Practice Swords (+5 XP)">>
+    <<run addSkillXP('combat', 'swords', 5)>>
+    <<replace "#test-log">>Practiced swords: +5 XP<</replace>>
+<</button>>
+<<button "Combat Hit - Swords">>
+    <<run addSkillXP('combat', 'swords', XP_REWARDS.skillUse.combat.hit)>>
+    <<replace "#test-log">>Hit with sword: +2 XP<</replace>>
+<</button>>
+<<button "Critical Hit - Swords">>
+    <<run addSkillXP('combat', 'swords', XP_REWARDS.skillUse.combat.critical)>>
+    <<replace "#test-log">>Critical hit with sword: +5 XP<</replace>>
+<</button>>
+<<button "Kill Enemy - Swords">>
+    <<run addSkillXP('combat', 'swords', XP_REWARDS.skillUse.combat.kill)>>
+    <<replace "#test-log">>Killed enemy with sword: +10 XP<</replace>>
+<</button>>
+
+### Armor Skills
+<<button "Take Hit - Light Armor">>
+    <<run addSkillXP('combat', 'lightArmor', 2)>>
+    <<replace "#test-log">>Took hit in light armor: +2 XP<</replace>>
+<</button>>
+<<button "Block Attack - Heavy Armor">>
+    <<run addSkillXP('combat', 'heavyArmor', XP_REWARDS.skillUse.combat.block)>>
+    <<replace "#test-log">>Blocked with heavy armor: +3 XP<</replace>>
+<</button>>
+</div>
+
+## Primary Skill Tests
+<div class="test-section">
+### Skill Checks
+<<button "Athletics Success">>
+    <<run addSkillXP('primary', 'athletics', XP_REWARDS.skillUse.primary.success)>>
+    <<replace "#test-log">>Athletics check success: +5 XP<</replace>>
+<</button>>
+<<button "Athletics Failure">>
+    <<run addSkillXP('primary', 'athletics', XP_REWARDS.skillUse.primary.failure)>>
+    <<replace "#test-log">>Athletics check failed: +1 XP (learning from failure)<</replace>>
+<</button>>
+<<button "Athletics Critical">>
+    <<run addSkillXP('primary', 'athletics', XP_REWARDS.skillUse.primary.critical)>>
+    <<replace "#test-log">>Athletics critical success: +10 XP<</replace>>
+<</button>>
+
+### Batch Primary Skills
+<<button "Practice All Primary Skills">>
+    <<for _skill range Object.keys($player.primarySkills)>>
+        <<run addSkillXP('primary', _skill, 3)>>
+    <</for>>
+    <<replace "#test-log">>Practiced all primary skills: +3 XP each<</replace>>
+<</button>>
+</div>
+
+## Secondary Skill Tests
+<div class="test-section">
+### General Skills
+<<button "Practice Dancing">>
+    <<run addSkillXP('secondary', 'dancing', XP_REWARDS.skillUse.secondary.practice)>>
+    <<replace "#test-log">>Practiced dancing: +3 XP<</replace>>
+<</button>>
+<<button "Swimming Success">>
+    <<run addSkillXP('secondary', 'swimming', XP_REWARDS.skillUse.secondary.success)>>
+    <<replace "#test-log">>Swimming success: +5 XP<</replace>>
+<</button>>
+
+### Sexual Skills
+<<button "Practice Hands">>
+    <<run addSkillXP('secondary', 'hands', XP_REWARDS.skillUse.secondary.practice)>>
+    <<replace "#test-log">>Practiced hands skill: +3 XP<</replace>>
+<</button>>
+<<button "Masterful Performance - Mouth">>
+    <<run addSkillXP('secondary', 'mouth', XP_REWARDS.skillUse.secondary.masterful)>>
+    <<replace "#test-log">>Masterful mouth performance: +10 XP<</replace>>
+<</button>>
+</div>
+
+## Attribute Management
+<div class="test-section">
+### Grant Attribute Points
+<<button "Grant 1 Point">>
+    <<set $player.attributePoints++>>
+    <<run updateCharacterSheet()>>
+    <<replace "#test-log">>Granted 1 attribute point<</replace>>
+<</button>>
+<<button "Grant 5 Points">>
+    <<set $player.attributePoints += 5>>
+    <<run updateCharacterSheet()>>
+    <<replace "#test-log">>Granted 5 attribute points<</replace>>
+<</button>>
+
+### Spend Points (if available)
+<<if $player.attributePoints > 0>>
+    <<button "Spend on Strength">>
+        <<run spendAttributePoint('strength')>>
+        <<replace "#test-log">>Spent 1 point on Strength<</replace>>
+    <</button>>
+    <<button "Spend on Agility">>
+        <<run spendAttributePoint('agility')>>
+        <<replace "#test-log">>Spent 1 point on Agility<</replace>>
+    <</button>>
+    <<button "Spend on Toughness">>
+        <<run spendAttributePoint('toughness')>>
+        <<replace "#test-log">>Spent 1 point on Toughness<</replace>>
+    <</button>>
+<<else>>
+    <em>No attribute points available</em>
+<</if>>
+</div>
+
+## Stress Tests
+<div class="test-section">
+### Rapid Leveling
+<<button "Level to 10">>
+    <<for _i = $player.level; _i < 10; _i++>>
+        <<run addCharacterXP($player.experienceToNextLevel)>>
+    <</for>>
+    <<replace "#test-log">>Leveled to 10<</replace>>
+<</button>>
+<<button "Level to 50">>
+    <<for _i = $player.level; _i < 50; _i++>>
+        <<run addCharacterXP($player.experienceToNextLevel)>>
+    <</for>>
+    <<replace "#test-log">>Leveled to 50<</replace>>
+<</button>>
+<<button "Level to 100">>
+    <<for _i = $player.level; _i < 100; _i++>>
+        <<run addCharacterXP($player.experienceToNextLevel)>>
+    <</for>>
+    <<replace "#test-log">>Leveled to 100<</replace>>
+<</button>>
+
+### Max Out Skills
+<<button "Max Combat Skill (Swords)">>
+    <<for _i = $player.combatSkills.swords.value; _i < 100; _i++>>
+        <<run addSkillXP('combat', 'swords', 100)>>
+    <</for>>
+    <<replace "#test-log">>Maxed out Swords skill<</replace>>
+<</button>>
+<<button "Max Primary Skill (Athletics)">>
+    <<for _i = $player.primarySkills.athletics.value; _i < 100; _i++>>
+        <<run addSkillXP('primary', 'athletics', 100)>>
+    <</for>>
+    <<replace "#test-log">>Maxed out Athletics skill<</replace>>
+<</button>>
+<<button "Max All Combat Skills">>
+    <<for _skill range Object.keys($player.combatSkills)>>
+        <<for _i = $player.combatSkills[_skill].value; _i < 100; _i++>>
+            <<run addSkillXP('combat', _skill, 100)>>
+        <</for>>
+    <</for>>
+    <<replace "#test-log">>Maxed all combat skills<</replace>>
+<</button>>
+</div>
+
+## Equipment & Skill Interaction
+<div class="test-section">
+### Equip Test Weapons
+<<button "Equip Iron Longsword">>
+    <<set State.variables.inventory_player = State.variables.inventory_player || {}>>
+    <<set State.variables.inventory_player.longsword_iron = 1>>
+    <<run setup.equipItem('longsword_iron', 'main')>>
+    <<replace "#test-log">>Equipped Iron Longsword (grants passive sword XP)<</replace>>
+<</button>>
+<<button "Equip Wooden Spear">>
+    <<set State.variables.inventory_player = State.variables.inventory_player || {}>>
+    <<set State.variables.inventory_player.spear_wood = 1>>
+    <<run setup.equipItem('spear_wood', 'main')>>
+    <<replace "#test-log">>Equipped Wooden Spear (grants passive polearm XP)<</replace>>
+<</button>>
+</div>
+
+## Event Hook Tests
+<div class="test-section">
+### Register Test Hooks
+<<button "Register XP Hook">>
+    <<run registerLevelingHook('onXPChange', function(data) {
+        console.log('XP Changed:', data);
+        State.temporary.lastXPChange = data;
+    })>>
+    <<replace "#test-log">>Registered XP change hook (check console)<</replace>>
+<</button>>
+<<button "Register Skill Hook">>
+    <<run registerLevelingHook('onSkillChange', function(data) {
+        console.log('Skill Changed:', data);
+        State.temporary.lastSkillChange = data;
+    })>>
+    <<replace "#test-log">>Registered skill change hook (check console)<</replace>>
+<</button>>
+</div>
+
+## Reset Options
+<div class="test-section">
+### Reset Character
+<<button "Reset to Level 1">>
+    <<set $player.level = 1>>
+    <<set $player.experience = 0>>
+    <<set $player.experienceToNextLevel = 100>>
+    <<set $player.attributePoints = 0>>
+    <<for _attr range Object.keys($player.attributes)>>
+        <<set $player.attributes[_attr] = 3>>
+    <</for>>
+    <<run setup.LevelingSystem.updateDerivedStats()>>
+    <<run updateCharacterSheet()>>
+    <<replace "#test-log">>Reset character to level 1<</replace>>
+<</button>>
+<<button "Reset All Skills">>
+    <<for _skill range Object.keys($player.primarySkills)>>
+        <<set $player.primarySkills[_skill] = { value: 0, xp: 0 }>>
+    <</for>>
+    <<for _skill range Object.keys($player.secondarySkills)>>
+        <<set $player.secondarySkills[_skill] = { value: 0, xp: 0 }>>
+    <</for>>
+    <<for _skill range Object.keys($player.combatSkills)>>
+        <<set $player.combatSkills[_skill] = { value: 0, xp: 0 }>>
+    <</for>>
+    <<set $player.combatSkills.unarmed = { value: 5, xp: 0 }>>
+    <<set $player.combatSkills.unarmored = { value: 5, xp: 0 }>>
+    <<run updateCharacterSheet()>>
+    <<replace "#test-log">>Reset all skills to 0<</replace>>
+<</button>>
+</div>
+
+</div>
+
+<div id="test-log" class="test-log">Ready for testing...</div>
+
+## Current Skill Values
+<div class="skill-display">
+### Combat Skills
+<<for _skill, _data range $player.combatSkills>>
+    **<<= _skill>>:** <<= _data.value>>/100 (<<= _data.xp>> XP) - Tier: <<= setup.LevelingSystem.getSkillTier(_data.value).name>>
+<</for>>
+
+### Primary Skills (Top 5)
+<<set _topPrimary = Object.entries($player.primarySkills).sort((a,b) => b[1].value - a[1].value).slice(0,5)>>
+<<for _entry range _topPrimary>>
+    **<<= _entry[0]>>:** <<= _entry[1].value>>/100 (<<= _entry[1].xp>> XP)
+<</for>>
+</div>
+
+[[Return to Test Realm|TestRealm]]
+[[Open Character Sheet|CharacterSheet]]
+
+<style>
+.test-controls {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+.test-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 5px;
+}
+.test-section button {
+    margin: 5px;
+    padding: 8px 15px;
+}
+.test-log {
+    background: rgba(139, 105, 20, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+}
+.skill-display {
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+</style>

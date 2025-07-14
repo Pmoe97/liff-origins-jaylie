@@ -2,13 +2,14 @@
 <!-- Modern Character Sheet -->
 <div class="overlay-header">
     <h2>Character</h2>
-    <button class="overlay-close-btn" onclick="closeOverlay()">×</button>
+    <button class="overlay-close-btn" onclick="cleanupCharacterSheet(); closeOverlay()">×</button>
 </div>
 
 <!-- Tab Navigation -->
 <div class="character-tabs">
     <button class="tab-button active" onclick="switchCharacterTab('status')">Status & Equipment</button>
     <button class="tab-button" onclick="switchCharacterTab('skills')">Attributes & Skills</button>
+    <button class="tab-button" onclick="switchCharacterTab('combat')">Combat Skills</button>
     <button class="tab-button" onclick="switchCharacterTab('appearance')">Appearance</button>
 </div>
 
@@ -212,7 +213,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Acrobatics (Agility) -->
@@ -225,7 +226,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Sleight of Hand (Agility) -->
@@ -238,7 +239,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Stealth (Agility) -->
@@ -251,7 +252,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Fortitude (Toughness) -->
@@ -264,7 +265,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Willpower (Toughness) -->
@@ -277,7 +278,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Deception (Charisma) -->
@@ -290,7 +291,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Intimidation (Charisma) -->
@@ -303,7 +304,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Performance (Charisma) -->
@@ -316,7 +317,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Persuasion (Charisma) -->
@@ -329,7 +330,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Magic (Intelligence) -->
@@ -342,7 +343,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Investigation (Intelligence) -->
@@ -355,7 +356,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Religion (Intelligence) -->
@@ -368,7 +369,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- History (Intelligence) -->
@@ -381,7 +382,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Perception (Insight) -->
@@ -394,7 +395,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Survival (Insight) -->
@@ -407,7 +408,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                     <!-- Medicine (Insight) -->
@@ -420,7 +421,7 @@
                                             <div class="skill-xp-bar">
                                                 <div class="skill-xp-fill"></div>
                                             </div>
-                                            <span class="skill-xp-text">0/100 (0 XP)</span>
+                                            <span class="skill-xp-text"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -569,6 +570,208 @@
                 </div>
             </div>
 
+            <!-- Combat Tab -->
+            <div id="combat-tab" class="tab-panel">
+                <div class="main-content">
+                    <!-- Weapon Skills Card -->
+                    <section class="card">
+                        <h2>Weapon Proficiencies</h2>
+                        <div class="skills-container">
+                            <div id="char-combat-weapons">
+                                <!-- Swords -->
+                                <div class="skill-item-extended" data-skill="swords">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Swords</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Polearms -->
+                                <div class="skill-item-extended" data-skill="polearms">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Polearms</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Blunt Weapons -->
+                                <div class="skill-item-extended" data-skill="blunt">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Blunt Weapons</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Axes -->
+                                <div class="skill-item-extended" data-skill="axes">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Axes</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Daggers -->
+                                <div class="skill-item-extended" data-skill="daggers">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Daggers</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Unarmed -->
+                                <div class="skill-item-extended" data-skill="unarmed">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Unarmed</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Bows -->
+                                <div class="skill-item-extended" data-skill="bows">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Bows</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Thrown Weapons -->
+                                <div class="skill-item-extended" data-skill="thrown">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Thrown Weapons</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Armor Skills Card -->
+                    <section class="card">
+                        <h2>Armor Proficiencies</h2>
+                        <div class="skills-container">
+                            <div id="char-combat-armor">
+                                <!-- Unarmored -->
+                                <div class="skill-item-extended" data-skill="unarmored">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Unarmored</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Light Armor -->
+                                <div class="skill-item-extended" data-skill="lightArmor">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Light Armor</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Medium Armor -->
+                                <div class="skill-item-extended" data-skill="mediumArmor">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Medium Armor</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                                <!-- Heavy Armor -->
+                                <div class="skill-item-extended" data-skill="heavyArmor">
+                                    <div class="skill-header">
+                                        <span class="skill-name">Heavy Armor</span>
+                                        <div class="skill-level"></div>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-xp-bar">
+                                            <div class="skill-xp-fill"></div>
+                                        </div>
+                                        <span class="skill-xp-text">0/100 (0 XP)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Combat Stats Summary -->
+                <section class="card full-width">
+                    <h2>Combat Statistics</h2>
+                    <div class="combat-stats-grid">
+                        <div class="combat-stat-item">
+                            <span class="stat-label">Total Kills</span>
+                            <span class="stat-value" id="combat-kills">0</span>
+                        </div>
+                        <div class="combat-stat-item">
+                            <span class="stat-label">Battles Won</span>
+                            <span class="stat-value" id="combat-wins">0</span>
+                        </div>
+                        <div class="combat-stat-item">
+                            <span class="stat-label">Times Defeated</span>
+                            <span class="stat-value" id="combat-losses">0</span>
+                        </div>
+                        <div class="combat-stat-item">
+                            <span class="stat-label">Highest Damage Dealt</span>
+                            <span class="stat-value" id="combat-max-damage">0</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
             <!-- Appearance Tab -->
             <div id="appearance-tab" class="tab-panel">
                 <div class="main-content">
@@ -654,13 +857,24 @@
         </div>
     </div>
 </div>
+<<script>>
+(function waitForCharacterSheetReady(retries = 20) {
+	const overlay = document.querySelector('.overlay-content');
+	const charNameEl = document.getElementById('char-name');
 
-<script>
-// Initialize character sheet when overlay loads
-setTimeout(() => {
-    if (typeof initializeCharacterSheet === 'function') {
-        initializeCharacterSheet();
-    }
-}, 100);
-</script>
+	if (overlay && overlay.offsetParent !== null && charNameEl) {
+		if (typeof updateCharacterSheet === 'function' && State?.variables?.player) {
+			updateCharacterSheet(State.variables.player);
+		}
+	} else if (retries > 0) {
+		setTimeout(() => waitForCharacterSheetReady(retries - 1), 100);
+	} else {
+		console.warn("[CharacterSheet] Gave up waiting for overlay to load.");
+	}
+})();
+<</script>>
+
+
+
+
 

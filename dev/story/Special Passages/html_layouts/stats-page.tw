@@ -1,3 +1,268 @@
 :: StatsPage [nobr]
 <!-- Add this to the top right of each overlay panel -->
 <button class="overlay-close-btn" onclick="closeOverlay()">X</button>
+
+<div class="stats-container">
+    <h1 class="stats-title">Player Statistics</h1>
+    
+    <<set _stats to StatsTracker.getStats()>>
+    
+    <!-- Combat Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('combat')">
+            <span class="category-icon">⚔️</span> Combat
+            <span class="toggle-icon" id="combat-toggle">▼</span>
+        </h2>
+        <div id="combat-content" class="category-content">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Total Kills:</span>
+                    <span class="stat-value"><<print _stats.combat.totalKills>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Damage Dealt:</span>
+                    <span class="stat-value"><<print _stats.combat.totalDamageDealt.toLocaleString()>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Damage Taken:</span>
+                    <span class="stat-value"><<print _stats.combat.totalDamageTaken.toLocaleString()>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Critical Hits:</span>
+                    <span class="stat-value"><<print _stats.combat.criticalHits>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Battles Won:</span>
+                    <span class="stat-value"><<print _stats.combat.battlesWon>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Battles Lost:</span>
+                    <span class="stat-value"><<print _stats.combat.battlesLost>></span>
+                </div>
+            </div>
+            <<if Object.keys(_stats.combat.killsByType).length > 0>>
+                <h3>Kills by Type</h3>
+                <div class="sub-stats">
+                    <<for _type, _count range _stats.combat.killsByType>>
+                        <div class="stat-item">
+                            <span class="stat-label"><<print _type>>:</span>
+                            <span class="stat-value"><<print _count>></span>
+                        </div>
+                    <</for>>
+                </div>
+            <</if>>
+        </div>
+    </div>
+    
+    <!-- Social Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('social')">
+            <span class="category-icon">👥</span> Social
+            <span class="toggle-icon" id="social-toggle">▼</span>
+        </h2>
+        <div id="social-content" class="category-content">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">People Met:</span>
+                    <span class="stat-value"><<print _stats.social.peopleNet>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Conversations:</span>
+                    <span class="stat-value"><<print _stats.social.conversationsHad>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Quests Completed:</span>
+                    <span class="stat-value"><<print _stats.social.questsCompleted>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Lied:</span>
+                    <span class="stat-value"><<print _stats.social.timesLied>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Truthful:</span>
+                    <span class="stat-value"><<print _stats.social.timesTruthful>></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Economic Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('economic')">
+            <span class="category-icon">💰</span> Economic
+            <span class="toggle-icon" id="economic-toggle">▼</span>
+        </h2>
+        <div id="economic-content" class="category-content">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Total Earned:</span>
+                    <span class="stat-value"><<print _stats.economic.totalMoneyEarned.toLocaleString()>> g</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Spent:</span>
+                    <span class="stat-value"><<print _stats.economic.totalMoneySpent.toLocaleString()>> g</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Net Worth:</span>
+                    <span class="stat-value"><<print (_stats.economic.totalMoneyEarned - _stats.economic.totalMoneySpent).toLocaleString()>> g</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Items Bought:</span>
+                    <span class="stat-value"><<print _stats.economic.itemsBought>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Items Sold:</span>
+                    <span class="stat-value"><<print _stats.economic.itemsSold>></span>
+                </div>
+                <<if _stats.economic.largestPurchase.amount > 0>>
+                    <div class="stat-item full-width">
+                        <span class="stat-label">Largest Purchase:</span>
+                        <span class="stat-value"><<print _stats.economic.largestPurchase.item>> (<<print _stats.economic.largestPurchase.amount>>g)</span>
+                    </div>
+                <</if>>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exploration Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('exploration')">
+            <span class="category-icon">🗺️</span> Exploration
+            <span class="toggle-icon" id="exploration-toggle">▼</span>
+        </h2>
+        <div id="exploration-content" class="category-content">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Locations Discovered:</span>
+                    <span class="stat-value"><<print _stats.exploration.locationsDiscovered>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Distance Traveled:</span>
+                    <span class="stat-value"><<print _stats.exploration.totalDistanceTraveled.toLocaleString()>> km</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Secrets Found:</span>
+                    <span class="stat-value"><<print _stats.exploration.secretsFound>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Treasures Looted:</span>
+                    <span class="stat-value"><<print _stats.exploration.treasuresLooted>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Traps Triggered:</span>
+                    <span class="stat-value"><<print _stats.exploration.trapsTriggered>></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Intimate Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('intimate')">
+            <span class="category-icon">❤️</span> Intimate
+            <span class="toggle-icon" id="intimate-toggle">▼</span>
+        </h2>
+        <div id="intimate-content" class="category-content" style="display: none;">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Unique Partners:</span>
+                    <span class="stat-value"><<print _stats.intimate.totalPartners>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Kisses:</span>
+                    <span class="stat-value"><<print _stats.intimate.kisses>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Orgasms Achieved:</span>
+                    <span class="stat-value"><<print _stats.intimate.orgasmsAchieved>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Orgasms Given:</span>
+                    <span class="stat-value"><<print _stats.intimate.orgasmsGiven>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Seduced:</span>
+                    <span class="stat-value"><<print _stats.intimate.timesSeduced>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Rejected:</span>
+                    <span class="stat-value"><<print _stats.intimate.timesRejected>></span>
+                </div>
+            </div>
+            <<if Object.keys(_stats.intimate.intimateActs.given).length > 0 || Object.keys(_stats.intimate.intimateActs.received).length > 0>>
+                <h3>Intimate Acts</h3>
+                <div class="sub-stats">
+                    <<if Object.keys(_stats.intimate.intimateActs.given).length > 0>>
+                        <h4>Given</h4>
+                        <<for _act, _count range _stats.intimate.intimateActs.given>>
+                            <div class="stat-item">
+                                <span class="stat-label"><<print _act>>:</span>
+                                <span class="stat-value"><<print _count>></span>
+                            </div>
+                        <</for>>
+                    <</if>>
+                    <<if Object.keys(_stats.intimate.intimateActs.received).length > 0>>
+                        <h4>Received</h4>
+                        <<for _act, _count range _stats.intimate.intimateActs.received>>
+                            <div class="stat-item">
+                                <span class="stat-label"><<print _act>>:</span>
+                                <span class="stat-value"><<print _count>></span>
+                            </div>
+                        <</for>>
+                    <</if>>
+                </div>
+            <</if>>
+        </div>
+    </div>
+    
+    <!-- Miscellaneous Stats -->
+    <div class="stats-category">
+        <h2 class="category-header" onclick="toggleCategory('misc')">
+            <span class="category-icon">🎲</span> Miscellaneous
+            <span class="toggle-icon" id="misc-toggle">▼</span>
+        </h2>
+        <div id="misc-content" class="category-content" style="display: none;">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Total Play Time:</span>
+                    <span class="stat-value"><<print Math.floor(_stats.misc.totalPlayTime / 60)>>h <<print _stats.misc.totalPlayTime % 60>>m</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Slept:</span>
+                    <span class="stat-value"><<print _stats.misc.timesSlept>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Meals Eaten:</span>
+                    <span class="stat-value"><<print _stats.misc.mealsEaten>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Items Consumed:</span>
+                    <span class="stat-value"><<print _stats.misc.itemsConsumed>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Games Saved:</span>
+                    <span class="stat-value"><<print _stats.misc.gamesSaved>></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Times Knocked Out:</span>
+                    <span class="stat-value"><<print _stats.misc.timesKnocked>></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<<script>>
+window.toggleCategory = function(category) {
+    const content = document.getElementById(category + '-content');
+    const toggle = document.getElementById(category + '-toggle');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.textContent = '▲';
+    } else {
+        content.style.display = 'none';
+        toggle.textContent = '▼';
+    }
+};
+<</script>>

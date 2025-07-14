@@ -69,7 +69,7 @@
 		<div id="sidebar-top-line2">
 			<span id="sidebar-gold">
 				<i data-lucide="coins"></i>
-				<span id="sidebar-gold-amount">100</span>g
+				<span id="sidebar-gold-amount">0</span>g
 			</span>
 		<span class="dot-separator">•</span>
 		<span id="sidebar-weather">
@@ -126,7 +126,7 @@
 		<div class="exp-bar">
 			<div class="exp-bar-fill" id="exp-fill"></div>
 		</div>
-		<span id="exp-text">0/100 XP</span>
+		<span id="exp-text">0/15 XP</span>
 	</div>
 
 	<!-- Minimap Section -->
