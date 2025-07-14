@@ -163,6 +163,10 @@ State.variables.player = {
 	startingInventory: {
 		gold_coin: 100,
 		dagger_silver: 1,
+		tunic_fine: 1,
+		leather_pants: 1,
+		leather_boots: 1,
+		cloak_hooded: 1,
 	}
 };
 
