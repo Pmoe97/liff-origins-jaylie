@@ -177,9 +177,9 @@
 			</button>
 		</div>
 		<div class="button-pair">
-			<<button '<i data-lucide="save"></i> Saves'>>
-				<<run UI.saves()>>
-			<</button>>
+			<button class="sidebar-btn" id="btn-saves">
+				<i data-lucide="save"></i> Saves
+			</button>
 			<button class="sidebar-btn" id="sidebar-options" onclick="openOverlay('OptionsPage')">
                 <i data-lucide="settings"></i> Options
             </button>
@@ -201,33 +201,3 @@
 	</div>
 </div>
 
-<<script>>
-const s = State.variables.player.status;
-
-function updateBar(id, current, max) {
-	const fill = document.getElementById(id + "-fill");
-	const value = document.getElementById(id + "-value");
-	if (fill) fill.style.width = ((current / max) * 100) + "%";
-	if (value) value.textContent = Math.round(current) + " / " + Math.round(max);
-}
-
-updateBar("health", s.health, s.maxHealth);
-updateBar("fatigue", s.fatigue, s.maxFatigue);
-updateBar("composure", s.composure, s.maxComposure);
-updateBar("excitement", s.excitement, s.maxExcitement);
-
-if (typeof setup?.SidebarUI?.initialize === "function") {
-	setup.SidebarUI.initialize();
-}
-
-(function waitForLucide(retries = 20) {
-	if (window.lucide && typeof lucide.createIcons === "function") {
-		console.log("[SidebarUI] Lucide is ready — rendering icons!");
-		lucide.createIcons();
-	} else if (retries > 0) {
-		setTimeout(() => waitForLucide(retries - 1), 100);
-	} else {
-		console.warn("[SidebarUI] Lucide failed to initialize after timeout.");
-	}
-})();
-<</script>>

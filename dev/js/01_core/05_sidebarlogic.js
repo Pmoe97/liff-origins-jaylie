@@ -7,14 +7,16 @@ setup.SidebarUI = {
 		}
 
 		// Get the sidebar HTML from the SidebarUI passage
-		const sidebarHTML = Story.get("SidebarUI").processText();
-		sidebar.innerHTML = sidebarHTML;
-
-		// Process any SugarCube macros in the rendered HTML
-		if (typeof Wikifier === "function") {
-			new Wikifier(sidebar, sidebarHTML);
+		const sidebarPassage = Story.get("SidebarUI");
+		if (!sidebarPassage) {
+			console.warn("[SidebarUI] SidebarUI passage not found.");
+			return;
 		}
 
+		// Set the HTML directly without Wikifier to avoid double processing
+		sidebar.innerHTML = sidebarPassage.processText();
+
+		// The passage's own <<script>> will handle initialization
 		console.log("[SidebarUI] Sidebar HTML rendered.");
 	},
 
@@ -472,17 +474,23 @@ $(document).on("click", "#sidebar-options", () => {
 /* Sidebar Updating with every click and passage change */
 // Update sidebar on every passage load
 $(document).on(":passagedisplay", () => {
-	// First ensure sidebar is rendered
-	if (!document.getElementById("sidebar-content")) {
+	// Check if sidebar structure exists
+	const sidebar = document.getElementById("custom-sidebar");
+	const hasContent = sidebar && sidebar.querySelector("#sidebar-content");
+	
+	if (!hasContent) {
 		setup.SidebarUI.renderSidebar();
 	}
 	
-	waitForSidebarReady();
-
-	// Re-render the minimap after the sidebar refresh wipes DOM
-	if (MapSystem?.currentMap) {
-		MapSystem.updateMinimapDisplay();
-	}
+	// Wait a bit for the passage's script to execute
+	setTimeout(() => {
+		setup.SidebarUI.update();
+		
+		// Re-render the minimap after the sidebar refresh
+		if (MapSystem?.currentMap) {
+			MapSystem.updateMinimapDisplay();
+		}
+	}, 50);
 });
 
 
@@ -500,7 +508,7 @@ document.addEventListener("click", () => {
 // Also render on initial page load
 $(document).one(":storyready", () => {
 	setup.SidebarUI.renderSidebar();
-	setup.SidebarUI.update();
+	setTimeout(() => setup.SidebarUI.update(), 100);
 });
 
 function waitForSidebarReady(retries = 10) {
@@ -517,6 +525,38 @@ function waitForSidebarReady(retries = 10) {
 	}
 }
 
+// Prevent multiple executions
+if (!window._sidebarInitialized) {
+	window._sidebarInitialized = true;
+	
+	const s = State.variables.player.status;
 
+	function updateBar(id, current, max) {
+		const fill = document.getElementById(id + "-fill");
+		const value = document.getElementById(id + "-value");
+		if (fill) fill.style.width = ((current / max) * 100) + "%";
+		if (value) value.textContent = Math.round(current) + " / " + Math.round(max);
+	}
+
+	updateBar("health", s.health, s.maxHealth);
+	updateBar("fatigue", s.fatigue, s.maxFatigue);
+	updateBar("composure", s.composure, s.maxComposure);
+	updateBar("excitement", s.excitement, s.maxExcitement);
+
+	if (typeof setup?.SidebarUI?.initialize === "function") {
+		setup.SidebarUI.initialize();
+	}
+
+	(function waitForLucide(retries = 20) {
+		if (window.lucide && typeof lucide.createIcons === "function") {
+			console.log("[SidebarUI] Lucide is ready — rendering icons!");
+			lucide.createIcons();
+		} else if (retries > 0) {
+			setTimeout(() => waitForLucide(retries - 1), 100);
+		} else {
+			console.warn("[SidebarUI] Lucide failed to initialize after timeout.");
+		}
+	})();
+}
 
 

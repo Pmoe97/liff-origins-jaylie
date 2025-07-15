@@ -9947,14 +9947,16 @@ setup.SidebarUI = {
 		}
 
 		// Get the sidebar HTML from the SidebarUI passage
-		const sidebarHTML = Story.get("SidebarUI").processText();
-		sidebar.innerHTML = sidebarHTML;
-
-		// Process any SugarCube macros in the rendered HTML
-		if (typeof Wikifier === "function") {
-			new Wikifier(sidebar, sidebarHTML);
+		const sidebarPassage = Story.get("SidebarUI");
+		if (!sidebarPassage) {
+			console.warn("[SidebarUI] SidebarUI passage not found.");
+			return;
 		}
 
+		// Set the HTML directly without Wikifier to avoid double processing
+		sidebar.innerHTML = sidebarPassage.processText();
+
+		// The passage's own <<script>> will handle initialization
 		console.log("[SidebarUI] Sidebar HTML rendered.");
 	},
 
@@ -10412,17 +10414,23 @@ $(document).on("click", "#sidebar-options", () => {
 /* Sidebar Updating with every click and passage change */
 // Update sidebar on every passage load
 $(document).on(":passagedisplay", () => {
-	// First ensure sidebar is rendered
-	if (!document.getElementById("sidebar-content")) {
+	// Check if sidebar structure exists
+	const sidebar = document.getElementById("custom-sidebar");
+	const hasContent = sidebar && sidebar.querySelector("#sidebar-content");
+	
+	if (!hasContent) {
 		setup.SidebarUI.renderSidebar();
 	}
 	
-	waitForSidebarReady();
-
-	// Re-render the minimap after the sidebar refresh wipes DOM
-	if (MapSystem?.currentMap) {
-		MapSystem.updateMinimapDisplay();
-	}
+	// Wait a bit for the passage's script to execute
+	setTimeout(() => {
+		setup.SidebarUI.update();
+		
+		// Re-render the minimap after the sidebar refresh
+		if (MapSystem?.currentMap) {
+			MapSystem.updateMinimapDisplay();
+		}
+	}, 50);
 });
 
 
@@ -10440,7 +10448,7 @@ document.addEventListener("click", () => {
 // Also render on initial page load
 $(document).one(":storyready", () => {
 	setup.SidebarUI.renderSidebar();
-	setup.SidebarUI.update();
+	setTimeout(() => setup.SidebarUI.update(), 100);
 });
 
 function waitForSidebarReady(retries = 10) {
@@ -10457,7 +10465,39 @@ function waitForSidebarReady(retries = 10) {
 	}
 }
 
+// Prevent multiple executions
+if (!window._sidebarInitialized) {
+	window._sidebarInitialized = true;
+	
+	const s = State.variables.player.status;
 
+	function updateBar(id, current, max) {
+		const fill = document.getElementById(id + "-fill");
+		const value = document.getElementById(id + "-value");
+		if (fill) fill.style.width = ((current / max) * 100) + "%";
+		if (value) value.textContent = Math.round(current) + " / " + Math.round(max);
+	}
+
+	updateBar("health", s.health, s.maxHealth);
+	updateBar("fatigue", s.fatigue, s.maxFatigue);
+	updateBar("composure", s.composure, s.maxComposure);
+	updateBar("excitement", s.excitement, s.maxExcitement);
+
+	if (typeof setup?.SidebarUI?.initialize === "function") {
+		setup.SidebarUI.initialize();
+	}
+
+	(function waitForLucide(retries = 20) {
+		if (window.lucide && typeof lucide.createIcons === "function") {
+			console.log("[SidebarUI] Lucide is ready — rendering icons!");
+			lucide.createIcons();
+		} else if (retries > 0) {
+			setTimeout(() => waitForLucide(retries - 1), 100);
+		} else {
+			console.warn("[SidebarUI] Lucide failed to initialize after timeout.");
+		}
+	})();
+}
 
 
 /* twine-user-script #14: "06_loader.js" */
@@ -33272,9 +33312,9 @@ console.log(&#39;[MiniMap] Enhanced node network system integration loaded&#39;)
 			&lt;/button&gt;
 		&lt;/div&gt;
 		&lt;div class=&quot;button-pair&quot;&gt;
-			&lt;&lt;button &#39;&lt;i data-lucide=&quot;save&quot;&gt;&lt;/i&gt; Saves&#39;&gt;&gt;
-				&lt;&lt;run UI.saves()&gt;&gt;
-			&lt;&lt;/button&gt;&gt;
+			&lt;button class=&quot;sidebar-btn&quot; id=&quot;btn-saves&quot;&gt;
+				&lt;i data-lucide=&quot;save&quot;&gt;&lt;/i&gt; Saves
+			&lt;/button&gt;
 			&lt;button class=&quot;sidebar-btn&quot; id=&quot;sidebar-options&quot; onclick=&quot;openOverlay(&#39;OptionsPage&#39;)&quot;&gt;
                 &lt;i data-lucide=&quot;settings&quot;&gt;&lt;/i&gt; Options
             &lt;/button&gt;
@@ -33294,38 +33334,7 @@ console.log(&#39;[MiniMap] Enhanced node network system integration loaded&#39;)
 			&lt;i data-lucide=&quot;bug-play&quot;&gt;&lt;/i&gt; Report Bug
 		&lt;/button&gt;
 	&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;&lt;script&gt;&gt;
-const s = State.variables.player.status;
-
-function updateBar(id, current, max) {
-	const fill = document.getElementById(id + &quot;-fill&quot;);
-	const value = document.getElementById(id + &quot;-value&quot;);
-	if (fill) fill.style.width = ((current / max) * 100) + &quot;%&quot;;
-	if (value) value.textContent = Math.round(current) + &quot; / &quot; + Math.round(max);
-}
-
-updateBar(&quot;health&quot;, s.health, s.maxHealth);
-updateBar(&quot;fatigue&quot;, s.fatigue, s.maxFatigue);
-updateBar(&quot;composure&quot;, s.composure, s.maxComposure);
-updateBar(&quot;excitement&quot;, s.excitement, s.maxExcitement);
-
-if (typeof setup?.SidebarUI?.initialize === &quot;function&quot;) {
-	setup.SidebarUI.initialize();
-}
-
-(function waitForLucide(retries = 20) {
-	if (window.lucide &amp;&amp; typeof lucide.createIcons === &quot;function&quot;) {
-		console.log(&quot;[SidebarUI] Lucide is ready — rendering icons!&quot;);
-		lucide.createIcons();
-	} else if (retries &gt; 0) {
-		setTimeout(() =&gt; waitForLucide(retries - 1), 100);
-	} else {
-		console.warn(&quot;[SidebarUI] Lucide failed to initialize after timeout.&quot;);
-	}
-})();
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="153" name="AchievementsPage" tags="nobr" position="350,1975" size="100,100">&lt;!-- Add this to the top right of each overlay panel --&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="153" name="AchievementsPage" tags="nobr" position="350,1975" size="100,100">&lt;!-- Add this to the top right of each overlay panel --&gt;
 &lt;button class=&quot;overlay-close-btn&quot; onclick=&quot;closeOverlay()&quot;&gt;X&lt;/button&gt;</tw-passagedata><tw-passagedata pid="154" name="BugReportPage" tags="nobr" position="475,1975" size="100,100">&lt;div class=&quot;overlay-container&quot; id=&quot;bug-report-overlay&quot;&gt;
   &lt;!-- Close Button --&gt;
   &lt;button class=&quot;overlay-close-btn&quot; onclick=&quot;closeOverlay()&quot;&gt;✖&lt;/button&gt;
