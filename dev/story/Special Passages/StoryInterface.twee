@@ -1,4 +1,4 @@
-:: StoryInterface {"position":"700,0"}
+:: StoryInterface
 <!-- =============================
 =     Required SugarCube Node    =
 ============================= -->
@@ -18,7 +18,10 @@
 <!-- =============================
 =        Custom Sidebar         =
 ============================= -->
-<div id="custom-sidebar" data-passage="SidebarUI"></div>
+<div id="custom-sidebar">
+  <!-- Sidebar content will be rendered by JavaScript -->
+</div>
+
 
 
 <!-- =============================

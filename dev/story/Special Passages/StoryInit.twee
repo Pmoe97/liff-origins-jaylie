@@ -34,3 +34,8 @@
 		}
 	})();
 >>
+
+/* Initialize sidebar collapsed state if not set */
+<<if not $sidebarCollapsed>>
+	<<set $sidebarCollapsed to false>>
+<</if>>

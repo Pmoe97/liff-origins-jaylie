@@ -87,21 +87,21 @@ State.variables.player = {
 		maxDamage: 0
 	},
 
-	// === Equipment === // This section is supposed to reference the items equipped by the player in the inventory system.
+	// === Equipment === // This section references the items equipped by the player
 	equipment: {
-		weaponMain: "Fists",
-		weaponOffhand: "None",
-		armorChest: "tunic_fine",
-		gloves: "None", //There are two glove slots in the inventory page, but both of them are used for the same item.
-		armorLegs: "leather_pants",
-		armorShoes: "leather_boots",
-
-		accessoryFace: "None",
-		accessoryNeck: "None",
-		accessoryBack: "cloak_hooded", // this is more shoulders, for capes and cloaks as of righting this, I am contemplated adding an additional slot for backpacks.
-		accessoryRing1: "None",
-		accessoryRing2: "None",
-		accessoryRing3: "None",
+		head: null,
+		face: null,
+		neck: null,
+		back: "cloak_hooded",
+		chest: "tunic_fine",
+		main: null, // main hand weapon
+		sec: null, // off-hand weapon/shield
+		gloves: null,
+		legs: "leather_pants",
+		feet: "leather_boots",
+		ring1: null,
+		ring2: null,
+		ring3: null,
 	},
 
 	// === Body Anatomy === // Displayed in character sheet "Appearance" tab
@@ -163,10 +163,24 @@ State.variables.player = {
 	startingInventory: {
 		gold_coin: 100,
 		dagger_silver: 1,
-		tunic_fine: 1,
-		leather_pants: 1,
-		leather_boots: 1,
-		cloak_hooded: 1,
+		// Starting equipment is now handled separately
 	}
+};
+
+// Initialize equipped items properly
+State.variables.player.equipped = {
+	head: null,
+	face: null,
+	neck: null,
+	back: { id: "cloak_hooded", name: "Hooded Cloak", type: "armor", subtype: "cloak" },
+	chest: { id: "tunic_fine", name: "Fine Tunic", type: "armor", subtype: "tunic" },
+	main: null,
+	sec: null,
+	gloves: null,
+	legs: { id: "leather_pants", name: "Leather Pants", type: "armor", subtype: "pants" },
+	feet: { id: "leather_boots", name: "Leather Boots", type: "armor", subtype: "boots" },
+	ring1: null,
+	ring2: null,
+	ring3: null
 };
 

@@ -8256,21 +8256,21 @@ State.variables.player = {
 		maxDamage: 0
 	},
 
-	// === Equipment === // This section is supposed to reference the items equipped by the player in the inventory system.
+	// === Equipment === // This section references the items equipped by the player
 	equipment: {
-		weaponMain: "Fists",
-		weaponOffhand: "None",
-		armorChest: "tunic_fine",
-		gloves: "None", //There are two glove slots in the inventory page, but both of them are used for the same item.
-		armorLegs: "leather_pants",
-		armorShoes: "leather_boots",
-
-		accessoryFace: "None",
-		accessoryNeck: "None",
-		accessoryBack: "cloak_hooded", // this is more shoulders, for capes and cloaks as of righting this, I am contemplated adding an additional slot for backpacks.
-		accessoryRing1: "None",
-		accessoryRing2: "None",
-		accessoryRing3: "None",
+		head: null,
+		face: null,
+		neck: null,
+		back: "cloak_hooded",
+		chest: "tunic_fine",
+		main: null, // main hand weapon
+		sec: null, // off-hand weapon/shield
+		gloves: null,
+		legs: "leather_pants",
+		feet: "leather_boots",
+		ring1: null,
+		ring2: null,
+		ring3: null,
 	},
 
 	// === Body Anatomy === // Displayed in character sheet "Appearance" tab
@@ -8332,7 +8332,25 @@ State.variables.player = {
 	startingInventory: {
 		gold_coin: 100,
 		dagger_silver: 1,
+		// Starting equipment is now handled separately
 	}
+};
+
+// Initialize equipped items properly
+State.variables.player.equipped = {
+	head: null,
+	face: null,
+	neck: null,
+	back: { id: "cloak_hooded", name: "Hooded Cloak", type: "armor", subtype: "cloak" },
+	chest: { id: "tunic_fine", name: "Fine Tunic", type: "armor", subtype: "tunic" },
+	main: null,
+	sec: null,
+	gloves: null,
+	legs: { id: "leather_pants", name: "Leather Pants", type: "armor", subtype: "pants" },
+	feet: { id: "leather_boots", name: "Leather Boots", type: "armor", subtype: "boots" },
+	ring1: null,
+	ring2: null,
+	ring3: null
 };
 
 /* twine-user-script #8: "02_LevelingSystem.js" */
@@ -9921,6 +9939,25 @@ setup.initializeCharacters = function () {
   /* Character Dialogue & Avatars - End */
 /* twine-user-script #13: "05_sidebarlogic.js" */
 setup.SidebarUI = {
+	renderSidebar() {
+		const sidebar = document.getElementById("custom-sidebar");
+		if (!sidebar) {
+			console.warn("[SidebarUI] Sidebar container not found.");
+			return;
+		}
+
+		// Get the sidebar HTML from the SidebarUI passage
+		const sidebarHTML = Story.get("SidebarUI").processText();
+		sidebar.innerHTML = sidebarHTML;
+
+		// Process any SugarCube macros in the rendered HTML
+		if (typeof Wikifier === "function") {
+			new Wikifier(sidebar, sidebarHTML);
+		}
+
+		console.log("[SidebarUI] Sidebar HTML rendered.");
+	},
+
 	update() {
 		const sidebar = document.getElementById("custom-sidebar");
 		const wasCollapsed = State.variables.sidebarCollapsed;
@@ -9930,16 +9967,7 @@ setup.SidebarUI = {
 			return;
 		}
 
-		this.updateStatuses();
-		this.updateCarryWeight();
-		this.updateLevelAndExp();
-		this.updateGold();
-		this.updateTime();
-		this.updateDate();
-		this.updateWeather();
-		this.updateSummaryIcons();
-
-		// Reapply collapsed state after rendering
+		// Reapply collapsed state BEFORE rendering to avoid layout flash
 		if (wasCollapsed && sidebar) {
 			sidebar.classList.add("collapsed");
 			document.body.classList.add("sidebar-collapsed");
@@ -9954,6 +9982,15 @@ setup.SidebarUI = {
 				toggleButton.style.position = "initial";
 			}
 		}
+
+		this.updateStatuses();
+		this.updateCarryWeight();
+		this.updateLevelAndExp();
+		this.updateGold();
+		this.updateTime();
+		this.updateDate();
+		this.updateWeather();
+		this.updateSummaryIcons();
 	},
 
 
@@ -10375,9 +10412,12 @@ $(document).on("click", "#sidebar-options", () => {
 /* Sidebar Updating with every click and passage change */
 // Update sidebar on every passage load
 $(document).on(":passagedisplay", () => {
-	if (typeof setup?.SidebarUI?.update === "function") {
-		setup.SidebarUI.update();
+	// First ensure sidebar is rendered
+	if (!document.getElementById("sidebar-content")) {
+		setup.SidebarUI.renderSidebar();
 	}
+	
+	waitForSidebarReady();
 
 	// Re-render the minimap after the sidebar refresh wipes DOM
 	if (MapSystem?.currentMap) {
@@ -10397,6 +10437,25 @@ document.addEventListener("click", () => {
 	}, 50);
 });
 
+// Also render on initial page load
+$(document).one(":storyready", () => {
+	setup.SidebarUI.renderSidebar();
+	setup.SidebarUI.update();
+});
+
+function waitForSidebarReady(retries = 10) {
+	const el = document.getElementById("custom-sidebar");
+
+	if (el && el.querySelector("#sidebar-level")) {
+		// Sidebar is loaded — safe to update
+		setup.SidebarUI.update();
+	} else if (retries > 0) {
+		// Retry shortly
+		setTimeout(() => waitForSidebarReady(retries - 1), 100);
+	} else {
+		console.warn("[SidebarUI] Sidebar DOM not ready after retries.");
+	}
+}
 
 
 
@@ -10975,6 +11034,7 @@ setup.ItemData.test_helmet = {
 	name: "TEST_Helmet",
 	type: "armor",
 	subtype: "helmet",
+  slot: "head",
 	tags: ["head", "light", "devOnly"],
 	material: "Debugium",
 	rarity: 0,
@@ -10993,6 +11053,7 @@ setup.ItemData.robe_cloth = {
   name: "Cloth Robe",
   type: "armor",
   subtype: "robe",
+  slot: "chest",
   tags: ["chest", "unarmored", "mage"],
   material: "Cloth",
   rarity: 1,
@@ -11008,6 +11069,7 @@ setup.ItemData.robe_silk = {
   name: "Silk Robe",
   type: "armor",
   subtype: "robe",
+  slot: "chest",
   tags: ["chest", "unarmored", "mage", "comfortable"],
   material: "Silk",
   rarity: 1,
@@ -11023,6 +11085,7 @@ setup.ItemData.robe_enchanted = {
   name: "Enchanted Robe",
   type: "armor",
   subtype: "robe",
+  slot: "chest",
   tags: ["chest", "unarmored", "mage", "magic-conductive"],
   material: "Enchanted Silk",
   rarity: 1,
@@ -11041,6 +11104,7 @@ setup.ItemData.tunic_cloth = {
   name: "Cloth Tunic",
   type: "armor",
   subtype: "tunic",
+  slot: "chest",
   tags: ["chest", "unarmored"],
   material: "Cloth",
   rarity: 1,
@@ -11056,6 +11120,7 @@ setup.ItemData.tunic_wool = {
   name: "Wool Tunic",
   type: "armor",
   subtype: "tunic",
+  slot: "chest",
   tags: ["chest", "unarmored", "warm"],
   material: "Wool",
   rarity: 1,
@@ -11071,6 +11136,7 @@ setup.ItemData.tunic_fine = {
   name: "Fine Tunic",
   type: "armor",
   subtype: "tunic",
+  slot: "chest",
   tags: ["chest", "unarmored", "noble"],
   material: "Fine Cloth",
   rarity: 1,
@@ -11089,6 +11155,7 @@ setup.ItemData.cloak_travelers = {
   name: "Traveler's Cloak",
   type: "armor",
   subtype: "cloak",
+  slot: "back",
   tags: ["shoulders", "unarmored", "weather-resistant"],
   material: "Oiled Cloth",
   rarity: 1,
@@ -11104,6 +11171,7 @@ setup.ItemData.cloak_hooded = {
   name: "Hooded Cloak",
   type: "armor",
   subtype: "cloak",
+  slot: "back",
   tags: ["shoulders", "unarmored", "concealing"],
   material: "Wool",
   rarity: 1,
@@ -11119,6 +11187,7 @@ setup.ItemData.cloak_elvish = {
   name: "Elvish Cloak",
   type: "armor",
   subtype: "cloak",
+  slot: "back",
   tags: ["shoulders", "unarmored", "stealth", "lightweight"],
   material: "Elvish Silk",
   rarity: 1,
@@ -11137,6 +11206,7 @@ setup.ItemData.hat_cloth = {
   name: "Cloth Hat",
   type: "armor",
   subtype: "hat",
+  slot: "head",
   tags: ["head", "unarmored"],
   material: "Cloth",
   rarity: 1,
@@ -11152,6 +11222,7 @@ setup.ItemData.hat_wizard = {
   name: "Wizard Hat",
   type: "armor",
   subtype: "hat",
+  slot: "head",
   tags: ["head", "unarmored", "mage"],
   material: "Enchanted Felt",
   rarity: 1,
@@ -11175,6 +11246,7 @@ setup.ItemData.leather_vest = {
   name: "Leather Vest",
   type: "armor",
   subtype: "leather",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Leather",
   rarity: 1,
@@ -11190,6 +11262,7 @@ setup.ItemData.leather_armor = {
   name: "Leather Armor",
   type: "armor",
   subtype: "leather",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Leather",
   rarity: 1,
@@ -11205,6 +11278,7 @@ setup.ItemData.leather_reinforced = {
   name: "Reinforced Leather",
   type: "armor",
   subtype: "leather",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Reinforced Leather",
   rarity: 1,
@@ -11220,6 +11294,7 @@ setup.ItemData.leather_cap = {
   name: "Leather Cap",
   type: "armor",
   subtype: "cap",
+  slot: "head",
   tags: ["head", "light"],
   material: "Leather",
   rarity: 1,
@@ -11235,6 +11310,7 @@ setup.ItemData.leather_gloves = {
   name: "Leather Gloves",
   type: "armor",
   subtype: "gloves",
+  slot: "gloves",
   tags: ["hands", "light"],
   material: "Leather",
   rarity: 1,
@@ -11250,6 +11326,7 @@ setup.ItemData.leather_boots = {
   name: "Leather Boots",
   type: "armor",
   subtype: "boots",
+  slot: "feet",
   tags: ["shoes", "light"],
   material: "Leather",
   rarity: 1,
@@ -11265,6 +11342,7 @@ setup.ItemData.leather_pants = {
   name: "Leather Pants",
   type: "armor",
   subtype: "pants",
+  slot: "legs",
   tags: ["legs", "light"],
   material: "Leather",
   rarity: 1,
@@ -11283,6 +11361,7 @@ setup.ItemData.studded_leather_armor = {
   name: "Studded Leather Armor",
   type: "armor",
   subtype: "studded",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Studded Leather",
   rarity: 1,
@@ -11298,6 +11377,7 @@ setup.ItemData.studded_bracers = {
   name: "Studded Bracers",
   type: "armor",
   subtype: "bracers",
+  slot: "gloves",
   tags: ["arms", "light"],
   material: "Studded Leather",
   rarity: 1,
@@ -11316,6 +11396,7 @@ setup.ItemData.hide_armor = {
   name: "Hide Armor",
   type: "armor",
   subtype: "hide",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Hide",
   rarity: 1,
@@ -11327,10 +11408,11 @@ setup.ItemData.hide_armor = {
 };
 
 setup.ItemData.hide_bear = {
-  id: "hide_bear",
+  id: "armor_bearhide",
   name: "Bear Hide Armor",
   type: "armor",
   subtype: "hide",
+  slot: "chest",
   tags: ["chest", "light", "warm"],
   material: "Bear Hide",
   rarity: 1,
@@ -11346,6 +11428,7 @@ setup.ItemData.hide_wolf = {
   name: "Wolf Hide Cloak",
   type: "armor",
   subtype: "cloak",
+  slot: "back",
   tags: ["shoulders", "light", "warm"],
   material: "Wolf Hide",
   rarity: 1,
@@ -11364,6 +11447,7 @@ setup.ItemData.padded_armor = {
   name: "Padded Armor",
   type: "armor",
   subtype: "padded",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Quilted Cloth",
   rarity: 1,
@@ -11379,6 +11463,7 @@ setup.ItemData.padded_gambeson = {
   name: "Gambeson",
   type: "armor",
   subtype: "gambeson",
+  slot: "chest",
   tags: ["chest", "light"],
   material: "Quilted Linen",
   rarity: 1,
@@ -11392,26 +11477,12 @@ setup.ItemData.padded_gambeson = {
 /* =============================
 =  Light Armor - Accessories   =
 ============================= */
-setup.ItemData.belt_leather = {
-  id: "belt_leather",
-  name: "Leather Belt",
-  type: "armor",
-  subtype: "belt",
-  tags: ["waist", "light", "utility"],
-  material: "Leather",
-  rarity: 1,
-  resist: { slashing: 0, piercing: 0, blunt: 1 },
-  weight: 0.5,
-  value: 20,
-  img: "item_armor_belt_leather.png",
-  description: "A sturdy leather belt with pouches for small items."
-};
-
 setup.ItemData.backpack_leather = {
   id: "backpack_leather",
   name: "Leather Backpack",
   type: "armor",
   subtype: "backpack",
+  slot: "back",
   tags: ["backpack", "utility"],
   material: "Leather",
   rarity: 1,
@@ -11428,6 +11499,7 @@ setup.ItemData.mask_leather = {
   name: "Leather Mask",
   type: "armor",
   subtype: "mask",
+  slot: "face",
   tags: ["face", "light", "concealing"],
   material: "Leather",
   rarity: 1,
@@ -11446,6 +11518,7 @@ setup.ItemData.ring_copper = {
   name: "Copper Ring",
   type: "armor",
   subtype: "ring",
+  slot: "ring",
   tags: ["ring", "accessory"],
   material: "Copper",
   rarity: 1,
@@ -11461,6 +11534,7 @@ setup.ItemData.ring_silver = {
   name: "Silver Ring",
   type: "armor",
   subtype: "ring",
+  slot: "ring",
   tags: ["ring", "accessory"],
   material: "Silver",
   rarity: 1,
@@ -11476,6 +11550,7 @@ setup.ItemData.ring_gold = {
   name: "Gold Ring",
   type: "armor",
   subtype: "ring",
+  slot: "ring",
   tags: ["ring", "accessory"],
   material: "Gold",
   rarity: 1,
@@ -11494,6 +11569,7 @@ setup.ItemData.necklace_leather = {
   name: "Leather Cord Necklace",
   type: "armor",
   subtype: "necklace",
+  slot: "neck",
   tags: ["neck", "accessory"],
   material: "Leather",
   rarity: 1,
@@ -11509,6 +11585,7 @@ setup.ItemData.necklace_silver = {
 	  name: "Silver Necklace",
 	  type: "armor",
 	  subtype: "necklace",
+	  slot: "neck",
 	  tags: ["neck", "accessory"],
 	  material: "Silver",
 	  rarity: 1,
@@ -11524,6 +11601,7 @@ setup.ItemData.necklace_chain = {
   name: "Chain Necklace",
   type: "armor",
   subtype: "necklace",
+  slot: "neck",
   tags: ["neck", "accessory"],
   material: "Iron",
   rarity: 1,
@@ -11542,6 +11620,7 @@ setup.ItemData.chainmail_shirt = {
   name: "Chainmail Shirt",
   type: "armor",
   subtype: "chainmail",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Iron",
   rarity: 1,
@@ -11557,6 +11636,7 @@ setup.ItemData.chainmail_hauberk = {
   name: "Chainmail Hauberk",
   type: "armor",
   subtype: "chainmail",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11572,6 +11652,7 @@ setup.ItemData.chainmail_coif = {
   name: "Chainmail Coif",
   type: "armor",
   subtype: "coif",
+  slot: "head",
   tags: ["head", "medium"],
   material: "Iron",
   rarity: 1,
@@ -11587,6 +11668,7 @@ setup.ItemData.chainmail_gloves = {
   name: "Chainmail Gloves",
   type: "armor",
   subtype: "gloves",
+  slot: "gloves",
   tags: ["hands", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11605,6 +11687,7 @@ setup.ItemData.scale_armor_iron = {
   name: "Iron Scale Armor",
   type: "armor",
   subtype: "scale",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Iron",
   rarity: 1,
@@ -11620,6 +11703,7 @@ setup.ItemData.scale_armor_steel = {
   name: "Steel Scale Armor",
   type: "armor",
   subtype: "scale",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11635,6 +11719,7 @@ setup.ItemData.scale_armor_dragon = {
   name: "Dragonscale Armor",
   type: "armor",
   subtype: "scale",
+  slot: "chest",
   tags: ["chest", "medium", "fire-resistant"],
   material: "Dragonscale",
   rarity: 1,
@@ -11653,6 +11738,7 @@ setup.ItemData.lamellar_iron = {
   name: "Iron Lamellar",
   type: "armor",
   subtype: "lamellar",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Iron",
   rarity: 1,
@@ -11668,6 +11754,7 @@ setup.ItemData.lamellar_steel = {
   name: "Steel Lamellar",
   type: "armor",
   subtype: "lamellar",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11686,6 +11773,7 @@ setup.ItemData.reinforced_leather_heavy = {
   name: "Heavy Reinforced Leather",
   type: "armor",
   subtype: "reinforced",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Reinforced Leather",
   rarity: 1,
@@ -11701,6 +11789,7 @@ setup.ItemData.plated_gambeson = {
   name: "Plated Gambeson",
   type: "armor",
   subtype: "gambeson",
+  slot: "chest",
   tags: ["chest", "medium"],
   material: "Steel-Reinforced Cloth",
   rarity: 1,
@@ -11719,6 +11808,7 @@ setup.ItemData.bone_armor = {
   name: "Bone Armor",
   type: "armor",
   subtype: "bone",
+  slot: "chest",
   tags: ["chest", "medium", "tribal"],
   material: "Bone",
   rarity: 1,
@@ -11734,6 +11824,7 @@ setup.ItemData.chitin_armor = {
   name: "Chitin Armor",
   type: "armor",
   subtype: "chitin",
+  slot: "chest",
   tags: ["chest", "medium", "lightweight"],
   material: "Chitin",
   rarity: 1,
@@ -11752,6 +11843,7 @@ setup.ItemData.helmet_kettle = {
   name: "Kettle Helm",
   type: "armor",
   subtype: "helmet",
+  slot: "head",
   tags: ["head", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11767,6 +11859,7 @@ setup.ItemData.boots_chainmail = {
   name: "Chainmail Boots",
   type: "armor",
   subtype: "boots",
+  slot: "feet",
   tags: ["shoes", "medium"],
   material: "Steel",
   rarity: 1,
@@ -11785,6 +11878,7 @@ setup.ItemData.plate_armor_iron = {
   name: "Iron Plate Armor",
   type: "armor",
   subtype: "plate",
+  slot: "chest",
   tags: ["chest", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -11800,6 +11894,7 @@ setup.ItemData.plate_armor_steel = {
   name: "Steel Plate Armor",
   type: "armor",
   subtype: "plate",
+  slot: "chest",
   tags: ["chest", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11815,6 +11910,7 @@ setup.ItemData.plate_armor_mithril = {
   name: "Mithril Plate Armor",
   type: "armor",
   subtype: "plate",
+  slot: "chest",
   tags: ["chest", "heavy", "lightweight"],
   material: "Mithril",
   rarity: 1,
@@ -11830,6 +11926,7 @@ setup.ItemData.plate_armor_adamantine = {
   name: "Adamantine Plate Armor",
   type: "armor",
   subtype: "plate",
+  slot: "chest",
   tags: ["chest", "heavy", "indestructible"],
   material: "Adamantine",
   rarity: 1,
@@ -11848,6 +11945,7 @@ setup.ItemData.helmet_great_iron = {
   name: "Iron Great Helm",
   type: "armor",
   subtype: "great_helm",
+  slot: "head",
   tags: ["head", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -11863,6 +11961,7 @@ setup.ItemData.helmet_great_steel = {
   name: "Steel Great Helm",
   type: "armor",
   subtype: "great_helm",
+  slot: "head",
   tags: ["head", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11878,6 +11977,7 @@ setup.ItemData.helmet_barbute = {
   name: "Barbute Helmet",
   type: "armor",
   subtype: "barbute",
+  slot: "head",
   tags: ["head", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11896,6 +11996,7 @@ setup.ItemData.gauntlets_plate_iron = {
   name: "Iron Plate Gauntlets",
   type: "armor",
   subtype: "gauntlets",
+  slot: "gloves",
   tags: ["hands", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -11911,6 +12012,7 @@ setup.ItemData.gauntlets_plate_steel = {
   name: "Steel Plate Gauntlets",
   type: "armor",
   subtype: "gauntlets",
+  slot: "gloves",
   tags: ["hands", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11929,6 +12031,7 @@ setup.ItemData.greaves_plate_iron = {
   name: "Iron Plate Greaves",
   type: "armor",
   subtype: "greaves",
+  slot: "legs",
   tags: ["legs", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -11944,6 +12047,7 @@ setup.ItemData.greaves_plate_steel = {
   name: "Steel Plate Greaves",
   type: "armor",
   subtype: "greaves",
+  slot: "legs",
   tags: ["legs", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11962,6 +12066,7 @@ setup.ItemData.sabatons_iron = {
   name: "Iron Sabatons",
   type: "armor",
   subtype: "sabatons",
+  slot: "feet",
   tags: ["shoes", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -11977,6 +12082,7 @@ setup.ItemData.sabatons_steel = {
   name: "Steel Sabatons",
   type: "armor",
   subtype: "sabatons",
+  slot: "feet",
   tags: ["shoes", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -11995,6 +12101,7 @@ setup.ItemData.banded_mail_iron = {
   name: "Iron Banded Mail",
   type: "armor",
   subtype: "banded",
+  slot: "chest",
   tags: ["chest", "heavy"],
   material: "Iron",
   rarity: 1,
@@ -12010,6 +12117,7 @@ setup.ItemData.banded_mail_steel = {
   name: "Steel Banded Mail",
   type: "armor",
   subtype: "banded",
+  slot: "chest",
   tags: ["chest", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -12023,41 +12131,12 @@ setup.ItemData.banded_mail_steel = {
 /* =============================
 =  Heavy Armor - Accessories   =
 ============================= */
-setup.ItemData.pauldrons_iron = {
-  id: "pauldrons_iron",
-  name: "Iron Pauldrons",
-  type: "armor",
-  subtype: "pauldrons",
-  tags: ["shoulders", "heavy"],
-  material: "Iron",
-  rarity: 1,
-  resist: { slashing: 5, piercing: 4, blunt: 5 },
-  weight: 5.0,
-  value: 150,
-  img: "item_armor_pauldrons_iron.png",
-  description: "Heavy shoulder guards protecting the upper arms and shoulders."
-};
-
-setup.ItemData.pauldrons_steel = {
-  id: "pauldrons_steel",
-  name: "Steel Pauldrons",
-  type: "armor",
-  subtype: "pauldrons",
-  tags: ["shoulders", "heavy"],
-  material: "Steel",
-  rarity: 1,
-  resist: { slashing: 7, piercing: 6, blunt: 7 },
-  weight: 4.5,
-  value: 340,
-  img: "item_armor_pauldrons_steel.png",
-  description: "Articulated shoulder armor allowing arm movement while maintaining protection."
-};
-
 setup.ItemData.gorget_steel = {
   id: "gorget_steel",
   name: "Steel Gorget",
   type: "armor",
   subtype: "gorget",
+  slot: "neck",
   tags: ["neck", "heavy"],
   material: "Steel",
   rarity: 1,
@@ -12076,6 +12155,7 @@ setup.ItemData.backpack_mithril = {
   name: "Mithril-Threaded Pack",
   type: "armor",
   subtype: "backpack",
+  slot: "back",
   tags: ["backpack", "utility", "lightweight"],
   material: "Mithril-Thread",
   rarity: 1,
@@ -12092,6 +12172,7 @@ setup.ItemData.mask_steel = {
   name: "Steel War Mask",
   type: "armor",
   subtype: "mask",
+  slot: "face",
   tags: ["face", "heavy", "intimidating"],
   material: "Steel",
   rarity: 1,
@@ -12110,6 +12191,7 @@ setup.ItemData.RalmorasRing = {
   name: "Ralmora's Ring",
   type: "armor",
   subtype: "ring",
+  slot: "ring",
   tags: ["ring", "accessory", "enchanted"],
   material: "Mithril",
   rarity: 2,
@@ -14117,6 +14199,25 @@ const armorSkillMap = {
     'cloak': 'unarmored'
 };
 
+/* Map armor slots to equipment slots */
+const armorSlotMap = {
+	'head': 'head',
+	'face': 'face',
+	'neck': 'neck',
+	'back': 'back',
+	'shoulders': 'back', // cloaks use shoulders tag but equip to back
+	'chest': 'chest',
+	'hands': 'gloves',
+	'gloves': 'gloves',
+	'legs': 'legs',
+	'pants': 'legs',
+	'feet': 'feet',
+	'shoes': 'feet',
+	'ring': ['ring1', 'ring2', 'ring3'], // rings can go in any ring slot
+	'waist': 'waist',
+	'belt': 'waist'
+};
+
 /* Equip Item Function */
 setup.equipItem = function(itemId, slot) {
 	const item = getItemMetadata(itemId);
@@ -14130,11 +14231,33 @@ setup.equipItem = function(itemId, slot) {
 		if (item.type === "weapon") {
 			slot = "main";
 		} else if (item.type === "armor") {
-			slot = item.slot || item.subtype;
+			// Use the slot property from item metadata
+			if (item.slot) {
+				const mappedSlot = armorSlotMap[item.slot];
+				if (Array.isArray(mappedSlot)) {
+					// For rings, find first empty slot
+					slot = mappedSlot.find(s => !equipped[s]) || mappedSlot[0];
+				} else {
+					slot = mappedSlot || item.slot;
+				}
+			} else {
+				// Fallback to tag-based detection
+				const slotTag = item.tags?.find(tag => armorSlotMap[tag]);
+				if (slotTag) {
+					const mappedSlot = armorSlotMap[slotTag];
+					slot = Array.isArray(mappedSlot) ? mappedSlot[0] : mappedSlot;
+				}
+			}
 		} else {
 			console.warn("Cannot equip item type:", item.type);
 			return;
 		}
+	}
+	
+	// Validate slot
+	if (!slot) {
+		console.warn("No valid equipment slot found for item:", item.name);
+		return;
 	}
 	
 	// Unequip current item in slot
@@ -14148,7 +14271,7 @@ setup.equipItem = function(itemId, slot) {
 		id: item.id,
 		name: item.name,
 		type: item.type,
-		subtype: item.subtype // Store subtype for skill detection
+		subtype: item.subtype
 	};
 	
 	// Remove from inventory
@@ -14171,6 +14294,7 @@ setup.equipItem = function(itemId, slot) {
 	
 	// Update displays
 	setup.renderInventory("player", State.temporary.currentInventoryTab || "all");
+	setup.updateCondensedPaperdoll();
 };
 
 /* Clear inventory selection */
@@ -14179,8 +14303,9 @@ setup.clearInventorySelection = function() {
 	$("#inventory-item-image").attr("src", "images/items/default.png");
 	$("#inventory-item-name").text("Select an item");
 	$("#inventory-item-description").text("[Select an item to view details]");
-	$("#inventory-item-meta").text("");
-	$(".inventory-buttons button").prop("disabled", true);
+	$("#inventory-item-meta").html("");
+	$(".inventory-buttons button").hide();
+	$(".inventory-buttons button[onclick*='dropItem']").show().prop("disabled", true);
 };
 
 /* Renderer: Inventory Display */
@@ -14391,46 +14516,61 @@ setup.showInventoryItemDetails = function (itemId) {
 		return;
 	}
 
-	// Set image
+	// Set image - fix the path construction
 	const image = document.getElementById("inventory-item-image");
 	if (image) {
-		image.src = item.img ? `images/items/${item.img}` : "images/items/default.png";
+		const imagePath = item.img ? `images/items/${item.img}` : "images/items/default.png";
+		// Handle missing images by falling back to default
+		image.onerror = function() {
+			this.src = "images/items/default.png";
+		};
+		image.src = imagePath;
 		image.alt = item.name || "Unknown Item";
 	}
 
 	// Set name
-	document.getElementById("inventory-item-name").textContent = item.name || "Unknown Item";
+	const nameEl = document.getElementById("inventory-item-name");
+	if (nameEl) {
+		nameEl.textContent = item.name || "Unknown Item";
+	}
 
 	// Set description
-	document.getElementById("inventory-item-description").textContent =
-		item.description || "[No description available]";
+	const descEl = document.getElementById("inventory-item-description");
+	if (descEl) {
+		descEl.textContent = item.description || "[No description available]";
+	}
 
 	// Set stats/details
 	const metaEl = document.getElementById("inventory-item-meta");
-	let metaHTML = [];
-	
-	if (item.damage) {
-		metaHTML.push(`<div class="item-stat">Damage: ${setup.renderDamageIcons(item.damage)}</div>`);
+	if (metaEl) {
+		let metaHTML = [];
+		
+		if (item.damage) {
+			metaHTML.push(`<div class="item-stat">Damage: ${setup.renderDamageIcons(item.damage)}</div>`);
+		}
+		if (item.resist || item.armor) {
+			metaHTML.push(`<div class="item-stat">Defense: ${setup.renderDamageIcons(item.resist || item.armor)}</div>`);
+		}
+		if (item.stats || item.effects) {
+			metaHTML.push(`<div class="item-stat">Effects: ${setup.renderStatEffects(item.stats || item.effects)}</div>`);
+		}
+		if (item.material) {
+			metaHTML.push(`<div class="item-stat">Material: ${item.material}</div>`);
+		}
+		if (item.slot && item.type === "armor") {
+			metaHTML.push(`<div class="item-stat">Slot: ${item.slot.charAt(0).toUpperCase() + item.slot.slice(1)}</div>`);
+		}
+		if (item.tags && item.tags.length) {
+			const tagStr = item.tags.filter(t => t !== "devOnly").join(", ");
+			if (tagStr) metaHTML.push(`<div class="item-stat">Properties: ${tagStr}</div>`);
+		}
+		
+		metaEl.innerHTML = metaHTML.join("");
 	}
-	if (item.resist || item.armor) {
-		metaHTML.push(`<div class="item-stat">Defense: ${setup.renderDamageIcons(item.resist || item.armor)}</div>`);
-	}
-	if (item.stats || item.effects) {
-		metaHTML.push(`<div class="item-stat">Effects: ${setup.renderStatEffects(item.stats || item.effects)}</div>`);
-	}
-	if (item.material) {
-		metaHTML.push(`<div class="item-stat">Material: ${item.material}</div>`);
-	}
-	if (item.tags && item.tags.length) {
-		const tagStr = item.tags.filter(t => t !== "devOnly").join(", ");
-		if (tagStr) metaHTML.push(`<div class="item-stat">Properties: ${tagStr}</div>`);
-	}
-	
-	metaEl.innerHTML = metaHTML.join("");
 
 	// Enable/disable buttons based on item type
-	const buttons = document.querySelectorAll(".inventory-buttons button");
-	buttons.forEach(btn => btn.disabled = false);
+	const dropButtons = document.querySelectorAll(".inventory-buttons button[onclick*='dropItem']");
+	dropButtons.forEach(btn => btn.disabled = false);
 	
 	// Update button visibility based on item type
 	const equipBtn = document.getElementById("btn-equip");
@@ -14446,14 +14586,44 @@ setup.showInventoryItemDetails = function (itemId) {
 	
 	// Show relevant buttons based on item type
 	if (item.type === "weapon") {
-		if (equipPrimaryBtn) equipPrimaryBtn.style.display = "block";
-		if (equipSecondaryBtn) equipSecondaryBtn.style.display = "block";
+		// Check if item is already equipped
+		const equipped = State.variables.equipped || {};
+		const isEquippedMain = equipped.main?.id === itemId;
+		const isEquippedSec = equipped.sec?.id === itemId;
+		
+		if (!isEquippedMain && equipPrimaryBtn) {
+			equipPrimaryBtn.style.display = "block";
+			equipPrimaryBtn.disabled = false;
+		}
+		if (!isEquippedSec && equipSecondaryBtn) {
+			equipSecondaryBtn.style.display = "block";
+			equipSecondaryBtn.disabled = false;
+		}
 	} else if (item.type === "armor") {
-		if (equipBtn) equipBtn.style.display = "block";
+		// Check if item is already equipped
+		const equipped = State.variables.equipped || {};
+		const isEquipped = Object.values(equipped).some(e => e?.id === itemId);
+		
+		if (!isEquipped && equipBtn) {
+			equipBtn.style.display = "block";
+			equipBtn.disabled = false;
+			// Update button text to show slot
+			if (item.slot) {
+				equipBtn.textContent = `Equip (${item.slot.charAt(0).toUpperCase() + item.slot.slice(1)})`;
+			} else {
+				equipBtn.textContent = "Equip";
+			}
+		}
 	} else if (item.type === "consumable") {
-		if (useBtn) useBtn.style.display = "block";
+		if (useBtn) {
+			useBtn.style.display = "block";
+			useBtn.disabled = false;
+		}
 	} else if (item.type === "literature") {
-		if (readBtn) readBtn.style.display = "block";
+		if (readBtn) {
+			readBtn.style.display = "block";
+			readBtn.disabled = false;
+		}
 	}
 	
 	// Store current item for button actions
@@ -32831,7 +33001,12 @@ console.log(&#39;[MiniMap] Enhanced node network system integration loaded&#39;)
 			console.log(`🖼️ Background applied on init: ${path}`);
 		}
 	})();
-&gt;&gt;</tw-passagedata><tw-passagedata pid="149" name="StoryInterface" tags="" position="700,0" size="100,100">&lt;!-- =============================
+&gt;&gt;
+
+/* Initialize sidebar collapsed state if not set */
+&lt;&lt;if not $sidebarCollapsed&gt;&gt;
+	&lt;&lt;set $sidebarCollapsed to false&gt;&gt;
+&lt;&lt;/if&gt;&gt;</tw-passagedata><tw-passagedata pid="149" name="StoryInterface" tags="" position="1100,1850" size="100,100">&lt;!-- =============================
 =     Required SugarCube Node    =
 ============================= --&gt;
 &lt;div id=&quot;passages&quot;&gt;&lt;/div&gt;
@@ -32850,7 +33025,10 @@ console.log(&#39;[MiniMap] Enhanced node network system integration loaded&#39;)
 &lt;!-- =============================
 =        Custom Sidebar         =
 ============================= --&gt;
-&lt;div id=&quot;custom-sidebar&quot; data-passage=&quot;SidebarUI&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;custom-sidebar&quot;&gt;
+  &lt;!-- Sidebar content will be rendered by JavaScript --&gt;
+&lt;/div&gt;
+
 
 
 &lt;!-- =============================
@@ -34396,7 +34574,7 @@ document.querySelector(&#39;#bug-report-overlay form&#39;).addEventListener(&#39
         &lt;!-- Item Details --&gt;
         &lt;div class=&quot;inventory-details&quot;&gt;
           &lt;div class=&quot;item-preview&quot;&gt;
-            &lt;img id=&quot;inventory-item-image&quot; src=&quot;images/items/default.png&quot; alt=&quot;Select an item&quot;&gt;
+            &lt;img id=&quot;inventory-item-image&quot; src=&quot;images/items/default.png&quot; alt=&quot;Select an item&quot; onerror=&quot;this.src=&#39;images/fallback_item.png&#39;&quot;&gt;
             &lt;div id=&quot;inventory-item-name&quot;&gt;Select an item&lt;/div&gt;
           &lt;/div&gt;
           
@@ -34413,9 +34591,9 @@ document.querySelector(&#39;#bug-report-overlay form&#39;).addEventListener(&#39
           &lt;button id=&quot;btn-equip-secondary&quot; onclick=&quot;setup.equipItem(State.temporary.selectedInventoryItem, &#39;sec&#39;)&quot; style=&quot;display:none;&quot;&gt;Equip Off Hand&lt;/button&gt;
           &lt;button id=&quot;btn-use&quot; onclick=&quot;alert(&#39;Use functionality not implemented yet&#39;)&quot; style=&quot;display:none;&quot;&gt;Use&lt;/button&gt;
           &lt;button id=&quot;btn-read&quot; onclick=&quot;alert(&#39;Read functionality not implemented yet&#39;)&quot; style=&quot;display:none;&quot;&gt;Read&lt;/button&gt;
-          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, 1)&quot;&gt;Drop 1&lt;/button&gt;
-          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, &#39;all&#39;)&quot;&gt;Drop All&lt;/button&gt;
-          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, &#39;custom&#39;)&quot;&gt;Drop...&lt;/button&gt;
+          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, 1)&quot; disabled&gt;Drop 1&lt;/button&gt;
+          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, &#39;all&#39;)&quot; disabled&gt;Drop All&lt;/button&gt;
+          &lt;button onclick=&quot;dropItem(State.temporary.selectedInventoryItem, &#39;custom&#39;)&quot; disabled&gt;Drop...&lt;/button&gt;
         &lt;/div&gt;
         
       &lt;/div&gt;
@@ -34424,50 +34602,23 @@ document.querySelector(&#39;#bug-report-overlay form&#39;).addEventListener(&#39
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;script&gt;
-  // Initialize inventory when overlay opens
-  document.addEventListener(&quot;DOMContentLoaded&quot;, function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== &#39;undefined&#39;) {
-      lucide.createIcons();
-    }
-    
-    // Render initial inventory
-    if (typeof setup.renderInventory === &quot;function&quot;) {
-      setup.renderInventory(&quot;player&quot;, &quot;all&quot;);
-    }
-    
-    // Clear any previous selection
-    if (typeof setup.clearInventorySelection === &quot;function&quot;) {
-      setup.clearInventorySelection();
-    }
-  });
-&lt;/script&gt;
-&lt;/div&gt;
+&lt;&lt;script&gt;&gt;
+$(document).one(&#39;:passageend&#39;, function () {
+  if (typeof lucide !== &quot;undefined&quot;) lucide.createIcons();
 
-&lt;script&gt;
-  // Initialize inventory when overlay opens
-  document.addEventListener(&quot;DOMContentLoaded&quot;, function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== &#39;undefined&#39;) {
-      lucide.createIcons();
-    }
-    
-    // Render initial inventory
-    if (typeof setup.renderInventory === &quot;function&quot;) {
-      setup.renderInventory(&quot;player&quot;, &quot;all&quot;);
-    }
-    
-    // Update equipment display
-    if (typeof setup.updatePaperdollDisplay === &quot;function&quot;) {
-      setup.updatePaperdollDisplay();
-    }
-    
-    // Clear any previous selection
-    if (typeof setup.clearInventorySelection === &quot;function&quot;) {
-      setup.clearInventorySelection();
-    }
-  });</tw-passagedata><tw-passagedata pid="159" name="JournalPage" tags="nobr" position="1100,1975" size="100,100">&lt;!-- Journal Overlay --&gt;
+  if (typeof setup.renderInventory === &quot;function&quot;)
+    setup.renderInventory(&quot;player&quot;, &quot;all&quot;);
+
+  if (typeof setup.updatePaperdollDisplay === &quot;function&quot;)
+    setup.updatePaperdollDisplay();
+
+  if (typeof setup.updateCondensedPaperdoll === &quot;function&quot;)
+    setup.updateCondensedPaperdoll();
+
+  if (typeof setup.clearInventorySelection === &quot;function&quot;)
+    setup.clearInventorySelection();
+});
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="159" name="JournalPage" tags="nobr" position="1100,1975" size="100,100">&lt;!-- Journal Overlay --&gt;
 &lt;div class=&quot;journal-overlay&quot;&gt;
   &lt;!-- Close Button --&gt;
   &lt;button class=&quot;journal-close-btn&quot; onclick=&quot;closeOverlay()&quot;&gt;✖&lt;/button&gt;

@@ -80,7 +80,7 @@
         <!-- Item Details -->
         <div class="inventory-details">
           <div class="item-preview">
-            <img id="inventory-item-image" src="images/items/default.png" alt="Select an item">
+            <img id="inventory-item-image" src="images/items/default.png" alt="Select an item" onerror="this.src='images/fallback_item.png'">
             <div id="inventory-item-name">Select an item</div>
           </div>
           
@@ -97,9 +97,9 @@
           <button id="btn-equip-secondary" onclick="setup.equipItem(State.temporary.selectedInventoryItem, 'sec')" style="display:none;">Equip Off Hand</button>
           <button id="btn-use" onclick="alert('Use functionality not implemented yet')" style="display:none;">Use</button>
           <button id="btn-read" onclick="alert('Read functionality not implemented yet')" style="display:none;">Read</button>
-          <button onclick="dropItem(State.temporary.selectedInventoryItem, 1)">Drop 1</button>
-          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'all')">Drop All</button>
-          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'custom')">Drop...</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 1)" disabled>Drop 1</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'all')" disabled>Drop All</button>
+          <button onclick="dropItem(State.temporary.selectedInventoryItem, 'custom')" disabled>Drop...</button>
         </div>
         
       </div>
@@ -108,48 +108,22 @@
   </div>
 </div>
 
-<script>
-  // Initialize inventory when overlay opens
-  document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-    
-    // Render initial inventory
-    if (typeof setup.renderInventory === "function") {
-      setup.renderInventory("player", "all");
-    }
-    
-    // Clear any previous selection
-    if (typeof setup.clearInventorySelection === "function") {
-      setup.clearInventorySelection();
-    }
-  });
-</script>
-</div>
+<<script>>
+$(document).one(':passageend', function () {
+  if (typeof lucide !== "undefined") lucide.createIcons();
 
-<script>
-  // Initialize inventory when overlay opens
-  document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-    
-    // Render initial inventory
-    if (typeof setup.renderInventory === "function") {
-      setup.renderInventory("player", "all");
-    }
-    
-    // Update equipment display
-    if (typeof setup.updatePaperdollDisplay === "function") {
-      setup.updatePaperdollDisplay();
-    }
-    
-    // Clear any previous selection
-    if (typeof setup.clearInventorySelection === "function") {
-      setup.clearInventorySelection();
-    }
-  });
+  if (typeof setup.renderInventory === "function")
+    setup.renderInventory("player", "all");
+
+  if (typeof setup.updatePaperdollDisplay === "function")
+    setup.updatePaperdollDisplay();
+
+  if (typeof setup.updateCondensedPaperdoll === "function")
+    setup.updateCondensedPaperdoll();
+
+  if (typeof setup.clearInventorySelection === "function")
+    setup.clearInventorySelection();
+});
+<</script>>
+
 

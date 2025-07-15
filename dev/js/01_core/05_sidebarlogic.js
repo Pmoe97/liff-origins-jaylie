@@ -1,4 +1,23 @@
 setup.SidebarUI = {
+	renderSidebar() {
+		const sidebar = document.getElementById("custom-sidebar");
+		if (!sidebar) {
+			console.warn("[SidebarUI] Sidebar container not found.");
+			return;
+		}
+
+		// Get the sidebar HTML from the SidebarUI passage
+		const sidebarHTML = Story.get("SidebarUI").processText();
+		sidebar.innerHTML = sidebarHTML;
+
+		// Process any SugarCube macros in the rendered HTML
+		if (typeof Wikifier === "function") {
+			new Wikifier(sidebar, sidebarHTML);
+		}
+
+		console.log("[SidebarUI] Sidebar HTML rendered.");
+	},
+
 	update() {
 		const sidebar = document.getElementById("custom-sidebar");
 		const wasCollapsed = State.variables.sidebarCollapsed;
@@ -8,16 +27,7 @@ setup.SidebarUI = {
 			return;
 		}
 
-		this.updateStatuses();
-		this.updateCarryWeight();
-		this.updateLevelAndExp();
-		this.updateGold();
-		this.updateTime();
-		this.updateDate();
-		this.updateWeather();
-		this.updateSummaryIcons();
-
-		// Reapply collapsed state after rendering
+		// Reapply collapsed state BEFORE rendering to avoid layout flash
 		if (wasCollapsed && sidebar) {
 			sidebar.classList.add("collapsed");
 			document.body.classList.add("sidebar-collapsed");
@@ -32,6 +42,15 @@ setup.SidebarUI = {
 				toggleButton.style.position = "initial";
 			}
 		}
+
+		this.updateStatuses();
+		this.updateCarryWeight();
+		this.updateLevelAndExp();
+		this.updateGold();
+		this.updateTime();
+		this.updateDate();
+		this.updateWeather();
+		this.updateSummaryIcons();
 	},
 
 
@@ -453,9 +472,12 @@ $(document).on("click", "#sidebar-options", () => {
 /* Sidebar Updating with every click and passage change */
 // Update sidebar on every passage load
 $(document).on(":passagedisplay", () => {
-	if (typeof setup?.SidebarUI?.update === "function") {
-		setup.SidebarUI.update();
+	// First ensure sidebar is rendered
+	if (!document.getElementById("sidebar-content")) {
+		setup.SidebarUI.renderSidebar();
 	}
+	
+	waitForSidebarReady();
 
 	// Re-render the minimap after the sidebar refresh wipes DOM
 	if (MapSystem?.currentMap) {
@@ -475,6 +497,25 @@ document.addEventListener("click", () => {
 	}, 50);
 });
 
+// Also render on initial page load
+$(document).one(":storyready", () => {
+	setup.SidebarUI.renderSidebar();
+	setup.SidebarUI.update();
+});
+
+function waitForSidebarReady(retries = 10) {
+	const el = document.getElementById("custom-sidebar");
+
+	if (el && el.querySelector("#sidebar-level")) {
+		// Sidebar is loaded — safe to update
+		setup.SidebarUI.update();
+	} else if (retries > 0) {
+		// Retry shortly
+		setTimeout(() => waitForSidebarReady(retries - 1), 100);
+	} else {
+		console.warn("[SidebarUI] Sidebar DOM not ready after retries.");
+	}
+}
 
 
 

@@ -224,6 +224,25 @@ const armorSkillMap = {
     'cloak': 'unarmored'
 };
 
+/* Map armor slots to equipment slots */
+const armorSlotMap = {
+	'head': 'head',
+	'face': 'face',
+	'neck': 'neck',
+	'back': 'back',
+	'shoulders': 'back', // cloaks use shoulders tag but equip to back
+	'chest': 'chest',
+	'hands': 'gloves',
+	'gloves': 'gloves',
+	'legs': 'legs',
+	'pants': 'legs',
+	'feet': 'feet',
+	'shoes': 'feet',
+	'ring': ['ring1', 'ring2', 'ring3'], // rings can go in any ring slot
+	'waist': 'waist',
+	'belt': 'waist'
+};
+
 /* Equip Item Function */
 setup.equipItem = function(itemId, slot) {
 	const item = getItemMetadata(itemId);
@@ -237,11 +256,33 @@ setup.equipItem = function(itemId, slot) {
 		if (item.type === "weapon") {
 			slot = "main";
 		} else if (item.type === "armor") {
-			slot = item.slot || item.subtype;
+			// Use the slot property from item metadata
+			if (item.slot) {
+				const mappedSlot = armorSlotMap[item.slot];
+				if (Array.isArray(mappedSlot)) {
+					// For rings, find first empty slot
+					slot = mappedSlot.find(s => !equipped[s]) || mappedSlot[0];
+				} else {
+					slot = mappedSlot || item.slot;
+				}
+			} else {
+				// Fallback to tag-based detection
+				const slotTag = item.tags?.find(tag => armorSlotMap[tag]);
+				if (slotTag) {
+					const mappedSlot = armorSlotMap[slotTag];
+					slot = Array.isArray(mappedSlot) ? mappedSlot[0] : mappedSlot;
+				}
+			}
 		} else {
 			console.warn("Cannot equip item type:", item.type);
 			return;
 		}
+	}
+	
+	// Validate slot
+	if (!slot) {
+		console.warn("No valid equipment slot found for item:", item.name);
+		return;
 	}
 	
 	// Unequip current item in slot
@@ -255,7 +296,7 @@ setup.equipItem = function(itemId, slot) {
 		id: item.id,
 		name: item.name,
 		type: item.type,
-		subtype: item.subtype // Store subtype for skill detection
+		subtype: item.subtype
 	};
 	
 	// Remove from inventory
@@ -278,6 +319,7 @@ setup.equipItem = function(itemId, slot) {
 	
 	// Update displays
 	setup.renderInventory("player", State.temporary.currentInventoryTab || "all");
+	setup.updateCondensedPaperdoll();
 };
 
 /* Clear inventory selection */
@@ -286,8 +328,9 @@ setup.clearInventorySelection = function() {
 	$("#inventory-item-image").attr("src", "images/items/default.png");
 	$("#inventory-item-name").text("Select an item");
 	$("#inventory-item-description").text("[Select an item to view details]");
-	$("#inventory-item-meta").text("");
-	$(".inventory-buttons button").prop("disabled", true);
+	$("#inventory-item-meta").html("");
+	$(".inventory-buttons button").hide();
+	$(".inventory-buttons button[onclick*='dropItem']").show().prop("disabled", true);
 };
 
 /* Renderer: Inventory Display */
@@ -498,46 +541,61 @@ setup.showInventoryItemDetails = function (itemId) {
 		return;
 	}
 
-	// Set image
+	// Set image - fix the path construction
 	const image = document.getElementById("inventory-item-image");
 	if (image) {
-		image.src = item.img ? `images/items/${item.img}` : "images/items/default.png";
+		const imagePath = item.img ? `images/items/${item.img}` : "images/items/default.png";
+		// Handle missing images by falling back to default
+		image.onerror = function() {
+			this.src = "images/items/default.png";
+		};
+		image.src = imagePath;
 		image.alt = item.name || "Unknown Item";
 	}
 
 	// Set name
-	document.getElementById("inventory-item-name").textContent = item.name || "Unknown Item";
+	const nameEl = document.getElementById("inventory-item-name");
+	if (nameEl) {
+		nameEl.textContent = item.name || "Unknown Item";
+	}
 
 	// Set description
-	document.getElementById("inventory-item-description").textContent =
-		item.description || "[No description available]";
+	const descEl = document.getElementById("inventory-item-description");
+	if (descEl) {
+		descEl.textContent = item.description || "[No description available]";
+	}
 
 	// Set stats/details
 	const metaEl = document.getElementById("inventory-item-meta");
-	let metaHTML = [];
-	
-	if (item.damage) {
-		metaHTML.push(`<div class="item-stat">Damage: ${setup.renderDamageIcons(item.damage)}</div>`);
+	if (metaEl) {
+		let metaHTML = [];
+		
+		if (item.damage) {
+			metaHTML.push(`<div class="item-stat">Damage: ${setup.renderDamageIcons(item.damage)}</div>`);
+		}
+		if (item.resist || item.armor) {
+			metaHTML.push(`<div class="item-stat">Defense: ${setup.renderDamageIcons(item.resist || item.armor)}</div>`);
+		}
+		if (item.stats || item.effects) {
+			metaHTML.push(`<div class="item-stat">Effects: ${setup.renderStatEffects(item.stats || item.effects)}</div>`);
+		}
+		if (item.material) {
+			metaHTML.push(`<div class="item-stat">Material: ${item.material}</div>`);
+		}
+		if (item.slot && item.type === "armor") {
+			metaHTML.push(`<div class="item-stat">Slot: ${item.slot.charAt(0).toUpperCase() + item.slot.slice(1)}</div>`);
+		}
+		if (item.tags && item.tags.length) {
+			const tagStr = item.tags.filter(t => t !== "devOnly").join(", ");
+			if (tagStr) metaHTML.push(`<div class="item-stat">Properties: ${tagStr}</div>`);
+		}
+		
+		metaEl.innerHTML = metaHTML.join("");
 	}
-	if (item.resist || item.armor) {
-		metaHTML.push(`<div class="item-stat">Defense: ${setup.renderDamageIcons(item.resist || item.armor)}</div>`);
-	}
-	if (item.stats || item.effects) {
-		metaHTML.push(`<div class="item-stat">Effects: ${setup.renderStatEffects(item.stats || item.effects)}</div>`);
-	}
-	if (item.material) {
-		metaHTML.push(`<div class="item-stat">Material: ${item.material}</div>`);
-	}
-	if (item.tags && item.tags.length) {
-		const tagStr = item.tags.filter(t => t !== "devOnly").join(", ");
-		if (tagStr) metaHTML.push(`<div class="item-stat">Properties: ${tagStr}</div>`);
-	}
-	
-	metaEl.innerHTML = metaHTML.join("");
 
 	// Enable/disable buttons based on item type
-	const buttons = document.querySelectorAll(".inventory-buttons button");
-	buttons.forEach(btn => btn.disabled = false);
+	const dropButtons = document.querySelectorAll(".inventory-buttons button[onclick*='dropItem']");
+	dropButtons.forEach(btn => btn.disabled = false);
 	
 	// Update button visibility based on item type
 	const equipBtn = document.getElementById("btn-equip");
@@ -553,14 +611,44 @@ setup.showInventoryItemDetails = function (itemId) {
 	
 	// Show relevant buttons based on item type
 	if (item.type === "weapon") {
-		if (equipPrimaryBtn) equipPrimaryBtn.style.display = "block";
-		if (equipSecondaryBtn) equipSecondaryBtn.style.display = "block";
+		// Check if item is already equipped
+		const equipped = State.variables.equipped || {};
+		const isEquippedMain = equipped.main?.id === itemId;
+		const isEquippedSec = equipped.sec?.id === itemId;
+		
+		if (!isEquippedMain && equipPrimaryBtn) {
+			equipPrimaryBtn.style.display = "block";
+			equipPrimaryBtn.disabled = false;
+		}
+		if (!isEquippedSec && equipSecondaryBtn) {
+			equipSecondaryBtn.style.display = "block";
+			equipSecondaryBtn.disabled = false;
+		}
 	} else if (item.type === "armor") {
-		if (equipBtn) equipBtn.style.display = "block";
+		// Check if item is already equipped
+		const equipped = State.variables.equipped || {};
+		const isEquipped = Object.values(equipped).some(e => e?.id === itemId);
+		
+		if (!isEquipped && equipBtn) {
+			equipBtn.style.display = "block";
+			equipBtn.disabled = false;
+			// Update button text to show slot
+			if (item.slot) {
+				equipBtn.textContent = `Equip (${item.slot.charAt(0).toUpperCase() + item.slot.slice(1)})`;
+			} else {
+				equipBtn.textContent = "Equip";
+			}
+		}
 	} else if (item.type === "consumable") {
-		if (useBtn) useBtn.style.display = "block";
+		if (useBtn) {
+			useBtn.style.display = "block";
+			useBtn.disabled = false;
+		}
 	} else if (item.type === "literature") {
-		if (readBtn) readBtn.style.display = "block";
+		if (readBtn) {
+			readBtn.style.display = "block";
+			readBtn.disabled = false;
+		}
 	}
 	
 	// Store current item for button actions
