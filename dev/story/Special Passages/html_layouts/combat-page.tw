@@ -1,0 +1,186 @@
+:: Combat Interface [nobr combat]
+<<if !$combatState>><<set $combatState = CombatSystem.state>><</if>>
+<div id="combat-container">
+    <!-- Combat Header -->
+    <div class="combat-header">
+        <h2>Combat - Turn $combatState.turn</h2>
+        <div class="battlefield-info">
+            <span class="terrain">Terrain: $combatState.battlefield.terrain</span>
+            <span class="weather">Weather: $combatState.battlefield.weather</span>
+        </div>
+    </div>
+
+    <!-- Main Combat Area -->
+    <div class="combat-main">
+        <!-- Allies Panel -->
+        <div class="combatants-panel allies-panel">
+            <h3>Allies</h3>
+            <<for _ally range $combatState.allies>>
+                <div class="combatant-card <<if _ally.id == CombatSystem.getCurrentCombatant().id>>active<</if>>">
+                    <div class="combatant-name">_ally.name</div>
+                    <div class="stat-bars">
+                        <div class="hp-bar">
+                            <div class="bar-fill hp" style="width: <<= (_ally.hp / _ally.maxHp * 100) >>%"></div>
+                            <span class="bar-text">HP: _ally.hp / _ally.maxHp</span>
+                        </div>
+                        <<if _ally.mp !== undefined>>
+                        <div class="mp-bar">
+                            <div class="bar-fill mp" style="width: <<= (_ally.mp / _ally.maxMp * 100) >>%"></div>
+                            <span class="bar-text">MP: _ally.mp / _ally.maxMp</span>
+                        </div>
+                        <</if>>
+                        <div class="stamina-bar">
+                            <div class="bar-fill stamina" style="width: <<= (_ally.stamina / _ally.maxStamina * 100) >>%"></div>
+                            <span class="bar-text">STA: _ally.stamina / _ally.maxStamina</span>
+                        </div>
+                        <div class="excitement-bar">
+                            <div class="bar-fill excitement" style="width: <<= (_ally.excitement / _ally.maxExcitement * 100) >>%"></div>
+                            <span class="bar-text">EXC: _ally.excitement / _ally.maxExcitement</span>
+                        </div>
+                    </div>
+                    <<if _ally.statusEffects.length > 0>>
+                    <div class="status-effects">
+                        <<for _effect range _ally.statusEffects>>
+                            <span class="status-icon" title="_effect.description">_effect.icon</span>
+                        <</for>>
+                    </div>
+                    <</if>>
+                </div>
+            <</for>>
+        </div>
+
+        <!-- Combat Log -->
+        <div class="combat-log-container">
+            <div class="combat-log" id="combat-log">
+                <<for _entry range $combatState.combatLog.slice(-10)>>
+                    <div class="log-entry _entry.type">_entry.message</div>
+                <</for>>
+            </div>
+        </div>
+
+        <!-- Enemies Panel -->
+        <div class="combatants-panel enemies-panel">
+            <h3>Enemies</h3>
+            <<for _enemy range $combatState.enemies>>
+                <<if !_enemy.isDefeated>>
+                <div class="combatant-card enemy <<if _enemy.id == CombatSystem.getCurrentCombatant().id>>active<</if>>" data-enemy-id="_enemy.id">
+                    <div class="combatant-name">_enemy.name</div>
+                    <div class="stat-bars">
+                        <div class="hp-bar">
+                            <div class="bar-fill hp" style="width: <<= (_enemy.hp / _enemy.maxHp * 100) >>%"></div>
+                            <span class="bar-text">HP: _enemy.hp / _enemy.maxHp</span>
+                        </div>
+                        <div class="excitement-bar">
+                            <div class="bar-fill excitement" style="width: <<= (_enemy.excitement / _enemy.maxExcitement * 100) >>%"></div>
+                            <span class="bar-text">EXC: _enemy.excitement / _enemy.maxExcitement</span>
+                        </div>
+                    </div>
+                    <<if _enemy.statusEffects.length > 0>>
+                    <div class="status-effects">
+                        <<for _effect range _enemy.statusEffects>>
+                            <span class="status-icon" title="_effect.description">_effect.icon</span>
+                        <</for>>
+                    </div>
+                    <</if>>
+                </div>
+                <</if>>
+            <</for>>
+        </div>
+    </div>
+
+    <!-- Turn Order Display -->
+    <div class="turn-order">
+        <h4>Turn Order</h4>
+        <div class="turn-order-list">
+            <<for _i, _combatant range $combatState.turnOrder>>
+                <<if _combatant.hp > 0>>
+                <div class="turn-order-item <<if _i == $combatState.currentTurnIndex>>current<</if>>">
+                    <span class="turn-number"><<= _i + 1>></span>
+                    <span class="turn-name">_combatant.name</span>
+                </div>
+                <</if>>
+            <</for>>
+        </div>
+    </div>
+
+    <!-- Action Menu -->
+    <<set _currentCombatant = CombatSystem.getCurrentCombatant()>>
+    <<if _currentCombatant && _currentCombatant.isPlayer && $combatState.active>>
+    <div class="action-menu">
+        <h3>Choose Your Action</h3>
+        <div class="action-buttons">
+            <<button "Attack">>
+                <<replace "#target-selection">>
+                    <<include "Combat Target Selection">>
+                    <<set $pendingAction = {type: "attack", weaponType: "sword"}>>
+                <</replace>>
+            <</button>>
+            
+            <<button "Tease">>
+                <<replace "#submenu">>
+                    <div class="tease-menu">
+                        <h4>Choose body part to tease with:</h4>
+                        <<button "Lips">><<set $teaseBodyPart = "lips">><<include "Combat Target Selection">><</button>>
+                        <<button "Breasts">><<set $teaseBodyPart = "breasts">><<include "Combat Target Selection">><</button>>
+                        <<button "Thighs">><<set $teaseBodyPart = "thighs">><<include "Combat Target Selection">><</button>>
+                        <<button "Hips">><<set $teaseBodyPart = "hips">><<include "Combat Target Selection">><</button>>
+                        <<button "Eyes">><<set $teaseBodyPart = "eyes">><<include "Combat Target Selection">><</button>>
+                    </div>
+                <</replace>>
+            <</button>>
+            
+            <<if _currentCombatant.abilities.length > 0>>
+            <<button "Abilities">>
+                <<replace "#submenu">>
+                    <div class="abilities-menu">
+                        <h4>Choose an ability:</h4>
+                        <<for _ability range _currentCombatant.abilities>>
+                            <<capture _ability>>
+                            <<button _ability.name>>
+                                <<set $selectedAbility = _ability>>
+                                <<include "Combat Target Selection">>
+                            <</button>>
+                            <</capture>>
+                        <</for>>
+                    </div>
+                <</replace>>
+            <</button>>
+            <</if>>
+            
+            <<button "Defend">>
+                <<run CombatSystem.processTurn({type: "defend"})>>
+                <<replace "#combat-container">><<include "Combat Interface">><</replace>>
+            <</button>>
+            
+            <<button "Run Away">>
+                <<run CombatSystem.processTurn({type: "run"})>>
+                <<replace "#combat-container">><<include "Combat Interface">><</replace>>
+            <</button>>
+        </div>
+        
+        <div id="submenu"></div>
+        <div id="target-selection"></div>
+    </div>
+    <</if>>
+</div>
+
+:: Combat Target Selection [nobr]
+<div class="target-selection">
+    <h4>Select Target:</h4>
+    <<for _enemy range $combatState.enemies>>
+        <<if !_enemy.isDefeated>>
+        <<capture _enemy>>
+        <<button _enemy.name>>
+            <<if $pendingAction>>
+                <<run CombatSystem.processTurn($pendingAction, _enemy)>>
+            <<elseif $teaseBodyPart>>
+                <<run CombatSystem.processTurn({type: "tease", bodyPart: $teaseBodyPart}, _enemy)>>
+            <<elseif $selectedAbility>>
+                <<run CombatSystem.processTurn({type: "ability", ability: $selectedAbility}, _enemy)>>
+            <</if>>
+            <<replace "#combat-container">><<include "Combat Interface">><</replace>>
+        <</button>>
+        <</capture>>
+        <</if>>
+    <</for>>
+</div>

@@ -84,7 +84,9 @@ State.variables.player = {
 		kills: 0,
 		wins: 0,
 		losses: 0,
-		maxDamage: 0
+		maxDamage: 0,
+		seductions: 0,  // New stat for tease victories
+		timesSeduced: 0  // New stat for being defeated by excitement
 	},
 
 	// === Equipment === // This section references the items equipped by the player
@@ -130,6 +132,8 @@ State.variables.player = {
 	status: {
 		health: 100, 
 		maxHealth: 100, // scales with toughness attribute
+		mana: 50,  // New resource for magic
+		maxMana: 50,  // scales with intelligence attribute
 		fatigue: 25,
 		maxFatigue: 100, // scales with with agility attribute
 		composure: 100,
@@ -148,7 +152,9 @@ State.variables.player = {
 		burning: false,
 		bleeding: 0,
 		maxBleeding: 50,
-		stunned: false
+		stunned: false,
+		defending: false,  // New status for defend action
+		dodging: false  // New status for dodge action
 	},
 
 	/* ==================== */
