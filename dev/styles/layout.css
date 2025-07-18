@@ -53,3 +53,35 @@
 	height: 20px;
 	stroke: white;
 }
+
+/* =========================
+=   Rules for mobile  =
+========================= */
+@media screen and (max-width: 768px) {
+  /* Narrower sidebar for phones and small tablets */
+  #custom-sidebar {
+    width: 230px;
+  }
+
+  /* Minimap size (inside sidebar) */
+  .minimap-display {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  /* Container around minimap (extra padding?) */
+  #sidebar-minimap-container {
+    height: 245px !important;
+  }
+
+  /* Optional: Ensure main text resizes correctly */
+  body:not(.sidebar-collapsed) #text-container {
+    margin-left: 245px !important;
+    width: calc(100vw - 240px) !important;
+  }
+
+  body.sidebar-collapsed #text-container {
+    margin-left: 60px !important;
+    width: calc(100vw - 60px) !important;
+  }
+}

@@ -54,8 +54,8 @@ body.sidebar-collapsed #text-container {
 }
 
 body:not(.sidebar-collapsed) #text-container {
-  margin-left: 260px;
-  width: calc(100vw - 260px);
+  margin-left: 308px;
+  width: calc(100vw - 300px);
 }
 
 /* === Text Backdrop Main Style === */

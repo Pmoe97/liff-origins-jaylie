@@ -816,31 +816,6 @@
       }
     },
     {
-      "column": 3,
-      "row": 2,
-      "name": "Orphanage Classroom 1 West",
-      "passage": "OrphanageClassroom1West",
-      "icon": "",
-      "fogOfWar": false,
-      "tags": [
-        "orphanage-event",
-        "interior",
-        "classroom"
-      ],
-      "style": {
-        "primaryColor": "#007bff",
-        "secondaryColor": "#6c757d",
-        "pattern": "none"
-      },
-      "conditions": [],
-      "transitions": {
-        "east": {
-          "type": "bidirectional",
-          "conditions": []
-        }
-      }
-    },
-    {
       "column": 4,
       "row": 2,
       "name": "Orphanage Classroom 1 East",
@@ -860,10 +835,6 @@
       "conditions": [],
       "transitions": {
         "south": {
-          "type": "bidirectional",
-          "conditions": []
-        },
-        "west": {
           "type": "bidirectional",
           "conditions": []
         }
@@ -908,9 +879,9 @@
       "fogOfWar": false,
       "tags": [],
       "style": {
-        "primaryColor": "#ffffff",
-        "secondaryColor": "#6c757d",
-        "pattern": "none"
+        "primaryColor": "#b26dab",
+        "secondaryColor": "#6951c1",
+        "pattern": "diagonal-stripes"
       },
       "conditions": [],
       "transitions": {

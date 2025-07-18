@@ -948,8 +948,19 @@ setup.initializeCharacters = function () {
 			color: "white",
 			bgColor: "rgba(182, 89, 2, 0.85)",
 		},
+		priestess_anna: {
+			name: "Priestess Anna",
+			defaultName: "Priestess",
+			known: false,
+			avatar: "images/portrait_priestess_anna.png",
+			color: "white",
+			bgColor: "rgba(255, 255, 255, 0.8)",
+		},
 
 	};
+
+
 };
+
   
   /* Character Dialogue & Avatars - End */

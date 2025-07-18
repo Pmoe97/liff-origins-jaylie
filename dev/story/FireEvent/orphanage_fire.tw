@@ -1,4 +1,5 @@
 :: OrphanageFireStart
+<<bg "OrphanageFireStart">>
 You stand before the burning Orphanage, the flames licking hungrily at the night sky, smoke billowing out in thick, choking clouds. The rain does little to quell the inferno, and the heat radiates from the building, even through the downpour. You can hear the crackling of wood and the occasional crash of a collapsing beam.
 
 The fire seems to originate from the second floor, right side of the building. Lighting having cracked through the roof and stone facade igniting the wooden beams. Smoke seems to have filled the building as it pours out of the front doors like a dark, oily fog. Behind you, the priestesses and children huddle together, their faces pale and eyes wide with fear.
@@ -78,8 +79,14 @@ To your right, the back hall extends as far as you can see throough the smoke.
 :: OrphanageHall4-3
 <<ambientFlavorTags>>
 
+You find yourself directly between the northeast corner of the orphanage and the main hall. Beside you is a door labeled "Learning Hall". The door is shut.
+
 :: OrphanageMainHall4
 <<ambientFlavorTags>>
+
+You stand at the far end of the main hall, before you is a grand bifurcated staircase rises toward the second floor. It splits at a central landing, then curves left and right in a sweeping switchback. Wide wooden steps and polished railings give it a rather regal presence even despite the present chaos.
+
+This back hall extends to the left and right, and the main hall stretches back toward the front entryway.
 
 :: OrphanageHall8-6
 <<ambientFlavorTags>>
@@ -117,10 +124,7 @@ To your right, the back hall extends as far as you can see throough the smoke.
 :: OrphanageMainStairwell1F
 <<ambientFlavorTags>>
 
-:: OrphanageClassroom1West
-<<ambientFlavorTags>>
-
-:: OrphanageClassroom1East
+:: OrphanageClassroom1
 <<ambientFlavorTags>>
 
 :: OrphanageMainHall2
