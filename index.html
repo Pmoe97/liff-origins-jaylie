@@ -104,7 +104,7 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 /* twine-user-stylesheet #2: "CharacterSheetStyles.css" */
 /* Modern Character Sheet - Complete Redesign */
-.overlay-content {
+/*.overlay-content {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
     padding: 0;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
@@ -112,7 +112,19 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
     overflow-y: auto;
     height: calc(100% - 60px);
     position: relative;
+} */ /* first version of this, caused issues on mobile though  */ 
+
+.overlay-content {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  color: #e0e0e0;
+  overflow-y: auto;
+  max-height: 90vh; /* Adjusted for mobile compatibility; doesn't show "CHARACTER", but who needs that. Screen space is precious. */
+  box-sizing: border-box;
 }
+
+
 
 /* Grid Container */
 .character-sheet-container {
@@ -4267,7 +4279,7 @@ body.reduced-motion * {
 /* =========================
 =   Sidebar Toggle Button  =
 ========================= */
-#sidebar-toggle {
+/* #sidebar-toggle {
 	position: fixed;
 	top: 10px;
 	left: 260px;
@@ -4291,7 +4303,7 @@ body.reduced-motion * {
 	width: 20px;
 	height: 20px;
 	stroke: white;
-}
+} */ /* Duplication hell. Good job, me. */
 
 /* =========================
 =   Rules for mobile  =
@@ -6520,6 +6532,7 @@ button.active-sexact.ongoing::after {
 	padding: 4px 4px;
 	background: #222;
 	border-bottom: 1px solid #444;
+	height: 32px;
 }
 
 #sidebar-nav {
@@ -6542,20 +6555,28 @@ button.active-sexact.ongoing::after {
 }
 
 #sidebar-toggle {
-	background: rgba(255,255,255,0.05);
-	border: 1px solid #555;
-	cursor: pointer;
-	color: white;
-	padding: 4px;
-	border-radius: 4px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 36px;
-	height: 36px;
-	min-width: 36px;
-	min-height: 36px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1100;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #555;
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
+
 
 #sidebar-arrow {
 	pointer-events: none;
@@ -8597,10 +8618,10 @@ if (
 State.variables.player = {
 	// === Identity ===
 	name: "Jaylie",
-	age: 25, //calculated from date of birth
+	age: 18, //calculated from date of birth
 	dob: "15th of Rain, 12219 AI ",
 	race: "Human",
-	gender: "Female-ish",
+	gender: "Female",
 
 	// === Leveling ===
 	level: 1, //max level 100
@@ -10357,6 +10378,7 @@ setup.initializeCharacters = function () {
 			color: "white",
 			bgColor: "rgba(182, 89, 2, 0.85)",
 		},
+
 		dicerattwo: {
 			name: "Dice Rat 2",
 			defaultName: "Fat Dice-Rat",
@@ -10366,8 +10388,29 @@ setup.initializeCharacters = function () {
 			bgColor: "rgba(182, 89, 2, 0.85)",
 		},
 
+		priestess_anna: {
+			name: "Priestess Anna",
+			defaultName: "Priestess",
+			known: false,
+			avatar: "images/portrait_priestess_anna.png",
+			color: "white",
+			bgColor: "rgba(75, 75, 150, 0.6)",
+		},
+
+		priestess_rema: {
+			name: "Priestess Rema",
+			defaultName: "Older Priestess",
+			known: false,
+			avatar: "images/portrait_priestess_rema.png",
+			color: "white",
+			bgColor: "rgba(75, 75, 150, 0.8)",
+		},
+
 	};
+
+
 };
+
   
   /* Character Dialogue & Avatars - End */
 /* twine-user-script #13: "05_sidebarlogic.js" */
@@ -10413,9 +10456,9 @@ setup.SidebarUI = {
 			if (content) content.style.display = "none";
 
 			const toggleButton = document.getElementById("sidebar-toggle");
-			if (toggleButton) {
+			/* if (toggleButton) {
 				toggleButton.style.position = "initial";
-			}
+			} */ // once again, fuck this rule. Who put this here? ME?!
 		}
 
 		this.updateStatuses();
@@ -10635,9 +10678,9 @@ setup.SidebarUI = {
 			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
 		}
 
-		if (toggleButton) {
+		/*if (toggleButton) {
 			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
-		}
+		} */ // Trying fix the button position. This shit is annoying.
 
 		summary.style.display = isCollapsed ? "flex" : "none";
 		content.style.display = isCollapsed ? "none" : "block";
@@ -23592,7 +23635,7 @@ setup.CrownAndCasteUI = {
   chipMode: false,
   
   renderMinigame() {
-    window.openOverlay("crown-and-caste-page");
+    window.openOverlay("CrownAndCastePage");
 
     setTimeout(() => {
       this.initializeEventListeners();
@@ -23611,7 +23654,7 @@ setup.CrownAndCasteUI = {
   },
 
   closeMinigame() {
-    const overlay = document.getElementById("crown-and-caste-page");
+    const overlay = document.getElementById("CrownAndCastePage");
     if (overlay) {
       overlay.classList.add("overlay-hidden");
     }
@@ -33615,7 +33658,9 @@ Redmarrow gives a shallow nod, swirling his glass slowly before taking a measure
  * DING *&lt;&lt;set $VisitedNorth = true&gt;&gt;
 
 Go down. A path has opened.</tw-passagedata><tw-passagedata pid="103" name="left" tags="" position="350,1350" size="100,100">The left node. Congrats. What a prize.</tw-passagedata><tw-passagedata pid="104" name="Test_MapData" tags="" position="475,1350" size="100,100">&lt;!-- Map data for Test --&gt;
-&lt;!-- This passage contains the map configuration --&gt;</tw-passagedata><tw-passagedata pid="105" name="FireConvergence" tags="" position="600,1350" size="100,100">You run as fast as your feet can carry you, boots slapping against the drenched cobblestones, each step sending up cold sprays of rainwater. The storm howls overhead, a constant, deafening roar of wind and thunder. By the time you reach the source of the blaze, you are soaked to the skin, your breath sawing in and out of your chest—but none of it matters once you see what lies ahead.
+&lt;!-- This passage contains the map configuration --&gt;</tw-passagedata><tw-passagedata pid="105" name="FireConvergence" tags="" position="600,1350" size="100,100">&lt;&lt;loadmap &quot;orphanage_fire_1F&quot;&gt;&gt;
+
+You run as fast as your feet can carry you, boots slapping against the drenched cobblestones, each step sending up cold sprays of rainwater. The storm howls overhead, a constant, deafening roar of wind and thunder. By the time you reach the source of the blaze, you are soaked to the skin, your breath sawing in and out of your chest—but none of it matters once you see what lies ahead.
 
 A building—large, old, familiar—stands wreathed in fire, the night around it lit with a sickly orange glare. Thick black smoke coils up into the rain-choked sky, carrying with it the stench of burning wood, scorched cloth, and something darker—something that makes your stomach twist. A massive, jagged scorch mark scars the front facade where the lightning bolt struck, its edges still glowing faintly, like the wound is too fresh to scab over.
 

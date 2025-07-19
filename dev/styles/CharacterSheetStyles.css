@@ -1,5 +1,5 @@
 /* Modern Character Sheet - Complete Redesign */
-.overlay-content {
+/*.overlay-content {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
     padding: 0;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
@@ -7,7 +7,19 @@
     overflow-y: auto;
     height: calc(100% - 60px);
     position: relative;
+} */ /* first version of this, caused issues on mobile though  */ 
+
+.overlay-content {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  color: #e0e0e0;
+  overflow-y: auto;
+  max-height: 90vh; /* Adjusted for mobile compatibility; doesn't show "CHARACTER", but who needs that. Screen space is precious. */
+  box-sizing: border-box;
 }
+
+
 
 /* Grid Container */
 .character-sheet-container {

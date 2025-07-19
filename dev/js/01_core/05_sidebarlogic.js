@@ -40,9 +40,9 @@ setup.SidebarUI = {
 			if (content) content.style.display = "none";
 
 			const toggleButton = document.getElementById("sidebar-toggle");
-			if (toggleButton) {
+			/* if (toggleButton) {
 				toggleButton.style.position = "initial";
-			}
+			} */ // once again, fuck this rule. Who put this here? ME?!
 		}
 
 		this.updateStatuses();
@@ -262,9 +262,9 @@ setup.SidebarUI = {
 			arrow.style.transform = isCollapsed ? "rotate(180deg)" : "rotate(0deg)";
 		}
 
-		if (toggleButton) {
+		/*if (toggleButton) {
 			toggleButton.style.position = isCollapsed ? "initial" : "fixed";
-		}
+		} */ // Trying fix the button position. This shit is annoying.
 
 		summary.style.display = isCollapsed ? "flex" : "none";
 		content.style.display = isCollapsed ? "none" : "block";

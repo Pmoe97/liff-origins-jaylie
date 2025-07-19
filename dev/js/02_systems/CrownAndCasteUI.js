@@ -2,7 +2,7 @@ setup.CrownAndCasteUI = {
   chipMode: false,
   
   renderMinigame() {
-    window.openOverlay("crown-and-caste-page");
+    window.openOverlay("CrownAndCastePage");
 
     setTimeout(() => {
       this.initializeEventListeners();
@@ -21,7 +21,7 @@ setup.CrownAndCasteUI = {
   },
 
   closeMinigame() {
-    const overlay = document.getElementById("crown-and-caste-page");
+    const overlay = document.getElementById("CrownAndCastePage");
     if (overlay) {
       overlay.classList.add("overlay-hidden");
     }

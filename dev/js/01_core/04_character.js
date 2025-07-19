@@ -940,6 +940,7 @@ setup.initializeCharacters = function () {
 			color: "white",
 			bgColor: "rgba(182, 89, 2, 0.85)",
 		},
+
 		dicerattwo: {
 			name: "Dice Rat 2",
 			defaultName: "Fat Dice-Rat",
@@ -948,13 +949,23 @@ setup.initializeCharacters = function () {
 			color: "white",
 			bgColor: "rgba(182, 89, 2, 0.85)",
 		},
+
 		priestess_anna: {
 			name: "Priestess Anna",
 			defaultName: "Priestess",
 			known: false,
 			avatar: "images/portrait_priestess_anna.png",
 			color: "white",
-			bgColor: "rgba(255, 255, 255, 0.8)",
+			bgColor: "rgba(75, 75, 150, 0.6)",
+		},
+
+		priestess_rema: {
+			name: "Priestess Rema",
+			defaultName: "Older Priestess",
+			known: false,
+			avatar: "images/portrait_priestess_rema.png",
+			color: "white",
+			bgColor: "rgba(75, 75, 150, 0.8)",
 		},
 
 	};

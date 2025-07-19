@@ -1,10 +1,10 @@
 State.variables.player = {
 	// === Identity ===
 	name: "Jaylie",
-	age: 25, //calculated from date of birth
+	age: 18, //calculated from date of birth
 	dob: "15th of Rain, 12219 AI ",
 	race: "Human",
-	gender: "Female-ish",
+	gender: "Female",
 
 	// === Leveling ===
 	level: 1, //max level 100
