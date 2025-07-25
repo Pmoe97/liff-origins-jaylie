@@ -2312,46 +2312,199 @@ body.tutorial-active {
 }
 
 /* ========================================
-   PLAYER ZONE POSITIONS (RESPONSIVE)
+   PLAYER CLUSTER LAYOUT (NEW MODULAR DESIGN)
 ======================================== */
-.player-zone {
+.player-cluster {
   position: absolute;
   z-index: 2;
+  width: clamp(140px, 25vw, 180px);
+  height: auto;
+}
+
+/* Position each cluster at their cardinal positions */
+.player-cluster[data-position="north"] {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.player-cluster[data-position="south"] {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg)
+}
+
+.player-cluster[data-position="west"] {
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.player-cluster[data-position="east"] {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* Container that holds all cluster content */
+.cluster-container {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #997c54;
+  border-radius: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+/* Player name bar */
+.player-name-bar {
+  background: #2b1a17;
+  border: 1px solid #c2a96b;
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* Counter-rotate text for non-south positions */
+.player-cluster[data-position="north"] .player-name,
+.player-cluster[data-position="north"] .resource-item,
+.player-cluster[data-position="north"] .dice-label {
+  transform: rotate(0deg);
+}
+
+.player-cluster[data-position="west"] .resource-item,
+.player-cluster[data-position="west"] .dice-label {
+  transform: rotate(90deg);
+}
+
+.player-cluster[data-position="east"] .resource-item,
+.player-cluster[data-position="east"] .dice-label {
+  transform: rotate(270deg);
+}
+
+/* Special handling for East/West player names - keep them rotated for space */
+.player-cluster[data-position="west"] .player-name,
+.player-cluster[data-position="east"] .player-name {
+  text-orientation: mixed;
+  transform: none;
+}
+
+.player-cluster[data-position="west"] .player-name {
+  transform: rotate(180deg);
+}
+
+
+.player-cluster[data-position="south"] .resource-item,
+.player-cluster[data-position="south"] .dice-label {
+  transform: rotate(0deg);
+}
+
+/* Player resources section */
+.player-resources {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 10px
+}
+
+.resource-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #664f2d;
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.resource-item i {
+  color: #ffe98a;
+  font-size: 1em;
+}
+
+.resource-value {
+  color: #f0e6d2;
+  font-weight: bold;
+}
+
+.resource-item.clickable-chips {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resource-item.clickable-chips:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.resource-item.clickable-chips.active {
+  background: rgba(255, 100, 100, 0.3);
+  border-color: #ff6464;
+  box-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+}
+
+/* Dice grid layout */
+.dice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.dice-box {
+  aspect-ratio: 1;
+  background: #382423;
+  border: 2px solid #a9864c;
+  border-radius: 6px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
 }
 
-.zone-north { 
-  top: clamp(15px, 4vw, 25px); 
-  left: 50%; 
-  transform: translateX(-50%); 
-}
-.zone-south { 
-  bottom: clamp(15px, 4vw, 25px); 
-  left: 50%; 
-  transform: translateX(-50%); 
-}
-.zone-west  { 
-  top: 50%; 
-  left: clamp(15px, 4vw, 25px); 
-  transform: translateY(-50%); 
-  align-items: flex-start; 
-}
-.zone-east  { 
-  top: 50%; 
-  right: clamp(15px, 4vw, 25px); 
-  transform: translateY(-50%); 
-  align-items: flex-end; 
+.dice-box:hover {
+  background: #483433;
+  transform: scale(1.05);
 }
 
-.player-zone.active-player {
-  filter: brightness(1.2);
+.dice-label {
+  font-size: 0.7em;
+  line-height: 1.2;
+  text-align: center;
+  color: #c2a96b;
+  font-weight: normal;
+  pointer-events: none;
 }
 
-.player-zone.current-turn {
+/* When dice has a value, hide the label and show the number */
+.dice-box.has-value .dice-label {
+  display: none;
+}
+
+/* Dice states */
+.dice-box.locked {
+  background: #1e1413;
+  border-color: #664f2d;
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.2) inset;
+}
+
+.dice-box.chip-target {
+  box-shadow: 0 0 15px rgba(255, 100, 100, 0.7);
+  border-color: #ff6464;
+}
+
+/* Active player highlighting */
+.player-cluster.active-player .cluster-container {
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.player-cluster.current-turn .cluster-container {
   animation: pulse 2s infinite;
 }
 
@@ -2359,6 +2512,7 @@ body.tutorial-active {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
+
 
 /* ========================================
    PLAYER UI ELEMENTS (RESPONSIVE)
@@ -2428,9 +2582,9 @@ body.tutorial-active {
 }
 
 /* ========================================
-   DICE TRIANGLE POSITIONS (RESPONSIVE)
+   DICE TRIANGLE POSITIONS (OLD LAYOUT//FUCK THESE TRIANGLES MAN)
 ======================================== */
-.dice-triangle {
+/* .dice-triangle {
   position: relative;
   width: clamp(60px, 10vw, 80px);
   height: clamp(60px, 10vw, 80px);
@@ -2479,7 +2633,7 @@ body.tutorial-active {
 }
 
 /* Triangle positioning (responsive) - Improved centering */
-.zone-south .zone-die:nth-child(1) { top: -20%; left: 50%; transform: translateX(-50%); }
+/* .zone-south .zone-die:nth-child(1) { top: -20%; left: 50%; transform: translateX(-50%); }
 .zone-south .zone-die:nth-child(2) { bottom: 10%; left: 15%; }
 .zone-south .zone-die:nth-child(3) { bottom: 10%; right: 15%; }
 
@@ -2493,7 +2647,17 @@ body.tutorial-active {
 
 .zone-east .zone-die:nth-child(1) { left: -20%; top: 50%; transform: translateY(-50%); }
 .zone-east .zone-die:nth-child(2) { right: 10%; top: 15%; }
-.zone-east .zone-die:nth-child(3) { right: 10%; bottom: 15%; }
+.zone-east .zone-die:nth-child(3) { right: 10%; bottom: 15%; } */
+/* ========================================
+    Player Dice ROW // Oh yeah, we row-in now
+======================================== */
+.player-dice-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
 
 /* ========================================
    GAME STATUS & CONTROLS
@@ -2629,7 +2793,7 @@ body.tutorial-active {
 }
 
 #player-actions {
-  margin-top: 6px;
+  margin-top: 8px;
   text-align: center;
 }
 
@@ -2642,19 +2806,26 @@ body.tutorial-active {
   font-family: inherit;
   font-size: 0.9em;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-weight: bold;
 }
-.end-turn-button:hover {
+
+.end-turn-button:hover:not(:disabled) {
   background: #a07d56;
+  transform: scale(1.05);
 }
 
-.crown-icon {
-  font-size: 1em;
-  color: #ffd700;
-  vertical-align: middle;
-  margin-right: 4px;
+.end-turn-button:disabled {
+  background: #4a3836;
+  color: #7a6b5a;
+  border-color: #5a4a3a;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+.end-turn-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
 
 /* ========================================
    DESKTOP OPTIMIZATIONS
@@ -2691,7 +2862,6 @@ body.tutorial-active {
   .zone-die {
     width: clamp(35px, 4.5vw, 42px);
     height: clamp(35px, 4.5vw, 42px);
-    line-height: clamp(35px, 4.5vw, 42px);
     font-size: clamp(1em, 1.4vw, 1.2em);
   }
   
@@ -2727,6 +2897,15 @@ body.tutorial-active {
 /* ========================================
    RESPONSIVE BREAKPOINTS
 ======================================== */
+/* Tablets and small desktops */
+@media (max-width: 1023px) and (min-width: 769px) {
+  .zone-die {
+    width: clamp(28px, 4.2vw, 38px);
+    height: clamp(28px, 4.2vw, 38px);
+    font-size: clamp(0.9em, 1.3vw, 1.1em);
+  }
+}
+
 @media (max-width: 768px) {
   #crown-caste-frame {
     width: 95vw;
@@ -2775,7 +2954,6 @@ body.tutorial-active {
   .zone-die {
     width: clamp(25px, 4vw, 35px);
     height: clamp(25px, 4vw, 35px);
-    line-height: clamp(25px, 4vw, 35px);
     font-size: clamp(0.8em, 1.2vw, 1em);
   }
   
@@ -2849,7 +3027,6 @@ body.tutorial-active {
   .zone-die {
     width: clamp(20px, 3.5vw, 30px);
     height: clamp(20px, 3.5vw, 30px);
-    line-height: clamp(20px, 3.5vw, 30px);
     font-size: clamp(0.7em, 1.1vw, 0.9em);
   }
   
@@ -2877,6 +3054,8 @@ body.tutorial-active {
   #game-status {
     font-size: clamp(0.55em, 0.9vw, 0.65em);
     padding: 3px 5px;
+    top: clamp(5px, 1vw, 10px);
+    right: clamp(5px, 1vw, 10px);
   }
   
   #betting-panel {
@@ -3067,18 +3246,21 @@ body.tutorial-active {
 /* ========================================
    DICE ROLLING ANIMATION
 ======================================== */
-.rolling {
-  animation: dice-roll 0.1s infinite;
+.dice-box.rolling {
+  animation: dice-shake 0.1s infinite;
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
   background-size: 400% 400%;
-  animation: dice-roll 0.1s infinite, rainbow-bg 0.5s infinite;
-  color: #fff !important;
-  font-weight: bold;
+  animation: dice-shake 0.1s infinite, rainbow-bg 0.5s infinite;
   transform: scale(1.1);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
-@keyframes dice-roll {
+.dice-box.rolling span {
+  color: #fff !important;
+  font-weight: bold !important;
+}
+
+@keyframes dice-shake {
   0%, 100% { transform: scale(1.1) rotate(0deg); }
   25% { transform: scale(1.15) rotate(2deg); }
   50% { transform: scale(1.1) rotate(0deg); }
@@ -3093,17 +3275,17 @@ body.tutorial-active {
 
 /* Crown dice rolling animation */
 .crown-die.rolling {
-  animation: crown-dice-roll 0.1s infinite;
+  animation: crown-dice-shake 0.1s infinite;
   background: linear-gradient(45deg, #ffd700, #ffed4e, #f39c12, #e67e22);
   background-size: 400% 400%;
-  animation: crown-dice-roll 0.1s infinite, gold-bg 0.5s infinite;
+  animation: crown-dice-shake 0.1s infinite, gold-bg 0.5s infinite;
   color: #2c3e50 !important;
   font-weight: bold;
   transform: scale(1.1);
   box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
 }
 
-@keyframes crown-dice-roll {
+@keyframes crown-dice-shake {
   0%, 100% { transform: scale(1.1) rotate(0deg); }
   25% { transform: scale(1.15) rotate(3deg); }
   50% { transform: scale(1.1) rotate(0deg); }
@@ -3292,6 +3474,7 @@ body.tutorial-active {
     padding: 6px 12px;
     font-size: 0.85em;
   }
+
 }
 /* twine-user-stylesheet #8: "dialoguestyles.css" */
 /* =============================
@@ -23770,7 +23953,10 @@ setup.CrownAndCasteUI = {
 
 
   handleDieClick(event) {
-    const die = event.target;
+    // Find the actual dice box element, whether we clicked the box or its contents
+    const die = event.target.closest('.clickable-die');
+    if (!die) return;
+    
     const playerIndex = parseInt(die.dataset.player);
     const dieIndex = parseInt(die.dataset.die);
     const session = State.temporary.ccSession;
@@ -23807,6 +23993,10 @@ setup.CrownAndCasteUI = {
       // Roll unlocked die
       setup.CrownAndCaste.rollCasteDice(0);
       this.showFeedback("Dice rolled!");
+      // Animate the dice that were just rolled - use updated values
+      setTimeout(() => {
+        this.animateDiceRoll(0, session.players[0].casteDice);
+      }, 50);
     } else {
       // Toggle lock
       setup.CrownAndCaste.lockDie(0, dieIndex);
@@ -23830,6 +24020,10 @@ setup.CrownAndCasteUI = {
       // Reroll own locked die
       setup.CrownAndCaste.useControlChip(0, "reroll-own", dieIndex);
       this.showFeedback("Rerolled your locked die!");
+      // Animate specific die - get updated value
+      setTimeout(() => {
+        this.animateSingleDie(playerIndex, dieIndex, session.players[playerIndex].casteDice[dieIndex]);
+      }, 50);
     } else {
       // Reroll specific locked die of another player
       setup.CrownAndCaste.useControlChip(0, "reroll-other", {
@@ -23837,6 +24031,10 @@ setup.CrownAndCasteUI = {
         dieIndex: dieIndex
       });
       this.showFeedback(`Rerolled ${targetPlayer.name}'s locked die!`);
+      // Animate specific die - get updated value
+      setTimeout(() => {
+        this.animateSingleDie(playerIndex, dieIndex, session.players[playerIndex].casteDice[dieIndex]);
+      }, 50);
     }
 
     this.chipMode = false;
@@ -23844,8 +24042,8 @@ setup.CrownAndCasteUI = {
   },
 
   handleChipClick(event) {
-    const chipDisplay = event.target.closest('.chip-display');
-    const playerIndex = parseInt(chipDisplay.closest('.player-zone').dataset.playerIndex);
+    const chipDisplay = event.target.closest('.clickable-chips');
+    const playerIndex = parseInt(chipDisplay.closest('.player-cluster').dataset.playerIndex);
     const session = State.temporary.ccSession;
 
     // Don't allow chip usage during betting phase
@@ -23894,6 +24092,10 @@ setup.CrownAndCasteUI = {
 
     setup.CrownAndCaste.useControlChip(0, "reroll-crown", dieIndex);
     this.showFeedback(`Rerolled Crown Die ${dieIndex + 1}`);
+    // Animate crown die - get updated value
+    setTimeout(() => {
+      this.animateCrownDie(dieIndex, session.crownDice[dieIndex]);
+    }, 50);
     this.chipMode = false;
     this.updateInteractionStates();
   },
@@ -23988,7 +24190,6 @@ setup.CrownAndCasteUI = {
       }
     });
 
-
     // Show betting panel only during betting phase and player's turn
     const bettingPanel = document.getElementById('betting-panel');
     if (bettingPanel) {
@@ -23996,11 +24197,18 @@ setup.CrownAndCasteUI = {
       bettingPanel.style.display = showBetting ? 'block' : 'none';
     }
 
-    // Show or hide End Turn button
-    const endTurnPanel = document.getElementById('player-actions');
-    if (endTurnPanel) {
-      const showEndTurn = isPlayerTurn && !isBettingPhase && !session.gameComplete;
-      endTurnPanel.style.display = showEndTurn ? 'block' : 'none';
+    // Update End Turn button state
+    const endTurnBtn = document.getElementById('end-turn-btn');
+    if (endTurnBtn) {
+      // Enable button only if it's player's turn, not betting phase, and game not complete
+      const canEndTurn = isPlayerTurn && !isBettingPhase && !session.gameComplete;
+      endTurnBtn.disabled = !canEndTurn;
+      
+      // Hide entire player-actions div if game is complete
+      const playerActionsDiv = document.getElementById('player-actions');
+      if (playerActionsDiv) {
+        playerActionsDiv.style.display = session.gameComplete ? 'none' : 'block';
+      }
     }
 
     // Show or hide Next Game button
@@ -24053,6 +24261,13 @@ setup.CrownAndCasteUI = {
       if (setup.CrownAndCaste.processNPCTurn) {
         setup.CrownAndCaste.processNPCTurn(playerIndex);
         
+        // Animate NPC dice rolls
+        const session = State.temporary.ccSession;
+        const npc = session.players[playerIndex];
+        if (npc && session.turnPhase === "rolling") {
+          this.animateDiceRoll(playerIndex, npc.casteDice);
+        }
+        
         // Update UI after NPC action
         setTimeout(() => {
           this.renderPlayerPanels();
@@ -24103,6 +24318,13 @@ setup.CrownAndCasteUI = {
     };
     
     this.showFeedback(roundMessages[roundNumber] || `Round ${roundNumber} begins!`, 2500, 'round');
+    
+    // Animate crown dice reveals
+    if (roundNumber === 2 || roundNumber === 3) {
+      setTimeout(() => {
+        this.revealCrownDice(roundNumber);
+      }, 100);
+    }
   },
 
   announcePhaseChange(phase) {
@@ -24119,18 +24341,19 @@ setup.CrownAndCasteUI = {
 
   highlightCurrentPlayer() {
     const session = State.temporary.ccSession;
-    const currentId = this.getPositionId(session.currentPlayerIndex);
-    const panels = document.querySelectorAll(".player-zone");
+    const panels = document.querySelectorAll(".player-cluster");
 
     panels.forEach(panel => {
       panel.classList.remove("active-player", "current-turn");
-      if (panel.id === currentId) {
+      if (parseInt(panel.dataset.playerIndex) === session.currentPlayerIndex) {
         panel.classList.add("active-player", "current-turn");
       }
     });
   },
 
   getPositionId(index) {
+    // This function is no longer needed with the new structure
+    // Keep it for backwards compatibility but it won't be used
     switch (index) {
       case 0: return "bottom-center"; // Player
       case 1: return "middle-left";   // NPC 1
@@ -24144,7 +24367,7 @@ setup.CrownAndCasteUI = {
     const session = State.temporary.ccSession;
     session.crownDice.forEach((val, i) => {
       const el = document.getElementById(`crown-die-${i + 1}`);
-      if (el) {
+      if (el && !el.classList.contains('rolling')) {
         el.textContent = val ?? "?";
         el.classList.toggle("locked", session.crownLocks[i]);
       }
@@ -24163,13 +24386,13 @@ setup.CrownAndCasteUI = {
     const session = State.temporary.ccSession;
 
     session.players.forEach((p, i) => {
-      const containerId = this.getPositionId(i);
-      const el = document.getElementById(containerId);
-      if (!el) return;
+      // Find the cluster by data-player-index
+      const cluster = document.querySelector(`.player-cluster[data-player-index="${i}"]`);
+      if (!cluster) return;
 
-      const goldEl = el.querySelector(".gold-amount");
-      const chipEl = el.querySelector(".chip-count");
-      const nameEl = el.querySelector(".player-name");
+      const goldEl = cluster.querySelector(".gold-amount");
+      const chipEl = cluster.querySelector(".chip-count");
+      const nameEl = cluster.querySelector(".player-name");
 
       if (goldEl) goldEl.textContent = p.gold;
       if (chipEl) chipEl.textContent = p.chips;
@@ -24182,10 +24405,21 @@ setup.CrownAndCasteUI = {
           : baseName;
       }
 
+      // Update dice display
       p.casteDice.forEach((val, j) => {
-        const dieEl = el.querySelector(`#${containerId}-die-${j + 1}`);
-        if (dieEl) {
-          dieEl.textContent = val ?? "?";
+        const dieEl = cluster.querySelector(`.clickable-die[data-die="${j}"]`);
+        if (dieEl && !dieEl.classList.contains('rolling')) {
+          if (val !== null) {
+            // Remove label and show value with proper styling
+            dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold; color: #f0e6d2;">${val}</span>`;
+            dieEl.classList.add("has-value");
+            dieEl.setAttribute("data-value", val);
+          } else {
+            // Show label when no value
+            dieEl.innerHTML = `<div class="dice-label">Caste<br>Die ${j + 1}</div>`;
+            dieEl.classList.remove("has-value");
+            dieEl.removeAttribute("data-value");
+          }
           dieEl.classList.toggle("locked", p.locks[j]);
         }
       });
@@ -24194,11 +24428,10 @@ setup.CrownAndCasteUI = {
   },
 
   updateChipDisplay(playerIndex, chipCount, goldCount) {
-    const containerId = this.getPositionId(playerIndex);
-    const el = document.getElementById(containerId);
-    if (el) {
-      const chipEl = el.querySelector(".chip-count");
-      const goldEl = el.querySelector(".gold-amount");
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (cluster) {
+      const chipEl = cluster.querySelector(".chip-count");
+      const goldEl = cluster.querySelector(".gold-amount");
       if (chipEl) chipEl.textContent = chipCount;
       if (goldEl) goldEl.textContent = goldCount;
     }
@@ -24218,10 +24451,12 @@ setup.CrownAndCasteUI = {
   },
 
   updateLockDisplay(playerIndex, dieIndex, isLocked) {
-    const containerId = this.getPositionId(playerIndex);
-    const el = document.getElementById(`${containerId}-die-${dieIndex + 1}`);
-    if (el) {
-      el.classList.toggle("locked", isLocked);
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (cluster) {
+      const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+      if (dieEl) {
+        dieEl.classList.toggle("locked", isLocked);
+      }
     }
     this.updateInteractionStates();
   },
@@ -24401,7 +24636,98 @@ setup.CrownAndCasteUI = {
     if (frame) {
       frame.classList.add("board-disabled");
     }
-  }
+  },
+
+  // New animation methods
+  animateDiceRoll(playerIndex, finalValues) {
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (!cluster) return;
+
+    finalValues.forEach((val, dieIndex) => {
+      if (val !== null) {
+        const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+        // Check if die is not locked before animating
+        const session = State.temporary.ccSession;
+        const player = session.players[playerIndex];
+        if (dieEl && !player.locks[dieIndex]) {
+          this.animateSingleDie(playerIndex, dieIndex, val);
+        }
+      }
+    });
+  },
+
+  animateSingleDie(playerIndex, dieIndex, finalValue) {
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (!cluster) return;
+
+    const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+    if (!dieEl || finalValue === null) return;
+
+    // Add rolling class
+    dieEl.classList.add('rolling', 'has-value');
+    
+    // Rapid value changes
+    const animationDuration = 1500;
+    const frameDelay = 50;
+    const frames = animationDuration / frameDelay;
+    let currentFrame = 0;
+
+    const rollInterval = setInterval(() => {
+      currentFrame++;
+      
+      if (currentFrame < frames) {
+        // Show random value
+        const randomValue = Math.floor(Math.random() * 8) + 1;
+        dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold;">${randomValue}</span>`;
+      } else {
+        // Show final value and cleanup
+        clearInterval(rollInterval);
+        dieEl.classList.remove('rolling');
+        dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold; color: #f0e6d2;">${finalValue}</span>`;
+        dieEl.setAttribute("data-value", finalValue);
+      }
+    }, frameDelay);
+  },
+
+  animateCrownDie(dieIndex, finalValue) {
+    const dieEl = document.getElementById(`crown-die-${dieIndex + 1}`);
+    if (!dieEl || finalValue === null) return;
+
+    // Add rolling class
+    dieEl.classList.add('rolling');
+    
+    // Rapid value changes
+    const animationDuration = 1500;
+    const frameDelay = 50;
+    const frames = animationDuration / frameDelay;
+    let currentFrame = 0;
+
+    const rollInterval = setInterval(() => {
+      currentFrame++;
+      
+      if (currentFrame < frames) {
+        // Show random value
+        const randomValue = Math.floor(Math.random() * 8) + 1;
+        dieEl.textContent = randomValue;
+      } else {
+        // Show final value and cleanup
+        clearInterval(rollInterval);
+        dieEl.classList.remove('rolling');
+        dieEl.textContent = finalValue;
+      }
+    }, frameDelay);
+  },
+
+  // Animate crown dice when revealed
+  revealCrownDice(roundNumber) {
+    const session = State.temporary.ccSession;
+    
+    if (roundNumber === 2 && session.crownDice[1] !== null) {
+      this.animateCrownDie(1, session.crownDice[1]);
+    } else if (roundNumber === 3 && session.crownDice[2] !== null) {
+      this.animateCrownDie(2, session.crownDice[2]);
+    }
+  },
 
 };
 /* twine-user-script #47: "01_speechMacro.js" */
@@ -35475,86 +35801,137 @@ document.querySelector(&#39;#bug-report-overlay form&#39;).addEventListener(&#39
     &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;!-- North (NPC 2) --&gt;
-  &lt;div id=&quot;top-center&quot; class=&quot;player-zone zone-north&quot; data-player-index=&quot;2&quot;&gt;
-    &lt;div class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;?&lt;/div&gt;
-    &lt;div class=&quot;player-stats&quot;&gt;
-      &lt;div class=&quot;stat-display&quot; data-role=&quot;gold&quot;&gt;
-        &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt; &lt;span class=&quot;gold-amount&quot;&gt;0&lt;/span&gt;
+  &lt;!-- North Player (Top) --&gt;
+  &lt;div class=&quot;player-cluster&quot; data-position=&quot;north&quot; data-player-index=&quot;2&quot;&gt;
+    &lt;div class=&quot;cluster-container&quot;&gt;
+      &lt;div class=&quot;player-name-bar&quot;&gt;
+        &lt;span class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;Player Name Here&lt;/span&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;stat-display chip-display clickable-chips tooltip-parent&quot; data-tooltip=&quot;Control Chips&quot; aria-label=&quot;Control Chips&quot;&gt;
-        &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt; &lt;span class=&quot;chip-count&quot;&gt;0&lt;/span&gt;
+      &lt;div class=&quot;player-resources&quot;&gt;
+        &lt;div class=&quot;resource-item&quot;&gt;
+          &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value gold-amount&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resource-item clickable-chips&quot; data-tooltip=&quot;Control Chips&quot;&gt;
+          &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value chip-count&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;dice-triangle triangle-north&quot;&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;top-center-die-1&quot; data-player=&quot;2&quot; data-die=&quot;0&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;top-center-die-2&quot; data-player=&quot;2&quot; data-die=&quot;1&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;top-center-die-3&quot; data-player=&quot;2&quot; data-die=&quot;2&quot;&gt;?&lt;/div&gt;
+      &lt;div class=&quot;dice-grid&quot;&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;2&quot; data-die=&quot;0&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 1&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;2&quot; data-die=&quot;1&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 2&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;2&quot; data-die=&quot;2&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 3&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;!-- West (NPC 1) --&gt;
-  &lt;div id=&quot;middle-left&quot; class=&quot;player-zone zone-west&quot; data-player-index=&quot;1&quot;&gt;
-    &lt;div class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;?&lt;/div&gt;
-    &lt;div class=&quot;player-stats&quot;&gt;
-      &lt;div class=&quot;stat-display&quot; data-role=&quot;gold&quot;&gt;
-        &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt; &lt;span class=&quot;gold-amount&quot;&gt;0&lt;/span&gt;
+  &lt;!-- West Player (Left) --&gt;
+  &lt;div class=&quot;player-cluster&quot; data-position=&quot;west&quot; data-player-index=&quot;1&quot;&gt;
+    &lt;div class=&quot;cluster-container&quot;&gt;
+      &lt;div class=&quot;player-name-bar&quot;&gt;
+        &lt;span class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;Player Name Here&lt;/span&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;stat-display chip-display clickable-chips tooltip-parent&quot; data-tooltip=&quot;Control Chips&quot; aria-label=&quot;Control Chips&quot;&gt;
-        &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt; &lt;span class=&quot;chip-count&quot;&gt;0&lt;/span&gt;
+      &lt;div class=&quot;player-resources&quot;&gt;
+        &lt;div class=&quot;resource-item&quot;&gt;
+          &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value gold-amount&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resource-item clickable-chips&quot; data-tooltip=&quot;Control Chips&quot;&gt;
+          &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value chip-count&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;dice-triangle triangle-west&quot;&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-left-die-1&quot; data-player=&quot;1&quot; data-die=&quot;0&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-left-die-2&quot; data-player=&quot;1&quot; data-die=&quot;1&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-left-die-3&quot; data-player=&quot;1&quot; data-die=&quot;2&quot;&gt;?&lt;/div&gt;
+      &lt;div class=&quot;dice-grid&quot;&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;1&quot; data-die=&quot;0&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 1&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;1&quot; data-die=&quot;1&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 2&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;1&quot; data-die=&quot;2&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 3&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;!-- East (NPC 3) --&gt;
-  &lt;div id=&quot;middle-right&quot; class=&quot;player-zone zone-east&quot; data-player-index=&quot;3&quot;&gt;
-    &lt;div class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;?&lt;/div&gt;
-    &lt;div class=&quot;player-stats&quot;&gt;
-      &lt;div class=&quot;stat-display&quot; data-role=&quot;gold&quot;&gt;
-        &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt; &lt;span class=&quot;gold-amount&quot;&gt;0&lt;/span&gt;
+  &lt;!-- East Player (Right) --&gt;
+  &lt;div class=&quot;player-cluster&quot; data-position=&quot;east&quot; data-player-index=&quot;3&quot;&gt;
+    &lt;div class=&quot;cluster-container&quot;&gt;
+      &lt;div class=&quot;player-name-bar&quot;&gt;
+        &lt;span class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;Player Name Here&lt;/span&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;stat-display chip-display clickable-chips tooltip-parent&quot; data-tooltip=&quot;Control Chips&quot; aria-label=&quot;Control Chips&quot;&gt;
-        &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt; &lt;span class=&quot;chip-count&quot;&gt;0&lt;/span&gt;
+      &lt;div class=&quot;player-resources&quot;&gt;
+        &lt;div class=&quot;resource-item&quot;&gt;
+          &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value gold-amount&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;resource-item clickable-chips&quot; data-tooltip=&quot;Control Chips&quot;&gt;
+          &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt;
+          &lt;span class=&quot;resource-value chip-count&quot;&gt;#&lt;/span&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;dice-triangle triangle-east&quot;&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-right-die-1&quot; data-player=&quot;3&quot; data-die=&quot;0&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-right-die-2&quot; data-player=&quot;3&quot; data-die=&quot;1&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;middle-right-die-3&quot; data-player=&quot;3&quot; data-die=&quot;2&quot;&gt;?&lt;/div&gt;
+      &lt;div class=&quot;dice-grid&quot;&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;3&quot; data-die=&quot;0&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 1&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;3&quot; data-die=&quot;1&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 2&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;3&quot; data-die=&quot;2&quot;&gt;
+          &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 3&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;!-- South (Player) --&gt;
-  &lt;div id=&quot;bottom-center&quot; class=&quot;player-zone zone-south&quot; data-player-index=&quot;0&quot;&gt;
-    &lt;div class=&quot;dice-triangle triangle-south&quot;&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;bottom-center-die-1&quot; data-player=&quot;0&quot; data-die=&quot;0&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;bottom-center-die-2&quot; data-player=&quot;0&quot; data-die=&quot;1&quot;&gt;?&lt;/div&gt;
-      &lt;div class=&quot;zone-die clickable-die&quot; id=&quot;bottom-center-die-3&quot; data-player=&quot;0&quot; data-die=&quot;2&quot;&gt;?&lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;player-stats&quot;&gt;
-      &lt;div class=&quot;stat-display&quot; data-role=&quot;gold&quot;&gt;
-        &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt; &lt;span class=&quot;gold-amount&quot;&gt;0&lt;/span&gt;
+&lt;!-- South Player (Bottom - Main Player - Inverted Layout) --&gt;
+&lt;div class=&quot;player-cluster&quot; data-position=&quot;south&quot; data-player-index=&quot;0&quot;&gt;
+  &lt;div class=&quot;cluster-container&quot;&gt;
+    &lt;!-- DICE GRID FIRST --&gt;
+    &lt;div class=&quot;dice-grid&quot;&gt;
+      &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;0&quot; data-die=&quot;0&quot;&gt;
+        &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 1&lt;/div&gt;
       &lt;/div&gt;
-      &lt;div class=&quot;stat-display chip-display clickable-chips active-chips tooltip-parent&quot; data-tooltip=&quot;Click to activate Control Chip mode&quot; aria-label=&quot;Activate chip mode&quot;&gt;
-        &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt; &lt;span class=&quot;chip-count&quot;&gt;0&lt;/span&gt;
+      &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;0&quot; data-die=&quot;1&quot;&gt;
+        &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 2&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;dice-box clickable-die&quot; data-player=&quot;0&quot; data-die=&quot;2&quot;&gt;
+        &lt;div class=&quot;dice-label&quot;&gt;Caste&lt;br&gt;Die 3&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;?&lt;/div&gt;
-    &lt;div class=&quot;player-actions&quot; id=&quot;player-actions&quot; style=&quot;display: none;&quot;&gt;
-      &lt;button id=&quot;end-turn-btn&quot; class=&quot;end-turn-button&quot;&gt;End Turn&lt;/button&gt;
+    &lt;!-- RESOURCES STAY IN THE MIDDLE --&gt;
+    &lt;div class=&quot;player-resources&quot;&gt;
+      &lt;div class=&quot;resource-item&quot;&gt;
+        &lt;i data-lucide=&quot;coins&quot;&gt;&lt;/i&gt;
+        &lt;span class=&quot;resource-value gold-amount&quot;&gt;#&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;resource-item clickable-chips&quot; data-tooltip=&quot;Control Chips&quot;&gt;
+        &lt;i data-lucide=&quot;zap&quot;&gt;&lt;/i&gt;
+        &lt;span class=&quot;resource-value chip-count&quot;&gt;#&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- NAME BAR LAST --&gt;
+    &lt;div class=&quot;player-name-bar&quot;&gt;
+      &lt;span class=&quot;player-name&quot; data-role=&quot;name&quot;&gt;Player Name Here&lt;/span&gt;
     &lt;/div&gt;
   &lt;/div&gt;
+&lt;/div&gt;
 
   &lt;!-- Game Status Display --&gt;
   &lt;div id=&quot;game-status&quot;&gt;
     &lt;div id=&quot;current-turn&quot;&gt;Your Turn&lt;/div&gt;
     &lt;div id=&quot;current-round&quot;&gt;Round 1&lt;/div&gt;
     &lt;div id=&quot;game-phase&quot;&gt;Betting Phase&lt;/div&gt;
+    &lt;div id=&quot;player-actions&quot;&gt;
+      &lt;button id=&quot;end-turn-btn&quot; class=&quot;end-turn-button&quot;&gt;End Turn&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 
   &lt;!-- Betting Panel (shown during betting phase) --&gt;

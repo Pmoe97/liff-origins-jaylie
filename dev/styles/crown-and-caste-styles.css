@@ -179,46 +179,199 @@
 }
 
 /* ========================================
-   PLAYER ZONE POSITIONS (RESPONSIVE)
+   PLAYER CLUSTER LAYOUT (NEW MODULAR DESIGN)
 ======================================== */
-.player-zone {
+.player-cluster {
   position: absolute;
   z-index: 2;
+  width: clamp(140px, 25vw, 180px);
+  height: auto;
+}
+
+/* Position each cluster at their cardinal positions */
+.player-cluster[data-position="north"] {
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.player-cluster[data-position="south"] {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg)
+}
+
+.player-cluster[data-position="west"] {
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.player-cluster[data-position="east"] {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* Container that holds all cluster content */
+.cluster-container {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #997c54;
+  border-radius: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+/* Player name bar */
+.player-name-bar {
+  background: #2b1a17;
+  border: 1px solid #c2a96b;
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+}
+
+/* Counter-rotate text for non-south positions */
+.player-cluster[data-position="north"] .player-name,
+.player-cluster[data-position="north"] .resource-item,
+.player-cluster[data-position="north"] .dice-label {
+  transform: rotate(0deg);
+}
+
+.player-cluster[data-position="west"] .resource-item,
+.player-cluster[data-position="west"] .dice-label {
+  transform: rotate(90deg);
+}
+
+.player-cluster[data-position="east"] .resource-item,
+.player-cluster[data-position="east"] .dice-label {
+  transform: rotate(270deg);
+}
+
+/* Special handling for East/West player names - keep them rotated for space */
+.player-cluster[data-position="west"] .player-name,
+.player-cluster[data-position="east"] .player-name {
+  text-orientation: mixed;
+  transform: none;
+}
+
+.player-cluster[data-position="west"] .player-name {
+  transform: rotate(180deg);
+}
+
+
+.player-cluster[data-position="south"] .resource-item,
+.player-cluster[data-position="south"] .dice-label {
+  transform: rotate(0deg);
+}
+
+/* Player resources section */
+.player-resources {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 10px
+}
+
+.resource-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #664f2d;
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.resource-item i {
+  color: #ffe98a;
+  font-size: 1em;
+}
+
+.resource-value {
+  color: #f0e6d2;
+  font-weight: bold;
+}
+
+.resource-item.clickable-chips {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resource-item.clickable-chips:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.resource-item.clickable-chips.active {
+  background: rgba(255, 100, 100, 0.3);
+  border-color: #ff6464;
+  box-shadow: 0 0 10px rgba(255, 100, 100, 0.5);
+}
+
+/* Dice grid layout */
+.dice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.dice-box {
+  aspect-ratio: 1;
+  background: #382423;
+  border: 2px solid #a9864c;
+  border-radius: 6px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
 }
 
-.zone-north { 
-  top: clamp(15px, 4vw, 25px); 
-  left: 50%; 
-  transform: translateX(-50%); 
-}
-.zone-south { 
-  bottom: clamp(15px, 4vw, 25px); 
-  left: 50%; 
-  transform: translateX(-50%); 
-}
-.zone-west  { 
-  top: 50%; 
-  left: clamp(15px, 4vw, 25px); 
-  transform: translateY(-50%); 
-  align-items: flex-start; 
-}
-.zone-east  { 
-  top: 50%; 
-  right: clamp(15px, 4vw, 25px); 
-  transform: translateY(-50%); 
-  align-items: flex-end; 
+.dice-box:hover {
+  background: #483433;
+  transform: scale(1.05);
 }
 
-.player-zone.active-player {
-  filter: brightness(1.2);
+.dice-label {
+  font-size: 0.7em;
+  line-height: 1.2;
+  text-align: center;
+  color: #c2a96b;
+  font-weight: normal;
+  pointer-events: none;
 }
 
-.player-zone.current-turn {
+/* When dice has a value, hide the label and show the number */
+.dice-box.has-value .dice-label {
+  display: none;
+}
+
+/* Dice states */
+.dice-box.locked {
+  background: #1e1413;
+  border-color: #664f2d;
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.2) inset;
+}
+
+.dice-box.chip-target {
+  box-shadow: 0 0 15px rgba(255, 100, 100, 0.7);
+  border-color: #ff6464;
+}
+
+/* Active player highlighting */
+.player-cluster.active-player .cluster-container {
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.player-cluster.current-turn .cluster-container {
   animation: pulse 2s infinite;
 }
 
@@ -226,6 +379,7 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
+
 
 /* ========================================
    PLAYER UI ELEMENTS (RESPONSIVE)
@@ -295,9 +449,9 @@
 }
 
 /* ========================================
-   DICE TRIANGLE POSITIONS (RESPONSIVE)
+   DICE TRIANGLE POSITIONS (OLD LAYOUT//FUCK THESE TRIANGLES MAN)
 ======================================== */
-.dice-triangle {
+/* .dice-triangle {
   position: relative;
   width: clamp(60px, 10vw, 80px);
   height: clamp(60px, 10vw, 80px);
@@ -346,7 +500,7 @@
 }
 
 /* Triangle positioning (responsive) - Improved centering */
-.zone-south .zone-die:nth-child(1) { top: -20%; left: 50%; transform: translateX(-50%); }
+/* .zone-south .zone-die:nth-child(1) { top: -20%; left: 50%; transform: translateX(-50%); }
 .zone-south .zone-die:nth-child(2) { bottom: 10%; left: 15%; }
 .zone-south .zone-die:nth-child(3) { bottom: 10%; right: 15%; }
 
@@ -360,7 +514,17 @@
 
 .zone-east .zone-die:nth-child(1) { left: -20%; top: 50%; transform: translateY(-50%); }
 .zone-east .zone-die:nth-child(2) { right: 10%; top: 15%; }
-.zone-east .zone-die:nth-child(3) { right: 10%; bottom: 15%; }
+.zone-east .zone-die:nth-child(3) { right: 10%; bottom: 15%; } */
+/* ========================================
+    Player Dice ROW // Oh yeah, we row-in now
+======================================== */
+.player-dice-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
 
 /* ========================================
    GAME STATUS & CONTROLS
@@ -496,7 +660,7 @@
 }
 
 #player-actions {
-  margin-top: 6px;
+  margin-top: 8px;
   text-align: center;
 }
 
@@ -509,19 +673,26 @@
   font-family: inherit;
   font-size: 0.9em;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-weight: bold;
 }
-.end-turn-button:hover {
+
+.end-turn-button:hover:not(:disabled) {
   background: #a07d56;
+  transform: scale(1.05);
 }
 
-.crown-icon {
-  font-size: 1em;
-  color: #ffd700;
-  vertical-align: middle;
-  margin-right: 4px;
+.end-turn-button:disabled {
+  background: #4a3836;
+  color: #7a6b5a;
+  border-color: #5a4a3a;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+.end-turn-button:active:not(:disabled) {
+  transform: scale(0.98);
+}
 
 /* ========================================
    DESKTOP OPTIMIZATIONS
@@ -558,7 +729,6 @@
   .zone-die {
     width: clamp(35px, 4.5vw, 42px);
     height: clamp(35px, 4.5vw, 42px);
-    line-height: clamp(35px, 4.5vw, 42px);
     font-size: clamp(1em, 1.4vw, 1.2em);
   }
   
@@ -594,6 +764,15 @@
 /* ========================================
    RESPONSIVE BREAKPOINTS
 ======================================== */
+/* Tablets and small desktops */
+@media (max-width: 1023px) and (min-width: 769px) {
+  .zone-die {
+    width: clamp(28px, 4.2vw, 38px);
+    height: clamp(28px, 4.2vw, 38px);
+    font-size: clamp(0.9em, 1.3vw, 1.1em);
+  }
+}
+
 @media (max-width: 768px) {
   #crown-caste-frame {
     width: 95vw;
@@ -642,7 +821,6 @@
   .zone-die {
     width: clamp(25px, 4vw, 35px);
     height: clamp(25px, 4vw, 35px);
-    line-height: clamp(25px, 4vw, 35px);
     font-size: clamp(0.8em, 1.2vw, 1em);
   }
   
@@ -716,7 +894,6 @@
   .zone-die {
     width: clamp(20px, 3.5vw, 30px);
     height: clamp(20px, 3.5vw, 30px);
-    line-height: clamp(20px, 3.5vw, 30px);
     font-size: clamp(0.7em, 1.1vw, 0.9em);
   }
   
@@ -744,6 +921,8 @@
   #game-status {
     font-size: clamp(0.55em, 0.9vw, 0.65em);
     padding: 3px 5px;
+    top: clamp(5px, 1vw, 10px);
+    right: clamp(5px, 1vw, 10px);
   }
   
   #betting-panel {
@@ -934,18 +1113,21 @@
 /* ========================================
    DICE ROLLING ANIMATION
 ======================================== */
-.rolling {
-  animation: dice-roll 0.1s infinite;
+.dice-box.rolling {
+  animation: dice-shake 0.1s infinite;
   background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
   background-size: 400% 400%;
-  animation: dice-roll 0.1s infinite, rainbow-bg 0.5s infinite;
-  color: #fff !important;
-  font-weight: bold;
+  animation: dice-shake 0.1s infinite, rainbow-bg 0.5s infinite;
   transform: scale(1.1);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
-@keyframes dice-roll {
+.dice-box.rolling span {
+  color: #fff !important;
+  font-weight: bold !important;
+}
+
+@keyframes dice-shake {
   0%, 100% { transform: scale(1.1) rotate(0deg); }
   25% { transform: scale(1.15) rotate(2deg); }
   50% { transform: scale(1.1) rotate(0deg); }
@@ -960,17 +1142,17 @@
 
 /* Crown dice rolling animation */
 .crown-die.rolling {
-  animation: crown-dice-roll 0.1s infinite;
+  animation: crown-dice-shake 0.1s infinite;
   background: linear-gradient(45deg, #ffd700, #ffed4e, #f39c12, #e67e22);
   background-size: 400% 400%;
-  animation: crown-dice-roll 0.1s infinite, gold-bg 0.5s infinite;
+  animation: crown-dice-shake 0.1s infinite, gold-bg 0.5s infinite;
   color: #2c3e50 !important;
   font-weight: bold;
   transform: scale(1.1);
   box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
 }
 
-@keyframes crown-dice-roll {
+@keyframes crown-dice-shake {
   0%, 100% { transform: scale(1.1) rotate(0deg); }
   25% { transform: scale(1.15) rotate(3deg); }
   50% { transform: scale(1.1) rotate(0deg); }
@@ -1159,4 +1341,5 @@
     padding: 6px 12px;
     font-size: 0.85em;
   }
+
 }

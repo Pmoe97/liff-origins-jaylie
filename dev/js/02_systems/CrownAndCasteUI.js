@@ -137,7 +137,10 @@ setup.CrownAndCasteUI = {
 
 
   handleDieClick(event) {
-    const die = event.target;
+    // Find the actual dice box element, whether we clicked the box or its contents
+    const die = event.target.closest('.clickable-die');
+    if (!die) return;
+    
     const playerIndex = parseInt(die.dataset.player);
     const dieIndex = parseInt(die.dataset.die);
     const session = State.temporary.ccSession;
@@ -174,6 +177,10 @@ setup.CrownAndCasteUI = {
       // Roll unlocked die
       setup.CrownAndCaste.rollCasteDice(0);
       this.showFeedback("Dice rolled!");
+      // Animate the dice that were just rolled - use updated values
+      setTimeout(() => {
+        this.animateDiceRoll(0, session.players[0].casteDice);
+      }, 50);
     } else {
       // Toggle lock
       setup.CrownAndCaste.lockDie(0, dieIndex);
@@ -197,6 +204,10 @@ setup.CrownAndCasteUI = {
       // Reroll own locked die
       setup.CrownAndCaste.useControlChip(0, "reroll-own", dieIndex);
       this.showFeedback("Rerolled your locked die!");
+      // Animate specific die - get updated value
+      setTimeout(() => {
+        this.animateSingleDie(playerIndex, dieIndex, session.players[playerIndex].casteDice[dieIndex]);
+      }, 50);
     } else {
       // Reroll specific locked die of another player
       setup.CrownAndCaste.useControlChip(0, "reroll-other", {
@@ -204,6 +215,10 @@ setup.CrownAndCasteUI = {
         dieIndex: dieIndex
       });
       this.showFeedback(`Rerolled ${targetPlayer.name}'s locked die!`);
+      // Animate specific die - get updated value
+      setTimeout(() => {
+        this.animateSingleDie(playerIndex, dieIndex, session.players[playerIndex].casteDice[dieIndex]);
+      }, 50);
     }
 
     this.chipMode = false;
@@ -211,8 +226,8 @@ setup.CrownAndCasteUI = {
   },
 
   handleChipClick(event) {
-    const chipDisplay = event.target.closest('.chip-display');
-    const playerIndex = parseInt(chipDisplay.closest('.player-zone').dataset.playerIndex);
+    const chipDisplay = event.target.closest('.clickable-chips');
+    const playerIndex = parseInt(chipDisplay.closest('.player-cluster').dataset.playerIndex);
     const session = State.temporary.ccSession;
 
     // Don't allow chip usage during betting phase
@@ -261,6 +276,10 @@ setup.CrownAndCasteUI = {
 
     setup.CrownAndCaste.useControlChip(0, "reroll-crown", dieIndex);
     this.showFeedback(`Rerolled Crown Die ${dieIndex + 1}`);
+    // Animate crown die - get updated value
+    setTimeout(() => {
+      this.animateCrownDie(dieIndex, session.crownDice[dieIndex]);
+    }, 50);
     this.chipMode = false;
     this.updateInteractionStates();
   },
@@ -355,7 +374,6 @@ setup.CrownAndCasteUI = {
       }
     });
 
-
     // Show betting panel only during betting phase and player's turn
     const bettingPanel = document.getElementById('betting-panel');
     if (bettingPanel) {
@@ -363,11 +381,18 @@ setup.CrownAndCasteUI = {
       bettingPanel.style.display = showBetting ? 'block' : 'none';
     }
 
-    // Show or hide End Turn button
-    const endTurnPanel = document.getElementById('player-actions');
-    if (endTurnPanel) {
-      const showEndTurn = isPlayerTurn && !isBettingPhase && !session.gameComplete;
-      endTurnPanel.style.display = showEndTurn ? 'block' : 'none';
+    // Update End Turn button state
+    const endTurnBtn = document.getElementById('end-turn-btn');
+    if (endTurnBtn) {
+      // Enable button only if it's player's turn, not betting phase, and game not complete
+      const canEndTurn = isPlayerTurn && !isBettingPhase && !session.gameComplete;
+      endTurnBtn.disabled = !canEndTurn;
+      
+      // Hide entire player-actions div if game is complete
+      const playerActionsDiv = document.getElementById('player-actions');
+      if (playerActionsDiv) {
+        playerActionsDiv.style.display = session.gameComplete ? 'none' : 'block';
+      }
     }
 
     // Show or hide Next Game button
@@ -420,6 +445,13 @@ setup.CrownAndCasteUI = {
       if (setup.CrownAndCaste.processNPCTurn) {
         setup.CrownAndCaste.processNPCTurn(playerIndex);
         
+        // Animate NPC dice rolls
+        const session = State.temporary.ccSession;
+        const npc = session.players[playerIndex];
+        if (npc && session.turnPhase === "rolling") {
+          this.animateDiceRoll(playerIndex, npc.casteDice);
+        }
+        
         // Update UI after NPC action
         setTimeout(() => {
           this.renderPlayerPanels();
@@ -470,6 +502,13 @@ setup.CrownAndCasteUI = {
     };
     
     this.showFeedback(roundMessages[roundNumber] || `Round ${roundNumber} begins!`, 2500, 'round');
+    
+    // Animate crown dice reveals
+    if (roundNumber === 2 || roundNumber === 3) {
+      setTimeout(() => {
+        this.revealCrownDice(roundNumber);
+      }, 100);
+    }
   },
 
   announcePhaseChange(phase) {
@@ -486,18 +525,19 @@ setup.CrownAndCasteUI = {
 
   highlightCurrentPlayer() {
     const session = State.temporary.ccSession;
-    const currentId = this.getPositionId(session.currentPlayerIndex);
-    const panels = document.querySelectorAll(".player-zone");
+    const panels = document.querySelectorAll(".player-cluster");
 
     panels.forEach(panel => {
       panel.classList.remove("active-player", "current-turn");
-      if (panel.id === currentId) {
+      if (parseInt(panel.dataset.playerIndex) === session.currentPlayerIndex) {
         panel.classList.add("active-player", "current-turn");
       }
     });
   },
 
   getPositionId(index) {
+    // This function is no longer needed with the new structure
+    // Keep it for backwards compatibility but it won't be used
     switch (index) {
       case 0: return "bottom-center"; // Player
       case 1: return "middle-left";   // NPC 1
@@ -511,7 +551,7 @@ setup.CrownAndCasteUI = {
     const session = State.temporary.ccSession;
     session.crownDice.forEach((val, i) => {
       const el = document.getElementById(`crown-die-${i + 1}`);
-      if (el) {
+      if (el && !el.classList.contains('rolling')) {
         el.textContent = val ?? "?";
         el.classList.toggle("locked", session.crownLocks[i]);
       }
@@ -530,13 +570,13 @@ setup.CrownAndCasteUI = {
     const session = State.temporary.ccSession;
 
     session.players.forEach((p, i) => {
-      const containerId = this.getPositionId(i);
-      const el = document.getElementById(containerId);
-      if (!el) return;
+      // Find the cluster by data-player-index
+      const cluster = document.querySelector(`.player-cluster[data-player-index="${i}"]`);
+      if (!cluster) return;
 
-      const goldEl = el.querySelector(".gold-amount");
-      const chipEl = el.querySelector(".chip-count");
-      const nameEl = el.querySelector(".player-name");
+      const goldEl = cluster.querySelector(".gold-amount");
+      const chipEl = cluster.querySelector(".chip-count");
+      const nameEl = cluster.querySelector(".player-name");
 
       if (goldEl) goldEl.textContent = p.gold;
       if (chipEl) chipEl.textContent = p.chips;
@@ -549,10 +589,21 @@ setup.CrownAndCasteUI = {
           : baseName;
       }
 
+      // Update dice display
       p.casteDice.forEach((val, j) => {
-        const dieEl = el.querySelector(`#${containerId}-die-${j + 1}`);
-        if (dieEl) {
-          dieEl.textContent = val ?? "?";
+        const dieEl = cluster.querySelector(`.clickable-die[data-die="${j}"]`);
+        if (dieEl && !dieEl.classList.contains('rolling')) {
+          if (val !== null) {
+            // Remove label and show value with proper styling
+            dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold; color: #f0e6d2;">${val}</span>`;
+            dieEl.classList.add("has-value");
+            dieEl.setAttribute("data-value", val);
+          } else {
+            // Show label when no value
+            dieEl.innerHTML = `<div class="dice-label">Caste<br>Die ${j + 1}</div>`;
+            dieEl.classList.remove("has-value");
+            dieEl.removeAttribute("data-value");
+          }
           dieEl.classList.toggle("locked", p.locks[j]);
         }
       });
@@ -561,11 +612,10 @@ setup.CrownAndCasteUI = {
   },
 
   updateChipDisplay(playerIndex, chipCount, goldCount) {
-    const containerId = this.getPositionId(playerIndex);
-    const el = document.getElementById(containerId);
-    if (el) {
-      const chipEl = el.querySelector(".chip-count");
-      const goldEl = el.querySelector(".gold-amount");
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (cluster) {
+      const chipEl = cluster.querySelector(".chip-count");
+      const goldEl = cluster.querySelector(".gold-amount");
       if (chipEl) chipEl.textContent = chipCount;
       if (goldEl) goldEl.textContent = goldCount;
     }
@@ -585,10 +635,12 @@ setup.CrownAndCasteUI = {
   },
 
   updateLockDisplay(playerIndex, dieIndex, isLocked) {
-    const containerId = this.getPositionId(playerIndex);
-    const el = document.getElementById(`${containerId}-die-${dieIndex + 1}`);
-    if (el) {
-      el.classList.toggle("locked", isLocked);
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (cluster) {
+      const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+      if (dieEl) {
+        dieEl.classList.toggle("locked", isLocked);
+      }
     }
     this.updateInteractionStates();
   },
@@ -768,6 +820,97 @@ setup.CrownAndCasteUI = {
     if (frame) {
       frame.classList.add("board-disabled");
     }
-  }
+  },
+
+  // New animation methods
+  animateDiceRoll(playerIndex, finalValues) {
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (!cluster) return;
+
+    finalValues.forEach((val, dieIndex) => {
+      if (val !== null) {
+        const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+        // Check if die is not locked before animating
+        const session = State.temporary.ccSession;
+        const player = session.players[playerIndex];
+        if (dieEl && !player.locks[dieIndex]) {
+          this.animateSingleDie(playerIndex, dieIndex, val);
+        }
+      }
+    });
+  },
+
+  animateSingleDie(playerIndex, dieIndex, finalValue) {
+    const cluster = document.querySelector(`.player-cluster[data-player-index="${playerIndex}"]`);
+    if (!cluster) return;
+
+    const dieEl = cluster.querySelector(`.clickable-die[data-die="${dieIndex}"]`);
+    if (!dieEl || finalValue === null) return;
+
+    // Add rolling class
+    dieEl.classList.add('rolling', 'has-value');
+    
+    // Rapid value changes
+    const animationDuration = 1500;
+    const frameDelay = 50;
+    const frames = animationDuration / frameDelay;
+    let currentFrame = 0;
+
+    const rollInterval = setInterval(() => {
+      currentFrame++;
+      
+      if (currentFrame < frames) {
+        // Show random value
+        const randomValue = Math.floor(Math.random() * 8) + 1;
+        dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold;">${randomValue}</span>`;
+      } else {
+        // Show final value and cleanup
+        clearInterval(rollInterval);
+        dieEl.classList.remove('rolling');
+        dieEl.innerHTML = `<span style="font-size: 1.5em; font-weight: bold; color: #f0e6d2;">${finalValue}</span>`;
+        dieEl.setAttribute("data-value", finalValue);
+      }
+    }, frameDelay);
+  },
+
+  animateCrownDie(dieIndex, finalValue) {
+    const dieEl = document.getElementById(`crown-die-${dieIndex + 1}`);
+    if (!dieEl || finalValue === null) return;
+
+    // Add rolling class
+    dieEl.classList.add('rolling');
+    
+    // Rapid value changes
+    const animationDuration = 1500;
+    const frameDelay = 50;
+    const frames = animationDuration / frameDelay;
+    let currentFrame = 0;
+
+    const rollInterval = setInterval(() => {
+      currentFrame++;
+      
+      if (currentFrame < frames) {
+        // Show random value
+        const randomValue = Math.floor(Math.random() * 8) + 1;
+        dieEl.textContent = randomValue;
+      } else {
+        // Show final value and cleanup
+        clearInterval(rollInterval);
+        dieEl.classList.remove('rolling');
+        dieEl.textContent = finalValue;
+      }
+    }, frameDelay);
+  },
+
+  // Animate crown dice when revealed
+  revealCrownDice(roundNumber) {
+    const session = State.temporary.ccSession;
+    
+    if (roundNumber === 2 && session.crownDice[1] !== null) {
+      this.animateCrownDie(1, session.crownDice[1]);
+    } else if (roundNumber === 3 && session.crownDice[2] !== null) {
+      this.animateCrownDie(2, session.crownDice[2]);
+    }
+  },
 
 };

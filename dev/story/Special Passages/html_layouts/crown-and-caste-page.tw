@@ -25,86 +25,137 @@
     </div>
   </div>
 
-  <!-- North (NPC 2) -->
-  <div id="top-center" class="player-zone zone-north" data-player-index="2">
-    <div class="player-name" data-role="name">?</div>
-    <div class="player-stats">
-      <div class="stat-display" data-role="gold">
-        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+  <!-- North Player (Top) -->
+  <div class="player-cluster" data-position="north" data-player-index="2">
+    <div class="cluster-container">
+      <div class="player-name-bar">
+        <span class="player-name" data-role="name">Player Name Here</span>
       </div>
-      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
-        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      <div class="player-resources">
+        <div class="resource-item">
+          <i data-lucide="coins"></i>
+          <span class="resource-value gold-amount">#</span>
+        </div>
+        <div class="resource-item clickable-chips" data-tooltip="Control Chips">
+          <i data-lucide="zap"></i>
+          <span class="resource-value chip-count">#</span>
+        </div>
       </div>
-    </div>
-    <div class="dice-triangle triangle-north">
-      <div class="zone-die clickable-die" id="top-center-die-1" data-player="2" data-die="0">?</div>
-      <div class="zone-die clickable-die" id="top-center-die-2" data-player="2" data-die="1">?</div>
-      <div class="zone-die clickable-die" id="top-center-die-3" data-player="2" data-die="2">?</div>
+      <div class="dice-grid">
+        <div class="dice-box clickable-die" data-player="2" data-die="0">
+          <div class="dice-label">Caste<br>Die 1</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="2" data-die="1">
+          <div class="dice-label">Caste<br>Die 2</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="2" data-die="2">
+          <div class="dice-label">Caste<br>Die 3</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- West (NPC 1) -->
-  <div id="middle-left" class="player-zone zone-west" data-player-index="1">
-    <div class="player-name" data-role="name">?</div>
-    <div class="player-stats">
-      <div class="stat-display" data-role="gold">
-        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+  <!-- West Player (Left) -->
+  <div class="player-cluster" data-position="west" data-player-index="1">
+    <div class="cluster-container">
+      <div class="player-name-bar">
+        <span class="player-name" data-role="name">Player Name Here</span>
       </div>
-      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
-        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      <div class="player-resources">
+        <div class="resource-item">
+          <i data-lucide="coins"></i>
+          <span class="resource-value gold-amount">#</span>
+        </div>
+        <div class="resource-item clickable-chips" data-tooltip="Control Chips">
+          <i data-lucide="zap"></i>
+          <span class="resource-value chip-count">#</span>
+        </div>
       </div>
-    </div>
-    <div class="dice-triangle triangle-west">
-      <div class="zone-die clickable-die" id="middle-left-die-1" data-player="1" data-die="0">?</div>
-      <div class="zone-die clickable-die" id="middle-left-die-2" data-player="1" data-die="1">?</div>
-      <div class="zone-die clickable-die" id="middle-left-die-3" data-player="1" data-die="2">?</div>
+      <div class="dice-grid">
+        <div class="dice-box clickable-die" data-player="1" data-die="0">
+          <div class="dice-label">Caste<br>Die 1</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="1" data-die="1">
+          <div class="dice-label">Caste<br>Die 2</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="1" data-die="2">
+          <div class="dice-label">Caste<br>Die 3</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- East (NPC 3) -->
-  <div id="middle-right" class="player-zone zone-east" data-player-index="3">
-    <div class="player-name" data-role="name">?</div>
-    <div class="player-stats">
-      <div class="stat-display" data-role="gold">
-        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+  <!-- East Player (Right) -->
+  <div class="player-cluster" data-position="east" data-player-index="3">
+    <div class="cluster-container">
+      <div class="player-name-bar">
+        <span class="player-name" data-role="name">Player Name Here</span>
       </div>
-      <div class="stat-display chip-display clickable-chips tooltip-parent" data-tooltip="Control Chips" aria-label="Control Chips">
-        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      <div class="player-resources">
+        <div class="resource-item">
+          <i data-lucide="coins"></i>
+          <span class="resource-value gold-amount">#</span>
+        </div>
+        <div class="resource-item clickable-chips" data-tooltip="Control Chips">
+          <i data-lucide="zap"></i>
+          <span class="resource-value chip-count">#</span>
+        </div>
       </div>
-    </div>
-    <div class="dice-triangle triangle-east">
-      <div class="zone-die clickable-die" id="middle-right-die-1" data-player="3" data-die="0">?</div>
-      <div class="zone-die clickable-die" id="middle-right-die-2" data-player="3" data-die="1">?</div>
-      <div class="zone-die clickable-die" id="middle-right-die-3" data-player="3" data-die="2">?</div>
+      <div class="dice-grid">
+        <div class="dice-box clickable-die" data-player="3" data-die="0">
+          <div class="dice-label">Caste<br>Die 1</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="3" data-die="1">
+          <div class="dice-label">Caste<br>Die 2</div>
+        </div>
+        <div class="dice-box clickable-die" data-player="3" data-die="2">
+          <div class="dice-label">Caste<br>Die 3</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- South (Player) -->
-  <div id="bottom-center" class="player-zone zone-south" data-player-index="0">
-    <div class="dice-triangle triangle-south">
-      <div class="zone-die clickable-die" id="bottom-center-die-1" data-player="0" data-die="0">?</div>
-      <div class="zone-die clickable-die" id="bottom-center-die-2" data-player="0" data-die="1">?</div>
-      <div class="zone-die clickable-die" id="bottom-center-die-3" data-player="0" data-die="2">?</div>
-    </div>
-    <div class="player-stats">
-      <div class="stat-display" data-role="gold">
-        <i data-lucide="coins"></i> <span class="gold-amount">0</span>
+<!-- South Player (Bottom - Main Player - Inverted Layout) -->
+<div class="player-cluster" data-position="south" data-player-index="0">
+  <div class="cluster-container">
+    <!-- DICE GRID FIRST -->
+    <div class="dice-grid">
+      <div class="dice-box clickable-die" data-player="0" data-die="0">
+        <div class="dice-label">Caste<br>Die 1</div>
       </div>
-      <div class="stat-display chip-display clickable-chips active-chips tooltip-parent" data-tooltip="Click to activate Control Chip mode" aria-label="Activate chip mode">
-        <i data-lucide="zap"></i> <span class="chip-count">0</span>
+      <div class="dice-box clickable-die" data-player="0" data-die="1">
+        <div class="dice-label">Caste<br>Die 2</div>
+      </div>
+      <div class="dice-box clickable-die" data-player="0" data-die="2">
+        <div class="dice-label">Caste<br>Die 3</div>
       </div>
     </div>
-    <div class="player-name" data-role="name">?</div>
-    <div class="player-actions" id="player-actions" style="display: none;">
-      <button id="end-turn-btn" class="end-turn-button">End Turn</button>
+    <!-- RESOURCES STAY IN THE MIDDLE -->
+    <div class="player-resources">
+      <div class="resource-item">
+        <i data-lucide="coins"></i>
+        <span class="resource-value gold-amount">#</span>
+      </div>
+      <div class="resource-item clickable-chips" data-tooltip="Control Chips">
+        <i data-lucide="zap"></i>
+        <span class="resource-value chip-count">#</span>
+      </div>
+    </div>
+    <!-- NAME BAR LAST -->
+    <div class="player-name-bar">
+      <span class="player-name" data-role="name">Player Name Here</span>
     </div>
   </div>
+</div>
 
   <!-- Game Status Display -->
   <div id="game-status">
     <div id="current-turn">Your Turn</div>
     <div id="current-round">Round 1</div>
     <div id="game-phase">Betting Phase</div>
+    <div id="player-actions">
+      <button id="end-turn-btn" class="end-turn-button">End Turn</button>
+    </div>
   </div>
 
   <!-- Betting Panel (shown during betting phase) -->
